@@ -1,0 +1,140 @@
+.card-center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+@media only screen and (max-width:800px){
+    .card-center {
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;
+    }
+}
+@media only screen and (max-width:430px){
+    .card-center {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:500px){
+ .wp-block-cover, .wp-block-cover-image{
+        object-fit: contain !important;
+        height: 300px !important;
+        min-height: auto !important;
+
+    }
+}
+@media only screen and (max-width:500px){
+    .alignwides {
+   width: 100% !important;
+ 
+}
+ .wp-block-covers, .wp-block-cover-images{
+        object-fit: contain !important;
+        height: 200px !important;
+        min-height: auto !important;
+        min-width: auto !important;
+        width: 100% !important;
+
+    }
+}
+@media screen and (min-width: 601px) {
+  h2.font_resize {
+    font-size: 1px;
+  }
+}
+
+.video {
+  display: block;
+  margin: auto;
+  position: relative;
+  width: 100%;top: 0;
+  height: 450px;
+}
+.video-hover {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+.video-hover:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+.about-img{
+	width: 100%;
+	height: auto;
+}
+.video-size{
+	width: 360px;
+}
+.image-size{
+
+}
+.quotes-style{
+    background:rgba(255,255,255, 0.8);
+    border-radius: 20px; 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 85%;
+    height: 450px;
+   
+}
+.text-break{
+  color: rgba(0, 0, 0, 1);
+  word-break: break-all;
+  height: 160px;
+ overflow: hidden;
+}
+.text-break:hover {
+  overflow-y: scroll;
+ 
+}
+/* Scroll 1 */
+.sc1::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.sc1::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+.sc1::-webkit-scrollbar-thumb {
+  background-color: #dfdfdf;
+  border-radius: 10px;
+}
+
+@media only screen and (max-width:1199px){
+	.video-hover {
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+	  padding: 5px;
+	}
+	.video-hover:hover {
+	  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+	}
+	.video-size{
+		width: 98%;
+	}
+	.about-img{
+		width: 100%;
+		height: 180px;
+	}
+    .quotes-style{
+        background:rgba(255,255,255, 0.8);
+        border-radius: 20px; 
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 50%;
+        height: 300px;
+    }
+    .text-break{
+      color: rgba(0, 0, 0, 1);
+      word-break: break-all;
+      height: 130px;
+     overflow: hidden;
+    }
+}
+
+
