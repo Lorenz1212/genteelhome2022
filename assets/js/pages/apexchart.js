@@ -86,6 +86,8 @@ var KTApexChartsDemo = function () {
 	 var _gensale = function (graph, option, year, month) {
         let element = document.getElementById(graph);
         let gensales = [];
+        let beginning = [];
+        let expenses =[];
         let months = [];
         let textni='';
         let range=0;
@@ -98,35 +100,32 @@ var KTApexChartsDemo = function () {
         // let max_rage_overall=0;
         // let min_rage=0;
         $.ajax({
-            url: baseURL+"Chart_controller/Fetch_Chart",
+            url: baseURL+"chart_controller/Fetch_Chart",
             type: "POST",
-            data:{
-                  type : graph,
-                  option : option,
-                  year : year,
-                  month : month
-                  },
+            data:{type : graph,option : option,year : year,month : month},
             dataType: "json",
             beforeSend: function(){
-
             // KTApp.blockPage();
             },
             complete: function(){
-                // alert(chart);
-                //alert(JSON.stringify(response));
-		$('#chart1').empty();
-        // let options = {
-		// const ApexCharts = "#chart_3";
-		var options = {
+    		$('#chart1').empty();
+    		var options = {
 					series: [{
-						name: 'Amount',
+						name: 'Sales',
 						data: gensales
-					}],
+					},{
+                        name: 'Expenses',
+                        data: expenses
+                    },{
+                        name: 'Beginning',
+                        data: beginning
+                    }
+                    ],
 					chart: {
 						type: 'bar',
 		                height: 350,
 		                toolbar: {
-		                    show: false
+		                    show: true
 		                }
 					},
 					plotOptions: {
@@ -146,12 +145,12 @@ var KTApexChartsDemo = function () {
                         type: 'solid',
                         opacity: 1
                     },
-					stroke: {
-                        curve: 'smooth',
-                        show: true,
-                        width: 3,
-                        colors: [KTApp.getSettings()['colors']['theme']['base']['info']]
-                    },
+					// stroke: {
+     //                    curve: 'smooth',
+     //                    show: true,
+     //                    width: 3,
+     //                    colors: [KTApp.getSettings()['colors']['theme']['base']['info']]
+     //                },
 					xaxis: {
                         categories: months,
                         axisBorder: {
@@ -191,7 +190,11 @@ var KTApexChartsDemo = function () {
                                 colors: KTApp.getSettings()['colors']['gray']['gray-500'],
                                 fontSize: '12px',
                                 fontFamily: KTApp.getSettings()['font-family']
+                            },
+                            formatter: function (val) {
+                                return "₱ " + parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
                             }
+                              
                         }
                     },
                     states: {
@@ -225,8 +228,9 @@ var KTApexChartsDemo = function () {
                                 return "₱ " + parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
                             }
                         }
+
                     },
-                    colors: [KTApp.getSettings()['colors']['theme']['light']['info']],
+                    colors: [success, danger, primary],
                     grid: {
                         borderColor: KTApp.getSettings()['colors']['gray']['gray-200'],
                         strokeDashArray: 4,
@@ -246,35 +250,27 @@ var KTApexChartsDemo = function () {
 
 				let chart = new ApexCharts(element, options);
 		        chart.render();
-             // if(option == 'MONTH'){
-             //    textni = 'montly';
-             //    range = 12;
-             // }else if(option == 'WEEK'){
-             //    textni = 'weekly';
-             //    range = 52;
-             // }else{
-             //    textni = 'daily';
-             //    range = 30;
-             // }
-             // KTApp.unblockPage(); 
             },
              success:function(response){
-
-                //alert(JSON.stringify(response));
-
-                if(response != false){
-                  if(response.length >= 1){
-                  	 //alert(response.length);
-                     for(var i = 0; response.length > i; i++){
-						gensales.push(Number(response[i].gensales));
+                if(response.label != false){
+                  if(response.label.length >= 1){
+                     for(var i = 0; response.label.length > i; i++){
+                         gensales.push(Number(response.label[i].gensales));
+                         expenses.push(Number(response.label[i].expenses));
+                         beginning.push(Number(response.label[i].beginning));
                         if(option == "MONTH"){
-                           months.push(response[i].label_month.substring(0, 3));
+                           months.push(response.label[i].label_month.substring(0, 3));
                         }else if(option == "WEEK"){
-                           months.push('Week '+response[i].options+' of '+response[i].label_month.substring(0, 3));
+                           months.push('Week '+response.label[i].options+' of '+response.label[i].label_month.substring(0, 3));
                         }else if(option == 'DAY'){
-                           months.push('Day '+response[i].options+' of '+response[i].label_month.substring(0, 3));
+                           months.push('Day '+response.label[i].options+' of '+response.label[i].label_month.substring(0, 3));
                         } 
                      }
+                    let credit=response.year.total_credit;
+                    if(!response.year.total_credit){credit=0;}
+                    $('.total-beginning').text("₱ "+parseFloat(response.year.total_debit-credit).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                    $('.total-gensales').text("₱ " +parseFloat(response.year.total_gensales).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                    $('.total-expenses').text("₱ " +parseFloat(response.year.total_expenses).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
                   }else{
                     const Toast = Swal.mixin({
                             toast: true,
@@ -293,21 +289,7 @@ var KTApexChartsDemo = function () {
                           })
                   }
                 }else{
-                     // const Toast = Swal.mixin({
-                     //        toast: true,
-                     //        position: 'top-end',
-                     //        showConfirmButton: false,
-                     //        timer: 3000,
-                     //        timerProgressBar: true,
-                     //        onOpen: (toast) => {
-                     //          toast.addEventListener('mouseenter', Swal.stopTimer)
-                     //          toast.addEventListener('mouseleave', Swal.resumeTimer)
-                     //        }
-                     //      })
-                     //      Toast.fire({
-                     //        icon: 'info',
-                     //        title: 'Cant load sales chart!'
-                     //      }) 
+
                 } 
               }         
           });
@@ -330,12 +312,7 @@ var _gensale2 = function (graph, option, year, month) {
         $.ajax({
             url: baseURL+"Chart_controller/Fetch_Chart",
             type: "POST",
-            data:{
-                  type : graph,
-                  option : option,
-                  year : year,
-                  month : month
-                  },
+            data:{type : graph,option : option,year : year,month : month},
             dataType: "json",
             beforeSend: function(){
 
@@ -487,7 +464,7 @@ var _gensale2 = function (graph, option, year, month) {
              // KTApp.unblockPage(); 
             },
              success:function(response){
-                alert(JSON.stringify(response));
+                // alert(JSON.stringify(response));
                 if(response != false){
                   if(response.length >= 1){
                      // alert(response.length);
@@ -1856,12 +1833,13 @@ var _gensale2 = function (graph, option, year, month) {
 		init: function (chart, option, year, month) {
             if(chart=="chart1"){
                 _gensale(chart, option, year, month);
-            }else if(chart=="chart2"){
-                _gensale2(chart, option, year, month);
-            }else{
-                //_gensale('chart1', option, year, month);
-                _demo3();
             }
+            // else if(chart=="chart2"){
+            //     _gensale2(chart, option, year, month);
+            // }else{
+            //     //_gensale('chart1', option, year, month);
+            //     _demo3();
+            // }
 			
 		}
 	};

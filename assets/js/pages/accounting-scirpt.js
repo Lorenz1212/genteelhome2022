@@ -402,6 +402,7 @@ var option;
 	                        if(option != '' || option != null){
 	                        let result = await _ajaxloader('Chart_controller/Fetch_Options',"POST",{type:'chart'+g+'_options',option:option},'chart'+g+'_options');
 	                            if(result == true){
+
 	                              KTApexChartsDemo.init('chart'+g, option, $('#chart'+g+'_options').val(), false);
 	                            }else{
 	                              const Toast = Swal.mixin({
@@ -796,17 +797,21 @@ var option;
                 $("#"+type).empty();
                 if(response != false){
                       if(type=='all_options'){
-                        if(response.gensale){
-                              for (var i = 0; response.gensales.length > i; i++){
-                                 if(response.gensales.length - 1 == i){
-                                   $("#chart1_options").append('<option selected value="'+response.gensales[i].year+'">'+response.gensales[i].year+'</option>'); 
-                                 }else{
-                                  $("#chart1_options").append('<option value="'+response.gensales[i].year+'">'+response.gensales[i].year+'</option>'); 
-                                 }
-                               }
-                        }else{
-                          $("#chart1_options").append('<option selected value="'+response.default+'">'+response.default+'</option>'); 
-                        }
+                      	for (i = new Date().getFullYear(); i > 2020; i--)
+					{
+					    $('#chart1_options').append($('<option />').val(i).html(i));
+					}
+                        // if(response.gensale){
+                        //       for (var i = 0; response.gensales.length > i; i++){
+                        //          if(response.gensales.length - 1 == i){
+                        //            $("#chart1_options").append('<option selected value="'+response.gensales[i].year+'">'+response.gensales[i].year+'</option>'); 
+                        //          }else{
+                        //           $("#chart1_options").append('<option value="'+response.gensales[i].year+'">'+response.gensales[i].year+'</option>'); 
+                        //          }
+                        //        }
+                        // }else{
+                        //   $("#chart1_options").append('<option selected value="'+response.default+'">'+response.default+'</option>'); 
+                        // }
                         if(response.cart){
                               for (var i = 0; response.payout.length > i; i++){
                                  if(response.payout.length - 1 == i){
