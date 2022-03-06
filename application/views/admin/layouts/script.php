@@ -25,7 +25,7 @@
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/datatables/data-sources/ajax-client-side.js"  type='text/javascript'></script> 
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/validation/form-controls.js"  type='text/javascript'></script> 
 	 	<script src="<?php echo base_url(); ?>assets/plugins/custom/tinymce/tinymce.bundle.js"></script>
-	 	<script src="<?php echo base_url(); ?>assets/js/pages/features/charts/apexcharts.js"></script>
+	 	<script src="<?php echo base_url(); ?>assets/js/pages/apexchart.js"></script>
 		<!--end::Page Vendors-->
 		<!--begin::Page Scripts(used by this page)-->
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/editors/tinymce.js"></script>

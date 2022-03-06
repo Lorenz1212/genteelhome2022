@@ -705,8 +705,30 @@ var arrows;var item_v;var price;var special_option;
 		_month_year();
 		switch(view){
 			case "data-dashboard-admin":{
-				let thisUrl = 'dashboard_controller/admin_dashboard';
-				_ajaxloader(thisUrl,"POST",false,"admin_dashboard");
+				let date = new Date();
+				let month = ("0"+(date.getMonth()+1)).slice(-1);
+				KTApexChartsDemo.init('chart1', false, new Date().getFullYear(), false);
+				KTApexChartsDemo.init('chart2', false, new Date().getFullYear(), month);
+				KTApexChartsDemo.init('chart3', false, new Date().getFullYear(), month);
+				for (let i = new Date().getFullYear(); i > 2020; i--){
+				    $('#chart1_options').append($('<option />').val(i).html(i));
+				    $('#chart2_year').append($('<option />').val(i).html(i));
+				    $('#chart3_year').append($('<option />').val(i).html(i));
+				}
+				$('#chart1_options,#chart2_year,#chart3_year').val(new Date().getFullYear()).change();
+				$('#chart2_months,#chart3_months').val(month).change();
+				 $('#chart1_options').on('change',function(e){
+	                    e.preventDefault(); 
+	                    KTApexChartsDemo.init('chart1', false, $(this).val(), false);
+		           });
+		           $('#chart2_months,#chart2_year').on('change',function(e){
+	                    e.preventDefault(); 
+	                    KTApexChartsDemo.init('chart2', false, $('#chart2_year').val(), $('#chart2_months').val());
+		           });
+		           $('#chart3_months,#chart3_year').on('change',function(e){
+	                    e.preventDefault(); 
+	                    KTApexChartsDemo.init('chart3', false, $('#chart3_year').val(), $('#chart3_months').val());
+		           });
 				break;
 			}
 			case "data-dashboard-superuser":{
@@ -2198,11 +2220,6 @@ var arrows;var item_v;var price;var special_option;
 						_ajaxloader(thisUrl,"POST",val,"Modal_Material_Used_Supervisor");
 				     });
 				})
-				break;
-			}
-			case "data-dashboard-accounting":{
-				let thisUrl = 'dashboard_controller/accounting_dashboard';
-				_ajaxloader(thisUrl,"POST",false,"accounting_dashboard");
 				break;
 			}
 			case "data-profile-update":{

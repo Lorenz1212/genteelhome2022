@@ -8,12 +8,6 @@ class Chart_controller extends CI_Controller
       $this->load->helper('url');
       $this->load->model('Chart_model');
     }
-	 public function Fetch_Options(){
-	 	$type = $this->input->post('type');
-	 	$option = $this->input->post('option');
-	 	$data = $this->Chart_model->Fetch_Options($type,$option);
-	 	echo json_encode($data);
-	 }
 	 public function Fetch_Chart(){
 	 	$type = $this->input->post('type');
 	 	$option = $this->input->post('option');

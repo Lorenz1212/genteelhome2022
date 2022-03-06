@@ -11,82 +11,6 @@ class Chart_model extends CI_Model{
 	     else if($get == "thisdate"){$now = date("m/d/Y");}
 	     return $now;
    }
-	public function Fetch_Options($type,$option){
-        $data_gensales=array();
-        $data_payout=array();
-        $month = $this->TODAY_DATE("month");
-		$monthname = $this->TODAY_DATE("monthname");
-		$year = $this->TODAY_DATE("year");
-		$data_default['default']=$year;
-        switch($type){
-            case 'all_options': { 
-                    $result = $this->db->select('YEAR(date_position) as year')->from('tbl_cash_position')->where('date_position IS NOT NULL')->group_by('YEAR(date_position)')->order_by('YEAR(date_position)','ASC')->get();
-					if($result){
-						foreach ($result->result() as $row) {
-						   	$data_gensales['gensales'][] = array('year'=>$row->year);	
-						}
-					}
-					// $sql="SELECT YEAR(date_position) as year FROM tbl_cash_position WHERE date_position IS NOT NULL  GROUP BY YEAR(date_position) ORDER BY YEAR(date_position) ASC";   
-     //                $result = $this->db->query($sql);
-					// if($result){
-					// 	foreach ($result->result() as $row) {
-					// 	   	$data_payout['payout'][] = array('year'=>$row->year);	
-					// 	}
-					// }
-					return array_merge($data_gensales,$data_default);
-	                break;
-	               }
-            case 'chart1_options': { 
-                    if($option == 'DAY'){
-                    	 $result = $this->db->select('YEAR(date_position) as year, MONTHNAME(date_position) as monthname, MONTH(date_position) as month')->from('tbl_cash_position')->where('date_position IS NOT NULL')->group_by('YEAR(date_position), MONTH(date_position)')->order_by('YEAR(date_position), MONTH(date_position)','ASC')->get()->result();
-                    }else{
-                      $result = $this->db->select('YEAR(date_position) as year')->from('tbl_cash_position')->where('date_position IS NOT NULL')->group_by('YEAR(date_position)')->order_by('YEAR(date_position)','ASC')->get()->result();
-                    }
-                    if($result){
-                        return $result;
-                    }else{
-                        if($option =='DAY'){
-	                    	$data_default['default']=array(
-	                    		'month'=>$month,
-	                    		'monthname'=>$monthname,
-	                    		'year'=>$year
-	                    	);
-	                    	return $data_default;
-	                    }else{
-	                    	return $data_default; 
-	                    }
-                    }
-                    break; 
-            }
-            // case 'chart2_options': { 
-            //         if($option == 'DAY'){
-            //           $sql="SELECT YEAR(date_update) as year, MONTHNAME(date_update) as monthname, MONTH(date_update) as month FROM tbl_payout_details WHERE date_update IS NOT NULL GROUP BY YEAR(date_update), MONTH(date_update) ORDER BY YEAR(date_update), MONTH(date_update) ASC";
-            //         }else{
-            //           $sql="SELECT YEAR(date_update) as year FROM tbl_payout_details WHERE date_update IS NOT NULL GROUP BY YEAR(date_update) ORDER BY YEAR(date_update) ASC";   
-            //         }
-            //         $result = $this->db->query($sql);
-            //         if($result){
-            //             return $result;
-            //         }else{
-            //             if($option =='DAY'){
-	           //          	$data_default['default']=array(
-	           //          		'month'=>$month,
-	           //          		'monthname'=>$monthname,
-	           //          		'year'=>$year
-	           //          	);
-	           //          	return $data_default;
-	           //          }else{
-	           //          	return $data_default; 
-	           //          }
-            //         }
-            //         break; 
-            //  }
-
-			default: 
-	            return false;
-	            break;
-        }
-	}
 	public function Fetch_Chart($type,$option,$year,$month){
 		$data_label=array();
 		$data_year=array();
@@ -119,38 +43,90 @@ class Chart_model extends CI_Model{
 				break;
 			}
 
-			// case 'chart2':{
-			// 	if($option == "DAY"){
-   //                  $data = explode('-', $year);
-   //                   $newmonth = $data[1];
-   //                   $newyear = $data[0];
-   //                   $sql ="SELECT MONTHNAME(date_position) as label_month, $option(date_position) as options,  SUM(amount) as gensales  FROM 	tbl_cash_position WHERE YEAR(date_position) = '$newyear' AND MONTH(date_position) = '$newmonth' GROUP BY DATE(date_position) ORDER BY MONTH(date_position), $option(date_position)";
-   //                 }else if($option == "WEEK"){
+			case 'chart2':{
+	           $start_date = date("Y-m", strtotime($year."-".$month))."-01";
+	           $data_month['month'] = date("F", mktime(0, 0, 0, $month, 10));
+	           $data_year['year'] = $year;
+		       $start_time = strtotime($start_date);
 
-   //                  $sql ="SELECT MONTHNAME(date_position) as label_month, WEEK(date_position, 4) as options, SUM(amount) as gensales  FROM 	tbl_cash_position WHERE YEAR(date_position) = '$year' GROUP BY WEEK(date_position, 4) ORDER BY WEEK(date_update, 4)";
+		       $week1 = date("Y-m-d", strtotime("+1 week", $start_time)); 
+		       $week2 = date("Y-m-d", strtotime("+2 week", $start_time)); 
+		       $week3 = date("Y-m-d", strtotime("+3 week", $start_time)); 
+		       $week4 = date("Y-m-d", strtotime("+4 week", $start_time));
+		       
+		       $current     = strtotime($start_date);
+		       $first_week  = strtotime($week1);
+		       $second_week = strtotime($week2);
+		       $third_week  = strtotime($week3);
+		       $fourth_week = strtotime($week4);
 
-   //                 }else if($option == "MONTH"){
-   //                  $sql ="SELECT MONTHNAME(date_position) as label_month, MONTH(date_position) as options, SUM(amount) as gensales  FROM 	tbl_cash_position WHERE YEAR(date_position) = '$year' GROUP BY MONTH(date_position) ORDER BY MONTH(date_position), MONTH(date_position)";
-   //                 }
+		       $data_week1 = array();
+		       $data_week2 = array();
+		       $data_week3 = array();
+		       $data_week4 = array();
+		       $data_expenses = array();
+		       $data_sales = array();
+		        while($current < $first_week ){
+		            $data_week1[] = date('Y-m-d', $current);
+		            $current = strtotime("+1 day", $current);
+		        }
+		        while($first_week < $second_week ) {
+		            $data_week2[] = date('Y-m-d', $first_week);
+		            $first_week = strtotime("+1 day", $first_week);
+		        }
+		        while($second_week < $third_week ) {
+		            $data_week3[] = date('Y-m-d', $second_week);
+		            $second_week = strtotime("+1 day", $second_week);
+		        }
+		        while($third_week <= $fourth_week ) {
+		            $third_week = strtotime("+1 day", $third_week);
+		            $data_week4[] = date('Y-m-d', $third_week);
+		        }
+		        $week4_start = date("Y-m-d", strtotime("+3 week", $start_time)); 
+       			$week4_end = date("Y-m-t", strtotime($start_date));
 
-			// 	$result = $this->db->query($sql);
-			// 	if(!$result){
-			// 		return false;
-			// 	}else{
-			// 		return $result;
-			// 	}
-			// 	break;
-			// }
-			// case 'chart3':{
-			// 	 $sql="SELECT COUNT(code_package) AS bronze ,(SELECT COUNT(code_package) FROM tbl_code_details WHERE code_package='2') AS silver,(SELECT COUNT(code_package) FROM tbl_code_details WHERE code_package='3') AS gold,(SELECT COUNT(code_package) FROM tbl_code_details WHERE code_package='4') AS bronze_free,(SELECT COUNT(code_package) FROM tbl_code_details WHERE code_package='5') AS silver_free,(SELECT COUNT(code_package) FROM tbl_code_details WHERE code_package='6') AS gold_free FROM tbl_code_details WHERE code_package='1'; ";
-			// 	$result = $this->db->query($sql);
-			// 	if(!$result){
-			// 		return false;
-			// 	}else{
-			// 		return $result;
-			// 	}
-			// 	break;
-			// }
+				$row_wk1_less = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where_in('date_position',$data_week1)->where('type',1)->get()->row();
+		        $row_wk2_less = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where_in('date_position',$data_week2)->where('type',1)->get()->row();
+		        $row_wk3_less = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where_in('date_position',$data_week3)->where('type',1)->get()->row();
+		        $row_wk4_less = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where('date_position BETWEEN "'.$week4_start.'" AND "'.$week4_end.'"')->where('type',1)->get()->row();
+		       
+		        $row_wk1_add = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where_in('date_position',$data_week1)->where('type',2)->get()->row();
+		        $row_wk2_add = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where_in('date_position',$data_week2)->where('type',2)->get()->row();
+		        $row_wk3_add = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where_in('date_position',$data_week3)->where('type',2)->get()->row();
+		        $row_wk4_add = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where('date_position BETWEEN "'.$week4_start.'" AND "'.$week4_end.'"')->where('type',2)->get()->row();
+
+		        if(!$row_wk1_less->amount){$week1_less = 0;}else{$week1_less = $row_wk1_less->amount;}
+		        if(!$row_wk2_less->amount){$week2_less = 0;}else{$week2_less = $row_wk2_less->amount;}
+		        if(!$row_wk3_less->amount){$week3_less = 0;}else{$week3_less = $row_wk3_less->amount;}
+		        if(!$row_wk4_less->amount){$week4_less = 0;}else{$week4_less = $row_wk4_less->amount;}
+
+		        if(!$row_wk1_add->amount){$week1_add = 0;}else{$week1_add = $row_wk1_add->amount;}
+		        if(!$row_wk2_add->amount){$week2_add = 0;}else{$week2_add = $row_wk2_add->amount;}
+		        if(!$row_wk3_add->amount){$week3_add = 0;}else{$week3_add = $row_wk3_add->amount;}
+		        if(!$row_wk4_add->amount){$week4_add = 0;}else{$week4_add = $row_wk4_add->amount;}
+		        $data_expenses['expenses'] = array('week1_less'=>$week1_less,
+						    					   'week2_less'=>$week2_less,
+						    					   'week3_less'=>$week3_less,
+						    					   'week4_less'=>$week4_less);
+		        $data_sales['sales'] = array('week1_add'=>$week1_add,
+		    						'week2_add'=>$week2_add,
+		    						'week3_add'=>$week3_add,
+		    						'week4_add'=>$week4_add);
+				return array_merge($data_expenses,$data_sales);
+				break;
+			}
+			case 'chart3':{
+				 $data_array=array();
+				 $query = $this->db->select('*')->from('tbl_category_income')->where_not_in('id',[1,2,15])->get()->result();
+				 foreach($query as $row){
+				 	$expenses = $this->db->select('sum(amount) as amount')->from('tbl_cash_position')->where('cat_id',$row->id)->where('YEAR(date_position)',$year)->where('MONTH(date_position)',$month)->get()->row();
+				 	if(!$expenses->amount){$amount = 0;}else{$amount =$expenses->amount;}
+				 	$data_array[] = array('name'=>$row->name,
+				 						  'amount'=>$amount);
+				 }
+				return $data_array;
+				break;
+			}
 			default:
 				return false;
 				break;

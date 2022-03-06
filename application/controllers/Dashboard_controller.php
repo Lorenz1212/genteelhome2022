@@ -32,9 +32,5 @@ class Dashboard_controller extends CI_Controller
         $data = $this->dashboard_model->sales_dashboard();
         echo json_encode($data);
     } 
-    public function accounting_dashboard(){  
-        $data = $this->dashboard_model->accounting_dashboard();
-        echo json_encode($data);
-    } 
 }
 ?>

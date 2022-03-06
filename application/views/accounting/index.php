@@ -215,34 +215,33 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M4,4 L20,4 C21.1045695,4 22,4.8954305 22,6 L22,18 C22,19.1045695 21.1045695,20 20,20 L4,20 C2.8954305,20 2,19.1045695 2,18 L2,6 C2,4.8954305 2.8954305,4 4,4 Z" fill="#000000" opacity="0.3"/>
-                                        <path d="M18.5,11 L5.5,11 C4.67157288,11 4,11.6715729 4,12.5 L4,13 L8.58578644,13 C8.85100293,13 9.10535684,13.1053568 9.29289322,13.2928932 L10.2928932,14.2928932 C10.7456461,14.7456461 11.3597108,15 12,15 C12.6402892,15 13.2543539,14.7456461 13.7071068,14.2928932 L14.7071068,13.2928932 C14.8946432,13.1053568 15.1489971,13 15.4142136,13 L20,13 L20,12.5 C20,11.6715729 19.3284271,11 18.5,11 Z" fill="#000000"/>
-                                        <path d="M5.5,6 C4.67157288,6 4,6.67157288 4,7.5 L4,8 L20,8 L20,7.5 C20,6.67157288 19.3284271,6 18.5,6 L5.5,6 Z" fill="#000000"/>
+                                        <path d="M5,19 L20,19 C20.5522847,19 21,19.4477153 21,20 C21,20.5522847 20.5522847,21 20,21 L4,21 C3.44771525,21 3,20.5522847 3,20 L3,4 C3,3.44771525 3.44771525,3 4,3 C4.55228475,3 5,3.44771525 5,4 L5,19 Z" fill="#000000" fill-rule="nonzero"/>
+                                        <path d="M8.7295372,14.6839411 C8.35180695,15.0868534 7.71897114,15.1072675 7.31605887,14.7295372 C6.9131466,14.3518069 6.89273254,13.7189711 7.2704628,13.3160589 L11.0204628,9.31605887 C11.3857725,8.92639521 11.9928179,8.89260288 12.3991193,9.23931335 L15.358855,11.7649545 L19.2151172,6.88035571 C19.5573373,6.44687693 20.1861655,6.37289714 20.6196443,6.71511723 C21.0531231,7.05733733 21.1271029,7.68616551 20.7848828,8.11964429 L16.2848828,13.8196443 C15.9333973,14.2648593 15.2823707,14.3288915 14.8508807,13.9606866 L11.8268294,11.3801628 L8.7295372,14.6839411 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
                                     </g>
                                 </svg>
                             </span>
-                            <h4 class="card-label text-dark-75">Payout<!-- : <span class="text-primary">0</span> credits --> </h4>
+                            <h4 class="card-label text-dark-75">Weekly Sales & Expenses Line Graph</h4>
                         </div>
                         <div class="card-toolbar">
                             <ul class="nav nav-pills nav-pills-sm nav-dark-75" role="tablist" id="chart2_li">
-                                
-                                <li class="nav-item">
-                                    <a href="javascript:void(0)" class="nav-link py-2 px-4 active" data-toggle="tab" tba_option2 data-id="MONTH">
-                                        <span class="nav-text font-size-sm">Month</span>
-                                    </a>
+                                 <li class="nav-item">
+                                        <select class="form-control form-control-sm" id="chart2_months">
+                                            <option value="1">JANUARY</option>
+                                            <option value="2">FEBRUARY</option>
+                                            <option value="3">MARCH</option>
+                                            <option value="4">APRIL</option>
+                                            <option value="5">MAY</option>
+                                            <option value="6">JUNE</option>
+                                            <option value="7">JULY</option>
+                                            <option value="8">AUGUST</option>
+                                            <option value="9">SEPTEMBER</option>
+                                            <option value="10">OCTOBER</option>
+                                            <option value="11">NOVEMBER</option>
+                                            <option value="12">DECEMBER</option>
+                                        </select>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="javascript:void(0)" class="nav-link py-2 px-4" data-toggle="tab" tba_option2 data-id="WEEK">
-                                        <span class="nav-text font-size-sm">Week</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:void(0)" class="nav-link py-2 px-4" data-toggle="tab" tba_option2 data-id="DAY">
-                                        <span class="nav-text font-size-sm">Day</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                        <select class="form-control form-control-sm" id="chart2_options">
+                                        <select class="form-control form-control-sm" id="chart2_year">
                                         </select>
                                 </li>
                             </ul>
@@ -260,7 +259,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="card card-custom gutter-b">
                     <div class="card-header  d-flex align-items-center justify-content-between"> 
                         <div class="card-title">
@@ -268,44 +267,43 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M4,4 L20,4 C21.1045695,4 22,4.8954305 22,6 L22,18 C22,19.1045695 21.1045695,20 20,20 L4,20 C2.8954305,20 2,19.1045695 2,18 L2,6 C2,4.8954305 2.8954305,4 4,4 Z" fill="#000000" opacity="0.3"/>
-                                        <path d="M18.5,11 L5.5,11 C4.67157288,11 4,11.6715729 4,12.5 L4,13 L8.58578644,13 C8.85100293,13 9.10535684,13.1053568 9.29289322,13.2928932 L10.2928932,14.2928932 C10.7456461,14.7456461 11.3597108,15 12,15 C12.6402892,15 13.2543539,14.7456461 13.7071068,14.2928932 L14.7071068,13.2928932 C14.8946432,13.1053568 15.1489971,13 15.4142136,13 L20,13 L20,12.5 C20,11.6715729 19.3284271,11 18.5,11 Z" fill="#000000"/>
-                                        <path d="M5.5,6 C4.67157288,6 4,6.67157288 4,7.5 L4,8 L20,8 L20,7.5 C20,6.67157288 19.3284271,6 18.5,6 L5.5,6 Z" fill="#000000"/>
+                                        <path d="M4.00246329,12.2004927 L13,14 L13,4.06189375 C16.9463116,4.55399184 20,7.92038235 20,12 C20,16.418278 16.418278,20 12,20 C7.64874861,20 4.10886412,16.5261253 4.00246329,12.2004927 Z" fill="#000000" opacity="0.3"/>
+                                        <path d="M3.0603968,10.0120794 C3.54712466,6.05992157 6.91622084,3 11,3 L11,11.6 L3.0603968,10.0120794 Z" fill="#000000"/>
                                     </g>
                                 </svg>
                             </span>
-                            <h4 class="card-label text-dark-75">CODE<!-- : <span class="text-primary">0</span> credits --> </h4>
+                            <h4 class="card-label text-dark-75">Expenses</h4>
                         </div>
-                        <!-- <div class="card-toolbar">
+                         <div class="card-toolbar">
                             <ul class="nav nav-pills nav-pills-sm nav-dark-75" role="tablist" id="chart2_li">
-                                
-                                <li class="nav-item">
-                                    <a href="javascript:void(0)" class="nav-link py-2 px-4 active" data-toggle="tab" tba_option3 data-id="MONTH">
-                                        <span class="nav-text font-size-sm">Month</span>
-                                    </a>
+                                 <li class="nav-item">
+                                        <select class="form-control form-control-sm" id="chart3_months">
+                                            <option value="1">JANUARY</option>
+                                            <option value="2">FEBRUARY</option>
+                                            <option value="3">MARCH</option>
+                                            <option value="4">APRIL</option>
+                                            <option value="5">MAY</option>
+                                            <option value="6">JUNE</option>
+                                            <option value="7">JULY</option>
+                                            <option value="8">AUGUST</option>
+                                            <option value="9">SEPTEMBER</option>
+                                            <option value="10">OCTOBER</option>
+                                            <option value="11">NOVEMBER</option>
+                                            <option value="12">DECEMBER</option>
+                                        </select>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="javascript:void(0)" class="nav-link py-2 px-4" data-toggle="tab" tba_option3 data-id="WEEK">
-                                        <span class="nav-text font-size-sm">Week</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="javascript:void(0)" class="nav-link py-2 px-4" data-toggle="tab" tba_option3 data-id="DAY">
-                                        <span class="nav-text font-size-sm">Day</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                        <select class="form-control form-control-sm" id="chart3_options">
+                                        <select class="form-control form-control-sm" id="chart3_year">
                                         </select>
                                 </li>
                             </ul>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="card-body">
                         <!--begin::Chart-->
                         <div id="chart3" >
                             <div class="banner_wrapper">
-                              <div class="banner_loader" style="height: 200px !important;"></div>
+                              <div class="banner_loader" style="height: 365px !important;"></div>
                             </div> 
                             <!-- <div class="animated-background" style="height: 100%"></div> -->
                         </div>

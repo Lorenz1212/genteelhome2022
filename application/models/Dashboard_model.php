@@ -198,16 +198,6 @@ class Dashboard_model extends CI_Model
      $json_data = array('data'=>$data);
      return $json_data;
   }
-  function accounting_dashboard(){
-     $query_stocks =  $this->db->select('count(id) as id')->from('tbl_purchase_stocks as m')->where('status','PENDING')->where('fund_no IS NULL')->get();  
-     $row_s = $query_stocks->row();
-     $query_project =  $this->db->select('count(id) as id')->from('tbl_purchasing_project')->where('c_status','REQUEST')->where('fund_no IS NULL')->group_by('request_id')->get();  
-     $row_p = $query_project->row();
 
-    $data[] = array('p'  => $row_p->id,
-                    's'  => $row_s->id);
-     $json_data = array('data'=>$data);
-     return $json_data;
-  }
 }
 ?>

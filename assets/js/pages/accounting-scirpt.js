@@ -3,6 +3,7 @@ var KTAjaxClient = function() {
 var arrows;
 var html;
 var option;
+const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 	var _initToastSuccess = function(type,message)
 	{
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
@@ -394,57 +395,30 @@ var option;
 		 _month_year();
 		switch(view){
 			case "data-dashboard-accounting":{
-				_ajaxloader('Chart_controller/Fetch_Options',"POST",{type:'all_options',option:'MONTH'},"all_options");
-				for (let g = 1; g<=3 ; ++g) {
-                   KTApexChartsDemo.init('chart'+g, 'MONTH', new Date().getFullYear(), false);
-	             $("a[tba_option"+g+"]").on("click", async function(){
-	                   option = $(this).attr('data-id');
-	                        if(option != '' || option != null){
-	                        let result = await _ajaxloader('Chart_controller/Fetch_Options',"POST",{type:'chart'+g+'_options',option:option},'chart'+g+'_options');
-	                            if(result == true){
-
-	                              KTApexChartsDemo.init('chart'+g, option, $('#chart'+g+'_options').val(), false);
-	                            }else{
-	                              const Toast = Swal.mixin({
-	                                        toast: true,
-	                                        position: 'top-end',
-	                                        showConfirmButton: false,
-	                                        timer: 3000,
-	                                        timerProgressBar: true,
-	                                        onOpen: (toast) => {
-	                                          toast.addEventListener('mouseenter', Swal.stopTimer)
-	                                          toast.addEventListener('mouseleave', Swal.resumeTimer)
-	                                        }
-	                                      })
-	                                      Toast.fire({
-	                                        icon: 'info',
-	                                        title: 'Cant load sales chart!'
-	                                      })
-	                                }
-	                        }else{
-	                            const Toast = Swal.mixin({
-	                                          toast: true,
-	                                          position: 'top-end',
-	                                          showConfirmButton: false,
-	                                          timer: 3000,
-	                                          timerProgressBar: true,
-	                                          onOpen: (toast) => {
-	                                            toast.addEventListener('mouseenter', Swal.stopTimer)
-	                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-	                                          }
-	                                        })
-	                                        Toast.fire({
-	                                          icon: 'info',
-	                                          title: 'Cant load sales chart!'
-	                                        })  
-	                        }
-	                    })
-
-	                  $('#chart'+g+'_options').on('change',function(e){
+				let date = new Date();
+				let month = ("0"+(date.getMonth()+1)).slice(-1);
+				KTApexChartsDemo.init('chart1', false, new Date().getFullYear(), false);
+				KTApexChartsDemo.init('chart2', false, new Date().getFullYear(), month);
+				KTApexChartsDemo.init('chart3', false, new Date().getFullYear(), month);
+				for (let i = new Date().getFullYear(); i > 2020; i--){
+				    $('#chart1_options').append($('<option />').val(i).html(i));
+				    $('#chart2_year').append($('<option />').val(i).html(i));
+				    $('#chart3_year').append($('<option />').val(i).html(i));
+				}
+				$('#chart1_options,#chart2_year,#chart3_year').val(new Date().getFullYear()).change();
+				$('#chart2_months,#chart3_months').val(month).change();
+				 $('#chart1_options').on('change',function(e){
 	                    e.preventDefault(); 
-	                    KTApexChartsDemo.init('chart'+g, option, $('#chart'+g+'_options').val(), false);
-	                  })
-	                }
+	                    KTApexChartsDemo.init('chart1', false, $(this).val(), false);
+		           });
+		           $('#chart2_months,#chart2_year').on('change',function(e){
+	                    e.preventDefault(); 
+	                    KTApexChartsDemo.init('chart2', false, $('#chart2_year').val(), $('#chart2_months').val());
+		           });
+		           $('#chart3_months,#chart3_year').on('change',function(e){
+	                    e.preventDefault(); 
+	                    KTApexChartsDemo.init('chart3', false, $('#chart3_year').val(), $('#chart3_months').val());
+		           });
 				break;
 			}
 			case "data-profile-update":{
@@ -791,68 +765,6 @@ var option;
 
 	var _initView = async function(type,response){
 	  switch(type){
-	  	 case 'chart1_options':
-           case 'chart2_options':
-           case 'all_options':{
-                $("#"+type).empty();
-                if(response != false){
-                      if(type=='all_options'){
-                      	for (i = new Date().getFullYear(); i > 2020; i--)
-					{
-					    $('#chart1_options').append($('<option />').val(i).html(i));
-					}
-                        // if(response.gensale){
-                        //       for (var i = 0; response.gensales.length > i; i++){
-                        //          if(response.gensales.length - 1 == i){
-                        //            $("#chart1_options").append('<option selected value="'+response.gensales[i].year+'">'+response.gensales[i].year+'</option>'); 
-                        //          }else{
-                        //           $("#chart1_options").append('<option value="'+response.gensales[i].year+'">'+response.gensales[i].year+'</option>'); 
-                        //          }
-                        //        }
-                        // }else{
-                        //   $("#chart1_options").append('<option selected value="'+response.default+'">'+response.default+'</option>'); 
-                        // }
-                        if(response.cart){
-                              for (var i = 0; response.payout.length > i; i++){
-                                 if(response.payout.length - 1 == i){
-                                   $("#chart2_options").append('<option selected value="'+response.payout[i].year+'">'+response.payout[i].year+'</option>'); 
-                                 }else{
-                                  $("#chart2_options").append('<option value="'+response.payout[i].year+'">'+response.payout[i].year+'</option>'); 
-                                 }
-                               }
-                        }else{
-                          $("#chart2_options").append('<option selected value="'+response.default+'">'+response.default+'</option>'); 
-                        }
-                      }else if(type == 'chart1_options' || type == 'chart2_options'){
-                          if(option == 'DAY'){
-                            if(response.default){
-                              $("#"+type).append('<option selected value="'+response.default.year+'-'+response.default.month+'">'+response.default.year+'-'+response.default.monthname+'</option>'); 
-                            }else{
-                              for (var i = 0; response.length > i; i++){
-                                 if(response.length - 1 == i){
-                                   $("#"+type).append('<option selected value="'+response[i].year+'-'+response[i].month+'">'+response[i].year+'-'+response[i].monthname+'</option>'); 
-                                 }else{
-                                  $("#"+type).append('<option value="'+response[i].year+'-'+response[i].month+'">'+response[i].year+'-'+response[i].monthname+'</option>'); 
-                                 }
-                              }
-                            }
-                          }else{
-                            if(response.default){
-                              $("#"+type).append('<option selected value="'+response.default+'">'+response.default+'</option>'); 
-                            }else{
-                              for (var i = 0; response.length > i; i++){
-                                 if(response.length - 1 == i){
-                                   $("#"+type).append('<option selected value="'+response[i].year+'">'+response[i].year+'</option>'); 
-                                 }else{
-                                  $("#"+type).append('<option value="'+response[i].year+'">'+response[i].year+'</option>'); 
-                                 }
-                              }
-                            }
-                          }
-                        }
-                  }
-              break;
-              }
 	  	case "Modal_Production_Stocks":{
 	  		if(!response == false){
 	  			_initNumberOnly('#stocks');
