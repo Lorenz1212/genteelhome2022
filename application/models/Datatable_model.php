@@ -23,7 +23,6 @@ class Datatable_model extends CI_Model{
          return $json_data;    
      }
 
-
      function SupplierItem_DataTable($id){
         $query =   $this->db->select('s.id,s.amount,s.status,m.item,DATE_FORMAT(s.date_created, "%M %d %Y") as date_created')->from('tbl_supplier_item as s')->join('tbl_materials as m','m.id = s.item_no','LEFT')->where('s.supplier',$this->encryption->decrypt($id))->order_by('s.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
