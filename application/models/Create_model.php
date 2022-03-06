@@ -608,34 +608,7 @@ class Create_model extends CI_Model
                 $this->db->insert('tbl_material_project',$data);
           }
      }
-     function Create_Supplier($user_id,$name,$mobile,$email,$facebook,$website,$address){
-     	$query = $this->db->select('*')->from('tbl_supplier')->where('name',$name)->get();
-     	$row = $query->row();
-     	$status =  'error';
-     	if(!$row){
-	     		$data = array('user_id'       =>  $user_id,
-			                  'name'          =>  $name,
-			                  'mobile'        =>  $mobile,
-			                  'email'         =>  $email,
-			                  'facebook'      =>  $facebook,
-			                  'website'       =>  $website,
-			                  'address'       =>  $address,
-			                  'status'        =>  'ACTIVE');
-	       $this->db->insert('tbl_supplier',$data);
-	       $status = 'success';
-	     	}
-	     	return $status;
-    }
-    function Create_SupplierItem($user_id,$id,$item,$price){
-        $data = array('user_id'        => $user_id,
-                      'item'           => $item,
-                      'supplier'       => $id,
-                      'price'          => $price,
-                      'status'         => 'ACTIVE',
-                      'date_created'   =>  date('Y-m-d H:i:s')
-                    );        
-        $this->db->insert('tbl_supplier_item',$data);
-    }
+
     function Create_Purchase_Request_Stocks($user_id,$item,$quantity,$remarks,$amount,$unit){
 		        $value = $this->get_code('tbl_request_id','RMPR-'.date('Ymd'));
 	    		$insert = array('request_id' => $value,
@@ -1167,6 +1140,47 @@ class Create_model extends CI_Model
     	}	
 		$json = array('status'=>'success','image' => $images,'id' => $last_id);
     	return $json;
+    }
+    function Create_Supplier($user_id,$name,$mobile,$email,$facebook,$website,$address){
+     	$query = $this->db->select('*')->from('tbl_supplier')->where('name',$name)->get();
+     	$row = $query->row();
+     	$status =  'error';
+     	if(!$row){
+     		$data = array('name'          =>  $name,
+		                  'mobile'        =>  $mobile,
+		                  'email'         =>  $email,
+		                  'facebook'      =>  $facebook,
+		                  'website'       =>  $website,
+		                  'address'       =>  $address,
+		                  'status'        =>  1,
+		                  'date_created'=>	 date('Y-m-d H:i:s'),
+		              	  'created_by'=>$user_id);
+	       $this->db->insert('tbl_supplier',$data);
+	       $status = 'success';
+	     }
+	     return $status;
+    }
+    function Create_SupplierItem($user_id,$id,$item,$amount){
+    	$id =$this->encryption->decrypt($id);
+    	$row = $this->db->select('*')->from('tbl_supplier_item')->where('item_no',$item)->where('supplier',$id)->get()->row();
+    	if($row){
+    		$data = array('amount'     => $amount,
+                      'latest_update'  => date('Y-m-d H:i:s'),
+                      'update_by'	   => $user_id); 
+    		$this->db->where('item_no',$item);
+    		$this->db->where('supplier',$id);
+    		$this->db->update('tbl_supplier_item',$data);
+    		return 'Save Changes';
+    	}else{
+    		$data = array('item_no'  => $item,
+                      'supplier'       => $id,
+                      'amount'         => $amount,
+                      'status'         => 1,
+                      'date_created'   => date('Y-m-d H:i:s'),
+                      'created_by'	   => $user_id);        
+        	$this->db->insert('tbl_supplier_item',$data);
+        	return 'Created Successfully';
+    	}
     }
 
   }

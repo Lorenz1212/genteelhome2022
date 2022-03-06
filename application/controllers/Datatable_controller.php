@@ -11,15 +11,6 @@ class Datatable_controller extends CI_Controller
       $this->load->library('session');
        
     } 
-    public function ProjectDesign_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->ProjectDesign_DataTable($user_id,$status);
-        echo json_encode($data);
-    } 
     public function Design_Stocks_Request_DataTable(){
         $user_id = $this->session->userdata('id');
         $data = $this->datatable_model->Design_Stocks_Request_DataTable($user_id);
@@ -570,7 +561,15 @@ class Datatable_controller extends CI_Controller
       $data = $this->datatable_model->Web_Testimony_DataTable();
       echo json_encode($data);
    }
-
+   public function supplier_DataTable(){
+        $data = $this->datatable_model->supplier_DataTable();
+        echo json_encode($data);
+   } 
+   public function SupplierItem_DataTable(){
+         $id = $this->input->post('status');
+         $data = $this->datatable_model->SupplierItem_DataTable($id);
+         echo json_encode($data);
+   }
 
 
 
@@ -610,6 +609,9 @@ class Datatable_controller extends CI_Controller
       $data = $this->datatable_model->Customer_List_DataTable();
       echo json_encode($data);
    }
+    
+
+
 
 
 
@@ -651,28 +653,6 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->OfficeSupplies_Received_DataTable($user_id,$status);
         echo json_encode($data);
     }
-      public function supplier_active_DataTable(){
-        $data = $this->datatable_model->supplier_active_DataTable();
-        echo json_encode($data);
-    } 
-    public function supplier_inactive_DataTable(){
-        $data = $this->datatable_model->supplier_inactive_DataTable();
-        echo json_encode($data);
-    } 
-    public function supplier_active_accounting_DataTable(){
-        $data = $this->datatable_model->supplier_active_accounting_DataTable();
-        echo json_encode($data);
-    } 
-    public function supplier_inactive_accounting_DataTable(){
-        $data = $this->datatable_model->supplier_inactive_accounting_DataTable();
-        echo json_encode($data);
-    } 
-   public function SupplierItem_DataTable(){
-         $id = $this->input->post('id');
-         $data = $this->datatable_model->SupplierItem_DataTable($id);
-         echo json_encode($data);
-    }
-
 
     public function Joborder_Admin_DataTable(){
         $user_id = $this->session->userdata('id');

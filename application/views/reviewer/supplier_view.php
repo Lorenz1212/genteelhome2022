@@ -1,6 +1,8 @@
+
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-supplier">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+		<div class="form" data-link="Update_SupplierItem"></div>
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
@@ -36,7 +38,6 @@
 									<i class="symbol-badge bg-success"></i>
 								</div>
 								<div>
-									<input type="hidden" name="id" value="<?php echo $id ?>" />
 									<span id="supplier_name" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"></span>
 									<div class="text-muted"><span id="status"></span></div>
 								<!-- 	<div class="mt-2">
@@ -96,19 +97,25 @@
 												<!--begin::Content-->
 												<div class="d-flex justify-content-center">
 													<div class="col-xl-12 col-xxl-9">
-													<div class="form" data-link="Create_SupplierItem">
+													<div>
 														<div class="row">
 														  <div class="col-lg-7">
 															  <div class="form-group">
 																   <label>ITEM</label>
 																    <select class="form-control " data-size="7" data-live-search="true" id="item" name="item">
+																    	<?php 
+																    		$query=$this->db->select('*')->from('tbl_materials')->get()->result();
+																    		foreach($query as $row){
+																    			echo'<option value="'.$row->id.'">'.$row->item.'</option>';
+																    		}
+																    	?>
 																	</select>
 																   <span class="form-text text-muted">Please enter your item</span>
 																  </div>
 															</div>
 															<div class="col-lg-4">
 															  <div class="form-group">
-																   <label>Price</label>
+																   <label>Amount</label>
 																    <input type='text' class="form-control" id="price" name="price"/>
 			     													<span class="form-text text-muted">Currency format</span>
 															  </div>
@@ -175,7 +182,7 @@
                 </button>
             </div>
             <div class="modal-body">
-            			<form class="form" id="Update_Supplier"  data-link="Update_Supplier">							
+            			<form id="Update_Supplier">							
 								<div class="row">
 								  <div class="col-xl-9">
 									  <div class="form-group">
@@ -188,8 +195,8 @@
 									  <div class="form-group">
 									   <label>Status</label>
 									   <select type="text" class="form-control form-control-solid" name="s_status"/>
-									   		<option value="ACTIVE">ACTIVE</option>
-						    				 <option value="INACTIVE">INACTIVE</option>
+									   		<option value="1">ACTIVE</option>
+						    				 <option value="2">INACTIVE</option>
 										</select>
 									   <span class="form-text text-muted">Please enter your supplier name</span>
 									  </div>
@@ -255,7 +262,7 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <form class="form" id="Update_SupplierItem" data-link="Update_SupplierItem">
+            <form>
 	            <div class="modal-body">
 					 <div class="form-group">
 						<label>ITEM</label>
@@ -270,8 +277,8 @@
 					<div class="form-group">
 					    <label>Status</label>
 					    <select class="form-control form-control-solid" name="status">
-						     <option value="ACTIVE">ACTIVE</option>
-						     <option value="INACTIVE">INACTIVE</option>
+						     <option value="1">ACTIVE</option>
+						     <option value="2">INACTIVE</option>
 					    </select>
 				   </div>	
 	            </div>
@@ -283,3 +290,6 @@
         </div>
 	</div>
 </div>
+<script type="text/javascript">
+	var supplier_id = '<?php echo $id?>';
+</script>

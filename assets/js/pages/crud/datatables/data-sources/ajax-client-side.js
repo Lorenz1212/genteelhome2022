@@ -351,7 +351,18 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader('tbl_production_stocks',TableURL,TableData,false);
 				break;
 			}
-
+			case "tbl_supplier_item":{
+				TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
+				TableData =  [{data:'item'},{data: 'price'},{data:'status'},{data: 'date_created'},{data: 'action'}];
+				_DataTableLoader('tbl_supplier_item',TableURL,TableData,supplier_id);
+				break;
+			}
+			case "tbl_supplier":{
+				TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
+				TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data: 'action'}]; 
+				_DataTableLoader('tbl_supplier',TableURL,TableData,false);
+				break;
+			}
 
 
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -419,23 +430,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
 				break;
 			}
-			case "tbl_supplier_item":{
-				TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
-				TableData =  [{data: 'item'},{data: 'price'},{data: 'status'},{data: 'date_created'},{data: 'action'}];
-				var id = $('input[name=id]').val();
-				_DataTableLoader(view,TableURL,TableData,id);
-				break;
-			}
-			case "tbl_supplier_active":{
-				TableURL = baseURL + 'datatable_controller/c';
-				TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data: 'date_created'},{data: 'action'}]; 
-				_DataTableLoader('tbl_supplier_active',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/supplier_inactive_DataTable';
-				let TableData1 =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data: 'date_created'},{data: 'action'}]; 
-				_DataTableLoader('tbl_supplier_inactive',TableURL1,TableData1,false);
-				break;
-			}
+			
 			
 			case "tbl_salesorder_shipping":{
 				TableURL = baseURL + 'datatable_controller/Salesorder_For_Shipping_DataTable';

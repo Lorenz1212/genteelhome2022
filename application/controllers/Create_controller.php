@@ -258,16 +258,7 @@ class Create_controller extends CI_Controller
         $data = array('status' => 'success');
         echo json_encode($data);
     }
-      public function Create_SupplierItem(){
-        $user_id = $this->session->userdata('id');
-        $id = $this->input->post('id');
-        $item = $this->input->post('item');
-        $price = $this->input->post('price');
-        $this->create_model->Create_SupplierItem($user_id,$id,$item,$price);
-        $data = array('status' => 'success');          
-        echo json_encode($data); 
-
-     }
+      
       public function Create_Supplier(){
        $user_id = $this->session->userdata('id');
        $name = $this->input->post('name');
@@ -535,5 +526,14 @@ class Create_controller extends CI_Controller
         $data = $this->create_model->Create_Joborder_Inpection_Stocks_Image($id,$production_no,$image,$tmp,$path_image);
         echo json_encode($data);
     }
+    public function Create_SupplierItem(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $item = $this->input->post('item');
+        $amount = floatval(str_replace(',', '', $this->input->post('amount')));
+        $data = $this->create_model->Create_SupplierItem($user_id,$id,$item,$amount);        
+        echo json_encode($data); 
+
+     }
 }
 ?>

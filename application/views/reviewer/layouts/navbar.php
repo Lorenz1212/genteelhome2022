@@ -301,19 +301,11 @@
 															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
 																<ul class="menu-subnav">
 																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/superuser/supplier?".base64_encode('urlstatus=active')."";?>" class="menu-link">
+																		<a href="<?php echo base_url()."gh/superuser/supplier";?>" class="menu-link">
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">ACTIVE</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/superuser/supplier?".base64_encode('urlstatus=inactive')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">INACTIVE</span>
+																			<span class="menu-text">List of Supplier</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -321,7 +313,7 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">CREATE</span>
+																			<span class="menu-text">Create New Supplier</span>
 																		</a>
 																	</li>
 																</ul>

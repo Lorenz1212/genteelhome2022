@@ -290,16 +290,14 @@ class Update_controller extends CI_Controller
           echo json_encode($data);  
      }
       public function Update_SupplierItem(){
-        $id = $this->input->post('ss_id');
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
         $price = $this->input->post('price');
         $status = $this->input->post('status');
-        $this->update_model->Update_SupplierItem($id,$price,$status);
-        $data = array(
-            'status' => 'success'
-        );          
+        $data = $this->update_model->Update_SupplierItem($user_id,$id,$price,$status);         
         echo json_encode($data); 
      }
-       public function Update_Supplier(){  
+    public function Update_Supplier(){  
         $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $name = $this->input->post('name');
@@ -309,8 +307,7 @@ class Update_controller extends CI_Controller
         $website = $this->input->post('website');
         $address = $this->input->post('address');
         $status = $this->input->post('status');
-        $this->reviewer_model->Update_Supplier($id,$name,$mobile,$email,$facebook,$website,$address,$status);
-        $data = array('status' => 'success');
+        $data = $this->update_model->Update_Supplier($user_id,$id,$name,$mobile,$email,$facebook,$website,$address,$status);
         echo json_encode($data);
      }
     public function Update_Material_Request_Process(){

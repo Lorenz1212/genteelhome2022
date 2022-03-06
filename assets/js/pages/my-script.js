@@ -1984,10 +1984,8 @@ var arrows;var item_v;var price;var special_option;
 				 $(document).ready(function() {
 				 	_initItem_option();
 					_initCurrency_format("#price");
-				 	let id =  $('input[name=id]').val();
-					let val = {id:id};
 					let thisUrl = 'view_controller/View_Supplier_Data';
-					_ajaxloader(thisUrl,"POST",val,"View_Supplier_Data");
+					_ajaxloader(thisUrl,"POST",{id:supplier_id},"View_Supplier_Data");
 					   $(document).on("click","#form-request",function() {
 						let id = $(this).attr('data-id');
 						let val = {id:id};

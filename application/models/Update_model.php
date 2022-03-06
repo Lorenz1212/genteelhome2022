@@ -360,15 +360,7 @@ class Update_model extends CI_Model
                          'date_created'=>date('Y-m-d H:i:s'));
            $this->db->insert('tbl_salesorder_item_return',$data);
      }
-        function Update_SupplierItem($id,$price,$status){
-            $data = array('price'          => $price,
-                          'status'         => $status,
-                          'date_lastupdate'=> date('Y-m-d H:i:s'));
-            $this->db->where('id',$id);        
-            $this->db->update('tbl_supplier_item',$data);
-            return $price; 
-        }
-
+        
       function Update_Material_Request_Process($user_id,$id,$production_no,$total,$request,$type){
             $query = $this->db->select('*')->from('tbl_material_project')->where('id',$this->encryption->decrypt($id))->get();
             $row = $query->row();
@@ -1531,6 +1523,29 @@ class Update_model extends CI_Model
                 }
 
      }
+     function Update_SupplierItem($user_id,$id,$price,$status){
+            $data = array('amount'=> $price,
+                          'status'=> $status,
+                          'latest_update'=> date('Y-m-d H:i:s'),
+                          'update_by'=>$user_id);
+        $this->db->where('id',$this->encryption->decrypt($id));        
+        $this->db->update('tbl_supplier_item',$data);
+        return 'success'; 
+    }
+    function Update_Supplier($user_id,$id,$name,$mobile,$email,$facebook,$website,$address,$status){
+         $data = array('name' => $name,
+                      'mobile' => $mobile,
+                      'email'=>$email,
+                      'facebook'=>$facebook,
+                      'website'=>$website,
+                      'address'=>$address,
+                      'status'=>$status,
+                      'latest_update'=> date('Y-m-d H:i:s'),
+                      'update_by'=>$user_id);
+        $this->db->where('id',$this->encryption->decrypt($id));        
+        $this->db->update('tbl_supplier',$data); 
+        return 'success'; 
+    }
 
 }
 ?>

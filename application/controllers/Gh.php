@@ -450,7 +450,7 @@ class Gh extends CI_Controller {
     }
     public function superuser($view = null,$id = null){
         if($this->session->userdata('currently_logged_in') == 1 && $this->session->userdata('page') == 'superuser'){
-          $data['id'] = base64_decode($id);
+          $data['id'] = $id;
           $this->load->view('reviewer/layouts/header.php');
           $this->load->view('reviewer/layouts/navbar.php');
           switch ($view) {

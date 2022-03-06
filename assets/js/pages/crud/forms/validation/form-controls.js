@@ -835,28 +835,6 @@ var KTFormControls = function () {
 				  	 });
 	 			break;
 	 		}
-	 		case "Create_SupplierItem":{
-	 			$('#Create_SupplierItem').on('click',function(e){		
-		 			 Swal.fire({
-					        title: "Are you sure?",
-					        text: "You won't be able to revert this",
-					        icon: "warning",
-					        confirmButtonText: "Submit!",
-					        showCancelButton: true
-					    }).then(function(result) {
-					        if (result.value) {
-					        	 id = $('input[name=id]').val(); 
-					   		 amount = $('#price').val();
-					   		 item = $('#item').val().split('-');
-					   		 val = {id:id,item:item[0],price:amount};
-						  	 thisURL = baseURL + 'create_controller/Create_SupplierItem';
-						  	 url = baseURL + 'gh/superuser/supplier_view/'+btoa(id);
-						  	 _ajaxForm_loaded(thisURL,"POST",val,"Create_SupplierItem",false);
-				         }
-				   	 });
-				});
-				break;
-	 		}
 	 		case "Create_Supplier":{
 				    form = document.getElementById('Create_Supplier');
 			         validation = FormValidation.formValidation(
@@ -1439,48 +1417,43 @@ var KTFormControls = function () {
 	 		}
 
 	 		case "Update_SupplierItem":{
-	 			$('#Update_SupplierItem').on('submit',function(e){		 
-				    e.preventDefault();
-				     var ss_id = $('input[name=ss_id]').val();
-			  		amount = $('#price_s').val();
-			  		status = $('select[name=status]').val();
-					id = $('input[name=id]').val();
-					val = {ss_id:ss_id,price:amount,status:status};
-				  	thisURL = baseURL + 'update_controller/Update_SupplierItem';
-				  	url = baseURL + 'gh/superuser/supplier_view/'+btoa(id);
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_SupplierItem",url);
+	 			$('#Create_SupplierItem').on('click',function(e){		
+		 			 Swal.fire({
+					        title: "Are you sure?",
+					        text: "You won't be able to revert this",
+					        icon: "warning",
+					        confirmButtonText: "Submit!",
+					        showCancelButton: true
+					    }).then(function(result) {
+					        if (result.value) {
+					        	alert(supplier_id)
+					       let formData = new FormData();
+					       formData.append('id',supplier_id);
+					       formData.append('amount',$('#price').val());
+					       formData.append('item',$('#item').val());
+						  thisURL = baseURL + 'create_controller/Create_SupplierItem';
+						   _ajaxForm(thisURL,"POST",formData,"Create_SupplierItem",false);
+				         }
+				   	 });
 				});
-				    var validation;
-				    var form = document.getElementById('Update_Supplier');
-			         validation = FormValidation.formValidation(
-						form,
-						{
-							fields: {
-								name: {validators: {notEmpty: {message: 'Supplier Name is required'}}},
-			                   		mobile: {validators: {notEmpty: {message: 'Mobile No. is required'}}},
-			                  		email: {validators: {notEmpty: {message: 'Email is required'}}},
-								address: {validators: {notEmpty: {message: 'Address is required'}}}},
-							plugins: {
-							trigger: new FormValidation.plugins.Trigger(),
-							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-						}
-					   }
-				);
+	 		// 	$('#Update_SupplierItem').on('submit',function(e){		 
+				//     e.preventDefault();
+				//      var ss_id = $('input[name=ss_id]').val();
+			 //  		amount = $('#price_s').val();
+			 //  		status = $('select[name=status]').val();
+				// 	id = $('input[name=id]').val();
+				// 	val = {ss_id:ss_id,price:amount,status:status};
+				//   	thisURL = baseURL + 'update_controller/Update_SupplierItem';
+				//   	url = baseURL + 'gh/superuser/supplier_view/'+btoa(id);
+				//   	_ajaxForm_loaded(thisURL,"POST",val,"Update_SupplierItem",url);
+				// });
 	 			$('#Update_Supplier').on('submit',function(e){
 				    e.preventDefault();
-		            	var id       = $('input[name=id]').val();
 				  	let element = this;
 			     	let formData = new FormData(element);
-			     	formData.append('id', id);
-			     	val = formData;
+			     	formData.append('id',supplier_id);
 				  	thisURL = baseURL + 'update_controller/Update_Supplier';
-				  	url = baseURL + 'gh/superuser/supplier_view/'+btoa(id);
-				  	_ajaxForm(thisURL,"POST",val,"Update_Suppliers",url);
+				  	_ajaxForm(thisURL,"POST",formData,"Update_Suppliers",false);
 				});
 	 			break;
 	 		}
@@ -2768,16 +2741,7 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		
-	 		case "Create_SupplierItem":{
-	 			if(response.status == 'success'){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
-	 				let TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
-					let TableData =  [{data: 'item'},{data: 'price'},{data: 'status'},{data: 'date_created'},{data: 'action'}];
-					let id = $('input[name=id]').val();
-					_DataTableLoader('tbl_supplier_item',TableURL,TableData,id);
-		 			}
-	 			break;
-	 		}
+	 		
 	 		case "Update_Material_Purchase_Supervisor":{
 	 			if(response.status == 'success'){
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
@@ -3233,7 +3197,7 @@ var KTFormControls = function () {
 	 		}
 	 		case "Update_Production":{
 	 			if(response == true){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
+	 				_initToast('success','Save Changes');
 	 				let TableURL = baseURL + 'datatable_controller/RawMat_Production_Stocks_DataTable';
 					let TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'action'}];
 					_DataTableLoader('tbl_production_stocks',TableURL,TableData,false);
@@ -3291,6 +3255,19 @@ var KTFormControls = function () {
 	 				 });
 	 			}
 	 			$('#modal-form').modal('hide');
+	 			break;
+	 		}
+	 		case "Create_SupplierItem":{
+	 			_initToast('success',response);
+	 			let TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
+				let TableData =  [{data:'item'},{data: 'price'},{data:'status'},{data: 'date_created'},{data: 'action'}];
+				_DataTableLoader('tbl_supplier_item',TableURL,TableData,supplier_id);
+	 			break;
+	 		}
+	 		case "Update_Suppliers":{
+	 			Swal.fire("Update!", "This form is Completed!", "success").then(function(){
+		      			location.reload();
+				});
 	 			break;
 	 		}
 

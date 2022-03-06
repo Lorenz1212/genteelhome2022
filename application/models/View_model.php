@@ -11,6 +11,10 @@ class View_model extends CI_Model
         $row = $query->row();  
         return $row;
     }
+    function View_Supplier_Data($id){
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_supplier')->where('id',$this->encryption->decrypt($id))->get()->row();
+        return $query;
+    } 
     function View_SO_Data($id){
         $query = $this->db->select('*,i.id as id,i.price as price,c.c_name as c_name,s.c_name as costumer')->from('tbl_salesorder_item as i')
         ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
@@ -241,15 +245,7 @@ class View_model extends CI_Model
                return $data;
            }
     }
-    function View_Supplier_Data($id){
-         $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_supplier')->where('id',$id);
-         $query = $this->db->get();
-           if(!$query){
-              return false;
-            }else{   
-               return $query->row();
-           }
-    } 
+  
     function View_Officesupplier_Request_Data($id){
         $query = $this->db->select('*,o.id as id,o.status as status')->from('tbl_office_janitorial_request as o')
         ->join('tbl_office_janitorial as j','j.item=o.item','LEFT')
