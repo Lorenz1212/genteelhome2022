@@ -73,7 +73,7 @@ class Dashboard_model extends CI_Model
            foreach($query_raw->result() as $row){
               if($row->stocks <= $row->stocks_alert && $row->stocks_alert <= $row->stocks){
                    $rawmats[] = array('item'   => $row->item,
-                                      'stocks' => $row->stocks_alert);
+                                      'stocks' => $row->stocks);
               }
             }      
     }
