@@ -1306,15 +1306,6 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-salesorder-update":{
-				$(document).ready(function() { 
-				    	let id =  $('#request_id_update').attr('data-id');
-					let val = {id:id};
-					let thisUrl = 'view_controller/View_SalesOrder_Data';
-					_ajaxloader(thisUrl,"POST",val,"View_SalesOrder_Data");
-				 });
-				break;
-			}
 			case "data-joborder-stocks-list":{
 				$(document).ready(function() {
 				    $(document).on("click","#form-request",function(e) {
@@ -1391,10 +1382,11 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-joborder-project-list":{
 				$(document).ready(function() {
-				    $(document).on("click","#form-add",function(e) {
-				    		e.preventDefault();
-				    		$('')
-				    });
+					$(document).on('change','#project_no',function(e){
+						e.preventDefault();
+						let id = $(this).val();
+						_ajaxloaderOption('option_controller/design_project_docs','POST',{id:id},'design-project-docs');
+					});
 				    $(document).on("click","#form-request",function(e) {
 				    		e.preventDefault();
 					 	let val = {id:$(this).attr('data-id')};

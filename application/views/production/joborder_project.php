@@ -310,7 +310,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 			 <div class="modal-header">
-                <h5 class="modal-title">Add Job Order For Stocks</h5>
+                <h5 class="modal-title">Add Job Order For Project</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -325,7 +325,7 @@
 							   <select class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" id="project_no" name="project_no" required />
 							     <option value="" disabled="" selected="">Select Item</option>
 							       <?php 
-									  $query = $this->db->select('*')->from('tbl_project_design')->where('type',1)->where('project_status','APPROVED')->get();
+									  $query = $this->db->select('*')->from('tbl_project_design')->where('type',2)->where('project_status','APPROVED')->get();
 									  foreach($query->result() as $row){
 									  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
 									  }
@@ -337,25 +337,6 @@
 							</div>
 						</div>
 					</div>	
-					<div class="col-lg-12 col-xl-12 col-md-12">
-						 <div class="form-group">
-							   <label>PALLETE COLOR</label>
-							    <div class="input-group">
-							     <select type="text" class="form-control form-control-solid form-control-lg" id="c_code" name="c_code" required >
-							     	<option value="" disabled="" selected>Select Pallet Color</option>
-							     </select>
-							     <div class="input-group-append" style="padding-left: 10px;">
-								      <img class="images mx-auto d-block img-thumbnail z-depth-3 upfile1" id="color" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:43px;"/>
-							       </div>
-							    </div>
-						  </div>
-					</div>
-					<div class="col-lg-12 col-xl-12 col-md-12">
-						 <div class="form-group">
-						   <label>QTY</label>
-						   <input type="number" class="form-control form-control-solid form-control-lg" name="unit" placeholder="Enter Quantity" autocomplete="off" required/>
-					    </div>
-					</div>
 		        </div>
 		    </div>
 		    <div class="modal-footer"><button class="btn btn-dark">Submit <i class="flaticon2-paper-plane"></i></button></div>
