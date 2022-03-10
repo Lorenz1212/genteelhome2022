@@ -75,40 +75,6 @@ var KTFormControls = function () {
 				 amount = myData.amount; 	 	 	
 				 remarks = myData.remarks;
 	}
-	var _initgetvaluetable2 = function(){
-			 $("#myTable thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("#myTable tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				  });
-			  });
-				 item = myData.items;
-				 status = myData.status;
-				 supplier = myData.supplier;
-				 payment  = myData.payment;
-				 received = myData.received;
-				 amount = myData.amount;
-	}
-	var _initgetvaluetable3 = function(){
-			 $("table thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("table tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-			      no = myData.no;
-				 item = myData.items;
-				 quantity = myData.qty; 	
-				 unit = myData.unit;
-	}
 	var _DataTableLoader = async function(link,TableURL,TableData,url_link){
 		var table = $('#'+link);
 		table.DataTable().clear().destroy();
@@ -794,6 +760,62 @@ var KTFormControls = function () {
 				 });
 	 			break;
 	 		}
+
+	 		case"Create_Salesorder_Project":{
+	 				form = document.getElementById('Create_Salesorder_Project_Form');
+				         validation = FormValidation.formValidation(
+							form,{
+								fields: {
+									project_no: {validators: {notEmpty: {message: 'Field is required'}}},
+									date_created: {validators: {notEmpty: {message: 'Field is required'}}},
+									customer: {validators: {notEmpty: {message: 'Field is required'}}},
+									email: {validators: {notEmpty: {message: 'Field is required'}}},
+									mobile: {validators: {notEmpty: {message: 'Field is required'}}},
+									address: {validators: {notEmpty: {message: 'Field is required'}}},
+								},
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					    );
+		 			$(document).on('click','.btn-create-submit',function(e){
+		 				e.preventDefault();
+		 				validation.validate().then(function(status) {
+					     if (status == 'Valid') {
+					     	var rowCount = $('#kt_product_breakdown_table tbody tr').length;
+					     	if(!rowCount){
+	 							Swal.fire("Warning!", "Product break down form is empty!", "warning")
+					     	}else{
+					     		 Swal.fire({
+								        title: "Are you sure?",
+								        text: "You won't be able to revert this",
+								        icon: "warning",
+								        confirmButtonText: "Submit!",
+								        showCancelButton: true
+								    }).then(function(result) {
+								        if (result.value) {
+								        	let description = Array.from(document.getElementsByClassName('td-item')).map(item => item.textContent);
+								        	let qty = Array.from(document.getElementsByClassName('td-qty')).map(item => item.textContent);
+								        	let unit = Array.from(document.getElementsByClassName('td-unit')).map(item => item.textContent);
+								        	let amount = Array.from(document.getElementsByClassName('td-amount')).map(item => item.textContent);
+									  	let formData = new FormData(form);
+									  	    formdata.append('description',description);
+									  	    formdata.append('qty',qty);
+									  	    formdata.append('unit',unit);
+									  	    formdata.append('amount',amount);
+									  thisURL = baseURL + 'create_controller/Create_Salesorder_Project';
+									  _ajaxForm(thisURL,"POST",form,"Create_Salesorder_Project",false);
+							         }
+							   	 });
+					     	}
+					    }
+				   	 });
+		 		});
+	 			break;
+	 		}
+
+	 		//FOR REPAIR
 	 		case "Create_EM_Purchase_Request":{
 	 			$('#Create_EM_Purchase_Request').on('click',function(e){
 					   e.preventDefault();
@@ -3267,6 +3289,12 @@ var KTFormControls = function () {
 	 		case "Update_Suppliers":{
 	 			Swal.fire("Update!", "This form is Completed!", "success").then(function(){
 		      			location.reload();
+				});
+	 			break;
+	 		}
+	 		case "Create_Salesorder_Project":{
+	 			Swal.fire("Create Successfully!", "This form is Completed!", "success").then(function(){
+		      		location.reload();
 				});
 	 			break;
 	 		}

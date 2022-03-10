@@ -534,6 +534,25 @@ class Create_controller extends CI_Controller
         $data = $this->create_model->Create_SupplierItem($user_id,$id,$item,$amount);        
         echo json_encode($data); 
 
-     }
+    }
+    public function Create_Salesorder_Project(){
+         $user_id = $this->session->userdata('id');
+         $project_no = $this->input->post('project_no');
+         $customer = $this->input->post('customer');
+         $date_created = $this->input->post('date_created');
+         $email = $this->input->post('email');
+         $mobile = $this->input->post('mobile');
+         $address = $this->input->post('address');
+         $downpayment = floatval(str_replace(',', '', $this->input->post('downpayment')));
+         $discount =  $this->input->post('discount');
+         $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
+         $vat =  $this->input->post('vat');
+         $description = $this->input->post('description');
+         $qty = $this->input->post('qty');
+         $unit = $this->input->post('unit');
+         $amount = $this->input->post('amount');
+         $data = $this->create_model->Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount);        
+         echo json_encode($data); 
+    }
 }
 ?>

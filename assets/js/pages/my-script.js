@@ -1,5 +1,6 @@
 'use strict';
 var KTAjaxClient = function() {
+var validation;
 var type;
 var item;
 var description;
@@ -238,58 +239,9 @@ var arrows;var item_v;var price;var special_option;
                  }                                    
 		});
 	}
-	var _initFinishproduct_option = async function(select_no,action){
-		 $.ajax({
-	             url: baseURL + 'option_controller/Finishproduct_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	  let option1 = '<option value="'+response[i].item+'">('+response[i].qty+') '+response[i].item+'</option>';
-                  	  	  $('#finishproduct').append(option1);  
-                  	  	  $('#finishproduct').addClass('selectpicker');
-					  $('#finishproduct').attr('data-live-search', 'true');
-					  $('#finishproduct').selectpicker('refresh');
-                  	  	
-                  	  }
-                  }
 
-		});	
-	}
 	
 	
-	var _initSalesOrder_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/SalesOrder_Option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	  let option = '<option value="'+response[i].id+'-'+response[i].name+'">('+response[i].qty+') '+response[i].name+'</option>';
-                  	  	 $('#officesupplies').append(option);
-                  	  	 $('#officesupplies').addClass('selectpicker');
-					 $('#officesupplies').attr('data-live-search', 'true');
-					 $('#officesupplies').selectpicker('refresh');
-                  	  }
-                  }                                  
-		});	
-	}
 	var _initItem_option = async function(){
 		 $.ajax({
 	             url: baseURL + 'option_controller/Item_option',
@@ -320,30 +272,7 @@ var arrows;var item_v;var price;var special_option;
                   }                                  
 		});	
 	}
-	var _initItem1_option =  function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/Item_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	  let option = '<option value="'+response[i].item_no+'">('+response[i].qty+') '+response[i].name+'</option>';
-                  	  	  $('#item_no').append(option);
-                  	  	  $('#item_no').addClass('selectpicker');
-					  $('#item_no').attr('data-live-search', 'true');
-					  $('#item_no').selectpicker('refresh');
-                  	  }
-                  }                                  
-		});	
-	}
+
 	var _initItemQTY_option = async function(id){
 		 $.ajax({
 	             url: baseURL + 'option_controller/ItemQty_option',
@@ -367,11 +296,6 @@ var arrows;var item_v;var price;var special_option;
                   }                                  
 		});	
 	}
-
-	
-
-	
-	
 
 	var _ajaxloader = async function(thisURL,type,val,sub){
 		  $.ajax({
@@ -442,8 +366,6 @@ var arrows;var item_v;var price;var special_option;
                   }                                     
 		});	
 	}
-	
-
       var _initOption = function(view,response){
 		switch(view){
 			case "Purchased_Item":{
@@ -457,31 +379,6 @@ var arrows;var item_v;var price;var special_option;
 				<td class="align-middle text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-circle btn-sm"><i class="la la-times"></i></button></td>\
 						</tr>');	
 				_initremovetable('#tbl_purchasing_process');
-				break;
-			}
-			case "imagecode":{
-				if(!response== false){
-                  		$('#designer').val(response.designer);
-					$('#images').val(response.image);
-					$('#docss').val(response.docs);
-				  	$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-				  	$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-				  	$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-				  	$("#color").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-				  	$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-                  	}
-				break;
-			}
-			case "imageproject":{
-				if(!response== false){
-                  		$('#designer').val(response.designer);
-					$('#images').val(response.image);
-					$('#docss').val(response.docs);
-				  	$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-				  	$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-				  	$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-				  	$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-                  	}
 				break;
 			}
 			case "pallet-color":{
@@ -517,17 +414,6 @@ var arrows;var item_v;var price;var special_option;
                   	}
 				break;
 			}
-			case"colorcode":{
-				 $('#c_code').empty();
-				if(!response == false){
-                  	    $('#c_code').append('<option value="" disabled selected>SELECT PALLETE COLOR</option>');
-                       for(let i=0;i<response.length;i++){
-                         $('#c_code').append('<option value="'+response[i].c_code+'">('+response[i].stocks+') '+response[i].c_name+'</option>');
-                  	   }
-                  	}
-				break;
-			}
-			
 			case "region":{
 				if(!response == false){
 					$('.region-option').empty();
@@ -608,15 +494,6 @@ var arrows;var item_v;var price;var special_option;
 	                 }
 				break;
 			}
-			case "job_order":{
-				if(!response == false){
-					 $('#joborder').empty();
-					 for(let i=0;i<response.length;i++){
-	                  	  	  $('#joborder').append('<option value="'+response[i].production_no+'">'+response[i].production_no+'</option>').addClass('selectpicker').attr('data-live-search', 'true').selectpicker('refresh');
-	                  	  }	
-				}
-				break;
-			}
 			case "design_option":{
 				if(!response == false){
 					$('#project_no').empty();
@@ -628,15 +505,6 @@ var arrows;var item_v;var price;var special_option;
 						$('#project_no').selectpicker('refresh');
 		                }	
 	          	 }
-				break;
-			}
-			case "material_item":{
-				for(let i=0;i<response.length;i++){
-                  	  	  $('#item').append('<option value="'+response[i].id+'">('+response[i].qty+') '+response[i].name+'</option>');
-                  	  	  $('#item').addClass('selectpicker');
-					  $('#item').attr('data-live-search', 'true');
-					  $('#item').selectpicker('refresh');
-                  	  }
 				break;
 			}
 			case "material_item_no":{
@@ -1298,16 +1166,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 
-			case "data-design-joborder-pending":{
-				$(document).ready(function() { 
-					_initCurrency_format('#labor_cost');
-				    	let id =  $('#request_id_update').attr('data-id');
-					let val = {id:id};
-					let thisUrl = 'view_controller/View_Joborder_Data';
-					_ajaxloader(thisUrl,"POST",val,"View_JobOrder_Pending_Data");
-				 });
-				break;
-			}
+
 			case "data-inquiry":{
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -1322,6 +1181,36 @@ var arrows;var item_v;var price;var special_option;
 			}
 
 			//production
+			case "data-salesorder-create-project":{
+				_initNumberOnly(".qty,#discount");
+				_initCurrency_format('input[name="amount"],input[name="shipping_fee"],input[name="dp"]');
+				_ajaxloaderOption('option_controller/Customer_Name','POST',false,'customer_name');
+				$(document).on('change','#project_no',function(e){
+					e.preventDefault();
+					let id = $(this).val();
+					_ajaxloaderOption('option_controller/design_project_docs','POST',{id:id},'design-project-docs');
+				});
+				$(document).on('click','.btn-submit',function(e){
+					e.preventDefault();
+					let description = $('input[name=description]').val();
+					let qty  = $('input[name=qty]').val();
+					let unit = $('input[name=unit]').val();
+					let amount = $('input[name=amount]').val();
+					if(!description || !qty || !unit || !amount){
+						Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+					}else{
+						$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
+							<td class="td-item">'+description+'</td>\
+							<td class="text-center td-qty">'+qty+'</td>\
+							<td class="text-center td-unit">'+unit+'</td>\
+							<td class="text-right td-amount">₱ '+amount+'</td>\
+							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="la la-times"></i></button></td>\
+									</tr>');	
+					}
+				})
+				_initremovetable('#kt_product_breakdown_table');
+				break;
+			}
 			case "data-salesorder":{
 				$(document).ready(function() {
 					KTSALESORDER.init();
@@ -1345,7 +1234,6 @@ var arrows;var item_v;var price;var special_option;
 					 $(document).on("change","select[name=status]",function() {
 					 	let status = $(this).val();
 					 	if(status == 'On Stocks'){
-					 		
 					 		$('#textarea').hide();
 					 		$('.hide_button1').fadeIn();
 					 		$('.hide_button').hide();
@@ -1593,15 +1481,6 @@ var arrows;var item_v;var price;var special_option;
 					_initImage_option(id);
 				})
 			  	break;
-			}
-			case "data-joborder-process":{
-				$(document).ready(function() { 
-				    	let id =  $('#request_id_update').attr('data-id');
-					let val = {id:id};
-					let thisUrl = 'view_controller/View_Joborder_Data';
-					_ajaxloader(thisUrl,"POST",val,"View_JobOrder_Data_Process");
-				 });
-				break;
 			}
 
 			case "data-production-Salesorder-Create":{
@@ -3598,74 +3477,6 @@ var arrows;var item_v;var price;var special_option;
 	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
 	  			$("#c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	  			$('#c_name').val(response.c_name);
-	  			$("#update_href").click(function(){
-				    $(this).attr("href", baseURL+'gh/production/joborder_update/'+btoa(response.production_no));
-				});
-				$(document).on('keyup','input[name=release]',function() {
-				 	received = $(this).val();
-				 	let total =  parseFloat(response.balance) - parseFloat(received);
-
-				 	if(total < 0 || isNaN(total)){
-				 		$('#unit').val(response.balance);	
-					 	$('input[name=release]').val('');	
-					}else{
-					     $('#unit').val(total);
-					}	
-				});
-	  		}
-	  		break;
-	  	}
-	  	case "View_JobOrder_Pending_Data":{
-	  			KTWizard1.init();
-	  		     _initNumberOnly("#quantity");
-				_initNumberOnly("#qty");
-	  			$('#project_no').text(response.project_no);
-	  			$('#title').val(response.title);
-	  			$('#c_code').text(response.c_code);
-	  			$('#c_name').val(response.c_name);
-	  			$('#unit').val(response.unit);
-	  			$('#production').val(response.production);
-	  			$("#projectno_href").attr("href",baseURL + 'gh/designer/project_update/'+btoa(response.c_code));
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-	  			$("#cimage_href").attr("href",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-				$(document).on('change','select[name=material_item]',function(e){
-					var action = $(this).val().split('-');
-					_initItemQTY_option(action[0]);
-				});
-				$('.hide_special').hide();
-				$(".special").removeAttr("name");
-				$(document).on('change','select[name=special_option]',function(){
-					let option = $(this).val();
-					if(option == 'common'){
-						$('.hide_common').show();
-						$(".special").removeAttr("name");
-						$(".common").attr("name",'purchase_item');
-						$('.hide_special').hide();
-					}else{
-						$('.hide_common').hide();
-						$(".common").removeAttr("name");
-						$(".special").attr("name",'special_item');
-						$('.hide_special').show();
-					}
-				});
-	  		break;
-	  	}
-	  	case "View_JobOrder_Data_Process":{
-	  		if(!response == false){
-	  			_initNumberOnly("#release");
-	  			$('#project_nos').text(response.production_no);
-	  			$('#title').val(response.title);
-	  			$('#unit').val(response.balance);
-	  			$('#production_no').val(response.production_no);
-	  			$("#projectno_href").attr("href",baseURL + 'gh/designer/project_update/'+btoa(response.project_no));
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
 	  			$("#update_href").click(function(){
 				    $(this).attr("href", baseURL+'gh/production/joborder_update/'+btoa(response.production_no));
 				});

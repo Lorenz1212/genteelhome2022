@@ -1182,6 +1182,21 @@ class Create_model extends CI_Model
         	return 'Created Successfully';
     	}
     }
+    function Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount){
+    	$data = array('project_no'=>$project_no,
+    				  'customer'=>$customer,
+    				  'email'=>$email,
+    				  'mobile'=>$mobile,
+    				  'address'=>$address,
+    				  'downpayment'=>$downpayment,
+    				  'discount'=>$discount,
+    				  'shipping_fee'=>$shipping_fee,
+    				  'vat'=>$vat,
+    				  'date_order'=>date('Y-m-d',strtotime($date_created)),
+    				  'date_created'=>date('Y-m-d H:i:s'),
+    				  'created_by'=>$user_id);
+    	$this->db->insert('tbl_salesorder_project',$data);
+    }
 
   }
 ?>

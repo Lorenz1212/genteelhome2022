@@ -316,7 +316,10 @@ class Gh extends CI_Controller {
             case "joborder-project":{$this->load->view('production/joborder_project.php'); break;}
             case "salesorder_list":{$this->load->view('production/salesorder_list.php');break;}
             case "salesorder_create":{$this->load->view('production/salesorder_create.php');break;}
+            case "salesorder-create-project":{$this->load->view('production/salesorder_create_project.php');break;}
             case "salesorder_update":{$this->load->view('production/salesorder_update.php',$data);break;}
+
+
             case "user_update":{$this->load->view('production/user_update.php');break;}
             case "officesupplies-request":{$this->load->view('production/officesupplies_request.php');break;}
             case "create-officesupplies-request":{$this->load->view('production/officesupplies_create.php');break;}
