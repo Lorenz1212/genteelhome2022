@@ -99,49 +99,6 @@ class Create_controller extends CI_Controller
         $data = $this->create_model->Create_Joborder_Request($user_id,$project_no,$c_code,$unit,$type);        
         echo json_encode($data); 
     }
-    public function Create_Salesorder_Customized(){
-         $user_id   = $this->session->userdata('id');
-         $fullnames = $this->input->post('fullname');
-         $fullname  = strtoupper($fullnames);
-         $email     = $this->input->post('email');
-         $mobile    = $this->input->post('mobile');
-         $status    = $this->input->post('status');
-         $vat       = $this->input->post('vat');
-         $remarks   = $this->input->post('remarks');
-         $discount  = $this->input->post('discount');
-         $dp        = floatval(str_replace(',', '', $this->input->post('dp')));
-         $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
-         $this->create_model->Create_Salesorder_Customized($user_id,$fullname,$email,$mobile,$dp,$status,$remarks,$shipping_fee,$discount,$vat,$fullnames);
-         $data = array('status' => 'success');          
-         echo json_encode($data); 
-    }
-    public function Create_SalesOrder(){
-      $user_id      = $this->session->userdata('id');
-      $project_no   = $this->input->post('project_no');
-      $c_code       = $this->input->post('c_code');
-      $price        = $this->input->post('price');
-      $qty          = $this->input->post('quantity');
-      $b_zipcode    = $this->input->post('b_zipcode');
-      $s_zipcode    = $this->input->post('s_zipcode');
-      $b_address    = strtoupper($this->input->post('b_address'));
-      $b_city       = strtoupper($this->input->post('b_city'));
-      $b_province   = strtoupper($this->input->post('b_province'));
-      $s_address    = strtoupper($this->input->post('s_address'));
-      $s_city       = strtoupper($this->input->post('s_city'));
-      $s_province   = strtoupper($this->input->post('s_province'));
-      $fullnames    = $this->input->post('fullname');
-      $fullname     = strtoupper($fullnames);
-      $email        = $this->input->post('email');
-      $mobile       = $this->input->post('mobile');
-      $dp           = $this->input->post('dp');
-      $shipping_fee = $this->input->post('shipping_fee');
-      $discount     = $this->input->post('discount');
-      $status       = $this->input->post('status');
-      $vat          = $this->input->post('vat');
-      $this->create_model->Create_Salesorder($user_id,$fullname,$email,$mobile,$dp,$status,$project_no,$c_code,$price,$qty,$b_address,$b_city,$b_province,$b_zipcode,$s_address,$s_city,$s_province,$s_zipcode,$shipping_fee,$discount,$vat,$fullnames);
-      $data = array('status' => 'success');
-      echo json_encode($data); 
-    }
     public function Create_Users(){
         $status = $this->input->post('status');
         $username = $this->input->post('username');
@@ -533,7 +490,24 @@ class Create_controller extends CI_Controller
         $amount = floatval(str_replace(',', '', $this->input->post('amount')));
         $data = $this->create_model->Create_SupplierItem($user_id,$id,$item,$amount);        
         echo json_encode($data); 
-
+    }
+    public function Create_Salesorder_Stocks(){
+         $user_id = $this->session->userdata('id');
+         $customer = $this->input->post('customer');
+         $date_created = $this->input->post('date_created');
+         $email = $this->input->post('email');
+         $mobile = $this->input->post('mobile');
+         $address = $this->input->post('address');
+         $downpayment = floatval(str_replace(',', '', $this->input->post('downpayment')));
+         $discount =  $this->input->post('discount');
+         $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
+         $vat =  $this->input->post('vat');
+         $description = $this->input->post('description');
+         $qty = $this->input->post('qty');
+         $unit = $this->input->post('unit');
+         $amount = $this->input->post('amount');
+         $data = $this->create_model->Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount);        
+         echo json_encode($data); 
     }
     public function Create_Salesorder_Project(){
          $user_id = $this->session->userdata('id');

@@ -1,7 +1,7 @@
 <style type="text/css">
 	.table-scroll tbody {
 	  display: block;
-	  max-height: 600px;
+	  max-height: 430px;
 	  overflow-y: scroll;
 	}
 	.table-scroll thead, table tbody tr {
@@ -10,47 +10,21 @@
 	  table-layout: fixed;
 	}
 </style>
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-create-project">
-	<div class="form" data-link="Create_Salesorder_Project"></div>
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-create-stocks">
+	<div class="form" data-link="Create_Salesorder_Stocks"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Create Sales Order For Project</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Create Sales Order For Stocks</h2>
 				</div>
 			</div>
 		</div>
 	</div>
 <div class="d-flex flex-column-fluid">
 	<div class="container">
-		<div class="row" id="Create_Salesorder_Project_Form">
+		<div class="row" id="Create_Salesorder_Stocks_Form">
 			<div class="col-xl-3 col-xxl-3 col-md-3">
-				<div class="card card-custom gutter-b">
-				    <div class="card-header card-header-tabs-line">
-				    	<div class="card-title">
-								<h3 class="card-label">Project</h3>
-						 </div>
-				    </div>
-			   		<div class="card-body">
-			       		 <div class="row">
-						 	  <div class="col-lg-12 col-xl-12 col-md-12">
-							    <div class="form-group">
-								   <label>Project</label>
-									   <select class="form-control form-control-lg selectpicker" data-live-search="true" id="project_no" name="project_no" required />
-									     <option value="" disabled="" selected="">Select Project</option>
-									     <?php 
-											  $query = $this->db->select('*')->from('tbl_project_design')->where('type',2)->where('project_status','APPROVED')->get();
-												  foreach($query->result() as $row){
-												  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
-												  }
-											?>
-									  </select>
-								</div>
-							</div>
-						</div>
-			        </div>
-			    </div>
-
 			    <div class="row">
 					<div class="col-lg-12 col-xl-12 col-md-12">
 						<div class="card card-custom gutter-b">
@@ -138,12 +112,28 @@
 						    </div>
 					   		<div class="card-body">
 								       		<div class="row">
-								       		    <div class="col-xl-5 col-xxl-5 col-md-5">	
+								       		    <div class="col-xl-3 col-xxl-3 col-md-3">	
 									       			<div class="form-group">
 														<label>DESCRIPTION</label>
-														<input type="text" name="description" class="form-control"/>
-														<span class="form-text text-muted">Please enter item/description</span>
+														 <select class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" id="project_no" name="project_no" required />
+														     <option value="" disabled="" selected="">Select Item</option>
+														       <?php 
+																  $query = $this->db->select('*')->from('tbl_project_design')->where('type',1)->where('project_status','APPROVED')->get();
+																  foreach($query->result() as $row){
+																  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
+																  }
+																?>
+														  </select>
+														<span class="form-text text-muted">Please enter Item</span>
 													</div>
+												</div>
+												<div class="col-lg-3 col-xl-3 col-md-3">
+													 <div class="form-group">
+														   <label>PALLETE COLOR</label>
+														     <select type="text" class="form-control form-control-solid" id="c_code" name="c_code" required >
+														     	<option value="" disabled="" selected>Select Pallet Color</option>
+														     </select>
+													  </div>
 												</div>
 												 <div class="col-xl-2 col-xxl-2 col-md-2">	
 									       			<div class="form-group">
@@ -159,7 +149,7 @@
 														<span class="form-text text-muted">Please enter unit, ex. PCS/PC,KILO,etc</span>
 													</div>
 												</div>
-												<div class="col-xl-3 col-xxl-3 col-md-3">	
+												<div class="col-xl-2 col-xxl-2 col-md-2">	
 									       			<div class="form-group">
 														<label>AMOUNT</label>
 														<input type="text" name="amount" class="form-control" placeholder="0.00" />
@@ -179,7 +169,7 @@
 											</div>
 									    </div>
 								   		<div class="card-body">
-								   			<div style="height: 715px">
+								   			<div style="height: 550px">
 								       			<table class="table table-scroll table-sm" id="kt_product_breakdown_table">
 													<thead>
 														<tr>

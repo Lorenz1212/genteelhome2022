@@ -335,20 +335,18 @@ class Option_model extends CI_Model
 	} 
 	
 	function Customer_Name(){
-		 $query = $this->db->select('*,CONCAT(firstname, " ",lastname) as customer')->from('tbl_customer_online')->get();
+		 $data =array();
+		 $query = $this->db->select('*')->from('tbl_salesorder_customer')->get();
      	 if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
-	             $data[] = array(
-	                      'id'       => $row->id,
-	                      'name'     => $row->customer);
+	             $data[] = array('id'=>$this->encryption->encrypt($row->id),
+	                      		 'name'=>$row->fullname);
 	           }  
-        }else{
-            $data = false;
         }
-         return $data;
+        return $data;
 	}
 	function customer_info($id){
-		$query = $this->db->select('*,CONCAT(firstname, " ",lastname) as customer')->from('tbl_customer_online')->where('id',$id)->get();
+		$query = $this->db->select('*')->from('tbl_salesorder_customer')->where('id',$this->encryption->decrypt($id))->get();
 		return $query->row();
 	}
 	function Material_option($id){

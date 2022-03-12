@@ -307,20 +307,18 @@ class Gh extends CI_Controller {
     }
     public function production($view = null,$id = null){
        if($this->session->userdata('currently_logged_in') == 1 && $this->session->userdata('page') == 'production'){
-          $data['id'] = base64_decode($id);
           $this->load->view('production/layouts/header.php');
           $this->load->view('production/layouts/navbar.php');
           switch ($view) {
             case 'index':{$this->load->view('production/index.php');break;}
             case "joborder-stocks":{$this->load->view('production/joborder_stocks.php'); break;}
             case "joborder-project":{$this->load->view('production/joborder_project.php'); break;}
-            case "salesorder_list":{$this->load->view('production/salesorder_list.php');break;}
-            case "salesorder_create":{$this->load->view('production/salesorder_create.php');break;}
+            case "salesorder-stocks":{$this->load->view('production/salesorder_stocks.php');break;}
+            case "salesorder-project":{$this->load->view('production/salesorder_project.php');break;}
+            case "salesorder-create-stocks":{$this->load->view('production/salesorder_create_stocks.php');break;}
             case "salesorder-create-project":{$this->load->view('production/salesorder_create_project.php');break;}
-            case "salesorder_update":{$this->load->view('production/salesorder_update.php',$data);break;}
 
-
-            case "user_update":{$this->load->view('production/user_update.php');break;}
+            
             case "officesupplies-request":{$this->load->view('production/officesupplies_request.php');break;}
             case "create-officesupplies-request":{$this->load->view('production/officesupplies_create.php');break;}
             case "spare-request":{$this->load->view('production/spare_request.php');break;}
@@ -330,7 +328,9 @@ class Gh extends CI_Controller {
             case "rawmaterials":{$this->load->view('production/rawmaterial_list.php');break;}
             case "finishproduct":{$this->load->view('production/finishproduct_list.php');break;}
             case "rawmaterials":{$this->load->view('production/rawmaterial_list.php'); break;}
+
             case "voucher":{$this->load->view('production/coupon_list.php');break;}
+            case "user_update":{$this->load->view('production/user_update.php');break;}
             default: {redirect(base_url().'gh/production/index');break;}
           }
           $this->load->view('production/layouts/footer.php');

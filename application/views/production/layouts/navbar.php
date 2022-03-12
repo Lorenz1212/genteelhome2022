@@ -67,9 +67,30 @@
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																 <a href="<?php echo base_url()."gh/production/salesorder_list";?>" class="menu-link">
+																 <a href="javascript:;" class="menu-link menu-toggle">
 																	<span class="menu-text">Sales Order List</span>
+																	<i class="menu-arrow"></i>
 																 </a>
+																 <div class="menu-submenu menu-submenu-classic menu-submenu-right">
+																<ul class="menu-subnav">
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/production/salesorder-stocks";?>" class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">For Stock</span>
+																		</a>
+																	</li>
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/production/salesorder-project";?>" class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">For Project</span>
+																		</a>
+																	</li>
+																</ul>
+															</div>
 															</li>
 																<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 																	<a href="javascript:;" class="menu-link menu-toggle">

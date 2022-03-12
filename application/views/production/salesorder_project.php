@@ -18,17 +18,7 @@
 			        <div class="card-toolbar">
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
-			                    <a class="nav-link active" data-toggle="tab" href="#request">
-			                        <span class="nav-text">REQUEST</span>
-			                    </a>
-			                </li>
-			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#pending">
-			                        <span class="nav-text">PENDING</span>
-			                    </a>
-			                </li>
-			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#approved">
+			                    <a class="nav-link active" data-toggle="tab" href="#approved">
 			                        <span class="nav-text">REQUEST FOR APPROVAL</span>
 			                    </a>
 			                </li>
@@ -45,42 +35,16 @@
 			            </ul>
 			   		 </div>
 			   		</div>
-			    <div class="card-body">
+			    <div class="card-body link" data-link="tbl_salesorder_stocks_production">
 			        <div class="tab-content">
-			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
-			                <table class="table table-bordered table-hover table-checkable link" id="tbl_salesorder_request" data-link="tbl_salesorder" style="margin-top: 13px !important">
-								<thead>
-									<tr>
-										<th>SO NO.</th>
-										<th>SALES PERSON</th>
-										<th>CUSTOMER</th>
-										<th>DATE</th>
-										<th>ACTION</th>
-									</tr>
-								</thead>
-							</table>
-			            </div>
-			            <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_pending" style="margin-top: 13px !important">
-								<thead>
-									<tr>
-										<th>SO NO.</th>
-										<th>SALES PERSON</th>
-										<th>CUSTOMER</th>
-										<th>DATE</th>
-										<th>ACTION</th>
-									</tr>
-								</thead>
-							</table>
-			            </div>
-			            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved">
+			            <div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved" style="margin-top: 13px !important">
 								<thead>
 									<tr>
 										<th>SO NO.</th>
-										<th>SALES PERSON</th>
 										<th>CUSTOMER</th>
 										<th>DATE</th>
+										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
 								</thead>
@@ -91,7 +55,6 @@
 								<thead>
 									<tr>
 										<th>SO NO.</th>
-										<th>SALES PERSON</th>
 										<th>CUSTOMER</th>
 										<th>DATE</th>
 										<th>ACTION</th>
@@ -104,7 +67,6 @@
 								<thead>
 									<tr>
 										<th>SO NO.</th>
-										<th>SALES PERSON</th>
 										<th>CUSTOMER</th>
 										<th>DATE</th>
 										<th>ACTION</th>

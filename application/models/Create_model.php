@@ -336,97 +336,6 @@ class Create_model extends CI_Model
 		 		return false;
 		 	}
 	   } 
-	   function Create_Salesorder_Customized($user_id,$fullname,$email,$mobile,$dp,$status,$remarks,$shipping_fee,$discount,$vat,$fullnames){
-	   		   $value = $this->get_code('tbl_salesorder','SO'.date('Ymd'),'-');
-			   $percent = str_replace('%', '', $discount);
-    		   $dis = $percent / 100.00;
-	   		   $data = array('so_no' => $value,
-	   					  	'sales_person'=> $user_id,
-	   					  	'c_name' => $fullname,
-	   					  	'email' => $email,
-	   					  	'mobile' => $mobile,
-	   					  	'downpayment' => $dp,
-	   					  	'discount'=> $dis,
-	   					  	'shipping_fee' => $shipping_fee,
-	   					  	'remarks' => $remarks,
-	   					  	'type' 	=> $status,
-	   					    'vat' => $vat,
-	   					    'status'=> 'REQUEST',
-	   				      	'date_order'=> date('Y-m-d'));
-	   		$this->db->insert('tbl_salesorder',$data);
-
-	   	 	$query = $this->db->select('*')->from('tbl_customer_online')->where('CONCAT(firstname, " ",lastname)=',$fullnames)->get();
-	   		$row = $query->row();
-	   		if(!$row){
-	   			$split =  explode(" ",$fullnames);
-	   			$data1 = array('firstname' => $split[0],
-	   						'lastname' => $split[1],
-	   					  	'mobile' => $mobile,
-	   					  	'email'=> $email,
-	   				      	'date_created' => date('Y-m-d H:i:s'));
-	   		   $this->db->insert('tbl_customer_online',$data1);
-	   		}
-	   }
-	   function Create_Salesorder($user_id,$fullname,$email,$mobile,$dp,$status,$project_no,$c_code,$price,$qty,$b_address,$b_city,$b_province,$b_zipcode,$s_address,$s_city,$s_province,$s_zipcode,$shipping_fee,$discount,$vat,$fullnames){
-	   		$value = $this->get_code('tbl_salesorder','SO'.date('Ymd'),'-');
-	   		for($i=0; $i<count($c_code);$i++)
-	        {
-	        	$prices = floatval(preg_replace('/[^\d.]/', '', $price[$i]));
-	             		 $data = array('so_no' => $value,
-	                               'project_no' => $project_no[$i],
-	                               'c_code' => $c_code[$i],
-	                               'qty'=> $qty[$i],
-	                               'balance'=> $qty[$i],
-	                               'price'=> $prices,
-	                               'total_amount' => $prices,
-	                               'balance_price' => $prices);
-	                $this->db->insert('tbl_salesorder_item',$data);
-	        }
-	      $query1 = $this->db->select('sum(price) as price')->from('tbl_salesorder_item')->where('so_no',$value)->get();
-	      $row1 = $query1->row();
-	      $subtotal = $row1->price;
-	      $percent = str_replace('%', '', $discount);
-    	  $dis = floatval($percent / 100);
-    	  $total_dis = $subtotal*$dis;
-    	  $total = $subtotal - $total_dis;
-	      $dps = floatval(preg_replace('/[^\d.]/', '', $dp));
-	      $shipping_fees = floatval(preg_replace('/[^\d.]/', '', $shipping_fee));
-	   		$data = array('so_no'=> $value,
-		  			'sales_person'=> $user_id,
-		  			'c_name' => $fullname,
-		  			'email' => $email,
-		  			'mobile'=> $mobile,
-		  			'b_address'=> $b_address,
-                    'b_city' => $b_city,
-                    'b_province' => $b_province,
-                    'b_zipcode' => $b_zipcode,
-                    's_address'=> $s_address,
-                    's_city' => $s_city,
-                    's_province'=> $s_province,
-                    's_zipcode'=> $s_zipcode,
-                    'subtotal'=> $subtotal,
-                    'discount'=> $dis,
-                    'total'	=> $total,
-	   				'downpayment'=> $dps,
-	   				'shipping_fee' => $shipping_fees,
-	   				'type' => $status,
-	   				'vat' => $vat,
-	   				'status' => 'REQUEST FOR APPROVAL',
-	   				'date_order' => date('Y-m-d'));
-	   		$this->db->insert('tbl_salesorder',$data);
-	    	$query = $this->db->select('*')->from('tbl_customer_online')->where('CONCAT(firstname, " ",lastname) = "'.$fullnames.'"')->get();
-	   		$row = $query->row();
-	   		if(!$row){
-	   			$split =  explode(" ",$fullnames);
-	   			$data1 = array('firtname'=> $split[0],
-	   							'lastname' => $split[1],
-	   					  		'mobile'=> $mobile,
-	   					  		'email'	=> $email,
-	   				      		'date_created'=> date('Y-m-d H:i:s'));
-	   		   $this->db->insert('tbl_customer_online',$data1);
-	   		}
-
-	   }
 	    function Create_Users($firstname,$lastname,$middlename,$username,$status,$designer,$production,$supervisor,$superuser,$admin,$password,$accounting,$webmodifier,$sales,$voucher,$profile_avatar,$profile_tmp,$profile_path){
         if($profile_avatar){$images = $this->move_to_folder4('PROFILE',$profile_avatar,$profile_tmp,$profile_path,360,360);}else{$images="default.jpeg";}
         $data = array('username'   		=> $username,
@@ -1182,9 +1091,24 @@ class Create_model extends CI_Model
         	return 'Created Successfully';
     	}
     }
-    function Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount){
-    	$data = array('project_no'=>$project_no,
-    				  'customer'=>$customer,
+     function Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount){
+    	$so_no = $this->get_code('tbl_salesorder_stocks','SO'.date('Ymd'));
+    	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
+    	if(!$row){
+    		$c_no = $this->get_code('tbl_salesorder_customer','CN'.date('Ymd'));
+    		$this->db->insert('tbl_salesorder_customer',array('customer_no'=>$c_no,
+    														 'fullname'=>$customer,
+    														 'email'=>$email,
+    														 'mobile'=>$mobile,
+    														 'address'=>$address,
+    														 'date_created'=>date('Y-m-d H:i:s'),
+    														 'created_by'=>$user_id));
+    		$last_id = $this->db->insert_id();
+    	}else{
+    		$last_id = $row->id;
+    	}
+    	$result = $this->db->insert('tbl_salesorder_stocks',array('so_no'=>$so_no,
+    				  'customer'=>$last_id,
     				  'email'=>$email,
     				  'mobile'=>$mobile,
     				  'address'=>$address,
@@ -1194,8 +1118,67 @@ class Create_model extends CI_Model
     				  'vat'=>$vat,
     				  'date_order'=>date('Y-m-d',strtotime($date_created)),
     				  'date_created'=>date('Y-m-d H:i:s'),
-    				  'created_by'=>$user_id);
-    	$this->db->insert('tbl_salesorder_project',$data);
+    				  'created_by'=>$user_id));
+    	$last_id_so = $this->db->insert_id();
+    	foreach($description as $key => $value){
+    	$this->db->insert('tbl_salesorder_stocks_item',array('so_no'=>$last_id_so,
+    				  'c_code'=>$this->encryption->decrypt($description[$key]),
+    				  'qty'=>$qty[$key],
+    				  'unit'=>$unit[$key],
+    				  'amount'=>floatval(str_replace(',', '', $amount[$key]))
+    				));
+    	}
+    	if($result){
+    		return true;
+    	}else{
+    		return false;	
+    	}
+    }
+    function Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount){
+    	$so_no = $this->get_code('tbl_salesorder_project','SO'.date('Ymd'));
+    	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
+    	if(!$row){
+    		$c_no = $this->get_code('tbl_salesorder_customer','CN'.date('Ymd'));
+    		$this->db->insert('tbl_salesorder_customer',array('customer_no'=>$c_no,
+    														 'fullname'=>$customer,
+    														 'email'=>$email,
+    														 'mobile'=>$mobile,
+    														 'address'=>$address,
+    														 'date_created'=>date('Y-m-d H:i:s'),
+    														 'created_by'=>$user_id));
+    		$last_id = $this->db->insert_id();
+    	}else{
+    		$last_id = $row->id;
+    	}
+    	$data=array();
+    	foreach($description as $key => $value){
+    		$data[] = array('id'=>$key+1,
+    						'description'=>$description[$key],
+    						'quantity'=>$qty[$key],
+    						'unit'=>$unit[$key],
+    						'amount'=>floatval(str_replace(',', '', $amount[$key])),
+    						'status'=>1);
+    	}
+    	$result = $this->db->insert('tbl_salesorder_project',array('so_no'=>$so_no,
+    				  'customer'=>$last_id,
+    				  'email'=>$email,
+    				  'mobile'=>$mobile,
+    				  'address'=>$address,
+    				  'project_no'=>$this->encryption->decrypt($project_no),
+    				  'item'=>''.json_encode($data).'',
+    				  'downpayment'=>$downpayment,
+    				  'discount'=>$discount,
+    				  'shipping_fee'=>$shipping_fee,
+    				  'vat'=>$vat,
+    				  'date_order'=>date('Y-m-d',strtotime($date_created)),
+    				  'date_created'=>date('Y-m-d H:i:s'),
+    				  'created_by'=>$user_id));
+    	if($result){
+    		return true;
+    	}else{
+    		return false;	
+    	}
+    	
     }
 
   }

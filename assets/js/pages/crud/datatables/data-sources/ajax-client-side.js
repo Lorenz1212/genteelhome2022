@@ -363,6 +363,34 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader('tbl_supplier',TableURL,TableData,false);
 				break;
 			}
+			case "tbl_salesorder_stocks_production":{
+				 TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Production';
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Shipping_DataTable_Production';
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Delivered_DataTable_Production';
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+				break;
+			}
+			case "tbl_salesorder_project_production":{
+				 TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Production';
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Shipping_DataTable_Production';
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Delivered_DataTable_Production';
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+				break;
+			}
 
 
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -392,32 +420,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 			
-			case "tbl_salesorder":{
-				TableURL = baseURL + 'datatable_controller/Salesorder_DataTable';
-				TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'status'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-
-				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Request_DataTable';
-				let TableData1 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_salesorder_request',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Pending_DataTable';
-				let TableData2 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_salesorder_pending',TableURL2,TableData2,false);
-
-				let TableURL3 = baseURL + 'datatable_controller/Salesorder_Approved_DataTable';
-				let TableData3 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_salesorder_approved',TableURL3,TableData3,false);
-
-				let TableURL4 = baseURL + 'datatable_controller/Salesorder_Shipping_DataTable';
-				let TableData4 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_salesorder_shipping',TableURL4,TableData4,false);
-
-				let TableURL5 = baseURL + 'datatable_controller/Salesorder_Delivered_DataTable';
-				let TableData5 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_salesorder_delivered',TableURL5,TableData5,false);
-				break;
-			}
+			
 			case "tbl_salesorder_return":{
 				TableURL = baseURL + 'datatable_controller/Salesorder_Return_DataTable';
 				TableData = [{data:'so_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'status'}]; 

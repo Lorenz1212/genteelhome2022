@@ -735,32 +735,6 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
-	 		case "Create_Salesorder":{
-	 			$('#Create_Salesorder_Customized').on('click',function(e){
-					e.preventDefault();
-					let fullname = $('input[name=fullname]').val();
-					let email    = $('input[name=email]').val();
-					let mobile   = $('input[name=mobile]').val();
-					let dp       = $('input[name=dp]').val();
-					let shipping_fee  = $('input[name=shipping_fee]').val();
-					let discount     = $('#discount').val();
-					let status   = $('select[name=status]').val();
-					let vat   = $('select[name=vat]').val();
-					let remarks   = tinymce.get("kt-tinymce-4").getContent();
-					if(!fullname || !email || !mobile || !dp || !discount || !shipping_fee || !status ||!vat){
-						_initSwalWarning();
-					}else{
-						val = {fullname:fullname,email:email,mobile:mobile,dp:dp,status:status,remarks:remarks,shipping_fee:shipping_fee,discount:discount,vat:vat};
-					     thisURL = baseURL + 'create_controller/Create_Salesorder_Customized';
-						 role = $('input[name=role]').val();
-						 url = baseURL + 'gh/'+role+'/salesorder_list';
-					     _ajaxForm_loaded(thisURL,"POST",val,"Create_Salesorder_Customized",url);
-					}	
-				  	
-				 });
-	 			break;
-	 		}
-
 	 		case"Create_Salesorder_Project":{
 	 				form = document.getElementById('Create_Salesorder_Project_Form');
 				         validation = FormValidation.formValidation(
@@ -768,7 +742,7 @@ var KTFormControls = function () {
 								fields: {
 									project_no: {validators: {notEmpty: {message: 'Field is required'}}},
 									date_created: {validators: {notEmpty: {message: 'Field is required'}}},
-									customer: {validators: {notEmpty: {message: 'Field is required'}}},
+									fullname: {validators: {notEmpty: {message: 'Field is required'}}},
 									email: {validators: {notEmpty: {message: 'Field is required'}}},
 									mobile: {validators: {notEmpty: {message: 'Field is required'}}},
 									address: {validators: {notEmpty: {message: 'Field is required'}}},
@@ -795,18 +769,26 @@ var KTFormControls = function () {
 								        showCancelButton: true
 								    }).then(function(result) {
 								        if (result.value) {
-								        	let description = Array.from(document.getElementsByClassName('td-item')).map(item => item.textContent);
-								        	let qty = Array.from(document.getElementsByClassName('td-qty')).map(item => item.textContent);
-								        	let unit = Array.from(document.getElementsByClassName('td-unit')).map(item => item.textContent);
-								        	let amount = Array.from(document.getElementsByClassName('td-amount')).map(item => item.textContent);
-									  	let formData = new FormData(form);
-									  	    formdata.append('description',description);
-									  	    formdata.append('qty',qty);
-									  	    formdata.append('unit',unit);
-									  	    formdata.append('amount',amount);
-									  thisURL = baseURL + 'create_controller/Create_Salesorder_Project';
-									  _ajaxForm(thisURL,"POST",form,"Create_Salesorder_Project",false);
-							         }
+                                                  let formData = new FormData();
+                                                      formData.append('project_no',$('select[name="project_no"]').val());
+                                                      formData.append('date_created',$('input[name="date_created"]').val());
+                                                      formData.append('customer',$('input[name="fullname"]').val());
+                                                      formData.append('email',$('input[name="email"]').val());
+                                                      formData.append('mobile',$('input[name="mobile"]').val());
+                                                      formData.append('address',$('textarea[name="address"]').val());
+                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
+                                                      formData.append('discount',$('input[name="discount"]').val());
+                                                      formData.append('vat',$('select[name="vat"]').val());
+                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+                                                       for(let i =0;i<rowCount;i++){
+     									  	    formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.textContent));
+     									  	    formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+     									  	    formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
+     									  	    formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+									         }
+                                                      thisURL = baseURL + 'create_controller/Create_Salesorder_Project';
+									  _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Project",false);
+							          }
 							   	 });
 					     	}
 					    }
@@ -814,6 +796,65 @@ var KTFormControls = function () {
 		 		});
 	 			break;
 	 		}
+               case"Create_Salesorder_Stocks":{
+                         form = document.getElementById('Create_Salesorder_Stocks_Form');
+                             validation = FormValidation.formValidation(
+                                   form,{
+                                        fields: {
+                                             date_created: {validators: {notEmpty: {message: 'Field is required'}}},
+                                             fullname: {validators: {notEmpty: {message: 'Field is required'}}},
+                                             email: {validators: {notEmpty: {message: 'Field is required'}}},
+                                             mobile: {validators: {notEmpty: {message: 'Field is required'}}},
+                                             address: {validators: {notEmpty: {message: 'Field is required'}}},
+                                        },
+                                        plugins: { //Learn more: https://formvalidation.io/guide/plugins
+                                        trigger: new FormValidation.plugins.Trigger(),
+                                        bootstrap: new FormValidation.plugins.Bootstrap()
+                                   }
+                                 }
+                             );
+                         $(document).on('click','.btn-create-submit',function(e){
+                              e.preventDefault();
+                              validation.validate().then(function(status) {
+                              if (status == 'Valid') {
+                                   var rowCount = $('#kt_product_breakdown_table tbody tr').length;
+                                   if(!rowCount){
+                                        Swal.fire("Warning!", "Product break down form is empty!", "warning")
+                                   }else{
+                                         Swal.fire({
+                                                title: "Are you sure?",
+                                                text: "You won't be able to revert this",
+                                                icon: "warning",
+                                                confirmButtonText: "Submit!",
+                                                showCancelButton: true
+                                            }).then(function(result) {
+                                                if (result.value) {
+                                                  let formData = new FormData();
+                                                      formData.append('date_created',$('input[name="date_created"]').val());
+                                                      formData.append('customer',$('input[name="fullname"]').val());
+                                                      formData.append('email',$('input[name="email"]').val());
+                                                      formData.append('mobile',$('input[name="mobile"]').val());
+                                                      formData.append('address',$('textarea[name="address"]').val());
+                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
+                                                      formData.append('discount',$('input[name="discount"]').val());
+                                                      formData.append('vat',$('select[name="vat"]').val());
+                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+                                                       for(let i =0;i<rowCount;i++){
+                                                           formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.getAttribute('data-id')));
+                                                           formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+                                                           formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
+                                                           formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+                                                      }
+                                                  thisURL = baseURL + 'create_controller/Create_Salesorder_Stocks';
+                                               _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Stocks",false);
+                                             }
+                                         });
+                                   }
+                             }
+                          });
+                    });
+                    break;
+               }
 
 	 		//FOR REPAIR
 	 		case "Create_EM_Purchase_Request":{
@@ -2406,12 +2447,6 @@ var KTFormControls = function () {
 	 			if(response.status=="success"){_initSwalSuccess(url);}
 	 			break;
 	 		}
-	 		case "Create_Salesorder_Customized":{
-	 			if(response.status=="success"){
-	 				_initSwalSuccess(url);
-	 			}
-	 			break;
-	 		}
 
 	 		case "Create_RawMaterial_btn":{
 	 			if(response.status=="success"){ _initToastSuccess();$('input[name="item"]').val('');
@@ -3292,10 +3327,15 @@ var KTFormControls = function () {
 				});
 	 			break;
 	 		}
+               case "Create_Salesorder_Stocks":
 	 		case "Create_Salesorder_Project":{
-	 			Swal.fire("Create Successfully!", "This form is Completed!", "success").then(function(){
-		      		location.reload();
-				});
+                    if(response == true){
+                        Swal.fire("Create Successfully!", "This form is Completed!", "success").then(function(){
+                         location.reload();
+                         }); 
+                    }else{
+                          Swal.fire("Error!", "Something went wrong!", "error");
+                    }
 	 			break;
 	 		}
 

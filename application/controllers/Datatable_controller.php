@@ -246,6 +246,39 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Joborder_Project_Supervisor_DataTable();
         echo json_encode($data);
     }
+
+
+    public function Salesorder_Stocks_Request_DataTable_Production(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Request_DataTable_Production($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Shipping_DataTable_Production(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Shipping_DataTable_Production($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Delivered_DataTable_Production(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Delivered_DataTable_Production($user_id);
+        echo json_encode($data);
+    }
+
+    public function Salesorder_Project_Request_DataTable_Production(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Request_DataTable_Production($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Shipping_DataTable_Production(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Shipping_DataTable_Production($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Delivered_DataTable_Production(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Delivered_DataTable_Production($user_id);
+        echo json_encode($data);
+    }
     
     
     
@@ -270,31 +303,7 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Customer_Collected_DataTable($user_id);
         echo json_encode($data);
     }
-    public function Salesorder_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Request_DataTable($user_id);
-        echo json_encode($data);
-    }
-    public function Salesorder_Pending_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Pending_DataTable($user_id);
-        echo json_encode($data);
-    }
-    public function Salesorder_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Approved_DataTable($user_id);
-        echo json_encode($data);
-    }
-    public function Salesorder_Shipping_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Shipping_DataTable($user_id);
-        echo json_encode($data);
-    }
-    public function Salesorder_Delivered_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Delivered_DataTable($user_id);
-        echo json_encode($data);
-    }
+
     
     //APPROVAL
     public function Approval_Design_Stocks_Request_DataTable(){
@@ -374,23 +383,19 @@ class Datatable_controller extends CI_Controller
     }
 
     public function Approval_Request_Salesorder_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Request_Salesorder_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Request_Salesorder_DataTable();
         echo json_encode($data);
     }
     public function Approval_Approved_Salesorder_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Approved_Salesorder_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Approved_Salesorder_DataTable();
         echo json_encode($data);
     }
     public function Approval_Rejected_Salesorder_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Rejected_Salesorder_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Rejected_Salesorder_DataTable();
         echo json_encode($data);
     }
     
  
-
     //ACCOUNTING
     public function Accounting_Purchase_Material_Stocks_Request(){
         $data = $this->datatable_model->Accounting_Purchase_Material_Stocks_Request();

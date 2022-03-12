@@ -131,7 +131,7 @@
 									<div class="col-lg-3 col-xl-3">
 										<div class="image-input image-input-outline" id="docs">
 											<a id="docs_href" target="_blank">
-											<img class="image-input-wrapper" src="<?php echo base_url();?>assets/images/design/project_request/docx/default.jpg" />
+											<img class="image-input-wrapper" src="<?php echo base_url();?>assets/images/design/project_request/docx/default.png" />
 										    </a>
 										</div>
 									</div>

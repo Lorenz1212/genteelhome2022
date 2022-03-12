@@ -464,9 +464,10 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "customer_info":{
-				$('input[name=fullname]').val(response.customer);
+				$('input[name=fullname]').attr('data-id',response.id).val(response.fullname);
 				$('input[name=email]').val(response.email);
 				$('input[name=mobile]').val(response.mobile);
+				$('textarea[name=address]').val(response.address);
 				break;
 			}
 			case "spare_parts":{
@@ -1183,13 +1184,8 @@ var arrows;var item_v;var price;var special_option;
 			//production
 			case "data-salesorder-create-project":{
 				_initNumberOnly(".qty,#discount");
-				_initCurrency_format('input[name="amount"],input[name="shipping_fee"],input[name="dp"]');
+				_initCurrency_format('input[name="amount"],input[name="shipping_fee"],input[name="downpayment"]');
 				_ajaxloaderOption('option_controller/Customer_Name','POST',false,'customer_name');
-				$(document).on('change','#project_no',function(e){
-					e.preventDefault();
-					let id = $(this).val();
-					_ajaxloaderOption('option_controller/design_project_docs','POST',{id:id},'design-project-docs');
-				});
 				$(document).on('click','.btn-submit',function(e){
 					e.preventDefault();
 					let description = $('input[name=description]').val();
@@ -1199,11 +1195,12 @@ var arrows;var item_v;var price;var special_option;
 					if(!description || !qty || !unit || !amount){
 						Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
 					}else{
+						let i = $('#kt_product_breakdown_table tbody tr').length;
 						$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
-							<td class="td-item">'+description+'</td>\
-							<td class="text-center td-qty">'+qty+'</td>\
-							<td class="text-center td-unit">'+unit+'</td>\
-							<td class="text-right td-amount">₱ '+amount+'</td>\
+							<td class="td-item['+i+']">'+description+'</td>\
+							<td class="text-center td-qty['+i+']">'+qty+'</td>\
+							<td class="text-center td-unit['+i+']">'+unit+'</td>\
+							<td class="text-right td-amount['+i+']">'+amount+'</td>\
 							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="la la-times"></i></button></td>\
 									</tr>');	
 					}
@@ -1211,83 +1208,37 @@ var arrows;var item_v;var price;var special_option;
 				_initremovetable('#kt_product_breakdown_table');
 				break;
 			}
-			case "data-salesorder":{
-				$(document).ready(function() {
-					KTSALESORDER.init();
-					_ajaxloaderOption('option_controller/Customer_Name','POST',false,'customer_name');
-					_ajaxloaderOption('option_controller/Designer_option','POST',false,'design_option');
-					$('#project_no').on('change',function(){
-						let id = $(this).val();
-						_initColor_option1(id);
-					});
-					$('#c_code').on('change',function(){
-						let id = $(this).val();
-						_initImage_option(id);
-					})
-					_initCurrency_format('#cost2');
-					_initCurrency_format('#cost');
-					_initCurrency_format('#shipping_fee');
-					_initPercentage('#discount');
-					$('#textarea').hide();
-					$('.hide_button').hide();
-					$('.hide_button1').hide();
-					 $(document).on("change","select[name=status]",function() {
-					 	let status = $(this).val();
-					 	if(status == 'On Stocks'){
-					 		$('#textarea').hide();
-					 		$('.hide_button1').fadeIn();
-					 		$('.hide_button').hide();
-					 	}else if(status =='customized' || status == 'request'){
-					 		$('#textarea').fadeIn();
-					 		$('.hide_button1').hide();
-					 		$('.hide_button').show();
-					 	}else{
-					 		$('#textarea').hide();
-							$('.hide_button').hide();
-							$('.hide_button1').hide();
-					 	}	
-					 	_initNumberOnly('#qty');
-					 	
-				    });
-					 $('#add_request').on('click',function(){
-							var project_no = $('select[name="project_no"]').val();
-							var c_code 	= $('select[name="c_code"]').val();
-							var quantity  	= $('input[name=qty]').val();
-							var price 	= $('input[name=price]').val();
-							if(!quantity || !price){
-								 Swal.fire("Warning!", "Please Enter Qty and Price!", "warning");
-							}else{
-								_initFinishproduct_Release(project_no,c_code,quantity,price);
-								_initremovetable('#myTable');
-								$('input[name=qty]').val('');
-							     $('input[name=price]').val('');
-							     $('select[name=project_no]').val('').change();
-							     $('select[name=c_code]').empty();
-							     $('select[name=c_code]').val('').change();
-							     $('#color').attr('src',baseURL+'assets/images/design/project_request/images/default.jpg');
-							}
-					  });
-
-					 $(document).on("click","input[name=copy]",function() { 
-				            if($(this).prop("checked") == true){
-				               let address1 = $('input[name=b_address]').val();
-				               let city = $('input[name=b_city]').val();
-				               let province = $('input[name=b_province]').val();
-				               let zipcode = $('input[name=b_zipcode]').val();
-
-				               $('input[name=s_address]').val(address1);
-				               $('input[name=s_city]').val(city);
-				               $('input[name=s_province]').val(province);
-				               $('input[name=s_zipcode]').val(zipcode);
-				            }
-				            else if($(this).prop("checked") == false){
-				               $('input[name=s_address]').val('');
-				               $('input[name=s_city]').val('');
-				               $('input[name=_s_province]').val('');
-				               $('input[name=s_zipcode]').val('');
-				            }
-					 });
+			case "data-salesorder-create-stocks":{
+				_initNumberOnly(".qty,#discount");
+				_initCurrency_format('input[name="amount"],input[name="shipping_fee"],input[name="downpayment"]');
+				_ajaxloaderOption('option_controller/Customer_Name','POST',false,'customer_name');
+				$(document).on('change','#project_no',function(e){
+					e.preventDefault();
+					let id = $(this).val();
+					_ajaxloaderOption('option_controller/pallet_color','POST',{id:id},'pallet-color');
+				});
+				$(document).on('click','.btn-submit',function(e){
+					e.preventDefault();
+					let description = $('select[name=project_no] option:selected').text();
+					let color = $('select[name=c_code] option:selected').text();
+					let id = $('select[name=c_code] ').val();
+					let qty  = $('input[name=qty]').val();
+					let unit = $('input[name=unit]').val();
+					let amount = $('input[name=amount]').val();
+					if(!description|| !id || !qty || !unit || !amount){
+						Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+					}else{
+						let i = $('#kt_product_breakdown_table tbody tr').length;
+						$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
+							<td class="td-item['+i+']" data-id="'+id+'">'+description+' ('+color+')</td>\
+							<td class="text-center td-qty['+i+']">'+qty+'</td>\
+							<td class="text-center td-unit['+i+']">'+unit+'</td>\
+							<td class="text-right td-amount['+i+']">'+amount+'</td>\
+							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="la la-times"></i></button></td>\
+									</tr>');	
+					}
 				})
+				_initremovetable('#kt_product_breakdown_table');
 				break;
 			}
 			case "data-salesorder-list":{
