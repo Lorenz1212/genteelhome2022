@@ -3253,7 +3253,7 @@ var arrows;var item_v;var price;var special_option;
 	             	for(var i=0;i<response.item.length;i++){
              			html += '<tr>\
 							<td class="text-center">'+response.item[i].quantity+' '+response.item[i].unit+' '+response.item[i].description+'</td>\
-							<td class="text-right"><div style="float:left;">₱</div><div style="float:right;">'+response.item[i].amount+'<div></td>\
+							<td class="text-right"><div style="float:left;">₱</div><div style="float:right;">'+Number(response.item[i].amount).toLocaleString("en")+'<div></td>\
 							</tr>';
 				}	
 				if(response.item.length < 5){

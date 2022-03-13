@@ -88,7 +88,7 @@
         <div class="modal-content">
         	<div class="modal-body">
 							<div class="row">
-								<div class="col-md-7 col-xl-3 col-xxl-8">
+								<div class="col-md-8 col-xl-8 col-xxl-8">
 									<span class="text-dark text-right d-flex flex-column pad-r">
 										<span>124 FIL-AM HIGHWAY TRINIDAD VILLAGE</span>
 										<span>CALIBUTBUT BACOLOR PAMPANGA</span>

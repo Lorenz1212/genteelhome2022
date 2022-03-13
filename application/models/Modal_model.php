@@ -124,7 +124,6 @@ class Modal_model extends CI_Model{
                 $vat = 0;
                 $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
             }
-            
             $data['soa'] = array(
                      'id'           => $this->encryption->encrypt($row->id),
                      'so_no'        => $row->so_no,
@@ -144,45 +143,6 @@ class Modal_model extends CI_Model{
                      'status'       => $row->status
                  );
            return array_merge($data,$data_array);
-    }
-    function Modal_SalesOrder_Return($id){
-          $query =  $this->db->select('s.*,i.*,c.*,d.*,d.title as title,s.c_name as c_name,c.c_name as color,i.status as status,
-            (SELECT sum(price) from tbl_salesorder_item WHERE so_no="'.$id.'") as total,
-            CONCAT(u.firstname, " ",u.lastname) AS sales_person,
-            DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
-          ->from('tbl_salesorder_item_return as i')
-          ->join('tbl_salesorder as s','i.so_no=s.so_no','LEFT')
-          ->join('tbl_project_design as d','d.id=i.project_no','LEFT')
-          ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_users as u','u.id=s.sales_person','LEFT')
-          ->WHERE('s.so_no',$id)->get();
-           if(!$query){return false;}else{  
-               foreach($query->result() as $row)  
-               {
-                $data[] = array(
-                         'so_no'        => $row->so_no,
-                         'si_no'        => $row->si_no,
-                         'sales_order'  => $row->sales_person,
-                         'c_name'       => $row->c_name,
-                         'mobile'       => $row->mobile,
-                         'b_address'    => $row->b_address,
-                         'b_city'       => $row->b_city,
-                         'b_province'   => $row->b_province,
-                         'b_zipcode '   => $row->b_zipcode,
-                         's_address'    => $row->s_address,
-                         's_city'       => $row->s_city,
-                         's_province'   => $row->s_province,
-                         's_zipcode'    => $row->s_zipcode,
-                         'title'        => $row->title,
-                         'color'        => $row->color,
-                         'qty'          => $row->qty,
-                         'price'        => number_format($row->price,2),
-                         'total'        => number_format($row->total,2),
-                         'status'       => $row->status,
-                         'date_order'   => $row->date_order
-                     );
-               } 
-               return $data;}
     }
    
      function Modal_SupplierItem_View($id){
