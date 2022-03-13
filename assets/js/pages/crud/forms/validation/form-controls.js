@@ -158,6 +158,48 @@ var KTFormControls = function () {
 
 	 var _FormSubmit = async function(action){
 	 	switch(action){
+               case "Update_Salesorder_Stock_Request":{
+                    $('.btn-status-save').on('click', function(e){
+                         let status = $(this).attr('data-status');
+                          Swal.fire({
+                                 title: "Are you sure?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',$('.so_no').attr('data-id'));
+                                       formData.append('status',status);
+                                    thisURL = baseURL + 'update_controller/Update_Salesorder_Stock_Request';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Salesorder_Stock_Request",false);
+                             }
+                          });
+                     });
+                    break;
+               }
+               case "Update_Salesorder_Project_Request":{
+                    $('.btn-status-save').on('click', function(e){
+                         let status = $(this).attr('data-status');
+                          Swal.fire({
+                                 title: "Are you sure?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',$('.so_no').attr('data-id'));
+                                       formData.append('status',status);
+                                    thisURL = baseURL + 'update_controller/Update_Salesorder_Project_Request';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Salesorder_Project_Request",false);
+                             }
+                          });
+                     });
+                    break;
+               }
 	 		case "Update_Approval_Concern":{
 	 			$(document).ready(function() {
 					 $(document).on("click","#btn_save",function() {
@@ -320,7 +362,7 @@ var KTFormControls = function () {
 				   	 });
 				    }
 			   	 });
-	 		});
+	 		      });
 	 			break;
 	 		}
 
@@ -1499,17 +1541,6 @@ var KTFormControls = function () {
 				         }
 				   	 });
 				});
-	 		// 	$('#Update_SupplierItem').on('submit',function(e){		 
-				//     e.preventDefault();
-				//      var ss_id = $('input[name=ss_id]').val();
-			 //  		amount = $('#price_s').val();
-			 //  		status = $('select[name=status]').val();
-				// 	id = $('input[name=id]').val();
-				// 	val = {ss_id:ss_id,price:amount,status:status};
-				//   	thisURL = baseURL + 'update_controller/Update_SupplierItem';
-				//   	url = baseURL + 'gh/superuser/supplier_view/'+btoa(id);
-				//   	_ajaxForm_loaded(thisURL,"POST",val,"Update_SupplierItem",url);
-				// });
 	 			$('#Update_Supplier').on('submit',function(e){
 				    e.preventDefault();
 				  	let element = this;
@@ -2765,11 +2796,17 @@ var KTFormControls = function () {
 	 		}
 	 		case "Update_Approval_Concern":{
 	 			if(response.status == 'APPROVED'){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){window.location = url;});
+	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
+                              window.location = url;
+                         });
 	 			}else if(response.status == 'CANCELLED'){
-	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){window.location = url;});
+	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
+                              window.location = url;
+                         });
 	 			}else if(response.status == 'S_APPROVED'){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){window.location = url;});
+	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
+                              window.location = url;
+                         });
 	 			}
 	 			break;
 	 		}
@@ -3338,6 +3375,35 @@ var KTFormControls = function () {
                     }
 	 			break;
 	 		}
+               case "Update_Salesorder_Stock_Request":{
+                    if(response == 'A'){
+                         $('#requestModal').modal('hide');
+                         _initToast('success','Sales Order Approved');
+                         let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Approved_DataTable_Admin';
+                         let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+                         _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+                    }else{
+                          $('#requestModal').modal('hide');
+                         _initToast('error','Sales Order Rejected');
+                         let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Rejected_DataTable_Admin';
+                         let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+                         _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                    }
+                    let TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Admin';
+                    let TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
+                    break;
+               }
+                case "Update_Salesorder_Project_Request":{
+                    if(response == 'A'){
+                         $('#requestModal').modal('hide');
+                         _initToast('success','Sales Order Approved');
+                    }else{
+                          $('#requestModal').modal('hide');
+                         _initToast('error','Sales Order Rejected');
+                    }
+                    break;
+                }
 
 	 	}
 	 }

@@ -1241,18 +1241,22 @@ var arrows;var item_v;var price;var special_option;
 				_initremovetable('#kt_product_breakdown_table');
 				break;
 			}
-			case "data-salesorder-list":{
-				 $(document).on("click","#view_href",function(){
-				 	var page = $('#kt_content').attr('url-link');
-					var id = $(this).attr('data-id');
-				     $(this).attr("href", baseURL+'gh/'+page+'/salesorder_update/'+id);
-				});
+			case "data-salesorder-stocks":{
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_SalesOrder';
-						_ajaxloader(thisUrl,"POST",val,"Modal_SalesOrder");
+					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
+						_ajaxloader(thisUrl,"POST",{id:id},"Modal_SalesOrder_Stocks");
+				    });
+				})
+				break;
+			}
+			case "data-salesorder-project":{
+				$(document).ready(function() {
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
+						_ajaxloader(thisUrl,"POST",{id:id},"Modal_SalesOrder_Project");
 				    });
 				})
 				break;
@@ -1895,6 +1899,19 @@ var arrows;var item_v;var price;var special_option;
 				})
 			   break;
 			}
+			case "data-approval-inspection-stocks":{
+				$(document).ready(function() {
+					 $('.summernote').summernote({height: 100});
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let status = $(this).attr('data-status');
+					 	let val = {id:id,status:status};
+					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_Stocks_View';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Inspection_Stocks_View");
+				    });
+				})
+				break;
+			}
 			case "data-approval-inspection-project":{
 				$(document).ready(function() {
 					 $('.summernote').summernote({height: 100});
@@ -1902,7 +1919,7 @@ var arrows;var item_v;var price;var special_option;
 					 	let id = $(this).attr('data-id');
 					 	let status = $(this).attr('data-status');
 					 	let val = {id:id,status:status};
-					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_View';
+					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_Project_View';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Inspection_Project_View");
 				    });
 				})
@@ -3082,83 +3099,180 @@ var arrows;var item_v;var price;var special_option;
 	  		} 
 	  		break;
 	  	}
-	  	case "Modal_SalesOrder_Approval":{
-	  		if(!response == false){
-	              $('#date_order').text(response[0].date_order);
-	               $('#so_no').text(response[0].so_no);
-	               $('#si_no').text(response[0].si_no);
-	               $('#c_name').text(response[0].c_name);
-	               $('#mobile').text(response[0].mobile);
-	               $('#email').text(response[0].email);
-	               $('#b_address').text(response[0].b_address);
-	               $('#b_city').text(response[0].b_city+','+response[0].b_province);
-	               $('#s_address').text(response[0].s_address);
-	               $('#s_city').text(response[0].s_city+','+response[0].s_province);
-	               let dis = parseFloat((response[0].discount*100)/1);
-	               $('#subtotal').text(response[0].subtotal);
-	               $('#vat').text(response[0].vat);
-	               $('#discount').text(dis+'%');
-	               $('#total').text(response[0].total);
-	               $('#downpayment').text(response[0].downpayment);
-	               $('#grandtotal').text(response[0].grandtotal);
-	               $('#shipping_fee').text(response[0].shipping_fee);
-	             	$('#tbl_admin_salesorder_so > tbody:last-child').empty();
-	             	for(var i=0;i<response.length;i++){
-	        			$('#tbl_admin_salesorder_so > tbody:last-child').append('<tr>'
-					+'<td class="align-middle pl-0 border-0">'+response[i].title+'</td>'
-					+'<td class="align-middle pl-0 border-0">'+response[i].color+'</td>'
-					+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].qty+'</td>'
-					+'<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].price+'</td>'
-					+'</tr>');
-				}
-				if(response[0].status == 'REQUEST FOR APPROVAL'){
-	  				$('#button_status').html('<button type="button" id="REJECTED" class="btn btn-danger btn_rejected">REJECT</button>\
-									<button type="button" id="APPROVED" class="btn btn-success btn_approved">APPROVE</button>');
+	  	case "Modal_Approval_Inspection_Stocks_View":{
+	  		 if(!response == false){
+	  			$('#joborder').text(response[0].production_no);
+	  			$('#title').val(response[0].title);
+	  			$('#c_name').val(response[0].c_name);
+	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response[0].image);
+	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response[0].docs);
+	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response[0].image);
+	  			$('.summernote').summernote('code',response[0].remarks);
+	  			if(response[0].status == 1){
+	  				$('#button_status').html('<button type="button" class="btn btn-danger btn_status" data-status="3">REJECT</button>'
+					+'<button type="button" class="btn btn-success btn_status" data-status="2">APPROVE</button>');
 	  			}else{
 	  				$('#button_status').remove();
 	  			}
-	  			if(response[0].status == 'SHIPPING'){
-	  				$('#delivered_btn').show();
+	  			$("#requestInspection").empty();
+	  			for(let i=0;i<response.length;i++){
+	  				$("#requestInspection").append('<div class="col-lg-2 col-xl-2" id="row_'+response[i].id+'">'
+		  			+'<div class="image-input image-input-empty image-input-outline"  style="background-image: url('+baseURL+'assets/images/inspection/'+response[i].i_images+')">'
+					+'<div class="image-input-wrapper"></div>'
+					+'  </div>'
+		  			+'</div>');
+	  			}
+	  		} 
+	  		break;
+	  	}
+	  	case "Modal_SalesOrder_Approval":{
+	  		let container = $('#kt_table_soa_item > tbody:last-child');
+	  		    container.empty();
+	  		     $('.tr-discount').empty();
+	               $('.tr-shipping').empty();
+	  		let html=""    
+	  		if(!response == false){
+	               $('#date_order').text(response[0].date_order);
+	               $('.so_no').text(response[0].so_no);
+	               $('.si_no').text(response[0].si_no);
+	               $('.sold-to').text(response[0].customer);
+	               $('.address').text(response[0].address);
+	               $('.date-order').text(response[0].date_order);
+	               if(response[0].shipping_fee !=0){
+	               	$('.tr-shipping').append('<td class="text-right text-success">SHIPPING FEE :</td>\
+	               						<td class="text-right text-success"><div style="float:left;">₱</div><div style="float:right;">'+response[0].shipping_fee+'<div></td>');
+	               }
+	               if(response[0].discount !=0){
+	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
+	               						<td class="text-right text-success"><div style="float:right;">'+response[0].discount+'%<div></td>');
+	               }
+	               $('.total').text(response[0].total);
+	               $('.td-downpayment').text(response[0].downpayment);
+	               $('.td-amountdue').text(response[0].amount_due);
+	               $('.shipping_fee').text(response[0].shipping_fee);
+	             	if(response[0].vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('(w/o vat)');}
+	             	for(var i=0;i<response.length;i++){
+             			html += '<tr>\
+							<td class="text-center">'+response[i].item+'</td>\
+							<td class="text-right"><div style="float:left;">₱</div><div style="float:right;">'+response[i].amount+'<div></td>\
+							</tr>';
+				}	
+				if(response.length < 5){
+				   for(var i=0;i<4;i++){
+					html += '<tr>\
+							<td class="text-center">&nbsp;</td>\
+							<td class="text-right">&nbsp;</td>\
+						</tr>';
+					}
+				}
+				html +='<tr>\
+						<td class="text-right"><b>TOTAL AMOUNT:</b></td>\
+						<td class="text-right"><b><div style="float:left;">₱</div><div style="float:right;">'+response[0].subtotal+'</div></b></td>\
+					   </tr>';
+				container.append(html);
+	  		}
+	  		break;
+	  	}
+	  	case "Modal_SalesOrder_Stocks":{
+	  		let container = $('#kt_table_soa_item > tbody:last-child');
+	  		    container.empty();
+	  		     $('.tr-discount').empty();
+	               $('.tr-shipping').empty();
+	  		let html=""    
+	  		if(!response == false){
+	               $('#date_order').text(response[0].date_order);
+	               $('.so_no').attr('data-id',response[0].id).text(response[0].so_no);
+	               $('.si_no').text(response[0].si_no);
+	               $('.sold-to').text(response[0].customer);
+	               $('.address').text(response[0].address);
+	               $('.date-order').text(response[0].date_order);
+	               if(response[0].shipping_fee !=0){
+	               	$('.tr-shipping').append('<td class="text-right text-success">SHIPPING FEE :</td>\
+	               						<td class="text-right text-success"><div style="float:left;">₱</div><div style="float:right;">'+response[0].shipping_fee+'<div></td>');
+	               }
+	               if(response[0].discount !=0){
+	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
+	               						<td class="text-right text-success"><div style="float:right;">'+response[0].discount+'%<div></td>');
+	               }
+	               $('.total').text(response[0].total);
+	               $('.td-downpayment').text(response[0].downpayment);
+	               $('.td-amountdue').text(response[0].amount_due);
+	             	if(response[0].vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('');}
+	             	for(var i=0;i<response.length;i++){
+             			html += '<tr>\
+							<td class="text-center">'+response[i].item+'</td>\
+							<td class="text-right"><div style="float:left;">₱</div><div style="float:right;">'+response[i].amount+'<div></td>\
+							</tr>';
+				}	
+				if(response.length < 5){
+				   for(var i=0;i<4;i++){
+					html += '<tr>\
+							<td class="text-center">&nbsp;</td>\
+							<td class="text-right">&nbsp;</td>\
+						</tr>';
+					}
+				}
+				html +='<tr>\
+						<td class="text-right"><b>TOTAL AMOUNT:</b></td>\
+						<td class="text-right"><b><div style="float:left;">₱</div><div style="float:right;">'+response[0].subtotal+'</div></b></td>\
+					   </tr>';
+				container.append(html);
+				if(response[0].status == 'P'){
+	  				$('#requestModal > div > div > div.modal-footer').show();
 	  			}else{
-	  				$('#delivered_btn').hide();
+	  				$('#requestModal > div > div > div.modal-footer').hide();
 	  			}
 	  		}
 	  		break;
 	  	}
-	  	case "Modal_SalesOrder":{
+	  	case "Modal_SalesOrder_Project":{
+	  		console.log(JSON.stringify(response))
+	  		let container = $('#kt_table_soa_item > tbody:last-child');
+	  		    container.empty();
+	  		     $('.tr-discount').empty();
+	               $('.tr-shipping').empty();
+	  		let html=""    
 	  		if(!response == false){
-	              $('#date_order').text(response[0].date_order);
-	               $('#so_no').text(response[0].so_no);
-	               $('#si_no').text(response[0].si_no);
-	               $('#c_name').text(response[0].c_name);
-	               $('#mobile').text(response[0].mobile);
-	               $('#email').text(response[0].email);
-	               $('#b_address').text(response[0].b_address);
-	               $('#b_city').text(response[0].b_city+','+response[0].b_province);
-	               $('#s_address').text(response[0].s_address);
-	               $('#s_city').text(response[0].s_city+','+response[0].s_province);
-	               let dis = parseFloat((response[0].discount*100)/1);
-	               $('#subtotal').text(response[0].subtotal);
-	               $('#vat').text(response[0].vat);
-	               $('#discount').text(dis+'%');
-	               $('#total').text(response[0].total);
-	               $('#downpayment').text(response[0].downpayment);
-	               $('#grandtotal').text(response[0].grandtotal);
-	               $('#shipping_fee').text(response[0].shipping_fee);
-	             	$('#tbl_admin_salesorder_so > tbody:last-child').empty();
-	             	for(var i=0;i<response.length;i++){
-	        			$('#tbl_admin_salesorder_so > tbody:last-child').append('<tr>'
-					+'<td class="align-middle pl-0 border-0">'+response[i].title+'</td>'
-					+'<td class="align-middle pl-0 border-0">'+response[i].color+'</td>'
-					+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].qty+'</td>'
-					+'<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].price+'</td>'
-					+'</tr>');
+	               $('#date_order').text(response.soa.date_order);
+	               $('.so_no').attr('data-id',response.soa.id).text(response.soa.so_no);
+	               $('.si_no').text(response.soa.si_no);
+	               $('.sold-to').text(response.soa.customer);
+	               $('.address').text(response.soa.address);
+	               $('.date-order').text(response.soa.date_order);
+	               if(response.soa.shipping_fee !=0){
+	               	$('.tr-shipping').append('<td class="text-right text-success">SHIPPING FEE :</td>\
+	               						<td class="text-right text-success"><div style="float:left;">₱</div><div style="float:right;">'+response.soa.shipping_fee+'<div></td>');
+	               }
+	               if(response.soa.discount !=0){
+	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
+	               						<td class="text-right text-success"><div style="float:right;">'+response.soa.discount+'%<div></td>');
+	               }
+	               $('.td-downpayment').text(response.soa.downpayment);
+	               $('.td-amountdue').text(response.soa.amount_due);
+	             	if(response.soa.vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('');}
+	             	for(var i=0;i<response.item.length;i++){
+             			html += '<tr>\
+							<td class="text-center">'+response.item[i].quantity+' '+response.item[i].unit+' '+response.item[i].description+'</td>\
+							<td class="text-right"><div style="float:left;">₱</div><div style="float:right;">'+response.item[i].amount+'<div></td>\
+							</tr>';
+				}	
+				if(response.item.length < 5){
+				   for(var i=0;i<4;i++){
+					html += '<tr>\
+							<td class="text-center">&nbsp;</td>\
+							<td class="text-right">&nbsp;</td>\
+						</tr>';
+					}
 				}
-				if(response[0].status == 'REQUEST'){
-	  				$('#button_status').html('<button type="button" id="REJECTED" class="btn btn-danger btn_rejected">REJECT</button>'
-									+'<button type="button" id="APPROVED" class="btn btn-success btn_approved">APPROVE</button>');
+				html +='<tr>\
+						<td class="text-right"><b>TOTAL AMOUNT:</b></td>\
+						<td class="text-right"><b><div style="float:left;">₱</div><div style="float:right;">'+response.soa.subtotal+'</div></b></td>\
+					   </tr>';
+				container.append(html);
+				if(response.soa.status == 'P'){
+	  				$('#requestModal > div > div > div.modal-footer').show();
 	  			}else{
-	  				$('#button_status').remove();
+	  				$('#requestModal > div > div > div.modal-footer').hide();
 	  			}
 	  		}
 	  		break;
@@ -3585,119 +3699,6 @@ var arrows;var item_v;var price;var special_option;
 	  	}
 
 	  	//Reviewer
-	
-	  	case "Modal_Delivery_Data":{
-	  		if(!response == false){
-	  			$('#delivery_no').text(response[0].delivery_no);
-	  			let html =' ';
-				html +='<thead>'+'<tr><th class="pl-0 font-weight-bold text-muted text-uppercase">ITEM</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">TOTAL QTY</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">QTY</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">RECEIVED</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">STATUS</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">ACTION</th></tr>'
-						  	 +'</thead><tbody>';
-					for(let i=0;i<response.length;i++){
-						_initNumberOnly("#balance_quantity"+response[i].id);
-						$( document ).ready(function() {
-							if(response[i].status == 'INCOMPLETE'){
-								$('#status'+response[i].id).text('INCOMPLETE').removeClass().addClass('label label-warning label-pill label-inline mr-2');
-								$('.add'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'COMPLETE'){
-								$('#status'+response[i].id).text('COMPLETE').removeClass().addClass('label label-success label-pill label-inline mr-2');
-								$('.add'+response[i].id).attr('disabled',true);
-								$('#balance_quantity'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'PENDING'){
-								$('#status'+response[i].id).text('N/A').removeClass().addClass('label label-danger label-pill label-inline mr-2');
-								$('.add'+response[i].id).attr('disabled',true);
-							}
-						});
-						$(document).on('blur','#balance_quantity'+response[i].id,function() {
-						 	received = $(this).val();
-						 	balance =  $('#balanced'+response[i].id).val();
-						 	let total =  parseFloat(balance) - parseFloat(received);
-						 	if(total < 0 || isNaN(total)){
-						 			$('#balance_quantity'+response[i].id).val('');
-							 	    	$('#balanced_'+response[i].id).text(balance);
-							 	    	$('#status'+response[i].id).text('N/A').removeClass().addClass('label label-danger label-pill label-inline mr-2');
-							 	    	$('.add'+response[i].id).attr('disabled',true);	
-							}else{
-								if(total == 0){
-								 	$('#status'+response[i].id).text('COMPLETE').removeClass().addClass('label label-success label-pill label-inline mr-2');
-								}else{
-									$('#status'+response[i].id).text('INCOMPLETE').removeClass().addClass('label label-warning label-pill label-inline mr-2');
-								}
-							     $('#balanced_'+response[i].id).text(total);
-							     $('.add'+response[i].id).attr('disabled',false);
-							}	
-						});
-						html +='<tr class="font-size-lg font-weight-bolder h-65px">'	
-								+'<td class="align-middle pl-0 border-0" width="300"><input type="hidden" id="item'+response[i].id+'" value="'+response[i].item+'"/>'+response[i].item+'</td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].quantity+'</span></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><input type="hidden" id="balanced'+response[i].id+'" value="'+response[i].balance+'"/><span id="balanced_'+response[i].id+'">'+response[i].balance+'</span></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="100"><input type="text" id="balance_quantity'+response[i].id+'"  class="form-control" style="text-align:center;"/></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="100"><span class="" id="status'+response[i].id+'"></span></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="save" data-id="'+response[i].id+'" class="btn btn-success font-weight-bolder ml-sm-auto my-1 add'+response[i].id+'">SAVE</button></td>'
-								+'</tr>';
-				}	
-				$('#tbl_delivery_update').html(html);
-			}
-	  		break;
-	  	}
-	  	case "Modal_Stocks_Delivery_Data":{
-	  		if(!response == false){
-	  			let html =' ';
-				html +='<thead>'+'<tr><th class="pl-0 font-weight-bold text-muted text-uppercase">ITEM</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">QTY</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">RECEIVED</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">STATUS</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">ACTION</th></tr>'
-						  	 +'</thead><tbody>';
-					for(let i=0;i<response.length;i++){
-						_initNumberOnly("#balance_quantity"+response[i].id);
-						$( document ).ready(function() {
-							if(response[i].status == 'INCOMPLETE'){
-								$('#status'+response[i].id).text('INCOMPLETE').removeClass().addClass('label label-warning label-pill label-inline mr-2');
-								$('.add'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'COMPLETE'){
-								$('#status'+response[i].id).text('COMPLETE').removeClass().addClass('label label-success label-pill label-inline mr-2');
-								$('.add'+response[i].id).attr('disabled',true);
-								$('#balance_quantity'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'PENDING'){
-								$('#status'+response[i].id).text('N/A').removeClass().addClass('label label-danger label-pill label-inline mr-2');
-								$('.add'+response[i].id).attr('disabled',true);
-							}
-						});
-						$(document).on('blur','#balance_quantity'+response[i].id,function() {
-						 	received = $(this).val();
-						 	balance =  $('#balanced'+response[i].id).val();
-						 	let total =  parseFloat(balance) - parseFloat(received);
-						 	if(total < 0 || isNaN(total)){
-						 			$('#balance_quantity'+response[i].id).val('');
-							 	    	$('#balanced_'+response[i].id).text(balance);
-							 	    	$('#status'+response[i].id).text('N/A').removeClass().addClass('label label-danger label-pill label-inline mr-2');
-							 	    	$('.add'+response[i].id).attr('disabled',true);	
-							}else{
-								if(total == 0){
-								 	$('#status'+response[i].id).text('COMPLETE').removeClass().addClass('label label-success label-pill label-inline mr-2');
-								}else{
-									$('#status'+response[i].id).text('INCOMPLETE').removeClass().addClass('label label-warning label-pill label-inline mr-2');
-								}
-							     $('#balanced_'+response[i].id).text(total);
-							     $('.add'+response[i].id).attr('disabled',false);
-							}	
-						});
-						html +='<tr class="font-size-lg font-weight-bolder h-65px">'	
-								+'<td class="align-middle pl-0 border-0" width="300"><input type="hidden" id="item'+response[i].id+'" value="'+response[i].item+'"/>'+response[i].item+'</td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><input type="hidden" id="balanced'+response[i].id+'" value="'+response[i].balance+'"/><span id="balanced_'+response[i].id+'">'+response[i].balance+'</span></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="100"><input type="text" id="balance_quantity'+response[i].id+'"  class="form-control" style="text-align:center;"/></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="100"><span class="" id="status'+response[i].id+'"></span></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="save" data-id="'+response[i].id+'" class="btn btn-success font-weight-bolder ml-sm-auto my-1 add'+response[i].id+'">SAVE</button></td>'
-								+'</tr>';
-				}	
-				$('#tbl_delivery_update').html(html);
-			}
-	  	}
 	     case "View_Supplier_Data":{
 	  		if(!response == false){
 	  			$('#supplier_name').text(response.name);
@@ -3718,10 +3719,6 @@ var arrows;var item_v;var price;var special_option;
 	  		}
 	  		break;
 	  	}
-	  	
-
-	  	
-
 	  	case "View_Profile":{
 	  		if(!response == false){
 	  			 _initAvatar('avatar');	

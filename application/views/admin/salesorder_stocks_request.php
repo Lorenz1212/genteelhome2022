@@ -1,5 +1,6 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-stocks">
+	<div class="form" data-link="Update_Salesorder_Stock_Request"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -24,18 +25,18 @@
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#shipping">
-			                        <span class="nav-text">FOR SHIPPING</span>
+			                        <span class="nav-text">APPROVED</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#delivered">
-			                        <span class="nav-text">DELIVERED</span>
+			                        <span class="nav-text">REJECTED</span>
 			                    </a>
 			                </li>
 			            </ul>
 			   		 </div>
 			   		</div>
-			    <div class="card-body link" data-link="tbl_salesorder_stocks_production">
+			    <div class="card-body link" data-link="tbl_salesorder_stocks_request_admin">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved" style="margin-top: 13px !important">
@@ -43,8 +44,8 @@
 									<tr>
 										<th>SO NO.</th>
 										<th>CUSTOMER</th>
+										<th>CREATED BY</th>
 										<th>DATE</th>
-										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
 								</thead>
@@ -56,6 +57,7 @@
 									<tr>
 										<th>SO NO.</th>
 										<th>CUSTOMER</th>
+										<th>CREATED BY</th>
 										<th>DATE</th>
 										<th>ACTION</th>
 									</tr>
@@ -68,6 +70,7 @@
 									<tr>
 										<th>SO NO.</th>
 										<th>CUSTOMER</th>
+										<th>CREATED BY</th>
 										<th>DATE</th>
 										<th>ACTION</th>
 									</tr>
@@ -79,6 +82,7 @@
 			</div>
 	</div>
 <!-- Modal-->
+
 <div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
@@ -157,7 +161,10 @@
 									</table>
 								</div>
 							</div>
-						
+					</div>
+					<div class="modal-footer">
+							<button class="btn btn-danger btn-shadow btn-sm mr-2 btn-status-save" data-status="C">Reject</button>
+							<button class="btn btn-success btn-shadow btn-sm mr-2 btn-status-save" data-status="A">Approve</button>
 					</div>
 				</div>
             </div>

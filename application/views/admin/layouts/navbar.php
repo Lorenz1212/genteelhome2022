@@ -96,10 +96,31 @@
 																</ul>
 															</div>
 														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/admin/salesorder-request";?>"class="menu-link">
-																<span class="menu-text">Sales Order Request</span>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="javascript:;"class="menu-link">
+																<span class="menu-text">Sales Order</span>
+																<i class="menu-arrow"></i>
 															</a>
+															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+																<ul class="menu-subnav">
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/admin/salesorder-stocks-request"?>"  class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">For Stocks</span>
+																		</a>
+																	</li>
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/admin/salesorder-project-request"?>"  class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">For Project</span>
+																		</a>
+																	</li>
+																</ul>
+															</div>
 														</li>
 													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="javascript:;" class="menu-link">

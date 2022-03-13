@@ -120,3 +120,43 @@ html::-webkit-scrollbar-thumb:active {
     width: 100%;
   }
 }
+.pad-r{
+    padding-left: 0px;
+  }
+  .table-size{
+    width: 100%;
+  }
+  .table-fixed{
+    table-layout: fixed ;
+    width: 100%;
+  }
+  .td-header{
+    background-color:#b9a08c;
+    height: 30px;
+  }
+  .td-w-50{
+    width: 50px;
+  }
+  .td-w-100{
+    width:100px;
+  }
+  .td-w-150{
+    width:150px;
+    padding-right:50px;
+  }
+  .td-border{
+    border-bottom: 1.4px solid black;
+  }
+  .td-border-1px td, th{
+    border: 1px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .td-padding td, th{
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .image-size-r{
+    width: 235px;
+    height: 100px;
+  }

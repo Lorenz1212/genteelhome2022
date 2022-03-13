@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-list" url-link="production">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-project">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -35,7 +35,7 @@
 			            </ul>
 			   		 </div>
 			   		</div>
-			    <div class="card-body link" data-link="tbl_salesorder_stocks_production">
+			    <div class="card-body link" data-link="tbl_salesorder_project_production">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved" style="margin-top: 13px !important">
@@ -80,110 +80,85 @@
 	</div>
 <!-- Modal-->
 <div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
-                    <div class="modal-body">
-                    	<div class="form" data-link="Update_Approval_SalesOrder"></div>
-							<div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
-								<div class="col-md-12">
-									<div class="d-flex justify-content-between pt-6">
-										<div class="d-flex flex-column flex-root">
-											<span class="font-weight-bolder mb-2">ORDER DATE</span>
-											<span class="opacity-70" id="date_order"></span>
-											<span class="font-weight-bolder mb-2">TRACKING NO.</span>
-											<span class="opacity-70" id="so_no"></span>
-											<span class="font-weight-bolder mb-2">INVOICE NO.</span>
-											<span class="opacity-70" id="si_no"></span>
-										</div>
-										<div class="d-flex flex-column flex-root">
-											<span class="font-weight-bolder mb-2">Customer Name</span>
-											<span class="opacity-70" id="c_name"></span>
-											<span class="font-weight-bolder mb-2">Mobile No.</span>
-											<span class="opacity-70" id="mobile"></span>
-											<span class="font-weight-bolder mb-2">Email Address</span>
-											<span class="opacity-70" id="email"></span>
-										</div>
-										<div class="d-flex flex-column flex-root">
-											<span class="font-weight-bolder mb-2">Billing Address</span>
-											<span class="opacity-70" id="b_address"></span>
-											<span class="opacity-70" id="b_city"></span>
-											<span class="opacity-70" id="b_zipcode"></span>
-											<span class="font-weight-bolder mb-2">Shipping Address</span>
-											<span class="opacity-70" id="s_address"></span>
-											<span class="opacity-70" id="s_city"></span>
-											<span class="opacity-70" id="s_zipcode"></span>
-										</div>
-									</div>
+        	<div class="modal-body">
+							<div class="row">
+								<div class="col-md-7 col-xl-3 col-xxl-8">
+									<span class="text-dark text-right d-flex flex-column pad-r">
+										<span>124 FIL-AM HIGHWAY TRINIDAD VILLAGE</span>
+										<span>CALIBUTBUT BACOLOR PAMPANGA</span>
+										<span>0917 134 0983</span>
+										<span>finance@genteelhome.co</span>
+									</span>
+								</div>
+								<div class="col-md-3 col-xl-3 col-xxl-3">
+									<img src="<?php echo base_url()?>assets/images/logo/logo-so.jpg" class="image-size-r" alt="">
 								</div>
 							</div>
-							<!-- end: Invoice header-->
-							<!-- begin: Invoice body-->
-							<div class="row justify-content-center">
-								<div class="col-md-12">
-									<div class="table-responsive">
-										<table class="table" id="tbl_admin_salesorder_so">
-											<thead>
-												<tr>
-													<th class="pl-0 font-weight-bold text-muted text-uppercase">ITEM</th>
-													<th class="pl-0 font-weight-bold text-muted text-uppercase">COLOR</th>
-													<th class="text-center font-weight-bold text-muted text-uppercase">QTY</th>
-													<th class="text-right font-weight-bold text-muted text-uppercase">PRICE</th>
-												</tr>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>
-									</div>
+							<br>
+							<div class="row">
+								<div class="col-md-12 col-xxl-12">
+									<table class="table-size">
+										<tr>
+											<td colspan="4" class="text-center text-white td-header">BILLING STATEMENT</td>
+										</tr>
+										<tr>
+											<td></br></td>
+										</tr>
+										<tr>
+											<td class="td-w-50"><b>Sold to :</b></td>
+											<td class="td-w-150 td-border sold-to"></td>
+											<td class="text-center td-w-100"> <b>Date :</b></td>
+											<td class="td-w-150 td-border date-order"></td>
+										</tr>
+										<tr>
+											<td class="td-w-50"><b>TIN :</b></td>
+											<td class="td-w-150 td-border"></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td class="td-w-50"><b>Address :</b></td>
+											<td class="td-w-150 td-border address"></td>
+											<td></td>
+											<td class="td-w-150 td-border so_no"></td>
+										</tr>
+									</table>
 								</div>
 							</div>
-							<!-- end: Invoice body-->
-							<!-- begin: Invoice footer-->
-							<div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
-								<div class="col-md-10">
-									<div class="table-responsive">
-										<table class="table">
-											<thead>
-												<tr>
-													<th class="font-weight-bold text-muted text-uppercase text-right" colspan="4">TOTAL AMOUNT</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td class="text-success  font-weight-boldest text-right" width="400" colspan="3">Subtotal: </td>
-													<td class="text-success  font-weight-boldest text-right" colspan="1"><span id="subtotal"></span></td>
-												</tr>
-												<tr>
-													<td class="text-success  font-weight-boldest text-right" width="400" colspan="3">Discount:</td>
-													<td class="text-success  font-weight-boldest text-right" colspan="1"><span id="discount"></span></td>
-												</tr>
-												<tr class="vat">
-													<td class="text-success font-weight-boldest text-right" width="400" colspan="3">VAT (12%): </td>
-													<td class="text-success font-weight-boldest text-right" colspan="1"><span id="vat"></span></td>
-												</tr>
-												<tr class="total">
-													<td class="text-success  font-weight-boldest text-right" width="400" colspan="3">Total Amount:</td>
-													<td class="text-success  font-weight-boldest text-right" colspan="1"><span id="total"></span></td>
-												</tr>
-												<tr class="downpayment">
-													<td class="text-success font-weight-boldest text-right" width="400" colspan="3">Downpayment: </td>
-													<td class="text-success font-weight-boldest text-right" colspan="1"><span id="downpayment"></span></td>
-												</tr>
-												<tr class="shipping_fee">
-													<td class="text-success  font-weight-boldest text-right" width="400" colspan="3">Shipping Fee:</td>
-													<td class="text-success  font-weight-boldest text-right" colspan="1"><span id="shipping_fee"></span></td>
-												</tr>
-												<tr class="grandtotal">
-													<td class="text-success  font-weight-boldest text-right" width="400" colspan="3">Grand Total:</td>
-													<td class="text-success  font-weight-boldest text-right" colspan="1"><span id="grandtotal"></span></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+						</br>
+							<div class="row">
+								<div class="col-md-12 col-xxl-12">
+									<table class="td-border-1px table-fixed" id="kt_table_soa_item">
+										<thead>
+											<tr>
+												<th class="text-center">DESCRIPTION</th>
+												<th class="text-center">AMOUNT</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+									</br>
+									<table class="table-fixed td-padding">
+											<tr class="tr-discount">
+											</tr>
+											<tr>
+												<td class="text-right text-success">DOWNPAYMENT :</td>
+												<td class="text-right text-success"><div style="float:left;">₱</div><div class="td-downpayment" style="float:right;"><div></td>
+											</tr>
+											<tr class="tr-shipping">
+											</tr>
+											<tr>
+												<td class="text-right text-danger">AMOUNT DUE <span class="vat-included"></span> :</td>
+												<td class="text-right text-danger"><div style="float:left;">₱</div><div class="td-amountdue" style="float:right;"><div></td>
+											</tr>
+									</table>
 								</div>
 							</div>
-						</div>
-					 <div class="modal-footer">
-            	    </div>
+						
+					</div>
 				</div>
             </div>
         </div>

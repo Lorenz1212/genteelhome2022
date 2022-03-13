@@ -20,9 +20,14 @@ class Modal_controller extends CI_Controller
         $data = $this->modal_model->Modal_Design_Project_View($id);
         echo json_encode($data);
     }
-     public function Modal_SalesOrder(){
+     public function Modal_SalesOrder_Stocks(){
         $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_SalesOrder($id);
+        $data = $this->modal_model->Modal_SalesOrder_Stocks($id);
+        echo json_encode($data);
+    }
+    public function Modal_SalesOrder_Project(){
+        $id = $this->input->post('id');
+        $data = $this->modal_model->Modal_SalesOrder_Project($id);
         echo json_encode($data);
     }
     public function Modal_SalesOrder_Return(){
@@ -204,10 +209,16 @@ class Modal_controller extends CI_Controller
     }
     
     //Approval
-    public function Modal_Approval_Inspection_View(){
+    public function Modal_Approval_Inspection_Project_View(){
         $id = $this->input->post('id');
         $status = $this->input->post('status');
-        $data = $this->modal_model->Modal_Approval_Inspection_View($id,$status);
+        $data = $this->modal_model->Modal_Approval_Inspection_Project_View($id,$status);
+        echo json_encode($data);
+    }
+    public function Modal_Approval_Inspection_Stocks_View(){
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $data = $this->modal_model->Modal_Approval_Inspection_Stocks_View($id,$status);
         echo json_encode($data);
     }
     public function Modal_Approval_Purchase_View(){

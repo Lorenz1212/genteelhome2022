@@ -52,56 +52,98 @@ class Modal_model extends CI_Model{
         return $row;
     }
    
-     function Modal_SalesOrder($id){
-          $query =  $this->db->select('s.*,i.*,c.*,d.*,d.title as title,s.c_name as c_name,c.c_name as color,s.status as status,
-            CONCAT(u.firstname, " ",u.lastname) AS sales_person,
-            DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
-          ->from('tbl_salesorder_item as i')
-          ->join('tbl_salesorder as s','i.so_no=s.so_no','LEFT')
-          ->join('tbl_project_design as d','d.id=i.project_no','LEFT')
-          ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_users as u','u.id=s.sales_person','LEFT')
-          ->WHERE('s.so_no',$id)->get();
+     function Modal_SalesOrder_Stocks($id){
+          $id = $this->encryption->decrypt($id);
+          $dis = 0; 
+          $query =  $this->db->select('s.*,i.*,c.*,d.*,s.id,s.status,s.so_no,sc.*,CONCAT(u.firstname, " ",u.lastname) AS sales_person,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order,(SELECT sum(amount) FROM tbl_salesorder_stocks_item WHERE so_no=s.id) as subtotal')
+          ->from('tbl_salesorder_stocks_item as i')
+          ->join('tbl_salesorder_stocks as s','i.so_no=s.id','LEFT')
+          ->join('tbl_project_color as c','c.id=i.c_code','LEFT')
+          ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
+          ->join('tbl_salesorder_customer as sc','sc.id=s.customer','LEFT')
+          ->join('tbl_users as u','u.id=s.created_by','LEFT')
+          ->WHERE('s.id',$id)->get();
            if(!$query){return false;}else{  
-               foreach($query->result() as $row)  
-               {
-                    if($row->vat == 'VATABLE'){
-                        $vat = $row->total*0.12;
-                        $grandtotal = floatval($row->total - $row->downpayment + $row->shipping_fee + $vat);
+               foreach($query->result() as $row){
+                    if($row->discount !=0){
+                        $dis = floatval($row->discount/100);
+                    }
+                    $discount = $row->subtotal*$dis;
+                    $subtotal = $row->subtotal-$discount;
+                    if($row->vat==1){
+                        $vat = $row->subtotal*0.12;
+                        $amount_due = floatval($subtotal - $row->downpayment + $row->shipping_fee + $vat);
                     }else{
                         $vat = 0;
-                        $grandtotal = floatval($row->total - $row->downpayment + $row->shipping_fee); 
+                        $amount_due = floatval($subtotal - $row->downpayment + $row->shipping_fee); 
                     }
+                $item = $row->qty.' '.$row->unit.' '.$row->title.' ('.$row->c_name.')';
                 $data[] = array(
+                         'id'           => $this->encryption->encrypt($row->id),
                          'so_no'		=> $row->so_no,
                          'si_no'        => $row->si_no,
                          'sales_order'	=> $row->sales_person,
-                         'c_name'       => $row->c_name,
+                         'customer'     => $row->fullname,
                          'mobile'       => $row->mobile,
-                         'b_address'    => $row->b_address,
-                         'b_city'       => $row->b_city,
-                         'b_province'   => $row->b_province,
-                         'b_zipcode	'   => $row->b_zipcode,
-                         's_address'	=> $row->s_address,
-                         's_city'       => $row->s_city,
-                         's_province'   => $row->s_province,
-                         's_zipcode'    => $row->s_zipcode,
-                         'title'        => $row->title,
-                         'color'        => $row->color,
-                         'qty'          => $row->qty,
-                         'price'        => number_format($row->price,2),
-                         'total'        => number_format($row->total+$vat,2),
+                         'address'      => $row->address,
+                         'item'         => $item,
+                         'vat_status'   => $row->vat,
+                         'amount'       => number_format($row->amount,2),
+                         'subtotal'     => number_format($row->subtotal,2),
+                         'total'        => number_format($row->subtotal+$vat,2),
                          'discount'     => $row->discount,
                          'subtotal'     => number_format($row->subtotal,2),
                          'shipping_fee' => number_format($row->shipping_fee,2),
                          'downpayment'  => number_format($row->downpayment,2),
-                         'grandtotal'   => number_format($grandtotal,2),
+                         'amount_due'   => number_format($amount_due,2),
                          'vat'          => number_format($vat,2),
-                         'status'       => $row->status,
-                         'date_order'   => $row->date_order
+                         'date_order'   => $row->date_order,
+                         'status'       => $row->status
                      );
                } 
                return $data;}
+    }
+    function Modal_SalesOrder_Project($id){
+      $id = $this->encryption->decrypt($id);
+      $dis = 0; 
+      $row =  $this->db->select('s.*,sc.*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
+      ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as sc','sc.id=s.customer','LEFT')
+      ->join('tbl_users as u','u.id=s.created_by','LEFT')->WHERE('s.id',$id)->get()->row();
+            $lineup = json_decode($row->item,true);
+            $data_array['item'] = $lineup;
+            $subtotal = array_sum(array_column($lineup,'amount'));
+            if($row->discount !=0){
+                $dis = floatval($row->discount/100);
+            }
+            $discount = $subtotal*$dis;
+            $subtotal_grand = $subtotal-$discount;
+            if($row->vat==1){
+                $vat = $subtotal*0.12;
+                $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee + $vat);
+            }else{
+                $vat = 0;
+                $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
+            }
+            
+            $data['soa'] = array(
+                     'id'           => $this->encryption->encrypt($row->id),
+                     'so_no'        => $row->so_no,
+                     'si_no'        => $row->si_no,
+                     'customer'     => $row->fullname,
+                     'mobile'       => $row->mobile,
+                     'address'      => $row->address,
+                     'vat_status'   => $row->vat,
+                     'subtotal'     => number_format($subtotal,2),
+                     'discount'     => $row->discount,
+                     'subtotal'     => number_format($subtotal,2),
+                     'shipping_fee' => number_format($row->shipping_fee,2),
+                     'downpayment'  => number_format($row->downpayment,2),
+                     'amount_due'   => number_format($amount_due,2),
+                     'vat'          => number_format($vat,2),
+                     'date_order'   => $row->date_order,
+                     'status'       => $row->status
+                 );
+           return array_merge($data,$data_array);
     }
     function Modal_SalesOrder_Return($id){
           $query =  $this->db->select('s.*,i.*,c.*,d.*,d.title as title,s.c_name as c_name,c.c_name as color,i.status as status,
@@ -212,7 +254,7 @@ class Modal_model extends CI_Model{
                } 
                return $data;}
     }
-    function Modal_Approval_Inspection_View($id,$status){
+    function Modal_Approval_Inspection_Project_View($id,$status){
         $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
         ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
@@ -238,7 +280,33 @@ class Modal_model extends CI_Model{
                return $data;}
          return  $query->row();
     }
-     
+    function Modal_Approval_Inspection_Stocks_View($id,$status){
+        $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+        ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
+        ->join('tbl_project_color as c','c.id=j.project_no','LEFT')
+        ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
+        ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+        ->where('i.status',$status)
+        ->where('i.production_no',$this->encryption->decrypt($id))->get();
+         if(!$query){return false;}else{  
+               foreach($query->result() as $row){
+                $data[] = array(
+                         'id'           => $row->id,
+                         'production_no'=> $row->production_no,
+                         'title'        => $row->title,
+                         'c_name'       => $row->c_name,
+                         'qty'          => $row->qty,
+                         'c_name'       => $row->c_name,
+                         'c_image'      => $row->c_image,
+                         'image'        => $row->image,
+                         'i_images'     => $row->i_images,
+                         'remarks'      => $row->remarks,
+                         'status'       => $row->status,
+                         'date_created' => $row->date_created);
+               } 
+               return $data;}
+         return  $query->row();
+    }
     function Modal_Approval_Purchase_View($id,$status){
           $array = array('pp.admin_status =' => $status, 'pp.request_id' => $id);
           $status1 = 'request_id = "'.$id.'" AND admin_status = "'.$status.'"';

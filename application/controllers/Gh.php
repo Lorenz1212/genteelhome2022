@@ -318,7 +318,6 @@ class Gh extends CI_Controller {
             case "salesorder-create-stocks":{$this->load->view('production/salesorder_create_stocks.php');break;}
             case "salesorder-create-project":{$this->load->view('production/salesorder_create_project.php');break;}
 
-            
             case "officesupplies-request":{$this->load->view('production/officesupplies_request.php');break;}
             case "create-officesupplies-request":{$this->load->view('production/officesupplies_create.php');break;}
             case "spare-request":{$this->load->view('production/spare_request.php');break;}
@@ -570,6 +569,8 @@ class Gh extends CI_Controller {
             case "joborder":{$this->load->view('admin/joborder_list.php'); break;}
             case "joborder-finished":{$this->load->view('admin/joborder_finished.php'); break;}
             case "joborder_create":{$this->load->view('admin/joborder_create.php'); break;}
+            case "salesorder-stocks-request":{$this->load->view('admin/salesorder_stocks_request.php');break;}
+            case "salesorder-project-request":{$this->load->view('admin/salesorder_project_request.php');break;}
             case "salesorder_list":{$this->load->view('admin/salesorder_list.php');break;}
             case "salesorder_create":{$this->load->view('admin/salesorder_create.php');break;}
             case "salesorder_update":{$this->load->view('admin/salesorder_update.php',$data);break;}
@@ -592,7 +593,6 @@ class Gh extends CI_Controller {
         foreach($data as $row => $rows_value){$this->session->unset_userdata($row);}
         redirect(base_url().'gh/login');
     }
-
     public function accounting_login(){
         if(!$this->session->userdata('currently_logged_in')){
             $this->db->select("*")

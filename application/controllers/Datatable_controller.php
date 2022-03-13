@@ -280,6 +280,37 @@ class Datatable_controller extends CI_Controller
         echo json_encode($data);
     }
     
+    public function Salesorder_Stocks_Request_DataTable_Admin(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Request_DataTable_Admin($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Approved_DataTable_Admin(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Approved_DataTable_Admin($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Rejected_DataTable_Admin(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Rejected_DataTable_Admin($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Request_DataTable_Admin(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Request_DataTable_Admin($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Approved_DataTable_Admin(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Approved_DataTable_Admin($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Rejected_DataTable_Admin(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Rejected_DataTable_Admin($user_id);
+        echo json_encode($data);
+    }
+
     
     
     public function Users_DataTable(){
