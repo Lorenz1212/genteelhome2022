@@ -114,10 +114,31 @@
 																</ul>
 															</div>
 														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/superuser/release";?>" class="menu-link">
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="javascript:;"class="menu-link">
 																<span class="menu-text">Sales Order</span>
+																<i class="menu-arrow"></i>
 															</a>
+															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+																<ul class="menu-subnav">
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/superuser/salesorder-stocks-request"?>"  class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">For Stocks</span>
+																		</a>
+																	</li>
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/superuser/salesorder-project-request"?>"  class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">For Project</span>
+																		</a>
+																	</li>
+																</ul>
+															</div>
 														</li>
 													</ul>
 												</div>
@@ -160,43 +181,6 @@
 															<a href="<?php echo base_url()."gh/superuser/joborder-masterlist-project";?>" class="menu-link">
 																<span class="menu-text">For Project</span>
 															</a>
-														</li>
-													</ul>
-												</div>
-											</li>
-											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-														<span class="menu-text">Return</span>
-														<span class="menu-desc"></span>
-														<i class="menu-arrow"></i>
-													</a>
-													<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-														<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Returning of Product</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/superuser/return-finishproduct?".base64_encode('urlstatus=return')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">LIST</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/superuser/return-finishproduct-create";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CREATE</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
 													</ul>
 												</div>

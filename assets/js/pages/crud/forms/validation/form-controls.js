@@ -200,6 +200,46 @@ var KTFormControls = function () {
                      });
                     break;
                }
+               case "Update_Salesorder_Stock_Delivery":{
+                    $('.btn-save').on('click', function(e){
+                          Swal.fire({
+                                 title: "Are you sure?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',$('.so_no').attr('data-id'));
+                                       formData.append('si_no',$('input[name="si_no"]').val());
+                                    thisURL = baseURL + 'update_controller/Update_Salesorder_Stock_Delivery';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Salesorder_Stock_Delivery",false);
+                             }
+                          });
+                     });
+                    break;
+               }
+               case "Update_Salesorder_Project_Delivery":{
+                    $('.btn-save').on('click', function(e){
+                          Swal.fire({
+                                 title: "Are you sure?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',$('.so_no').attr('data-id'));
+                                       formData.append('si_no',$('input[name="si_no"]').val());
+                                    thisURL = baseURL + 'update_controller/Update_Salesorder_Project_Delivery';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Salesorder_Project_Delivery",false);
+                             }
+                          });
+                     });
+                    break;
+               }
 	 		case "Update_Approval_Concern":{
 	 			$(document).ready(function() {
 					 $(document).on("click","#btn_save",function() {
@@ -3379,19 +3419,21 @@ var KTFormControls = function () {
                     if(response == 'A'){
                          $('#requestModal').modal('hide');
                          _initToast('success','Sales Order Approved');
-                         let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Approved_DataTable_Admin';
-                         let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
-                         _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
                     }else{
                           $('#requestModal').modal('hide');
                          _initToast('error','Sales Order Rejected');
-                         let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Rejected_DataTable_Admin';
-                         let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
-                         _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
                     }
                     let TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Admin';
                     let TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
                     _DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
+
+                    let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Approved_DataTable_Admin';
+                    let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+
+                    let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Rejected_DataTable_Admin';
+                    let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
                     break;
                }
                 case "Update_Salesorder_Project_Request":{
@@ -3402,6 +3444,41 @@ var KTFormControls = function () {
                           $('#requestModal').modal('hide');
                          _initToast('error','Sales Order Rejected');
                     }
+                    let TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Admin';
+                    let TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
+
+                    let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Approved_DataTable_Admin';
+                    let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+
+                    let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Rejected_DataTable_Admin';
+                    let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                    break;
+                }
+                case "Update_Salesorder_Stock_Delivery":{
+                    $('#requestModal').modal('hide');
+                     _initToast('success','Sales Invoice Number Submitted');
+                    let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Shipping_DataTable_Superuser';
+                    let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+
+                    let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Delivered_DataTable_Production';
+                    let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                    break;
+                }
+                case "Update_Salesorder_Project_Delivery":{
+                    $('#requestModal').modal('hide');
+                     _initToast('success','Sales Invoice Number Submitted');
+                    let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Shipping_DataTable_Superuser';
+                    let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+
+                    let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Delivered_DataTable_Superuser';
+                    let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+                    _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
                     break;
                 }
 

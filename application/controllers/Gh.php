@@ -463,13 +463,17 @@ class Gh extends CI_Controller {
             case "purchase-request-project":{$this->load->view('reviewer/purchase_request_project.php'); break;}
             case "joborder-masterlist-stocks":{$this->load->view('reviewer/joborder_masterlist_stocks.php');break;}
             case "joborder-masterlist-project":{$this->load->view('reviewer/joborder_masterlist_project.php');break;}
-            case "returnmaterial_request":{$this->load->view('reviewer/returnmaterial_request.php');break;}
-            case "spareparts-request":{$this->load->view('reviewer/spareparts_request.php');break;}
-            case "spareparts-request-update":{$this->load->view('reviewer/spareparts_request_update.php',$data);break;}
-            case "officesupplies-request":{$this->load->view('reviewer/officesupplies_request.php');break;}
-            case "officesupplies-request-update":{$this->load->view('reviewer/officesupplies_request_update.php',$data);break;}
-            case "return-finishproduct":{$this->load->view('reviewer/return_finishproduct.php');break;}
-            case "return-finishproduct-create":{$this->load->view('reviewer/return_finishproduct_create.php');break;}
+            case "salesorder-stocks-request":{$this->load->view('reviewer/salesorder_stocks_request.php');break;}
+            case "salesorder-project-request":{$this->load->view('reviewer/salesorder_project_request.php');break;}
+
+
+            // case "returnmaterial_request":{$this->load->view('reviewer/returnmaterial_request.php');break;}
+            // case "spareparts-request":{$this->load->view('reviewer/spareparts_request.php');break;}
+            // case "spareparts-request-update":{$this->load->view('reviewer/spareparts_request_update.php',$data);break;}
+            // case "officesupplies-request":{$this->load->view('reviewer/officesupplies_request.php');break;}
+            // case "officesupplies-request-update":{$this->load->view('reviewer/officesupplies_request_update.php',$data);break;}
+            // case "return-finishproduct":{$this->load->view('reviewer/return_finishproduct.php');break;}
+            // case "return-finishproduct-create":{$this->load->view('reviewer/return_finishproduct_create.php');break;}
             // case "purchase-stocks":{$this->load->view('reviewer/purchase_stocks.php');break;}
             // case "purchase-stocks-create":{$this->load->view('reviewer/purchase_stocks_create.php');break;}
             // case "purchase-stocks-process":{$this->load->view('reviewer/purchase_stocks_process.php',$data);break;}

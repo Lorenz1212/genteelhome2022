@@ -310,6 +310,26 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Salesorder_Project_Rejected_DataTable_Admin($user_id);
         echo json_encode($data);
     }
+    public function Salesorder_Stocks_Shipping_DataTable_Superuser(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Shipping_DataTable_Superuser($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Delivered_DataTable_Superuser(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Delivered_DataTable_Superuser($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Shipping_DataTable_Superuser(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Shipping_DataTable_Superuser($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Delivered_DataTable_Superuser(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Delivered_DataTable_Superuser($user_id);
+        echo json_encode($data);
+    }
 
     
     

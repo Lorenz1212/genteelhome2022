@@ -31,13 +31,11 @@
 <div class="d-flex flex-column-fluid">
 	<!--begin::Container-->
 	<div class="container">
-		<!--begin::Dashboard-->
-		<!--begin::Row-->
+
 		<div class="row">
-			<div class="col-xl-12 col-md-12 col-xxl-12">
+			<!-- <div class="col-xl-12 col-md-12 col-xxl-12">
 				<div class="row">
 					<div class="col-xl-3 col-md-3">
-						<!--begin::Tiles Widget 3-->
 						<div class="card card-custom bg-primary gutter-b" style="height: 150px">
 							<div class="card-body">
 								<span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
@@ -56,10 +54,8 @@
 								<a href="#" class="text-inverse-primary font-weight-bold font-size-lg mt-1">PENDING</a>
 							</div>
 						</div>
-						<!--end::Tiles Widget 3-->
 					</div>
 					<div class="col-xl-3 col-md-3">
-						<!--begin::Tiles Widget 3-->
 						<div class="card card-custom bg-warning gutter-b" style="height: 150px">
 							<div class="card-body">
 								<span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
@@ -75,10 +71,8 @@
 								<a href="#" class="text-inverse-primary font-weight-bold font-size-lg mt-1">DELIVERED</a>
 							</div>
 						</div>
-						<!--end::Tiles Widget 3-->
 					</div>
 					<div class="col-xl-3 col-md-3">
-						<!--begin::Tiles Widget 3-->
 						<div class="card card-custom bg-success gutter-b" style="height: 150px">
 							<div class="card-body">
 								<span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
@@ -95,10 +89,8 @@
 								<a href="#" class="text-inverse-primary font-weight-bold font-size-lg mt-1">Good</a>
 							</div>
 						</div>
-						<!--end::Tiles Widget 3-->
 					</div>
 					<div class="col-xl-3 col-md-3">
-						<!--begin::Tiles Widget 3-->
 						<div class="card card-custom bg-danger  gutter-b" style="height: 150px">
 							<div class="card-body">
 								<span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
@@ -115,8 +107,7 @@
 								<a href="#" class="text-inverse-primary font-weight-bold font-size-lg mt-1">Rejected</a>
 							</div>
 						</div>
-						<!--end::Tiles Widget 3-->
-					</div>
+					</div> -->
 					<div class="col-xl-12 col-md-12">
 						<!--begin::Mixed Widget 10-->
 						<div class="card card-custom gutter-b" style="height:450px;">

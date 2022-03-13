@@ -1,6 +1,6 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-project">
-	<div class="form" data-link="Update_Salesorder_Project_Request"></div>
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-stocks">
+	<div class="form" data-link="Update_Salesorder_Stock_Delivery"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -19,45 +19,26 @@
 			        <div class="card-toolbar">
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
-			                    <a class="nav-link active" data-toggle="tab" href="#approved">
-			                        <span class="nav-text">REQUEST FOR APPROVAL</span>
-			                    </a>
-			                </li>
-			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#shipping">
-			                        <span class="nav-text">APPROVED</span>
+			                    <a class="nav-link active" data-toggle="tab" href="#shipping">
+			                        <span class="nav-text">FOR SHIPPING</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#delivered">
-			                        <span class="nav-text">REJECTED</span>
+			                        <span class="nav-text">DELIVERED</span>
 			                    </a>
 			                </li>
 			            </ul>
 			   		 </div>
 			   		</div>
-			    <div class="card-body link" data-link="tbl_salesorder_project_request_admin">
+			    <div class="card-body link" data-link="tbl_salesorder_stocks_superuser">
 			        <div class="tab-content">
-			            <div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved" style="margin-top: 13px !important">
-								<thead>
-									<tr>
-										<th>SO NO.</th>
-										<th>CUSTOMER</th>
-										<th>CREATED BY</th>
-										<th>DATE</th>
-										<th>ACTION</th>
-									</tr>
-								</thead>
-							</table>
-			            </div>
-			            <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
+			            <div class="tab-pane fade show active" id="shipping" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_shipping" style="margin-top: 13px !important">
 								<thead>
 									<tr>
 										<th>SO NO.</th>
 										<th>CUSTOMER</th>
-										<th>CREATED BY</th>
 										<th>DATE</th>
 										<th>ACTION</th>
 									</tr>
@@ -70,7 +51,6 @@
 									<tr>
 										<th>SO NO.</th>
 										<th>CUSTOMER</th>
-										<th>CREATED BY</th>
 										<th>DATE</th>
 										<th>ACTION</th>
 									</tr>
@@ -82,13 +62,12 @@
 			</div>
 	</div>
 <!-- Modal-->
-
 <div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
         	<div class="modal-body">
 							<div class="row">
-								<div class="col-md-8 col-xl-8 col-xxl-8">
+								<div class="col-md-7 col-xl-8 col-xxl-8">
 									<span class="text-dark text-right d-flex flex-column pad-r">
 										<span>124 FIL-AM HIGHWAY TRINIDAD VILLAGE</span>
 										<span>CALIBUTBUT BACOLOR PAMPANGA</span>
@@ -118,7 +97,7 @@
 										</tr>
 										<tr>
 											<td class="td1-w-50"><b>TIN :</b></td>
-											<td class="td1-w-150 td-border"></td>
+											<td class="td1-w-150 td1-border"></td>
 											<td></td>
 											<td></td>
 										</tr>
@@ -146,7 +125,7 @@
 									</table>
 									</br>
 									<table class="table1-fixed td1-padding">
-											<tr class="tr1-discount">
+											<tr class="tr-discount">
 											</tr>
 											<tr>
 												<td class="text-right text-success">DOWNPAYMENT :</td>
@@ -161,10 +140,19 @@
 									</table>
 								</div>
 							</div>
+						
 					</div>
-					<div class="modal-footer modal-approval">
-							<button class="btn btn-danger btn-shadow btn-sm mr-2 btn-status-save" data-status="C">Reject</button>
-							<button class="btn btn-success btn-shadow btn-sm mr-2 btn-status-save" data-status="A">Approve</button>
+					<div class="modal-footer">
+						 <div class="form-group modal-delivery">
+						    <div class="input-group">
+							     <input type="text" class="form-control form-control-solid" name="si_no" placeholder="Input sales invoice no...."/>
+								     <div class="input-group-append">
+								      <button class="btn btn-primary btn-save" type="button">Submit!</button>
+								   </div>
+							   </div>
+						 </div>
+						 <button class="btn btn-light-dark font-weight-bold btn-icon btn-print" type="button"><i class="flaticon2-printer"></i></button>
+
 					</div>
 				</div>
             </div>

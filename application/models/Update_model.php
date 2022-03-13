@@ -1560,10 +1560,27 @@ class Update_model extends CI_Model
     function Update_Salesorder_Project_Request($user_id,$id,$status){
         $delivery = 0;if($status == 'A'){$delivery = 1;}
         $this->db->where('id',$this->encryption->decrypt($id));
-        $result = $this->db->update('tbl_salesorder_project',array('status'=>$status,'delivery'=>$delivery,'latest_update'=> date('Y-m-d H:i:s'),
-                          'update_by'=>$user_id));
+        $result = $this->db->update('tbl_salesorder_project',array('status'=>$status,'delivery'=>$delivery,'latest_update'=> date('Y-m-d H:i:s'),'update_by'=>$user_id));
         if($result){
             return $status;
+        }else{
+            return false;
+        }
+    }
+    function Update_Salesorder_Stock_Delivery($user_id,$id,$si_no){
+        $this->db->where('id',$this->encryption->decrypt($id));
+        $result = $this->db->update('tbl_salesorder_stocks',array('si_no'=>$si_no,'delivery'=>2));
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    function Update_Salesorder_Project_Delivery($user_id,$id,$si_no){
+        $this->db->where('id',$this->encryption->decrypt($id));
+        $result = $this->db->update('tbl_salesorder_project',array('si_no'=>$si_no,'delivery'=>2));
+        if($result){
+            return true;
         }else{
             return false;
         }

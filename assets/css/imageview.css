@@ -120,43 +120,43 @@ html::-webkit-scrollbar-thumb:active {
     width: 100%;
   }
 }
-.pad-r{
+ .pad1-r{
     padding-left: 0px;
   }
-  .table-size{
+  .table1-size{
     width: 100%;
   }
-  .table-fixed{
+  .table1-fixed{
     table-layout: fixed ;
     width: 100%;
   }
-  .td-header{
+  .td1-header{
     background-color:#b9a08c;
     height: 30px;
   }
-  .td-w-50{
+  .td1-w-50{
     width: 50px;
   }
-  .td-w-100{
+  .td1-w-100{
     width:100px;
   }
-  .td-w-150{
+  .td1-w-150{
     width:150px;
     padding-right:50px;
   }
-  .td-border{
+  .td1-border{
     border-bottom: 1.4px solid black;
   }
-  .td-border-1px td, th{
+  .td1-border-1px{
     border: 1px solid black;
     padding-left: 5px;
     padding-right: 5px;
   }
-  .td-padding td, th{
+  .td1-padding td, th{
     padding-left: 5px;
     padding-right: 5px;
   }
-  .image-size-r{
+  .image1-size-r{
     width: 235px;
     height: 100px;
   }

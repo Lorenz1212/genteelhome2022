@@ -41,29 +41,29 @@ class Dashboard_model extends CI_Model
 	}
    function superuser_dashboard()
    {       
-     $query_cs =  $this->db->select('count(id) as id')->from('tbl_service_request')->where('s_status', 'PENDING')->get();  
-     $row_cs = $query_cs->row();
+     // $query_cs =  $this->db->select('count(id) as id')->from('tbl_service_request')->where('s_status', 'PENDING')->get();  
+     // $row_cs = $query_cs->row();
 
-     $query_pr =  $this->db->select('count(id) as id')->from('tbl_purchasing_project')->where('status', 'PENDING')->get();  
-     $row_pr = $query_pr->row();
+     // $query_pr =  $this->db->select('count(id) as id')->from('tbl_purchasing_project')->where('status', 'PENDING')->get();  
+     // $row_pr = $query_pr->row();
 
-     $query_mr =  $this->db->select('count(id) as id')->from('tbl_material_project')->where('status', 'PENDING')->get();  
-     $row_mr = $query_mr->row();
+     // $query_mr =  $this->db->select('count(id) as id')->from('tbl_material_project')->where('status', 'PENDING')->get();  
+     // $row_mr = $query_mr->row();
 
-     $query_user =  $this->db->select('count(id) as id')->from('tbl_users')->where('status', 'PENDING')->get();  
-     $row_user = $query_user->row();
+     // $query_user =  $this->db->select('count(id) as id')->from('tbl_users')->where('status', 'PENDING')->get();  
+     // $row_user = $query_user->row();
 
-     $query_sd =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('status', 'DELIVERED')->get();  
-     $row_sd = $query_sd->row();
+     // $query_sd =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('status', 'DELIVERED')->get();  
+     // $row_sd = $query_sd->row();
 
-     $query_sop =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('status', 'REQUEST')->get();  
-     $row_sop = $query_sop->row();
+     // $query_sop =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('status', 'REQUEST')->get();  
+     // $row_sop = $query_sop->row();
 
-     $query_sr =  $this->db->select('count(id) as id')->from('tbl_salesorder_return')->where('status', 'REJECTED')->get();  
-     $row_sr = $query_sr->row();
+     // $query_sr =  $this->db->select('count(id) as id')->from('tbl_salesorder_return')->where('status', 'REJECTED')->get();  
+     // $row_sr = $query_sr->row();
 
-     $query_sg =  $this->db->select('count(id) as id')->from('tbl_salesorder_return')->where('status', 'GOOD')->get();  
-     $row_sg = $query_sg->row();
+     // $query_sg =  $this->db->select('count(id) as id')->from('tbl_salesorder_return')->where('status', 'GOOD')->get();  
+     // $row_sg = $query_sg->row();
 
     $office=array();
     $spare=array();
@@ -100,13 +100,13 @@ class Dashboard_model extends CI_Model
 
           $json_data = array( 'rawmats'      => $rawmats,
                               'office'       => $office,
-                              'spare'        => $spare,
-                              'pr'           => $row_pr->id,
-                              'mr'           => $row_mr->id,
-                              'sd'           => $row_sd->id,
-                              'sg'           => $row_sg->id,
-                              'sop'          => $row_sg->id,
-                              'cs'           => $row_cs->id);
+                              'spare'        => $spare);
+                              // 'pr'           => $row_pr->id,
+                              // 'mr'           => $row_mr->id,
+                              // 'sd'           => $row_sd->id,
+                              // 'sg'           => $row_sg->id,
+                              // 'sop'          => $row_sg->id,
+                              // 'cs'           => $row_cs->id);
           return $json_data;   
   } 
   function designer_dashboard($id){        

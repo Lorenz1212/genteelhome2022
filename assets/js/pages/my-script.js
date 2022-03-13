@@ -680,18 +680,6 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			
-			case "data-return-finishproduct-view":{
-				$(document).ready(function() {
-					_initSO_option();
-					 $(document).on("change","#so",function() {
-					 	let id = $(this).val();
-					 	let val = {id:id};
-					 	let thisUrl = 'view_controller/View_SO_Data';
-						_ajaxloader(thisUrl,"POST",val,"View_SO_Return_Data");
-				    });
-				})
-				break;
-			}
 			case "data-officesupplies-request-list":{
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -1534,24 +1522,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 
 			//Reviewer
-			case "data-joborder-update":{
-				$(document).ready(function() { 
-				    	let id =  $('#request_id_update').attr('data-id');
-					let val = {id:id};
-					let thisUrl = 'view_controller/View_Joborder_Data';
-					_ajaxloader(thisUrl,"POST",val,"View_Designer_JobOrder_Data");
-				 });
-				break;
-			}
-			case "data-reviewer-joborder-update":{
-				$(document).ready(function() { 
-				    	let id =  $('#request_id_update').attr('data-id');
-					let val = {id:id};
-					let thisUrl = 'view_controller/View_Joborder_Data';
-					_ajaxloader(thisUrl,"POST",val,"View_Reviewer_JobOrder_Data");
-				 });
-				break;
-			}
+
 			case "data-rawmats-list":{
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -1952,24 +1923,7 @@ var arrows;var item_v;var price;var special_option;
 				_ajaxloader(thisUrl,"POST",false,"View_Profile");
 				break;
 			}
-			case "data-officesupplies-request-view":{
-				 $(document).ready(function() { 
-				    	let id =  $('#request_id_update').attr('data-id');
-					let val = {id:id};
-					let thisUrl = 'view_controller/View_Officesupplier_Request_Data';
-					_ajaxloader(thisUrl,"POST",val,"View_OfficeSupplies_Request");
-				 });
-				break;
-			}
-			case "data-spareparts-request-view":{
-				 $(document).ready(function() { 
-				    	let id =  $('#request_id_update').attr('data-id');
-					let val = {id:id};
-					let thisUrl = 'view_controller/View_Spareparts_Request_Data';
-					_ajaxloader(thisUrl,"POST",val,"View_Spareparts_Request_Data");
-				 });
-				break;
-			}
+
 			case "data-voucher-list":{
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -3200,33 +3154,39 @@ var arrows;var item_v;var price;var special_option;
 	             	if(response[0].vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('');}
 	             	for(var i=0;i<response.length;i++){
              			html += '<tr>\
-							<td class="text-center">'+response[i].item+'</td>\
-							<td class="text-right"><div style="float:left;">₱</div><div style="float:right;">'+response[i].amount+'<div></td>\
+							<td class="text-center td1-border-1px">'+response[i].item+'</td>\
+							<td class="text-right td1-border-1px"><div style="float:left;">₱</div><div style="float:right;">'+response[i].amount+'<div></td>\
 							</tr>';
 				}	
 				if(response.length < 5){
 				   for(var i=0;i<4;i++){
 					html += '<tr>\
-							<td class="text-center">&nbsp;</td>\
-							<td class="text-right">&nbsp;</td>\
+							<td class="text-center td1-border-1px">&nbsp;</td>\
+							<td class="text-right td1-border-1px">&nbsp;</td>\
 						</tr>';
 					}
 				}
 				html +='<tr>\
-						<td class="text-right"><b>TOTAL AMOUNT:</b></td>\
-						<td class="text-right"><b><div style="float:left;">₱</div><div style="float:right;">'+response[0].subtotal+'</div></b></td>\
+						<td class="text-right td1-border-1px"><b>TOTAL AMOUNT:</b></td>\
+						<td class="text-right td1-border-1px"><b><div style="float:left;">₱</div><div style="float:right;">'+response[0].subtotal+'</div></b></td>\
 					   </tr>';
 				container.append(html);
-				if(response[0].status == 'P'){
-	  				$('#requestModal > div > div > div.modal-footer').show();
+				if(response[0].delivery == 1){
+	  				$('.modal-delivery').show();
+	  				$('btn-print').hide();
 	  			}else{
-	  				$('#requestModal > div > div > div.modal-footer').hide();
+	  				$('.modal-delivery').hide();
+	  				$('btn-print').show();
+	  			}
+				if(response[0].status == 'P'){
+	  				$('#requestModal > div > div > div.modal-approval').show();
+	  			}else{
+	  				$('#requestModal > div > div > div.modal-approval').hide();
 	  			}
 	  		}
 	  		break;
 	  	}
 	  	case "Modal_SalesOrder_Project":{
-	  		console.log(JSON.stringify(response))
 	  		let container = $('#kt_table_soa_item > tbody:last-child');
 	  		    container.empty();
 	  		     $('.tr-discount').empty();
@@ -3252,27 +3212,34 @@ var arrows;var item_v;var price;var special_option;
 	             	if(response.soa.vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('');}
 	             	for(var i=0;i<response.item.length;i++){
              			html += '<tr>\
-							<td class="text-center">'+response.item[i].quantity+' '+response.item[i].unit+' '+response.item[i].description+'</td>\
-							<td class="text-right"><div style="float:left;">₱</div><div style="float:right;">'+Number(response.item[i].amount).toLocaleString("en")+'<div></td>\
+							<td class="text-center td1-border-1px">'+response.item[i].quantity+' '+response.item[i].unit+' '+response.item[i].description+'</td>\
+							<td class="text-right td1-border-1px"><div style="float:left;">₱</div><div style="float:right;">'+Number(response.item[i].amount).toLocaleString("en")+'<div></td>\
 							</tr>';
 				}	
 				if(response.item.length < 5){
 				   for(var i=0;i<4;i++){
 					html += '<tr>\
-							<td class="text-center">&nbsp;</td>\
-							<td class="text-right">&nbsp;</td>\
+							<td class="text-center td1-border-1px">&nbsp;</td>\
+							<td class="text-right td1-border-1px">&nbsp;</td>\
 						</tr>';
 					}
 				}
 				html +='<tr>\
-						<td class="text-right"><b>TOTAL AMOUNT:</b></td>\
-						<td class="text-right"><b><div style="float:left;">₱</div><div style="float:right;">'+response.soa.subtotal+'</div></b></td>\
+						<td class="text-right td1-border-1px"><b>TOTAL AMOUNT:</b></td>\
+						<td class="text-right td1-border-1px"><b><div style="float:left;">₱</div><div style="float:right;">'+response.soa.subtotal+'</div></b></td>\
 					   </tr>';
 				container.append(html);
-				if(response.soa.status == 'P'){
-	  				$('#requestModal > div > div > div.modal-footer').show();
+				if(response.soa.delivery == 1){
+	  				$('.modal-delivery').show();
+	  				$('btn-print').hide();
 	  			}else{
-	  				$('#requestModal > div > div > div.modal-footer').hide();
+	  				$('.modal-delivery').hide();
+	  				$('btn-print').show();
+	  			}
+				if(response.soa.status == 'P'){
+	  				$('#requestModal > div > div > div.modal-approval').show();
+	  			}else{
+	  				$('#requestModal > div > div > div.modal-approval').hide();
 	  			}
 	  		}
 	  		break;
@@ -3324,296 +3291,6 @@ var arrows;var item_v;var price;var special_option;
 	  		break;
 	  	}
 	  	//View Data Update
-	  	//Designer
-	  	case "View_OfficeSupplies_Request":{
-	  		if(!response == false){
-	  				$('#title').val(response[0].title);
-	  		$('#unit').val(response[0].unit);
-	  		 let html =' ';
-				html +='<thead>'+'<tr><th class="pl-0 font-weight-bold text-muted text-uppercase">ITEM</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">QTY</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">STOCKS</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">STATUS</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">RELEASE</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">ACTION</th></tr>'
-						  	 +'</thead><tbody>';
-					for(let i=0;i<response.length;i++){
-						_initNumberOnly("#balance_quantity"+response[i].id);
-						$(document).ready(function() {
-							if(response[i].status == 'PARTIAL PENDING'){
-								$('.add'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'PARTIAL CLOSED'){
-								$('.add'+response[i].id).attr('disabled',true);
-								$('#balance_quantity'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'CANCELLED'){
-								$('.add'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'PENDING'){
-								$('.add'+response[i].id).attr('disabled',true);
-							}
-							$('#status'+response[i].id).val(response[i].status).change().attr('selected',true);
-						});
-						
-						$(document).on('change','#status'+response[i].id,function() {
-						 	status = $(this).val();
-						 	balance = $('#balanced'+response[i].id).val();
-						 	if(status == 'COMPLETE'){
-						 		$('#balance_quantity'+response[i].id).val(balance).prop('readonly',true);
-							 	$('#balanced_'+response[i].id).text(0);
-							 	if(response[i].status == 'COMPLETE'){
-							 		$('.add'+response[i].id).attr('disabled',true);
-							 		$('#status'+response[i].id).attr('disabled',true);
-							 	}else{
-							 		$('.add'+response[i].id).attr('disabled',false);	
-							 	}
-							 	
-							}else if(status == 'CANCELLED'){
-								$('#balance_quantity'+response[i].id).val(0).prop('readonly',true);
-							     $('#balanced_'+response[i].id).text(balance);
-							     if(response[i].status == 'CANCELLED'){
-								$('.add'+response[i].id).attr('disabled',true);
-								$('#status'+response[i].id).attr('disabled',true);
-								}else{$('.add'+response[i].id).attr('disabled',false);}
-							     
-							}else if(status == 'PENDING'){
-								$('#balance_quantity'+response[i].id).val('');
-							     $('#balanced_'+response[i].id).text(balance);
-							     $('.add'+response[i].id).attr('disabled',true);
-							}else{
-								$(document).on('blur','#balance_quantity'+response[i].id,function() {
-								 	received = $(this).val();
-								 	let total =  parseFloat(balance) - parseFloat(received);
-								 	if(total < 0 || isNaN(total)){
-								 		$('#balance_quantity'+response[i].id).val('');
-									 	$('#balanced_'+response[i].id).text(balance);
-									 	$('.add'+response[i].id).attr('disabled',true);	
-									}else{
-									     $('#balanced_'+response[i].id).text(total);
-									     $('.add'+response[i].id).attr('disabled',false);
-									}	
-								});
-							}	
-						});
-						html +='<tr class="font-size-lg font-weight-bolder h-65px">'
-								+'<td class="align-middle pl-0 border-0" width="300"><input type="hidden" id="item'+response[i].id+'" value="'+response[i].item+'">'+response[i].item+'</td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><input type="hidden" id="balanced'+response[i].id+'" value="'+response[i].balance+'"/><span id="balanced_'+response[i].id+'">'+response[i].balance+'</span></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].stocks+'</td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="200"><select class="form-control form-control-solid" id="status'+response[i].id+'">'
-																+'<option value="PENDING" selected>SELECT OPTION</option>'
-																+'<option value="PARTIAL PENDING">PARTIAL PENDING</option>'
-																+'<option value="PARTIAL CLOSED">PARTIAL CLOSED</option>'
-															     +'<option value="COMPLETE">COMPLETE</option>'
-															     +'<option value="CANCELLED">CANCEL</option></select></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="100"><input type="text" id="balance_quantity'+response[i].id+'"  class="form-control" style="text-align:center;"/></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="save" data-id="'+response[i].id+'" class="btn btn-success font-weight-bolder ml-sm-auto my-1 add'+response[i].id+'">SAVE</button></td>'
-								+'</tr>';
-				}	
-				$('#tbl-OfficeSupplies-Request').html(html);
-	  		}
-	  		break;
-	  	}
-	  	case "View_Spareparts_Request_Data":{
-	  		if(!response == false){
-	  				$('#title').val(response[0].title);
-	  		$('#unit').val(response[0].unit);
-	  		 let html =' ';
-				html +='<thead>'+'<tr><th class="pl-0 font-weight-bold text-muted text-uppercase">ITEM</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">QTY</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">STOCKS</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">STATUS</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">RELEASE</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">ACTION</th></tr>'
-						  	 +'</thead><tbody>';
-					for(let i=0;i<response.length;i++){
-						_initNumberOnly("#balance_quantity"+response[i].id);
-						$(document).ready(function() {
-							if(response[i].status == 'PARTIAL PENDING'){
-								$('.add'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'PARTIAL CLOSED'){
-								$('.add'+response[i].id).attr('disabled',true);
-								$('#balance_quantity'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'CANCELLED'){
-								$('.add'+response[i].id).attr('disabled',true);
-							}else if(response[i].status == 'PENDING'){
-								$('.add'+response[i].id).attr('disabled',true);
-							}
-							$('#status'+response[i].id).val(response[i].status).change().attr('selected',true);
-						});
-						
-						$(document).on('change','#status'+response[i].id,function() {
-						 	status = $(this).val();
-						 	balance = $('#balanced'+response[i].id).val();
-						 	if(status == 'COMPLETE'){
-						 		$('#balance_quantity'+response[i].id).val(balance).prop('readonly',true);
-							 	$('#balanced_'+response[i].id).text(0);
-							 	if(response[i].status == 'COMPLETE'){
-							 		$('.add'+response[i].id).attr('disabled',true);
-							 		$('#status'+response[i].id).attr('disabled',true);
-							 	}else{
-							 		$('.add'+response[i].id).attr('disabled',false);	
-							 	}
-							 	
-							}else if(status == 'CANCELLED'){
-								$('#balance_quantity'+response[i].id).val(0).prop('readonly',true);
-							     $('#balanced_'+response[i].id).text(balance);
-							     if(response[i].status == 'CANCELLED'){
-								$('.add'+response[i].id).attr('disabled',true);
-								$('#status'+response[i].id).attr('disabled',true);
-								}else{$('.add'+response[i].id).attr('disabled',false);}
-							     
-							}else if(status == 'PENDING'){
-								$('#balance_quantity'+response[i].id).val('');
-							     $('#balanced_'+response[i].id).text(balance);
-							     $('.add'+response[i].id).attr('disabled',true);
-							}else{
-								$(document).on('blur','#balance_quantity'+response[i].id,function() {
-								 	received = $(this).val();
-								 	let total =  parseFloat(balance) - parseFloat(received);
-								 	if(total < 0 || isNaN(total)){
-								 		$('#balance_quantity'+response[i].id).val('');
-									 	$('#balanced_'+response[i].id).text(balance);
-									 	$('.add'+response[i].id).attr('disabled',true);	
-									}else{
-									     $('#balanced_'+response[i].id).text(total);
-									     $('.add'+response[i].id).attr('disabled',false);
-									}	
-								});
-							}	
-						});
-						html +='<tr class="font-size-lg font-weight-bolder h-65px">'
-								+'<td class="align-middle pl-0 border-0" width="300"><input type="hidden" id="item'+response[i].id+'" value="'+response[i].item+'">'+response[i].item+'</td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><input type="hidden" id="balanced'+response[i].id+'" value="'+response[i].balance+'"/><span id="balanced_'+response[i].id+'">'+response[i].balance+'</span></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].stocks+'</td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="200"><select class="form-control form-control-solid" id="status'+response[i].id+'">'
-																+'<option value="PENDING" selected>SELECT OPTION</option>'
-																+'<option value="PARTIAL PENDING">PARTIAL PENDING</option>'
-																+'<option value="PARTIAL CLOSED">PARTIAL CLOSED</option>'
-															     +'<option value="COMPLETE">COMPLETE</option>'
-															     +'<option value="CANCELLED">CANCEL</option></select></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="100"><input type="text" id="balance_quantity'+response[i].id+'"  class="form-control" style="text-align:center;"/></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="save" data-id="'+response[i].id+'" class="btn btn-success font-weight-bolder ml-sm-auto my-1 add'+response[i].id+'">SAVE</button></td>'
-								+'</tr>';
-				}	
-				$('#tbl-sprareparts-Request').html(html);
-	  		}
-	  		break;
-	  	}
-	  	case "View_Desing_Project_Data":{
-	  		if(!response == false){
-	  		      _initAvatar('design_image');
-	  		      $(document).ready(function() {
-					$(".upfile1").click(function () {
-					    $("#image1").trigger('click');
-					});
-				});
-		  		$('#title').val(response.title);
-		  		$('#project_no').text(response.project_no);
-		  		$('input[name=previous_image]').val(response.image);
-		  		$('input[name=previous_docs]').val(response.docs);
-		  		$('input[name=previous_color]').val(response.c_image);
-		  		$('input[name=c_name]').val(response.c_name);
-		  		$('select[name=status]').val(response.status).change();
-		  		$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-		  		$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-		  		$(".color").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-		  		$('#image').attr('style','background-image: url('+baseURL+'assets/images/design/project_request/images/'+response.image+')');
-		  	}
-	  		break;
-	  	}
-	  	case "View_Designer_JobOrder_Data":{
-	  		if(!response == false){
-	  			_initNumberOnly("#release");
-	  			$('#project_nos').text(response.production_no);
-	  			$('#title').val(response.title);
-	  			$('#unit').val(response.balance);
-	  			$('#production_no').val(response.production_no);
-	  			$('#c_code').val(response.c_code);
-	  			$("#projectno_href").attr("href",baseURL + 'gh/designer/project_update/'+btoa(response.project_no));
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-	  			$("#c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  			$('#c_name').val(response.c_name);
-	  			$("#update_href").click(function(){
-				    $(this).attr("href", baseURL+'gh/production/joborder_update/'+btoa(response.production_no));
-				});
-				$(document).on('keyup','input[name=release]',function() {
-				 	received = $(this).val();
-				 	let total =  parseFloat(response.balance) - parseFloat(received);
-
-				 	if(total < 0 || isNaN(total)){
-				 		$('#unit').val(response.balance);	
-					 	$('input[name=release]').val('');	
-					}else{
-					     $('#unit').val(total);
-					}	
-				});
-	  		}
-	  		break;
-	  	}
-	  	case "View_SalesOrder_Data":{
-	  	     if(!response == false){
-	  	     	KTSALESORDER.init();
-	  	     	_ajaxloaderOption('option_controller/Designer_option','POST',false,'design_option');
-				$('#project_no').on('change',function(){
-					_initColor_option($(this).val());
-				});
-				$('#c_code').on('change',function(){
-					_initImage_option($(this).val());
-				})
-				_initCurrency_format('#cost1');
-				_initNumberOnly('#qty');
-				let dis = parseFloat((response.discount*100)/1);
-		  		$('input[name=fullname]').val(response.c_name);
-				$('input[name=email]').val(response.email);
-				$('input[name=mobile]').val(response.mobile);
-				$('input[name=dp]').val(response.mobile);
-				$('input[name=so_no]').val(response.so_no);
-				$('input[name=discount]').val(dis);
-				$('input[name=shipping_fee]').val(response.shipping_fee);
-				$('select[name=vat]').val(response.vat).change();
-				tinyMCE.get('kt-tinymce-4').setContent(response.remarks);
-				_initCurrency_format('input[name=price]');
-				$(document).on("click","input[name=copy]",function() { 
-				    if($(this).prop("checked") == true){
-				         let address1 = $('input[name=b_address]').val();
-				         let city = $('input[name=b_city]').val();
-				         let province = $('input[name=b_province]').val();
-				         let zipcode = $('input[name=b_zipcode]').val();
-			               $('input[name=s_address]').val(address1);
-			               $('input[name=s_city]').val(city);
-			               $('input[name=s_province]').val(province);
-			               $('input[name=s_zipcode]').val(zipcode);
-			            }
-			            else if($(this).prop("checked") == false){
-			               $('input[name=s_address]').val('');
-			               $('input[name=s_city]').val('');
-			               $('input[name=_s_province]').val('');
-			               $('input[name=s_zipcode]').val('');
-			            }
-			     });
-			      $('#add_request').on('click',function(){
-						var project_no = $('select[name="project_no"]').val();
-						var c_code 	= $('select[name="c_code"]').val();
-						var quantity  	= $('input[name=qty]').val();
-						var price 	= $('input[name=price]').val();
-						if(!quantity || !price){
-							 Swal.fire("Warning!", "Please Enter Qty and Price!", "warning");
-						}else{
-							_initFinishproduct_Release(project_no,c_code,quantity,price);
-							_initremovetable('#myTable');
-							$('input[name=qty]').val('');
-						     $('input[name=price]').val('');
-						     $('select[name=project_no]').val('').change();
-						     $('select[name=c_code]').empty();
-						     $('select[name=c_code]').val('').change();
-						     $('#color').attr('src',baseURL+'assets/images/design/project_request/images/default.jpg');
-						}
-				});
-
-	  	     }
-	  		break;
-	  	}
 
 	  	//supervisor
 	  	case "View_Return_Item_Data":{
@@ -3647,55 +3324,6 @@ var arrows;var item_v;var price;var special_option;
 	  		   $('#requestor').val(response.production);
 	  	    }
 	  	    break;
-	  	}
-	  	case "View_SO_Return_Data":{
-	  		if(!response == false){
-	  			$('input[name=c_name]').val(response[0].costumer);
-	  			let html =' ';
-				html +='<thead>'
-							 +'<tr><th class="pl-0 font-weight-bold text-muted text-uppercase">ITEM</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">QTY</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">PRICE</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">STATUS</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">RETURN</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">ACTION</th></tr>'
-						  	 +'</thead><tbody>';
-					  for(let i=0;i<response.length;i++){
-						  $(document).ready(function(){
-							if(response[i].balance == 0){
-							$('#balance_quantity'+response[i].id).attr('disabled',true);
-							$('.add'+response[i].id).attr('disabled',true);	
-						    }
-						});
-						_initNumberOnly("#balance_quantity"+response[i].id);
-						$(document).on('blur','#balance_quantity'+response[i].id,function() {
-						 	received = $(this).val();
-						 	balance = $('#balanced'+response[i].id).val();
-						 	let total =  parseFloat(balance) - parseFloat(received);
-						 	if(total < 0 || isNaN(total)){
-						 		$('#balance_quantity'+response[i].id).val('');
-							 	$('#balanced_'+response[i].id).text(balance);
-							 	$('.add'+response[i].id).attr('disabled',true);	
-							}else{
-							     $('#balanced_'+response[i].id).text(total);
-							     $('.add'+response[i].id).attr('disabled',false);
-							}	
-						});
-						html +='<tr class="font-size-lg font-weight-bolder h-65px">'
-								+'<td class="align-middle pl-0 border-0" width="400" id="c_code'+response[i].id+'" data-code="'+response[i].c_code+'"><input type="hidden" id="item'+response[i].id+'" value="'+response[i].item+'">'+response[i].title+'</td>'
-								+'<td class="text-center align-middle text-center text-success font-weight-boldest font-size-h5 pr-0 border-0"><input type="hidden" id="balanced'+response[i].id+'" value="'+response[i].balance+'"/><span id="balanced_'+response[i].id+'">'+response[i].balance+'</span></td>'
-								+'<td class="text-center align-middle pl-0 border-0" width="300"><input type="hidden" id="balanceprice'+response[i].id+'" value="'+response[i].balance_price+'"><span id="balanceprice_'+response[i].id+'">'+response[i].balance_price+'</span></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="200"><select class="form-control form-control-solid" id="status'+response[i].id+'">'
-																+'<option value="PENDING">SELECT OPTION</option>'
-																+'<option value="GOOD">GOOD</option>'
-																+'<option value="REJECTED">REJECT</option></select></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0" width="100"><input type="text" id="balance_quantity'+response[i].id+'"  class="form-control" style="text-align:center;"/></td>'
-								+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="save" data-id="'+response[i].id+'" class="btn btn-success font-weight-bolder ml-sm-auto my-1 add'+response[i].id+'">SAVE</button></td>'
-								+'</tr>';
-				}	
-				$('#tbl-return-finishproduct-request').html(html);
-	  		}
-	  		break;
 	  	}
 
 	  	//Reviewer

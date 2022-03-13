@@ -93,36 +93,36 @@
 									</span>
 								</div>
 								<div class="col-md-3 col-xl-3 col-xxl-3">
-									<img src="<?php echo base_url()?>assets/images/logo/logo-so.jpg" class="image-size-r" alt="">
+									<img src="<?php echo base_url()?>assets/images/logo/logo-so.jpg" class="image1-size-r" alt="">
 								</div>
 							</div>
 							<br>
 							<div class="row">
 								<div class="col-md-12 col-xxl-12">
-									<table class="table-size">
+									<table class="table1-size">
 										<tr>
-											<td colspan="4" class="text-center text-white td-header">BILLING STATEMENT</td>
+											<td colspan="4" class="text-center text-white td1-header">BILLING STATEMENT</td>
 										</tr>
 										<tr>
 											<td></br></td>
 										</tr>
 										<tr>
-											<td class="td-w-50"><b>Sold to :</b></td>
-											<td class="td-w-150 td-border sold-to"></td>
-											<td class="text-center td-w-100"> <b>Date :</b></td>
-											<td class="td-w-150 td-border date-order"></td>
+											<td class="td1-w-50"><b>Sold to :</b></td>
+											<td class="td1-w-150 td1-border sold-to"></td>
+											<td class="text-center td1-w-100"> <b>Date :</b></td>
+											<td class="td1-w-150 td1-border date-order"></td>
 										</tr>
 										<tr>
-											<td class="td-w-50"><b>TIN :</b></td>
-											<td class="td-w-150 td-border"></td>
+											<td class="td1-w-50"><b>TIN :</b></td>
+											<td class="td1-w-150 td1-border"></td>
 											<td></td>
 											<td></td>
 										</tr>
 										<tr>
-											<td class="td-w-50"><b>Address :</b></td>
-											<td class="td-w-150 td-border address"></td>
+											<td class="td1-w-50"><b>Address :</b></td>
+											<td class="td1-w-150 td1-border address"></td>
 											<td></td>
-											<td class="td-w-150 td-border so_no"></td>
+											<td class="td1-w-150 td1-border so_no"></td>
 										</tr>
 									</table>
 								</div>
@@ -130,18 +130,18 @@
 						</br>
 							<div class="row">
 								<div class="col-md-12 col-xxl-12">
-									<table class="td-border-1px table-fixed" id="kt_table_soa_item">
+									<table class="table1-fixed" id="kt_table_soa_item">
 										<thead>
 											<tr>
-												<th class="text-center">DESCRIPTION</th>
-												<th class="text-center">AMOUNT</th>
+												<th class="text-center td1-border-1px">DESCRIPTION</th>
+												<th class="text-center td1-border-1px">AMOUNT</th>
 											</tr>
 										</thead>
 										<tbody>
 										</tbody>
 									</table>
 									</br>
-									<table class="table-fixed td-padding">
+									<table class="table1-fixed td1-padding">
 											<tr class="tr-discount">
 											</tr>
 											<tr>
@@ -158,6 +158,10 @@
 								</div>
 							</div>
 						
+					</div>
+					<div class="modal-footer">
+						 <button class="btn btn-light-dark font-weight-bold btn-icon btn-print" type="button"><i class="flaticon2-printer"></i></button>
+
 					</div>
 				</div>
             </div>
