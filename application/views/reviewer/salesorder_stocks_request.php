@@ -151,8 +151,7 @@
 								   </div>
 							   </div>
 						 </div>
-						 <button class="btn btn-light-dark font-weight-bold btn-icon btn-print" type="button"><i class="flaticon2-printer"></i></button>
-
+						  <a href="<?php echo base_url()?>gh/print/print-salesorder-stocks" target="_blank" class="btn btn-light-dark font-weight-bold btn-icon btn-print"  type="button"><i class="flaticon2-printer"></i></a>
 					</div>
 				</div>
             </div>

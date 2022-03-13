@@ -1,6 +1,6 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-project">
-	<div class="form" data-link="Update_Salesorder_Stock_Delivery"></div>
+	<div class="form" data-link="Update_Salesorder_Project_Delivery"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -151,7 +151,7 @@
 								   </div>
 							   </div>
 						 </div>
-						 <button class="btn btn-light-dark font-weight-bold btn-icon btn-print" type="button"><i class="flaticon2-printer"></i></button>
+						 <a  class="btn btn-light-dark font-weight-bold btn-icon btn-print" type="button"><i class="flaticon2-printer"></i></a>
 					</div>
 				</div>
             </div>

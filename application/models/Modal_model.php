@@ -98,6 +98,7 @@ class Modal_model extends CI_Model{
                          'amount_due'   => number_format($amount_due,2),
                          'vat'          => number_format($vat,2),
                          'date_order'   => $row->date_order,
+                         'delivery'     => $row->delivery,
                          'status'       => $row->status
                      );
                } 
@@ -140,6 +141,7 @@ class Modal_model extends CI_Model{
                      'amount_due'   => number_format($amount_due,2),
                      'vat'          => number_format($vat,2),
                      'date_order'   => $row->date_order,
+                     'delivery'     => $row->delivery,
                      'status'       => $row->status
                  );
            return array_merge($data,$data_array);

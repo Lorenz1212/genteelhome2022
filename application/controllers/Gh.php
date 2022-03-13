@@ -466,7 +466,6 @@ class Gh extends CI_Controller {
             case "salesorder-stocks-request":{$this->load->view('reviewer/salesorder_stocks_request.php');break;}
             case "salesorder-project-request":{$this->load->view('reviewer/salesorder_project_request.php');break;}
 
-
             // case "returnmaterial_request":{$this->load->view('reviewer/returnmaterial_request.php');break;}
             // case "spareparts-request":{$this->load->view('reviewer/spareparts_request.php');break;}
             // case "spareparts-request-update":{$this->load->view('reviewer/spareparts_request_update.php',$data);break;}
@@ -822,6 +821,12 @@ class Gh extends CI_Controller {
       $data = $this->session->all_userdata();
         foreach($data as $row => $rows_value){$this->session->unset_userdata($row);}
         redirect(base_url().'gh/login');
+    }
+    public function Print($view=null){
+        switch ($view) {
+           case "print-salesorder-stocks":{$this->load->view('print/print_salesorder_stocks.php');break;}
+           case "print-salesorder-project":{$this->load->view('print/print_salesorder_project.php');break;}
+        }
     }
 
 }

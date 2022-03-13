@@ -1241,11 +1241,12 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-salesorder-project":{
 				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
+				    $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
 					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
 						_ajaxloader(thisUrl,"POST",{id:id},"Modal_SalesOrder_Project");
 				    });
+
 				})
 				break;
 			}
@@ -3173,10 +3174,10 @@ var arrows;var item_v;var price;var special_option;
 				container.append(html);
 				if(response[0].delivery == 1){
 	  				$('.modal-delivery').show();
-	  				$('btn-print').hide();
+	  				$('.btn-print').hide();
 	  			}else{
 	  				$('.modal-delivery').hide();
-	  				$('btn-print').show();
+	  				$('.btn-print').show();
 	  			}
 				if(response[0].status == 'P'){
 	  				$('#requestModal > div > div > div.modal-approval').show();
@@ -3231,10 +3232,10 @@ var arrows;var item_v;var price;var special_option;
 				container.append(html);
 				if(response.soa.delivery == 1){
 	  				$('.modal-delivery').show();
-	  				$('btn-print').hide();
+	  				$('.btn-print').hide();
 	  			}else{
 	  				$('.modal-delivery').hide();
-	  				$('btn-print').show();
+	  				$('.btn-print').show();
 	  			}
 				if(response.soa.status == 'P'){
 	  				$('#requestModal > div > div > div.modal-approval').show();

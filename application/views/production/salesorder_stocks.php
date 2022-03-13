@@ -161,7 +161,6 @@
 					</div>
 					<div class="modal-footer">
 						 <button class="btn btn-light-dark font-weight-bold btn-icon btn-print" type="button"><i class="flaticon2-printer"></i></button>
-
 					</div>
 				</div>
             </div>

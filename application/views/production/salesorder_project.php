@@ -160,16 +160,7 @@
 						
 					</div>
 					<div class="modal-footer">
-						 <div class="form-group modal-delivery">
-						    <div class="input-group">
-							     <input type="text" class="form-control form-control-solid" name="si_no" placeholder="Input sales invoice no...."/>
-								     <div class="input-group-append">
-								      <button class="btn btn-primary btn-save" type="button">Submit!</button>
-								   </div>
-							   </div>
-						 </div>
-						 <button class="btn btn-light-dark font-weight-bold btn-icon btn-print" type="button"><i class="flaticon2-printer"></i></button>
-
+						 <a href="<?php echo base_url()?>gh/print/print-salesorder-project" target="_blank" class="btn btn-light-dark font-weight-bold btn-icon btn-print"  type="button"><i class="flaticon2-printer"></i></a>
 					</div>
 				</div>
             </div>
