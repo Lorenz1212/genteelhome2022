@@ -827,7 +827,7 @@ class Gh extends CI_Controller {
             switch ($view) {
                case "print-salesorder-stocks":{$this->load->view('print/print_salesorder_stocks.php');break;}
                case "print-salesorder-project":{$this->load->view('print/print_salesorder_project.php');break;}
-               default: false;break;}
+               default: false;break;
             }
         }
         
