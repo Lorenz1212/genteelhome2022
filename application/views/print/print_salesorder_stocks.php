@@ -1,5 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <style type="text/css">
+ body {
+      -webkit-print-color-adjust: exact;
+    }
 	.pad1-r{
     padding-left: 0px;
   }
