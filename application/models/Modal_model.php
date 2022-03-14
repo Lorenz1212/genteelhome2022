@@ -54,6 +54,7 @@ class Modal_model extends CI_Model{
    
      function Modal_SalesOrder_Stocks($id){
           $id = $this->encryption->decrypt($id);
+          $data=array();
           $dis = 0; 
           $query =  $this->db->select('s.*,i.*,c.*,d.*,s.id,s.status,s.so_no,sc.*,CONCAT(u.firstname, " ",u.lastname) AS sales_person,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order,(SELECT sum(amount) FROM tbl_salesorder_stocks_item WHERE so_no=s.id) as subtotal')
           ->from('tbl_salesorder_stocks_item as i')
@@ -102,7 +103,8 @@ class Modal_model extends CI_Model{
                          'status'       => $row->status
                      );
                } 
-               return $data;}
+               return $data;
+           }
     }
     function Modal_SalesOrder_Project($id){
       $id = $this->encryption->decrypt($id);

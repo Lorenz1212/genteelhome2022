@@ -1231,10 +1231,16 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-salesorder-stocks":{
 				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
+					$(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
 					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
 						_ajaxloader(thisUrl,"POST",{id:id},"Modal_SalesOrder_Stocks");
+				    });
+					$(document).on("click",".btn-print",function(e) {
+						e.preventDefault();
+						let id = $('.so_no').attr('data-id');
+						sessionStorage.setItem('so_no', id);
+						window.open(baseURL+'gh/print/print-salesorder-stocks');
 				    });
 				})
 				break;
@@ -1246,8 +1252,24 @@ var arrows;var item_v;var price;var special_option;
 					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
 						_ajaxloader(thisUrl,"POST",{id:id},"Modal_SalesOrder_Project");
 				    });
+				    $(document).on("click",".btn-print",function(e) {
+						e.preventDefault();
+						let id = $('.so_no').attr('data-id');
+						sessionStorage.setItem('so_no', id);
+						window.open(baseURL+'gh/print/print-salesorder-project');
+				    });
 
 				})
+				break;
+			}
+			case "data-salesorder-stocks-print":{
+					let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
+					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Stocks");
+				break;
+			}
+			case "data-salesorder-project-print":{
+					let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
+					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Project");
 				break;
 			}
 			case "data-joborder-stocks-list":{
@@ -1420,7 +1442,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 
 			case "data-production-Salesorder-Create":{
-				_initDatepicker('#date_order')
+				_initDatepicker('#date_order');
 				break;
 			}
 			//supervisor
@@ -3157,7 +3179,7 @@ var arrows;var item_v;var price;var special_option;
              			html += '<tr>\
 							<td class="text-center td1-border-1px">'+response[i].item+'</td>\
 							<td class="text-right td1-border-1px"><div style="float:left;">₱</div><div style="float:right;">'+response[i].amount+'<div></td>\
-							</tr>';
+						   </tr>';
 				}	
 				if(response.length < 5){
 				   for(var i=0;i<4;i++){
