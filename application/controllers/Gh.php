@@ -822,11 +822,12 @@ class Gh extends CI_Controller {
         foreach($data as $row => $rows_value){$this->session->unset_userdata($row);}
         redirect(base_url().'gh/login');
     }
-    public function Print($view=null){
+    public function printview($view=null){
         if($this->session->userdata('currently_logged_in') == 1){   
             switch ($view) {
                case "print-salesorder-stocks":{$this->load->view('print/print_salesorder_stocks.php');break;}
                case "print-salesorder-project":{$this->load->view('print/print_salesorder_project.php');break;}
+               default: false;break;}
             }
         }
         

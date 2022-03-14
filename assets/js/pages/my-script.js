@@ -1240,7 +1240,7 @@ var arrows;var item_v;var price;var special_option;
 						e.preventDefault();
 						let id = $('.so_no').attr('data-id');
 						sessionStorage.setItem('so_no', id);
-						window.open(baseURL+'gh/print/print-salesorder-stocks');
+						window.open(baseURL+'gh/printview/print-salesorder-stocks');
 				    });
 				})
 				break;
@@ -1256,7 +1256,7 @@ var arrows;var item_v;var price;var special_option;
 						e.preventDefault();
 						let id = $('.so_no').attr('data-id');
 						sessionStorage.setItem('so_no', id);
-						window.open(baseURL+'gh/print/print-salesorder-project');
+						window.open(baseURL+'gh/printview/print-salesorder-project');
 				    });
 
 				})
