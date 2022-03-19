@@ -2324,21 +2324,16 @@ class Datatable_model extends CI_Model{
          return $json_data; 
      }
 
-     function Account_Report_Collection_Daily($month,$year){
+     function Account_Report_Collection_Stocks_Daily($month,$year){
+            $data =false;   
             if($month == false || $year == false){
-                $where = array('MONTH(date_deposite)'=> date('m'), 'YEAR(date_deposite)'=> date('Y'));
-                $date = "MONTH(date_deposite)=".date('m')." AND YEAR(date_deposite)=".date('Y')."";
+                $date = "MONTH(date_deposite)=".date('m')." AND YEAR(date_deposite)=".date('Y')." AND status='A' AND type=1";
             }else{
-                $where = array('MONTH(date_deposite)'=>$month,'YEAR(date_deposite)'=> $year);
-                $date = "MONTH(date_deposite)=".$month." AND YEAR(date_deposite)=".$year."";
+                $date = "MONTH(date_deposite)=".$month." AND YEAR(date_deposite)=".$year." AND status='A' AND type=1";
             }   
-            $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created,
-                (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($where)->where('status','APPROVED')->order_by('date_deposite','ASC')->get();
+            $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created,(SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($date)->order_by('date_deposite','ASC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
-             $i = 1;
-             foreach($query->result() as $row)  
-                {
-                 $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>'; 
+             foreach($query->result() as $row){
                  $gross = $row->amount / 1.12;
                  $vat = $row->amount - $gross;
                  $total_gross = $row->total_amount / 1.12;
@@ -2354,35 +2349,26 @@ class Datatable_model extends CI_Model{
                               'total_amount' => number_format($row->total_amount,2),
                               'total_vat'    => number_format($total_vat,2),
                               'total_gross'  => number_format($total_gross,2),
-                              'date_created' => $row->date_created,
-                              'action'       => $action);
-                     $i++;
+                              'date_created' => $row->date_created);
                 }  
-             }else{   
-                 $data =false;   
              }
              $json_data  = array("data" =>$data); 
              return $json_data;
      }
-       function Account_Report_Collection_Weekly($month,$year){
+       function Account_Report_Collection_Stocks_Weekly($month,$year){
+             $data =false;  
              if($month == false || $year == false){
-                $where = array('MONTH(date_deposite)'=> date('m'), 'YEAR(date_deposite)'=> date('Y'));
-                $date = "MONTH(date_deposite)=".date('m')." AND YEAR(date_deposite)=".date('Y')."";
+                $date = "MONTH(date_deposite)=".date('m')." AND YEAR(date_deposite)=".date('Y')." AND status='A' AND type=1";
             }else{
-                $where = array('MONTH(date_deposite)'=>$month,'YEAR(date_deposite)'=> $year);
-                $date = "MONTH(date_deposite)=".$month." AND YEAR(date_deposite)=".$year."";
+                $date = "MONTH(date_deposite)=".$month." AND YEAR(date_deposite)=".$year." AND status='A' AND type=1";
             }
             $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,
                 CONCAT("WEEK", " ",WEEK(date_deposite, 3) - WEEK(date_deposite - INTERVAL DAY(date_deposite)-1 DAY, 3) + 1)
                       as date_created,  SUM(amount) AS amount,
                     (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount
-                ')->from('tbl_customer_deposite')->where($where)->where('status','APPROVED')
-                 ->group_by('WEEK(date_deposite)')
-                 ->order_by('WEEK(date_deposite)','ASC')->get();
+                ')->from('tbl_customer_deposite')->where($date)->group_by('WEEK(date_deposite)')->order_by('WEEK(date_deposite)','ASC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
-                $i = 1;
-             foreach($query->result() as $row)  
-                {
+             foreach($query->result() as $row){
                   $gross = $row->amount / 1.12;
                   $vat = $row->amount - $gross;
                   $total_gross = $row->total_amount / 1.12;
@@ -2395,28 +2381,22 @@ class Datatable_model extends CI_Model{
                               'total_vat'    => number_format($total_vat,2),
                               'total_gross'  => number_format($total_gross,2),
                               'date_created' => $row->date_created);
-                     $i++;
                 }  
-             }else{   
-                 $data =false;   
              }
              $json_data  = array("data" =>$data); 
              return $json_data;
      }
-     function Account_Report_Collection_Monthly($month,$year){
+     function Account_Report_Collection_Stocks_Monthly($month,$year){
            if($month == false || $year == false){
-                $where = array('YEAR(date_deposite)'=> date('Y'));
-                $date = "YEAR(date_deposite)=".date('Y')."";
+                $date = "YEAR(date_deposite)=".date('Y')." AND status='A' AND type=1";
             }else{
-                $where = array('YEAR(date_deposite)'=> $year);
-                $date = "YEAR(date_deposite)=".$year."";
-            }   
+                $date = "YEAR(date_deposite)=".$year." AND status='A' AND type=1";
+            }
+            $data =false;   
             $query = $this->db->select('*,sum(amount) as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M") as date_created,
-                (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($where)->where('status','APPROVED')->group_by('MONTH(date_deposite)')->order_by('date_deposite','ASC')->get();
+                (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($date)->group_by('MONTH(date_deposite)')->order_by('date_deposite','ASC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
-             $i = 1;
-             foreach($query->result() as $row)  
-                {
+             foreach($query->result() as $row)  {
                  $gross = $row->amount / 1.12;
                  $vat = $row->amount - $gross;
                  $total_gross = $row->total_amount / 1.12;
@@ -2429,26 +2409,21 @@ class Datatable_model extends CI_Model{
                               'total_vat'    => number_format($total_vat,2),
                               'total_gross'  => number_format($total_gross,2),
                               'date_created' => $row->date_created);
-                     $i++;
                 }  
-             }else{   
-                 $data =false;   
              }
              $json_data  = array("data" =>$data); 
              return $json_data;
      }
-      function Account_Report_Collection_Yearly($year){
+      function Account_Report_Collection_Stocks_Yearly($year){
+            $data =false;  
            if($year == false){
-                $where = array('YEAR(date_deposite) <='=> date('Y'));
-                $date = "YEAR(date_deposite)<=".date('Y')."";
+                $date = "YEAR(date_deposite)<=".date('Y')." AND status='A' AND type=1";
             }else{
-                $where = array('YEAR(date_deposite)'=> $year);
-                $date = "YEAR(date_deposite)<=".$year."";
+                $date = "YEAR(date_deposite)<=".$year." AND status='A' AND type=1";
             }   
             $query = $this->db->select('*,sum(amount) as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%Y") as date_created, sum(amount) as amount,
-                (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($where)->where('status','APPROVED')->group_by('YEAR(date_deposite)')->order_by('YEAR(date_deposite)','DESC')->get();
+                (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($date)->group_by('YEAR(date_deposite)')->order_by('YEAR(date_deposite)','DESC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
-             $i = 1;
              foreach($query->result() as $row)  
                 {
                  $gross = $row->amount / 1.12;
@@ -2463,184 +2438,318 @@ class Datatable_model extends CI_Model{
                               'total_vat'    => number_format($total_vat,2),
                               'total_gross'  => number_format($total_gross,2),
                               'date_created' => $row->date_created);
-                     $i++;
                 }  
-             }else{   
-                 $data =false;   
              }
              $json_data  = array("data" =>$data); 
              return $json_data;
      }
 
-     function Account_Report_Salesorder_Daily($month,$year){
-            if($month == false || $year == false){
-                $where = array('MONTH(date_order)'=> date('m'), 'YEAR(date_order)'=> date('Y'));
-                $date = "MONTH(date_order)=".date('m')." AND YEAR(date_order)=".date('Y')."";
-            }else{
-                $where = array('MONTH(date_order)'=>$month,'YEAR(date_order)'=> $year);
-                $date = "MONTH(date_order)=".$month." AND YEAR(date_order)=".$year."";
-            }   
-            $query = $this->db->select('*,DATE_FORMAT(date_order, "%M %d %Y") as date_created,
-               (SELECT SUM(total) FROM tbl_salesorder WHERE '.$date.') as total_subtotal,
-               (SELECT SUM(shipping_fee) FROM tbl_salesorder WHERE '.$date.') as total_shippingfee,
-               (SELECT  SUM(IF(vat = "VATABLE",  (total*0.12), 0)) AS total_vat FROM tbl_salesorder WHERE '.$date.') as total_vat,
-               (SELECT  SUM(IF(vat = "VATABLE",  (total*0.12+total+shipping_fee), total+shipping_fee)) AS total_amount FROM tbl_salesorder WHERE '.$date.') as total_amount,
-                IF(vat = "VATABLE",  (total*0.12), 0) AS vat,
-                IF(vat = "VATABLE",  (total*0.12+total+shipping_fee), total+shipping_fee) AS amount')->from('tbl_salesorder')->where($where)->where('status','DELIVERED')->order_by('date_order','ASC')->get();
-             if($query !== FALSE && $query->num_rows() > 0){
-             $i = 1;
-             foreach($query->result() as $row)  
-                {
-                    $data[] = array('customer'          => $row->c_name,
-                                    'si_no'             => $row->si_no,
-                                    'subtotal'          => number_format($row->total,2),
-                                    'vat'               => number_format($row->vat,2),
-                                    'shipping_fee'      => number_format($row->shipping_fee,2),
-                                    'amount'            => number_format($row->amount,2),
-                                    'total_subtotal'    => number_format($row->total_subtotal,2),
-                                    'total_vat'         => number_format($row->total_vat,2),
-                                    'total_shippingfee' => number_format($row->total_shippingfee,2),
-                                    'total_amount'      => number_format($row->total_amount,2),
-                                    'date_created'      => $row->date_created);
-                     $i++;
-                }  
-             }else{   
-                 $data =false;   
-             }
-             $json_data  = array("data" =>$data); 
-             return $json_data;
-     }
-       function Account_Report_Salesorder_Weekly($month,$year){
-             if($month == false || $year == false){
-                $where = array('MONTH(date_order)'=> date('m'), 'YEAR(date_order)'=> date('Y'));
-                $date = "MONTH(date_order)=".date('m')." AND YEAR(date_order)=".date('Y')."";
-            }else{
-                $where = array('MONTH(date_order)'=>$month,'YEAR(date_order)'=> $year);
-                $date = "MONTH(date_order)=".$month." AND YEAR(date_order)=".$year."";
-            }
-
-            $query = $this->db->select('*,
-                CONCAT("WEEK", " ",WEEK(date_order, 3) - WEEK(date_order - INTERVAL DAY(date_order)-1 DAY, 3) + 1)
-                      as date_created,    
-               (SELECT SUM(total) FROM tbl_salesorder WHERE '.$date.') as total_subtotal,
-               (SELECT SUM(shipping_fee) FROM tbl_salesorder WHERE '.$date.') as total_shippingfee,
-               (SELECT  SUM(IF(vat = "VATABLE",  (total*0.12), 0)) AS total_vat FROM tbl_salesorder WHERE '.$date.') as total_vat,
-               (SELECT  SUM(IF(vat = "VATABLE",  (total*0.12+total+shipping_fee), total+shipping_fee)) AS total_amount FROM tbl_salesorder WHERE '.$date.') as total_amount,
-                SUM(IF(vat = "VATABLE",  (total*0.12), 0)) AS vat,
-                SUM(IF(vat = "VATABLE",  (total*0.12+total+shipping_fee), total+shipping_fee)) AS amount,
-                SUM(shipping_fee) as shipping_fee
-                ')->from('tbl_salesorder')->where($where)->where('status','DELIVERED')
-                 ->group_by('WEEK(date_order)')
-                 ->order_by('WEEK(date_order)','ASC')->get();
-             if($query !== FALSE && $query->num_rows() > 0){
-                $i = 1;
-             foreach($query->result() as $row)  
-                {
-                 $data[] = array(
-                            'subtotal'          => number_format($row->total,2),
-                            'vat'               => number_format($row->vat,2),
-                            'shipping_fee'      => number_format($row->shipping_fee,2),
-                            'amount'            => number_format($row->amount,2),
-                            'total_subtotal'    => number_format($row->total_subtotal,2),
-                            'total_vat'         => number_format($row->total_vat,2),
-                            'total_shippingfee' => number_format($row->total_shippingfee,2),
-                            'total_amount'      => number_format($row->total_amount,2),
-                            'date_created'      => $row->date_created);
-
-
-                }  
-             }else{   
-                 $data =false;   
-             }
-             $json_data  = array("data" =>$data); 
-             return $json_data;
-     }
-     function Account_Report_Salesorder_Monthly($month,$year){
+     function Account_Report_Salesorder_Stocks_Daily($month,$year){
            if($month == false || $year == false){
-                $where = array('YEAR(date_order)'=> date('Y'));
-                $date = "YEAR(date_order)=".date('Y')."";
+                $date = "MONTH(s.date_order)=".date('m')." AND YEAR(s.date_order)=".date('Y')."";
             }else{
-                $where = array('YEAR(date_order)'=> $year);
-                $date = "YEAR(date_order)=".$year."";
-            }   
-            $query = $this->db->select('*,
-                DATE_FORMAT(date_order, "%M") as date_created,    
-               (SELECT SUM(total) FROM tbl_salesorder WHERE '.$date.') as total_subtotal,
-               (SELECT SUM(shipping_fee) FROM tbl_salesorder WHERE '.$date.') as total_shippingfee,
-               (SELECT  SUM(IF(vat = "VATABLE",  (total*0.12), 0)) AS total_vat FROM tbl_salesorder WHERE '.$date.') as total_vat,
-               (SELECT  SUM(IF(vat = "VATABLE",  (total*0.12+total+shipping_fee), total+shipping_fee)) AS total_amount FROM tbl_salesorder WHERE '.$date.') as total_amount,
-                SUM(IF(vat = "VATABLE",  (total*0.12), 0)) AS vat,
-                SUM(IF(vat = "VATABLE",  (total*0.12+total+shipping_fee), total+shipping_fee)) AS amount,
-                SUM(shipping_fee) as shipping_fee
-                ')->from('tbl_salesorder')->where($where)->where('status','DELIVERED')
-                 ->group_by('MONTH(date_order)')
-                 ->order_by('MONTH(date_order)','ASC')->get();
+                $date = "MONTH(s.date_order)=".$month." AND YEAR(s.date_order)=".$year."";
+            }
+             $data =false;  
+             $total_subtotal = 0;
+             $total_vat = 0;
+             $total_shippingfee = 0;
+             $total_amount = 0;
+             $query = $this->db->select('s.*,c.*,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->join('tbl_users as u','u.id=s.created_by','LEFT')->where('s.status','A')->where($date)->order_by('s.date_order','ASC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
-                $i = 1;
-             foreach($query->result() as $row)  
-                {
-                 $data[] = array(
-                            'subtotal'          => number_format($row->total,2),
-                            'vat'               => number_format($row->vat,2),
-                            'shipping_fee'      => number_format($row->shipping_fee,2),
-                            'amount'            => number_format($row->amount,2),
-                            'total_subtotal'    => number_format($row->total_subtotal,2),
-                            'total_vat'         => number_format($row->total_vat,2),
-                            'total_shippingfee' => number_format($row->total_shippingfee,2),
-                            'total_amount'      => number_format($row->total_amount,2),
-                            'date_created'      => $row->date_created);
-
-
+             foreach($query->result() as $row){
+                    $total =  $this->db->select('sum(amount) as subtotal')->from('tbl_salesorder_stocks_item')->where('so_no',$row->id)->get()->row();
+                    $dis = 0;
+                     if($row->discount !=0){$dis = floatval($row->discount/100);}
+                    $discount = $total->subtotal*$dis;
+                    $subtotal = $total->subtotal-$discount;
+                    if($row->vat==1){$vat = $row->subtotal*0.12;$amount_due = floatval($total->subtotal - $row->downpayment + $row->shipping_fee + $vat);
+                    }else{$vat = 0;$amount_due = floatval($total->subtotal - $row->downpayment + $row->shipping_fee);}
+                     $data[] = array('si_no'      => $row->si_no,
+                                    'customer'    => $row->fullname,
+                                    'vat'         => $row->vat,
+                                    'subtotal'    => number_format($total->subtotal,2),
+                                    'vat'         => number_format($vat,2),
+                                    'shipping_fee'=> number_format($row->shipping_fee,2),
+                                    'amount_due'  => number_format($amount_due,2),
+                                    'date_created'=> $row->date_created);
+                    $total_subtotal +=$total->subtotal;
+                    $total_vat +=$vat;
+                    $total_shippingfee +=$row->shipping_fee;
+                    $total_amount +=$amount_due;
                 }  
-             }else{   
-                 $data =false;   
              }
-             $json_data  = array("data" =>$data); 
-             return $json_data;
+
+             $data_response = array('result'=>$data,
+                                    'total_subtotal'=>number_format($total_subtotal,2),
+                                    'total_vat'=>number_format($total_vat,2),
+                                    'total_shippingfee'=>number_format($total_shippingfee,2),
+                                    'total_amount'=>number_format($total_amount,2));
+             return $data_response;
+     }
+       function Account_Report_Salesorder_Stocks_Weekly($month,$year){
+             if($month == false || $year == false){$date = "MONTH(date_order)=".date('m')." AND YEAR(date_order)=".date('Y')."";}else{
+                $date = "MONTH(date_order)=".$month." AND YEAR(date_order)=".$year."";}
+             $data =false;  $total_subtotal = 0;$total_vat = 0;$total_shippingfee = 0;$total_amount = 0;
+             $query = $this->db->select('*,CONCAT("WEEK", " ",WEEK(date_order, 3) - WEEK(date_order - INTERVAL DAY(date_order)-1 DAY, 3) + 1) as date_order')->from('tbl_salesorder_stocks')->where('status','A')->where($date)->group_by('WEEK(date_order)')->order_by('WEEK(date_order)','ASC')->get();
+             if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                    $total =  $this->db->select('sum(amount) as subtotal')->from('tbl_salesorder_stocks_item')->where('so_no',$row->id)->get()->row();
+                    $dis = 0;
+                     if($row->discount !=0){$dis = floatval($row->discount/100);}
+                    $discount = $total->subtotal*$dis;
+                    $subtotal = $total->subtotal-$discount;
+                    if($row->vat==1){$vat = $row->subtotal*0.12;$amount_due = floatval($total->subtotal - $row->downpayment + $row->shipping_fee + $vat);
+                    }else{$vat = 0;$amount_due = floatval($total->subtotal - $row->downpayment + $row->shipping_fee);}
+                     $data[] = array('si_no'      => $row->si_no,
+                                    'vat'         => $row->vat,
+                                    'subtotal'    => number_format($total->subtotal,2),
+                                    'vat'         => number_format($vat,2),
+                                    'shipping_fee'=> number_format($row->shipping_fee,2),
+                                    'amount_due'  => number_format($amount_due,2),
+                                    'date_created'=> $row->date_order);
+                }  
+             }
+             $data_response = array('result'=>$data);
+             return $data_response;
+     }
+     function Account_Report_Salesorder_Stocks_Monthly($year){
+        if($year == false){$date = "YEAR(date_order)=".date('Y')."";}else{$date = "YEAR(date_order)=".$year."";}
+        $data =false;  $total_subtotal = 0;$total_vat = 0;$total_shippingfee = 0;$total_amount = 0;
+         $query = $this->db->select('*,DATE_FORMAT(date_order, "%M") as date_order')->from('tbl_salesorder_stocks')->where('status','A')->where($date)->group_by('MONTH(date_order)')->order_by('MONTH(date_order)','ASC')->get();
+            if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                    $total =  $this->db->select('sum(amount) as subtotal')->from('tbl_salesorder_stocks_item')->where('so_no',$row->id)->get()->row();
+                    $dis = 0;
+                     if($row->discount !=0){$dis = floatval($row->discount/100);}
+                    $discount = $total->subtotal*$dis;
+                    $subtotal = $total->subtotal-$discount;
+                    if($row->vat==1){$vat = $row->subtotal*0.12;$amount_due = floatval($total->subtotal - $row->downpayment + $row->shipping_fee + $vat);
+                    }else{$vat = 0;$amount_due = floatval($total->subtotal - $row->downpayment + $row->shipping_fee);}
+                     $data[] = array('si_no'      => $row->si_no,
+                                    'vat'         => $row->vat,
+                                    'subtotal'    => number_format($total->subtotal,2),
+                                    'vat'         => number_format($vat,2),
+                                    'shipping_fee'=> number_format($row->shipping_fee,2),
+                                    'amount_due'  => number_format($amount_due,2),
+                                    'date_created'=> $row->date_order);
+                    $total_subtotal +=$total->subtotal;
+                    $total_vat +=$vat;
+                    $total_shippingfee +=$row->shipping_fee;
+                    $total_amount +=$amount_due;
+                }  
+             }
+              $data_response = array('result'=>$data,
+                                    'total_subtotal'=>number_format($total_subtotal,2),
+                                    'total_vat'=>number_format($total_vat,2),
+                                    'total_shippingfee'=>number_format($total_shippingfee,2),
+                                    'total_amount'=>number_format($total_amount,2));
+             return $data_response;
+     }
+      function Account_Report_Salesorder_Stocks_Yearly($year){
+           if($year == false){$date = "YEAR(date_order)<=".date('Y')."";}else{$date = "YEAR(date_order)<=".$year."";} 
+            $data =false;  
+            $total_subtotal = 0;
+            $total_vat = 0;
+            $total_shippingfee = 0;
+            $total_amount = 0;
+            $query = $this->db->select('*,DATE_FORMAT(date_order, "%Y") as date_order')->from('tbl_salesorder_stocks')->where('status','A')->where($date)->group_by('YEAR(date_order)')->order_by('YEAR(date_order)','ASC')->get();
+            if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                    $total =  $this->db->select('sum(amount) as subtotal')->from('tbl_salesorder_stocks_item')->where('so_no',$row->id)->get()->row();
+                    $dis = 0;
+                     if($row->discount !=0){$dis = floatval($row->discount/100);}
+                    $discount = $total->subtotal*$dis;
+                    $subtotal = $total->subtotal-$discount;
+                    if($row->vat==1){$vat = $row->subtotal*0.12;$amount_due = floatval($total->subtotal - $row->downpayment + $row->shipping_fee + $vat);
+                    }else{$vat = 0;$amount_due = floatval($total->subtotal - $row->downpayment + $row->shipping_fee);}
+                    $data[] = array('si_no'       => $row->si_no,
+                                    'vat'         => $row->vat,
+                                    'subtotal'    => number_format($total->subtotal,2),
+                                    'vat'         => number_format($vat,2),
+                                    'shipping_fee'=> number_format($row->shipping_fee,2),
+                                    'amount_due'  => number_format($amount_due,2),
+                                    'date_created'=> $row->date_order);
+                    $total_subtotal +=$total->subtotal;
+                    $total_vat +=$vat;
+                    $total_shippingfee +=$row->shipping_fee;
+                    $total_amount +=$amount_due;
+                }  
+             }  
+             $data_response = array('result'=>$data,
+                                    'total_subtotal'=>number_format($total_subtotal,2),
+                                    'total_vat'=>number_format($total_vat,2),
+                                    'total_shippingfee'=>number_format($total_shippingfee,2),
+                                    'total_amount'=>number_format($total_amount,2));
+             return $data_response;
+     }
+
+    function Account_Report_Salesorder_Project_Daily($month,$year){
+        if($month == false || $year == false){$date = "MONTH(s.date_order)=".date('m')." AND YEAR(s.date_order)=".date('Y')."";}else{$date = "MONTH(s.date_order)=".$month." AND YEAR(s.date_order)=".$year."";}
+        $data =false;  $total_subtotal = 0;$total_vat = 0;$total_shippingfee = 0;$total_amount = 0;
+         $query = $this->db->select('s.*,c.*,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
+          ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+          ->where('s.status','A')->where($date)->get();
+            if($query !== FALSE && $query->num_rows() > 0){
+                foreach($query->result() as $row){
+                $lineup = json_decode($row->item,true);
+                $subtotal = array_sum(array_column($lineup,'amount'));
+                if($row->discount !=0){
+                    $dis = floatval($row->discount/100);
+                }
+                $discount = $subtotal*$dis;
+                $subtotal_grand = $subtotal-$discount;
+                if($row->vat==1){
+                    $vat = $subtotal*0.12;
+                    $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee + $vat);
+                }else{
+                    $vat = 0;
+                    $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
+                }
+                   $data[] = array('si_no'       => $row->si_no,
+                                   'customer'    => $row->fullname,
+                                   'vat'         => $row->vat,
+                                   'subtotal'    => number_format($subtotal,2),
+                                   'vat'         => number_format($vat,2),
+                                   'shipping_fee'=> number_format($row->shipping_fee,2),
+                                   'amount_due'  => number_format($amount_due,2),
+                                   'date_created'=> $row->date_order);
+                    $total_subtotal +=$subtotal;
+                    $total_vat +=$vat;
+                    $total_shippingfee +=$row->shipping_fee;
+                    $total_amount +=$amount_due;
+               }
+           }
+             $data_response = array('result'=>$data,
+                                    'total_subtotal'=>number_format($total_subtotal,2),
+                                    'total_vat'=>number_format($total_vat,2),
+                                    'total_shippingfee'=>number_format($total_shippingfee,2),
+                                    'total_amount'=>number_format($total_amount,2));
+             return $data_response;
 
      }
-      function Account_Report_Salesorder_Yearly($year){
-           if($year == false){
-                $where = array('YEAR(date_order) <='=> date('Y'));
-                $date = "YEAR(date_order)<=".date('Y')."";
-            }else{
-                $where = array('YEAR(date_order)'=> $year);
-                $date = "YEAR(date_order)<=".$year."";
-            }   
-           $query = $this->db->select('*,
-                DATE_FORMAT(date_order, "%Y") as date_created,    
-               (SELECT SUM(total) FROM tbl_salesorder WHERE '.$date.') as total_subtotal,
-               (SELECT SUM(shipping_fee) FROM tbl_salesorder WHERE '.$date.') as total_shippingfee,
-               (SELECT  SUM(IF(vat = "VATABLE",  (total*0.12), 0)) AS total_vat FROM tbl_salesorder WHERE '.$date.') as total_vat,
-               (SELECT  SUM(IF(vat = "VATABLE",  (total*0.12+total+shipping_fee), total+shipping_fee)) AS total_amount FROM tbl_salesorder WHERE '.$date.') as total_amount,
-                SUM(IF(vat = "VATABLE",  (total*0.12), 0)) AS vat,
-                SUM(IF(vat = "VATABLE",  (total*0.12+total+shipping_fee), total+shipping_fee)) AS amount,
-                SUM(shipping_fee) as shipping_fee
-                ')->from('tbl_salesorder')->where($where)->where('status','DELIVERED')
-                 ->group_by('YEAR(date_order)')
-                 ->order_by('YEAR(date_order)','ASC')->get();
-             if($query !== FALSE && $query->num_rows() > 0){
-                $i = 1;
-             foreach($query->result() as $row)  
-                {
-                 $data[] = array(
-                            'subtotal'          => number_format($row->total,2),
-                            'vat'               => number_format($row->vat,2),
-                            'shipping_fee'      => number_format($row->shipping_fee,2),
-                            'amount'            => number_format($row->amount,2),
-                            'total_subtotal'    => number_format($row->total_subtotal,2),
-                            'total_vat'         => number_format($row->total_vat,2),
-                            'total_shippingfee' => number_format($row->total_shippingfee,2),
-                            'total_amount'      => number_format($row->total_amount,2),
-                            'date_created'      => $row->date_created);
-                }  
-             }else{   
-                 $data =false;   
-             }
-             $json_data  = array("data" =>$data); 
-             return $json_data;
-     }
+     function Account_Report_Salesorder_Project_Weekly($month,$year){
+        if($month == false || $year == false){$date = "MONTH(date_order)=".date('m')." AND YEAR(date_order)=".date('Y')."";}else{$date = "MONTH(date_order)=".$month." AND YEAR(date_order)=".$year."";}
+        $data =false;  $total_subtotal = 0;$total_vat = 0;$total_shippingfee = 0;$total_amount = 0;
+         $query = $this->db->select('*,CONCAT("WEEK", " ",WEEK(date_order, 3) - WEEK(date_order - INTERVAL DAY(date_order)-1 DAY, 3) + 1) as date_order')->from('tbl_salesorder_project')->where('status','A')->where($date)->group_by('WEEK(date_order)')->order_by('WEEK(date_order)','ASC')->get();
+            if($query !== FALSE && $query->num_rows() > 0){
+                foreach($query->result() as $row){
+                $lineup = json_decode($row->item,true);
+                $subtotal = array_sum(array_column($lineup,'amount'));
+                if($row->discount !=0){
+                    $dis = floatval($row->discount/100);
+                }
+                $discount = $subtotal*$dis;
+                $subtotal_grand = $subtotal-$discount;
+                if($row->vat==1){
+                    $vat = $subtotal*0.12;
+                    $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee + $vat);
+                }else{
+                    $vat = 0;
+                    $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
+                }
+                   $data[] = array('si_no'       => $row->si_no,
+                                   'vat'         => $row->vat,
+                                   'subtotal'    => number_format($subtotal,2),
+                                   'vat'         => number_format($vat,2),
+                                   'shipping_fee'=> number_format($row->shipping_fee,2),
+                                   'amount_due'  => number_format($amount_due,2),
+                                   'date_created'=> $row->date_order);
+                    $total_subtotal +=$subtotal;
+                    $total_vat +=$vat;
+                    $total_shippingfee +=$row->shipping_fee;
+                    $total_amount +=$amount_due;
+               }
+           }
+             $data_response = array('result'=>$data,
+                                    'total_subtotal'=>number_format($total_subtotal,2),
+                                    'total_vat'=>number_format($total_vat,2),
+                                    'total_shippingfee'=>number_format($total_shippingfee,2),
+                                    'total_amount'=>number_format($total_amount,2));
+             return $data_response;
 
+     }
+      function Account_Report_Salesorder_Project_Monthly($year){
+        if($year == false){$date = "YEAR(date_order)=".date('Y')."";}else{$date = "YEAR(date_order)=".$year."";}
+        $data =false;  $total_subtotal = 0;$total_vat = 0;$total_shippingfee = 0;$total_amount = 0;
+         $query = $this->db->select('*,DATE_FORMAT(date_order, "%M") as date_order')->from('tbl_salesorder_project')->where('status','A')->where($date)->group_by('MONTH(date_order)')->order_by('MONTH(date_order)','ASC')->get();
+            if($query !== FALSE && $query->num_rows() > 0){
+                foreach($query->result() as $row){
+                $lineup = json_decode($row->item,true);
+                $subtotal = array_sum(array_column($lineup,'amount'));
+                if($row->discount !=0){
+                    $dis = floatval($row->discount/100);
+                }
+                $discount = $subtotal*$dis;
+                $subtotal_grand = $subtotal-$discount;
+                if($row->vat==1){
+                    $vat = $subtotal*0.12;
+                    $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee + $vat);
+                }else{
+                    $vat = 0;
+                    $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
+                }
+                   $data[] = array('si_no'       => $row->si_no,
+                                   'vat'         => $row->vat,
+                                   'subtotal'    => number_format($subtotal,2),
+                                   'vat'         => number_format($vat,2),
+                                   'shipping_fee'=> number_format($row->shipping_fee,2),
+                                   'amount_due'  => number_format($amount_due,2),
+                                   'date_created'=> $row->date_order);
+                    $total_subtotal +=$subtotal;
+                    $total_vat +=$vat;
+                    $total_shippingfee +=$row->shipping_fee;
+                    $total_amount +=$amount_due;
+               }
+           }
+             $data_response = array('result'=>$data,
+                                    'total_subtotal'=>number_format($total_subtotal,2),
+                                    'total_vat'=>number_format($total_vat,2),
+                                    'total_shippingfee'=>number_format($total_shippingfee,2),
+                                    'total_amount'=>number_format($total_amount,2));
+             return $data_response;
+
+     }
+      function Account_Report_Salesorder_Project_Yearly($year){
+        if($year == false){$date = "YEAR(date_order)=".date('Y')."";}else{$date = "YEAR(date_order)=".$year."";}
+        $data =false;  $total_subtotal = 0;$total_vat = 0;$total_shippingfee = 0;$total_amount = 0;
+        $query = $this->db->select('*,DATE_FORMAT(date_order, "%Y") as date_order')->from('tbl_salesorder_project')->where('status','A')->where($date)->group_by('YEAR(date_order)')->order_by('YEAR(date_order)','ASC')->get();
+            if($query !== FALSE && $query->num_rows() > 0){
+                foreach($query->result() as $row){
+                $lineup = json_decode($row->item,true);
+                $subtotal = array_sum(array_column($lineup,'amount'));
+                if($row->discount !=0){
+                    $dis = floatval($row->discount/100);
+                }
+                $discount = $subtotal*$dis;
+                $subtotal_grand = $subtotal-$discount;
+                if($row->vat==1){
+                    $vat = $subtotal*0.12;
+                    $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee + $vat);
+                }else{
+                    $vat = 0;
+                    $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
+                }
+                   $data[] = array('si_no'       => $row->si_no,
+                                   'vat'         => $row->vat,
+                                   'subtotal'    => number_format($subtotal,2),
+                                   'vat'         => number_format($vat,2),
+                                   'shipping_fee'=> number_format($row->shipping_fee,2),
+                                   'amount_due'  => number_format($amount_due,2),
+                                   'date_created'=> $row->date_order);
+                    $total_subtotal +=$subtotal;
+                    $total_vat +=$vat;
+                    $total_shippingfee +=$row->shipping_fee;
+                    $total_amount +=$amount_due;
+               }
+           }
+             $data_response = array('result'=>$data,
+                                    'total_subtotal'=>number_format($total_subtotal,2),
+                                    'total_vat'=>number_format($total_vat,2),
+                                    'total_shippingfee'=>number_format($total_shippingfee,2),
+                                    'total_amount'=>number_format($total_amount,2));
+             return $data_response;
+     }
       function Account_Report_Project_Daily($year,$month){
             if($month == false || $year == false){
                 $where = array('MONTH(date_received)'=> date('m'), 'YEAR(date_received)'=> date('Y'));
@@ -3975,13 +4084,13 @@ class Datatable_model extends CI_Model{
          return $json_data;  
 
      }
-       function Customer_Deposite_DataTable(){
-          $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status IS NULL')->order_by('date_created','DESC')->get();
+       function Customer_Collected_Request_DataTable(){
+         $data=false;
+        $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','P')->order_by('date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
-            $i = 1;
          foreach($query->result() as $row)  
             {
-             $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>'; 
+             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
              $data[] = array(
                           'so_no'        => $row->order_no,
                           'customer'     => $row->customer,
@@ -3989,21 +4098,17 @@ class Datatable_model extends CI_Model{
                           'amount'       => number_format($row->amount,2),
                           'date'         => $row->date_created,
                           'action'       => $action);
-                 $i++;
             }  
-         }else{   
-             $data =false;   
          }
          $json_data  = array("data" =>$data); 
          return $json_data;
     }
-      function Customer_Collected_DataTable(){
-          $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','APPROVED')->order_by('date_created','DESC')->get();
+    function Customer_Collected_Approved_DataTable(){
+        $data =false;  
+        $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','A')->order_by('date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
-            $i = 1;
-         foreach($query->result() as $row)  
-            {
-             $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>'; 
+         foreach($query->result() as $row)  {
+             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
              $data[] = array(
                           'so_no'        => $row->order_no,
                           'customer'     => $row->customer,
@@ -4011,10 +4116,7 @@ class Datatable_model extends CI_Model{
                           'amount'       => number_format($row->amount,2),
                           'date'         => $row->date_created,
                           'action'       => $action);
-                 $i++;
             }  
-         }else{   
-             $data =false;   
          }
          $json_data  = array("data" =>$data); 
          return $json_data;

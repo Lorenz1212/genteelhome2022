@@ -411,24 +411,17 @@ class Create_controller extends CI_Controller
      }
       public function Create_Deposit(){
         $order_no  = $this->input->post('order_no');
-        $query = $this->db->select('*')->from('tbl_salesorder')->where('so_no',$order_no)->get();
-        $row = $query->row();
-        if(!$row){
-            $data = array('status' => $order_no);
-        }else{
-            $firstname = strtoupper($this->input->post('firstname'));
-            $lastname = strtoupper($this->input->post('lastname'));
-            $mobile = $this->input->post('mobile');
-            $email  = $this->input->post('email');
-            $date_deposite  = $this->input->post('date_deposite');
-            $bank   = $this->input->post('bank');
-            $amount = floatval(str_replace(',', '', $this->input->post('amount')));
-            $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
-            $tmp    =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
-            $path_image =  "assets/images/deposit/";
-            $this->create_model->Create_Deposit($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image);
-            $data = array('status' => 'success');
-        }
+        $firstname = strtoupper($this->input->post('firstname'));
+        $lastname = strtoupper($this->input->post('lastname'));
+        $mobile = $this->input->post('mobile');
+        $email  = $this->input->post('email');
+        $date_deposite  = $this->input->post('date_deposite');
+        $bank   = $this->input->post('bank');
+        $amount = floatval(str_replace(',', '', $this->input->post('amount')));
+        $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+        $tmp    =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+        $path_image =  "assets/images/deposit/";
+        $data = $this->create_model->Create_Deposite($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image);
         echo json_encode($data);
     }
     public function Create_Customer(){
@@ -498,7 +491,9 @@ class Create_controller extends CI_Controller
          $email = $this->input->post('email');
          $mobile = $this->input->post('mobile');
          $address = $this->input->post('address');
+         $tin = $this->input->post('tin');
          $downpayment = floatval(str_replace(',', '', $this->input->post('downpayment')));
+         $date_downpayment = $this->input->post('date_downpayment');
          $discount =  $this->input->post('discount');
          $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
          $vat =  $this->input->post('vat');
@@ -506,7 +501,7 @@ class Create_controller extends CI_Controller
          $qty = $this->input->post('qty');
          $unit = $this->input->post('unit');
          $amount = $this->input->post('amount');
-         $data = $this->create_model->Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount);        
+         $data = $this->create_model->Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin);        
          echo json_encode($data); 
     }
     public function Create_Salesorder_Project(){
@@ -517,7 +512,9 @@ class Create_controller extends CI_Controller
          $email = $this->input->post('email');
          $mobile = $this->input->post('mobile');
          $address = $this->input->post('address');
+         $tin = $this->input->post('tin');
          $downpayment = floatval(str_replace(',', '', $this->input->post('downpayment')));
+         $date_downpayment = $this->input->post('date_downpayment');
          $discount =  $this->input->post('discount');
          $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
          $vat =  $this->input->post('vat');
@@ -525,7 +522,7 @@ class Create_controller extends CI_Controller
          $qty = $this->input->post('qty');
          $unit = $this->input->post('unit');
          $amount = $this->input->post('amount');
-         $data = $this->create_model->Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount);        
+         $data = $this->create_model->Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin);        
          echo json_encode($data); 
     }
 }

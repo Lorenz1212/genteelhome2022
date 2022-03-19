@@ -30,6 +30,34 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 	var _initView_Table = function(view){
 		switch(view){
 			//Accounting
+			case "tbl_salesorder_stocks_accounting":{
+				 TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Production';
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Shipping_DataTable_Production';
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Delivered_DataTable_Production';
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+				break;
+			}
+			case "tbl_salesorder_project_accounting":{
+				 TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Production';
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Shipping_DataTable_Production';
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Delivered_DataTable_Production';
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+				break;
+			}
 			case "tbl_purchased_material_stocks_request":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Request';
 				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
@@ -122,7 +150,6 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader('tbl_production_stocks',TableURL,TableData,false);
 				break;
 			}
-
 			case "tbl_supplier_item":{
 				TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
 				TableData =  [{data:'item'},{data: 'price'},{data:'status'},{data: 'date_created'},{data: 'action'}];
@@ -133,6 +160,16 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
 				TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data: 'action'}]; 
 				_DataTableLoader('tbl_supplier',TableURL,TableData,false);
+				break;
+			}
+			case "tbl_customer_deposite":{
+				TableURL = baseURL + 'datatable_controller/Customer_Collected_Request_DataTable';
+				TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}]; 
+				_DataTableLoader('tbl_customer_deposite',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Customer_Collected_Approved_DataTable';
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
+				_DataTableLoader('tbl_customer_collected',TableURL1,TableData1,false);
 				break;
 			}
 		}	 

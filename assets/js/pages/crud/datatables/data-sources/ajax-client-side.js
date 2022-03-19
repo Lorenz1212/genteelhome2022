@@ -279,11 +279,11 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 			case "tbl_customer_deposite":{
-				TableURL = baseURL + 'datatable_controller/Customer_Deposite_DataTable';
+				TableURL = baseURL + 'datatable_controller/Customer_Collected_Request_DataTable';
 				TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}]; 
 				_DataTableLoader('tbl_customer_deposite',TableURL,TableData,false);
 
-				let TableURL1 = baseURL + 'datatable_controller/Customer_Collected_DataTable';
+				let TableURL1 = baseURL + 'datatable_controller/Customer_Collected_Approved_DataTable';
 				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
 				_DataTableLoader('tbl_customer_collected',TableURL1,TableData1,false);
 				break;
@@ -482,16 +482,6 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			
 			
-			case "tbl_salesorder_shipping":{
-				TableURL = baseURL + 'datatable_controller/Salesorder_For_Shipping_DataTable';
-				TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_salesorder_shipping',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Salesorder_For_Delivered_DataTable';
-				let TableData1 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_salesorder_delivered',TableURL1,TableData1,false);
-				break;
-			}
 			case "tbl_material_received":{
 				TableURL = baseURL + 'datatable_controller/Material_Received_DataTable';
 				TableData = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'date_created'}]; 
@@ -553,20 +543,6 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 			
-			case "tbl_approval_salesorder":{
-				TableURL = baseURL + 'datatable_controller/Approval_Request_Salesorder_DataTable';
-				TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_approval_salesorder_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Approval_Approved_Salesorder_DataTable';
-				let TableData1 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_approval_salesorder_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Approval_Rejected_Salesorder_DataTable';
-				let TableData2 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_approval_salesorder_rejected',TableURL2,TableData2,false);
-				break;
-			}
 			case "tbl_approval_userrequest":{
 				TableURL = baseURL + 'datatable_controller/Approval_UsersRequest_DataTable';
 				TableData = [{data:'no'},{data:'username'},{data:'name'},{data:'date_created'},{data:'status'},{data:'action'}]; 

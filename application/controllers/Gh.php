@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 class Gh extends CI_Controller { 
     public function __construct(){
       parent::__construct();
@@ -7,10 +8,9 @@ class Gh extends CI_Controller {
       $this->load->helper('cookie');
     }
     public function app_login(){
-        $query =  $this->db->select("*")->from("tbl_customer_online")->where('email', $this->input->post('email'))->where('status',1)->get();
+        $query =  $this->db->select("*")->from("tbl_customer_online")->where('email',$this->input->post('email'))->where('status',1)->get();
         $row = $query->row();
-        if ($query->num_rows())  
-         {    
+        if ($query->num_rows()){    
                   if(md5($this->input->post('password')) == $row->password){
                            $data = array(  
                                   'userId'      => $row->id,
@@ -107,10 +107,9 @@ class Gh extends CI_Controller {
               ->where('username', $this->input->post('username'));
               $query = $this->db->get();  
               $row = $query->row();
-              if ($query->num_rows())  
-              {    
+              if ($query->num_rows())  {    
                   if(md5($this->input->post('password')) == $row->password){
-                     if($status == 'designer'){
+                      if($status == 'designer'){
                          $page = $row->designer;
                       }else if($status == 'production'){
                          $page = $row->production;
@@ -648,14 +647,22 @@ class Gh extends CI_Controller {
             case 'index':{$this->load->view('accounting/index.php');break;}
             case 'purchased-stocks':{$this->load->view('accounting/purchased_stocks.php');break;}
             case 'purchased-project':{$this->load->view('accounting/purchased_project.php');break;}
-            case 'purchase-approved':{$this->load->view('accounting/purchase_approved.php');break;}
-            case 'purchase-received':{$this->load->view('accounting/purchase_received.php');break;}
-            case 'purchase-stocks-request':{$this->load->view('accounting/purchase_stocks_request.php');break;}
-            case 'purchase-stocks-approved':{$this->load->view('accounting/purchase_stocks_approved.php');break;}
-            case 'purchase-stocks-received':{$this->load->view('accounting/purchase_stocks_received.php');break;}
-            case 'other-expenses':{$this->load->view('accounting/other_expenses.php');break;}
-            case 'collection':{$this->load->view('accounting/report_collection.php');break;}
-            case 'sales-order':{$this->load->view('accounting/report_salesorder.php');break;}
+
+            case "salesorder-stocks":{$this->load->view('accounting/salesorder_stocks.php');break;}
+            case "salesorder-project":{$this->load->view('accounting/salesorder_project.php');break;}
+
+            case "salesorder-create-stocks":{$this->load->view('accounting/salesorder_create_stocks.php');break;}
+            case "salesorder-create-project":{$this->load->view('accounting/salesorder_create_project.php');break;}
+
+            case 'report-sales-order-stocks':{$this->load->view('accounting/report_salesorder_stocks.php');break;}
+            case 'report-sales-order-project':{$this->load->view('accounting/report_salesorder_project.php');break;}
+            
+            case 'report-collection-stocks':{$this->load->view('accounting/report_collection_stocks.php');break;}
+            case 'report-collection-project':{$this->load->view('accounting/report_collection_project.php');break;}
+
+            case 'collection':{$this->load->view('accounting/collection.php');break;}
+
+        
             case 'production-supplies':{$this->load->view('accounting/report_production.php');break;}
             case 'cashfund':{$this->load->view('accounting/report_cashfund.php');break;}
             case 'cash-position':{$this->load->view('accounting/report_cashposition.php');break;}
@@ -802,9 +809,10 @@ class Gh extends CI_Controller {
             case 'online-order':{$this->load->view('sales/online_order.php');break;}
             case 'onlineorder-update':{$this->load->view('sales/online_order_update.php',$data);break;}
             case 'customer-inquiry':{$this->load->view('sales/online_customization');break;}
-            case 'sales-order':{$this->load->view('sales/sales_order.php');break;}
-            case "salesorder_list":{$this->load->view('sales/salesorder_list.php');break;}
-            case "salesorder_create":{$this->load->view('sales/salesorder_create.php');break;}
+            case "salesorder-stocks":{$this->load->view('sales/salesorder_stocks.php');break;}
+            case "salesorder-project":{$this->load->view('sales/salesorder_project.php');break;}
+            case "salesorder-create-stocks":{$this->load->view('sales/salesorder_create_stocks.php');break;}
+            case "salesorder-create-project":{$this->load->view('sales/salesorder_create_project.php');break;}
             case "salesorder_update":{$this->load->view('sales/salesorder_update.php',$data);break;}
             case "voucher":{$this->load->view('sales/coupon_list.php');break;}
             case "customer-concern":{$this->load->view('sales/service_request.php');break;}

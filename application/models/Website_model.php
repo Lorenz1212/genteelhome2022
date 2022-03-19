@@ -1,7 +1,12 @@
 <?php
-class Website_model extends CI_Model
-{  
+class Website_model extends CI_Model{  
    //Fetch Data
+    private function move_to_folder1($image,$tmp,$path){
+         $newfilename=  'IMG'.date('YmdHisu').'-'.preg_replace('/[@\;\" "\()]+/', '', $image);
+         $path_folder = $path.$newfilename;
+         copy($tmp, $path_folder);
+         return $newfilename;
+    }
    function registration($firstname,$lastname,$email,$password){
       $this->db->select('*')->from('tbl_customer_online')->where('email',$email)->get();
       $row = $query->row();
@@ -615,27 +620,38 @@ class Website_model extends CI_Model
         }
    }
   function Create_Deposit($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank){
-            if($_FILES['image']['size']>0){
-              $filename=$_FILES["image"]["name"];
-              $extension=end(explode(".", $filename));
-              $NewFilename='IMG'.date('YmdHis').".".$extension;
-              $destination = $_FILES['image']['tmp_name'];
-              $destination2 = "assets/images/deposit/".$NewFilename;
-              copy($destination, $destination2);
-              $image=$NewFilename;
+            if($image){$images = $this->move_to_folder1($image,$tmp,$path_image);}else{$images='default.jpg';}
+             $si_no ="";
+             $type ="";
+            $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$order_no)->get()->row();
+            if($row){
+                $si_no = $row->si_no;
+                $type = 1;
             }else{
-              $image='default.jpg';
+                $row1 = $this->db->select('*')->from('tbl_salesorder_project')->where('so_no',$order_no)->get()->row();
+                if($row1){
+                   $si_no = $row1->si_no;
+                   $type = 2;
+                }
             }
-          $data = array('order_no'       => $order_no,
-                        'firstname'      => $firstname,
-                        'lastname'       => $lastname,
-                        'mobile'         => $mobile,
-                        'email'          => $email,
-                        'date_deposite'  => date('Y-m-d',strtotime($date_deposite)),
-                        'amount'         => $amount,
-                        'bank'           => $bank,
-                        'image'          => $image);
-            $this->db->insert('tbl_customer_deposite',$data);
+           $data = array('order_no' => $order_no,
+                        'si_no'=> $si_no,
+                        'firstname' => $firstname,
+                        'lastname' => $lastname,
+                        'mobile'=> $mobile,
+                        'email'=> $email,
+                        'date_deposite'=> date('Y-m-d',strtotime($date_deposite)),
+                        'amount'=> $amount,
+                        'bank'=> $bank,
+                        'image'=> $images,
+                        'status' => 'P',
+                        'type'=>$type);
+           if(!$si_no){
+                return array('status'=>'error');
+           }else{
+                $this->db->insert('tbl_customer_deposite',$data);
+                return array('status'=>'success');
+           }
   }
   function Create_Email($name,$subject,$comment,$email){
     $query = $this->db->select('*')->from('tbl_smtp_setup')->get();

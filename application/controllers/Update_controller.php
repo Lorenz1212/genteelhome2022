@@ -576,8 +576,7 @@ class Update_controller extends CI_Controller
      }
      public function Update_Deposit_Approved(){
         $id = $this->input->post('id');
-        $this->update_model->Update_Deposit_Approved($id);
-        $data = array('status'=>'APPROVED');
+        $data $this->update_model->Update_Deposit_Approved($id);
         echo json_encode($data);
      }
     public function Update_Customer(){

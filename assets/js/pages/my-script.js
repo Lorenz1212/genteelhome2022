@@ -520,11 +520,6 @@ var arrows;var item_v;var price;var special_option;
 			case"material_request":{
 				if(response.data.unit){var unit = response.data.unit}else{ var unit=""};
 				if(response.remarks){ var remarks='(<a href="javascript:;" type="button" id="bulk_actions_btn" data-toggle="popover" data-action="show" data-content="'+response.remarks+'">Remark</a>)';}else{ var remarks =" "};
-				if(response.qty == 1){
-
-				}else{
-
-				}
 				if(response.type ==1){
 					var type ='FRAMING - MATERIALS';
 				}else if(response.type == 2){
@@ -3160,6 +3155,7 @@ var arrows;var item_v;var price;var special_option;
 	               $('#date_order').text(response[0].date_order);
 	               $('.so_no').attr('data-id',response[0].id).text(response[0].so_no);
 	               $('.si_no').text(response[0].si_no);
+	               $('.tin').text(response[0].tin);
 	               $('.sold-to').text(response[0].customer);
 	               $('.address').text(response[0].address);
 	               $('.date-order').text(response[0].date_order);
@@ -3171,6 +3167,7 @@ var arrows;var item_v;var price;var special_option;
 	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
 	               						<td class="text-right text-success"><div style="float:right;">'+response[0].discount+'%<div></td>');
 	               }
+	               $('.td-date-downpayment').text('('+response[0].date_downpayment+')');
 	               $('.total').text(response[0].total);
 	               $('.td-downpayment').text(response[0].downpayment);
 	               $('.td-amountdue').text(response[0].amount_due);
@@ -3219,6 +3216,7 @@ var arrows;var item_v;var price;var special_option;
 	               $('#date_order').text(response.soa.date_order);
 	               $('.so_no').attr('data-id',response.soa.id).text(response.soa.so_no);
 	               $('.si_no').text(response.soa.si_no);
+	               $('.tin').text(response.soa.tin);
 	               $('.sold-to').text(response.soa.customer);
 	               $('.address').text(response.soa.address);
 	               $('.date-order').text(response.soa.date_order);
@@ -3230,6 +3228,7 @@ var arrows;var item_v;var price;var special_option;
 	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
 	               						<td class="text-right text-success"><div style="float:right;">'+response.soa.discount+'%<div></td>');
 	               }
+	               $('.td-date-downpayment').text('('+response.soa.date_downpayment+')');
 	               $('.td-downpayment').text(response.soa.downpayment);
 	               $('.td-amountdue').text(response.soa.amount_due);
 	             	if(response.soa.vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('');}

@@ -170,28 +170,19 @@ class Website_controller extends CI_Controller
         echo json_encode($data);
     }
     public function Create_Deposit(){
-        error_reporting(0);
-        $order_no          = $this->input->post('order_no');
-        $query = $this->db->select('*')->from('tbl_salesorder')->where('so_no',$order_no)->get();
-        $row = $query->row();
-        if(!$row){
-            $data = array('status' => 'error');
-        }else{
-            $firstname         = $this->input->post('firstname');
-            $lastname          = $this->input->post('lastname');
-            $firstname         = strtoupper($firstname);
-            $lastname          = strtoupper($lastname);
-            $mobile            = $this->input->post('mobile');
-            $email             = $this->input->post('email');
-            $date_deposite     = $this->input->post('date_deposite');
-            $bank              = $this->input->post('bank');
-            $amount            = floatval(str_replace(',', '', $this->input->post('amount')));
-            $this->website_model->Create_Deposit($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank);
-            $data = array('status' => 'success');
-        }
+        $firstname         = strtoupper($this->input->post('firstname'));
+        $lastname          = strtoupper($this->input->post('lastname'));
+        $mobile            = $this->input->post('mobile');
+        $email             = $this->input->post('email');
+        $date_deposite     = $this->input->post('date_deposite');
+        $bank              = $this->input->post('bank');
+        $amount            = floatval(str_replace(',', '', $this->input->post('amount')));
+        $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+        $tmp    =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+        $path_image =  "assets/images/deposit/";
+        $data = $this->website_model->Create_Deposit($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$tmp,$path_image);
         echo json_encode($data);
     }
-
     public function Create_Service(){
         error_reporting(0);
         $production_no = $this->input->post('production_no');

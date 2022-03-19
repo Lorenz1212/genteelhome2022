@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <style type="text/css">
-	 body {
+ body {
       -webkit-print-color-adjust: exact;
     }
 	.pad1-r{
@@ -40,16 +40,40 @@
     padding-right: 5px;
   }
   .image1-size-r{
-    width: 215px;
-    height: 120px;
+    width: 350px;
+    height: 145px;
   }
-    @media print {
-            @page {
-                margin-left: .5em;
-                margin-right: .6em;
-                size: A4;
-            }
-        }
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .image1-size-r{
+    width: 150px;
+    height: 110px;
+  }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+ 	.image1-size-r{
+    width: 210px;
+    height: 115px;
+  }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .image1-size-r{
+    width: 350px;
+    height: 145px;
+  }
+}  
+@media print {
+    @page {
+        margin-left: .5em;
+        margin-right: .6em;
+        size: A4;
+    }
+}
 </style>
 <!DOCTYPE html>
 <html>
@@ -72,7 +96,7 @@
 										<span>finance@genteelhome.co</span>
 									</span>
 								</div>
-								<div class="col-md-3 col-xl-3 col-xxl-3">
+								<div class="col-md-3 col-xl-4 col-xxl-4">
 									<img src="<?php echo base_url()?>assets/images/logo/logo-so.jpg" class="image1-size-r" alt="">
 								</div>
 							</div>
@@ -94,7 +118,7 @@
 										</tr>
 										<tr>
 											<td class="td1-w-50"><b>TIN :</b></td>
-											<td class="td1-w-150 td1-border"></td>
+											<td class="td1-w-150 td1-border tin"></td>
 											<td></td>
 											<td></td>
 										</tr>
@@ -125,7 +149,7 @@
 								<tr class="tr-discount">
 								</tr>
 								<tr>
-									<td class="text-right text-success">DOWNPAYMENT :</td>
+									<td class="text-right text-success">DOWNPAYMENT <span class="td-date-downpayment"></span> :</td>
 									<td class="text-right text-success"><div style="float:left;">₱</div><div class="td-downpayment" style="float:right;"><div></td>
 								</tr>
 								<tr class="tr-shipping">

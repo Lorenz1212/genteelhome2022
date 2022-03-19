@@ -337,6 +337,131 @@ var KTFormControls = function () {
 		 			});
 	 			break;
 	 		   }
+	 		   	 		case"Create_Salesorder_Project":{
+	 				form = document.getElementById('Create_Salesorder_Project_Form');
+				         validation = FormValidation.formValidation(
+							form,{
+								fields: {
+									project_no: {validators: {notEmpty: {message: 'Field is required'}}},
+									date_created: {validators: {notEmpty: {message: 'Field is required'}}},
+									fullname: {validators: {notEmpty: {message: 'Field is required'}}},
+									email: {validators: {notEmpty: {message: 'Field is required'}}},
+									mobile: {validators: {notEmpty: {message: 'Field is required'}}},
+									address: {validators: {notEmpty: {message: 'Field is required'}}},
+								},
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					    );
+		 			$(document).on('click','.btn-create-submit',function(e){
+		 				e.preventDefault();
+		 				validation.validate().then(function(status) {
+					     if (status == 'Valid') {
+					     	var rowCount = $('#kt_product_breakdown_table tbody tr').length;
+					     	if(!rowCount){
+	 							Swal.fire("Warning!", "Product break down form is empty!", "warning")
+					     	}else{
+					     		 Swal.fire({
+								        title: "Are you sure?",
+								        text: "You won't be able to revert this",
+								        icon: "warning",
+								        confirmButtonText: "Submit!",
+								        showCancelButton: true
+								    }).then(function(result) {
+								        if (result.value) {
+                                                  let formData = new FormData();
+                                                      formData.append('project_no',$('select[name="project_no"]').val());
+                                                      formData.append('date_created',$('input[name="date_created"]').val());
+                                                      formData.append('customer',$('input[name="fullname"]').val());
+                                                      formData.append('email',$('input[name="email"]').val());
+                                                      formData.append('mobile',$('input[name="mobile"]').val());
+                                                      formData.append('tin',$('input[name="tin"]').val());
+                                                      formData.append('address',$('textarea[name="address"]').val());
+                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
+                                                      formData.append('date_downpayment',$('input[name="downpayment"]').val());
+                                                      formData.append('discount',$('input[name="discount"]').val());
+                                                      formData.append('vat',$('select[name="vat"]').val());
+                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+                                                       for(let i =0;i<rowCount;i++){
+     									  	    formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.textContent));
+     									  	    formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+     									  	    formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
+     									  	    formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+									         }
+                                                      thisURL = baseURL + 'create_controller/Create_Salesorder_Project';
+									  _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Project",false);
+							          }
+							   	 });
+					     	}
+					    }
+				   	 });
+		 		});
+	 			break;
+	 		}
+               case"Create_Salesorder_Stocks":{
+                         form = document.getElementById('Create_Salesorder_Stocks_Form');
+                             validation = FormValidation.formValidation(
+                                   form,{
+                                        fields: {
+                                             date_created: {validators: {notEmpty: {message: 'Field is required'}}},
+                                             fullname: {validators: {notEmpty: {message: 'Field is required'}}},
+                                             email: {validators: {notEmpty: {message: 'Field is required'}}},
+                                             mobile: {validators: {notEmpty: {message: 'Field is required'}}},
+                                             address: {validators: {notEmpty: {message: 'Field is required'}}},
+                                        },
+                                        plugins: { //Learn more: https://formvalidation.io/guide/plugins
+                                        trigger: new FormValidation.plugins.Trigger(),
+                                        bootstrap: new FormValidation.plugins.Bootstrap()
+                                   }
+                                 }
+                             );
+                         $(document).on('click','.btn-create-submit',function(e){
+                              e.preventDefault();
+                              validation.validate().then(function(status) {
+                              if (status == 'Valid') {
+                                   var rowCount = $('#kt_product_breakdown_table tbody tr').length;
+                                   if(!rowCount){
+                                        Swal.fire("Warning!", "Product break down form is empty!", "warning")
+                                   }else{
+                                         Swal.fire({
+                                                title: "Are you sure?",
+                                                text: "You won't be able to revert this",
+                                                icon: "warning",
+                                                confirmButtonText: "Submit!",
+                                                showCancelButton: true
+                                            }).then(function(result) {
+                                                if (result.value) {
+                                                	alert($('input[name="tin"]').val())
+                                                  let formData = new FormData();
+                                                      formData.append('date_created',$('input[name="date_created"]').val());
+                                                      formData.append('customer',$('input[name="fullname"]').val());
+                                                      formData.append('email',$('input[name="email"]').val());
+                                                      formData.append('mobile',$('input[name="mobile"]').val());
+                                                      formData.append('address',$('textarea[name="address"]').val());
+                                                      formData.append('tin',$('input[name="tin"]').val());
+                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
+                                                      formData.append('date_downpayment',$('input[name="date_downpayment"]').val());
+                                                      formData.append('discount',$('input[name="discount"]').val());
+                                                      formData.append('vat',$('select[name="vat"]').val());
+                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+                                                       for(let i =0;i<rowCount;i++){
+                                                           formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.getAttribute('data-id')));
+                                                           formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+                                                           formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
+                                                           formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+                                                      }
+                                                  thisURL = baseURL + 'create_controller/Create_Salesorder_Stocks';
+                                               _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Stocks",false);
+                                             }
+                                         });
+                                   }
+                             }
+                          });
+                    });
+                    break;
+               }
 
 
 	 		 //   case "Update_Purchase_Stocks_Request":{
@@ -601,12 +726,78 @@ var KTFormControls = function () {
 					});
 	 			break;
 	 		}
+	 		case "Create_Deposit":{
+	 			var form = document.getElementById('Create_Deposit');
+			         validation = FormValidation.formValidation(form,{
+							fields: {firstname: {validators: {notEmpty: {message: 'Firstname is required'}}},
+								lastname: {validators: {notEmpty: {message: 'Lastname is required'}}},
+								middlename: {validators: {notEmpty: {message: 'Middlename/Initial is required'}}},
+								email: {validators: {notEmpty: {message: 'Email is required'}}},
+								order_no: {validators: {notEmpty: {message: 'Trancking No. is required'}}},
+								amount: {validators: {notEmpty: {message: 'Amount is required'}}},
+								bank: {validators: {notEmpty: {message: 'Bank is required'}}},
+								date_deposite: {validators: {notEmpty: {message: 'Date Deposite is required'}}},
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                    icon: new FormValidation.plugins.Icon({
+			                    valid: 'fa fa-check',
+			                    invalid: 'fa fa-times',
+			                    validating: 'fa fa-refresh'
+			                }),
+						}
+					   }
+					);
+	 			$(document).on('click','#create_deposite_btn',function(e){
+	 				e.preventDefault();
+	 				validation.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+					     	let files =  $('input[name=image]')[0].files;
+						 	let fd = new FormData(form);
+		   					fd.append('image',files[0]);
+						 	thisURL = baseURL + 'create_controller/Create_Deposit';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Deposit",false);
+					     }
+					 });
+	 			})
+	 			$(document).on('click','#Update_Deposit_Approved',function(e){
+	 				e.preventDefault();
+				 	 thisURL = baseURL + 'update_controller/Update_Deposit_Approved';
+			  	 	_ajaxForm_loaded(thisURL,"POST",{id:$(this).attr('data-id')},"Create_Deposit",false);
+	 			})
+	 			break;
+	 		}
 	 	}
 	 }
 
 	 var _constructData = async function(view,response,url){
 	 	switch(view){
 	 		//Create
+	 		case "Create_Deposit":{
+	 			if(response.status=="success"){
+                  	_initToastSuccess();
+                  	let TableURL = baseURL + 'datatable_controller/Customer_Collected_DataTable';
+					let TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
+					_DataTableLoader('tbl_customer_collected',TableURL,TableData,false);
+					document.getElementById("Create_Deposit").reset();
+					$('#Create_Deposit').resetForm();
+                    }else if(response.status =='APPROVED'){
+                    	Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
+						let TableURL = baseURL + 'datatable_controller/Customer_Deposite_DataTable';
+						let TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}]; 
+						_DataTableLoader('tbl_customer_deposite',TableURL,TableData,false);
+
+						let TableURL1 = baseURL + 'datatable_controller/Customer_Collected_DataTable';
+						let TableData1 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
+						_DataTableLoader('tbl_customer_collected',TableURL1,TableData1,false);
+                    	});
+                    
+                    }else{
+                    	Swal.fire("TRACKING NO IS INVALID!", "Please check your receipt", "info");
+                    }
+                    break;
+	 		}
 	 		case "Update_Profile":{
 	 			if(response == 'no image'){
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'No Image Upload!'});

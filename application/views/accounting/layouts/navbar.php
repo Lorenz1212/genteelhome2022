@@ -90,8 +90,76 @@
 													</ul>
 												</div>
 											</li>
-
-												<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+												<a href="javascript:;" class="menu-link menu-toggle">
+													<span class="menu-text">Sales Order</span>
+													<span class="menu-desc"></span>
+													<i class="menu-arrow"></i>
+												</a>
+												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+													<ul class="menu-subnav">
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+																 <a href="javascript:;" class="menu-link menu-toggle">
+																	<span class="menu-text">Sales Order List</span>
+																	<i class="menu-arrow"></i>
+																 </a>
+																 <div class="menu-submenu menu-submenu-classic menu-submenu-right">
+																<ul class="menu-subnav">
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/accounting/salesorder-stocks";?>" class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">For Stock</span>
+																		</a>
+																	</li>
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/accounting/salesorder-project";?>" class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">For Project</span>
+																		</a>
+																	</li>
+																</ul>
+															</div>
+															</li>
+															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+																	<a href="javascript:;" class="menu-link menu-toggle">
+																		<span class="menu-text">Create Sales Order</span>
+																		<i class="menu-arrow"></i>
+																	</a>
+																	<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+																	<ul class="menu-subnav">
+																		<li class="menu-item" aria-haspopup="true">
+																			<a href="<?php echo base_url()."gh/accounting/salesorder-create-stocks";?>" class="menu-link">
+																				<i class="menu-bullet menu-bullet-dot">
+																					<span></span>
+																				</i>
+																				<span class="menu-text">For Stock</span>
+																			</a>
+																		</li>
+																		<li class="menu-item" aria-haspopup="true">
+																			<a href="<?php echo base_url()."gh/accounting/salesorder-create-project";?>" class="menu-link">
+																				<i class="menu-bullet menu-bullet-dot">
+																					<span></span>
+																				</i>
+																				<span class="menu-text">For Project</span>
+																			</a>
+																		</li>
+																	</ul>
+																</div>
+															</li>
+														</li>
+													</ul>
+												</div>
+											</li>
+											<li class="menu-item menu-item-open  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+												<a href="<?php echo base_url()."gh/accounting/collection";?>" class="menu-link">
+													<span class="menu-text">Collection</span>
+												</a>
+											</li>
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Inventory</span>
 													<span class="menu-desc"></span>
@@ -105,9 +173,9 @@
 															</a>
 														</li>
 													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/accounting/spareparts";?>" class="menu-link">
-																<span class="menu-text">Spare Parts</span>
-															</a>
+														<a href="<?php echo base_url()."gh/accounting/spareparts";?>" class="menu-link">
+															<span class="menu-text">Spare Parts</span>
+														</a>
 													</li>
 													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/accounting/officesupplies";?>" class="menu-link">
@@ -136,15 +204,23 @@
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																 <a href="<?php echo base_url()."gh/accounting/sales-order";?>" class="menu-link"><span class="menu-text">Sales Order</span>
+																 <a href="<?php echo base_url()."gh/accounting/report-sales-order-stocks";?>" class="menu-link"><span class="menu-text">Sales Order For Stocks</span>
 																 </a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/cashfund";?>" class="menu-link "><span class="menu-text">Cash Fund</span>
+																 <a href="<?php echo base_url()."gh/accounting/report-sales-order-project";?>" class="menu-link"><span class="menu-text">Sales Order For Project</span>
+																 </a>
+															</li>
+															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+																<a href="<?php echo base_url()."gh/accounting/report-collection-stocks";?>" class="menu-link "><span class="menu-text">Sales Collection For Stocks</span>
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/collection";?>" class="menu-link "><span class="menu-text">Sales Collection</span>
+																<a href="<?php echo base_url()."gh/accounting/report-collection-project";?>" class="menu-link "><span class="menu-text">Sales Collection For Project</span>
+																</a>
+															</li>
+															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+																<a href="<?php echo base_url()."gh/accounting/cashfund";?>" class="menu-link "><span class="menu-text">Cash Fund</span>
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">

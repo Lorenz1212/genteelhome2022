@@ -35,7 +35,7 @@
 			            </ul>
 			   		 </div>
 			   		</div>
-			    <div class="card-body link" data-link="tbl_salesorder_stocks_production">
+			    <div class="card-body link" data-link="tbl_salesorder_stocks_accounting">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved" style="margin-top: 13px !important">

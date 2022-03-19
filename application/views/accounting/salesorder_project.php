@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-stocks">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-project">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -35,7 +35,7 @@
 			            </ul>
 			   		 </div>
 			   		</div>
-			    <div class="card-body link" data-link="tbl_salesorder_stocks_production">
+			    <div class="card-body link" data-link="tbl_salesorder_project_accounting">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved" style="margin-top: 13px !important">
@@ -160,7 +160,7 @@
 						
 					</div>
 					<div class="modal-footer">
-						 <button class="btn btn-light-dark font-weight-bold btn-icon btn-print" type="button"><i class="flaticon2-printer"></i></button>
+						 <a href="<?php echo base_url()?>gh/print/print-salesorder-project" target="_blank" class="btn btn-light-dark font-weight-bold btn-icon btn-print"  type="button"><i class="flaticon2-printer"></i></a>
 					</div>
 				</div>
             </div>

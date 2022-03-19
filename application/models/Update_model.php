@@ -1050,9 +1050,11 @@ class Update_model extends CI_Model
          $this->db->update('tbl_events',$data);  
     }
     function Update_Deposit_Approved($id){
-        $data = array('status' => 'APPROVED');
+        $data = array('status' => 'A');
         $this->db->where('id',$id);
         $this->db->update('tbl_customer_deposite',$data);
+        $data = array('status'=>'APPROVED');
+        return $data;
     }
     function Update_Customer($user_id,$id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region){
         $data = array('firstname' => $firstname,

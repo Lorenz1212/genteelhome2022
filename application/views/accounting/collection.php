@@ -183,7 +183,7 @@
 															 <div class="card-footer">
 															 	<div class="form-group row">
 																    <div class="col-lg-10 ml-lg-auto">
-																     <button type="submit" class="btn btn-success btn-lg mr-3">Save</button>
+																     <button type="button" id="create_deposite_btn" class="btn btn-success btn-lg mr-3">Save</button>
 																    </div>
 																   </div>
 															 </div>

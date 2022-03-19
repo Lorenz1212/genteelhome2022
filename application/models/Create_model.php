@@ -1,6 +1,5 @@
 <?php
-class Create_model extends CI_Model
-{  
+class Create_model extends CI_Model{  
 	private function move_to_folder1($image,$tmp,$path){
          $newfilename=  'IMG'.date('YmdHisu').'-'.preg_replace('/[@\;\" "\()]+/', '', $image);
          $path_folder = $path.$newfilename;
@@ -907,12 +906,23 @@ class Create_model extends CI_Model
 	        $json = array('status'=>$status,'image' => $images,'id'=> $last_id);
   			return $json;
     }
-    function Create_Deposit($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image){
+    function Create_Deposite($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image){
           if($image){$images = $this->move_to_folder1($image,$tmp,$path_image);}else{$images='default.jpg';}
-	        $query = $this->db->select('*')->from('tbl_salesorder')->where('so_no',$order_no)->get();
-	        $row = $query->row();
-          $data = array('order_no' => $order_no,
-          				'si_no'=> $row->si_no,
+	         $si_no ="";
+	         $type ="";
+	        $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$order_no)->get()->row();
+	        if($row){
+	        	$si_no = $row->si_no;
+	        	$type = 1;
+	        }else{
+	        	$row1 = $this->db->select('*')->from('tbl_salesorder_project')->where('so_no',$order_no)->get()->row();
+	        	if($row1){
+	        	   $si_no = $row1->si_no;
+	        	   $type = 2;
+	        	}
+	        }
+           $data = array('order_no' => $order_no,
+          				'si_no'=> $si_no,
                         'firstname' => $firstname,
                         'lastname' => $lastname,
                         'mobile'=> $mobile,
@@ -921,8 +931,15 @@ class Create_model extends CI_Model
                         'amount'=> $amount,
                         'bank'=> $bank,
                         'image'=> $images,
-                        'status' => 'APPROVED');
-            $this->db->insert('tbl_customer_deposite',$data);
+                        'status' => 'A',
+                        'type'=>$type);
+           if(!$si_no){
+           	  	return array('status'=>$order_no);
+           }else{
+            	$this->db->insert('tbl_customer_deposite',$data);
+            	return array('status'=>'success');
+           }
+            
   	}
   	function Create_Customer($user_id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region){
 				$data = array('firstname' => $firstname,
@@ -1091,8 +1108,8 @@ class Create_model extends CI_Model
         	return 'Created Successfully';
     	}
     }
-     function Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount){
-    	$so_no = $this->get_code('tbl_salesorder_stocks','SO'.date('Ymd'));
+     function Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin){
+    	$so_no = $this->get_code('tbl_salesorder_stocks','SO-FS'.date('Ymd'));
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
     	if(!$row){
     		$c_no = $this->get_code('tbl_salesorder_customer','CN'.date('Ymd'));
@@ -1101,6 +1118,7 @@ class Create_model extends CI_Model
     														 'email'=>$email,
     														 'mobile'=>$mobile,
     														 'address'=>$address,
+    														 'tin'=>$tin,
     														 'date_created'=>date('Y-m-d H:i:s'),
     														 'created_by'=>$user_id));
     		$last_id = $this->db->insert_id();
@@ -1112,11 +1130,13 @@ class Create_model extends CI_Model
     				  'email'=>$email,
     				  'mobile'=>$mobile,
     				  'address'=>$address,
+    				  'tin'=>$tin,
     				  'downpayment'=>$downpayment,
     				  'discount'=>$discount,
     				  'shipping_fee'=>$shipping_fee,
     				  'vat'=>$vat,
     				  'date_order'=>date('Y-m-d',strtotime($date_created)),
+    				  'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
     				  'date_created'=>date('Y-m-d H:i:s'),
     				  'created_by'=>$user_id));
     	$last_id_so = $this->db->insert_id();
@@ -1134,8 +1154,8 @@ class Create_model extends CI_Model
     		return false;	
     	}
     }
-    function Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount){
-    	$so_no = $this->get_code('tbl_salesorder_project','SO'.date('Ymd'));
+    function Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin){
+    	$so_no = $this->get_code('tbl_salesorder_project','SO-FP'.date('Ymd'));
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
     	if(!$row){
     		$c_no = $this->get_code('tbl_salesorder_customer','CN'.date('Ymd'));
@@ -1144,6 +1164,7 @@ class Create_model extends CI_Model
     														 'email'=>$email,
     														 'mobile'=>$mobile,
     														 'address'=>$address,
+    														 'tin'=>$tin,
     														 'date_created'=>date('Y-m-d H:i:s'),
     														 'created_by'=>$user_id));
     		$last_id = $this->db->insert_id();
@@ -1164,6 +1185,7 @@ class Create_model extends CI_Model
     				  'email'=>$email,
     				  'mobile'=>$mobile,
     				  'address'=>$address,
+    				  'tin'=>$tin,
     				  'project_no'=>$this->encryption->decrypt($project_no),
     				  'item'=>''.json_encode($data).'',
     				  'downpayment'=>$downpayment,
@@ -1171,6 +1193,7 @@ class Create_model extends CI_Model
     				  'shipping_fee'=>$shipping_fee,
     				  'vat'=>$vat,
     				  'date_order'=>date('Y-m-d',strtotime($date_created)),
+    				  'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
     				  'date_created'=>date('Y-m-d H:i:s'),
     				  'created_by'=>$user_id));
     	if($result){
