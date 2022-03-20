@@ -60,8 +60,9 @@
 												</a>
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Design</span>
+												<a href="javascript:;" class="menu-link menu-toggle mr-2">
+													<span class="menu-text mr-2">Design </span>
+													<span class="label label-rounded label-warning request_stocks_project">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -80,6 +81,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Stocks</span>
+																			<span class="label label-rounded label-warning request_stocks">0</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -88,6 +90,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Project</span>
+																			<span class="label label-rounded label-warning request_project">0</span>
 																		</a>
 																	</li>
 																</ul>
@@ -132,7 +135,8 @@
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Job Order</span>
+													<span class="menu-text mr-2">Job Order</span>
+													<span class="label label-rounded label-primary request_jo">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -151,6 +155,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Stocks</span>
+																			<span class="label label-rounded label-primary request_jo_stocks">0</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -159,6 +164,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Project</span>
+																			<span class="label label-rounded label-primary request_jo_project">0</span>
 																		</a>
 																	</li>
 																</ul>
@@ -193,7 +199,7 @@
 													</ul>
 												</div>
 											</li>
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+										<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Request</span>
 													<span class="menu-desc"></span>
@@ -281,7 +287,7 @@
 														</li>
 													</ul>
 												</div>
-											</li>
+											</li> -->
 										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Request For Stocks</span>

@@ -2,8 +2,55 @@
 class Dashboard_model extends CI_Model
 {  
    //Fetch Data
-   function admin_dashboard()
-   {        
+    function designer_dashboard($id){        
+        $request_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',1)->where('status', 1)->get()->row();  
+        $approved_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',1)->where('status',1)->get()->row();
+        $rejected_stocks =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',1)->where('status', 3)->get()->row();
+        $request_project = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',2)->where('status',1)->get()->row();  
+        $approved_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',2)->where('status',1)->get()->row();
+        $rejected_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',2)->where('status',3)->get()->row();
+
+        $request_jo_stocks = $this->db->select('count(id) as id')->from('tbl_project')->where('type',1)->where('status',2)->get()->row();
+        $request_jo_project = $this->db->select('count(id) as id')->from('tbl_project')->where('type',2)->where('status',2)->get()->row();
+       
+        $data = array('request_stocks'  => $request_stocks->id,
+                      'approved_stocks' => $approved_stocks->id,
+                      'rejected_stocks' => $rejected_stocks->id,
+                      'request_project' => $request_project->id,
+                      'approved_project'=> $approved_project->id,
+                      'rejected_project'=> $rejected_project->id,
+                      'request_jo_stocks'=>$request_jo_stocks->id,
+                      'request_jo_project'=>$request_jo_project->id,
+                      'request_jo_designer'=>intval($request_jo_stocks->id+$request_jo_project->id));
+        return $data;   
+  }
+  function production_dashboard($id){        
+    $request_jo_stocks = $this->db->select('count(id) as id')->from('tbl_project')->where('assigned',$id)->where('type',1)->where('status',2)->get()->row();
+    $request_jo_project = $this->db->select('count(id) as id')->from('tbl_project')->where('assigned',$id)->where('type',2)->where('status',2)->get()->row();
+
+    $request_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','P')->get()->row();
+    $request_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','P')->get()->row();
+
+    $sales_shipping_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',1)->get()->row();
+    $sales_deliver_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',2)->get()->row();
+
+    $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',1)->get()->row();
+    $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',2)->get()->row();
+
+    $data = array('request_jo_stocks'=>$request_jo_stocks->id,
+                  'request_jo_project'=>$request_jo_project->id,
+                  'request_jo_production'=>intval($request_jo_stocks->id+$request_jo_project->id),
+                  'request_sales_stocks'=>$request_sales_stocks->id,
+                  'request_sales_project'=>$request_sales_project->id,
+                  'request_salesorder'=>intval($request_sales_project->id+$request_sales_stocks->id),
+                  'sales_shipping_stocks'=>$sales_shipping_stocks->id,
+                  'sales_deliver_stocks'=>$sales_deliver_stocks->id,
+                  'sales_shipping_project'=>$sales_shipping_project->id,
+                  'sales_deliver_project'=>$sales_deliver_project->id,
+              );
+    return $data; 
+  } 
+   function admin_dashboard(){        
      $query_pr =  $this->db->select('count(id) as id')->from('tbl_purchasing_project')->where('status', 'APPROVED1')->get();  
      $row_pr = $query_pr->row();
      $query_ir =  $this->db->select('count(id) as id')->from('tbl_product_inspection_approved')->where('status', 'PENDING')->get();  
@@ -109,94 +156,27 @@ class Dashboard_model extends CI_Model
                               // 'cs'           => $row_cs->id);
           return $json_data;   
   } 
-  function designer_dashboard($id){        
-     $array = array('i.type'=>'REQUEST', 'c.designer'=> $id);
-     $query_on =  $this->db->select('count(i.id) as id')->from('tbl_cart_add as i')->join('tbl_project_color as c','c.c_code=i.c_code','LEFT')->where($array)->get();
-     $row_on = $query_on->row();
+  
+   
+  function sales_dashboard($id){
+     $request_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','P')->get()->row();
+    $request_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','P')->get()->row();
 
-     $query_da =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('status', 2)->get();  
-     $row_da = $query_da->row();
+    $sales_shipping_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',1)->get()->row();
+    $sales_deliver_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',2)->get()->row();
 
-     $query_dr =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('status', 3)->get();  
-     $row_dr = $query_dr->row();
+    $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',1)->get()->row();
+    $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',2)->get()->row();
 
-     $query_mr =  $this->db->select('count(id) as id')->from('tbl_project')->where('status', 2)->get();  
-     $row_mr = $query_mr->row();
-
-     $query_sc =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('type','customized')->where('status', 'REQUEST')->get();  
-     $row_sc = $query_sc->row();
-
-     $query_sr =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('type','request')->where('status', 'REQUEST')->get();  
-     $row_sr = $query_sr->row();
-
-     $query_ia =  $this->db->select('count(id) as id')->from('tbl_product_inspection')->where('created_by',$id)->where('status', 2)->get();  
-     $row_ia = $query_ia->row();
-
-     $query_irr =  $this->db->select('count(id) as id')->from('tbl_product_inspection')->where('created_by',$id)->get();  
-     $row_irr = $query_irr->row();
-     $data = array(   'da'           => $row_da->id,
-                      'dr'           => $row_dr->id,
-                      'mr'           => $row_mr->id,
-                      'sc'           => $row_sc->id,
-                      'sr'           => $row_sr->id,
-                      'ia'           => $row_ia->id,
-                      'ir'           => $row_irr->id,
-                      'on'           => $row_on->id);
-     $json_data = array('data'=>$data);
-     return $json_data;   
-  }
-   function production_dashboard($id){        
-     $query_p =  $this->db->select('count(id) as id')->from('tbl_project')->where('status', 'REQUEST')->get();  
-     $row_p = $query_p->row();
-
-     $query_sc =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('sales_person',$id)->where('type','customized')->where('status', 'PENDING')->get();  
-     $row_sc = $query_sc->row();
-
-     $query_ss =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('sales_person',$id)->where('type','request')->where('status', 'PENDING')->get();  
-     $row_ss = $query_ss->row();
-
-     $query_ia =  $this->db->select('count(id) as id')->from('tbl_product_inspection')->where('created_by',$id)->where('status', 'APPROVED')->get();  
-     $row_ia = $query_ia->row();
-
-     $query_ir =  $this->db->select('count(id) as id')->from('tbl_product_inspection_approved')->where('inspector',$id)->where('status', 'REJECTED')->get();  
-     $row_ir = $query_ir->row();
-
-     $query_irr =  $this->db->select('count(id) as id')->from('tbl_product_inspection_rejected')->where('inspector',$id)->get();  
-     $row_irr = $query_irr->row();
-
-     $query_sd =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('sales_person',$id)->where('status', 'DELIVERED')->get();  
-     $row_sd = $query_sd->row();
-
-     $query_sop =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('sales_person',$id)->where('status', 'REQUEST')->get();  
-     $row_sop = $query_sop->row();
-
-     $ir = floatval($row_ir->id + $row_irr->id);
-
-     $data[] = array( 'sc'           => $row_sc->id,
-                      'ss'           => $row_ss->id,
-                      'pr'           => $row_p->id,
-                      'ia'           => $row_ia->id,
-                      'ir'           => $ir,
-                      'sd'           => $row_sd->id,
-                      'so'           => $row_sop->id);
-     $json_data = array('data'=>$data);
-     return $json_data;   
-  } 
-  function sales_dashboard(){
-     $query_or =  $this->db->select('count(id) as id')->from('tbl_cart_address')->where('status', 'REQUEST')->get();  
-     $row_or = $query_or->row();
-
-     $query_cr =  $this->db->select('count(id) as id')->from('tbl_customer_customize')->where('status', 'REQUEST')->get();  
-     $row_cr = $query_cr->row();
-
-     $query_cs =  $this->db->select('count(id) as id')->from('tbl_service_request')->where('status', 'REQUEST')->get();  
-     $row_cs = $query_cs->row();
-
-    $data[] = array('or'     => $row_or->id,
-                    'cr'     => $row_cr->id,
-                    'cs'     => $row_cs->id);
-     $json_data = array('data'=>$data);
-     return $json_data;
+    $data = array('request_sales_stocks'=>$request_sales_stocks->id,
+                  'request_sales_project'=>$request_sales_project->id,
+                  'request_salesorder'=>intval($request_sales_project->id+$request_sales_stocks->id),
+                  'sales_shipping_stocks'=>$sales_shipping_stocks->id,
+                  'sales_deliver_stocks'=>$sales_deliver_stocks->id,
+                  'sales_shipping_project'=>$sales_shipping_project->id,
+                  'sales_deliver_project'=>$sales_deliver_project->id,
+              );
+    return $data; 
   }
 
 }

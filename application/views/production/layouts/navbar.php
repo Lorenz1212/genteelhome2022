@@ -39,7 +39,8 @@
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Job Order</span>
+													<span class="menu-text mr-2">Job Order</span>
+													<span class="label label-rounded label-primary request_jo_production">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -48,11 +49,13 @@
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/production/joborder-stocks";?>" class="menu-link">
 																<span class="menu-text">For Stocks</span>
+																<span class="label label-rounded label-primary request_jo_stocks_production">0</span>
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/production/joborder-project";?>" class="menu-link">
 																<span class="menu-text">For Project</span>
+																<span class="label label-rounded label-primary request_jo_project_production">0</span>
 															</a>
 														</li>
 													</ul>
@@ -60,7 +63,8 @@
 											</li>
 										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Sales Order</span>
+													<span class="menu-text mr-2">Sales Order</span>
+													<span class="label label-rounded label-primary sales_count">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -79,6 +83,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Stock</span>
+																			<span class="label label-rounded label-primary sales_stocks">0</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -87,6 +92,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Project</span>
+																			<span class="label label-rounded label-primary sales_project">0</span>
 																		</a>
 																	</li>
 																</ul>

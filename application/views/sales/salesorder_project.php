@@ -19,17 +19,17 @@
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" href="#approved">
-			                        <span class="nav-text">REQUEST FOR APPROVAL</span>
+			                        <span class="nav-text">REQUEST FOR APPROVAL <span class="label label-rounded label-primary sales_project">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#shipping">
-			                        <span class="nav-text">FOR SHIPPING</span>
+			                        <span class="nav-text">FOR SHIPPING <span class="label label-rounded label-warning sales_shipping_project">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#delivered">
-			                        <span class="nav-text">DELIVERED</span>
+			                        <span class="nav-text">DELIVERED <span class="label label-rounded label-success sales_deliver_project">0</span></span>
 			                    </a>
 			                </li>
 			            </ul>

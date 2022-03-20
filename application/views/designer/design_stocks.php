@@ -20,19 +20,19 @@
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" href="#approved">
 			                        <span class="nav-icon"><i class="flaticon-list-3"></i></span>
-			                        <span class="nav-text">APPROVED</span>
+			                        <span class="nav-text">APPROVED <span class="label label-rounded label-success approved_stocks">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#request">
 			                        <span class="nav-icon"><i class="flaticon-exclamation-1"></i></span>
-			                        <span class="nav-text">REQUEST FOR APPROVAL</span>
+			                        <span class="nav-text">REQUEST FOR APPROVAL <span class="label label-rounded label-warning request_stocks">0</span></span>
 			                    </a>
 			                </li>
 			                 <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#rejected">
 			                        <span class="nav-icon"><i class="flaticon-cancel"></i></span>
-			                        <span class="nav-text">REJECTED</span>
+			                        <span class="nav-text">REJECTED <span class="label label-rounded label-danger rejected_stocks">0</span></span>
 			                    </a>
 			                 </li>
 			            </ul>

@@ -368,6 +368,48 @@ var arrows;var item_v;var price;var special_option;
 	}
       var _initOption = function(view,response){
 		switch(view){
+			case "designer":{
+				alert('ok')
+				$('.request_stocks').text(response.request_stocks);
+				$('.approved_stocks').text(response.approved_stocks);
+				$('.rejected_stocks').text(response.rejected_stocks);
+				$('.request_project').text(response.request_project);
+				$('.approved_project').text(response.approved_project);
+				$('.rejected_project').text(response.rejected_project);
+				$('.request_stocks_project').text(parseInt(response.request_stocks+response.request_project));
+
+				$('.request_jo_stocks').text(response.request_jo_stocks);
+				$('.request_jo_project').text(response.request_jo_project);
+				$('.request_jo').text(response.request_jo_designer);
+				break;
+			}
+			case "production":{
+				$('.request_jo_stocks_production').text(response.request_jo_stocks);
+				$('.request_jo_project_production').text(response.request_jo_project);
+				$('.request_jo_production').text(response.request_jo_production);
+				$('.sales_count').text(response.request_salesorder);
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+
+				$('.sales_shipping_project').text(response.sales_shipping_project);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
+				break;
+			}
+			case "sales":{
+				$('.sales_count').text(response.request_salesorder);
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+
+				$('.sales_shipping_project').text(response.sales_shipping_project);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
+				break;
+			}
 			case "Purchased_Item":{
 				if(response.terms == 1){var terms = 'CASH';}else{var terms = 'TERMS';}
 				$('#tbl_purchasing_process > tbody:last-child').append('<tr>\
@@ -734,11 +776,11 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-design-stocks-approval":{
 				$(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	$('input[name=title]').attr('data-id',id);
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Design_Stocks_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Design_Stocks_Approval_View");
+				 	let id = $(this).attr('data-id');
+				 	$('input[name=title]').attr('data-id',id);
+				 	let val = {id:id};
+				 	let thisUrl = 'modal_controller/Modal_Design_Stocks_View';
+					_ajaxloader(thisUrl,"POST",val,"Modal_Design_Stocks_Approval_View");
 				 });
 				break;
 			}
@@ -2188,8 +2230,7 @@ var arrows;var item_v;var price;var special_option;
 		}
 	}
 
-	var _initView = async function(view,response)
-	{
+	var _initView = async function(view,response){
 	  switch(view){
 	  	case "production_dashboard":{
 		  	$('#sc').text(response.data[0].sc);
@@ -6184,7 +6225,33 @@ var arrows;var item_v;var price;var special_option;
 	return {
 
 		//main function to initiate the module
-		init: function() {
+		init: function(){
+			 let url = window.location.pathname;
+			 let urlpost;
+			 if(url.split('/')[0] == 'genteelhome2022'){
+			 	urlpost = url.split('/')[2];
+			 }else if(url.split('/')[1] == 'genteelhome2022'){
+			 	urlpost = url.split('/')[3];
+			 }else if(url.split('/')[2] == 'genteelhome2022'){
+			 	urlpost = url.split('/')[4];
+			 }else if(url.split('/')[3] == 'genteelhome2022'){
+			 	urlpost = url.split('/')[6];
+			 }
+			 if(urlpost == 'designer'){
+			 	_ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
+			 }else if(urlpost =='production'){
+			 	_ajaxloaderOption('Dashboard_controller/production_dashboard','POST',false,'production');
+			 }else if(urlpost == 'sales'){
+			 	_ajaxloaderOption('Dashboard_controller/sales_dashboard','POST',false,'sales');
+			 }else if(urlpost =='supervisor'){
+
+			 }else if(urlpost == 'superuser'){
+
+			 }else if(urlpost == 'admin'){
+
+			 }else if(urlpost == 'accounting'){
+
+			 }
 			var viewForm = $('#kt_content').attr('data-table');
 			_ViewController(viewForm);
 			_initView();

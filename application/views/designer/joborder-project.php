@@ -35,7 +35,7 @@
 			                </li>
 			                 <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#request">
-			                        <span class="nav-text">Request</span>
+			                        <span class="nav-text">Request <span class="label label-rounded label-primary request_jo_project">0</span></span>
 			                    </a>
 			                </li>
 			            </ul>

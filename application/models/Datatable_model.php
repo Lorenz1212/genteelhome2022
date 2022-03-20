@@ -2833,10 +2833,6 @@ class Datatable_model extends CI_Model{
             }   
             $query = $this->db->select('*,DATE_FORMAT(date_received, "%M %d %Y") as date_created,
                  IF(update_pettycash=0, pettycash,update_pettycash) as pettycash,
-                 (SELECT sum(total_amount/1.12) FROM tbl_pettycash WHERE status=2 AND '.$date.') as total_gross,
-                 (SELECT sum(total_amount) FROM tbl_pettycash WHERE status=2 AND  '.$date.') as total_grand,
-                 (SELECT sum(actual_change) FROM tbl_pettycash WHERE status=2 AND  '.$date.') as total_change,
-                 (SELECT sum(refund) FROM tbl_pettycash WHERE status=2 AND type=1 AND '.$date.') as total_refund,
                  (SELECT SUM(IF(update_pettycash = 0,  update_pettycash, pettycash)) FROM tbl_pettycash WHERE status="COMPLETE" AND '.$date.') as total_pettycash')->from('tbl_pettycash')->where($where)->where('status','COMPLETE')->where('type',1)->get();
               if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row)  {
