@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-report-collection">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-report-collection-project">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -182,7 +182,7 @@
 							<!--begin::Tap pane-->
 							<div class="tab-pane fade" id="yearly" role="tabpanel" aria-labelledby="yearly">
 								<!--begin::Table-->
-								<div class="table-responsive">
+								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table table-vertical-center" id="tbl_collection_yearly">
 										<thead>
 											<tr>

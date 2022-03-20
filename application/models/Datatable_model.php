@@ -2325,7 +2325,7 @@ class Datatable_model extends CI_Model{
      }
 
      function Account_Report_Collection_Stocks_Daily($month,$year){
-            $data =false;   
+            $data =false;   $total_gross =0;$total_vat = 0;$total_amount = 0;
             if($month == false || $year == false){
                 $date = "MONTH(date_deposite)=".date('m')." AND YEAR(date_deposite)=".date('Y')." AND status='A' AND type=1";
             }else{
@@ -2336,8 +2336,6 @@ class Datatable_model extends CI_Model{
              foreach($query->result() as $row){
                  $gross = $row->amount / 1.12;
                  $vat = $row->amount - $gross;
-                 $total_gross = $row->total_amount / 1.12;
-                 $total_vat = $row->total_amount - $total_gross;
                  $data[] = array(
                               'order_no'     => $row->order_no,
                               'si_no'        => $row->si_no,
@@ -2346,14 +2344,13 @@ class Datatable_model extends CI_Model{
                               'gross'        => number_format($gross,2),
                               'vat'          => number_format($vat,2),
                               'amount'       => number_format($row->amount,2),
-                              'total_amount' => number_format($row->total_amount,2),
-                              'total_vat'    => number_format($total_vat,2),
-                              'total_gross'  => number_format($total_gross,2),
                               'date_created' => $row->date_created);
+                 $total_gross += $gross;
+                 $total_vat += $vat;
+                 $total_amount += $row->amount;
                 }  
              }
-             $json_data  = array("data" =>$data); 
-             return $json_data;
+             return array('row'=>$data,'total_gross'=>number_format($total_gross,2),'total_vat'=>number_format($total_vat,2),'total_amount'=>number_format($total_amount,2));
      }
        function Account_Report_Collection_Stocks_Weekly($month,$year){
              $data =false;  
@@ -2369,58 +2366,41 @@ class Datatable_model extends CI_Model{
                 ')->from('tbl_customer_deposite')->where($date)->group_by('WEEK(date_deposite)')->order_by('WEEK(date_deposite)','ASC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
-                  $gross = $row->amount / 1.12;
-                  $vat = $row->amount - $gross;
-                  $total_gross = $row->total_amount / 1.12;
-                  $total_vat = $row->total_amount - $total_gross;
-                 $data[] = array(
-                              'gross'        => number_format($gross,2),
-                              'vat'          => number_format($vat,2),
-                              'amount'       => number_format($row->amount,2),
-                              'total_amount' => number_format($row->total_amount,2),
-                              'total_vat'    => number_format($total_vat,2),
-                              'total_gross'  => number_format($total_gross,2),
-                              'date_created' => $row->date_created);
+                 $gross = $row->amount / 1.12;
+                 $vat = $row->amount - $gross;
+                 $data[] = array('gross'=> number_format($gross,2),
+                                 'vat'=> number_format($vat,2),
+                                 'amount'=> number_format($row->amount,2),
+                                 'date_created'=> $row->date_created);
                 }  
              }
-             $json_data  = array("data" =>$data); 
-             return $json_data;
+             return $data;
      }
      function Account_Report_Collection_Stocks_Monthly($month,$year){
-           if($month == false || $year == false){
-                $date = "YEAR(date_deposite)=".date('Y')." AND status='A' AND type=1";
-            }else{
-                $date = "YEAR(date_deposite)=".$year." AND status='A' AND type=1";
-            }
-            $data =false;   
+           if($month == false || $year == false){$date = "YEAR(date_deposite)=".date('Y')." AND status='A' AND type=1";
+            }else{$date = "YEAR(date_deposite)=".$year." AND status='A' AND type=1";}
+            $data =false; $total_gross =0;$total_vat = 0;$total_amount = 0;  
             $query = $this->db->select('*,sum(amount) as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M") as date_created,
                 (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($date)->group_by('MONTH(date_deposite)')->order_by('date_deposite','ASC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row)  {
                  $gross = $row->amount / 1.12;
                  $vat = $row->amount - $gross;
-                 $total_gross = $row->total_amount / 1.12;
-                 $total_vat = $row->total_amount - $total_gross;
                  $data[] = array(
                               'gross'        => number_format($gross,2),
                               'vat'          => number_format($vat,2),
                               'amount'       => number_format($row->amount,2),
-                              'total_amount' => number_format($row->total_amount,2),
-                              'total_vat'    => number_format($total_vat,2),
-                              'total_gross'  => number_format($total_gross,2),
                               'date_created' => $row->date_created);
+                 $total_gross += $gross;
+                 $total_vat += $vat;
+                 $total_amount += $row->amount;
                 }  
              }
-             $json_data  = array("data" =>$data); 
-             return $json_data;
+             return array('row'=>$data,'total_gross'=>number_format($total_gross,2),'total_vat'=>number_format($total_vat,2),'total_amount'=>number_format($total_amount,2));
      }
       function Account_Report_Collection_Stocks_Yearly($year){
-            $data =false;  
-           if($year == false){
-                $date = "YEAR(date_deposite)<=".date('Y')." AND status='A' AND type=1";
-            }else{
-                $date = "YEAR(date_deposite)<=".$year." AND status='A' AND type=1";
-            }   
+            $data =false;  $total_gross =0;$total_vat = 0;$total_amount = 0;
+           if($year == false){$date = "YEAR(date_deposite)<=".date('Y')." AND status='A' AND type=1";}else{$date = "YEAR(date_deposite)<=".$year." AND status='A' AND type=1";}   
             $query = $this->db->select('*,sum(amount) as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%Y") as date_created, sum(amount) as amount,
                 (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($date)->group_by('YEAR(date_deposite)')->order_by('YEAR(date_deposite)','DESC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
@@ -2428,21 +2408,116 @@ class Datatable_model extends CI_Model{
                 {
                  $gross = $row->amount / 1.12;
                  $vat = $row->amount - $gross;
-                 $total_gross = $row->total_amount / 1.12;
-                 $total_vat = $row->total_amount - $total_gross;
                  $data[] = array(
                               'gross'        => number_format($gross,2),
                               'vat'          => number_format($vat,2),
                               'amount'       => number_format($row->amount,2),
-                              'total_amount' => number_format($row->total_amount,2),
-                              'total_vat'    => number_format($total_vat,2),
-                              'total_gross'  => number_format($total_gross,2),
                               'date_created' => $row->date_created);
+                 $total_gross += $gross;
+                 $total_vat += $vat;
+                 $total_amount += $row->amount;
                 }  
              }
-             $json_data  = array("data" =>$data); 
-             return $json_data;
+            return array('row'=>$data,'total_gross'=>number_format($total_gross,2),'total_vat'=>number_format($total_vat,2),'total_amount'=>number_format($total_amount,2));
      }
+     function Account_Report_Collection_Project_Daily($month,$year){
+            $data =false;   $total_gross =0;$total_vat = 0;$total_amount = 0;
+            if($month == false || $year == false){
+                $date = "MONTH(date_deposite)=".date('m')." AND YEAR(date_deposite)=".date('Y')." AND status='A' AND type=2";
+            }else{
+                $date = "MONTH(date_deposite)=".$month." AND YEAR(date_deposite)=".$year." AND status='A' AND type=2";
+            }   
+            $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created,(SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($date)->order_by('date_deposite','ASC')->get();
+             if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                 $gross = $row->amount / 1.12;
+                 $vat = $row->amount - $gross;
+                 $data[] = array(
+                              'order_no'     => $row->order_no,
+                              'si_no'        => $row->si_no,
+                              'customer'     => $row->customer,
+                              'bank'         => $row->bank,
+                              'gross'        => number_format($gross,2),
+                              'vat'          => number_format($vat,2),
+                              'amount'       => number_format($row->amount,2),
+                              'date_created' => $row->date_created);
+                 $total_gross += $gross;
+                 $total_vat += $vat;
+                 $total_amount += $row->amount;
+                }  
+             }
+             return array('row'=>$data,'total_gross'=>number_format($total_gross,2),'total_vat'=>number_format($total_vat,2),'total_amount'=>number_format($total_amount,2));
+     }
+       function Account_Report_Collection_Project_Weekly($month,$year){
+             $data =false;  
+             if($month == false || $year == false){
+                $date = "MONTH(date_deposite)=".date('m')." AND YEAR(date_deposite)=".date('Y')." AND status='A' AND type=2";
+            }else{
+                $date = "MONTH(date_deposite)=".$month." AND YEAR(date_deposite)=".$year." AND status='A' AND type=2";
+            }
+            $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,
+                CONCAT("WEEK", " ",WEEK(date_deposite, 3) - WEEK(date_deposite - INTERVAL DAY(date_deposite)-1 DAY, 3) + 1)
+                      as date_created,  SUM(amount) AS amount,
+                    (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount
+                ')->from('tbl_customer_deposite')->where($date)->group_by('WEEK(date_deposite)')->order_by('WEEK(date_deposite)','ASC')->get();
+             if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                 $gross = $row->amount / 1.12;
+                 $vat = $row->amount - $gross;
+                 $data[] = array('gross'=> number_format($gross,2),
+                                 'vat'=> number_format($vat,2),
+                                 'amount'=> number_format($row->amount,2),
+                                 'date_created'=> $row->date_created);
+                }  
+             }
+             return $data;
+     }
+     function Account_Report_Collection_Project_Monthly($month,$year){
+           if($month == false || $year == false){$date = "YEAR(date_deposite)=".date('Y')." AND status='A' AND type=2";
+            }else{$date = "YEAR(date_deposite)=".$year." AND status='A' AND type=2";}
+            $data =false; $total_gross =0;$total_vat = 0;$total_amount = 0;  
+            $query = $this->db->select('*,sum(amount) as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M") as date_created,
+                (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($date)->group_by('MONTH(date_deposite)')->order_by('date_deposite','ASC')->get();
+             if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row)  {
+                 $gross = $row->amount / 1.12;
+                 $vat = $row->amount - $gross;
+                 $data[] = array(
+                              'gross'        => number_format($gross,2),
+                              'vat'          => number_format($vat,2),
+                              'amount'       => number_format($row->amount,2),
+                              'date_created' => $row->date_created);
+                 $total_gross += $gross;
+                 $total_vat += $vat;
+                 $total_amount += $row->amount;
+                }  
+             }
+             return array('row'=>$data,'total_gross'=>number_format($total_gross,2),'total_vat'=>number_format($total_vat,2),'total_amount'=>number_format($total_amount,2));
+     }
+      function Account_Report_Collection_Project_Yearly($year){
+            $data =false;  $total_gross =0;$total_vat = 0;$total_amount = 0;
+           if($year == false){$date = "YEAR(date_deposite)<=".date('Y')." AND status='A' AND type=2";}else{$date = "YEAR(date_deposite)<=".$year." AND status='A' AND type=2";}   
+            $query = $this->db->select('*,sum(amount) as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%Y") as date_created, sum(amount) as amount,
+                (SELECT SUM(amount) FROM tbl_customer_deposite WHERE '.$date.') as total_amount')->from('tbl_customer_deposite')->where($date)->group_by('YEAR(date_deposite)')->order_by('YEAR(date_deposite)','DESC')->get();
+             if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row)  
+                {
+                 $gross = $row->amount / 1.12;
+                 $vat = $row->amount - $gross;
+                 $data[] = array(
+                              'gross'        => number_format($gross,2),
+                              'vat'          => number_format($vat,2),
+                              'amount'       => number_format($row->amount,2),
+                              'date_created' => $row->date_created);
+                 $total_gross += $gross;
+                 $total_vat += $vat;
+                 $total_amount += $row->amount;
+                }  
+             }
+            return array('row'=>$data,'total_gross'=>number_format($total_gross,2),'total_vat'=>number_format($total_vat,2),'total_amount'=>number_format($total_amount,2));
+     }
+
+
 
      function Account_Report_Salesorder_Stocks_Daily($month,$year){
            if($month == false || $year == false){
@@ -2752,40 +2827,30 @@ class Datatable_model extends CI_Model{
      }
       function Account_Report_Project_Daily($year,$month){
             if($month == false || $year == false){
-                $where = array('MONTH(date_received)'=> date('m'), 'YEAR(date_received)'=> date('Y'));
                 $date = "MONTH(date_received)=".date('m')." AND YEAR(date_received)=".date('Y')."";
             }else{
-                $where = array('MONTH(date_received)'=>$month,'YEAR(date_received)'=> $year);
                 $date = "MONTH(date_received)=".$month." AND YEAR(date_received)=".$year."";
             }   
             $query = $this->db->select('*,DATE_FORMAT(date_received, "%M %d %Y") as date_created,
                  IF(update_pettycash=0, pettycash,update_pettycash) as pettycash,
-                 (SELECT sum(total_amount/1.12) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND '.$date.') as total_gross,
-                 (SELECT sum(total_amount) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND  '.$date.') as total_grand,
-                 (SELECT sum(actual_change) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND  '.$date.') as total_change,
-                 (SELECT sum(refund) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND '.$date.') as total_refund,
+                 (SELECT sum(total_amount/1.12) FROM tbl_pettycash WHERE status=2 AND '.$date.') as total_gross,
+                 (SELECT sum(total_amount) FROM tbl_pettycash WHERE status=2 AND  '.$date.') as total_grand,
+                 (SELECT sum(actual_change) FROM tbl_pettycash WHERE status=2 AND  '.$date.') as total_change,
+                 (SELECT sum(refund) FROM tbl_pettycash WHERE status=2 AND type=1 AND '.$date.') as total_refund,
                  (SELECT SUM(IF(update_pettycash = 0,  update_pettycash, pettycash)) FROM tbl_pettycash WHERE status="COMPLETE" AND '.$date.') as total_pettycash')->from('tbl_pettycash')->where($where)->where('status','COMPLETE')->where('type',1)->get();
               if($query !== FALSE && $query->num_rows() > 0){
-             foreach($query->result() as $row)  
-                {
+             foreach($query->result() as $row)  {
                  $gross = $row->total_amount / 1.12;
                  $vat = $gross*0.12;
                  $total_vat = $row->total_gross*0.12;
                  $data[] = array(
                             'cashfund'          => $row->fund_no,
-                            'production_no'     => $row->production_no,
                             'pettycash'         => number_format($row->pettycash,2),
                             'change'            => number_format($row->actual_change,2),
                             'refund'            => number_format($row->refund,2),
                             'gross'             => number_format($gross,2),
                             'vat'               => number_format($vat,2),
                             'amount'            => number_format($row->total_amount,2),
-                            'total_pettycash'   => number_format($row->total_pettycash,2),
-                            'total_change'      => number_format($row->total_change,2),
-                            'total_refund'      => number_format($row->total_refund,2),
-                            'total_gross'       => number_format($row->total_gross,2),
-                            'total_vat'         => number_format($total_vat,2),
-                            'total_amount'      => number_format($row->total_grand,2),
                             'date_created'      => $row->date_created);
                 }  
              }else{   

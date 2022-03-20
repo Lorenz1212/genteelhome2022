@@ -14,69 +14,7 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 	<div class="container">
-		<div class="row">
-			<div class="col-xl-2">
-				<div class="card card-custom bg-info card-stretch gutter-b">
-					<div class="card-body">
-						<div class="d-flex flex-column">
-							<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_gross">0</span></div>
-							<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Cash Fund</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-2">
-				<div class="card card-custom card-stretch gutter-b" style="background-color:#344074;">
-					<div class="card-body">
-						<div class="d-flex flex-column">
-							<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_gross">0</span></div>
-							<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Change</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-2">
-				<div class="card card-custom bg-danger card-stretch gutter-b">
-					<div class="card-body">
-						<div class="d-flex flex-column">
-							<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_gross">0</span></div>
-							<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Refund</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-2">
-					<div class="card card-custom bg-warning card-stretch gutter-b">
-						<div class="card-body">
-							<div class="d-flex flex-column">
-								<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_gross">0</span></div>
-								<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Gross</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-2">
-					<div class="card card-custom bg-primary card-stretch gutter-b">
-						<div class="card-body">
-							<div class="d-flex flex-column">
-								<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_vat">0</span></div>
-								<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Vat</span>
-							</div>
-						</div>
-					</div>
-				</div>
-					<div class="col-xl-2">
-						<div class="card card-custom bg-success card-stretch gutter-b">
-							<div class="card-body">
-								<div class="d-flex flex-column">
-									<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_amount">0</span></div>
-									<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Amount</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-		</div>
+		
 
 	<!--begin::Advance Table: Widget 7-->
 				<div class="card card-custom gutter-b">
@@ -131,12 +69,11 @@
 						<!--begin::Tap pane-->
 							<div class="tab-pane fade show active" id="day" role="tabpanel" aria-labelledby="day">
 								<!--begin::Table-->
-								<div class="table-responsive">
+								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table  table-vertical-center"  id="tbl_cashfund_daily">
 										<thead>
 											<tr>
 												<th>DATE</th>
-												<th>JO No.</th>
 												<th class="text-right">CASH FUND</th>
 												<th class="text-right">CHANGE</th>
 												<th class="text-right">REFUND</th>

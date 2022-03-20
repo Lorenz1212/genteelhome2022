@@ -707,7 +707,7 @@ class Update_model extends CI_Model
     }
 
     function Update_Accounting_Purchase_Stocks_Request($user_id,$fund_no,$cash){
-                $value = $this->get_code('tbl_pettycash','CF'.date('Ymd'),'-');
+                $value = $this->get_code('tbl_pettycash','CF'.date('Ymd'));
                 $insert = array('accounting'    => $user_id,
                                 'fund_no'       => $value,
                                 'pettycash'     => $cash,

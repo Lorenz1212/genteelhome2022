@@ -158,12 +158,12 @@
 											</div>
 									    </div>
 								   		<div class="card-body">
-								       		<table class="table table-scroll table-sm" id="kt_material_table">
+								       		<table class="table table-scroll" id="kt_material_table">
 												<thead>
 													<tr>
 														<th class="text-left text-muted text-uppercase">ITEM</th>
-														<th class="text-right text-muted text-uppercase">QTY</th>
-														<th class="text-right text-muted text-uppercase">TYPE</th>
+														<th class="text-left text-muted text-uppercase">QTY</th>
+														<th class="text-center text-muted text-uppercase">TYPE</th>
 														<th class="text-right text-muted text-uppercase">ACTION</th>
 													</tr>
 												</thead>
@@ -181,13 +181,13 @@
 											</div>
 									    </div>
 								   		<div class="card-body">
-							       			<table class="table table-scroll table-sm" id="kt_purchased_table">
+							       			<table class="table table-scroll" id="kt_purchased_table">
 												<thead>
 												 	<tr>
-														<th class="text-left font-weight-bold text-muted text-uppercase">ITEM</th>
-														<th class="text-right font-weight-bold text-muted text-uppercase">QTY</th>
-														<th class="text-right font-weight-bold text-muted text-uppercase">REMARKS</th>
-														<th class="text-right font-weight-bold text-muted text-uppercase">ACTION</th>
+														<th class="text-left text-muted text-uppercase">ITEM</th>
+														<th class="text-left text-muted text-uppercase">QTY</th>
+														<th class="text-center text-muted text-uppercase">REMARKS</th>
+														<th class="text-right text-muted text-uppercase">ACTION</th>
 													</tr>
 												</thead>
 												<tbody>

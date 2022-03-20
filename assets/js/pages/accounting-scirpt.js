@@ -569,7 +569,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				_ajaxloader(thisUrl,"POST",false,"View_Profile");
 				break;
 			}
-			case "data-report-collection":{
+			case "data-report-collection-stocks":{
 					$(document).on('click','#search_collection',function(e){
 				   		var action = $(this).attr('data-status');
 						let month = $('select[name=month]').val();
@@ -591,6 +591,39 @@ const month = ["January","February","March","April","May","June","July","August"
 							case "yearly":{
 								let thisUrl3 = 'datatable_controller/Account_Report_Collection_Stocks_Yearly';
 								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Collection_Stocks_Yearly");		
+								break;}
+						}		
+					});
+ 					 $(document).on('click','#action',function(e){
+ 						var action = $(this).attr('data-action');
+ 						$('#search_collection').attr('data-status',action);
+ 						$('#search_collection').trigger('click');
+ 					  }); 
+					$('#action').trigger('click');  
+				break;
+			}
+			case "data-report-collection-project":{
+					$(document).on('click','#search_collection',function(e){
+				   		var action = $(this).attr('data-status');
+						let month = $('select[name=month]').val();
+						let year  = $('select[name=year]').val();
+						let val = {month:month,year:year};
+						switch(action){
+							case"daily":{
+								let thisUrl = 'datatable_controller/Account_Report_Collection_Project_Daily';
+								_ajaxloader(thisUrl,"POST",val,"Account_Report_Collection_Project_Daily");
+								break;}
+							case "weekly":{
+								let thisUrl1 = 'datatable_controller/Account_Report_Collection_Project_Weekly';
+								_ajaxloader(thisUrl1,"POST",val,"Account_Report_Collection_Project_Weekly");
+								break;}
+							case "monthly":{
+								let thisUrl2 = 'datatable_controller/Account_Report_Collection_Project_Monthly';
+								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Collection_Project_Monthly");
+								break;}
+							case "yearly":{
+								let thisUrl3 = 'datatable_controller/Account_Report_Collection_Project_Yearly';
+								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Collection_Project_Yearly");		
 								break;}
 						}		
 					});
@@ -1421,65 +1454,131 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		 break;
 	  		}
 	  		case "Account_Report_Collection_Stocks_Daily":{
-	  			$('#total_amount').text(response.data[0].total_amount);
-	  			$('#total_vat').text(response.data[0].total_vat);
-	  			$('#total_gross').text(response.data[0].total_gross);
-	  			$('#tbl_collection_daily > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_collection_daily > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.data[i].customer+'</span><span class="text-muted font-weight-bold" id="bank">'+response.data[i].bank+'</span></td>'
-		             				+'<td class="pl-0">'+response.data[i].si_no+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_collection_daily > tbody:last-child');
+	  			container.empty();
+	             	for(var i=0;i<response.row.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
+	             				+'<td class=""><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.row[i].customer+'</span><span class="text-muted font-weight-bold" id="bank">'+response.row[i].bank+'</span></td>'
+	             				+'<td class="">'+response.row[i].si_no+'</td>'
+	             				+'<td class="text-right">'+response.row[i].gross+'</td>'
+	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
+	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
+						+'</tr>');
 				}
+				$('#total_gross').text(response.total_gross);
+				$('#total_vat').text(response.total_vat);
+				$('#total_amount').text(response.total_amount);
 	  			break;
 	  		}
 	  		case "Account_Report_Collection_Stocks_Weekly":{
-	  			$('#total_amount').text(response.data[0].total_amount);
-  				$('#total_vat').text(response.data[0].total_vat);
-  				$('#total_gross').text(response.data[0].total_gross);
-	  			$('#tbl_collection_weekly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_collection_weekly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_collection_weekly > tbody:last-child');
+	  			container.empty();
+		             	for(var i=0;i<response.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response[i].date_created+'</td>'
+	             				+'<td class="text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response[i].gross+'</span></td>'
+	             				+'<td class="text-right">'+response[i].vat+'</td>'
+	             				+'<td class="text-right">'+response[i].amount+'</td>'
+						+'</tr>');
 				}
 	  			break;
 	  		}
 	  		case "Account_Report_Collection_Stocks_Monthly":{
-	  			$('#total_amount').text(response.data[0].total_amount);
-  				$('#total_vat').text(response.data[0].total_vat);
-  				$('#total_gross').text(response.data[0].total_gross);
-	  			$('#tbl_collection_monthly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_collection_monthly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_collection_monthly > tbody:last-child');
+	  			    container.empty();
+		             	for(var i=0;i<response.row.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
+	             				+'<td><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.row[i].gross+'</span></td>'
+	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
+	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
+						+'</tr>');
 					}
+				$('#total_gross').text(response.total_gross);
+				$('#total_vat').text(response.total_vat);
+				$('#total_amount').text(response.total_amount);
 	  			break;
 	  		}
 	  		case "Account_Report_Collection_Stocks_Yearly":{
-	  			$('#tbl_collection_yearly > tbody:last-child').empty();
-  					$('#total_amount').text(response.data[0].total_amount);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_collection_yearly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_collection_yearly > tbody:last-child');
+	  			    container.empty();
+		             	for(var i=0;i<response.row.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
+	             				+'<td><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.row[i].gross+'</span></td>'
+	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
+	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
+						+'</tr>');
 					}
+				$('#total_gross').text(response.total_gross);
+				$('#total_vat').text(response.total_vat);
+				$('#total_amount').text(response.total_amount);
+	  			break;
+	  		}
+
+
+	  		case "Account_Report_Collection_Project_Daily":{
+	  			let container = $('#tbl_collection_daily > tbody:last-child');
+	  			container.empty();
+	             	for(var i=0;i<response.row.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
+	             				+'<td class=""><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.row[i].customer+'</span><span class="text-muted font-weight-bold" id="bank">'+response.row[i].bank+'</span></td>'
+	             				+'<td class="">'+response.row[i].si_no+'</td>'
+	             				+'<td class="text-right">'+response.row[i].gross+'</td>'
+	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
+	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
+						+'</tr>');
+				}
+				$('#total_gross').text(response.total_gross);
+				$('#total_vat').text(response.total_vat);
+				$('#total_amount').text(response.total_amount);
+	  			break;
+	  		}
+	  		case "Account_Report_Collection_Project_Weekly":{
+	  			let container = $('#tbl_collection_weekly > tbody:last-child');
+	  			container.empty();
+		             	for(var i=0;i<response.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response[i].date_created+'</td>'
+	             				+'<td class="text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response[i].gross+'</span></td>'
+	             				+'<td class="text-right">'+response[i].vat+'</td>'
+	             				+'<td class="text-right">'+response[i].amount+'</td>'
+						+'</tr>');
+				}
+	  			break;
+	  		}
+	  		case "Account_Report_Collection_Project_Monthly":{
+	  			let container = $('#tbl_collection_monthly > tbody:last-child');
+	  			    container.empty();
+		             	for(var i=0;i<response.row.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
+	             				+'<td><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.row[i].gross+'</span></td>'
+	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
+	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
+						+'</tr>');
+					}
+				$('#total_gross').text(response.total_gross);
+				$('#total_vat').text(response.total_vat);
+				$('#total_amount').text(response.total_amount);
+	  			break;
+	  		}
+	  		case "Account_Report_Collection_Project_Yearly":{
+	  			let container = $('#tbl_collection_yearly > tbody:last-child');
+	  			    container.empty();
+		             	for(var i=0;i<response.row.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
+	             				+'<td><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.row[i].gross+'</span></td>'
+	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
+	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
+						+'</tr>');
+					}
+				$('#total_gross').text(response.total_gross);
+				$('#total_vat').text(response.total_vat);
+				$('#total_amount').text(response.total_amount);
 	  			break;
 	  		}
 	  		case "Account_Report_Salesorder_Stocks_Daily":{

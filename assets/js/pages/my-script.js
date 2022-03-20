@@ -533,11 +533,11 @@ var arrows;var item_v;var price;var special_option;
 				}else if(response.type==6){
 					var type ='OTHERS';
 				}	
-				$('#kt_material_table > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder h-65px">\
-				<td class="align-middle pl-0 border-0 type tbl-mat-1" data-type="'+response.type+'" data-id="'+response.data.id+'">'+response.data.item+' '+remarks+'</td>\
-				<td class="align-middle text-right text-success font-weight-boldest font-size-h5 pr-0 border-0 tbl-mat-2" data-qty="'+response.qty+'">'+response.qty+' '+unit+'</td>\
-				<td class="align-middle text-right text-success font-weight-boldest pr-0 border-0 tbl-mat-3" data-remarks="'+response.remarks+'">'+type+'</td>\
-				<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-circle btn-sm mr-2"><i class="icon-xl la la-times"></i></button></td>\
+				$('#kt_material_table > tbody:last-child').append('<tr>\
+				<td class="type tbl-mat-1" data-type="'+response.type+'" data-id="'+response.data.id+'">'+response.data.item+' '+remarks+'</td>\
+				<td class="text-left text-success tbl-mat-2" data-qty="'+response.qty+'">'+response.qty+' '+unit+'</td>\
+				<td class="text-right text-success  tbl-mat-3" data-remarks="'+response.remarks+'">'+type+'</td>\
+				<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon  btn-danger btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
 				</tr>');
 				_initremovetable('#kt_material_table');				
 				break;
@@ -552,11 +552,11 @@ var arrows;var item_v;var price;var special_option;
 				}
 				if(response.data.unit){var unit = response.data.unit}else{ var unit=""};
 				if(response.remarks){ var remarks='(<a href="javascript:;" type="button" id="bulk_actions_btn" data-toggle="popover" data-action="show" data-content="'+response.remarks+'">Remark</a>)';}else{ var remarks =" "};
-				$('#kt_purchased_table > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder h-65px">\
-				<td class="align-middle pl-0 border-0 tbl-pur-1" data-type="'+response.type+'" data-id="'+id+'">'+name+'</td>\
-				<td class="align-middle text-right text-success font-weight-boldest font-size-h5 pr-0 border-0 tbl-pur-2" data-qty="'+response.qty+'">'+response.qty+' '+unit+'</td>\
-				<td class="align-middle text-right text-success font-weight-boldest pr-0 border-0 tbl-pur-3" data-remarks="'+response.remarks+'">'+remarks+'</td>\
-				<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-circle btn-sm mr-2"><i class="icon-xl la la-times"></i></button></td>\
+				$('#kt_purchased_table > tbody:last-child').append('<tr>\
+				<td class="tbl-pur-1" data-type="'+response.type+'" data-id="'+id+'">'+name+'</td>\
+				<td class="text-left text-success tbl-pur-2" data-qty="'+response.qty+'">'+response.qty+' '+unit+'</td>\
+				<td class="text-center tbl-pur-3" data-remarks="'+response.remarks+'">'+remarks+'</td>\
+				<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-sm btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
 				</tr>');
 				_initremovetable('#kt_purchased_table');		
 			   break;
@@ -812,15 +812,19 @@ var arrows;var item_v;var price;var special_option;
 					let remarks 	= $('#remarks').val();
 					let qty      = $('input[name=qty]').val();
 					let id       = $('select[name=item]').val();
-					if(action == 'Material Request'){
-					   let type      = $('select[name=type]').val();
-					   let val = {id:id,qty:qty,remarks:remarks,type:type};
-					   _ajaxloaderOption('option_controller/Material_option',"POST",val,'material_request');
+					if(!qty){
+						Swal.fire("Warning!", "Please Input Quantity!", "info");
 					}else{
-					   let type = $('select[name=special_option]').val();
-					   let name = $('#special_item').val();
-					   let val = {id:id,name:name,type:type,qty:qty,remarks:remarks};
-					   _ajaxloaderOption('option_controller/Purchase_option',"POST",val,'purchase_material');
+						if(action == 'Material Request'){
+						   let type      = $('select[name=type]').val();
+						   let val = {id:id,qty:qty,remarks:remarks,type:type};
+						   _ajaxloaderOption('option_controller/Material_option',"POST",val,'material_request');
+						}else{
+						   let type = $('select[name=special_option]').val();
+						   let name = $('#special_item').val();
+						   let val = {id:id,name:name,type:type,qty:qty,remarks:remarks};
+						   _ajaxloaderOption('option_controller/Purchase_option',"POST",val,'purchase_material');
+						}
 					}
 				})
 				break;
@@ -874,15 +878,19 @@ var arrows;var item_v;var price;var special_option;
 					let remarks 	= $('#remarks').val();
 					let qty      = $('input[name=qty]').val();
 					let id       = $('select[name=item]').val();
-					if(action == 'Material Request'){
-					   let type      = $('select[name=type]').val();
-					   let val = {id:id,qty:qty,remarks:remarks,type:type};
-					   _ajaxloaderOption('option_controller/Material_option',"POST",val,'material_request');
+					if(!qty){
+						Swal.fire("Warning!", "Please Input Quantity!", "info");
 					}else{
-					   let type = $('select[name=special_option]').val();
-					   let name = $('#special_item').val();
-					   let val = {id:id,name:name,type:type,qty:qty,remarks:remarks};
-					   _ajaxloaderOption('option_controller/Purchase_option',"POST",val,'purchase_material');
+						if(action == 'Material Request'){
+						   let type      = $('select[name=type]').val();
+						   let val = {id:id,qty:qty,remarks:remarks,type:type};
+						   _ajaxloaderOption('option_controller/Material_option',"POST",val,'material_request');
+						}else{
+						   let type = $('select[name=special_option]').val();
+						   let name = $('#special_item').val();
+						   let val = {id:id,name:name,type:type,qty:qty,remarks:remarks};
+						   _ajaxloaderOption('option_controller/Purchase_option',"POST",val,'purchase_material');
+						}
 					}
 					
 				})
@@ -950,16 +958,20 @@ var arrows;var item_v;var price;var special_option;
 					let remarks 	= $('#remarks').val();
 					let qty      = $('input[name=qty]').val();
 					let id       = $('select[name=item]').val();
-					if(action == 'Material Request'){
-					   let type      = $('select[name=type]').val();
-					   let val = {id:id,qty:qty,remarks:remarks,type:type};
-					   _ajaxloaderOption('option_controller/Material_option',"POST",val,'material_request');
+					if(!qty){
+						Swal.fire("Warning!", "Please Input Quantity!", "info");
 					}else{
-					   let type = $('select[name=special_option]').val();
-					   let name = $('#special_item').val();
-					   let val = {id:id,name:name,type:type,qty:qty,remarks:remarks};
-					   _ajaxloaderOption('option_controller/Purchase_option',"POST",val,'purchase_material');
-					}
+						if(action == 'Material Request'){
+						   let type      = $('select[name=type]').val();
+						   let val = {id:id,qty:qty,remarks:remarks,type:type};
+						   _ajaxloaderOption('option_controller/Material_option',"POST",val,'material_request');
+						}else{
+						   let type = $('select[name=special_option]').val();
+						   let name = $('#special_item').val();
+						   let val = {id:id,name:name,type:type,qty:qty,remarks:remarks};
+						   _ajaxloaderOption('option_controller/Purchase_option',"POST",val,'purchase_material');
+						}
+				   }
 					
 				})
 				break;
@@ -1031,15 +1043,19 @@ var arrows;var item_v;var price;var special_option;
 					let remarks 	= $('#remarks').val();
 					let qty      = $('input[name=qty]').val();
 					let id       = $('select[name=item]').val();
-					if(action == 'Material Request'){
-					   let type      = $('select[name=type]').val();
-					   let val = {id:id,qty:qty,remarks:remarks,type:type};
-					   _ajaxloaderOption('option_controller/Material_option',"POST",val,'material_request');
+					if(!qty){
+						Swal.fire("Warning!", "Please Input Quantity!", "info");
 					}else{
-					   let type = $('select[name=special_option]').val();
-					   let name = $('#special_item').val();
-					   let val = {id:id,name:name,type:type,qty:qty,remarks:remarks};
-					   _ajaxloaderOption('option_controller/Purchase_option',"POST",val,'purchase_material');
+						if(action == 'Material Request'){
+						   let type      = $('select[name=type]').val();
+						   let val = {id:id,qty:qty,remarks:remarks,type:type};
+						   _ajaxloaderOption('option_controller/Material_option',"POST",val,'material_request');
+						}else{
+						   let type = $('select[name=special_option]').val();
+						   let name = $('#special_item').val();
+						   let val = {id:id,name:name,type:type,qty:qty,remarks:remarks};
+						   _ajaxloaderOption('option_controller/Purchase_option',"POST",val,'purchase_material');
+						}
 					}
 				})
 				break;

@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-report-collection">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-report-collection-stocks">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -65,7 +65,7 @@
 					<!--begin::Header-->
 					<div class="card-header border-0 pt-5">
 						<div class="card-toolbar">
-							<ul class="nav nav-pills nav-pills-sm nav-dark-75">
+							<ul class="nav nav-pills nav-pills-sm nav-dark-75 mr-2">
 								<li class="nav-item">
 									<a class="nav-link py-2 px-4 active" id="action" data-action="daily" data-toggle="tab" href="#day">Day</a>
 								</li>
@@ -115,7 +115,7 @@
 							<div class="tab-pane fade show active" id="day" role="tabpanel" aria-labelledby="day">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table  table-vertical-center"  id="tbl_collection_daily">
+									<table class="table table-vertical-center"  id="tbl_collection_daily">
 										<thead>
 											<tr>
 												<th>DATE</th>
@@ -182,7 +182,7 @@
 							<!--begin::Tap pane-->
 							<div class="tab-pane fade" id="yearly" role="tabpanel" aria-labelledby="yearly">
 								<!--begin::Table-->
-								<div class="table-responsive">
+								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table table-vertical-center" id="tbl_collection_yearly">
 										<thead>
 											<tr>
