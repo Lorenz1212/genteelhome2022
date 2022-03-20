@@ -557,6 +557,8 @@ class Gh extends CI_Controller {
            $data['id'] = base64_decode($id);
           switch ($view) {
             case 'index':{$this->load->view('admin/index.php');break;}
+            case "salesorder-stocks-request":{$this->load->view('admin/salesorder_stocks_request.php');break;}
+            case "salesorder-project-request":{$this->load->view('admin/salesorder_project_request.php');break;}
             case 'designer_request':{$this->load->view('admin/designer_request.php');break;}
             case 'purchase-request':{$this->load->view('admin/purchase_request.php');break;}
             case "inspection-stocks":{$this->load->view('admin/inspection_stocks.php');break;}
@@ -564,24 +566,31 @@ class Gh extends CI_Controller {
             case "salesorder-request":{$this->load->view('admin/salesorder_request.php');break;}
             case "design-approval-stocks":{$this->load->view('admin/design_approval_stocks.php'); break;}
             case "design-approval-project":{$this->load->view('admin/design_approval_project.php'); break;}
+
             case "user-request":{$this->load->view('admin/user_request.php');break;}
             case "users":{$this->load->view('admin/user_list.php');break;}
             case "user_create":{$this->load->view('admin/user_create.php');break;}
             case "user_update":{$this->load->view('admin/user_update.php');break;}
-            case "joborder":{$this->load->view('admin/joborder_list.php'); break;}
-            case "joborder-finished":{$this->load->view('admin/joborder_finished.php'); break;}
-            case "joborder_create":{$this->load->view('admin/joborder_create.php'); break;}
-            case "salesorder-stocks-request":{$this->load->view('admin/salesorder_stocks_request.php');break;}
-            case "salesorder-project-request":{$this->load->view('admin/salesorder_project_request.php');break;}
-            case "salesorder_list":{$this->load->view('admin/salesorder_list.php');break;}
-            case "salesorder_create":{$this->load->view('admin/salesorder_create.php');break;}
-            case "salesorder_update":{$this->load->view('admin/salesorder_update.php',$data);break;}
+            
             case "voucher":{$this->load->view('admin/coupon_list.php');break;}
-            case 'collection':{$this->load->view('admin/report_collection.php');break;}
-            case 'sales-order':{$this->load->view('admin/report_salesorder.php');break;}
+
             case 'production-supplies':{$this->load->view('admin/report_production.php');break;}
             case 'cashfund':{$this->load->view('admin/report_cashfund.php');break;}
             case 'cash-position':{$this->load->view('admin/report_cashposition.php');break;}
+
+
+            
+
+            case "salesorder-stocks":{$this->load->view('admin/salesorder_stocks.php');break;}
+            case "salesorder-project":{$this->load->view('admin/salesorder_project.php');break;}
+            case "salesorder-create-stocks":{$this->load->view('admin/salesorder_create_stocks.php');break;}
+            case "salesorder-create-project":{$this->load->view('admin/salesorder_create_project.php');break;}
+
+            case 'report-sales-order-stocks':{$this->load->view('admin/report_salesorder_stocks.php');break;}
+            case 'report-sales-order-project':{$this->load->view('admin/report_salesorder_project.php');break;}
+            
+            case 'report-collection-stocks':{$this->load->view('admin/report_collection_stocks.php');break;}
+            case 'report-collection-project':{$this->load->view('admin/report_collection_project.php');break;}
             default: {redirect(base_url().'gh/admin/index');break;} 
             
           }
@@ -813,7 +822,6 @@ class Gh extends CI_Controller {
             case "salesorder-project":{$this->load->view('sales/salesorder_project.php');break;}
             case "salesorder-create-stocks":{$this->load->view('sales/salesorder_create_stocks.php');break;}
             case "salesorder-create-project":{$this->load->view('sales/salesorder_create_project.php');break;}
-            case "salesorder_update":{$this->load->view('sales/salesorder_update.php',$data);break;}
             case "voucher":{$this->load->view('sales/coupon_list.php');break;}
             case "customer-concern":{$this->load->view('sales/service_request.php');break;}
             case "customer-list":{$this->load->view('sales/customer_list.php');break;}
