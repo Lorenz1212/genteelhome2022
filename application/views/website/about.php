@@ -46,11 +46,6 @@
                         <div class="grid__item"></div>
                         <div class="grid__item"></div>
                         <div class="grid__item"></div>
-                        <div class="grid__item"></div>
-                        <div class="grid__item"></div>
-                        <div class="grid__item"></div>
-                        <div class="grid__item"></div>
-                        <div class="grid__item"></div>
                     </div>
                 </div>
                 </div>
