@@ -367,6 +367,13 @@ class Modal_controller extends CI_Controller
      }
 
     //Sales
+   public function Modal_Customer_Concern(){
+       $id = $this->input->post('id');
+       $data = $this->modal_model->Modal_Customer_Concern($id);
+       echo json_encode($data); 
+    }
+
+
     public function Modal_OnlineOrder(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_OnlineOrder($id);
@@ -377,11 +384,7 @@ class Modal_controller extends CI_Controller
        $data = $this->modal_model->Modal_Voucher_Customer($id);
        echo json_encode($data); 
     }
-    public function Modal_Customer_Concern(){
-       $id = $this->input->post('id');
-       $data = $this->modal_model->Modal_Customer_Concern($id);
-       echo json_encode($data); 
-    }
+   
     public function Modal_Inquiry_View(){
        $id = $this->input->post('id');
        $data = $this->modal_model->Modal_Inquiry_View($id);

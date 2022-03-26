@@ -624,11 +624,10 @@ var KTAjaxClient = function() {
            				 <div class="container">\
 				  	<div class="row row-block">\
 			                    <div class="col-md-7 history-desc">\
-			                        <p>  <h1 class="title" data-title="Page not found!">404</h1>\
-					                <div class="h4 subtitle">Sorry! Page not found.</div>\
-					                <p>The requested URL was not found on this server. That’s all we know.</p>\
-					                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
-			                    		</div>\
+			                        <p>  <h1 class="title" data-title="Page not found!">Oops</h1>\
+						                    <div class="h4 subtitle">No Product Available</div>\
+						                <p>The requested product was not available on this category. That’s all we know.</p>\
+						                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
 			                	</div>\
 			                </div>\
 			            <div>\
@@ -691,10 +690,10 @@ var KTAjaxClient = function() {
            				 <div class="container">\
 				  	<div class="row row-block">\
 			                    <div class="col-md-7 history-desc">\
-			                        <p>  <h1 class="title" data-title="Page not found!">404</h1>\
-					                <div class="h4 subtitle">Sorry! Page not found.</div>\
-					                <p>The requested URL was not found on this server. That’s all we know.</p>\
-					                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
+			                       <p>  <h1 class="title" data-title="Page not found!">Oops</h1>\
+						                    <div class="h4 subtitle">No New Arrival Product Available</div>\
+						                <p>The requested collection was not available on this category. That’s all we know.</p>\
+						                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
 			                    		</div>\
 			                	</div>\
 			                </div>\
@@ -802,10 +801,10 @@ var KTAjaxClient = function() {
            				 <div class="container">\
 				  	<div class="row row-block">\
 			                    <div class="col-md-7 history-desc">\
-			                        <p>  <h1 class="title" data-title="Page not found!">404</h1>\
-					                <div class="h4 subtitle">No Collection Data</div>\
-					                <p>The requested URL was not found on this server. That’s all we know.</p>\
-					                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
+			                       <p>  <h1 class="title" data-title="Page not found!">Oops</h1>\
+						                    <div class="h4 subtitle">No Product Collection Available</div>\
+						                <p>The requested collection was not available on this category. That’s all we know.</p>\
+						                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
 			                    		</div>\
 			                	</div>\
 			                </div>\
@@ -1300,9 +1299,9 @@ var KTAjaxClient = function() {
 	           				 <div class="container">\
 					  	<div class="row row-block">\
 				                    <div class="col-md-7 history-desc">\
-				                        <p>  <h1 class="title" data-title="Page not found!">404</h1>\
-						                    <div class="h4 subtitle">Sorry! Page not found.</div>\
-						                <p>The requested URL was not found on this server. That’s all we know.</p>\
+				                        <p>  <h1 class="title" data-title="Page not found!">Oops</h1>\
+						                    <div class="h4 subtitle">No Product Available</div>\
+						                <p>The requested interior was not available on this category. That’s all we know.</p>\
 						                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
 				                    		</div>\
 				                	</div>\

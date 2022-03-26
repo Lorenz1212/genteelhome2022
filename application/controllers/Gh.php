@@ -464,33 +464,24 @@ class Gh extends CI_Controller {
             case "joborder-masterlist-project":{$this->load->view('reviewer/joborder_masterlist_project.php');break;}
             case "salesorder-stocks-request":{$this->load->view('reviewer/salesorder_stocks_request.php');break;}
             case "salesorder-project-request":{$this->load->view('reviewer/salesorder_project_request.php');break;}
+            case "customer-concern":{$this->load->view('reviewer/customer_concern.php');break;}
+            case "spareparts":{$this->load->view('reviewer/spareparts_list.php');break;}
+            case "spareparts-create":{$this->load->view('reviewer/spareparts_add.php');break;}
+            case "rawmaterials":{$this->load->view('reviewer/rawmaterial_list.php');break;}
+            case "rawmaterial_create":{$this->load->view('reviewer/rawmaterial_add.php'); break;}
+            case "officesupplies":{$this->load->view('reviewer/officesupplies_list.php');break;} 
+            case "officesupplies-create":{$this->load->view('reviewer/officesupplies_add.php');break;}
+            case "production-stocks":{$this->load->view('reviewer/production_stocks.php');break;}
+            case "return-item-warehouse":{$this->load->view('reviewer/return_item_warehouse.php');break;}
+            case "return-item-customer":{$this->load->view('reviewer/return_item_customer.php');break;}
 
-            // case "returnmaterial_request":{$this->load->view('reviewer/returnmaterial_request.php');break;}
-            // case "spareparts-request":{$this->load->view('reviewer/spareparts_request.php');break;}
-            // case "spareparts-request-update":{$this->load->view('reviewer/spareparts_request_update.php',$data);break;}
-            // case "officesupplies-request":{$this->load->view('reviewer/officesupplies_request.php');break;}
-            // case "officesupplies-request-update":{$this->load->view('reviewer/officesupplies_request_update.php',$data);break;}
-            // case "return-finishproduct":{$this->load->view('reviewer/return_finishproduct.php');break;}
-            // case "return-finishproduct-create":{$this->load->view('reviewer/return_finishproduct_create.php');break;}
-            // case "purchase-stocks":{$this->load->view('reviewer/purchase_stocks.php');break;}
-            // case "purchase-stocks-create":{$this->load->view('reviewer/purchase_stocks_create.php');break;}
-            // case "purchase-stocks-process":{$this->load->view('reviewer/purchase_stocks_process.php',$data);break;}
-            // case "purchase-request-process":{$this->load->view('reviewer/purchase_request_process.php',$data); break;}
-            // case "purchase-request-update":{$this->load->view('reviewer/purchase_request_update.php',$data); break;}
-            case "release":{$this->load->view('reviewer/release_finishproduct.php');break;}
+
             case "users":{$this->load->view('reviewer/user_list.php');break;}
             case "user_create":{$this->load->view('reviewer/user_create.php');break;}
             case "user_update":{$this->load->view('reviewer/user_update.php');break;}
-            case "spareparts":{$this->load->view('reviewer/spareparts_list.php');break;}
-            case "spareparts-create":{$this->load->view('reviewer/spareparts_add.php');break;}
-            case "officesupplies-create":{$this->load->view('reviewer/officesupplies_add.php');break;}
-            case "officesupplies":{$this->load->view('reviewer/officesupplies_list.php');break;}
-            case "rawmaterials":{$this->load->view('reviewer/rawmaterial_list.php');break;}
-            case "rawmaterials":{$this->load->view('reviewer/rawmaterial_list.php'); break;}
-            case "rawmaterial_create":{$this->load->view('reviewer/rawmaterial_add.php'); break;}
-            case "production-stocks":{$this->load->view('reviewer/production_stocks.php');break;}
+
             case "voucher":{$this->load->view('reviewer/coupon_list.php');break;}
-            case "customer-concern":{$this->load->view('reviewer/service_request.php');break;}
+            
             case "supplier":{$this->load->view('reviewer/supplier_list.php'); break;}
             case "supplier_view":{$this->load->view('reviewer/supplier_view.php',$data); break;}
             case "supplier_create":{$this->load->view('reviewer/supplier_add.php'); break;}
@@ -821,7 +812,7 @@ class Gh extends CI_Controller {
             case "salesorder-create-stocks":{$this->load->view('sales/salesorder_create_stocks.php');break;}
             case "salesorder-create-project":{$this->load->view('sales/salesorder_create_project.php');break;}
             case "voucher":{$this->load->view('sales/coupon_list.php');break;}
-            case "customer-concern":{$this->load->view('sales/service_request.php');break;}
+            case "customer-concern":{$this->load->view('sales/customer_concern.php');break;}
             case "customer-list":{$this->load->view('sales/customer_list.php');break;}
             case "collection":{$this->load->view('sales/collection.php');break;}
             default: {redirect(base_url().'gh/sales/index');break;}

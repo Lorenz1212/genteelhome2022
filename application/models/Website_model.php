@@ -682,40 +682,37 @@ class Website_model extends CI_Model{
                   'date_created' => date('Y-m-d H:i:s'));
     $this->db->insert('tbl_contact_us',$data);
   }
-    function Create_Service($firstname,$lastname,$mobile,$email,$production_no,$comment,$order_no){
-            if($_FILES['service']['size']>0){
-              $filename=$_FILES["service"]["name"];
-              $extension=end(explode(".", $filename));
-              $NewFilename='IMG'.date('YmdHis').".".$extension;
-              $destination = $_FILES['service']['tmp_name'];
-              $destination2 = "assets/images/service/".$NewFilename;
-              copy($destination, $destination2);
-              $service=$NewFilename;
+    function Create_Service($firstname,$lastname,$mobile,$email,$production_no,$comment,$order_no,$service_image,$service_tmp,$path_service,$receipt_image,$receipt_tmp,$path_receipt){
+          $status = false;
+          $row = $this->db->select('*')->from('tbl_project')->where('production_no',$production_no)->get()->row();
+            if($row){
+                 $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$order_no)->get()->row();
+                 if(!$row){
+                    $row = $this->db->select('*')->from('tbl_salesorder_project')->where('so_no',$order_no)->get()->row();
+                    if(!$row){
+                       return array('status'=>'error1'); 
+                    }else{
+                        $status = true;
+                    }
+                 }else{
+                    $status = true;
+                 }
             }else{
-              $service='default.jpg';
+               return array('status'=>'error');
             }
-             if($_FILES['receipt']['size']>0){
-              $filenames=$_FILES["receipt"]["name"];
-              $extensions=end(explode(".", $filenames));
-              $NewFilenames='IMG'.date('YmdHis').".".$extensions;
-              $destinations = $_FILES['receipt']['tmp_name'];
-              $destination2s = "assets/images/receipt/".$NewFilenames;
-              copy($destinations, $destination2s);
-              $receipt=$NewFilenames;
-            }else{
-              $receipt='default.jpg';
-            }
-          $data = array('production_no'  => $production_no,
-                        'so_no'          => $order_no,
-                        'customer'       => $firstname.' '.$lastname,
-                        'mobile'         => $mobile,
-                        'email'          => $email,
-                        'concern'        => $comment,
-                        'status'         => 'REQUEST',
-                        'receipt'        => $receipt,
-                        'image'          => $service,
-                        'date_created'   => date('Y-m-d H:i:s'));
-            $this->db->insert('tbl_service_request',$data);
+          if($status == true){
+              if($service_image){$image_service = $this->move_to_folder1($service_image,$service_tmp,$path_service);}else{$images="default.jpg";}
+              if($receipt_image){$image_receipt = $this->move_to_folder1($receipt_image,$receipt_tmp,$path_receipt);}else{$images="default.jpg";}        $data = array('production_no'  => $production_no,
+                                'so_no'          => $order_no,
+                                'customer'       => $firstname.' '.$lastname,
+                                'mobile'         => $mobile,
+                                'email'          => $email,
+                                'concern'        => $comment,
+                                'receipt'        => $image_receipt,
+                                'image'          => $image_service);
+                    $this->db->insert('tbl_service_request',$data); 
+                    return array('status'=>'success'); 
+          }
   }
 
    function Update_Product_Cart($id,$qty,$total){

@@ -184,28 +184,20 @@ class Website_controller extends CI_Controller
         echo json_encode($data);
     }
     public function Create_Service(){
-        error_reporting(0);
         $production_no = $this->input->post('production_no');
         $order_no = $this->input->post('order_no');
-        $query1 = $this->db->select('*')->from('tbl_salesorder')->where('so_no',$order_no)->get();
-        $row1 = $query1->row();
-        $query = $this->db->select('*')->from('tbl_project')->where('production_no',$production_no)->get();
-        $row = $query->row();
-        if(!$row1){
-            $data = array('status' => 'error1');
-        }else if(!$row){
-            $data = array('status' => 'error');
-        }else{
-            $firstname         = $this->input->post('firstname');
-            $lastname          = $this->input->post('lastname');
-            $firstname         = strtoupper($firstname);
-            $lastname          = strtoupper($lastname);
-            $mobile            = $this->input->post('mobile');
-            $email             = $this->input->post('email');
-            $comment           = $this->input->post('comment');
-            $this->website_model->Create_Service($firstname,$lastname,$mobile,$email,$production_no,$comment,$order_no);
-            $data = array('status' => 'success');
-        }
+        $firstname  = strtoupper($this->input->post('firstname'));
+        $lastname  = strtoupper($this->input->post('lastname'));
+        $mobile   = $this->input->post('mobile');
+        $email   = $this->input->post('email');
+        $comment = $this->input->post('comment');
+        $service_image =  isset($_FILES["service"]["name"]) ? $_FILES["service"]["name"]: false;
+        $service_tmp   =  isset($_FILES["service"]["tmp_name"]) ? $_FILES["service"]["tmp_name"]:false;
+        $path_service  =  "assets/images/service/";
+        $receipt_image =  isset($_FILES["receipt"]["name"]) ? $_FILES["receipt"]["name"]: false;
+        $receipt_tmp   =  isset($_FILES["receipt"]["tmp_name"]) ? $_FILES["receipt"]["tmp_name"]:false;
+        $path_receipt  =  "assets/images/receipt/";
+        $data = $this->website_model->Create_Service($firstname,$lastname,$mobile,$email,$production_no,$comment,$order_no,$service_image,$service_tmp,$path_service,$receipt_image,$receipt_tmp,$path_receipt);
         echo json_encode($data);
     }
     public function Create_Email(){

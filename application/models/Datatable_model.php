@@ -1610,6 +1610,47 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
+
+     function Return_Item_Good_DataTable_Superuser(){
+           $data=false;
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_warehouse')->where('status',1)->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            $no = 1;
+            foreach($query->result() as $row){
+            if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
+                 $data[] = array(
+                          'no'  => $no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'remarks' => $row->remarks,
+                          'type'=>$type,
+                          'date_created'=> $row->date_created);
+            } 
+                $no++; 
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Return_Item_Rejected_DataTable_Superuser(){
+         $data=false;
+          $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_warehouse')->where('status',2)->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            $no = 1;
+            foreach($query->result() as $row){
+                if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';};
+                 $data[] = array(
+                          'no'  => $no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'remarks' => $row->remarks,
+                          'type'=>$type,
+                          'date_created'=> $row->date_created);
+                } 
+                $no++; 
+            }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
       
 
 
@@ -3730,35 +3771,7 @@ class Datatable_model extends CI_Model{
                                   'others'      => $data_others);
              return $data_result;
      }
-     // function Account_Report_IncomeStatement($year,$month){
-     //     if($month == false || $year == false){
-     //            $date = "MONTH(date_received)=".date('m')." AND YEAR(date_income)=".date('Y')."";
-     //            $year = "YEAR(date_income)=".date('Y')."";
-     //     }else{
-     //            $date = "MONTH(date_received)=".$month." AND YEAR(date_income)=".$year."";
-     //            $year = "YEAR(date_income)=".$year."";
-     //     }   
-     //     $query_monthly = $this->db->select('*,DATE_FORMAT(date_income, "%M %d %Y") as date_created')->from('tbl)income_statement')->where($date)->get();
-     //     foreach($query_monthly->result() as $row){
-     //          $monthly[]=array('id'          => $row->id
-     //                           'name'        => $row->name,
-     //                           'description' => $row->description,
-     //                           'amount'      => number_format($row->amount,2),
-     //                           'date_created'=> $row->date_created);
-     //      }
-
-     //    // $query = $this->db->select('*,DATE_FORMAT(date_income, "%M %d %Y") as date_created')->from('tbl)income_statement')->where($year)->group_by('MONTH(date_income)')->get();
-     //    //  foreach($query->result() as $row){
-     //    //       $monthly[]=array('id'          => $row->id
-     //    //                        'name'        => $row->name,
-     //    //                        'description' => $row->description,
-     //    //                        'amount'      => number_format($row->amount,2),
-     //    //                        'date_created'=> $row->date_created);
-     //    //   }
-
-     //      $date_ressponse =array('monthly' => 'monthly');
-     //     return $date_ressponse;
-     // }
+ 
 
      function Web_Banner_Data(){
          $query = $this->db->select('*')->from('tbl_website_banner')->order_by('type','ASC')->get(); 
@@ -4103,49 +4116,88 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;  
      }
-     function Customer_Concern_DataTable($id,$status){
-        if($status == 'REQUEST'){
-            $array = array('status' => 'REQUEST');
-        }else if($status == 'APPROVED'){
-            $array = array('status' => 'APPROVED','sales'=>$id);
-        }else{
-            $array = array('s_status' => $status);
-        }
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where($array)->get();
-        $s = 1;
+ 
+     function Customer_Concern_Request_Sales_DataTable($id){
+         $data =false;   
+        $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where('status','R')->get();
         if($query !== FALSE && $query->num_rows() > 0){
+           $s = 1;
            foreach($query->result() as $row){
-            if($status == 'REQUEST' || $status == 'APPROVED'){
-                if($row->status == 'REQUEST'){
-                    $status = '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">REQUEST</span>';
-                }else if($row->status == 'APPROVED'){
-                    $status = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">APPROVED</span>';
-                }
-            }else{
-               if($row->s_status == 'PENDING'){
-                    $status = '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">REQUEST</span>';
-               }else if($row->s_status == 'APPROVED'){
-                    $status = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">APPROVED</span>';
-               } 
-            }
-            $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';  
              $data[] = array(
                       'no'           => $s,
                       'production_no'=> $row->production_no,
                       'customer'     => $row->customer,
                       'date_created' => $row->date_created,
-                      'status'       => $status,
                       'action'       => $action);
                 $s++;
             }      
-         }else{   
-             $data =false;   
          }
          $json_data  = array("data" =>$data); 
          return $json_data;  
-
      }
-       function Customer_Collected_Request_DataTable(){
+     function Customer_Concern_Approved_Sales_DataTable($id){
+         $data =false;   
+        $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where('status','A')->where('created_by',$id)->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+           $s = 1;
+           foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>'; 
+             $data[] = array(
+                      'no'           => $s,
+                      'production_no'=> $row->production_no,
+                      'customer'     => $row->customer,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+                $s++;
+            }      
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;  
+     }
+     function Customer_Concern_Request_Superuser_DataTable($id){
+         $data =false;   
+        $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where('status','P')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+           $s = 1;
+           foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>'; 
+             $data[] = array(
+                      'no'           => $s,
+                      'production_no'=> $row->production_no,
+                      'customer'     => $row->customer,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+                $s++;
+            }      
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;  
+     }
+     function Customer_Concern_Approved_Superuser_DataTable($id){
+         $data =false;   
+        $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where('status','A')->where('created_by',$id)->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+           $s = 1; 
+           foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';  
+             $data[] = array(
+                      'no'           => $s,
+                      'production_no'=> $row->production_no,
+                      'customer'     => $row->customer,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+                $s++;
+            }      
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;  
+     }
+
+
+
+
+    function Customer_Collected_Request_DataTable(){
          $data=false;
         $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','P')->order_by('date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){

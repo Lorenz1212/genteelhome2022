@@ -51,7 +51,6 @@ class Modal_model extends CI_Model{
         $row = $this->db->select('*')->from('tbl_other_materials')->WHERE('id',$id)->get()->row(); 
         return $row;
     }
-   
      function Modal_SalesOrder_Stocks($id){
           $id = $this->encryption->decrypt($id);
           $data=array();
@@ -1108,10 +1107,8 @@ class Modal_model extends CI_Model{
                return $json_data;}
     }
     function Modal_Customer_Concern($id){
-         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created,')
-         ->from('tbl_service_request')
-         ->where('id',$id)->get();
-         if(!$query){return false;}else{return $query->row();}
+         $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y") as date_created,')->from('tbl_service_request')->where('id',$this->encryption->decrypt($id))->get()->row();
+            return $query;
     }
      function Modal_Inquiry_View($id){
          $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')

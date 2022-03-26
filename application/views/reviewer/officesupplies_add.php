@@ -1,5 +1,6 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-officesupplies">
+	<div class="form" data-link="Create_OfficeSupplies"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -38,7 +39,7 @@
 									<!--begin::Content-->
 									<div class="d-flex justify-content-center px-8 my-lg-5 px-lg-5">
 										<div class="col-xl-12 col-xxl-7">
-										<form class="form" id="Create_OfficeSupplies" data-link="Create_OfficeSupplies">
+										<form id="Create_OfficeSupplies" >
 											<div class="row">
 											  <div class="col-lg-6">
 												  <div class="form-group">
@@ -48,12 +49,10 @@
 												  </div>
 												</div>
 											</div>
+											</form>
 											<div class="d-flex justify-content-between border-top mt-5 pt-3">
-												<div>
 													<button type="click" id="Create_OfficeSupplies_btn" class="btn btn-sm btn-success font-weight-bolder text-uppercase px-9 py-4 type">Save</button>
-												</div>
 											</div>
-										</form>
 									  </div>
 								  </div>
 								<!--end::Content-->
@@ -102,8 +101,9 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <form class="form" id="Update_OfficeSupplies" data-link="Update_OfficeSupplies">
+            
 	            <div class="modal-body">
+	            	<form  id="Update_OfficeSupplies">
 					 <div class="form-group">
 						<label>ITEM</label>
 						   <input type="hidden" name="id">
@@ -117,11 +117,11 @@
 					    </select>
 				   </div>	
 	            </div>
+	            </form>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-	                <button type="submit" class="btn btn-primary font-weight-bold type">Save changes</button>
+	                <button type="click" class="btn btn-primary font-weight-bold Update_OfficeSupplies_btn">Save changes</button>
 	            </div>
-       		</form>
         </div>
     </div>
 </div>

@@ -378,16 +378,6 @@ class Create_model extends CI_Model{
                 $this->db->insert('tbl_purchasing_project',$data);
           }
 	 }
-	 function Create_Return_Item($user_id,$production_no,$item,$balance,$unit){
-		 	$data = array('returner'=> $user_id,
-						'production_no' => $production_no,
-						'item'=> $item,
-						'qty'=> $balance,
-						'unit'=> $unit,
-						'status' => 'REQUEST',
-						'date_created'=>  date('Y-m-d H:i:s'));
-		 	$this->db->insert('tbl_material_return_item',$data);
-	 }
 	 function Create_MaterialUsed($user_id,$item_no,$production_no,$item,$qty,$unit){
 		    $query1 = $this->db->select('*')->from('tbl_materials')->where('item_no',$item_no)->get();
 		    foreach($query1->result() as $row)  
@@ -1202,6 +1192,22 @@ class Create_model extends CI_Model{
     		return false;	
     	}
     	
+    }
+    function Create_Return_Item_Warehouse($user_id,$type,$item_no,$qty,$status,$remarks){
+    	if($type == 1){
+    		$row = $this->db->select('*')->from('tbl_materials')->where('id',$item_no)->get()->row();
+    		$table = 'tbl_materials';
+		}else{
+			$row = $this->db->select('*')->from('tbl_other_materials')->where('id',$item_no)->get()->row();
+			$table = 'tbl_other_materials';
+		}
+		if($status ==1){
+			$stocks = floatval($row->stocks + $qty);
+			$this->db->where('id',$item_no);
+			$this->db->update($table,array('stocks'=>$stocks));
+		}
+    	$this->db->insert('tbl_return_item_warehouse',array('item'=>$row->item,'qty'=>$qty,'type'=>$type,'status'=>$status,'remarks'=>$remarks,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+    	return $status;
     }
 
   }

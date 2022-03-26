@@ -440,6 +440,47 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 
+			case "tbl_return_item_warehouse_superuser":{
+				let TableURL = baseURL + 'datatable_controller/Return_Item_Good_DataTable_Superuser';
+				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_return_item_good',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Rejected_DataTable_Superuser';
+				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,false);
+				break;
+			}
+			case "tbl_return_item_customer_superuser":{
+				let TableURL = baseURL + 'datatable_controller/Return_Item_Good_DataTable_Superuser';
+				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_return_item_good',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Rejected_DataTable_Superuser';
+				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,false);
+				break;
+			}
+			case "tbl_service_request_sales":{
+				TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Sales_DataTable';
+				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_service_request',TableURL,TableData,false);
+
+				TableURL = baseURL + 'datatable_controller/Customer_Concern_Approved_Sales_DataTable';
+				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_service_approved',TableURL,TableData,false);
+				break
+			}
+			case "tbl_service_request_superuser":{
+				TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Superuser_DataTable';
+				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_service_request',TableURL,TableData,false);
+
+				TableURL = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
+				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_service_approved',TableURL,TableData,false);
+				break
+			}
+
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			case "tbl_customization":{
 				TableURL = baseURL + 'datatable_controller/Customization_DataTable';
@@ -453,13 +494,6 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
 				break;
 			}
-			case "tbl_returnmaterials":{
-				TableURL = baseURL + 'datatable_controller/ReturnMaterials_DataTable';
-				TableData = [{data:'production_no'},{data:'requestor'},{data:'item'},{data:'qty'},{data:'unit'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
-			
 			case "tbl_customization_request":{
 				TableURL = baseURL + 'datatable_controller/Customization_Request_DataTable';
 				TableData = [{data:'so_no'},{data:'sales_person'},{data:'date_created'},{data:'action'}]; 
@@ -468,12 +502,6 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			
 			
-			case "tbl_salesorder_return":{
-				TableURL = baseURL + 'datatable_controller/Salesorder_Return_DataTable';
-				TableData = [{data:'so_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'status'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
 			case "tbl_users":{
 				TableURL = baseURL + 'datatable_controller/Users_DataTable';
 				TableData = [{data:'no'},{data:'username'},{data:'name'},{data:'date_created'},{data:'status'},{data:'action'}]; 
@@ -520,12 +548,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 		
-			case "tbl_service_request":{
-				TableURL = baseURL + 'datatable_controller/Customer_Concern_DataTable';
-				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break
-			}
+		
 
 			//Approval
 			case "tbl_approval_purchased_request":{

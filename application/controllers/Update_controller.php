@@ -97,38 +97,6 @@ class Update_controller extends CI_Controller
         $password = $this->input->post('password');
         $this->update_model->Update_ChangePassword($id,$password);
      }
-     public function Update_Return_FinishProduct(){
-       $user_id = $this->session->userdata('id');
-       $id = $this->input->post('id');
-       $so_no = $this->input->post('so_no');
-       $c_code = $this->input->post('c_code');
-       $qty = $this->input->post('qty');
-       $status = $this->input->post('status');
-
-        $query = $this->db->select('*')->from('tbl_project_color')->where('c_code',$c_code)->get();
-        $row = $query->row();
-        $project_no = $row->project_no;
-        $add_quantity = floatval($row->stocks + $qty);
-
-        $query1 = $this->db->select('*')->from('tbl_salesorder_item')->where('id',$id)->get();
-        $row1 = $query1->row();
-            
-        $totalqty = floatval($row1->price/$row1->balance);
-        $total_amount = $totalqty*$qty;
-        $balance_price = $row1->price-$total_amount;
-        $balance = $row1->balance - $qty; 
-
-       $this->update_model->Update_Return_FinishProduct($user_id,$id,$so_no,$c_code,$qty,$status,$balance,$totalqty,$total_amount,$balance_price,$add_quantity,$project_no);
-       $data = array(
-            'id'       => $id,
-            'balance'  => $balance,
-            'price'    => $balance_price,
-            'status1'  => $status,
-            'qty'      => $qty,
-            'status'   => 'success'
-        );
-        echo json_encode($data); 
-     }
      public function Update_Approval_Design(){
         $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
@@ -389,8 +357,7 @@ class Update_controller extends CI_Controller
          $user_id = $this->session->userdata('id');
          $id = $this->input->post('id');
          $action = $this->input->post('action');
-         $this->update_model->Update_Approval_Concern($user_id,$id,$action);
-         $data = array('status' => $action);
+         $data = $this->update_model->Update_Approval_Concern($user_id,$id,$action);
          echo json_encode($data); 
      }
 
@@ -576,7 +543,7 @@ class Update_controller extends CI_Controller
      }
      public function Update_Deposit_Approved(){
         $id = $this->input->post('id');
-        $data $this->update_model->Update_Deposit_Approved($id);
+        $data= $this->update_model->Update_Deposit_Approved($id);
         echo json_encode($data);
      }
     public function Update_Customer(){

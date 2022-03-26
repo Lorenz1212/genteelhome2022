@@ -452,19 +452,19 @@ class Update_model extends CI_Model
         }
      }
      function Update_Approval_Concern($user_id,$id,$action){
-        if($action == 'APPROVED'){
-            $data = array('sales'  => $user_id,
-                          'status' => 'APPROVED',
-                          's_status' => 'PENDING');
-
-        }else if($action == 'CANCELLED'){
-            $data = array('sales'  => $user_id,
-                          'status' => 'CANCELLED');
-        }else if($action == 'S_APPROVED'){
-            $data = array('s_status' => 'APPROVED');
+        if($action == 'P'){
+           $date = 'date_created';
+           $user = 'created_by';
+        }else{
+           $date = 'latest_update';
+           $user = 'update_by';
         }
+        $data = array('status' => $action,
+                      $date=>date('Y-m-d H:i:s'),
+                      $user=>$user_id);
         $this->db->where('id',$id);
         $this->db->update('tbl_service_request',$data);
+        return $action;
      }
      function Update_Design_Stocks($user_id,$id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs,$image_previous,$color_previous,$docs_previous){
         if($image){$images = $this->move_to_folder4('STOCKS',$image,$tmp,$path_image,500,500);

@@ -51,34 +51,15 @@ class Dashboard_model extends CI_Model
     return $data; 
   } 
    function admin_dashboard(){        
-     $query_pr =  $this->db->select('count(id) as id')->from('tbl_purchasing_project')->where('status', 'APPROVED1')->get();  
-     $row_pr = $query_pr->row();
-     $query_ir =  $this->db->select('count(id) as id')->from('tbl_product_inspection_approved')->where('status', 'PENDING')->get();  
-     $row_ir = $query_ir->row();
-     $query_pd =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('status', 1)->get();  
-     $row_pd = $query_pd->row();
-     $query_so =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('status', 'REQUEST FOR APPROVAL')->get();  
-     $row_so = $query_so->row();
-     $query_user =  $this->db->select('count(id) as id')->from('tbl_users')->where('status', 'PENDING')->get();  
-     $row_user = $query_user->row();
-     $query_c =  $this->db->select('count(id) as id')->from('tbl_customer_online')->get();  
-     $row_c = $query_c->row();
-     $query_sd =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('status', 'DELIVERED')->get();  
-     $row_sd = $query_sd->row();
-     $query_sr =  $this->db->select('count(id) as id')->from('tbl_salesorder_item_return')->where('status', 'REJECTED')->get();  
-     $row_sr = $query_sr->row();
-     $query_sg =  $this->db->select('count(id) as id')->from('tbl_salesorder_item_return')->where('status', 'GOOD')->get();  
-     $row_sg = $query_sg->row();
-
      $query_sales =  $this->db->select('sum(i.balance_price) as sales')->from('tbl_salesorder_item as i')
      ->join('tbl_salesorder as s','s.so_no=i.so_no','LEFT')->where('s.status', 'DELIVERED')->get();  
      $row_sales = $query_sales->row();
 	   $data[] = array('pd' 	   => $row_pd->id,
-	          				 'pr' 	         => $row_pr->id,
-	          				 'ir' 	         => $row_ir->id,
-	          				 'so' 	         => $row_so->id,
-	          				 'user' 	       => $row_user->id,
-	          				 'customer'     => $row_c->id,
+      				 'pr' 	         => $row_pr->id,
+      				 'ir' 	         => $row_ir->id,
+      				 'so' 	         => $row_so->id,
+      				 'user' 	       => $row_user->id,
+      				 'customer'     => $row_c->id,
                      'sr'           => $row_sr->id,
                      'sd'           => $row_sd->id,
                      'sg'           => $row_sg->id,
@@ -86,31 +67,12 @@ class Dashboard_model extends CI_Model
 	        $json_data = array('data'=>$data);
 	        return $data;   
 	}
-   function superuser_dashboard()
-   {       
-     // $query_cs =  $this->db->select('count(id) as id')->from('tbl_service_request')->where('s_status', 'PENDING')->get();  
-     // $row_cs = $query_cs->row();
+   function superuser_dashboard(){       
+    $customer_service_request = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','P')->get()->row();
+    $customer_service_approved = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','A')->get()->row();
+    $return_item_good = $this->db->select('count(id) as id')->from('tbl_return_item_warehouse')->where('status',1)->get()->row();
+    $return_item_rejected = $this->db->select('count(id) as id')->from('tbl_return_item_warehouse')->where('status',2)->get()->row();
 
-     // $query_pr =  $this->db->select('count(id) as id')->from('tbl_purchasing_project')->where('status', 'PENDING')->get();  
-     // $row_pr = $query_pr->row();
-
-     // $query_mr =  $this->db->select('count(id) as id')->from('tbl_material_project')->where('status', 'PENDING')->get();  
-     // $row_mr = $query_mr->row();
-
-     // $query_user =  $this->db->select('count(id) as id')->from('tbl_users')->where('status', 'PENDING')->get();  
-     // $row_user = $query_user->row();
-
-     // $query_sd =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('status', 'DELIVERED')->get();  
-     // $row_sd = $query_sd->row();
-
-     // $query_sop =  $this->db->select('count(id) as id')->from('tbl_salesorder')->where('status', 'REQUEST')->get();  
-     // $row_sop = $query_sop->row();
-
-     // $query_sr =  $this->db->select('count(id) as id')->from('tbl_salesorder_return')->where('status', 'REJECTED')->get();  
-     // $row_sr = $query_sr->row();
-
-     // $query_sg =  $this->db->select('count(id) as id')->from('tbl_salesorder_return')->where('status', 'GOOD')->get();  
-     // $row_sg = $query_sg->row();
 
     $office=array();
     $spare=array();
@@ -145,16 +107,15 @@ class Dashboard_model extends CI_Model
             }      
          }
 
-          $json_data = array( 'rawmats'      => $rawmats,
-                              'office'       => $office,
-                              'spare'        => $spare);
-                              // 'pr'           => $row_pr->id,
-                              // 'mr'           => $row_mr->id,
-                              // 'sd'           => $row_sd->id,
-                              // 'sg'           => $row_sg->id,
-                              // 'sop'          => $row_sg->id,
-                              // 'cs'           => $row_cs->id);
-          return $json_data;   
+      $json_data = array( 'rawmats'      => $rawmats,
+                          'office'       => $office,
+                          'spare'        => $spare,
+                          'customer_service_request'=> $customer_service_request->id,
+                          'customer_service_approved'=> $customer_service_approved->id,
+                          'return_item_good'=>$return_item_good->id,
+                          'return_item_rejected'=>$return_item_rejected->id
+                          );
+      return $json_data;   
   } 
   
    
@@ -168,6 +129,10 @@ class Dashboard_model extends CI_Model
     $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',1)->get()->row();
     $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',2)->get()->row();
 
+    $customer_service_request = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','R')->get()->row();
+
+    $customer_service_approved = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','A')->get()->row();
+
     $data = array('request_sales_stocks'=>$request_sales_stocks->id,
                   'request_sales_project'=>$request_sales_project->id,
                   'request_salesorder'=>intval($request_sales_project->id+$request_sales_stocks->id),
@@ -175,6 +140,8 @@ class Dashboard_model extends CI_Model
                   'sales_deliver_stocks'=>$sales_deliver_stocks->id,
                   'sales_shipping_project'=>$sales_shipping_project->id,
                   'sales_deliver_project'=>$sales_deliver_project->id,
+                  'customer_service_request'=>$customer_service_request->id,
+                  'customer_service_approved'=>$customer_service_approved->id
               );
     return $data; 
   }

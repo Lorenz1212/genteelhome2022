@@ -132,17 +132,6 @@ class Create_controller extends CI_Controller
         $data = array('status' => 'success');
         echo json_encode($data);
     }
-    public function Create_Return_Item(){
-         $user_id = $this->session->userdata('id');
-         $id = $this->input->post('id');
-         $production_no = $this->input->post('production_no');
-         $balance = $this->input->post('balance');
-         $item = $this->input->post('item');
-         $unit = $this->input->post('unit');
-         $this->create_model->Create_Return_Item($user_id,$production_no,$item,$balance,$unit);
-         $data = array('id'     => $id,'status' => 'success');
-         echo json_encode($data);
-    }
     public function Create_MaterialUsed(){
          $user_id = $this->session->userdata('id');
          $production_no = $this->input->post('production_no');
@@ -523,6 +512,16 @@ class Create_controller extends CI_Controller
          $unit = $this->input->post('unit');
          $amount = $this->input->post('amount');
          $data = $this->create_model->Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin);        
+         echo json_encode($data); 
+    }
+    public function Create_Return_Item_Warehouse(){
+         $user_id = $this->session->userdata('id');
+         $type = $this->input->post('type');
+         $item_no = $this->input->post('item_no');
+         $qty = $this->input->post('qty');
+         $status = $this->input->post('status');
+         $remarks = $this->input->post('remarks');
+         $data = $this->create_model->Create_Return_Item_Warehouse($user_id,$type,$item_no,$qty,$status,$remarks);        
          echo json_encode($data); 
     }
 }

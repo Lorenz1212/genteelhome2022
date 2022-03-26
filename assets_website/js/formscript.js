@@ -231,10 +231,9 @@ var KTFormControls = function () {
 	 				 	fd.append('amount',amount);
 	 				 	fd.append('bank',bank);
 	   					fd.append('image',files[0]);
-	   					val = fd;
 					 	 thisURL = baseURL + 'website_controller/Create_Deposit';
 					  	 url = baseURL + 'gh/app/payment-deposit';
-				  	 	_ajaxForm(thisURL,"POST",val,"Create_Deposit",url);
+				  	 	_ajaxForm(thisURL,"POST",fd,"Create_Deposit",url);
 					 }
 					
 	 			})
@@ -255,10 +254,9 @@ var KTFormControls = function () {
 	 				 	fd.append('subject',subject);
 	 				 	fd.append('comment',comment);
 	 				 	fd.append('email',email);
-	   					val = fd;
 					 	 thisURL = baseURL + 'website_controller/Create_Email';
 					  	 url = baseURL + 'gh/app/contact';
-				  	 	_ajaxForm(thisURL,"POST",val,"Create_Email",url);
+				  	 	_ajaxForm(thisURL,"POST",fd,"Create_Email",url);
 					 }
 					
 	 			})
@@ -289,10 +287,9 @@ var KTFormControls = function () {
 	   					fd.append('receipt',receipt[0]);
 	   					fd.append('service',service[0]);
 	   					fd.append('order_no',order_no);
-	   					val = fd;
 					 	 thisURL = baseURL + 'website_controller/Create_Service';
 					  	 url = baseURL + 'gh/app/service';
-				  	 	_ajaxForm(thisURL,"POST",val,"Create_Service",url);
+				  	 	_ajaxForm(thisURL,"POST",fd,"Create_Service",url);
 					 }
 					
 	 			})
@@ -437,11 +434,9 @@ var KTFormControls = function () {
 					swal("This Form is Successfully Submited", "Thank you!", "success").then(function() {
 						window.location = url;
 					});
-	 			}else if(response.status == 'error1')
-	 			{
+	 			}else if(response.status == 'error1'){
 	 				swal("Invalid Tracking Number", "Thank you!", "warning");
-	 			}else if(response.status == 'error')
-	 			{
+	 			}else if(response.status == 'error'){
 	 				swal("Invalid Serial Number", "Thank you!", "warning");
 	 			}
 	 			break;

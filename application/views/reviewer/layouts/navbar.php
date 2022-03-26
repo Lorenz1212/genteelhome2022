@@ -56,7 +56,8 @@
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Request</span>
+													<span class="menu-text mr-2">Request</span>
+													<span class="label label-rounded label-primary request_count">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -140,6 +141,12 @@
 																</ul>
 															</div>
 														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
+															<a  href="<?php echo base_url()."gh/superuser/customer-concern";?>" class="menu-link">
+																<span class="menu-text mr-2">Customer Concern</span>
+																<span class="label label-rounded label-primary customer_concern_count">0</span>
+															</a>
+														</li>
 													</ul>
 												</div>
 											</li>
@@ -185,6 +192,28 @@
 													</ul>
 												</div>
 											</li>
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+												<a href="javascript:;" class="menu-link menu-toggle">
+														<span class="menu-text">Return Item</span>
+														<span class="menu-desc"></span>
+														<i class="menu-arrow"></i>
+													</a>
+													<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+														<ul class="menu-subnav">
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/superuser/return-item-warehouse"?>" class="menu-link">
+																<span class="menu-text">Return Item to Warehouse</span>
+															</a>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/superuser/return-item-customer"?>" class="menu-link">
+																<span class="menu-text">Return Item From Customer</span>
+															</a>
+														</li>
+													</ul>
+												</div>
+											</li>
+
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Inventory</span>
@@ -271,12 +300,6 @@
 																</ul>
 															</div>
 														</li>
-													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-														<a href="<?php echo base_url()."gh/superuser/production-stocks"?>" class="menu-link">
-															<span class="menu-text">Production Item Stocks</span>
-														</a>
-													</li>
-													
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="javascript:;" class="menu-link menu-toggle">
 																<span class="menu-text">Supplier</span>
@@ -302,27 +325,6 @@
 																	</li>
 																</ul>
 															</div>
-														</li>
-													</ul>
-												</div>
-											</li>
-											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Customer Concerns</span>
-													<span class="menu-desc"></span>
-													<i class="menu-arrow"></i>
-												</a>
-												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/superuser/customer-concern?".base64_encode('urlstatus=pending')."";?>" class="menu-link ">
-																<span class="menu-text">PENDING</span>
-															</a>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/superuser/customer-concern?".base64_encode('urlstatus=approved')."";?>" class="menu-link">
-																<span class="menu-text">APPROVED</span>
-															</a>
 														</li>
 													</ul>
 												</div>

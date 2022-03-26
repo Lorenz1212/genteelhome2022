@@ -153,7 +153,8 @@
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Customer</span>
+													<span class="menu-text mr-2">Customer</span>
+													<span class="label label-rounded label-primary customer_count">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -165,8 +166,9 @@
 															 </a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															 <a href="<?php echo base_url()."gh/sales/customer-concern?".base64_encode('urlstatus=request')."";?>" class="menu-link">
-																<span class="menu-text">Customer Concerns</span>
+															 <a href="<?php echo base_url()."gh/sales/customer-concern";?>" class="menu-link">
+																<span class="menu-text mr-2">Customer Concerns</span>
+																<span class="label label-rounded label-primary customer_concern_count">0</span>
 															 </a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">

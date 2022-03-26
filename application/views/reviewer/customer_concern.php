@@ -1,56 +1,74 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-customer-concern-list">
+	<div class="form" data-link="Update_Approval_Concern"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Customer's Concern</h2>
-					<div class="d-flex align-items-center font-weight-bold my-2">
-						<a href="#" class="opacity-75 hover-opacity-100">
-							<i class="flaticon2-shelter text-white icon-1x"></i>
-						</a>
-						<span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
-						<span class="text-white text-hover-white opacity-75 hover-opacity-100">Service</span>
-					</div>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Customer Concern</h2>
 				</div>
 			</div>
 		</div>
 	</div>
 <!--end::Subheader-->
-
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 	<div class="container">
-			<div class="card card-custom">
-				<div class="card-header">
-					<div class="card-title">
-						<span class="card-icon">
-							<i class="flaticon2-psd text-primary"></i>
-						</span>
-						<h3 class="card-label">List of Concerns</h3>
-					</div>
-				</div>
-				<div class="card-body">
-					<table class="table table-bordered table-hover table-checkable link" id="tbl_service_request" data-link="tbl_service_request" style="margin-top: 13px !important">
-						<thead>
-							<tr>
-								<th>NO</th>
-								<th>SERIAL NO</th>
-								<th>CUSTOMER</th>
-								<th>DATE</th>
-								<th>STATUS</th>
-								<th>ACTION</th>
-							</tr>
-						</thead>
-					</table>
-				</div>
+		<div class="card card-custom gutter-b">
+			    <div class="card-header card-header-tabs-line">
+			        <div class="card-toolbar">
+			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
+			                <li class="nav-item">
+			                    <a class="nav-link active" data-toggle="tab" href="#shipping">
+			                        <span class="nav-text mr=2">Request</span>
+			                        <span class="label label-rounded label-warning customer_request_count">0</span>
+			                    </a>
+			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" data-toggle="tab" href="#delivered">
+			                        <span class="nav-text">Approved</span>
+			                        <span class="label label-rounded label-success customer_approved_count">0</span>
+			                    </a>
+			                </li>
+			            </ul>
+			   		 </div>
+			   	</div>
+			    <div class="card-body link" data-link="tbl_service_request_superuser">
+			        <div class="tab-content">
+			            <div class="tab-pane fade show active" id="shipping" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
+			                <table class="table table-bordered table-hover table-checkable" id="tbl_service_request" style="margin-top: 13px !important">
+								<thead>
+									<tr>
+										<th>NO</th>
+										<th>SERIAL NO</th>
+										<th>CUSTOMER</th>
+										<th>DATE</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
+							</table>
+			            </div>
+			            <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
+			                <table class="table table-bordered table-hover table-checkable" id="tbl_service_approved" style="margin-top: 13px !important">
+								<thead>
+									<tr>
+										<th>NO</th>
+										<th>SERIAL NO</th>
+										<th>CUSTOMER</th>
+										<th>DATE</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
+							</table>
+			            </div>
+			        </div>
+			    </div>
 			</div>
-			<!--end::Card-->
-		</div>
 	</div>
 </div>
+</div>
 <!-- Modal-->
-<div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -100,16 +118,15 @@
             	</div>
                <div class="form-group">
 			    	<label>J.O NO. <span class="text-danger">*</span></label>
-				    <input type="hidden" class="form-control" id="id" name="id" />
 				    <input type="text" class="form-control"   id="production_no" name="production_no" disabled="" />
 			   </div>
 			   <div class="form-group">
 				    <label>Reason <span class="text-danger">*</span></label>
-				    <textarea type="text" class="form-control" id="concern" name="concern" rows="4"></textarea>
+				    <textarea type="text" class="form-control" id="concern" name="concern" rows="4" disabled></textarea>
 			   </div>
 
             </div>
-            <div class="modal-footer" id="btn_action1">
+            <div class="modal-footer" id="btn_action">
             	
             </div>
         </div>

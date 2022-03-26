@@ -331,6 +331,15 @@ class Datatable_controller extends CI_Controller
         echo json_encode($data);
     }
 
+    public function Return_Item_Good_DataTable_Superuser(){
+        $data = $this->datatable_model->Return_Item_Good_DataTable_Superuser();
+        echo json_encode($data);
+    }
+    public function Return_Item_Rejected_DataTable_Superuser(){
+        $data = $this->datatable_model->Return_Item_Rejected_DataTable_Superuser();
+        echo json_encode($data);
+    }
+
     
     
     public function Users_DataTable(){
@@ -710,13 +719,24 @@ class Datatable_controller extends CI_Controller
       $data = $this->datatable_model->Coupon_DataTable();
       echo json_encode($data);
    }
-   public function Customer_Concern_DataTable(){
+   public function Customer_Concern_Request_Sales_DataTable(){
       $id = $this->session->userdata('id');
-      $base64_encode = $this->input->post('status');
-      $base64_decode = base64_decode($base64_encode);
-      $status =  trim($base64_decode,"=");
-      $status = strtoupper($status);
-      $data = $this->datatable_model->Customer_Concern_DataTable($id,$status);
+      $data = $this->datatable_model->Customer_Concern_Request_Sales_DataTable($id);
+      echo json_encode($data);
+   }
+   public function Customer_Concern_Approved_Sales_DataTable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Customer_Concern_Approved_Sales_DataTable($id);
+      echo json_encode($data);
+   }
+   public function Customer_Concern_Request_Superuser_DataTable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Customer_Concern_Request_Superuser_DataTable($id);
+      echo json_encode($data);
+   }
+   public function Customer_Concern_Approved_Superuser_DataTable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Customer_Concern_Approved_Superuser_DataTable($id);
       echo json_encode($data);
    }
    public function Customer_List_DataTable(){
@@ -786,30 +806,7 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->OnlineRequest_DataTable($user_id,$status);
         echo json_encode($data);
     }
-    public function Salesorder_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_DataTable($user_id);
-        echo json_encode($data);
-    }
-     public function Salesorder_Return_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->Salesorder_Return_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
-    public function Salesorder_For_Shipping_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_For_Shipping_DataTable($user_id);
-        echo json_encode($data);
-    }
-    public function Salesorder_For_Delivered_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_For_Delivered_DataTable($user_id);
-        echo json_encode($data);
-    }
+
     public function Approval_UsersRequest_DataTable(){
         $base64_encode = $this->input->post('status');
         $base64_decode = base64_decode($base64_encode);

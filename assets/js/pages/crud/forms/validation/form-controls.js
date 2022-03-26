@@ -42,6 +42,105 @@ var KTFormControls = function () {
 	var _initToast = function(type,message){
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
 	}
+	var _initnotificationupdate = function(){
+		 let url = window.location.pathname;
+		 let urlpost;
+		 if(url.split('/')[0] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[2];
+		 }else if(url.split('/')[1] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[3];
+		 }else if(url.split('/')[2] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[4];
+		 }else if(url.split('/')[3] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[6];
+		 }
+		 if(urlpost == 'designer'){
+		 	_ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
+		 }else if(urlpost =='production'){
+		 	_ajaxloaderOption('Dashboard_controller/production_dashboard','POST',false,'production');
+		 }else if(urlpost == 'sales'){
+		 	_ajaxloaderOption('Dashboard_controller/sales_dashboard','POST',false,'sales');
+		 }else if(urlpost =='supervisor'){
+
+		 }else if(urlpost == 'superuser'){
+		 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
+		 }else if(urlpost == 'admin'){
+
+		 }else if(urlpost == 'accounting'){
+
+		 }
+	}
+	var _ajaxloaderOption = async function(thisURL,type,val,sub){
+		  $.ajax({
+	             url: baseURL + thisURL,
+	             type: type,
+	             data: val,
+	             dataType:"json",
+                  success: function(response)
+                  {
+                  	  _initOption(sub,response);
+                  }                                     
+		});	
+	}
+      var _initOption = function(view,response){
+		switch(view){
+			case "designer":{
+				alert('ok')
+				$('.request_stocks').text(response.request_stocks);
+				$('.approved_stocks').text(response.approved_stocks);
+				$('.rejected_stocks').text(response.rejected_stocks);
+				$('.request_project').text(response.request_project);
+				$('.approved_project').text(response.approved_project);
+				$('.rejected_project').text(response.rejected_project);
+				$('.request_stocks_project').text(parseInt(response.request_stocks+response.request_project));
+
+				$('.request_jo_stocks').text(response.request_jo_stocks);
+				$('.request_jo_project').text(response.request_jo_project);
+				$('.request_jo').text(response.request_jo_designer);
+				break;
+			}
+			case "production":{
+				$('.request_jo_stocks_production').text(response.request_jo_stocks);
+				$('.request_jo_project_production').text(response.request_jo_project);
+				$('.request_jo_production').text(response.request_jo_production);
+				$('.sales_count').text(response.request_salesorder);
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+
+				$('.sales_shipping_project').text(response.sales_shipping_project);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
+				break;
+			}
+			case "sales":{
+				$('.sales_count').text(response.request_salesorder);
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+
+				$('.sales_shipping_project').text(response.sales_shipping_project);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
+				$('.customer_count').text(response.customer_service_request);
+				$('.customer_request_count').text(response.customer_service_request);
+				$('.customer_approved_count').text(response.customer_service_approved);
+				break;
+			}
+			case "superuser":{
+				$('.request_count').text(response.customer_service_request);
+				$('.customer_concern_count').text(response.customer_service_request);
+
+				$('.customer_request_count').text(response.customer_service_request);
+				$('.customer_approved_count').text(response.customer_service_approved);
+				
+				break;
+			}
+			
+		}
+	}
 	var _initgetvaluetable = function(){
 			 $("table thead th").each(function() {
 				   var k = $(this).text().trim().toLowerCase();
@@ -243,17 +342,10 @@ var KTFormControls = function () {
 	 		case "Update_Approval_Concern":{
 	 			$(document).ready(function() {
 					 $(document).on("click","#btn_save",function() {
-					 	var action = $(this).attr('data-action');
-					 	var page = $(this).attr('data-page');
-					 	var id = $('input[name=id]').val();
-						if(page == 'sales'){
-						   url = baseURL + 'gh/'+page+'/customer-concern?'+btoa('urlstatus=request');	
-						}else if(page == 'superuser'){
-						   url = baseURL + 'gh/'+page+'/customer-concern?'+btoa('urlstatus=pending');	
-						}
-						val = {id:id,action:action};
+					 	let action = $(this).attr('data-action');
+					 	let id = $('#production_no').attr('data-id');
 						thisURL = baseURL + 'update_controller/Update_Approval_Concern';
-						 _ajaxForm_loaded(thisURL,"POST",val,"Update_Approval_Concern",url);
+						 _ajaxForm_loaded(thisURL,"POST",{id:id,action:action},"Update_Approval_Concern",false);
 				    });
 				})
 	 			break;
@@ -293,27 +385,6 @@ var KTFormControls = function () {
 							formdata.append('remarks',remarks);
 						     thisURL = baseURL + 'create_controller/Create_Other_Matrials_Request';
 						     _ajaxForm(thisURL,"POST",formdata,"Create_Other_Matrials_Request",false);
-				  		 }
-				  	 });
-	 			break;
-	 		}
-	 		case "Create_OfficeSupplies_Request":{
-	 			$('#Create_OfficeSupplies_Request').on('click',function(e){
-					   e.preventDefault();
-						var rowCount = $('#myTable tr').length;
-						if (!rowCount) {
-				   			_initSwalWarning();
-						}else{
-							_initgetvaluetable();
-							let item = Array.from(document.getElementsByClassName('tbl-mat-1')).map(item => item.getAttribute('data-item'));
-							let quantity = Array.from(document.getElementsByClassName('tbl-mat-1')).map(item => item.text('data-qty'));
-							let remarks = Array.from(document.getElementsByClassName('tbl-mat-2')).map(item => item.getAttribute('data-remarks'));
-							let formData = new FormData()
-							formdata.append('item',item);
-							formdata.append('quantity',quantity);
-							formdata.append('remarks',remarks);
-						     thisURL = baseURL + 'create_controller/Create_OfficeSupplies_Request';
-						     _ajaxForm(thisURL,"POST",formdata,"Create_OfficeSupplies_Request",url);
 				  		 }
 				  	 });
 	 			break;
@@ -1024,6 +1095,41 @@ var KTFormControls = function () {
 					});
 	 			break;
 	 		}
+	 		case "Create_Return_Item":{
+	 			    var form = document.getElementById('Create_Return_Item');
+			         validation = FormValidation.formValidation(
+							form,{
+								fields: 
+								{type: {validators: {notEmpty: {message: 'Item is required'}}},
+								item_no: {validators: {notEmpty: {message: 'Item is required'}}},
+								 qty: {validators: {notEmpty: {message: 'Quanity is required'}}},
+								 remarks: {validators: {notEmpty: {message: 'Remarks is required'}}},
+				               },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                   
+						}
+					   }
+					);
+					$('.Create_Return_Item').on('click',function(e){
+					    e.preventDefault();
+					     let element = this;
+					    validation.validate().then(function(status) {
+				            if (status == 'Valid') { 
+				            	let formData = new FormData();
+				            	formData.append('type',$('select[name=type]').val());
+				            	formData.append('item_no',$('select[name=item_no]').val());
+				            	formData.append('qty',$('input[name=qty]').val());
+				            	formData.append('status',$('select[name=status]').val());
+				            	formData.append('remarks',$('textarea[name=remarks]').val());
+							     thisURL = baseURL + 'create_controller/Create_Return_Item_Warehouse';
+								_ajaxForm(thisURL,"POST",formData,"Create_Return_Item_Warehouse",false);
+						    }
+						});
+					});
+	 			break;
+	 		}
 	 		case "Create_RawMaterial":{
 	 			    var form = document.getElementById('Create_RawMaterial');
 			         validation = FormValidation.formValidation(
@@ -1175,12 +1281,10 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Create_OfficeSupplies":{
-	 			    var form = document.getElementById('Create_OfficeSupplies');
-			         validation = FormValidation.formValidation(
-							form,
-							{
+	 			    var form1 = document.getElementById('Create_OfficeSupplies');
+			        var validation1 = FormValidation.formValidation(
+							form1,{
 								fields: {item: {validators: {notEmpty: {message: 'Item is required'}}},
-								
 				               },
 							plugins: {
 							trigger: new FormValidation.plugins.Trigger(),
@@ -1195,16 +1299,15 @@ var KTFormControls = function () {
 					);
 					$('#Create_OfficeSupplies_btn').on('click',function(e){
 					    e.preventDefault();
-				            	item = $('input[name=item]').val();
-				            	if(!item){
-				            		Swal.fire("Warning!", "Please Complete the form!", "warning");
-				            	}else{
-				            	let formData = new FormData();
-				            	formData.append('item',item);
-				            	formData.append('type',2);
-						     thisURL = baseURL + 'create_controller/Create_Other_Materials';
-						     _ajaxForm_loaded(thisURL,"POST",formData,"Create_OfficeSupplies",false);	
-				            	}
+					    validation1.validate().then(function(status) {
+				            if (status == 'Valid') { 
+				            let formData1 = new FormData();
+				             formData1.append('item',$('input[name=item]').val());
+				             formData1.append('type',2);
+						     let thisURL1 = baseURL+'create_controller/Create_Other_Materials';
+							_ajaxForm(thisURL1,"POST",formData1,"Create_OfficeSupplies",false);
+						    }
+						});
 					});
 					var form = document.getElementById('Update_OfficeSupplies');
 			         validation = FormValidation.formValidation(
@@ -1220,13 +1323,11 @@ var KTFormControls = function () {
 						}
 					   }
 					);
-					$('#Update_OfficeSupplies').on('submit',function(e){
+					$('.Update_OfficeSupplies_btn').on('click',function(e){
 					    e.preventDefault();
-					     let element = this;
 					    validation.validate().then(function(status) {
-				            if (status == 'Valid') 
-				            { 
-				            	let formData = new FormData(element);
+				            if (status == 'Valid') { 
+				            	let formData = new FormData(form);
 						     thisURL = baseURL + 'update_controller/Update_Other_Materials';
 							_ajaxForm(thisURL,"POST",formData,"Update_OfficeSupplies",false);
 						    }
@@ -1296,26 +1397,6 @@ var KTFormControls = function () {
 	 				
 	 			});
 	 			break;
-	 		}
-	 		case "Create_Return_Item":{
-	 			$(document).ready(function() {
-					 $(document).on("click","#save",function() {
-					 	var id = $(this).attr('data-id');
-					 	var production_no = $('#request_id_update').attr('data-id');
-						var item          = $('#item'+id).val();
-						var balance       = $('#balance_quantity'+id).val();
-						var unit          = $('#unit'+id).val();
-						if(!balance){
-							Swal.fire("Warning!", "Please Enter Return Item Qty!", "warning");
-							$('#balance_quantity'+id).focus();
-						}else{
-							val = {id:id,production_no:production_no,balance:balance,item:item,unit:unit};
-							 thisURL = baseURL + 'create_controller/Create_Return_Item';
-							 _ajaxForm_loaded(thisURL,"POST",val,"Create_Return_Item",false);
-						}
-				    });
-				})
-				break;
 	 		}
 	 		case "Create_Deposit":{
 	 			var form = document.getElementById('Create_Deposit');
@@ -1463,132 +1544,7 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
-	 		case "Update_FinistProduct_Return":{
-	 			$(document).ready(function() {
-					 $(document).on("click","#save",function() {
-					 	let id = $(this).attr('data-id');
-					 	let c_code = $('#c_code'+id).attr('data-code');
-					 	let status  = $('#status'+id).val();
-					 	let qty   = $('#balance_quantity'+id).val();
-					 	let so_no = $('#so').val();
-					     let item  = $('#item'+id).val();
-					     let balance = $('#balanced_'+id).text();
-					 	if(status =='PENDING' || !qty){
-					 		Swal.fire("Warning!", "Please Enter Status and Qty!", "warning");
-					 	}else{
-					   		val = {id:id,so_no:so_no,c_code:c_code,qty:qty,balance:balance,status:status};
-						  	thisURL = baseURL + 'update_controller/Update_Return_FinishProduct';
-						  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Return_FinishProduct",false); 
-					 	}
-					 	
-				    });
-				})
-				break;
-	 		}
-	 		case "Update_JobOrder_Process":{
-	 			var form = document.getElementById('Update_JobOrder_Process');
-			         validation = FormValidation.formValidation(
-						form,
-						{
-							fields: {release: {validators: {notEmpty: {message: 'Release Item is required'}}},
-							status: {validators: {notEmpty: {message: 'Status is required'}}},
-			                },
-							plugins: {
-							trigger: new FormValidation.plugins.Trigger(),
-							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-						}
-					   }
-					);
-	 			$('#Update_JobOrder_Process').on('submit', function(e){
-	 				var element = this;
-	 				var formData = new FormData(element);
-	 				var id = $('#project_nos').val();
-	 				var status = $('#status').val();
-	 				e.preventDefault();
-	 				 Swal.fire({
-					        title: "Are you sure?",
-					        text: "You won't be able to revert this",
-					        icon: "warning",
-					        confirmButtonText: "Submit!",
-					        showCancelButton: true
-					    }).then(function(result) {
-					        if (result.value) {
-					        	validation.validate().then(function(status) {
-				            if (status == 'Valid') 
-				            { 
-					   		 val = formData;
-						  	 thisURL = baseURL + 'update_controller/Update_JobOrder_Process';
-						  	 _ajaxForm(thisURL,"POST",val,"Update_JobOrder_Process",false);
-						  	}
-						  });
-				         }
-				   	 });
-	 			});
-	 			break;
-	 		}
-	 		case "Update_Return_Item_Received":{
-	 			$(document).ready(function() {
-					 $(document).on("click","#save",function() {
-					 	var id = $(this).attr('data-id');
-						val = {id:id};
-						thisURL = baseURL + 'update_controller/Update_Return_Item';
-						 url = baseURL + 'gh/superuser/returnmaterial_request?'+btoa(urlstatus=request)+'';
-						_ajaxForm_loaded(thisURL,"POST",val,"Update_Return_Item_Received",url);
-				    });
-				})
-				break;
-	 		}
-
-	 		case "Update_Purchase_Process":{
-		 			$('#Update_Purchase_Process').on('click',function(){
-						var rowCount = $('#myTable tr').length-1;
-						if (!rowCount || rowCount == 0 || rowCount < 0) {
-					   		_initSwalWarning();
-						}else{
-				        		let item_no = Array.from(document.getElementsByClassName('item_no')).map(item => item.getAttribute('data-itemno'));
-				        		let item = Array.from(document.getElementsByClassName('item_no')).map(item => item.getAttribute('data-item'));
-				        		let status = Array.from(document.getElementsByClassName('status')).map(item => item.getAttribute('data-status'));
-				        		let supplier = Array.from(document.getElementsByClassName('supplier')).map(item => item.getAttribute('data-supplier'));
-				        		let payment = Array.from(document.getElementsByClassName('payment')).map(item => item.getAttribute('data-payment'));
-				        		let received = Array.from(document.getElementsByClassName('received')).map(item => item.getAttribute('data-received'));
-				        		let amount = Array.from(document.getElementsByClassName('amount')).map(item => item.getAttribute('data-amount'));
-				        		let item_purchase = Array.from(document.getElementsByClassName('item_purchased')).map(item => item.getAttribute('data-item'));
-							let item_id = Array.from(document.getElementsByClassName('item_purchased')).map(item => item.getAttribute('data-id'));
-							let item_purchase_itemno = Array.from(document.getElementsByClassName('item_purchased')).map(item => item.getAttribute('data-itemno'));
-					        	var item_status = [];
-							var item_balanced = [];
-							var item_total_quantity = [];
-						     $("input[name='balanced[]']").each(function(){item_balanced.push(this.value);});
-						     $("select[name='item_status[]']").each(function(){item_status.push(this.value);});
-						     $("input[name='total_quantity[]']").each(function(){item_total_quantity.push(this.value);});
-							let formData = new FormData();
-					     	formData.append('production_no',  $('input[name=production_no]').val());
-					     	formData.append('fund_no', 	    $('input[name=production_no]').attr('data-fundno'));
-					     	formData.append('item_no', 	    item_no);
-					     	formData.append('item', 	   	    item);
-					     	formData.append('supplier', 	    supplier);
-					     	formData.append('payment', 	    payment);
-					     	formData.append('status', 	    status);
-					     	formData.append('received', 	    received);
-					     	formData.append('amount', 	    amount);
-					     	formData.append('item_id', 	    item_id);
-					     	formData.append('item_balanced',  item_balanced);
-					     	formData.append('item_status',    item_status);
-					     	formData.append('item_purchase',  item_purchase);
-					     	formData.append('item_total_quantity', item_total_quantity);
-					     	formData.append('item_purchase_itemno', item_purchase_itemno);
-						  	thisURL = baseURL + 'update_controller/Update_Purchase_Process';
-						  	_ajaxForm(thisURL,"POST",formData,"Update_Purchase_Process",false);
-						    }
-					  });
-
-	 			break;	
-	 		}
+	 		
 
 	 		case "Update_SupplierItem":{
 	 			$('#Create_SupplierItem').on('click',function(e){		
@@ -2527,15 +2483,8 @@ var KTFormControls = function () {
                     }
                     break;
 	 		}
-	 		case "Create_Return_Item":{
-	 			if(response.status=="success"){
-                  	    _initToastSuccess();
-					$('#balance_quantity'+response.id).val('');
-                    }
-	 			break;
-	 		}
+
 	 		
-	 		case "Create_OfficeSupplies_Request":
 	 		case "Create_Production_Order":{
 	 			if(response.status=="success"){_initSwalSuccess(url);}
 	 			break;
@@ -2592,60 +2541,8 @@ var KTFormControls = function () {
 	 		}
 
 	 		//Update
-	 		case "Update_Return_Item_Received":{
-	 			if(response.status=="success"){  
-	 				Swal.fire("RECEIVED!", "Return Item Received!", "success").then(function(){window.location = url;});
-	 			}
-	 			break;	
-	 		}
-	 		case "Update_OfficeSupplies_Request":
-	 		case "Update_SpareParts_Request":{
-	 			if(response.status=="success"){
-				 	if($('#warehouse_status'+response.id).val() == 'PARTIAL PENDING'){
-				 	   $('.add'+response.id).attr('disabled','disabled');
-					   $('#balance_quantity'+response.id).attr('disabled','disabled').val('');
-				 	}else{
-				 	   $('.add'+id).prop('disabled','disabled');
-					   $('#balance_quantity'+response.id).prop('disabled','disabled');
-				 	}
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Material Request Submitted'});
-	 			}
-	 			break;
-	 		}
-	 		
-	 		case "Update_Return_FinishProduct":{
-	 			console.log(response.balance)
-	 			  if(response.status=="success"){
-                  	    _initToastSuccess();
-                  	     $('#balanced_'+response.id).text(response.balance);
-                  	     $('#balanced'+response.id).text(response.balance);
-					$('#balance_quantity'+response.id).val('');
-					if(response.balance == 0){
-			        		$('#balance_quantity'+id).attr('disabled',true);
-			        		$('.add'+id).attr('disabled',true);	
-			        	}else{
-			        		$('.add'+id).attr('disabled',false);	
-			        		$('#balance_quantity'+id).attr('disabled',false);
-			        	}  
-                    }
-                    break;
-	 		}
+
 	 	
-	 		
-	 		case "Update_Release_SalesOrder":{
-	 			if(response.status=="success"){
- 					Swal.fire("READY FOR DELIVER!", "Thank you!", "success").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Salesorder_For_Shipping_DataTable';
-						let TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_salesorder_shipping',TableURL,TableData,false);
-						let TableURL1 = baseURL + 'datatable_controller/Salesorder_For_Delivered_DataTable';
-						let TableData1 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_salesorder_delivered',TableURL1,TableData1,false);
-						$('#requestModal').modal('hide');
- 					});
-	 			}
-	 			break;
-	 		}
 	 		case "Update_SupplierItem":
 	 		case "Update_Supplier":
 	 		case "Update_Users":{
@@ -2857,19 +2754,39 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Update_Approval_Concern":{
-	 			if(response.status == 'APPROVED'){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-                              window.location = url;
-                         });
-	 			}else if(response.status == 'CANCELLED'){
-	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
-                              window.location = url;
-                         });
-	 			}else if(response.status == 'S_APPROVED'){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-                              window.location = url;
-                         });
+	 			if(response == 'P'){
+	 				Swal.fire("Approved!", "Thank you!", "success").then(function(){
+                        let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Sales_DataTable';
+						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
+
+						let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Sales_DataTable';
+						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);
+                    });
+	 			}else if(response == 'A'){
+	 				Swal.fire("Approved!", "Thank you!", "success").then(function(){
+                        let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Superuser_DataTable';
+						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
+
+						let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
+						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);     
+                     });
+	 			}else if(response == 'C'){
+	 				Swal.fire("Rejected!", "Thank you!", "error").then(function(){
+	 					let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Superuser_DataTable';
+						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
+
+                        let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
+						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);  
+                     });
 	 			}
+	 			$('#modal-form').modal('hide');
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Customer":{
@@ -3503,6 +3420,21 @@ var KTFormControls = function () {
                     _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
                     break;
                 }
+             case "Create_Return_Item_Warehouse":{
+	 			_initToast('success','Return Item Successfully Submited ');
+	 			$('#item').empty();
+	 			if(response == 1){
+	 				let TableURL = baseURL + 'datatable_controller/Return_Item_Good_DataTable_Superuser';
+					let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_return_item_good',TableURL,TableData,false);
+	 			}else{
+	 				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Rejected_DataTable_Superuser';
+					let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,false);
+	 			}
+	 			document.getElementById('Create_Return_Item').reset();
+	 			break;
+	 		}
 
 	 	}
 	 }
@@ -3511,11 +3443,8 @@ var KTFormControls = function () {
 		// public functions
 		init: function() {
 		     var tbl =	$('.form').attr('data-link');
-		     if(tbl == 'request_form'){
-		    		_initsubmit_request();
-		    	}else{
-		    	     _FormSubmit(tbl);
-		    	}
+		   	  _FormSubmit(tbl);
+		    	
 		    
 		}
 	};

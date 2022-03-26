@@ -227,8 +227,13 @@ class Option_Controller extends CI_Controller
         $data = $this->option_model->customer_info($id);
         echo json_encode($data);
     }
-     public function Option_Income_Statement(){
+    public function Option_Income_Statement(){
         $data = $this->option_model->Option_Income_Statement();
+        echo json_encode($data);
+    }
+    public function item_list(){
+        $type = $this->input->post('type');
+        $data = $this->option_model->item_list($type);
         echo json_encode($data);
     }
 }
