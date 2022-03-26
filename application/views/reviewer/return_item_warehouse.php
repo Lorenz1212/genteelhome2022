@@ -109,7 +109,7 @@
 			            </ul>
 			   		 </div>
 			   	</div>
-			    <div class="card-body link" data-link="tbl_return_item_superuser">
+			    <div class="card-body link" data-link="tbl_return_item_warehouse_superuser">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="shipping" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_return_item_good" style="margin-top: 13px !important">
