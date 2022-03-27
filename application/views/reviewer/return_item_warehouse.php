@@ -97,13 +97,13 @@
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" href="#shipping">
 			                        <span class="nav-text mr=2">Good</span>
-			                        <span class="label label-rounded label-success return_item_good_count">0</span>
+			                        <span class="label label-rounded label-success return_item_good">0</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#delivered">
 			                        <span class="nav-text">Rejected</span>
-			                        <span class="label label-rounded label-danger return_item_rejected_count">0</span>
+			                        <span class="label label-rounded label-danger return_item_rejected">0</span>
 			                    </a>
 			                </li>
 			            </ul>

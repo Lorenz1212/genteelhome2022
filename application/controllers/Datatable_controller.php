@@ -330,6 +330,39 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Salesorder_Project_Delivered_DataTable_Superuser($user_id);
         echo json_encode($data);
     }
+    public function Request_Material_List_Datatable(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Request_Material_List_Datatable($user_id);
+        echo json_encode($data);
+    }
+    public function Request_Material_Received_Datatable(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Request_Material_Received_Datatable($user_id);
+        echo json_encode($data);
+    }
+    public function Request_Material_Cancalled_Datatable(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Request_Material_Cancalled_Datatable($user_id);
+        echo json_encode($data);
+    }
+
+    public function Request_Material_List_Superuser_Datatable(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Request_Material_List_Superuser_Datatable();
+        echo json_encode($data);
+    }
+    public function Request_Material_Received_Superuser_Datatable(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Request_Material_Received_Superuser_Datatable();
+        echo json_encode($data);
+    }
+    public function Request_Material_Cancelled_Superuser_Datatable(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Request_Material_Cancelled_Superuser_Datatable();
+        echo json_encode($data);
+    }
+
+
 
     public function Return_Item_Good_DataTable_Superuser(){
         $data = $this->datatable_model->Return_Item_Good_DataTable_Superuser();
@@ -337,6 +370,20 @@ class Datatable_controller extends CI_Controller
     }
     public function Return_Item_Rejected_DataTable_Superuser(){
         $data = $this->datatable_model->Return_Item_Rejected_DataTable_Superuser();
+        echo json_encode($data);
+    }
+
+
+    public function Return_Item_Repair_Customer_DataTable_Superuser(){
+        $data = $this->datatable_model->Return_Item_Repair_Customer_DataTable_Superuser();
+        echo json_encode($data);
+    }
+    public function Return_Item_Good_Customer_DataTable_Superuser(){
+        $data = $this->datatable_model->Return_Item_Good_Customer_DataTable_Superuser();
+        echo json_encode($data);
+    }
+    public function Return_Item_Rejected_Customer_DataTable_Superuser(){
+        $data = $this->datatable_model->Return_Item_Rejected_Customer_DataTable_Superuser();
         echo json_encode($data);
     }
 
@@ -719,6 +766,7 @@ class Datatable_controller extends CI_Controller
       $data = $this->datatable_model->Coupon_DataTable();
       echo json_encode($data);
    }
+
    public function Customer_Concern_Request_Sales_DataTable(){
       $id = $this->session->userdata('id');
       $data = $this->datatable_model->Customer_Concern_Request_Sales_DataTable($id);
@@ -739,6 +787,10 @@ class Datatable_controller extends CI_Controller
       $data = $this->datatable_model->Customer_Concern_Approved_Superuser_DataTable($id);
       echo json_encode($data);
    }
+
+
+
+
    public function Customer_List_DataTable(){
       $data = $this->datatable_model->Customer_List_DataTable();
       echo json_encode($data);
@@ -751,42 +803,6 @@ class Datatable_controller extends CI_Controller
 
 
    // Repair
-    public function SpareParts_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->SpareParts_Request_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
-     public function OfficeSupplies_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->OfficeSupplies_Request_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
-    public function SpareParts_Received_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->SpareParts_Received_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
-    public function OfficeSupplies_Received_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->OfficeSupplies_Received_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
 
     public function Joborder_Admin_DataTable(){
         $user_id = $this->session->userdata('id');

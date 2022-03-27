@@ -5,7 +5,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Sales Order</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Sales Order For Project</h2>
 				</div>
 			</div>
 		</div>
@@ -20,12 +20,14 @@
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" href="#shipping">
-			                        <span class="nav-text">FOR SHIPPING</span>
+			                        <span class="nav-text mr-2">FOR SHIPPING</span>
+			                         <span class="label label-rounded label-warning sales_project">0</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#delivered">
-			                        <span class="nav-text">DELIVERED</span>
+			                        <span class="nav-text mr-2">DELIVERED</span>
+			                         <span class="label label-rounded label-success sales_deliver_project">0</span>
 			                    </a>
 			                </li>
 			            </ul>

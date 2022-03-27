@@ -524,5 +524,25 @@ class Create_controller extends CI_Controller
          $data = $this->create_model->Create_Return_Item_Warehouse($user_id,$type,$item_no,$qty,$status,$remarks);        
          echo json_encode($data); 
     }
+    public function Create_Return_Item_Customer(){
+         $user_id = $this->session->userdata('id');
+         $so_no = $this->input->post('so_no');
+         $item_no = $this->input->post('item_no');
+         $item = $this->input->post('item');
+         $qty = $this->input->post('qty');
+         $status = $this->input->post('status');
+         $remarks = $this->input->post('remarks');
+         $data = $this->create_model->Create_Return_Item_Customer($user_id,$so_no,$item_no,$item,$qty,$status,$remarks);        
+         echo json_encode($data); 
+    }
+    public function Create_Request_Material(){
+         $user_id = $this->session->userdata('id');
+         $type = $this->input->post('type');
+         $item_no = $this->input->post('item_no');
+         $item = $this->input->post('item');
+         $qty = $this->input->post('qty');
+         $data = $this->create_model->Create_Request_Material($user_id,$item_no,$item,$qty,$type);        
+         echo json_encode($data); 
+    }
 }
 ?>

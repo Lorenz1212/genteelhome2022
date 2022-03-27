@@ -387,15 +387,34 @@ class Option_model extends CI_Model
 		}else {
 			$query = $this->db->select('*')->from('tbl_other_materials')->where('type',2)->get();
 		}
-		$data = false;
-	    
+		 $data = false;
 	     if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row){
+	          foreach($query->result() as $row){
 	             $data[] = array('id'=> $row->id,
 	             				 'name'=> $row->item);
 	           }  
-        }
+	    }
 		return $data;
 	}
+	function so_no_item($so_no){
+		$row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$so_no)->get()->row();
+		if($row){
+			$query = $this->db->select('*')->from('tbl_salesorder_stocks_item as s')->join('tbl_project_color as c','s.c_code=c.id','LEFT')->join('tbl_project_design as d','c.project_no=d.id','LEFT')->where('s.so_no',$row->id)->get()->result();
+			foreach($query as $row){
+	             $data[] = array('id'=> $row->id,
+	             				 'name'=> $row->title.' ('.$row->c_name.')');
+	        } 
+	        return $data;
+		}else{
+			$rows = $this->db->select('*')->from('tbl_salesorder_project')->where('so_no',$so_no)->get()->row();
+			$lineup = json_decode($rows->item,true);
+			foreach($lineup as $item => $values) {
+				 $data[] = array('id'=> $values['id'],
+	             				 'name'=> $values['description']);
+			}
+            return $data;
+		}
+	}
+
 }
 ?>

@@ -62,7 +62,7 @@
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle mr-2">
 													<span class="menu-text mr-2">Design </span>
-													<span class="label label-rounded label-warning request_stocks_project">0</span>
+													<span class="label label-rounded label-primary request_stocks_project">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -199,188 +199,24 @@
 													</ul>
 												</div>
 											</li>
-										<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Request</span>
-													<span class="menu-desc"></span>
-													<i class="menu-arrow"></i>
-												</a>
-											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-												<ul class="menu-subnav">
-													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Request For Customization</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/customization?".base64_encode('urlstatus=request')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">REQUEST</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/customization?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">APPROVED</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Request For Products</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/request-for-stocks?".base64_encode('urlstatus=request')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">REQUEST</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/request-for-stocks?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">APPROVED</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Pre Order</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/online-preorder?".base64_encode('urlstatus=request')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">REQUEST</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/online-preorder?".base64_encode('urlstatus=approved')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">APPROVED</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-														</li>
-													</ul>
-												</div>
-											</li> -->
 										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Request For Stocks</span>
+													<span class="menu-text mr-2">Request Materials</span>
+													<span class="label label-rounded label-primary request_material_pending">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Raw Material Request</span>
-																<i class="menu-arrow"></i>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/designer/request-material-list";?>" class="menu-link ">
+																<span class="menu-text">List of Material Request</span>
 															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/material-received";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">RECEIVED</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Office / Janitorial Supplies</span>
-																<i class="menu-arrow"></i>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/designer/request-material-create";?>" class="menu-link ">
+																<span class="menu-text">Create Material Request</span>
 															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/officesupplies-request?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">PENDING</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/officesupplies-request?".base64_encode('urlstatus=received')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">RECEIVED</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/create-officesupplies-request";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CREATE REQUEST</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Production Supplies/ Spare Parts</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/spare-request?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">PENDING</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/spare-request?".base64_encode('urlstatus=received')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">RECEIVED</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/create-spare-request";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CREATE REQUEST</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
 													</ul>
 												</div>

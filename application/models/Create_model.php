@@ -1209,6 +1209,20 @@ class Create_model extends CI_Model{
     	$this->db->insert('tbl_return_item_warehouse',array('item'=>$row->item,'qty'=>$qty,'type'=>$type,'status'=>$status,'remarks'=>$remarks,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
     	return $status;
     }
+    function Create_Return_Item_Customer($user_id,$so_no,$item_no,$item,$qty,$status,$remarks){
+    	$this->db->insert('tbl_return_item_customer',array('so_no'=>$so_no,'item_no'=>$item_no,'item'=>$item,'qty'=>$qty,'status'=>$status,'remarks'=>$remarks,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+    	return $status;
+    }
+    function Create_Request_Material($user_id,$item_no,$item,$qty,$type){
+    	$mat_itemno = explode(',', $item_no);
+    	$mat_item = explode(',', $item);
+		$mat_quantity = explode(',', $qty);
+		$mat_type = explode(',', $type);	
+		for($i=0; $i<count($mat_itemno);$i++){
+		 $this->db->insert('tbl_other_material_m_request',array('item_no'=>$mat_itemno[$i],'item'=>$mat_item[$i],'qty'=>$mat_quantity[$i],'type'=>$mat_type[$i],'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+       	}
+    	return true;
+    }
 
   }
 ?>

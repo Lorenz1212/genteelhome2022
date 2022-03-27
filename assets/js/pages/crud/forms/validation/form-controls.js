@@ -85,7 +85,6 @@ var KTFormControls = function () {
       var _initOption = function(view,response){
 		switch(view){
 			case "designer":{
-				alert('ok')
 				$('.request_stocks').text(response.request_stocks);
 				$('.approved_stocks').text(response.approved_stocks);
 				$('.rejected_stocks').text(response.rejected_stocks);
@@ -131,11 +130,16 @@ var KTFormControls = function () {
 			}
 			case "superuser":{
 				$('.request_count').text(response.customer_service_request);
-				$('.customer_concern_count').text(response.customer_service_request);
 
+				$('.customer_concern_count').text(response.customer_service_request);
 				$('.customer_request_count').text(response.customer_service_request);
 				$('.customer_approved_count').text(response.customer_service_approved);
 				
+				$('.return_item_good').text(response.return_item_good);
+				$('.return_item_rejected').text(response.return_item_rejected);
+				$('.return_item_customer_repair').text(response.return_item_customer_repair);
+				$('.return_item_customer_good').text(response.return_item_customer_good);
+				$('.return_item_customer_rejected').text(response.return_item_customer_rejected);
 				break;
 			}
 			
@@ -667,7 +671,6 @@ var KTFormControls = function () {
 					   	formData.append('mat_quantity',mat_quantity);
 					   	formData.append('mat_type', mat_type);
 					   	formData.append('mat_remarks',mat_remarks);
-					   	formData.append('mat_type', mat_type);
 					   	formData.append('pur_itemno',p_itemno);
 					   	formData.append('pur_quantity',p_quantity);
 					   	formData.append('pur_remarks',p_remarks);
@@ -701,7 +704,6 @@ var KTFormControls = function () {
 					   	formData.append('mat_quantity',mat_quantity);
 					   	formData.append('mat_type', mat_type);
 					   	formData.append('mat_remarks',mat_remarks);
-					   	formData.append('mat_type', mat_type);
 					   	formData.append('pur_itemno',p_itemno);
 					   	formData.append('pur_quantity',p_quantity);
 					   	formData.append('pur_remarks',p_remarks);
@@ -1015,47 +1017,8 @@ var KTFormControls = function () {
                }
 
 	 		//FOR REPAIR
-	 		case "Create_EM_Purchase_Request":{
-	 			$('#Create_EM_Purchase_Request').on('click',function(e){
-					   e.preventDefault();
-						var rowCount = $('#myTable tr').length;
-						if (!rowCount) {
-				   			_initSwalWarning();
-						}else{
-							_initgetvaluetable();
-							production_no = $('input[name=production_no]').val();
-							val = {item:item,quantity:quantity,remarks:remarks,production_no:production_no,unit};
-						     thisURL = baseURL + 'create_controller/Create_EM_Purchase_Request';
-						     role = $('input[name=page1]').val();
-						     url = baseURL + 'gh/'+role+'/joborder_request?'+btoa('urlstatus=request');
-						     _ajaxForm_loaded(thisURL,"POST",val,"Create_EM_Purchase_Request",url);
-				  		 }
-				  	 });
-	 			break;
-	 		}
-	 		case "Create_EM_Material_Request":{
-	 			$('#Create_EM_Material_Request').on('click',function(e){
-					   e.preventDefault();
-						var rowCount = $('#myTable tr').length;
-						if (!rowCount) {
-				   			_initSwalWarning();
-						}else{
-							_initgetvaluetable();
-						    let production_no = $('select[name=production_no]').val();
-						    let requestor = $('input[name=requestor]').val();
-						    let mat_type = Array.from(document.getElementsByClassName('type')).map(item => item.getAttribute('data-type'));
-						    let mat_unit = Array.from(document.getElementsByClassName('unit')).map(item => item.getAttribute('data-unit'));
-						    let mat_itemno = Array.from(document.getElementsByClassName('item_no')).map(item => item.getAttribute('data-id'));
-						    let mat_quantity = Array.from(document.getElementsByClassName('quantity')).map(item => item.getAttribute('data-qty'));
 
-							val = {item:item,quantity:mat_quantity,remarks:remarks,production_no:production_no,requestor:requestor,unit:mat_unit,mat_type:mat_type,mat_itemno:mat_itemno};
-						     thisURL = baseURL + 'create_controller/Create_EM_Material_Request';
-						     url = baseURL + 'gh/supervisor/joborder-request?'+btoa('urlstatus=request');
-						     _ajaxForm_loaded(thisURL,"POST",val,"Create_EM_Material_Request",url);
-				  		 }
-				  	 });
-	 			break;
-	 		}
+	 		
 	 		case "Create_Supplier":{
 				    form = document.getElementById('Create_Supplier');
 			         validation = FormValidation.formValidation(
@@ -1125,6 +1088,42 @@ var KTFormControls = function () {
 				            	formData.append('remarks',$('textarea[name=remarks]').val());
 							     thisURL = baseURL + 'create_controller/Create_Return_Item_Warehouse';
 								_ajaxForm(thisURL,"POST",formData,"Create_Return_Item_Warehouse",false);
+						    }
+						});
+					});
+	 			break;
+	 		}
+	 		case "Create_Return_Item_Customer":{
+	 			    var form = document.getElementById('Create_Return_Item_Customer');
+			         validation = FormValidation.formValidation(
+							form,{
+								fields: 
+								{so_no: {validators: {notEmpty: {message: 'S.O No. is required'}}},
+								item_no: {validators: {notEmpty: {message: 'Item is required'}}},
+								 qty: {validators: {notEmpty: {message: 'Quanity is required'}}},
+								 remarks: {validators: {notEmpty: {message: 'Remarks is required'}}},
+				               },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                   
+						}
+					   }
+					);
+					$('.Create_Return_Item_Customer').on('click',function(e){
+					    e.preventDefault();
+					     let element = this;
+					    validation.validate().then(function(status) {
+				            if (status == 'Valid') { 
+				            	let formData = new FormData();
+				            	formData.append('so_no',$('input[name=so_no]').val());
+				            	formData.append('item_no',$('select[name="item_no"]').val());
+				            	formData.append('item',$('select[name="item_no"] option:selected').text());
+				            	formData.append('qty',$('input[name=qty]').val());
+				            	formData.append('status',$('select[name=status]').val());
+				            	formData.append('remarks',$('textarea[name=remarks]').val());
+							     thisURL = baseURL + 'create_controller/Create_Return_Item_Customer';
+								_ajaxForm(thisURL,"POST",formData,"Create_Return_Item_Customer",false);
 						    }
 						});
 					});
@@ -2453,6 +2452,28 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
+	 		case "Create_Request_Material":{
+	 			$('.Create_Request_Material').on('click',function(e){
+	 				e.preventDefault();
+	 				var rowCount = $('#kt_material_table tbody tr').length;
+	 				if(!rowCount){
+	 					_initSwalWarning();
+	 				}else{
+		 				let mat_type = Array.from(document.getElementsByClassName('td-type')).map(item => item.getAttribute('data-type'));
+						let mat_itemno = Array.from(document.getElementsByClassName('td-item')).map(item => item.getAttribute('data-id'));
+						let mat_item = Array.from(document.getElementsByClassName('td-item')).map(item => item.textContent);
+						let mat_quantity = Array.from(document.getElementsByClassName('td-qty')).map(item => item.textContent);
+					   	let formData = new FormData();
+					   	formData.append('item_no', mat_itemno);
+					   	formData.append('item',mat_item);
+					   	formData.append('qty',mat_quantity);
+					   	formData.append('type', mat_type);
+					   	thisURL = baseURL + 'create_controller/Create_Request_Material';
+	 					_ajaxForm(thisURL,"POST",formData,"Create_Request_Material",false);
+	 				}
+	 			});
+	 			break;
+	 		}
 	 	}
 	 }
 
@@ -3134,6 +3155,7 @@ var KTFormControls = function () {
 	 					window.location =  baseURL + 'gh/designer/joborder-stocks'; 			
 	 				});
 	 			}
+	 			break;
 	 		}
 	 		case "Update_Joborder_Project":{
 	 			if(response.status == 'success'){
@@ -3141,6 +3163,7 @@ var KTFormControls = function () {
 	 					window.location =  baseURL + 'gh/designer/joborder-project'; 			
 	 				});
 	 			}
+	 			break;
 	 		}
 	 		case "Create_Design_Stocks":{
 	 			if(response.status=="create"){
@@ -3343,15 +3366,16 @@ var KTFormControls = function () {
 				});
 	 			break;
 	 		}
-               case "Create_Salesorder_Stocks":
+	 		case "Create_Request_Material":
+            case "Create_Salesorder_Stocks":
 	 		case "Create_Salesorder_Project":{
-                    if(response == true){
-                        Swal.fire("Create Successfully!", "This form is Completed!", "success").then(function(){
-                         location.reload();
-                         }); 
-                    }else{
-                          Swal.fire("Error!", "Something went wrong!", "error");
-                    }
+                if(response == true){
+                    Swal.fire("Create Successfully!", "This form is Completed!", "success").then(function(){
+                    	 location.reload();
+                     }); 
+                }else{
+                      Swal.fire("Error!", "Something went wrong!", "error");
+                }
 	 			break;
 	 		}
                case "Update_Salesorder_Stock_Request":{
@@ -3432,7 +3456,28 @@ var KTFormControls = function () {
 					let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
 					_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,false);
 	 			}
+	 			_initnotificationupdate();
 	 			document.getElementById('Create_Return_Item').reset();
+	 			break;
+	 		}
+	 		case "Create_Return_Item_Customer":{
+	 			_initToast('success','Return Item Successfully Submited ');
+	 			if(response == 1){
+	 				let TableURL = baseURL + 'datatable_controller/Return_Item_Repair_Customer_DataTable_Superuser';
+					let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_return_item_repair',TableURL,TableData,false);
+	 			}else if(response == 2){
+	 				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Good_Customer_DataTable_Superuser';
+					let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_return_item_good',TableURL1,TableData1,false);
+	 			}else{
+	 				let TableURL2 = baseURL + 'datatable_controller/Return_Item_Rejected_Customer_DataTable_Superuser';
+					let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_return_item_rejected',TableURL2,TableData2,false);
+	 			}
+	 			$('#item').empty();
+	 			_initnotificationupdate();
+	 			document.getElementById('Create_Return_Item_Customer').reset();
 	 			break;
 	 		}
 

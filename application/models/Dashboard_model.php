@@ -12,7 +12,11 @@ class Dashboard_model extends CI_Model
 
         $request_jo_stocks = $this->db->select('count(id) as id')->from('tbl_project')->where('type',1)->where('status',2)->get()->row();
         $request_jo_project = $this->db->select('count(id) as id')->from('tbl_project')->where('type',2)->where('status',2)->get()->row();
-       
+
+        $request_material_pending = $this->db->select('count(id) as id')->from('tbl_other_material_m_request')->where('status',1)->where('created_by',$id)->get()->row();
+        $request_material_received = $this->db->select('count(id) as id')->from('tbl_other_material_m_received')->where('created_by',$id)->get()->row();
+        $request_material_cancelled = $this->db->select('count(id) as id')->from('tbl_other_material_m_request')->where('status',3)->where('created_by',$id)->get()->row();
+
         $data = array('request_stocks'  => $request_stocks->id,
                       'approved_stocks' => $approved_stocks->id,
                       'rejected_stocks' => $rejected_stocks->id,
@@ -21,7 +25,10 @@ class Dashboard_model extends CI_Model
                       'rejected_project'=> $rejected_project->id,
                       'request_jo_stocks'=>$request_jo_stocks->id,
                       'request_jo_project'=>$request_jo_project->id,
-                      'request_jo_designer'=>intval($request_jo_stocks->id+$request_jo_project->id));
+                      'request_jo_designer'=>intval($request_jo_stocks->id+$request_jo_project->id),
+                      'request_material_pending'=>$request_material_pending->id,
+                      'request_material_received'=>$request_material_received->id,
+                      'request_material_cancelled'=>$request_material_cancelled->id);
         return $data;   
   }
   function production_dashboard($id){        
@@ -70,9 +77,26 @@ class Dashboard_model extends CI_Model
    function superuser_dashboard(){       
     $customer_service_request = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','P')->get()->row();
     $customer_service_approved = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','A')->get()->row();
+    $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',1)->get()->row();
+    $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',2)->get()->row();
+
     $return_item_good = $this->db->select('count(id) as id')->from('tbl_return_item_warehouse')->where('status',1)->get()->row();
     $return_item_rejected = $this->db->select('count(id) as id')->from('tbl_return_item_warehouse')->where('status',2)->get()->row();
 
+    $return_item_customer_repair = $this->db->select('count(id) as id')->from('tbl_return_item_customer')->where('status',1)->get()->row();
+    $return_item_customer_good = $this->db->select('count(id) as id')->from('tbl_return_item_customer')->where('status',2)->get()->row();
+    $return_item_customer_rejected = $this->db->select('count(id) as id')->from('tbl_return_item_customer')->where('status',3)->get()->row();
+
+    $request_material_pending = $this->db->select('count(id) as id')->from('tbl_other_material_m_request')->where('status',1)->get()->row();
+    $request_material_received = $this->db->select('count(id) as id')->from('tbl_other_material_m_received')->get()->row();
+    $request_material_cancelled = $this->db->select('count(id) as id')->from('tbl_other_material_m_request')->where('status',3)->get()->row();
+
+
+    $sales_shipping_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('delivery',1)->get()->row();
+    $sales_deliver_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('delivery',2)->get()->row();
+
+    $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',1)->get()->row();
+    $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',2)->get()->row();
 
     $office=array();
     $spare=array();
@@ -106,14 +130,25 @@ class Dashboard_model extends CI_Model
               }
             }      
          }
-
+      $total_request = intval($customer_service_request->id+$sales_shipping_stocks->id+$sales_shipping_project->id+$request_material_pending->id);
       $json_data = array( 'rawmats'      => $rawmats,
                           'office'       => $office,
                           'spare'        => $spare,
                           'customer_service_request'=> $customer_service_request->id,
                           'customer_service_approved'=> $customer_service_approved->id,
                           'return_item_good'=>$return_item_good->id,
-                          'return_item_rejected'=>$return_item_rejected->id
+                          'return_item_rejected'=>$return_item_rejected->id,
+                          'return_item_customer_repair'=>$return_item_customer_repair->id,
+                          'return_item_customer_good'=>$return_item_customer_good->id,
+                          'return_item_customer_rejected'=>$return_item_customer_rejected->id,
+                          'request_material_pending'=>$request_material_pending->id,
+                          'request_material_received'=>$request_material_received->id,
+                          'request_material_cancelled'=>$request_material_cancelled->id,
+                          'request_sales_stocks'=>$sales_shipping_stocks->id,
+                          'request_sales_project'=>$sales_shipping_project->id,
+                          'sales_deliver_stocks'=>$sales_deliver_stocks->id,
+                          'sales_deliver_project'=>$sales_deliver_project->id,
+                          'total_request'=>$total_request
                           );
       return $json_data;   
   } 

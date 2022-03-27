@@ -510,123 +510,6 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function OfficeSupplies_newstocks_DataTable(){
-        $query = $this->db->select('*,DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS receiver')->from('tbl_other_material_p_received as n')->join('tbl_materials as m','m.id=n.item_no','LEFT')->join('tbl_users as u','u.id=n.created_by','LEFT')->where('n.type',2)
-         ->order_by('n.date_created','DESC')->get();
-          $data=array();
-        if($query !== FALSE && $query->num_rows() > 0){
-            $i=1;
-           foreach($query->result() as $row){
-                $data[] = array(
-                      'no'           => $i,
-                      'receiver'     => $row->receiver,
-                      'item'         => $row->item,
-                      'stocks'       => $row->quantity,
-                      'date_created' => $row->date_created);
-                $i++;
-            }      
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
-     }
-   
-       function SpareParts_Request_DataTable($user_id,$status){
-        if($status == 'PENDING'){
-            $date_ = 'date_created';
-        }else{
-            $date_ = 'date_approved';
-        }
-        $query = $this->db->select('*')->from('tbl_spares_request')->where('requestor',$user_id)->where('status',$status)->order_by($date_,'DESC')->get();
-         if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row)  
-            {
-             if($row->status =='PENDING'){$date = $row->date_created;}else{$date = $row->date_approved;}
-             $data[] = array(
-                      'no'           => $row->request_id,
-                      'item'         => $row->item,
-                      'qty'          => $row->qty,
-                      'remarks'      => $row->remarks,
-                      'status'       => $row->status,
-                      'date_created' => $date,
-                      'status'       => $status);
-            }  
-             
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
-
-     }
-     function OfficeSupplies_Request_DataTable($user_id,$status){
-        if($status == 'PENDING'){
-            $date_ = 'date_created';
-        }else{
-            $date_ = 'date_approved';
-        }
-        $query = $this->db->select('*')->from('tbl_office_janitorial_request')->where('requestor',$user_id)->where('status',$status)->order_by($date_,'DESC')->get();
-         if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row)  
-            {
-            if($row->status =='PENDING'){$date = $row->date_created;}else{$date = $row->date_approved;}
-                   $data[] = array(
-                      'no'           => $row->request_id,
-                      'item'         => $row->item,
-                      'qty'          => $row->qty,
-                      'remarks'      => $row->remarks,
-                      'status'       => $row->status,
-                      'date_created' => $date);
-
-            }  
-             
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
-     }
-    function OfficeSupplies_Received_DataTable($user_id,$status){
-        $query = $this->db->select('*,s.item as item,s.qty as qty,s.request_id as request_id,DATE_FORMAT(s.date_created, "%M %d %Y %r") as date_created')->from('tbl_office_janitorial_request as s')
-        ->join('tbl_office_janitorial_request as o','o.request_id=s.request_id','LEFT')
-        ->join('tbl_users as u','u.id=o.requestor','LEFT')
-        ->where('o.requestor',$user_id)
-        ->order_by('s.date_created','DESC')->get();
-         if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row)  
-            {
-            if($row->status =='PENDING'){$date = $row->date_created;}else{$date = $row->date_approved;}
-                   $data[] = array(
-                      'no'           => $row->request_id,
-                      'item'         => $row->item,
-                      'qty'          => $row->qty,
-                      'date_created' => $date);
-            }  
-             
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
-     }
-     function SpareParts_Received_DataTable($user_id,$status){
-        $query = $this->db->select('*,s.item as item,s.qty as qty,s.request_id as request_id,DATE_FORMAT(s.date_created, "%M %d %Y %r") as date_created')->from('tbl_spares_release as s')->join('tbl_spares_request as o','o.request_id=s.request_id','LEFT')->join('tbl_users as u','u.id=o.requestor','LEFT')->where('o.requestor',$user_id)->order_by('s.date_created','DESC')->get();
-         if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row)  
-            {
-            if($row->status =='PENDING'){$date = $row->date_created;}else{$date = $row->date_approved;}
-                   $data[] = array(
-                      'no'           => $row->request_id,
-                      'item'         => $row->item,
-                      'qty'          => $row->qty,
-                      'date_created' => $date);
-            }  
-             
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
-     }
      function Purchase_Material_Stocks_Request_DataTable($user_id){
            $query = $this->db->select('d.*,c.*,p.*,
             CONCAT(u.firstname, " ",u.lastname) AS requestor,
@@ -1611,9 +1494,132 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
 
+     function Request_Material_List_Datatable($user_id){
+           $data=false;
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',1)->where('created_by',$user_id)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            $no = 1;
+            foreach($query->result() as $row){
+                if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
+                 $data[] = array(
+                          'no'  => $no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'type'=>$type,
+                          'date_created'=> $row->date_created);
+                 $no++; 
+            } 
+                
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data; 
+     }
+     function Request_Material_Received_Datatable($user_id){
+        $data=false;
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_received')->where('status',1)->where('created_by',$user_id)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            $no = 1;
+            foreach($query->result() as $row){
+                if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
+                 $data[] = array(
+                          'no'  => $no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'type'=>$type,
+                          'date_created'=> $row->date_created);
+                  $no++; 
+            } 
+               
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data; 
+     }
+     function Request_Material_Cancalled_Datatable($user_id){
+        $data=false;
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',1)->where('created_by',$user_id)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            $no = 1;
+            foreach($query->result() as $row){
+                if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
+                 $data[] = array(
+                          'no'  => $no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'type'=>$type,
+                          'date_created'=> $row->date_created);
+            } 
+                $no++; 
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data; 
+     }
+     function Request_Material_List_Superuser_Datatable(){
+           $data=false;
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',1)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            $no = 1;
+            foreach($query->result() as $row){
+                if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
+                 $data[] = array(
+                          'no'  => $no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'type'=>$type,
+                          'date_created'=> $row->date_created);
+                 $no++; 
+            } 
+                
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data; 
+     }
+     function Request_Material_Received_Superuser_Datatable(){
+           $data=false;
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_received')->where('status',1)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            $no = 1;
+            foreach($query->result() as $row){
+                if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
+                 $data[] = array(
+                          'no'  => $no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'type'=>$type,
+                          'date_created'=> $row->date_created);
+                  $no++; 
+            } 
+               
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data; 
+     }
+     function Request_Material_Cancelled_Superuser_Datatable(){
+        $data=false;
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',1)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            $no = 1;
+            foreach($query->result() as $row){
+                if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
+                 $data[] = array(
+                          'no'  => $no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'type'=>$type,
+                          'date_created'=> $row->date_created);
+            } 
+                $no++; 
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data; 
+     }
+
+
+
+
+
      function Return_Item_Good_DataTable_Superuser(){
            $data=false;
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_warehouse')->where('status',1)->get();
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_warehouse')->where('status',1)->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
@@ -1633,7 +1639,7 @@ class Datatable_model extends CI_Model{
      }
      function Return_Item_Rejected_DataTable_Superuser(){
          $data=false;
-          $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_warehouse')->where('status',2)->get();
+          $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_warehouse')->where('status',2)->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
@@ -1651,7 +1657,54 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-      
+     function Return_Item_Repair_Customer_DataTable_Superuser(){
+           $data=false;
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_customer')->where('status',1)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row){
+                 $data[] = array(
+                          'no'  => $row->so_no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'remarks' => $row->remarks,
+                          'date_created'=> $row->date_created);
+            } 
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Return_Item_Good_Customer_DataTable_Superuser(){
+         $data=false;
+          $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_customer')->where('status',2)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row){
+                 $data[] = array(
+                          'no'  => $row->so_no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'remarks' => $row->remarks,
+                          'date_created'=> $row->date_created);
+                } 
+            }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+      function Return_Item_Rejected_Customer_DataTable_Superuser(){
+         $data=false;
+          $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_return_item_customer')->where('status',3)->order_by('id','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row){
+                 $data[] = array(
+                          'no'  => $row->so_no,
+                          'item' => $row->item,
+                          'quantity'=> $row->qty,
+                          'remarks' => $row->remarks,
+                          'date_created'=> $row->date_created);
+                } 
+            }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     } 
 
 
        function Users_DataTable(){

@@ -1033,9 +1033,7 @@ class Modal_model extends CI_Model{
           ->join('tbl_region_shipping as r','r.id=s.region','LEFT')
           ->WHERE('s.order_no',$id)->get();
            if(!$query){return false;}else{  
-               foreach($query->result() as $row)  
-               {
-                
+               foreach($query->result() as $row){
                 if($row->vat == 'VATABLE'){
                     $vat = $row->total*0.12;
                     $grandtotal = floatval($row->total - $row->downpayment + $row->shipping_fee + $vat);

@@ -127,7 +127,8 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">For Stocks</span>
+																			<span class="menu-text mr-2">For Stocks</span>
+																			<span class="label label-rounded label-primary sales_stocks">0</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -135,7 +136,8 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">For Project</span>
+																			<span class="menu-text mr-2">For Project</span>
+																			<span class="label label-rounded label-primary sales_project">0</span>
 																		</a>
 																	</li>
 																</ul>
@@ -145,6 +147,12 @@
 															<a  href="<?php echo base_url()."gh/superuser/customer-concern";?>" class="menu-link">
 																<span class="menu-text mr-2">Customer Concern</span>
 																<span class="label label-rounded label-primary customer_concern_count">0</span>
+															</a>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
+															<a  href="<?php echo base_url()."gh/superuser/request-material-stocks";?>" class="menu-link">
+																<span class="menu-text mr-2">Request Material For Stocks</span>
+																<span class="label label-rounded label-primary request_material_pending">0</span>
 															</a>
 														</li>
 													</ul>

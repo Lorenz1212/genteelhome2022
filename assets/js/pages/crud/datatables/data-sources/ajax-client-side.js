@@ -451,13 +451,46 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 			case "tbl_return_item_customer_superuser":{
-				let TableURL = baseURL + 'datatable_controller/Return_Item_Good_DataTable_Superuser';
-				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_return_item_good',TableURL,TableData,false);
+				let TableURL = baseURL + 'datatable_controller/Return_Item_Repair_Customer_DataTable_Superuser';
+				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_return_item_repair',TableURL,TableData,false);
 
-				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Rejected_DataTable_Superuser';
-				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,false);
+				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Good_Customer_DataTable_Superuser';
+				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_return_item_good',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Return_Item_Rejected_Customer_DataTable_Superuser';
+				let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_return_item_rejected',TableURL2,TableData2,false);
+
+				break;
+			}
+			case "tbl_request_material":{
+				let TableURL = baseURL + 'datatable_controller/Request_Material_List_Datatable';
+				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_request_material_list',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Request_Material_Received_Datatable';
+				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_request_material_received',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Request_Material_Cancalled_Datatable';
+				let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_request_material_cancelled',TableURL2,TableData2,false);
+				break;
+			}
+			case "tbl_request_material_superuser":{
+				let TableURL = baseURL + 'datatable_controller/Request_Material_List_Superuser_Datatable';
+				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_request_material_list',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Request_Material_Received_Superuser_Datatable';
+				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_request_material_received',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Request_Material_Received_Superuser_Datatable';
+				let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_request_material_cancelled',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_service_request_sales":{
@@ -465,9 +498,9 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
 				_DataTableLoader('tbl_service_request',TableURL,TableData,false);
 
-				TableURL = baseURL + 'datatable_controller/Customer_Concern_Approved_Sales_DataTable';
-				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_service_approved',TableURL,TableData,false);
+				let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Sales_DataTable';
+				let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);
 				break
 			}
 			case "tbl_service_request_superuser":{
@@ -475,11 +508,12 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
 				_DataTableLoader('tbl_service_request',TableURL,TableData,false);
 
-				TableURL = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
-				TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_service_approved',TableURL,TableData,false);
+				let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
+				let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);
 				break
 			}
+			
 
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			case "tbl_customization":{
@@ -509,38 +543,9 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 			
+
 			
-			case "tbl_material_received":{
-				TableURL = baseURL + 'datatable_controller/Material_Received_DataTable';
-				TableData = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'date_created'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
-			case "tbl_spare_request":{
-				TableURL = baseURL + 'datatable_controller/SpareParts_Request_DataTable';
-				TableData =  [{data: 'no'},{data: 'item'},{data:'qty'},{data:'remarks'},{data:'status'},{data:'date_created'}];
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
-			
-			case "tbl_officesupplies_request":{
-				TableURL = baseURL + 'datatable_controller/OfficeSupplies_Request_DataTable';
-				TableData =  [{data: 'no'},{data: 'item'},{data:'qty'},{data:'remarks'},{data:'date_created'},{data:'status'},];
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
-			case "tbl_officesupplies_received":{
-				TableURL = baseURL + 'datatable_controller/OfficeSupplies_Received_DataTable';
-				TableData =  [{data: 'no'},{data: 'item'},{data:'qty'},{data:'date_created'}];
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
-			case "tbl_spare_received":{
-				TableURL = baseURL + 'datatable_controller/SpareParts_Received_DataTable';
-				TableData =  [{data: 'no'},{data: 'item'},{data:'qty'},{data:'date_created'}];
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
+
 			case "tbl_production_stocks":{
 				TableURL = baseURL + 'datatable_controller/Production_Stocks_DataTable';
 				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'}];

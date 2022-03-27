@@ -120,31 +120,6 @@ var arrows;var item_v;var price;var special_option;
 		  modal.style.display = "none";
 		}
 	}
-	var _initFinishproduct_Release = function(project_no,c_code,quantity,price){
-		 $.ajax({
-	             url: baseURL + 'option_controller/Finishproduct_option',
-	             type: "POST",
-	             data:{project_no:project_no,c_code:c_code},
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  $('#myTable > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder h-65px">'
-						+'<td class="align-middle pl-0 border-0"><input type="hidden" name="project_no[]" value="'+response.project_no+'"/>'+response.title+'</td>'
-						+'<td class="align-middle pl-0 border-0"><input type="hidden" name="c_code[]" value="'+response.c_code+'"/>'+response.c_name+'</td>'
-						+'<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+quantity+'</td>'
-						+'<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+price+'</td>'
-						+'<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-circle btn-sm mr-2"><i class="icon-xl la la-times"></i></button></td>'
-						+'</tr>');
-                  }                                    
-		});	
-	}
 
 
 	var _initJOBORDER1_option = async function(){
@@ -165,31 +140,6 @@ var arrows;var item_v;var price;var special_option;
                   	  	  let option = '<option value="'+response[i].production_no+'">'+response[i].production_no+'</option>';
                   	  	  $('#joborder').append(option).addClass('selectpicker').attr('data-live-search', 'true').selectpicker('refresh');
                   	  }
-                  }                                    
-		});	
-	}
-	var _initSO_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/SO_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	   for(let i=0;i<response.length;i++){
-                  	  	  let option = '<option value="'+response[i].so_no+'">'+response[i].so_no+'</option>';
-                  	  	  $('#so').append(option); 
-                  	  	  $('#so').addClass('selectpicker');
-					  $('#so').attr('data-live-search', 'true');
-					  $('#so').selectpicker('refresh');
-				
-                  	   }
                   }                                    
 		});	
 	}
@@ -369,7 +319,6 @@ var arrows;var item_v;var price;var special_option;
       var _initOption = function(view,response){
 		switch(view){
 			case "designer":{
-				alert('ok')
 				$('.request_stocks').text(response.request_stocks);
 				$('.approved_stocks').text(response.approved_stocks);
 				$('.rejected_stocks').text(response.rejected_stocks);
@@ -381,6 +330,11 @@ var arrows;var item_v;var price;var special_option;
 				$('.request_jo_stocks').text(response.request_jo_stocks);
 				$('.request_jo_project').text(response.request_jo_project);
 				$('.request_jo').text(response.request_jo_designer);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
+
 				break;
 			}
 			case "production":{
@@ -396,6 +350,10 @@ var arrows;var item_v;var price;var special_option;
 
 				$('.sales_shipping_project').text(response.sales_shipping_project);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
 				break;
 			}
 			case "sales":{
@@ -414,15 +372,30 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "superuser":{
-				$('.request_count').text(response.customer_service_request);
+				$('.request_count').text(response.total_request);
 				$('.customer_concern_count').text(response.customer_service_request);
 
 				$('.customer_request_count').text(response.customer_service_request);
 				$('.customer_approved_count').text(response.customer_service_approved);
 				
+				$('.return_item_good').text(response.return_item_good);
+				$('.return_item_rejected').text(response.return_item_rejected);
+				$('.return_item_customer_repair').text(response.return_item_customer_repair);
+				$('.return_item_customer_good').text(response.return_item_customer_good);
+				$('.return_item_customer_rejected').text(response.return_item_customer_rejected);
 
-				$('.return_item_good_count').text(response.return_item_good);
-				$('.return_item_rejected_count').text(response.return_item_rejected);
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
+
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+
+				$('.sales_shipping_project').text(response.sales_shipping_project);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
 				break;
 			}
 			case "Purchased_Item":{
@@ -567,12 +540,31 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "item_list":{
 				$('#item').empty();
-				for(let i=0;i<response.length;i++){
+				if(response!=false){
+					for(let i=0;i<response.length;i++){
+	                  	  	  $('#item').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+	                  	  	  $('#item').addClass('selectpicker');
+						  $('#item').attr('data-live-search', 'true');
+						  $('#item').selectpicker('refresh');
+                  	 	}
+				}else{
+					$('#item').append('<option value="">No Data Available</option>');
+				}
+				
+				break;
+			}
+			case "so_no_item":{
+				$('#item').empty();
+				if(response !=false){
+					for(let i=0;i<response.length;i++){
                   	  	  $('#item').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
                   	  	  $('#item').addClass('selectpicker');
 					  $('#item').attr('data-live-search', 'true');
 					  $('#item').selectpicker('refresh');
-                  	  }
+                  	  }	
+				}else{
+					$('#item').append('<option value="">No Data Available</option>');
+				}
 				break;
 			}
 			case "material_item_no":{
@@ -624,7 +616,7 @@ var arrows;var item_v;var price;var special_option;
 				<td class="tbl-pur-1" data-type="'+response.type+'" data-id="'+id+'">'+name+'</td>\
 				<td class="text-left text-success tbl-pur-2" data-qty="'+response.qty+'">'+response.qty+' '+unit+'</td>\
 				<td class="text-center tbl-pur-3" data-remarks="'+response.remarks+'">'+remarks+'</td>\
-				<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-sm btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
+				<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon  btn-danger btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
 				</tr>');
 				_initremovetable('#kt_purchased_table');		
 			   break;
@@ -668,14 +660,36 @@ var arrows;var item_v;var price;var special_option;
 				_ajaxloader(thisUrl,"POST",false,"superuser_dashboard");
 				break;
 			}
-			case "data-dashboard-designer":{
-				let thisUrl = 'dashboard_controller/designer_dashboard';
-				_ajaxloader(thisUrl,"POST",false,"designer_dashboard");
-				break;
-			}
-			case "data-dashboard-production":{
-				let thisUrl = 'dashboard_controller/production_dashboard';
-				_ajaxloader(thisUrl,"POST",false,"production_dashboard");
+			case "data-request-material-create":{
+				$('select[name=type]').on('change',function(e){
+					_ajaxloaderOption('option_controller/item_list','POST',{type:$(this).val()},'item_list');
+				});
+				$(document).on('click','.add_item',function(e){
+					e.preventDefault();
+					let id  = $('select[name=item_no]').val();
+					let item = $('select[name="item_no"] option:selected').text();
+					let type  = $('select[name=type]').val();
+					let qty  = $('input[name=qty]').val();
+					let status;
+					if(type == 1){
+					    status = 'Raw Materials';
+					}else if(type ==2){
+					    status = 'Office & Janitorial Supplies';
+					}else{
+					   status = 'Spare Parts';
+					}
+					if(!qty){
+						Swal.fire("Warning!", "Please Input Quantity!", "info");
+					}else{
+					$('#kt_material_table > tbody:last-child').append('<tr>\
+								<td class="td-item" data-id="'+id+'">'+item+'</td>\
+								<td class="text-right td-qty">'+qty+'</td>\
+								<td class="text-right td-type" data-type="'+type+'">'+status+'</td>\
+								<td class="text-right"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="la la-times"></i></button></td>\
+										</tr>');	
+					_initremovetable('#kt_material_table');	
+					}
+				})
 				break;
 			}
 			case "data-collection":{
@@ -1522,18 +1536,6 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			//supervisor
-			case "data-supervisor-return-rawmats":{
-				$(document).ready(function() { 
-					_initJOBORDER1_option();
-					$(document).on('change','#joborder',function(e){
-						var id = $(this).val();
-						let val = {id:id};
-						let thisUrl = 'view_controller/View_Return_Item_Data';
-						_ajaxloader(thisUrl,"POST",val,"View_Return_Item_Data");
-					 });
-				 });
-			    break;
-			}
 			case "data-supervisor-project-list":{
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -1621,6 +1623,13 @@ var arrows;var item_v;var price;var special_option;
 			}
 
 			//Reviewer
+			case "data-return-item-customer":{
+				 $('input[name=so_no]').on('blur',function(e){
+				   	e.preventDefault();
+				   	_ajaxloaderOption('option_controller/so_no_item',"POST",{so_no:$(this).val()},'so_no_item');
+				 });
+				break;
+			}
 			case "data-return-item":{
 			   $('select[name=type]').on('change',function(e){
 			   	e.preventDefault();

@@ -235,22 +235,20 @@ class Gh extends CI_Controller {
           case "create-design-stocks":{$this->load->view('designer/design_stocks_create.php'); break;}
           case "create-design-pallet":{$this->load->view('designer/design_pallet_create.php',$data); break;}
           case "create-design-project":{$this->load->view('designer/design_project_create.php'); break;}
-          case "material-received":{$this->load->view('designer/material_received.php',$data);break;}
-          case "customization":{$this->load->view('designer/customization.php');break;}
-          case "request-for-stocks":{$this->load->view('designer/request_for_stocks.php');break;}
-          case "user_update":{$this->load->view('designer/user_update.php');break;}
-          case "officesupplies-request":{$this->load->view('designer/officesupplies_request.php');break;}
-          case "create-officesupplies-request":{$this->load->view('designer/officesupplies_create.php');break;}
-          case "spare-request":{$this->load->view('designer/spare_request.php');break;}
-          case "create-spare-request":{$this->load->view('designer/sparerequest_create.php');break;}
-          case "online-preorder":{$this->load->view('designer/online_request.php');break;}
-          case "voucher":{$this->load->view('designer/coupon_list.php');break;}
+
           case "joborder-stocks":{$this->load->view('designer/joborder-stocks.php'); break;}
           case "joborder-project":{$this->load->view('designer/joborder-project.php'); break;}
           case "joborder-create-stocks":{$this->load->view('designer/joborder-create-stocks.php');break;}
           case "joborder-create-project":{$this->load->view('designer/joborder-create-project.php');break;}
           case "joborder-update-stocks":{$this->load->view('designer/joborder-update-stocks.php');break;}
           case "joborder-update-project":{$this->load->view('designer/joborder-update-project.php');break;}
+          case "joborder-update-project":{$this->load->view('designer/joborder-update-project.php');break;}
+
+          case "request-material-list":{$this->load->view('designer/request_material_list.php');break;}
+          case "request-material-create":{$this->load->view('designer/request_material_create.php');break;}
+          
+          case "voucher":{$this->load->view('designer/coupon_list.php');break;}
+          case "user_update":{$this->load->view('designer/user_update.php');break;}
           default: {redirect(base_url().'gh/designer/index');break;}
         }
         $this->load->view('designer/layouts/footer.php');
@@ -474,7 +472,7 @@ class Gh extends CI_Controller {
             case "production-stocks":{$this->load->view('reviewer/production_stocks.php');break;}
             case "return-item-warehouse":{$this->load->view('reviewer/return_item_warehouse.php');break;}
             case "return-item-customer":{$this->load->view('reviewer/return_item_customer.php');break;}
-
+            case "request-material-stocks":{$this->load->view('reviewer/request_material_stocks.php');break;}
 
             case "users":{$this->load->view('reviewer/user_list.php');break;}
             case "user_create":{$this->load->view('reviewer/user_create.php');break;}
