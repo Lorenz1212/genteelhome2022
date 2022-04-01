@@ -76,7 +76,7 @@
                                     <!-- === info-box === -->
 
                                     <div class="info-box">
-                                        <span><strong>In Stocks</strong></span>
+                                        <span><strong>In Stock</strong></span>
                                         <div class="product-colors clearfix" id="product_color"></div>
                                     </div>
 
