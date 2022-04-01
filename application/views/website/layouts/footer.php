@@ -72,7 +72,7 @@
                         <div class="col-sm-6 links">
                             <ul>
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+<!--                                 <li><a href="#"><i class="fa fa-twitter"></i></a></li> -->
                                 <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                                 <li><a href="#"><i class="fa fa-youtube"></i></a></li>
                                 <li><a href="#"><i class="fa fa-instagram"></i></a></li>
