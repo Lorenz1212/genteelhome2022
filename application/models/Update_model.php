@@ -1340,7 +1340,7 @@ class Update_model extends CI_Model
             if($row->youtube == $data){$status = 'error';}else{ $update = array('youtube'=>$data);$status = 'success';}
         }else if($action == 'save_address'){
             if($row->address == $data){$status = 'error';}else{ $update = array('address'=>$data);$status = 'success';}
-        }else if($action == 'save_address'){
+        }else if($action == 'save_open'){
             if($row->store_open == $data){$status = 'error';}else{  $update = array('store_open'=>$data);$status = 'success';}
         }
          if($status == 'success'){
