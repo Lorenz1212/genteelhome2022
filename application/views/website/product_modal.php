@@ -49,7 +49,7 @@
 
                                     <div class="col-sm-5">
                                         <div class="info-box">
-                                            <strong>In Stocks</strong>
+                                            <strong>In Stock</strong>
                                             <div class="product-colors clearfix" id="product_color"></div>
                                         </div>
                                         <div class="info-box">
