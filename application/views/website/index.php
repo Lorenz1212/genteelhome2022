@@ -59,7 +59,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-offset-2 col-md-8 text-center">
-                            <h2 class="h2 title"><i class="fa fa-instagram fa-2x"></i> Follow us Instagram </h2>
+                            <h2 class="h2 title">Follow us <i class="fa fa-instagram fa-2x"></i></h2>
                             <div class="text">
                                 <p><a href="https://www.instagram.com/home_genteel/?hl=en">@home_genteel</p>
                             </div>
