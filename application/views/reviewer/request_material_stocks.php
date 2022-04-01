@@ -30,7 +30,7 @@
 			                    </a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#delivered">
+			                    <a class="nav-link" data-toggle="tab" href="#cancelled">
 			                        <span class="nav-text">Rejected</span>
 			                        <span class="label label-rounded label-danger request_material_cancelled">0</span>
 			                    </a>
@@ -49,6 +49,7 @@
 										<th>QTY</th>
 										<th>TYPE</th>
 										<th>DATE</th>
+										<th>ACTION</th>
 									</tr>
 								</thead>
 							</table>
@@ -66,7 +67,7 @@
 								</thead>
 							</table>
 			            </div>
-			            <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
+			            <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_cancelled" style="margin-top: 13px !important">
 								<thead>
 									<tr>
@@ -84,4 +85,33 @@
 			</div>
 	</div>
 </div>
+</div>
+<div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title-item"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+            	<div class="form" id="Update_Request_Materials" data-link="Update_Request_Materials">
+	            	<div class="form-group">
+				    <label>Balanced</label>
+				    <input type="text" class="form-control form-control-lg balance-quantity" name="balance" disabled />
+				   </div>
+	                <div class="form-group">
+				    <label>Quantity</label>
+				    <input type="number" min="0" value="0" name="quantity" class="form-control form-control-lg quantity"  placeholder="Input quantity....."/>
+				   </div>
+			   </div>
+            </div>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary font-weight-bold Update_Request_Materials">Save changes</button>
+            </div>
+
+        </div>
+    </div>
 </div>

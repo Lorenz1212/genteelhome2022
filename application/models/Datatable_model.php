@@ -1516,7 +1516,7 @@ class Datatable_model extends CI_Model{
      }
      function Request_Material_Received_Datatable($user_id){
         $data=false;
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_received')->where('status',1)->where('created_by',$user_id)->order_by('id','DESC')->get();
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_received')->where('created_by',$user_id)->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
@@ -1536,7 +1536,7 @@ class Datatable_model extends CI_Model{
      }
      function Request_Material_Cancalled_Datatable($user_id){
         $data=false;
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',1)->where('created_by',$user_id)->order_by('id','DESC')->get();
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',3)->where('created_by',$user_id)->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
@@ -1560,48 +1560,47 @@ class Datatable_model extends CI_Model{
             $no = 1;
             foreach($query->result() as $row){
                 if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal"><i class="la la-eye"></i>
+                        </button><button type="button" class="btn btn-sm btn-light-danger btn-icon btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-trash"></i></button>'; 
                  $data[] = array(
                           'no'  => $no,
                           'item' => $row->item,
                           'quantity'=> $row->qty,
                           'type'=>$type,
-                          'date_created'=> $row->date_created);
+                          'date_created'=> $row->date_created,
+                          'action'=>$action);
                  $no++; 
             } 
-                
          }
          $json_data  = array("data" =>$data); 
          return $json_data; 
      }
      function Request_Material_Received_Superuser_Datatable(){
-           $data=false;
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_received')->where('status',1)->order_by('id','DESC')->get();
+        $data=false;
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_received')->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
                 if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
-                 $data[] = array(
-                          'no'  => $no,
-                          'item' => $row->item,
-                          'quantity'=> $row->qty,
-                          'type'=>$type,
-                          'date_created'=> $row->date_created);
-                  $no++; 
-            } 
-               
+                     $data[] = array('no'  => $no,
+                              'item' => $row->item,
+                              'quantity'=> $row->qty,
+                              'type'=>$type,
+                              'date_created'=> $row->date_created);
+                      $no++; 
+                }    
          }
          $json_data  = array("data" =>$data); 
          return $json_data; 
      }
      function Request_Material_Cancelled_Superuser_Datatable(){
         $data=false;
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',1)->order_by('id','DESC')->get();
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',3)->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
                 if($row->type == 1){$type = 'Raw Materials';}else if($row->type==2){$type='Office & Janitorial Supplies';}else{$type ='Spare Parts';}
-                 $data[] = array(
-                          'no'  => $no,
+                 $data[] = array('no'  => $no,
                           'item' => $row->item,
                           'quantity'=> $row->qty,
                           'type'=>$type,

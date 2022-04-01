@@ -96,6 +96,10 @@ var KTFormControls = function () {
 				$('.request_jo_stocks').text(response.request_jo_stocks);
 				$('.request_jo_project').text(response.request_jo_project);
 				$('.request_jo').text(response.request_jo_designer);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
 				break;
 			}
 			case "production":{
@@ -111,6 +115,10 @@ var KTFormControls = function () {
 
 				$('.sales_shipping_project').text(response.sales_shipping_project);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
 				break;
 			}
 			case "sales":{
@@ -129,9 +137,9 @@ var KTFormControls = function () {
 				break;
 			}
 			case "superuser":{
-				$('.request_count').text(response.customer_service_request);
-
+				$('.request_count').text(response.total_request);
 				$('.customer_concern_count').text(response.customer_service_request);
+
 				$('.customer_request_count').text(response.customer_service_request);
 				$('.customer_approved_count').text(response.customer_service_approved);
 				
@@ -140,43 +148,20 @@ var KTFormControls = function () {
 				$('.return_item_customer_repair').text(response.return_item_customer_repair);
 				$('.return_item_customer_good').text(response.return_item_customer_good);
 				$('.return_item_customer_rejected').text(response.return_item_customer_rejected);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
+
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
 				break;
 			}
 			
 		}
-	}
-	var _initgetvaluetable = function(){
-			 $("table thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("table tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-				 item = myData.items;
-				 quantity = myData.qty;
-				 unit = myData.unit; 	 	
-				 remarks = myData.remarks;
-	}
-	var _initgetvaluetable4 = function(){
-			 $("table thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("table tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-				 item = myData.items;
-				 quantity = myData.qty;
-				 unit = myData.unit;
-				 amount = myData.amount; 	 	 	
-				 remarks = myData.remarks;
 	}
 	var _DataTableLoader = async function(link,TableURL,TableData,url_link){
 		var table = $('#'+link);
@@ -189,7 +174,6 @@ var KTFormControls = function () {
 			language: { 
 			 	infoEmpty: "No records available", 
 			 },
-			
 			serverSide:false,
 			ajax: {
 				url: TableURL,
@@ -199,8 +183,6 @@ var KTFormControls = function () {
 			},
 			columns:TableData,
 		});
-		
-		
 	}
 	var _ajaxForm = async function(thisURL,type,val,view,url){
 		$.ajax({
@@ -261,6 +243,50 @@ var KTFormControls = function () {
 
 	 var _FormSubmit = async function(action){
 	 	switch(action){
+		 	   case "Update_Request_Materials":{
+		 	   		$('.Update_Request_Materials').on('click',function(e){
+		 	   			if($('input[name=quantity]').val() == 0){
+		 	   				Swal.fire("Oopps!", "Please input request quantity", "error"); 
+		 	   			}else{
+		 	   			 Swal.fire({
+                                 title: "Are you sure you want to submit the request?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',$('#title-item').attr('data-id'));
+                                       formData.append('qty',$('input[name=quantity]').val());
+                                       formData.append('balance',$('input[name=balance]').val());
+                                    thisURL = baseURL + 'update_controller/Update_Request_Materials';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Request_Materials",false);
+                             }
+                          });
+                         }
+		 	   		})
+		 	   		$('body').delegate('.btn-cancelled','click',function(e){
+		 	   			e.preventDefault();
+		 	   			e.stopImmediatePropagation();
+		 	   			let id =$(this).attr('data-id');
+		 	   			Swal.fire({
+                                 title: "Are you sure you want to cancel this item?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',id);
+                                    thisURL = baseURL + 'update_controller/Update_Request_Materials_Cancelled';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Request_Materials_Cancelled",false);
+                             }
+                          });
+		 	   		});
+		 		  	break;
+		 	   }
                case "Update_Salesorder_Stock_Request":{
                     $('.btn-status-save').on('click', function(e){
                          let status = $(this).attr('data-status');
@@ -354,45 +380,7 @@ var KTFormControls = function () {
 				})
 	 			break;
 	 		}
-	 		//Create Form
-	 		case "Create_Purchase_Request_Stocks":{
-	 			$('#Create_Purchase_Request_Stocks').on('click',function(e){
-					   e.preventDefault();
-						var rowCount = $('#myTable tr').length;
-						if (!rowCount) {
-				   			_initSwalWarning();
-						}else{
-							_initgetvaluetable4();
-							val = {item:item,quantity:quantity,remarks:remarks,amount:amount,unit:unit};
-						     thisURL = baseURL + 'create_controller/Create_Purchase_Request_Stocks';
-						     var page = $('input[name=page]').val();
-						     url = baseURL + 'gh/'+page+'/purchase-stocks-create';	
-						     _ajaxForm_loaded(thisURL,"POST",val,"Create_Purchase_Request_Stocks",url);
-				  		 }
-				 });
-	 			break;
-	 		}
-	 		case "Create_SpareParts_Request":{
-	 			$('#Create_SpareParts_Request').on('click',function(e){
-					   e.preventDefault();
-						var rowCount = $('#myTable tr').length;
-						if (!rowCount) {
-				   			_initSwalWarning();
-						}else{
-							_initgetvaluetable();
-							let item = Array.from(document.getElementsByClassName('tbl-mat-1')).map(item => item.getAttribute('data-item'));
-							let quantity = Array.from(document.getElementsByClassName('tbl-mat-1')).map(item => item.text('data-qty'));
-							let remarks = Array.from(document.getElementsByClassName('tbl-mat-2')).map(item => item.getAttribute('data-remarks'));
-							let formData = new FormData()
-							formdata.append('item',item);
-							formdata.append('quantity',quantity);
-							formdata.append('remarks',remarks);
-						     thisURL = baseURL + 'create_controller/Create_Other_Matrials_Request';
-						     _ajaxForm(thisURL,"POST",formdata,"Create_Other_Matrials_Request",false);
-				  		 }
-				  	 });
-	 			break;
-	 		}
+
 	 		//Designer
 	 		case "Create_Design_Stocks":{
 	 			form = document.getElementById('Create_Design_Stocks');
@@ -1652,78 +1640,6 @@ var KTFormControls = function () {
 				break;
 	 		}
 
-	 		case "Update_OfficeSupplies_Request":{
-	 			$(document).ready(function() {
-					 $(document).on("click","#save",function() {
-					 	var id = $(this).attr('data-id');
-					 	 Swal.fire({
-						        title: "Are you sure?",
-						        text: "You won't be able to revert this",
-						        icon: "warning",
-						        confirmButtonText: "Submit!",
-						        showCancelButton: true
-						    }).then(function(result) {
-						        if (result.value) {
-						        	var request_id = $('input[name=request_id]').val();
-							 	item = $('#item'+id).val();
-							 	let balance_quanity = $('#balanced_'+id).text();
-							 	balance = $('#balance_quantity'+id).val();
-							 	status = $('#status'+id).val();
-							 	if(status == 'PARTIAL PENDING'){
-							 	   $('.add'+id).attr('disabled',false);
-								   $('#balance_quantity'+id).attr('disabled',false);
-								   $('#balance_quantity'+id).val('');
-							 	}else{
-							 	   $('.add'+id).prop('disabled','disabled');
-								   $('#balance_quantity'+id).attr('disabled',true);
-							 	}
-							 	$('#status'+id).val(status).change();
-							 	$('#balanced'+id).val(balance_quanity);
-						   		 val = {id:id,request_id:request_id,status:status,item:item,balance:balance};
-							  	 thisURL = baseURL + 'update_controller/Update_OfficeSupplies_Request';
-							  	 _ajaxForm_loaded(thisURL,"POST",val,"Update_OfficeSupplies_Request",url);
-					         }
-					    });
-				    });
-				})
-	 			break;
-	 		}
-	 		case "Update_SpareParts_Request":{
-	 			$(document).ready(function() {
-					 $(document).on("click","#save",function() {
-					 	var id = $(this).attr('data-id');
-					 	 Swal.fire({
-						        title: "Are you sure?",
-						        text: "You won't be able to revert this",
-						        icon: "warning",
-						        confirmButtonText: "Submit!",
-						        showCancelButton: true
-						    }).then(function(result) {
-						        if (result.value) {
-						        	var request_id = $('input[name=request_id]').val();
-							 	item = $('#item'+id).val();
-							 	let balance_quanity = $('#balanced_'+id).text();
-							 	balance = $('#balance_quantity'+id).val();
-							 	status = $('#status'+id).val();
-							 	if(status == 'PARTIAL PENDING'){
-							 	   $('.add'+id).attr('disabled',false);
-								   $('#balance_quantity'+id).attr('disabled',false);
-								   $('#balance_quantity'+id).val('');
-							 	}else{
-							 	   $('.add'+id).attr('disabled',true);
-								   $('#balance_quantity'+id).attr('disabled',true);
-							 	}
-							 	$('#status'+id).val(status).change();
-							 	$('#balanced'+id).val(balance_quanity);
-						   		 val = {id:id,request_id:request_id,status:status,item:item,balance:balance};
-							  	 thisURL = baseURL + 'update_controller/Update_SpareParts_Request';
-							  	 _ajaxForm_loaded(thisURL,"POST",val,"Update_SpareParts_Request",url);
-					         }
-					    });
-				    });
-				})
-	 			break;
-	 		}
 	 		case "Update_Rawmats_Stocks":{
 	 			$('#Update_Rawmats_Stocks').on('submit', function(e){
 	 				var element = this;
@@ -1781,33 +1697,6 @@ var KTFormControls = function () {
 					        	var formData = new FormData(element);
 						  	 thisURL = baseURL + 'update_controller/Update_Other_Materials_Stocks';
 						  	 _ajaxForm(thisURL,"POST",formData,"Update_OfficeSupplies_Stocks",false);
-				         }
-				   	 });
-	 			});
-	 			break;
-	 		}
-	 		case "Update_Release_SalesOrder":{
-	 			$('#Update_Release_SalesOrder').on('click', function(e){
-	 				e.preventDefault();
-	 				 Swal.fire({
-					        title: "Are you sure?",
-					        text: "You won't be able to revert this",
-					        icon: "warning",
-					        confirmButtonText: "Submit!",
-					        showCancelButton: true
-					    }).then(function(result) {
-					        if (result.value) {
-					        	 var so_no = $('#so_no').text();
-					        	 var si_no = $('input[name=si_no]').val();
-					        	 if(!si_no){
-					        	 	Swal.fire("PLEASE INPUT THE SALES INVOICE!", "Thank you!", "error");
-					        	 }else{
-					        	 	 let status = 'DELIVERED';
-						   		 val = {status:status,so_no:so_no,si_no:si_no};
-							  	 thisURL = baseURL + 'update_controller/Update_Release_SalesOrder';
-							  	 _ajaxForm_loaded(thisURL,"POST",val,"Update_Release_SalesOrder",false);
-					        	 }
-					        	
 				         }
 				   	 });
 	 			});
@@ -2697,7 +2586,7 @@ var KTFormControls = function () {
 						_DataTableLoader('tbl_approval_salesorder_rejected',TableURL2,TableData2,false);
 	 				});
 	 			}
-	 			
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Approval_OnlineOrder":{
@@ -2706,6 +2595,7 @@ var KTFormControls = function () {
 	 			}else if(response.status == 'REJECTED'){
 	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){window.location = url;});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Approval_UsersRequest":{
@@ -2714,6 +2604,7 @@ var KTFormControls = function () {
 	 			}else if(response.status == 'REJECTED'){
 	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){window.location = url;});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 	
@@ -2762,6 +2653,7 @@ var KTFormControls = function () {
 			             	$('#btn_action'+response.item_id).empty();
 	             			$('#btn_action'+response.item_id).append(html);
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Vouncher_Customer":{
@@ -2772,6 +2664,7 @@ var KTFormControls = function () {
 	 				$('#username'+response.id).empty();
 	  				$('#username'+response.id).append(response.username);
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Approval_Concern":{
@@ -2832,6 +2725,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Nothing Changes'});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		
@@ -2901,6 +2795,7 @@ var KTFormControls = function () {
 				}else{
 					_initToast('info','Nothing Changes');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Design_Stocks":{
@@ -2941,6 +2836,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				_initToast('error','Image is incorrect format!');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Design_Project":{
@@ -2975,6 +2871,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				_initToast('error','Image is incorrect format!');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_Joborder_Project":
@@ -3006,6 +2903,7 @@ var KTFormControls = function () {
 		 			$('#customFile').val(" ");
 		 			document.getElementById("imagess").value = "";
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_Joborder_Inpection_Stocks_Image":{
@@ -3030,10 +2928,12 @@ var KTFormControls = function () {
 		 			$('#customFile').val(" ");
 		 			document.getElementById("imagess").value = "";
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Delete_Inspection_Image":{
 	 			Swal.fire("Deleted!", "Image Deleted", "error").then(function(){$('#roww_'+response.id).remove();});
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Joborder_Status":{
@@ -3057,6 +2957,7 @@ var KTFormControls = function () {
 	 				}
 	 				$('#requestModal').modal('hide');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Purchase_Stocks_Estimate":{
@@ -3071,6 +2972,7 @@ var KTFormControls = function () {
 					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
 					$('#requestModal').modal('hide');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Purchase_Stocks_Process":{
@@ -3089,6 +2991,7 @@ var KTFormControls = function () {
 					_DataTableLoader('tbl_purchase_request_complete',TableURL3,TableData3,false);
 					$('#processModal').modal('hide');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Purchase_Project_Estimate":{
@@ -3103,6 +3006,7 @@ var KTFormControls = function () {
 					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
 					$('#requestModal').modal('hide');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Purchase_Project_Process":{
@@ -3121,6 +3025,7 @@ var KTFormControls = function () {
 					_DataTableLoader('tbl_purchase_request_complete',TableURL3,TableData3,false);
 					$('#processModal').modal('hide');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Material_Request_Stocks_Process":{
@@ -3130,6 +3035,7 @@ var KTFormControls = function () {
 			        	$('#tbl_material_accept > tbody > tr:nth-child('+url+') > td:nth-child(2)').attr('data-balance',response.total).text(response.total);
 			        	$('#tbl_material_accept > tbody > tr:nth-child('+url+') > td:nth-child(4) > input').val("");
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Material_Request_Project_Process":{
@@ -3139,6 +3045,7 @@ var KTFormControls = function () {
 			        	$('#tbl_material_accept > tbody > tr:nth-child('+url+') > td:nth-child(2)').attr('data-balance',response.total).text(response.total);
 			        	$('#tbl_material_accept > tbody > tr:nth-child('+url+') > td:nth-child(4) > input').val("");
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_Joborder_Request":{
@@ -3147,6 +3054,7 @@ var KTFormControls = function () {
 	 					location.reload();	 			
 	 				});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Joborder_Stocks":{
@@ -3155,6 +3063,7 @@ var KTFormControls = function () {
 	 					window.location =  baseURL + 'gh/designer/joborder-stocks'; 			
 	 				});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Joborder_Project":{
@@ -3163,6 +3072,7 @@ var KTFormControls = function () {
 	 					window.location =  baseURL + 'gh/designer/joborder-project'; 			
 	 				});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_Design_Stocks":{
@@ -3173,6 +3083,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				Swal.fire("Warning!", "Image is incorrect format", "error");
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_Design_Project":{
@@ -3183,12 +3094,14 @@ var KTFormControls = function () {
 	 			}else{
 	 				Swal.fire("Warning!", "Image is incorrect format", "error");
 	 			}
+	 			_initnotificationupdate();
 	 			break
 	 		}
 	 		case "Create_Other_Materials_Request":{
 	 			Swal.fire("Submited!", "This form is Completed!", "success").then(function(){
 		      			location.reload();
 				});
+				_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_SpareParts":{
@@ -3198,6 +3111,7 @@ var KTFormControls = function () {
 					let TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action'}]; 
 					_DataTableLoader('tbl_spareparts_add',TableURL,TableData,false);
 				}
+				_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_OfficeSupplies":{
@@ -3208,6 +3122,7 @@ var KTFormControls = function () {
 					let TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action'}]; 
 					_DataTableLoader('tbl_officesupplies_add',TableURL,TableData,false);
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_SpareParts":{
@@ -3219,6 +3134,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_OfficeSupplies":{
@@ -3230,6 +3146,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Rawmats_Stocks":{
@@ -3249,6 +3166,7 @@ var KTFormControls = function () {
 				});}else{
 	 				_initToast('error','Nothing Changes');
 				}
+				_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_SpareParts_Stocks":{
@@ -3269,6 +3187,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_OfficeSupplies_Stocks":{
@@ -3289,6 +3208,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Production":{
@@ -3300,6 +3220,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 			case "Update_Approval_Design_Stocks":{
@@ -3325,6 +3246,7 @@ var KTFormControls = function () {
 	 				 });
 	 			}
 	 			$('#modal-form').modal('hide');
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 
@@ -3351,6 +3273,7 @@ var KTFormControls = function () {
 	 				 });
 	 			}
 	 			$('#modal-form').modal('hide');
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_SupplierItem":{
@@ -3358,6 +3281,7 @@ var KTFormControls = function () {
 	 			let TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
 				let TableData =  [{data:'item'},{data: 'price'},{data:'status'},{data: 'date_created'},{data: 'action'}];
 				_DataTableLoader('tbl_supplier_item',TableURL,TableData,supplier_id);
+				_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Suppliers":{
@@ -3376,6 +3300,7 @@ var KTFormControls = function () {
                 }else{
                       Swal.fire("Error!", "Something went wrong!", "error");
                 }
+                _initnotificationupdate();
 	 			break;
 	 		}
                case "Update_Salesorder_Stock_Request":{
@@ -3397,6 +3322,7 @@ var KTFormControls = function () {
                     let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Rejected_DataTable_Admin';
                     let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
                     _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                    _initnotificationupdate();
                     break;
                }
                 case "Update_Salesorder_Project_Request":{
@@ -3418,6 +3344,7 @@ var KTFormControls = function () {
                     let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Rejected_DataTable_Admin';
                     let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
                     _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                    _initnotificationupdate();
                     break;
                 }
                 case "Update_Salesorder_Stock_Delivery":{
@@ -3430,6 +3357,7 @@ var KTFormControls = function () {
                     let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Delivered_DataTable_Production';
                     let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
                     _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                    _initnotificationupdate();
                     break;
                 }
                 case "Update_Salesorder_Project_Delivery":{
@@ -3442,6 +3370,7 @@ var KTFormControls = function () {
                     let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Delivered_DataTable_Superuser';
                     let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
                     _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                    _initnotificationupdate();
                     break;
                 }
              case "Create_Return_Item_Warehouse":{
@@ -3480,6 +3409,45 @@ var KTFormControls = function () {
 	 			document.getElementById('Create_Return_Item_Customer').reset();
 	 			break;
 	 		}
+	 		case "Update_Request_Materials":{
+	 			if(response == true){
+	 				_initToast('success','Request Material Successfully Submited');
+					let TableURL1 = baseURL + 'datatable_controller/Request_Material_Received_Superuser_Datatable';
+					let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_request_material_received',TableURL1,TableData1,false);
+
+					let TableURL2 = baseURL + 'datatable_controller/Request_Material_Cancelled_Superuser_Datatable';
+					let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_request_material_cancelled',TableURL2,TableData2,false);
+					$('#requestModal').modal('hide');
+	 			}else if(response == false){
+	 				Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+	 			}else{
+	 				$('.balance-quantity').val(response.qty);
+	 				$('input[name=quantity]').val(0);
+	 				Swal.fire("Oopps!", response.item+" is out of stocks", "error"); 
+	 			}
+	 			let TableURL = baseURL + 'datatable_controller/Request_Material_List_Superuser_Datatable';
+				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_request_material_list',TableURL,TableData,false);
+	 			_initnotificationupdate();
+	 			break;
+	 		}
+	 		 case "Update_Request_Materials_Cancelled":{
+	 		 	if(response == true){
+	 		 	_initToast('success','Request Cancelled');
+		 		 	let TableURL2 = baseURL + 'datatable_controller/Request_Material_Cancelled_Superuser_Datatable';
+					let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_request_material_cancelled',TableURL2,TableData2,false);
+	 			}else{
+	 				Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+	 			}
+		 			let TableURL = baseURL + 'datatable_controller/Request_Material_List_Superuser_Datatable';
+					let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'},{data:'action'}]; 
+					_DataTableLoader('tbl_request_material_list',TableURL,TableData,false);
+	 			_initnotificationupdate();
+	 		 	break;
+	 		 }
 
 	 	}
 	 }

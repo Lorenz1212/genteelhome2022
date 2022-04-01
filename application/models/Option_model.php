@@ -383,9 +383,9 @@ class Option_model extends CI_Model
 		if($type == 1){
 			$query = $this->db->select('*')->from('tbl_materials')->get();
 		}else if($type == 2){
-			$query = $this->db->select('*')->from('tbl_other_materials')->where('type',1)->get();
-		}else {
 			$query = $this->db->select('*')->from('tbl_other_materials')->where('type',2)->get();
+		}else {
+			$query = $this->db->select('*')->from('tbl_other_materials')->where('type',1)->get();
 		}
 		 $data = false;
 	     if($query !== FALSE && $query->num_rows() > 0){

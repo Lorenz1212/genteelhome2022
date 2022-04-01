@@ -1317,5 +1317,9 @@ class Modal_model extends CI_Model{
                } 
                return $data;}
     }
+    function Modal_Request_Material($id){
+        $row = $this->db->select('*')->from('tbl_other_material_m_request')->where('id',$this->encryption->decrypt($id))->get()->row();
+        return array('row'=>$row,'id'=>$this->encryption->encrypt($row->id));
+    }
 }
 ?>

@@ -91,7 +91,6 @@ class Dashboard_model extends CI_Model
     $request_material_received = $this->db->select('count(id) as id')->from('tbl_other_material_m_received')->get()->row();
     $request_material_cancelled = $this->db->select('count(id) as id')->from('tbl_other_material_m_request')->where('status',3)->get()->row();
 
-
     $sales_shipping_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('delivery',1)->get()->row();
     $sales_deliver_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('delivery',2)->get()->row();
 
@@ -155,7 +154,7 @@ class Dashboard_model extends CI_Model
   
    
   function sales_dashboard($id){
-     $request_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','P')->get()->row();
+    $request_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','P')->get()->row();
     $request_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','P')->get()->row();
 
     $sales_shipping_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',1)->get()->row();

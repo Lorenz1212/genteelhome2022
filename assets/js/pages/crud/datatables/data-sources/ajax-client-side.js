@@ -30,30 +30,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 	}
 	var _initView_Table = function(view){
 		switch(view){
-			case "tbl_coupon":{
-				TableURL = baseURL + 'datatable_controller/Coupon_DataTable';
-				TableData = [{data:'no'},{data:'promo_code'},{data:'discount'},{data:'date_from'},{data:'date_to'},{data:'status'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
-			case "tbl_online_customization":{
-				TableURL = baseURL + 'datatable_controller/OnlineCustomization_DataTable';
-				TableData = [{data:'no'},{data:'customer'},{data:'email'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
-			case "tbl_online_request":{
-				TableURL = baseURL + 'datatable_controller/OnlineRequest_DataTable';
-				TableData = [{data:'order_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'sales_person'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
-			case "tbl_onlineorder":{
-				TableURL = baseURL + 'datatable_controller/OnlineOrder_DataTable';
-				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_order'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
+			
 			case "tbl_design_stocks":{
 				TableURL = baseURL + 'datatable_controller/Design_Stocks_Request_DataTable';
 				TableData = [{data:'project_no'},{data:'image'},{data:'title'},{data:'date_created'},{data:'action'}]; 
@@ -99,7 +76,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			case "tbl_rawmaterials_add":{
 				TableURL = baseURL + 'datatable_controller/RawMaterial_DataTable';
 				TableData = [{data:'no'},{data: 'item'},{data:'price'},{data: 'date_created'},{data: 'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
+				_DataTableLoader(view,TableURL,TableData,false);
 				break;
 			}
 			case "tbl_joborder_stocks":{
@@ -439,7 +416,6 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
 				break;
 			}
-
 			case "tbl_return_item_warehouse_superuser":{
 				let TableURL = baseURL + 'datatable_controller/Return_Item_Good_DataTable_Superuser';
 				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
@@ -481,14 +457,14 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_request_material_superuser":{
 				let TableURL = baseURL + 'datatable_controller/Request_Material_List_Superuser_Datatable';
-				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
+				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'},{data:'action'}]; 
 				_DataTableLoader('tbl_request_material_list',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Request_Material_Received_Superuser_Datatable';
 				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_request_material_received',TableURL1,TableData1,false);
 
-				let TableURL2 = baseURL + 'datatable_controller/Request_Material_Received_Superuser_Datatable';
+				let TableURL2 = baseURL + 'datatable_controller/Request_Material_Cancelled_Superuser_Datatable';
 				let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_request_material_cancelled',TableURL2,TableData2,false);
 				break;
@@ -516,6 +492,30 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			
 
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+			case "tbl_coupon":{
+				TableURL = baseURL + 'datatable_controller/Coupon_DataTable';
+				TableData = [{data:'no'},{data:'promo_code'},{data:'discount'},{data:'date_from'},{data:'date_to'},{data:'status'},{data:'action'}]; 
+				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
+				break;
+			}
+			case "tbl_online_customization":{
+				TableURL = baseURL + 'datatable_controller/OnlineCustomization_DataTable';
+				TableData = [{data:'no'},{data:'customer'},{data:'email'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
+				break;
+			}
+			case "tbl_online_request":{
+				TableURL = baseURL + 'datatable_controller/OnlineRequest_DataTable';
+				TableData = [{data:'order_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'sales_person'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
+				break;
+			}
+			case "tbl_onlineorder":{
+				TableURL = baseURL + 'datatable_controller/OnlineOrder_DataTable';
+				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_order'},{data:'action'}]; 
+				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
+				break;
+			}
 			case "tbl_customization":{
 				TableURL = baseURL + 'datatable_controller/Customization_DataTable';
 				TableData = [{data:'so_no'},{data:'sales_person'},{data:'date_created'},{data:'action'}]; 
@@ -535,16 +535,15 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 			
-			
+
+
+
 			case "tbl_users":{
 				TableURL = baseURL + 'datatable_controller/Users_DataTable';
 				TableData = [{data:'no'},{data:'username'},{data:'name'},{data:'date_created'},{data:'status'},{data:'action'}]; 
 				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
 				break;
 			}
-			
-
-			
 
 			case "tbl_production_stocks":{
 				TableURL = baseURL + 'datatable_controller/Production_Stocks_DataTable';
@@ -554,7 +553,6 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 		
 		
-
 			//Approval
 			case "tbl_approval_purchased_request":{
 				TableURL = baseURL + 'datatable_controller/Approval_Purchase_Request_DataTable';

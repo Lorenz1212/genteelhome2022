@@ -1505,9 +1505,9 @@ class Update_model extends CI_Model
                         $this->db->insert('tbl_purchasing_project',$purchase_data);
                     }
                 }
-                    $data = array('status'=>1,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id);
-                    $this->db->where('production_no',$production_no);
-                    $this->db->update('tbl_project',$data);
+                $data = array('status'=>1,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id);
+                $this->db->where('production_no',$production_no);
+                $this->db->update('tbl_project',$data);
                 $mat_itemnos = explode(',', $mat_itemno);
                 $mat_quantitys = explode(',', $mat_quantity);
                 $mat_remarkss = explode(',', $mat_remarks);
@@ -1581,6 +1581,47 @@ class Update_model extends CI_Model
     function Update_Salesorder_Project_Delivery($user_id,$id,$si_no){
         $this->db->where('id',$this->encryption->decrypt($id));
         $result = $this->db->update('tbl_salesorder_project',array('si_no'=>$si_no,'delivery'=>2));
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    function Update_Request_Materials($user_id,$id,$qty,$balance){
+        $row = $this->db->select('*')->from('tbl_other_material_m_request')->where('id',$this->encryption->decrypt($id))->get()->row();
+        if($row->type == 1){
+            $table ='tbl_materials';         
+         }else{
+            $table ='tbl_other_materials';    
+        }
+         $row_mats = $this->db->select('*')->from($table)->where('id',$row->item_no)->get()->row();
+         if($row_mats){
+            if($row_mats->stocks == 0){
+                return array('item'=>$row->item,'qty'=>$row->qty);
+            }else{
+                $this->db->where('id',$this->encryption->decrypt($id));
+                $result = $this->db->update('tbl_other_material_m_request',array('qty'=>$balance,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+                if($result){
+                    $this->db->insert('tbl_other_material_m_received',array('item_no'=>$row->item_no,'item'=>$row->item,'qty'=>$qty,'type'=>$row->type,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+                    $stocks = floatval($row_mats->stocks - $qty);
+                    $this->db->where('id',$row_mats->id);
+                    $this->db->update($table,array('stocks'=>$stocks));
+                    if($balance == 0){
+                       $this->db->where('id',$row->id);
+                       $this->db->update('tbl_other_material_m_request',array('status'=>2));         
+                    }
+                    return true;
+                }else{
+                     return false;
+                }
+            }
+         }else{
+            return false;
+         }
+    }
+    function Update_Request_Materials_Cancelled($user_id,$id){
+        $this->db->where('id',$this->encryption->decrypt($id));
+        $result =$this->db->update('tbl_other_material_m_request',array('status'=>3,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
         if($result){
             return true;
         }else{

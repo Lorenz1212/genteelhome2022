@@ -731,6 +731,20 @@ class Update_controller extends CI_Controller
          $data = $this->update_model->Update_Salesorder_Project_Delivery($user_id,$id,$si_no);
          echo json_encode($data);
      }
+     public function Update_Request_Materials(){
+         $user_id = $this->session->userdata('id');
+         $id = $this->input->post('id');
+         $qty = $this->input->post('qty');
+         $balance = $this->input->post('balance');
+         $data = $this->update_model->Update_Request_Materials($user_id,$id,$qty,$balance);
+         echo json_encode($data);
+     }
+     public function Update_Request_Materials_Cancelled(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $data = $this->update_model->Update_Request_Materials_Cancelled($user_id,$id);
+        echo json_encode($data);
+     }
 
 }
 ?>

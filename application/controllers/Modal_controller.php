@@ -202,6 +202,11 @@ class Modal_controller extends CI_Controller
         $data = $this->modal_model->Modal_Material_Used_Supervisor($id);
         echo json_encode($data);
     }
+    public function Modal_Request_Material(){
+        $id = $this->input->post('id');
+        $data = $this->modal_model->Modal_Request_Material($id);
+        echo json_encode($data);
+    }
     
     //Approval
     public function Modal_Approval_Inspection_Project_View(){

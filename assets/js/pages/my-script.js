@@ -246,7 +246,34 @@ var arrows;var item_v;var price;var special_option;
                   }                                  
 		});	
 	}
+	var _initnotificationupdate = function(){
+		 let url = window.location.pathname;
+		 let urlpost;
+		 if(url.split('/')[0] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[2];
+		 }else if(url.split('/')[1] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[3];
+		 }else if(url.split('/')[2] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[4];
+		 }else if(url.split('/')[3] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[6];
+		 }
+		 if(urlpost == 'designer'){
+		 	_ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
+		 }else if(urlpost =='production'){
+		 	_ajaxloaderOption('Dashboard_controller/production_dashboard','POST',false,'production');
+		 }else if(urlpost == 'sales'){
+		 	_ajaxloaderOption('Dashboard_controller/sales_dashboard','POST',false,'sales');
+		 }else if(urlpost =='supervisor'){
 
+		 }else if(urlpost == 'superuser'){
+		 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
+		 }else if(urlpost == 'admin'){
+
+		 }else if(urlpost == 'accounting'){
+
+		 }
+	}
 	var _ajaxloader = async function(thisURL,type,val,sub){
 		  $.ajax({
 	             url: baseURL + thisURL,
@@ -334,7 +361,6 @@ var arrows;var item_v;var price;var special_option;
 				$('.request_material_pending').text(response.request_material_pending);
 				$('.request_material_received').text(response.request_material_received);
 				$('.request_material_cancelled').text(response.request_material_cancelled);
-
 				break;
 			}
 			case "production":{
@@ -391,10 +417,7 @@ var arrows;var item_v;var price;var special_option;
 				$('.sales_project').text(response.request_sales_project);
 				$('.sales_stocks').text(response.request_sales_stocks);
 
-				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
 				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
-
-				$('.sales_shipping_project').text(response.sales_shipping_project);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
 				break;
 			}
@@ -501,8 +524,8 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "spare_parts":{
+				$('#spare_parts').empty();
 				if(!response == false){
-					$('#spare_parts').empty();
 					for(let i=0;i<response.length;i++){
 	                  	  	 $('#spare_parts').append('<option value="'+response[i].id+'-'+response[i].name+'">('+response[i].qty+') '+response[i].name+'</option>');
 	                  	  	 $('#spare_parts').addClass('selectpicker');
@@ -513,8 +536,8 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "office_supplies":{
+				$('#officesupplies').empty();
 				if(!response == false){
-					$('#officesupplies').empty();
 					 for(let i=0;i<response.length;i++){
 	                  	  	  let option = '<option value="'+response[i].id+'-'+response[i].name+'">('+response[i].qty+') '+response[i].name+'</option>';
 	                  	  	 $('#officesupplies').append(option);
@@ -543,14 +566,14 @@ var arrows;var item_v;var price;var special_option;
 				if(response!=false){
 					for(let i=0;i<response.length;i++){
 	                  	  	  $('#item').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
-	                  	  	  $('#item').addClass('selectpicker');
-						  $('#item').attr('data-live-search', 'true');
-						  $('#item').selectpicker('refresh');
+	                  	  	  
                   	 	}
 				}else{
 					$('#item').append('<option value="">No Data Available</option>');
 				}
-				
+				  $('#item').addClass('selectpicker');
+				  $('#item').attr('data-live-search', 'true');
+				  $('#item').selectpicker('refresh');
 				break;
 			}
 			case "so_no_item":{
@@ -1603,26 +1626,32 @@ var arrows;var item_v;var price;var special_option;
 
 			case "data-onlineorder-list":{
 				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_OnlineOrder';
-						_ajaxloader(thisUrl,"POST",val,"Modal_OnlineOrder");
-				    });
+					$(document).on("click","#form-request",function() {
+						let thisUrl = 'modal_controller/Modal_OnlineOrder';
+						_ajaxloader(thisUrl,"POST",{id: $(this).attr('data-id')},"Modal_OnlineOrder");
+				   	 });
 				})
 				break;
 			}
 			case "data-onlineorder-view":{
 				$(document).ready(function() { 
 				    	let id =  $('#request_id_update').attr('data-id');
-					let val = {id:id};
 					let thisUrl = 'view_controller/View_OnlineOrder';
-					_ajaxloader(thisUrl,"POST",val,"View_OnlineOrder");
+					_ajaxloader(thisUrl,"POST",{id:id},"View_OnlineOrder");
 				 });
 				break;
 			}
 
 			//Reviewer
+			case "data-request-material-superuser":{
+				$(document).ready(function() {
+				    $(document).on("click","#form-request",function() {
+					 	let thisUrl = 'modal_controller/Modal_Request_Material';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Request_Material");
+				    });
+				})
+				break;
+			}
 			case "data-return-item-customer":{
 				 $('input[name=so_no]').on('blur',function(e){
 				   	e.preventDefault();
@@ -6225,38 +6254,28 @@ var arrows;var item_v;var price;var special_option;
 	  		} 
 	  		break;
 	  	}
+	  	case "Modal_Request_Material":{
+	  		$('#title-item').text(response.row.item).attr('data-id',response.id);
+	  		$('.balance-quantity').val(response.row.qty);
+	  		$('input[name=quantity]').on('input',function(e){
+	  			let quantity = $(this).val();
+	  			let total = parseFloat(response.row.qty-quantity);
+	  			if(total  <= -1){
+	  				$(this).val(0);
+	  				$('.balance-quantity').val(response.row.qty);
+	  			}else{
+	  				$('.balance-quantity').val(total)
+	  			}
+	  		});
+	  		break;
+	  	}
 	  }
 	}
 	return {
 
 		//main function to initiate the module
 		init: function(){
-			 let url = window.location.pathname;
-			 let urlpost;
-			 if(url.split('/')[0] == 'genteelhome2022'){
-			 	urlpost = url.split('/')[2];
-			 }else if(url.split('/')[1] == 'genteelhome2022'){
-			 	urlpost = url.split('/')[3];
-			 }else if(url.split('/')[2] == 'genteelhome2022'){
-			 	urlpost = url.split('/')[4];
-			 }else if(url.split('/')[3] == 'genteelhome2022'){
-			 	urlpost = url.split('/')[6];
-			 }
-			 if(urlpost == 'designer'){
-			 	_ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
-			 }else if(urlpost =='production'){
-			 	_ajaxloaderOption('Dashboard_controller/production_dashboard','POST',false,'production');
-			 }else if(urlpost == 'sales'){
-			 	_ajaxloaderOption('Dashboard_controller/sales_dashboard','POST',false,'sales');
-			 }else if(urlpost =='supervisor'){
-
-			 }else if(urlpost == 'superuser'){
-			 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
-			 }else if(urlpost == 'admin'){
-
-			 }else if(urlpost == 'accounting'){
-
-			 }
+			 _initnotificationupdate();
 			var viewForm = $('#kt_content').attr('data-table');
 			_ViewController(viewForm);
 			_initView();
