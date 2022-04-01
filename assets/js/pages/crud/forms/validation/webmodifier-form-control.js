@@ -664,7 +664,7 @@ var KTFormControls = function () {
 	 			if(response == 'no image'){
 	 				_initToast('error','No Image Upload!');
 	 			}else if(response == 'success'){
-	 				_initToast('success','Save Change');
+	 				_initToast('success','Saved Changes');
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
@@ -674,7 +674,7 @@ var KTFormControls = function () {
 	 			if(response == 'no image'){
 	 				_initToast('error','No Image Upload!');
 	 			}else if(response == 'success'){
-	 				_initToast('success','Save Change');
+	 				_initToast('success','Saved Changes');
 	 				$('#customFiles').val("");
 	 				$('#imagefiles').val("");
 	 			}else{
@@ -688,7 +688,7 @@ var KTFormControls = function () {
 	 			if(response == 'no image'){
 	 				_initToast('error','No Image Upload!');
 	 			}else if(response == 'success'){
-	 				_initToast('success','Save Change');
+	 				_initToast('success','Saved Changes');
 	 				$('#customFile').val("");
 	 				$('#imagefile').val("");
 	 			}else{
@@ -702,7 +702,7 @@ var KTFormControls = function () {
 	 			if(response == 'no image'){
 	 				_initToast('error','No Image Upload!');
 	 			}else if(response == 'success'){
-	 				_initToast('success','Save Change');
+	 				_initToast('success','Saved Changes');
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
@@ -759,7 +759,7 @@ var KTFormControls = function () {
 	 		}
 	 		case "Create_Project_Price":{
 	 			if(response == 'success'){
-	 				_initToast('success','Save Changes');
+	 				_initToast('success','Saved Changes');
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
@@ -784,7 +784,7 @@ var KTFormControls = function () {
 							+'	 </label>'
 							+'  </div>'
 				  			+'</div>');
-	 				_initToast('success','Save Changes');
+	 				_initToast('success','Saved Changes');
 		 			$('#customFile').val(" ");
 		 			document.getElementById("imagess").value = "";
 	 			}
@@ -793,7 +793,7 @@ var KTFormControls = function () {
 	 		case "Create_Web_Project_Category":
 	 		case "Create_Project_Title":
 	 		case "Create_Project_Status":{
-	 			_initToast('success','Save Changes!');
+	 			_initToast('success','Saved Changes!');
 	 			let TableURL = baseURL + 'datatable_controller/Web_Product_DataTable';
 				let TableData =  [{data:'c_code'},{data:'image'},{data:'title'},{data:'status'},{data: 'action'}];
 				_DataTableLoader('tbl_products',TableURL,TableData,false);	
@@ -813,7 +813,7 @@ var KTFormControls = function () {
 							+'	 </label>'
 							+'  </div>'
 				  			+'</div>');
-	 				_initToast('success','Save Changes!');
+	 				_initToast('success','Saved Changes!');
 		 			document.getElementById('customFileg').value = "";
 		 			document.getElementById('imagefileg').value = "";
 	 			}
@@ -826,7 +826,7 @@ var KTFormControls = function () {
 		 			 document.getElementById('tearsheets').value = "";
 	 			}else if(response.status == 'success'){
 	 				$("#tearsheet_href").attr("href",baseURL + 'assets/images/tearsheet/'+response.image);
-	 				_initToast('success','Save Changes!');
+	 				_initToast('success','Saved Changes!');
 		 			document.getElementById('tearsheetss').value = "";
 		 			document.getElementById('tearsheets').value = "";
 	 			}
@@ -834,7 +834,7 @@ var KTFormControls = function () {
 	 		}
 	 		case "Create_Web_Change_Pallet":{
 	 			if(response.status == 'success'){
-	 				_initToast('success','Save Changes!');
+	 				_initToast('success','Saved Changes!');
 	 				$("#cimage_href").attr("href",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	 				$("#c_previous").val(response.c_image);
 		 			let TableURL = baseURL + 'datatable_controller/Web_Product_DataTable';
@@ -876,7 +876,7 @@ var KTFormControls = function () {
 	 			if(response == 'no image'){
 	 				 _initToast('error','No Image Upload!');
 	 			}else if(response == 'success'){
-	 				 _initToast('success','Save Changes');
+	 				 _initToast('success','Saved Changes');
 	 			}else if(response == 'existing'){
 	 				 _initToast('error','Username Is already Existing');
 	 			}else{
