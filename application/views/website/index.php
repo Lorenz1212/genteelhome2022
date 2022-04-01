@@ -157,7 +157,7 @@
             </div> 
         </section>
 
-        <section class="instagram">
+<!--         <section class="instagram">
             <header>
                 <div class="container">
                     <div class="row">
@@ -168,7 +168,7 @@
                 </div>
             </header>
         </section>
-
+ -->
 <!--         <section class="quotes quotes-slider" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)">
             <div class="container">
                 <div class="row">
