@@ -395,6 +395,10 @@ var arrows;var item_v;var price;var special_option;
 				$('.customer_count').text(response.customer_service_request);
 				$('.customer_request_count').text(response.customer_service_request);
 				$('.customer_approved_count').text(response.customer_service_approved);
+
+				$('.online_add_cart').text(response.online_add_cart);
+				$('.pre_order_count').text(response.pre_order_count);
+				$('.collection_count').text(response.collection_count);
 				break;
 			}
 			case "superuser":{

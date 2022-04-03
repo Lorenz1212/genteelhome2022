@@ -489,6 +489,12 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);
 				break
 			}
+			case "tbl_onlineorder":{
+				TableURL = baseURL + 'datatable_controller/OnlineOrder_DataTable';
+				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_order'},{data:'action'}]; 
+				_DataTableLoader('tbl_onlineorder_request',TableURL,TableData,false);
+				break;
+			}
 			
 
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -510,12 +516,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
 				break;
 			}
-			case "tbl_onlineorder":{
-				TableURL = baseURL + 'datatable_controller/OnlineOrder_DataTable';
-				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_order'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
+			
 			case "tbl_customization":{
 				TableURL = baseURL + 'datatable_controller/Customization_DataTable';
 				TableData = [{data:'so_no'},{data:'sales_person'},{data:'date_created'},{data:'action'}]; 

@@ -2394,7 +2394,6 @@ var KTFormControls = function () {
                     break;
 	 		}
 
-	 		
 	 		case "Create_Production_Order":{
 	 			if(response.status=="success"){_initSwalSuccess(url);}
 	 			break;

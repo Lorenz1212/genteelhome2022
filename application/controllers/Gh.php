@@ -802,8 +802,7 @@ class Gh extends CI_Controller {
           switch ($view) {
             case 'index':{$this->load->view('sales/index.php');break;}
             case 'user_update':{$this->load->view('sales/user_update.php');break;}
-            case 'online-order':{$this->load->view('sales/online_order.php');break;}
-            case 'onlineorder-update':{$this->load->view('sales/online_order_update.php',$data);break;}
+            case 'online-order':{$this->load->view('sales/online_order_request.php');break;}
             case 'customer-inquiry':{$this->load->view('sales/online_customization');break;}
             case "salesorder-stocks":{$this->load->view('sales/salesorder_stocks.php');break;}
             case "salesorder-project":{$this->load->view('sales/salesorder_project.php');break;}

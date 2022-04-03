@@ -34,6 +34,11 @@ class Website_controller extends CI_Controller
                                 'id'     => $message);
             echo json_encode($data_json);
     }
+    public function notification(){
+         $userid = $this->session->userdata('userId');
+         $data = $this->website_model->notification($userid);
+         echo json_encode($data);
+    }
     public function forgotpassword(){
         $email = $this->input->post('email');
         $password = $this->input->post('password');
@@ -53,7 +58,6 @@ class Website_controller extends CI_Controller
                            'id'     => $message);
         echo json_encode($data_json);
     }
-    
     public function registration(){
         $firstname = $this->input->post('firstname');
         $lastname = $this->input->post('lastname');

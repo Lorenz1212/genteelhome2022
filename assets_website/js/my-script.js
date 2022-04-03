@@ -200,7 +200,10 @@ var KTAjaxClient = function() {
 		let footer = 'website_controller/footer';
 		_ajaxloader(footer,"POST",false,"footer");
 	}
-
+	var _initnotification = function(){
+		let footer = 'website_controller/notification';
+		_ajaxloader(footer,"POST",false,"notification");
+	}
 	var _ViewController = async function(view){
 		switch(view){
 			case "data-index":{
@@ -473,14 +476,13 @@ var KTAjaxClient = function() {
 	  	   break;
 	  	}
 	  	case "footer":{
-	  		$('#count').text(response.count.count);
   		 	$("#product_cart_add").empty();
 	  		for (var i = 0;i<response.data.length; i++) {
 	  			_initNumberOnly('#qtys'+response.data[i].id);
 	  			$('#product_table').append('<tr id="delete_row'+response.data[i].id+'">'
 	  							 +'	<td><img src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" alt="" style="width:60;height:60px;"></td>'
 	  							 +'	<td width="200"><div class="title"><div>'+response.data[i].title+'</div><small> '+response.data[i].c_name+'</small></div></td>'
-	  							 +'	<td ><div class="quantity"><input type="text" style="text-align:center;" id="qtys'+response.data[i].id+'" data-qty="'+response.data[i].qty+'" data-id="'+response.data[i].id+'" class="form-control form-quantity qtys'+response.data[i].id+'"></div></td>'
+	  							 +'	<td ><div class="quantity"><input type="number" min="1" style="text-align:center;" id="qtys'+response.data[i].id+'" data-qty="'+response.data[i].qty+'" data-id="'+response.data[i].id+'" class="form-control form-quantity qtys'+response.data[i].id+'"></div></td>'
 	  							 +'	<td width="100" style="text-align:right;"><div class="price"><span class="final"><span class="cart_price'+response.data[i].id+'" data-amount="'+response.data[i].c_price+'" data-price="'+response.data[i].price+'" id="cart_price'+response.data[i].id+'"></span></span></div></td>'
 	  							  +'	<td width="50"  style="text-align:center;"><span class="icon icon-cross icon-delete" id="delete_cart'+response.data[i].id+'" data-id="'+response.data[i].id+'" style="cursor:pointer;"></span></td>'
 	  							 +'</tr>');
@@ -999,6 +1001,7 @@ var KTAjaxClient = function() {
                          +'        <th style="text-align:center;">Remove</th>'
                          +'       </tr>'
                          +' </thead><tbody>';
+                if(response){
 	  		for(let i=0;i<response.length;i++){
 	  			_initNumberOnly('#qtyss'+response[i].id);
 	  			$('#cart_prices'+response[i].id).text(response[i].price);
@@ -1007,7 +1010,7 @@ var KTAjaxClient = function() {
 	  							 +'	<td width="50" style="text-align:center;vertical-align: middle;"><span class="checkbox"><input type="checkbox" id="checkIDa'+response[i].id+'" data-checked="'+response[i].id+'" ><label for="checkIDa'+response[i].id+'"></label></span></td>'
 	  							 +'	<td width="50"><img src="'+baseURL+'assets/images/finishproduct/product/'+response[i].images+'" alt="" style="width:50;height:50px;"></td>'
 	  							 +'	<td width="200" style="text-align:left;vertical-align: baseline;"><div class="title"><div>'+response[i].title+'</div><small> '+response[i].c_name+'</small></div></td>'
-	  							 +'	<td width="50" style="text-align:center;vertical-align: middle;"><div class="quantity"><input type="text" id="qtyss'+response[i].id+'" data-qty="'+response[i].qty+'" data-id="'+response[i].id+'" value="'+response[i].qty+'" class="form-control form-quantity qtyss'+response[i].id+'" style="text-align:center;"></div></td>'
+	  							 +'	<td width="50" style="text-align:center;vertical-align: middle;"><div class="quantity"><input type="number" min="1" id="qtyss'+response[i].id+'" data-qty="'+response[i].qty+'" data-id="'+response[i].id+'" value="'+response[i].qty+'" class="form-control form-quantity qtyss'+response[i].id+'" style="text-align:center;"></div></td>'
 	  							 +'	<td width="100" style="text-align:center;vertical-align: middle;"><div class="price"><span class="final"><span class="cart_prices'+response[i].id+'" data-amount="'+response[i].c_price+'" data-price="'+response[i].price+'" id="cart_prices'+response[i].id+'">'+response[i].price+'</span></span></div></td>'
 	  							 +'	<td width="50"  style="text-align:center;vertical-align: middle;"><span class="icon icon-cross icon-delete" id="delete_cartss'+response[i].id+'" data-id="'+response[i].id+'" style="cursor:pointer;"></span></td>'
 	  							 +'</tr>';
@@ -1047,7 +1050,10 @@ var KTAjaxClient = function() {
 					let val = {id:id,qty:qty,total:total}
 					_ajaxloader(thisUrl,"POST",val,false);
 				});
-	  		}
+	  		   }
+	  	       }else{
+	  	       	html +='<tr><td style="vertical-align: middle;text-align:center;height:200px;" colspan="6"><h2>EMPTY CART</h2></td></tr>';
+	  	       }
 	  		html +='</tbody></table>';
 	  		$('#cart').append(html);
 	  		break;
@@ -1079,7 +1085,7 @@ var KTAjaxClient = function() {
 	  							 +'	<td width="50" style="text-align:center;vertical-align: middle;"><span class="icon icon-cross icon-delete" id="delete_carts'+response[i].id+'" data-id="'+response[i].id+'" style="cursor:pointer;"></span></td>'
 	  							 +'	<td width="50"><img src="'+baseURL+'assets/images/finishproduct/product/'+response[i].images+'" alt="" style="width:50;height:50px;"></td>'
 	  							 +'	<td width="200" style="text-align:left;vertical-align: baseline;"><div class="title"><div>'+response[i].title+'</div><small> '+response[i].c_name+'</small></div></td>'
-	  							 +'	<td width="50"  style="text-align:center;vertical-align: middle;"><div class="quantity"><input type="text" id="qtyss'+response[i].id+'" data-qty="'+response[i].qty+'" data-id="'+response[i].id+'" value="'+response[i].qty+'" class="form-control form-quantity qty_action qtyss'+response[i].id+'" style="text-align:center;"></div></td>'
+	  							 +'	<td width="50"  style="text-align:center;vertical-align: middle;"><div class="quantity"><input type="number" min="1" id="qtyss'+response[i].id+'" data-qty="'+response[i].qty+'" data-id="'+response[i].id+'" value="'+response[i].qty+'" class="form-control form-quantity qty_action qtyss'+response[i].id+'" style="text-align:center;"></div></td>'
 	  							 +'	<td width="100" style="text-align:right;vertical-align: middle;"><div class="price"><span class="final"><span class="check_total cart_prices'+response[i].id+'" data-amount="'+response[i].c_price+'" data-price="'+response[i].price+'" id="cart_prices'+response[i].id+'">'+response[i].price+'</span></span></div></td>'
 	  							 +'</tr>';
 	  			 $(document).on('click','#delete_carts'+response[i].id,function(){				 
@@ -1388,6 +1394,10 @@ var KTAjaxClient = function() {
 	 		}
 	  		break;
 	  	}
+	  	case "notification":{
+	  		$('#count').text(response);
+	  		break;
+	  	}
 
 	  }
 	}
@@ -1400,6 +1410,7 @@ var KTAjaxClient = function() {
 			_initView();
 			_initheader();
 			_initfooter();
+			_initnotification();
 		},
 
 	};

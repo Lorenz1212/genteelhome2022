@@ -189,7 +189,7 @@
 												     <select class="form-control" id="displayed_status" name="displayed_status">
 												   		<option value="" selected="" disabled="">SELECT STATUS</option>
 												   		<option value="displayed">Display</option>
-												   		<option value="n/a">Not Displayed</option>
+												   		<option value="n/a">Hide</option>
 												   </select>
 												   <div class="input-group-append">
 												      <button class="btn btn-secondary save" type="button" id="save_status">SAVE</button>

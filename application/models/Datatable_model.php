@@ -6,7 +6,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_supplier')->order_by('date_created','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-            $action = '<a href="'.base_url().'gh/'.$this->session->userdata('page').'/supplier_view/'.$this->encryption->encrypt($row->id).'" class="btn btn-sm btn-dark btn-icon"><i class="flaticon2-pen"></i></a>';
+            $action = '<a href="'.base_url().'gh/'.$this->session->userdata('page').'/supplier_view/'.$this->encryption->encrypt($row->id).'" class="btn btn-sm btn-light-dark btn-icon"><i class="flaticon2-pen"></i></a>';
             if($row->status == 1){$status ='<span class="label label-lg label-light-primary label-inline">ACTIVE</span>';}else{$status='<span class="label label-lg label-light-danger label-inline">INACTIVE</span>';}
                    $data[] = array(
                             'name'         => $row->name,
@@ -27,7 +27,7 @@ class Datatable_model extends CI_Model{
         $query =   $this->db->select('s.id,s.amount,s.status,m.item,DATE_FORMAT(s.date_created, "%M %d %Y") as date_created')->from('tbl_supplier_item as s')->join('tbl_materials as m','m.id = s.item_no','LEFT')->where('s.supplier',$this->encryption->decrypt($id))->order_by('s.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" id="form-request" data-toggle="modal" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form-item"><i class="flaticon2-pen"></i></button>';
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="form-request" data-toggle="modal" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form-item"><i class="flaticon2-pen"></i></button>';
               if($row->status == 1){$status ='<span class="label label-lg label-light-primary label-inline">ACTIVE</span>';}else{$status='<span class="label label-lg label-light-danger label-inline">INACTIVE</span>';}
                 $data[] = array(
                          'item'         => $row->item,
@@ -47,7 +47,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=1 AND c.type=1 AND c.designer ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><span class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</span></div></div></span>';
              $data[] = array(
@@ -68,7 +68,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status = 2 AND c.type =1 AND c.designer ='.$user_id.'')->order_by('c.date_created','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.' ('.$row->c_name.')"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="'.$row->c_name.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><span class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</span></div></div></span>';
              $data[] = array(
@@ -89,7 +89,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status =3 AND c.type=1 AND c.designer ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.' ('.$row->c_name.')"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="'.$row->c_name.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><span class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</span></div></div></span>';
              $data[] = array(
@@ -110,7 +110,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=1 AND c.type=2 AND c.designer ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'project_no'   => $row->project_no,
@@ -129,7 +129,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status =2 AND c.type=2 AND c.designer ='.$user_id.'')->order_by('c.date_created','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-              $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+              $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
              $data[] = array(
                       'project_no'   => $row->project_no,
@@ -148,7 +148,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=3 AND c.type=2 AND c.designer ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-              $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+              $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'project_no'   => $row->project_no,
@@ -263,7 +263,7 @@ class Datatable_model extends CI_Model{
            $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('id','DESC')->get();  
             if($query !== FALSE && $query->num_rows() > 0){
                foreach($query->result() as $row){
-                $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
+                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
                     $data[] = array(
                              'no'           => $row->item_no,
                              'item'         => $row->item.' ('.$row->unit.')',
@@ -283,7 +283,7 @@ class Datatable_model extends CI_Model{
           if($query !== FALSE && $query->num_rows() > 0){
             $i=1;
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
                 $data[] = array(
                          'no'           => $i,
                          'item'         => $row->item,
@@ -301,7 +301,7 @@ class Datatable_model extends CI_Model{
           if($query !== FALSE && $query->num_rows() > 0){
             $i=1;
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
                 $data[] = array(
                          'no'           => $i,
                          'item'         => $row->item,
@@ -317,7 +317,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('item','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
                $data[] = array(
                       'no'           => $row->item_no,
                       'item'         => $row->item.' ('.$row->unit.')',
@@ -336,7 +336,7 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('item','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
                  if($row->stocks <= $row->stocks_alert && $row->stocks_alert <= $row->stocks){
                        $data[] = array(
                           'no'           => $row->item_no,
@@ -379,7 +379,7 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('*')->from('tbl_materials')->order_by('id','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-             $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#exampleModal"><i class="la la-eye"></i></button>';
+             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#exampleModal"><i class="la la-eye"></i></button>';
                $data[] = array(
                       'no'           => $row->item_no,
                       'item'         => $row->item,
@@ -413,7 +413,7 @@ class Datatable_model extends CI_Model{
         if($query !== FALSE && $query->num_rows() > 0){
             $i=1;
            foreach($query->result() as $row){
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
                $data[] = array(
                       'no'           => $i,
                       'item'         => $row->item,
@@ -434,7 +434,7 @@ class Datatable_model extends CI_Model{
        if($query !== FALSE && $query->num_rows() > 0){
             $i=1;
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
                  if($row->stocks <= $row->alert && $row->alert <= $row->stocks){
                        $data[] = array(
                           'no'           => $i,
@@ -476,7 +476,7 @@ class Datatable_model extends CI_Model{
        if($query !== FALSE && $query->num_rows() > 0){
             $i=1;
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
                    $data[] = array(
                       'no'           => $i,
                       'item'         => $row->item,
@@ -495,7 +495,7 @@ class Datatable_model extends CI_Model{
        if($query !== FALSE && $query->num_rows() > 0){
             $i=1;
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
                  if($row->stocks <= $row->alert && $row->alert <= $row->stocks){
                        $data[] = array(
                           'no'           => $i,
@@ -530,7 +530,7 @@ class Datatable_model extends CI_Model{
                 if($row->status == 0){
                     $data =false;   
                 }else{
-                   $action = '<button data-toggle="modal" data-target="#requestModal" id="form-request" data-id="'.$row->production_no.'" class="btn btn-sm btn-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
+                   $action = '<button data-toggle="modal" data-target="#requestModal" id="form-request" data-id="'.$row->production_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
                    $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
                    $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
                          $data[] = array(
@@ -555,7 +555,7 @@ class Datatable_model extends CI_Model{
             ->from('tbl_purchasing_project as pr')->join('tbl_project as p','p.production_no=pr.production_no','LEFT')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where($array)->group_by('pr.fund_no')->order_by('pr.latest_update','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
-               $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
+               $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
                 if($row->status==3){$status ='<span class="label label-lg label-light-warning label-inline">Request</span>';
@@ -632,7 +632,7 @@ class Datatable_model extends CI_Model{
                 if($row->status == 0){
                     $data =false;   
                 }else{
-                   $action = '<button data-toggle="modal" data-target="#requestModal" id="form-request" data-id="'.$row->production_no.'" class="btn btn-sm btn-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
+                   $action = '<button data-toggle="modal" data-target="#requestModal" id="form-request" data-id="'.$row->production_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
                    $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                          $data[] = array(
                               'production_no'=> $row->production_no,
@@ -661,7 +661,7 @@ class Datatable_model extends CI_Model{
             ->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
-               $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
+               $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                 if($row->status==3){$status ='<span class="label label-lg label-light-warning label-inline">Request</span>';
                 }else if($row->status == 4){$status ='<span class="label label-lg label-light-primary label-inline">Approved </span>';}
@@ -730,7 +730,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  
             {
-               $action = ' <button data-toggle="modal" data-target="#modal-form" id="form-request-inprogress" data-id="'.$row->production_no.'" class="btn btn-icon btn-dark btn-hover-primark btn-sm mx-3" title="View Request"><i class="la la-eye"></i></button>';  
+               $action = ' <button data-toggle="modal" data-target="#modal-form" id="form-request-inprogress" data-id="'.$row->production_no.'" class="btn btn-icon btn-light-dark btn-hover-primark btn-sm mx-3" title="View Request"><i class="la la-eye"></i></button>';  
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
                      $data[] = array(
@@ -787,7 +787,7 @@ class Datatable_model extends CI_Model{
                ->where('mp.balance_quantity >', 0)->where('p.type',2)->group_by('mp.production_no')->order_by('mp.latest_update','DESC')->get(); 
          if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  {
-               $action = ' <button data-toggle="modal" data-target="#modal-form" id="form-request-inprogress" data-id="'.$row->production_no.'" class="btn btn-icon btn-dark btn-hover-primark btn-sm mx-3" title="View Request"><i class="la la-eye"></i></button>';  
+               $action = ' <button data-toggle="modal" data-target="#modal-form" id="form-request-inprogress" data-id="'.$row->production_no.'" class="btn btn-icon btn-light-dark btn-hover-primark btn-sm mx-3" title="View Request"><i class="la la-eye"></i></button>';  
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
                      $data[] = array(
                           'production_no' => $row->production_no,
@@ -934,7 +934,7 @@ class Datatable_model extends CI_Model{
           $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',1)->where('p.status',2)->where('p.assigned',$user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
                  $data[] = array(
@@ -956,7 +956,7 @@ class Datatable_model extends CI_Model{
           $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
-                 $action = '<a  href="'.base_url().'gh/'.$this->session->userdata('page').'/joborder-update-project?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
+                 $action = '<a  href="'.base_url().'gh/'.$this->session->userdata('page').'/joborder-update-project?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-light-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
                  $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"/></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
@@ -976,7 +976,7 @@ class Datatable_model extends CI_Model{
           ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',1)->where('p.production',$user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-                 $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
                  $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array('production_no' => $row->production_no,
                                 'title'         => $title,
@@ -1015,7 +1015,7 @@ class Datatable_model extends CI_Model{
           $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->where('c.designer',$user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-                 $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
                  $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
@@ -1034,7 +1034,7 @@ class Datatable_model extends CI_Model{
           $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->where('p.assigned',$user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
-                 $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
                  $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"/></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
@@ -1097,7 +1097,7 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',1)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-              $action = '<button type="button" class="btn btn-icon btn-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+              $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
                  $data[] = array(
@@ -1125,7 +1125,7 @@ class Datatable_model extends CI_Model{
          ->where('p.status !=',2)->where('p.type',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-              $action = '<button type="button" class="btn btn-icon btn-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+              $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
                  $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
@@ -1142,44 +1142,6 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-    function Joborder_Admin_DataTable($user_id,$status)
-       {        
-          if($status == 'PENDING'){
-             $array = array('p.status' => 'MATERIAL REQUEST','p.production' => $user_id);  
-          }else{
-             $array = array('p.status' => $status,'p.production' => $user_id);  
-          }
-         
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
-          ->from('tbl_project as p')
-          ->join('tbl_project_design as d','d.project_no=p.project_no','LEFT')
-          ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_users as u','u.id=p.assigned','LEFT')
-          ->where($array)
-          ->order_by('p.date_created','DESC')->get();
-         if($query !== FALSE && $query->num_rows() > 0){
-         foreach($query->result() as $row)  
-            {
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
-               $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.' ('.$row->c_name.')"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="'.$row->c_name.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
-               if($row->status == 'COMPLETE'){$qty = $row->unit;}else{$qty = $row->balance;}  
-                 $data[] = array(
-                          'production_no' => $row->production_no,
-                          'image'        => $image,
-                          'title'        => $title,
-                          'requestor'    => $row->requestor,
-                          'qty'          => $qty,
-                          'date_created' => $row->date_created,
-                          'status'       => $row->status,
-                          'action'       => $action);
-            }  
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
-     } 
 
      function Salesorder_Stocks_Request_DataTable_Production($user_id){
         $data=false;
@@ -1187,7 +1149,7 @@ class Datatable_model extends CI_Model{
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $user_id)->order_by('s.date_created','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
             if($row->status == 'P'){$status='<span class="label label-lg label-light-primary label-inline">Request</span>';}
             else if($row->status == 'A'){$status = '<span class="label label-lg label-light-success label-inline">Approved</span>';}else{
                 $status = '<span class="label label-lg label-light-danger label-inline">Cancelled</span>';}
@@ -1210,7 +1172,7 @@ class Datatable_model extends CI_Model{
        ->where('s.created_by', $user_id)->order_by('s.date_created','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1246,7 +1208,7 @@ class Datatable_model extends CI_Model{
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
             if($row->status == 'P'){$status='<span class="label label-lg label-light-primary label-inline">Request</span>';}
             else if($row->status == 'A'){$status = '<span class="label label-lg label-light-success label-inline">Approved</span>';}else{
                 $status = '<span class="label label-lg label-light-danger label-inline">Cancelled</span>';}
@@ -1269,7 +1231,7 @@ class Datatable_model extends CI_Model{
        ->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1287,7 +1249,7 @@ class Datatable_model extends CI_Model{
        ->where('s.delivery',2)->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1307,7 +1269,7 @@ class Datatable_model extends CI_Model{
        ->where('s.status','P')->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1327,7 +1289,7 @@ class Datatable_model extends CI_Model{
        ->where('s.status','A')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1347,7 +1309,7 @@ class Datatable_model extends CI_Model{
        ->where('s.status','C')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1367,7 +1329,7 @@ class Datatable_model extends CI_Model{
        ->where('s.status','P')->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1387,7 +1349,7 @@ class Datatable_model extends CI_Model{
        ->where('s.status','A')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1407,7 +1369,7 @@ class Datatable_model extends CI_Model{
        ->where('s.status','C')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1428,7 +1390,7 @@ class Datatable_model extends CI_Model{
        ->where('s.delivery',1)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1446,7 +1408,7 @@ class Datatable_model extends CI_Model{
        ->where('s.delivery',2)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1464,7 +1426,7 @@ class Datatable_model extends CI_Model{
        ->where('s.delivery',1)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -1482,7 +1444,7 @@ class Datatable_model extends CI_Model{
        ->where('s.delivery',2)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
@@ -4067,17 +4029,12 @@ class Datatable_model extends CI_Model{
      }
 
      //sales
-     function OnlineOrder_DataTable($id,$status){
-        if($status == 'REQUEST'){
-            $array = array('s.status'=>$status);
-        }else{
-            $array = array('s.status'=>$status,'s.sales'=>$id);
-        }
-       $query = $this->db->select('s.*,u.*,s.type as type,s.status as status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS customer')->from('tbl_cart_address as s')->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where($array)->order_by('date_order','DESC')->get();
+     function OnlineOrder_DataTable(){
+         $data =false;   
+       $query = $this->db->select('s.*,u.*,s.type as type,s.status as status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS customer')->from('tbl_cart_address as s')->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.status','REQUEST')->order_by('date_order','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
-         foreach($query->result() as $row)  
-            {
-            $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->order_no.'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+         foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->order_no.'" data-status="approved" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';  
                 $data[] = array(
                           'order_no'     => $row->order_no,
                           'customer'     => $row->customer,
@@ -4086,8 +4043,6 @@ class Datatable_model extends CI_Model{
                           'action'       => $action);
 
             }  
-         }else{   
-             $data =false;   
          }
          $json_data  = array("data" =>$data); 
          return $json_data;

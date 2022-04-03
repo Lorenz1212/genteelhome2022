@@ -54,30 +54,11 @@
 												</a>
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Online Order</span>
+												<a  href="<?php echo base_url()."gh/sales/online-order";?>" class="menu-link">
+													<span class="menu-text mr-2">Online Order</span>
+													<span class="label label-rounded label-primary online_add_cart">0</span>
 													<span class="menu-desc"></span>
-													<i class="menu-arrow"></i>
 												</a>
-												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															 <a href="<?php echo base_url()."gh/sales/online-order?".base64_encode('urlstatus=request')."";?>" class="menu-link">
-																<span class="menu-text">REQUEST</span>
-															 </a>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															 <a href="<?php echo base_url()."gh/sales/online-order?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
-																<span class="menu-text">PENDING</span>
-															 </a>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															 <a href="<?php echo base_url()."gh/sales/online-order?".base64_encode('urlstatus=complete')."";?>" class="menu-link">
-																<span class="menu-text">COMPLETE</span>
-															 </a>
-														</li>
-													</ul>
-												</div>
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
@@ -148,7 +129,8 @@
 										</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="<?php echo base_url()."gh/sales/collection"?>" class="menu-link">
-													<span class="menu-text">Collection</span>
+													<span class="menu-text mr-2">Collection</span>
+													<span class="label label-rounded label-primary collection_count">0</span>
 												</a>
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
@@ -178,11 +160,6 @@
 														</li>
 													</ul>
 												</div>
-											</li>
-												<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="<?php echo base_url()."gh/sales/collection"?>" class="menu-link">
-													<span class="menu-text">Collection</span>
-												</a>
 											</li>
 											<?php if($this->session->userdata('voucher') == 2) {
 												echo '<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">

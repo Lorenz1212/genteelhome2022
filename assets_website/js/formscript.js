@@ -14,6 +14,31 @@ var KTFormControls = function () {
 	{
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save changes'});
 	}
+	var _initnotification = async function(){
+		  $.ajax({
+	             url: baseURL + 'website_controller/notification',
+	             type: 'POST',
+	             data: false,
+	             dataType:"json",
+	             beforeSend: function()
+	             {
+	              
+	             },
+                  complete: function(){
+                   
+                  },
+                  success: function(response){
+                  	$('#count').text(response);
+                  },
+                 error: function(xhr,status,error){
+	                 console.log(xhr);
+	                 console.log(status);
+	                 console.log(error);
+	                 console.log(xhr.responseText);
+                 }                                      
+		});	
+	}
+
 	var _ajaxForm = async function(thisURL,type,val,view,url){
 		$.ajax({
 		    enctype: 'multipart/form-data',
@@ -122,9 +147,9 @@ var KTFormControls = function () {
 					let c_name = $('#c_name').text();
 					let qty = $('input[name=qty]').val();
 					let order = $('#product_order').text();
-					if(!qty){
+					if(qty == 0){
 						$('input[name=qty]').focus();
-						swal("Please Enter Qty", "Thank you!", "warning");
+						swal("Please Enter Quantity", "Thank you!", "warning");
 					}else{
 						val = {c_name:c_name,qty:qty,order:order};
 					     thisURL = baseURL + 'website_controller/Create_Product_Cart';
@@ -156,8 +181,8 @@ var KTFormControls = function () {
 						 let s_address   	=  $('#s_address').text();
 						 let s_city 	 	=  $('#s_city').text();
 						 let s_province 	=  $('#s_province').text();
-						 var today 		=  new Date();
-					 	 var order_date 	=  today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+						 let today 		=  new Date();
+					 	 let order_date 	=  today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 					 	 var shipping_date  =  today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+14);
 					 	 let order_no    	=  $('#order_no').text();
 					 	 let coupons 	  	=  $('#coupons').val();
@@ -349,6 +374,7 @@ var KTFormControls = function () {
 						});
 	 				}
 		  		}
+		  		_initnotification();
 	 			break;
 	 		}
 	 		case "Update_Cart_Process":{
@@ -380,11 +406,13 @@ var KTFormControls = function () {
 					  icon: "error",
 					}).then(function() {
 		            		$('#delete_row'+response.id).remove();
+		            		_initnotification();
 					});
 	 			break;
 	 		}
 	 		case "Delete_Collection":{
 	 			swal("Delete Collection", "Thank you!", "warning");
+	 			_initnotification();
 	 			break;
 	 		}
 	 		case "Update_Password":{

@@ -167,6 +167,12 @@ class Dashboard_model extends CI_Model
 
     $customer_service_approved = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','A')->get()->row();
 
+    $online_add_cart = $this->db->select('count(id) as id')->from('tbl_cart_address')->where('status','REQUEST')->get()->row();
+
+    $pre_order_count = $this->db->select('count(id) as id')->from('tbl_cart_address')->where('status','R')->get()->row();
+
+    $collection_count = $this->db->select('count(id) as id')->from('tbl_customer_deposite')->where('status','P')->get()->row();
+
     $data = array('request_sales_stocks'=>$request_sales_stocks->id,
                   'request_sales_project'=>$request_sales_project->id,
                   'request_salesorder'=>intval($request_sales_project->id+$request_sales_stocks->id),
@@ -175,7 +181,10 @@ class Dashboard_model extends CI_Model
                   'sales_shipping_project'=>$sales_shipping_project->id,
                   'sales_deliver_project'=>$sales_deliver_project->id,
                   'customer_service_request'=>$customer_service_request->id,
-                  'customer_service_approved'=>$customer_service_approved->id
+                  'customer_service_approved'=>$customer_service_approved->id,
+                  'online_add_cart'=>$online_add_cart->id,
+                  'pre_order_count'=>$pre_order_count->id,
+                  'collection_count'=>$collection_count->id
               );
     return $data; 
   }

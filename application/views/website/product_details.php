@@ -59,10 +59,8 @@
                                     <div class="info-box info-box-addto">
                                         <span><strong>Collection</strong></span>
                                         <?php if(!$this->session->userdata('userId')){
-                                                echo '<span>
-                                                        <i  id="alert_collection"><i class="fa fa-star-o"></i> Add to Collection</i>
-                                                    </span>';
-                                                }else{
+                                                echo '<span><i id="alert_collection"><i class="fa fa-star-o"></i> Add to Collection</i></span>';
+                                              }else{
                                                 echo '<span>
                                                         <i class="add" id="add_collection"><i class="fa fa-star-o"></i> Add to Collection</i>
                                                         <i class="added" id="delete_collection" data-id="0"><i class="fa fa-star"></i> Remove from Collection</i>
@@ -90,7 +88,7 @@
                                     <div class="info-box">
                                     	<div class="row">
                                     		<div class="col-md-4 col-sm-4 col-xs-4">
-                                    			 <input type="text" name="qty" id="qty" class="form-control" placeholder="0"  />
+                                    			 <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="0"  />
                                     		</div>
                                     		<div class="col-md-4 col-sm-4">
                                     			 <?php if(!$this->session->userdata('userId')){

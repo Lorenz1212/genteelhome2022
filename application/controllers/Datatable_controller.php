@@ -745,12 +745,7 @@ class Datatable_controller extends CI_Controller
 
    //Sales
    public function OnlineOrder_DataTable(){
-      $id = $this->session->userdata('id');
-      $base64_encode = $this->input->post('status');
-      $base64_decode = base64_decode($base64_encode);
-      $status =  trim($base64_decode,"=");
-      $status = strtoupper($status);
-      $data = $this->datatable_model->OnlineOrder_DataTable($id,$status);
+     $data = $this->datatable_model->OnlineOrder_DataTable();
      echo json_encode($data);
    }
     public function OnlineCustomization_DataTable(){
@@ -804,15 +799,6 @@ class Datatable_controller extends CI_Controller
 
    // Repair
 
-    public function Joborder_Admin_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->Joborder_Admin_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
      public function OnlineRequest_DataTable(){
         $user_id = $this->session->userdata('id');
         $base64_encode = $this->input->post('status');

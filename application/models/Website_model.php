@@ -7,6 +7,10 @@ class Website_model extends CI_Model{
          copy($tmp, $path_folder);
          return $newfilename;
     }
+    function notification($userid){
+         $query = $this->db->select('count(id) as id')->from('tbl_cart_add')->where('customer',$userid)->where('status','cart')->get()->row();
+         return $query->id;
+    }
    function registration($firstname,$lastname,$email,$password){
       $this->db->select('*')->from('tbl_customer_online')->where('email',$email)->get();
       $row = $query->row();
@@ -407,14 +411,14 @@ class Website_model extends CI_Model{
       return $json;
    }
    function Cart_Product($userid){
-      $project_query = $this->db->select('cd.*,c.*,d.*,cd.id as id')->from('tbl_cart_add as cd')
-      ->join('tbl_project_design as d','d.id=cd.project_no','LEFT')
-      ->join('tbl_project_color as c','c.c_code=cd.c_code','LEFT')
+      $query = $this->db->select('cd.*,c.*,d.*,cd.id as id,c.c_code as code')
+      ->from('tbl_cart_add as cd')
+      ->join('tbl_project_color as c','c.id=cd.c_code','LEFT')
+      ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
       ->where('cd.customer',$userid)->where('cd.status','cart')->order_by('cd.id','DESC')->get();
-       if($project_query !== FALSE && $project_query->num_rows() > 0){
-           foreach($project_query->result() as $row)
-            {
-                $query2 = $this->db->select('*')->from('tbl_project_image')->where('project_no',$row->id)->where('c_code',$row->c_code)
+       if($query !== FALSE && $query->num_rows() > 0){
+           foreach($query->result() as $row){
+                $query2 = $this->db->select('*')->from('tbl_project_image')->where('c_code',$row->code)
                   ->limit(1)->get(); $row2 = $query2->row();
                 if(!$row2){$images = 'default.png';}else{$images = $row2->images;}
                 $data[] = array(
@@ -433,18 +437,18 @@ class Website_model extends CI_Model{
    }
 
    function CheckOut_Product($userid){
-      $project_query = $this->db->select('cd.*,c.*,d.*,cd.id as id,(SELECT sum(price) FROM tbl_cart_add WHERE customer='.$userid.' AND status="process") as total')->from('tbl_cart_add as cd')
-      ->join('tbl_project_design as d','d.id=cd.project_no','LEFT')
-      ->join('tbl_project_color as c','c.c_code=cd.c_code','LEFT')
+       $data =false;
+      $query = $this->db->select('cd.*,c.*,d.*,cd.id,c.c_code as code,(SELECT sum(price) FROM tbl_cart_add WHERE customer='.$userid.' AND status="process") as total')->from('tbl_cart_add as cd')
+      ->join('tbl_project_color as c','c.id=cd.c_code','LEFT')
+      ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
       ->where('cd.customer',$userid)->where('cd.status','process')->order_by('cd.id','DESC')->get();
-       if($project_query !== FALSE && $project_query->num_rows() > 0){
-           foreach($project_query->result() as $row)
-            {
-                $query2 = $this->db->select('*')->from('tbl_project_image')->where('project_no',$row->project_no)->where('c_code',$row->c_code)
+       if($query !== FALSE && $query->num_rows() > 0){
+           foreach($query->result() as $row){
+                $query2 = $this->db->select('*')->from('tbl_project_image')->where('c_code',$row->code)
                   ->limit(1)->get(); $row2 = $query2->row();
                 if(!$row2){$images = 'default.png';}else{$images = $row2->images;}
                 $data[] = array(
-                  'id'         => $row->id,
+                  'id'=> $row->id,
                   'project_no' => $row->project_no,
                   'title'      => $row->title,
                   'c_code'     => $row->c_code,
@@ -455,7 +459,7 @@ class Website_model extends CI_Model{
                   'qty'        => $row->qty,
                   'images'     => $images);
             }      
-         }else{$data =false;}
+         }
          return $data;
    }
    function Coupon_Promo($id){
@@ -464,8 +468,7 @@ class Website_model extends CI_Model{
       ->join('tbl_code_promo as p','p.promo_code=c.promo_code','LEFT')
       ->where($array)->where('p.status IS NULL')->get();
        if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row)
-            { 
+           foreach($query->result() as $row){ 
                 $exp_date = strtotime($row->date_to);
                 $now = new DateTime();
                 $now = $now->format('Y-m-d');
@@ -548,24 +551,16 @@ class Website_model extends CI_Model{
 
    //Create
    function Create_Product_Cart($id,$c_name,$qty,$order){
-        $query = $this->db->select('*,d.id as project_no')
-        ->from('tbl_project_color as c')
-        ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-        ->where('c.c_name',$c_name)->get();
-        $row = $query->row();
+        $row = $this->db->select('*,c.id,c.c_code as c_code')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->where('c.c_name',$c_name)->get()->row();
 
-        $query1 = $this->db->select('*')->from('tbl_project_image')->where('c_code',$row->c_code)->limit(1)->get();
-        $row1 = $query1->row();
+        $row1 = $this->db->select('*')->from('tbl_project_image')->where('c_code',$row->c_code)->limit(1)->get()->row();
         if(!$row1){$images = 'default.png';}else{$images = $row1->images;}
 
-        $array = array('customer'=>$id,'project_no'=>$row->project_no,'c_code'=>$row->c_code,'status'=>'cart');
-        $cart = $this->db->select('*')->from('tbl_cart_add')->where($array)->get();
-        $row_cart = $cart->row();
+        $row_cart = $this->db->select('*')->from('tbl_cart_add')->where('customer='.$id.' AND c_code='.$row->id.' AND status="cart"')->get()->row();
         if(!$row_cart){
           $total = floatval($qty * $row->c_price);
           $data = array(  'customer'     => $id,
-                          'project_no'   => $row->id,
-                          'c_code'       => $row->c_code,
+                          'c_code'       => $row->id,
                           'qty'          => $qty,
                           'price'        => $total,
                           'status'       => 'cart',
