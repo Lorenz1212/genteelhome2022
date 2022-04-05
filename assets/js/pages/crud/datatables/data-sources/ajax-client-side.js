@@ -493,6 +493,10 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				TableURL = baseURL + 'datatable_controller/OnlineOrder_DataTable';
 				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_order'},{data:'action'}]; 
 				_DataTableLoader('tbl_onlineorder_request',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Preorder_DataTable';
+				let TableData1 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_preorder_request',TableURL1,TableData1,false);
 				break;
 			}
 			

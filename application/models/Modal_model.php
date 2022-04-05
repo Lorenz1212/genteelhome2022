@@ -166,54 +166,7 @@ class Modal_model extends CI_Model{
          $row = $this->db->select('*')->from('tbl_other_materials')->where('id',$id)->where('type',$type)->get()->row();
         return $row;
       }
-     function Modal_OfficeSupplies_Request($id){
-             $query =$this->db->select('*,o.status as status,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(o.date_created, "%M %d %Y") as date_created')->from('tbl_office_janitorial_request as o')->join('tbl_users as u','u.id=o.requestor','LEFT')->WHERE('o.request_id',$id)->get();
-            if(!$query){return false;}else{  
-               foreach($query->result() as $row)  
-               {
-                if($row->status == 'REQUEST'){
-                    $qty = $row->qty;
-                }else{
-                    $qty = $row->balance;
-                }
-                $data[] = array(
-                         'id'           => $row->id,
-                         'request_id'   => $row->request_id,
-                         'requestor'    => $row->requestor,
-                         'item'         => $row->item,
-                         'quantity'     => $row->qty,
-                         'balance'      => $qty,
-                         'remarks'      => $row->remarks,
-                         'status'       => $row->status,
-                         'date_created' => $row->date_created
-                     );
-               } 
-               return $data;}
-    }
-    function Modal_SpareParts_Request($id){
-         $query =$this->db->select('*,o.status as status,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(o.date_created, "%M %d %Y") as date_created')->from('tbl_spares_request as o')->join('tbl_users as u','u.id=o.requestor','LEFT')->WHERE('o.request_id',$id)->get();
-             if(!$query){return false;}else{  
-               foreach($query->result() as $row)  
-               {
-                if($row->status == 'REQUEST'){
-                    $qty = $row->qty;
-                }else{
-                    $qty = $row->balance;
-                }
-                $data[] = array(
-                         'id'           => $row->id,
-                         'request_id'   => $row->request_id,
-                         'requestor'    => $row->requestor,
-                         'item'         => $row->item,
-                         'quantity'     => $row->qty,
-                         'balance'      => $qty,
-                         'remarks'      => $row->remarks,
-                         'status'       => $row->status,
-                         'date_created' => $row->date_created
-                     );
-               } 
-               return $data;}
-    }
+     
     function Modal_Approval_Inspection_Project_View($id,$status){
         $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
         ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
@@ -1019,62 +972,34 @@ class Modal_model extends CI_Model{
     }
 
      function Modal_OnlineOrder($id){
-         $query =  $this->db->select('s.*,i.*,c.*,d.*,uu.*,r.*,d.title as title,c.c_name as color,s.status as status,
-            i.price as price,i.type as type,i.id as item_id,s.type as s_type,
-            CONCAT(u.firstname, " ",u.lastname) AS sales_person,
-            CONCAT(uu.firstname, " ",uu.lastname) AS customer,
-            DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
+        $data = array();
+         $rows = $this->db->select('u.*,s.*,r.*,s.id, 
+            DATE_FORMAT(s.date_created, "%M %d %Y") as date_created,
+            CONCAT(u.firstname, " ",u.lastname) AS name, 
+            CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address,
+            CONCAT(s.s_address, " ",s.s_city, " ",s.s_province) AS shipping_address')
+         ->from('tbl_cart_address as s')
+         ->join('tbl_customer_online as u','u.id=s.customer','LEFT')
+         ->join('tbl_region_shipping as r','r.id=s.region','LEFT')->where('s.id',$this->encryption->decrypt($id))->get()->row();
+
+         $query =  $this->db->select('*,i.id,i.type,i.price,i.status,i.id,i.c_code,i.qty')
           ->from('tbl_cart_add as i')
-          ->join('tbl_cart_address as s','i.order_no=s.order_no','LEFT')
-          ->join('tbl_project_design as d','d.id=i.project_no','LEFT')
-          ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_users as u','u.id=s.sales','LEFT')
-          ->join('tbl_customer_online as uu','uu.id=s.customer','LEFT')
-          ->join('tbl_region_shipping as r','r.id=s.region','LEFT')
-          ->WHERE('s.order_no',$id)->get();
+          ->join('tbl_project_color as c','c.id=i.c_code','LEFT')
+          ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
+          ->where('i.order_no',$rows->order_no)->get();
            if(!$query){return false;}else{  
                foreach($query->result() as $row){
-                if($row->vat == 'VATABLE'){
-                    $vat = $row->total*0.12;
-                    $grandtotal = floatval($row->total - $row->downpayment + $row->shipping_fee + $vat);
-                }else{
-                   $vat = 0;
-                   $grandtotal = floatval($row->total - $row->downpayment + $row->shipping_fee); 
-                }
                 $data[] = array(
-                         'item_id'      => $row->item_id,
-                         'order_no'     => $row->order_no,
-                         'sales_order'  => $row->sales_person,
-                         's_type'       => $row->s_type,
-                         'c_name'       => $row->customer,
-                         'mobile'       => $row->mobile,
-                         'email'        => $row->email,
-                         'b_address'    => $row->b_address,
-                         'b_city'       => $row->b_city,
-                         'b_province'   => $row->b_province,
-                         's_address'    => $row->s_address,
-                         's_city'       => $row->s_city,
-                         's_province'   => $row->s_province,
-                         'region'       => $row->region,
-                         'shipping_range' => $row->shipping_range,
-                         'shipping_fee' => $row->shipping_fee,
-                         'title'        => $row->title,
-                         'color'        => $row->color,
-                         'qty'          => $row->qty,
-                         'status'       => $row->status,
-                         'c_price'      => $row->c_price,
-                         'type'         => $row->type,
-                         'price'        => number_format($row->price,2),
-                         'total'        => number_format($row->total+$vat,2),
-                         'discount'     => $row->discount,
-                         'subtotal'     => number_format($row->subtotal,2),
-                         'downpayment'  => number_format($row->downpayment,2),
-                         'grandtotal'   => number_format($grandtotal,2),
-                         'vat'          => number_format($vat,2),
-                         'status'       => $row->status,
-                         'date_order'   => $row->date_order);
+                         'id'  => $row->id,
+                         'title' => $row->title,
+                         'color'=> $row->c_name,
+                         'qty' => $row->qty,
+                         'price'=> $row->price,
+                         'status'=> $row->status,
+                         'type'=> $row->type);
                } 
-               return $data;}
+           }
+           return array('row'=>$rows,'data'=>$data);
     }
     function Modal_Voucher_Customer($id){
           $query_c = $this->db->select('*')->from('tbl_code_promo')->where('promo_code',$id)->get();
@@ -1105,7 +1030,7 @@ class Modal_model extends CI_Model{
                return $json_data;}
     }
     function Modal_Customer_Concern($id){
-         $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y") as date_created,')->from('tbl_service_request')->where('id',$this->encryption->decrypt($id))->get()->row();
+         $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y") as date_created')->from('tbl_service_request')->where('id',$this->encryption->decrypt($id))->get()->row();
             return $query;
     }
      function Modal_Inquiry_View($id){

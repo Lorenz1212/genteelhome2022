@@ -4031,10 +4031,10 @@ class Datatable_model extends CI_Model{
      //sales
      function OnlineOrder_DataTable(){
          $data =false;   
-       $query = $this->db->select('s.*,u.*,s.type as type,s.status as status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS customer')->from('tbl_cart_address as s')->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.status','REQUEST')->order_by('date_order','DESC')->get();
+       $query = $this->db->select('s.*,u.*,s.id,s.type,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS customer')->from('tbl_cart_address as s')->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.status','REQUEST')->order_by('date_order','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->order_no.'" data-status="approved" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';  
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';  
                 $data[] = array(
                           'order_no'     => $row->order_no,
                           'customer'     => $row->customer,
@@ -4044,6 +4044,84 @@ class Datatable_model extends CI_Model{
 
             }  
          }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+      function Preorder_DataTable(){
+        $data =false;   
+        $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
+            DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
+            CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',1)->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                 if($row->status == 1){
+                    $status = '<span class="label label-lg label-light-warning label-inline">Request</span>';
+                 }else if($row->status == 2){
+                    $status = '<span class="label label-lg label-light-success label-inline">Approved</span>';
+                 }else{
+                    $status = '<span class="label label-lg label-light-danger label-inline">Cancelled</span>';
+                 }
+                   $data[] = array(
+                             'order_no'=>$row->order_no,
+                             'title' => $row->title.' ('.$row->c_name.')',
+                             'qty'=>$row->qty,
+                             'date_created'=>$row->date_created,
+                             'action'=> $status);
+                }  
+             }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Preorder_Request_DataTable(){
+        $data =false;   
+        $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
+            DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
+            CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',1)->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';  
+                   $data[] = array(
+                             'order_no'=>$row->order_no,
+                             'title' => $row->title.' ('.$row->c_name.')',
+                             'qty'=>$row->qty,
+                             'date_created'=>$row->date_created,
+                             'action'=> $action);
+                }  
+             }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Preorder_Approved_DataTable(){
+        $data =false;   
+        $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
+            DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
+            CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',2)->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                   $data[] = array(
+                             'order_no'=>$row->order_no,
+                             'title' => $row->title.' ('.$row->c_name.')',
+                             'qty'=>$row->qty,
+                             'date_created'=>$row->date_created);
+                }  
+             }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Preorder_Cancelled_DataTable(){
+        $data =false;   
+        $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
+            DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
+            CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',3)->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                   $data[] = array(
+                             'order_no'=>$row->order_no,
+                             'title' => $row->title.' ('.$row->c_name.')',
+                             'qty'=>$row->qty,
+                             'date_created'=>$row->date_created);
+                }  
+             }
          $json_data  = array("data" =>$data); 
          return $json_data;
      }

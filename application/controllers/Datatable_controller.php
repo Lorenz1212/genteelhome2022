@@ -748,6 +748,10 @@ class Datatable_controller extends CI_Controller
      $data = $this->datatable_model->OnlineOrder_DataTable();
      echo json_encode($data);
    }
+   public function Preorder_DataTable(){
+     $data = $this->datatable_model->Preorder_DataTable();
+     echo json_encode($data);
+   }
     public function OnlineCustomization_DataTable(){
       $id = $this->session->userdata('id');
       $base64_encode = $this->input->post('status');

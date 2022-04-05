@@ -66,21 +66,6 @@ class Modal_controller extends CI_Controller
         $data = $this->modal_model->Modal_Other_Materials_view($id,$type);
         echo json_encode($data);
      }
-      public function Modal_OfficeSupplies_view(){
-        $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_OfficeSupplies_view($id);
-        echo json_encode($data);
-     }
-     public function Modal_SpareParts_Request(){
-        $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_SpareParts_Request($id);
-        echo json_encode($data);
-     }
-     public function Modal_OfficeSupplies_Request(){
-        $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_OfficeSupplies_Request($id);
-        echo json_encode($data);
-     }
 
     public function Modal_Purchase_Stocks_Request_View(){
         $id = $this->input->post('id');
@@ -226,15 +211,7 @@ class Modal_controller extends CI_Controller
         $status = base64_decode($this->input->post('status'));
         $data = $this->modal_model->Modal_Approval_Purchase_View($id,$status);
         echo json_encode($data);
-     }
-
-     // public function Modal_Approval_Purchase_View(){
-     //    $id = $this->input->post('id');
-     //    $data = $this->modal_model->Modal_Approval_Purchase_View($id);
-     //    echo json_encode($data);
-     // }
-
-
+    }
      //Accounting
      public function Modal_Accounting_Purchase_Material_Stocks_Request(){
         $id = $this->input->post('id');
@@ -376,7 +353,7 @@ class Modal_controller extends CI_Controller
        $id = $this->input->post('id');
        $data = $this->modal_model->Modal_Customer_Concern($id);
        echo json_encode($data); 
-    }
+ }
 
 
     public function Modal_OnlineOrder(){

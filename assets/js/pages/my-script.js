@@ -1285,6 +1285,16 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
+			case "data-online-request":{
+				$(document).ready(function() {
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let thisUrl = 'modal_controller/Modal_OnlineOrder';
+						_ajaxloader(thisUrl,"POST",{id:id},"Modal_OnlineOrder");
+				    });
+				})
+				break;
+			}
 
 			//production
 			case "data-salesorder-create-project":{
@@ -1625,24 +1635,6 @@ var arrows;var item_v;var price;var special_option;
 						$('.hide_special').show();
 					}
 				});
-				break;
-			}
-
-			case "data-onlineorder-list":{
-				$(document).ready(function() {
-					$(document).on("click","#form-request",function() {
-						let thisUrl = 'modal_controller/Modal_OnlineOrder';
-						_ajaxloader(thisUrl,"POST",{id: $(this).attr('data-id')},"Modal_OnlineOrder");
-				   	 });
-				})
-				break;
-			}
-			case "data-onlineorder-view":{
-				$(document).ready(function() { 
-				    	let id =  $('#request_id_update').attr('data-id');
-					let thisUrl = 'view_controller/View_OnlineOrder';
-					_ajaxloader(thisUrl,"POST",{id:id},"View_OnlineOrder");
-				 });
 				break;
 			}
 
@@ -3486,138 +3478,56 @@ var arrows;var item_v;var price;var special_option;
 	  		break;
 	  	}
 	  	case "Modal_OnlineOrder":{
+	  		let container = $('#kt_table_soa_item > tbody:last-child');
+	  		    container.empty();
+	  		     $('.tr-discount').empty();
+	               $('.tr-shipping').empty();
+	  		let html=""    
 	  		if(!response == false){
-	               $('#date_order').text(response[0].date_order);
-	               $('#order_no').text(response[0].order_no);
-	               $('#c_name').text(response[0].c_name);
-	               $('#mobile').text(response[0].mobile);
-	               $('#email').text(response[0].email);
-	               $('#b_address').text(response[0].b_address);
-	               $('#b_city').text(response[0].b_city+','+response[0].b_province);
-	               $('#s_address').text(response[0].s_address);
-	               $('#s_city').text(response[0].s_city+','+response[0].s_province);
-
-	               if(response[0].downpayment == 0.00 || !response[0].downpayment){
-	               	$('.downpayment').hide();
-	               	$('.grandtotal').hide();
-	               	$('.vat').hide();
-	               	$('.shipping_fee').hide();
-	               }else{
-	               	$('.total').show();
-	               	$('.downpayment').show();
-	               	$('.grandtotal').show();
-	               	$('.vat').show();
-	               	$('.shipping_fee').show();
+	               $('.date-order').text(response.row.date_created);
+	               $('.order_no').attr('data-id',response.row.id).text(response.row.order_no);
+	               $('.name').text(response.row.name);
+	               $('.b_address').text(response.row.billing_address);
+	               $('.s_address').text(response.row.shipping_address);
+	               $('.date-order').text(response.row.date_created);
+	               $('.email').text(response.row.email);
+	               $('.mobile').text(response.row.mobile);
+	               if(response.row.discount !=0){
+	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
+	               		<td class="text-right text-success"><div style="float:right;">'+response.row.discount+'%<div></td>');
 	               }
-	               let dis = parseFloat((response[0].discount*100)/1);
-	               $('#subtotal').text(response[0].subtotal);
-	               $('#shipping_fee').text(response[0].shipping_fee);
-	               $('#discount').text(dis+'%');
-	               $('#total').text(response[0].total);
-	               $('#downpayment').text(response[0].downpayment);
-	               $('#grandtotal').text(response[0].grandtotal);
-	               $('#vat').text(response[0].vat);
-	             	$('#tbl_admin_salesorder_so > tbody:last-child').empty();
-	             	for(var i=0;i<response.length;i++){
-	        			$('#tbl_admin_salesorder_so > tbody:last-child').append('<tr>'
-					+'<td class="align-middle pl-0 border-0">'+response[i].title+'</td>'
-					+'<td class="align-middle pl-0 border-0">'+response[i].color+'</td>'
-					+'<td class="align-middle text-center text-success font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].qty+'</td>'
-					+'<td class="align-middle text-right text-success font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].price+'</td>'
-					+'<td class="align-middle text-right text-success font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].type+'</td>'
-					+'</tr>');
-				}
-				if(response[0].status == 'REQUEST'){
-	  				$('#button_status').html('<button type="button" id="APPROVED" class="btn btn-success btn_approved">APPROVE</button>');
-	  			}else if(response[0].status =='PENDING'){
-	  				$('#button_status').html('<button type="button" class="btn btn-primary" id="save_delivery" data-action="READY">Ready For Delivery</button><a href="'+baseURL+'gh/sales/onlineorder-update/'+btoa(response[0].order_no)+'"  class="btn btn-success">Update</a>');
-	  			}else{
-	  				$('#button_status').remove();
-	  			}
-	  		}
-	  		break;
-	  	}
-	  	case "View_OnlineOrder":{
-	  			_initCurrency_format('#downpayment');
-	  			_initCurrency_format('#shipping_fee');
-	  		     $('#date_order').val(response[0].date_order);
-	               $('#order_no').val(response[0].order_no);
-	               $('#c_name').val(response[0].c_name);
-	               $('#mobile').val(response[0].mobile);
-	               $('#email').val(response[0].email);
-	               $('#b_address').val(response[0].b_address);
-	               $('#b_city').val(response[0].b_city+','+response[0].b_province);
-	               $('#s_address').val(response[0].s_address);
-	               $('#s_city').val(response[0].s_city+','+response[0].s_province);
-	               $('#s_type').val(response[0].s_type);
-	               $('#downpayment').val(response[0].downpayment);
-	               $('#shipping_range').val(response[0].shipping_range);
-	               $('#region').val(response[0].region);
-	               $('#shipping_fee').val(response[0].shipping_fee);
-	               $('#vat').val(response[0].vat).change();
-	  		$('#tbl_onlineorder_view > tbody:last-child').empty();
-	             for(var i=0;i<response.length;i++){
-	        		$('#tbl_onlineorder_view > tbody:last-child').append('<tr id="row_'+response[i].item_id+'">'
-					+'<td class="align-middle pl-0 border-0" id="item_id" data-id="'+response[i].item_id+'">'+response[i].title+'</td>'
-					+'<td class="align-middle pl-0 border-0" id="c_price'+response[i].item_id+'" data-c_price="'+response[i].c_price+'">'+response[i].color+'</td>'
-					+'<td class="align-middle text-center text-success font-weight-boldest font-size-h5 pr-0 border-0" id="qty'+response[i].item_id+'"></td>'
-					+'<td class="align-middle text-right text-success font-weight-boldest font-size-h5 pr-0 border-0"  id="price'+response[i].item_id+'"></td>'
-					+'<td class="align-middle text-right text-success font-weight-boldest font-size-h5 pr-0 border-0"><span id="type'+response[i].item_id+'"></span></td>'
-					+'<td class="align-middle text-right text-success font-weight-boldest font-size-h5 pr-0 border-0" id="btn_action'+response[i].item_id+'"></td>'
-					+'</tr>');
-				if(response[i].type == 'Pre Order'){
-	             		var html ='<div class="btn-group" role="group">'
-						     +'<button id="btnGroupDrop1" type="button" class="btn btn-dark font-weight-bold dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-						     +'   Update'
-						     +'   </button>'
-						     +'   <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">'
-						     +'		<a class="dropdown-item" id="action"  data-id="'+response[i].item_id+'" data-action="REQUEST">Request</a>'
-						     +'		<a class="dropdown-item" id="action"  data-id="'+response[i].item_id+'" data-action="In Stocks">In Stocks</a>'
-						     +'		<a class="dropdown-item" id="action'+response[i].item_id+'"  data-qty="'+response[i].qty+'" data-price="'+response[i].price+'" data-id="'+response[i].item_id+'" data-action="EDIT">Edit</a>'
-						     +'		<a class="dropdown-item" id="action"  data-id="'+response[i].item_id+'" data-action="CANCELLED">Cancel</a>'
-						     +'   </div>'
-						     +'</div>';
-	             	}else if(response[i].type == 'In Stocks'){
-	             		var html ='<div class="btn-group" role="group">'
-						     +'<button id="btnGroupDrop1" type="button" class="btn btn-dark font-weight-bold dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-						     +'   Update'
-						     +'   </button>'
-						     +'   <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">'
-						     +'		<a class="dropdown-item" id="action'+response[i].item_id+'" data-qty="'+response[i].qty+'" data-price="'+response[i].price+'" data-id="'+response[i].item_id+'" data-action="EDIT" >Edit</a>'
-						     +'		<a class="dropdown-item" id="action" data-id="'+response[i].item_id+'" data-action="CANCELLED">Cancel</a>'
-						     +'   </div>'
-						     +'</div>';
-	             	}else if(response[i].type == 'REQUEST'){
-	             		var html ='<button type="button" class="btn btn-dark font-weight-bold" disabled>Update</button>';
-	             	}
-	             	
-	             	$('#btn_action'+response[i].item_id).empty();
-	             	$('#btn_action'+response[i].item_id).append(html);
-				$('#qty'+response[i].item_id).html(response[i].qty);
-	             	$('#price'+response[i].item_id).html(response[i].price);
-	             	$('#type'+response[i].item_id).text(response[i].type);
-	             	$(document).on("input","input[name=qty"+response[i].item_id+"]",function() {
-	             		let qty = $(this).val();
-	             		let id = $(this).attr('data-id');
-	             		let price = $('#c_price'+id).attr('data-c_price');
-	             		let total = parseFloat(qty*price);
-	             		 $("input[name=price"+id+"]").val(total.toLocaleString());
-	             	});
-	             	$(document).on("click","#action"+response[i].item_id,function() {
-	             		var action = $(this).attr('data-action');
-	             		var item_id = $(this).attr('data-id');
-	             		var qty = $(this).attr('data-qty');
-	             		var price = $(this).attr('data-price');
-	             		if(action == 'EDIT'){
-	             			$('#qty'+item_id).html('<div class="form-group" style="text-align: center; float:center"><input type="text" class="form-control" data-id="'+item_id+'" name="qty'+item_id+'" value="'+qty+'" style="width:100px;text-align:center;"/></div>');
-	             			$('#price'+item_id).html('<div class="form-group" style="text-align: right; float:right"><input type="text" class="form-control" id="prices'+item_id+'" name="price'+item_id+'" value="'+price+'" style="width:150px;text-align:right;" readonly/></div>');
-	             			var html ='<button type="button"  class="btn btn-success font-weight-bold" id="action" data-id="'+item_id+'" data-action="SAVED">SAVE</button>';
-	             			$('#btn_action'+item_id).empty();
-	             			$('#btn_action'+item_id).append(html);
-	             			_initCurrency_format('#prices'+item_id);
+	             	for(var i=0;i<response.data.length;i++){
+	             		let type = 'text-danger';
+	             		let btn = '<button type="button" class="btn btn-light-dark btn-xs font-weight-normal btn-request" data-id="'+response.data[i].id+'">Request <i class="flaticon2-fast-next"></button>';
+	             		if(response.data[i].type == "In Stocks"){
+	             			type = 'text-success';
+	             			btn ='<i class="flaticon2-check-mark text-success"></i>';
+	             		}else if(response.data[i].type == "Request"){
+	             			type = 'text-warning';
+	             			btn ='<i class="flaticon-signs-2 text-warning"></i>';
+	             		}else if(response.data[i].type == "cancelled"){
+	             			type = 'text-danger';
+	             			btn ='<i class="flaticon2-cross text-warning"></i>';
 	             		}
-	             	});
-			}
+             			html += '<tr>\
+							<td class="text-center td1-border-1px" data-id="'+response.data[i].id+'">'+response.data[i].qty+' PCS '+response.data[i].title+' ('+response.data[i].color+')</td>\
+							<td class="text-right td1-border-1px"><div style="float:left;">₱</div><div style="float:right;">'+Number(response.data[i].price).toLocaleString("en")+'<div></td>\
+							<td class="text-center td1-border-1px td-type '+type+'" data-id="'+response.data[i].id+'">'+response.data[i].type+'</td>\
+							<td class="text-center td1-border-1px td-btn" data-id="'+response.data[i].id+'">'+btn+'</td>\
+						</tr>';
+				}	
+				if(response.data.length < 5){
+				   for(var i=0;i<4;i++){
+					html += '<tr>\
+							<td class="text-center td1-border-1px">&nbsp;</td>\
+							<td class="text-right td1-border-1px">&nbsp;</td>\
+							<td class="text-center td1-border-1px">&nbsp;</td>\
+							<td class="text-center td1-border-1px">&nbsp;</td>\
+						</tr>';
+					}
+				}
+				container.append(html);
+	  		}
 	  		break;
 	  	}
 	  	case "Modal_Voucher_Customer":{

@@ -544,5 +544,11 @@ class Create_controller extends CI_Controller
          $data = $this->create_model->Create_Request_Material($user_id,$item_no,$item,$qty,$type);        
          echo json_encode($data); 
     }
+    public function Create_Request_Pre_Order(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $data = $this->create_model->Create_Request_Pre_Order($user_id,$id);        
+        echo json_encode($data); 
+    }
 }
 ?>

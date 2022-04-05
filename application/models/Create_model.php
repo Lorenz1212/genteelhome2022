@@ -1223,6 +1223,17 @@ class Create_model extends CI_Model{
        	}
     	return true;
     }
+    function Create_Request_Pre_Order($user_id,$id){
+    	$row = $this->db->select('*')->from('tbl_cart_add')->where('id',$id)->get()->row();
+    	if($row){
+    		$this->db->insert('tbl_cart_pre_order',array('order_no'=>$row->order_no,'c_code'=>$row->c_code,'qty'=>$row->qty,'status'=>1,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+    		$this->db->where('id',$id);
+    		$this->db->update('tbl_cart_add',array('type'=>'Request'));
+    		return 'success';
+    	}else{
+    		return 'error';
+    	}
+    }
 
   }
 ?>

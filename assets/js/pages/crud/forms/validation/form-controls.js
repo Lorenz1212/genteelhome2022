@@ -1003,7 +1003,18 @@ var KTFormControls = function () {
                     });
                     break;
                }
-
+            case "Create_Request_Pre_Order":{
+            	$('body').delegate('.btn-request','click',function(e){
+					  e.preventDefault();
+					  e.stopImmediatePropagation();
+					  let element = $(this);
+					  let formData = new FormData();  
+					  formData.append('id',element.attr('data-id'));
+					   thisURL = baseURL + 'create_controller/Create_Request_Pre_Order';
+					 _ajaxForm(thisURL,"POST",formData,"Create_Request_Pre_Order",element.attr('data-id'));
+				});
+            	break;
+            }
 	 		//FOR REPAIR
 
 	 		
@@ -3445,6 +3456,17 @@ var KTFormControls = function () {
 					let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'},{data:'action'}]; 
 					_DataTableLoader('tbl_request_material_list',TableURL,TableData,false);
 	 			_initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Create_Request_Pre_Order":{
+	 		 	if(response == 'success'){
+	 		 		_initToast('success','Request Successfully Submited');
+	 		 		$('.td-type[data-id='+url+']').removeClass('text-danger').addClass('text-warning');
+	 		 		$('.td-type[data-id='+url+']').text('Request');
+	 		 		$('.td-btn[data-id='+url+']').html('<i class="flaticon-signs-2 text-warning"></i>');
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+	 		 	}
 	 		 	break;
 	 		 }
 

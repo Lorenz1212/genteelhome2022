@@ -169,7 +169,7 @@ class Dashboard_model extends CI_Model
 
     $online_add_cart = $this->db->select('count(id) as id')->from('tbl_cart_address')->where('status','REQUEST')->get()->row();
 
-    $pre_order_count = $this->db->select('count(id) as id')->from('tbl_cart_address')->where('status','R')->get()->row();
+    $pre_order_count = $this->db->select('count(id) as id')->from('tbl_cart_pre_order')->where('status',1)->get()->row();
 
     $collection_count = $this->db->select('count(id) as id')->from('tbl_customer_deposite')->where('status','P')->get()->row();
 
