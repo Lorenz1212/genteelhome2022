@@ -3467,6 +3467,7 @@ var KTFormControls = function () {
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 		 	}
+	 		 	_initnotificationupdate();
 	 		 	break;
 	 		 }
 
