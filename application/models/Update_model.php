@@ -1628,6 +1628,47 @@ class Update_model extends CI_Model
             return false;
         }
     }
+    function Update_Pre_Order_Request($user_id,$id,$status){
+        $this->db->where('id',$this->encryption->decrypt($id));
+        $result =$this->db->update('tbl_cart_pre_order',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        if($result){
+            $row = $this->db->select('*')->from('tbl_cart_pre_order')->where('id',$this->encryption->decrypt($id))->get()->row();
+            ($status == 2)?$type ='In Stocks' : $type ='Cancelled';
+           $this->db->where('order_no',$row->order_no);
+           $this->db->where('c_code',$row->c_code);
+           $this->db->update('tbl_cart_add',array('type'=>$type));
+           return $status;
+        }else{
+            return false;
+        }
+    }
+    function Update_Customized_Request($user_id,$id,$subject,$description){
+        $this->db->where('id',$this->encryption->decrypt($id));
+        $result = $this->db->update('tbl_customized_request',$data = array('subject'=>$subject,'description'=>$description));
+        if($result){
+            return array('status'=>true,'type'=>'success','message'=>'Update Successfully');
+        }else{
+            return false;
+        }
+    }
+    function Update_Customized_Approval_Request($user_id,$id,$status){
+        $this->db->where('id',$this->encryption->decrypt($id));
+        $result =$this->db->update('tbl_customized_request',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        if($result){
+            return $status;
+        }else{
+            return false;
+        }
+    }
+    function Update_Approval_Inquiry($user_id,$id,$status){
+        $this->db->where('id',$this->encryption->decrypt($id));
+        $result =$this->db->update('tbl_customer_inquiry',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        if($result){
+            return $status;
+        }else{
+            return false;
+        }
+    }
 
 }
 ?>

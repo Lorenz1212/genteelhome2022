@@ -269,7 +269,7 @@ var arrows;var item_v;var price;var special_option;
 		 }else if(urlpost == 'superuser'){
 		 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
 		 }else if(urlpost == 'admin'){
-
+		 	_ajaxloaderOption('Dashboard_controller/admin_dashboard','POST',false,'admin');
 		 }else if(urlpost == 'accounting'){
 
 		 }
@@ -352,7 +352,7 @@ var arrows;var item_v;var price;var special_option;
 				$('.request_project').text(response.request_project);
 				$('.approved_project').text(response.approved_project);
 				$('.rejected_project').text(response.rejected_project);
-				$('.request_stocks_project').text(parseInt(response.request_stocks+response.request_project));
+				$('.request_stocks_project').text(response.request_stocks_project);
 
 				$('.request_jo_stocks').text(response.request_jo_stocks);
 				$('.request_jo_project').text(response.request_jo_project);
@@ -361,6 +361,16 @@ var arrows;var item_v;var price;var special_option;
 				$('.request_material_pending').text(response.request_material_pending);
 				$('.request_material_received').text(response.request_material_received);
 				$('.request_material_cancelled').text(response.request_material_cancelled);
+
+				$('.request_pre_order_pending').text(response.request_pre_order_pending);
+				$('.request_pre_order_approved').text(response.request_pre_order_approved);
+				$('.request_pre_order_rejected').text(response.request_pre_order_rejected);
+
+				$('.request_customized_pending').text(response.request_customized_pending);
+				$('.request_customized_approved').text(response.request_customized_approved);
+				$('.request_customized_rejected').text(response.request_customized_rejected);
+
+				$('.request_preoder_customized').text(response.request_preoder_customized);
 				break;
 			}
 			case "production":{
@@ -392,13 +402,20 @@ var arrows;var item_v;var price;var special_option;
 
 				$('.sales_shipping_project').text(response.sales_shipping_project);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
-				$('.customer_count').text(response.customer_service_request);
+				$('.customer_count').text(response.customer_total_count);
 				$('.customer_request_count').text(response.customer_service_request);
 				$('.customer_approved_count').text(response.customer_service_approved);
 
 				$('.online_add_cart').text(response.online_add_cart);
 				$('.pre_order_count').text(response.pre_order_count);
 				$('.collection_count').text(response.collection_count);
+
+				$('.request_customized_pending').text(response.request_customized_pending);
+				$('.request_customized_approved').text(response.request_customized_approved);
+				$('.request_customized_rejected').text(response.request_customized_rejected);
+
+				$('.request_inquiry_pending').text(response.request_inquiry_pending);
+				$('.request_inquiry_approved').text(response.request_inquiry_approved);
 				break;
 			}
 			case "superuser":{
@@ -423,6 +440,33 @@ var arrows;var item_v;var price;var special_option;
 
 				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
+				break;
+			}
+			case "admin":{
+				$('.request_stocks').text(response.request_stocks);
+				$('.approved_stocks').text(response.approved_stocks);
+				$('.rejected_stocks').text(response.rejected_stocks);
+				$('.request_project').text(response.request_project);
+				$('.approved_project').text(response.approved_project);
+				$('.rejected_project').text(response.rejected_project);
+
+				$('.request_sales_stocks').text(response.request_sales_stocks);
+				$('.approved_sales_stocks').text(response.approved_sales_stocks);
+				$('.rejected_sales_stocks').text(response.rejected_sales_stocks);
+
+				$('.request_sales_project').text(response.request_sales_project);
+				$('.approved_sales_project').text(response.approved_sales_project);
+				$('.rejected_sales_project').text(response.rejected_sales_project);
+
+				$('.stocks_inpection_pending').text(response.stocks_inpection_pending);
+				$('.stocks_inpection_approved').text(response.stocks_inpection_approved);
+				$('.stocks_inpection_rejected').text(response.stocks_inpection_rejected);
+
+				$('.project_inpection_pending').text(response.project_inpection_pending);
+				$('.project_inpection_approved').text(response.project_inpection_approved);
+				$('.project_inpection_rejected').text(response.project_inpection_rejected);
+
+				$('.total_request').text(response.total_request);
 				break;
 			}
 			case "Purchased_Item":{
@@ -906,7 +950,7 @@ var arrows;var item_v;var price;var special_option;
 					 let action = $(this).attr('data-action');
 					 if(action == 'show'){
 				        $(this).popover('show');
-				        $(this).attr('data-action','hide'); //here if the condition is true then popover should be display.
+				        $(this).attr('data-action','hide');
 					 }else{
 					   $(this).popover('hide');
 				        $(this).attr('data-action','show');
@@ -972,7 +1016,7 @@ var arrows;var item_v;var price;var special_option;
 					 let action = $(this).attr('data-action');
 					 if(action == 'show'){
 				        $(this).popover('show');
-				        $(this).attr('data-action','hide'); //here if the condition is true then popover should be display.
+				        $(this).attr('data-action','hide');
 					 }else{
 					   $(this).popover('hide');
 				        $(this).attr('data-action','show');
@@ -1271,28 +1315,24 @@ var arrows;var item_v;var price;var special_option;
 				});
 				break;
 			}
-
-
-			case "data-inquiry":{
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let status = $(this).attr('data-status');
-					 	let val = {id:id,status:status};
-					 	let thisUrl = 'modal_controller/Modal_Inquiry_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Inquiry_View");
-				    });
-				})
-				break;
-			}
 			case "data-online-request":{
 				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
+				    $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
 					 	let thisUrl = 'modal_controller/Modal_OnlineOrder';
 						_ajaxloader(thisUrl,"POST",{id:id},"Modal_OnlineOrder");
 				    });
+				    $(document).on("click",".btn-create-sales-order",function(e) {
+				    		e.preventDefault();
+						window.location = baseURL+'gh/sales/salesorder-update-stocks?URI='+$('.order_no').text();
+				    });
 				})
+				break;
+			}
+			case "data-salesorder-update-stocks":{
+				var id = getUrlParameter('URI');
+				let thisUrl = 'view_controller/View_Salesorder_Update';
+				_ajaxloader(thisUrl,"POST",{id:id},"View_Salesorder_Update");
 				break;
 			}
 
@@ -2290,6 +2330,45 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
+			case "data-customer-customized-sales":{
+				$(document).ready(function(){
+					  $('.summernote').summernote({
+					     height: 300
+					  });
+					  $('.summernote1').summernote({
+					     height: 300
+					  });
+					$(document).on("click","#form-request",function() {
+					 	let thisUrl = 'modal_controller/Modal_Customized_View';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Customized_View");
+				     });
+				});
+				break;
+			}
+			case "data-customer-customized-superuser":{
+				$(document).ready(function(){
+					  $('.summernote1').summernote({
+					     height: 300
+					  });
+					$(document).on("click","#form-request",function() {
+					 	let thisUrl = 'modal_controller/Modal_Customized_View';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Customized_View_Superuser");
+				     });
+				});
+				break;
+			}
+			case "data-inquiry":{
+				$(document).ready(function() {
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let status = $(this).attr('data-status');
+					 	let val = {id:id,status:status};
+					 	let thisUrl = 'modal_controller/Modal_Inquiry_View';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Inquiry_View");
+				    });
+				})
+				break;
+			}
 		}
 	}
 
@@ -2564,9 +2643,6 @@ var arrows;var item_v;var price;var special_option;
 		  		$('#c_name').val(response.c_name);
 		  		$("#c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 		  		$("#return_item").attr("href",baseURL + 'gh/supervisor/return-item/'+btoa(response.production_no));
-		  		// $("#material_used").attr("href",baseURL + 'gh/supervisor/production-supplies/'+btoa(response.production_no));
-		  		// $("#purchase_request").attr("href",baseURL + 'gh/supervisor/purchase_request/'+btoa(response.production_no));
-		  		// $("#material_used").attr("href",baseURL + 'gh/supervisor/used_material/'+btoa(response.production_no));
 		  		$("#material_request").attr("href",baseURL + 'gh/supervisor/material_request/'+btoa(response.production_no));
 		  		$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
 		  		$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
@@ -3505,7 +3581,7 @@ var arrows;var item_v;var price;var special_option;
 	             		}else if(response.data[i].type == "Request"){
 	             			type = 'text-warning';
 	             			btn ='<i class="flaticon-signs-2 text-warning"></i>';
-	             		}else if(response.data[i].type == "cancelled"){
+	             		}else if(response.data[i].type == "Cancelled"){
 	             			type = 'text-danger';
 	             			btn ='<i class="flaticon2-cross text-warning"></i>';
 	             		}
@@ -3582,14 +3658,7 @@ var arrows;var item_v;var price;var special_option;
 	  		}
 	  		break;
 	  	}
-	  	case "Modal_Inquiry_View":{
-	  		$('#date_created').val(response.date_created);
-	  		$('#customer').val(response.name);
-  			$('#email').val(response.email);
-  			$('#subject').val(response.subject);
-  			$('#comment').val(response.comment);
-	  		break;
-	  	}
+	  	
 	  	case "Modal_Customer_Collection":{
 	  		$('.btn_action').attr('data-id',response.id);
 	  		$('#order_nos').val(response.order_no);
@@ -6181,6 +6250,53 @@ var arrows;var item_v;var price;var special_option;
 	  				$('.balance-quantity').val(total)
 	  			}
 	  		});
+	  		break;
+	  	}
+	  	case "Modal_Customized_View":{
+	  	  $('input[name="subject_update"]').val(response.row.subject).attr('data-id',response.id);
+	  	  $(".summernote1").summernote("code", response.row.description);
+	  	  if(response.row.status == 'P'){
+	  	  	  $('.summernote1').summernote('enable');
+	  	  	  $('input[name="subject_update"]').removeAttr('disabled');
+	  	  	  $('.btn-hide').show();
+	  	  	}else{
+	  	  	   $('.btn-hide').hide();
+	  	  	   $('.summernote1').summernote('disable');
+	  	  	   $('input[name="subject_update"]').attr('disabled',true);
+	  	  	}	
+	  	  break;
+	  	}
+	  	case "Modal_Customized_View_Superuser":{
+	  		$('input[name="subject_update"]').val(response.row.subject).attr('data-id',response.id);
+	  		$('.summernote1').summernote('disable');
+	  	  	$(".summernote1").summernote("code", response.row.description);
+	  	  	if(response.row.status == 'P'){
+	  	  	   $('#modal-form > div > div > div.modal-footer').html('<button type="button" class="btn btn-light-danger font-weight-bold btn-request" data-status="R">Reject</button>\
+               				 <button type="button" class="btn btn-light-success font-weight-bold btn-request"  data-status="A">Approve</button>');
+	  	  	}else{
+	  	  	   $('#modal-form > div > div > div.modal-footer').remove();
+	  	  	}
+	  		break;
+	  	}
+	  	case "Modal_Inquiry_View":{
+	  		$('#date_created').val(response.row.date_created);
+	  		$('#customer').val(response.row.fullname);
+  			$('#email').val(response.row.email);
+  			$('#subject').val(response.row.subject).attr('data-id',response.id);
+  			$('#comment').val(response.row.description);
+  			if(response.row.status == 'P'){
+	  	  	   $('#modal-form > div > div > div.modal-footer').html('<button type="button" class="btn btn-light-success font-weight-bold btn-request" data-status="A">Approve</button>');
+	  	  	}else{
+	  	  	   $('#modal-form > div > div > div.modal-footer').remove();
+	  	  	}
+	  		break;
+	  	}
+	  	case "View_Salesorder_Update":{
+	  		$('input[name=fullname]').val(response.row.name);
+               $('textarea[name=address]').text(response.row.billing_address);
+               $('input[name=date_created]').val(response.row.date_created);
+               $('input[name=email]').val(response.row.email);
+               $('input[name=mobile]').val(response.row.mobile);
 	  		break;
 	  	}
 	  }

@@ -550,5 +550,12 @@ class Create_controller extends CI_Controller
         $data = $this->create_model->Create_Request_Pre_Order($user_id,$id);        
         echo json_encode($data); 
     }
+    public function Create_Customized_Request(){
+        $user_id = $this->session->userdata('id');
+        $subject = $this->input->post('subject');
+        $description = $this->input->post('description');
+        $data = $this->create_model->Create_Customized_Request($user_id,$subject,$description);        
+        echo json_encode($data); 
+    }
 }
 ?>

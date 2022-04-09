@@ -670,12 +670,12 @@ class Website_model extends CI_Model{
           $this->email->message($comment);
           $this->email->send();
     }
-    $data = array('name'    => $name,
-                  'email'   => $email,
-                  'subject' => $subject,
-                  'comment' => $comment,
-                  'date_created' => date('Y-m-d H:i:s'));
-    $this->db->insert('tbl_contact_us',$data);
+    $data = array('fullname'=>$name,
+                  'email'=>$email,
+                  'subject'=>$subject,
+                  'description'=>$comment,
+                  'date_created'=>date('Y-m-d H:i:s'));
+    $this->db->insert('tbl_customer_inquiry',$data);
   }
     function Create_Service($firstname,$lastname,$mobile,$email,$production_no,$comment,$order_no,$service_image,$service_tmp,$path_service,$receipt_image,$receipt_tmp,$path_receipt){
           $status = false;

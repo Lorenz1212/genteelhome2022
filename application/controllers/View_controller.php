@@ -15,6 +15,11 @@ class View_controller extends CI_Controller
         $data = $this->view_model->View_Profile($id);
         echo json_encode($data);
     }
+    public function View_Salesorder_Update(){
+       $id = $this->input->post('id');
+        $data = $this->view_model->View_Salesorder_Update($id);
+        echo json_encode($data);
+    }
     public function View_SO_Data(){
         $id = $this->input->post('id');
         $data = $this->view_model->View_SO_Data($id);

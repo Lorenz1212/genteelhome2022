@@ -165,99 +165,7 @@ class Datatable_model extends CI_Model{
     }
 
 
-     function Customization_DataTable($user_id,$status){
-        if($status == 'REQUEST'){
-            $array = array('s.status'=>$status, 's.type'=>'customized');
-        }else{
-            $array = array('s.status'=>$status, 's.type'=>'customized','s.designer'=> $user_id);
-        }
-
-        $query =  $this->db->select('*,s.status as status,DATE_FORMAT(s.date_order, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS sales_person')->from('tbl_salesorder as s')->join('tbl_users as u','u.id=s.sales_person','LEFT')->where($array)->order_by('date_created','DESC')->get();
-      
-        if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-          $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->so_no.'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-             $data[] = array(
-                      'so_no'        => $row->so_no,
-                      'sales_person' => $row->sales_person,
-                      'date_created' => $row->date_created,
-                      'action'       => $action);
-            }      
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;  
-     }
-     function Customization_Request_DataTable($user_id,$status){
-         if($status == 'REQUEST'){
-            $array = array('s.status'=>$status, 's.type'=>'request');
-        }else{
-            $array = array('s.status'=>$status, 's.type'=>'request','s.designer'=> $user_id);
-        }
-         $query =  $this->db->select('*,s.status as status,DATE_FORMAT(s.date_order, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS sales_person')->from('tbl_salesorder as s')->join('tbl_users as u','u.id=s.sales_person','LEFT')->where($array)->order_by('date_created','DESC')->get();
-        if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-          $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->so_no.'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-
-             $data[] = array(
-                      'so_no'        => $row->so_no,
-                      'sales_person' => $row->sales_person,
-                      'date_created' => $row->date_created,
-                      'action'       => $action);
-            }      
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;  
-     }
-        function OnlineRequest_DataTable($user_id,$status){
-        if($status == 'REQUEST'){
-            $array = array('i.type'=>'REQUEST', 'c.designer'=> $user_id);
-        }else{
-            $array = array('i.designer_status'=>'APPROVED','c.designer'=> $user_id);
-        }
-
-         $query =  $this->db->select('s.*,i.*,c.*,d.*,u.*,d.title as title,c.c_name as color,s.status as status,
-            i.price as price,i.type as type,i.id as item_id,s.type as s_type,c.image as image,
-            CONCAT(u.firstname, " ",u.lastname) AS sales_person,
-            DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
-          ->from('tbl_cart_add as i')
-          ->join('tbl_cart_address as s','i.order_no=s.order_no','LEFT')
-          ->join('tbl_project_design as d','d.project_no=i.project_no','LEFT')
-          ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_users as u','u.id=s.sales','LEFT')
-          ->where($array)->order_by('s.date_order','DESC')
-          ->get();
-      
-        if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-            if($status == 'REQUEST'){
-                $action = '<button type="button" class="btn btn-sm btn-circle btn-success btn-icon" id="save_approved" data-id="'.$row->item_id.'" data-action="DESIGNER_APPROVED"><i class="icon-xs  ki ki-bold-check"></i></button>'; 
-            }else{
-                $action = '<button type="button" class="btn btn-sm btn-circle btn-success btn-icon" disabled><i class="icon-xs  ki ki-bold-check"></i></button>';    
-            }
-
-             
-             $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.' ('.$row->c_name.')"></div>';
-             $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="'.$row->c_name.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>'; 
-             $data[] = array(
-                      'order_no'     => $row->order_no,
-                      'image'        => $image,
-                      'title'        => $title,
-                      'qty'          => $row->qty,
-                      'sales_person' => $row->sales_person,
-                      'date_created' => $row->date_order,
-                      'action'       => $action);
-            }      
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;  
-     }
-
+   
 
         function RawMaterial_DataTable(){
            $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('id','DESC')->get();  
@@ -1839,6 +1747,7 @@ class Datatable_model extends CI_Model{
     ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
     ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
     ->where('i.status',1)
+    ->where('i.type',1)
     ->group_by('i.production_no')
     ->order_by('i.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
@@ -4125,28 +4034,6 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function OnlineCustomization_DataTable($user_id,$status){
-        $query =  $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')
-            ->from('tbl_contact_us')->order_by('date_created','DESC')->get();
-        $s = 1;
-        if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-                 $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-             $data[] = array(
-                      'no'           => $s,
-                      'customer'     => $row->name,
-                      'email'        => $row->email,
-                      'subject'      => $row->subject,
-                      'date_created' => $row->date_created,
-                      'action'       => $action);
-             $s++;
-            }      
-         }else{   
-             $data =false;   
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;  
-     }
       function Coupon_DataTable(){
         $query =  $this->db->select('*,DATE_FORMAT(date_from, "%M %d %Y") as date_from,
              DATE_FORMAT(date_to, "%M %d %Y") as date_to,')->from('tbl_code_promo')->order_by('date_to','ASC')->get();
@@ -4242,7 +4129,7 @@ class Datatable_model extends CI_Model{
      }
      function Customer_Concern_Request_Superuser_DataTable($id){
          $data =false;   
-        $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where('status','P')->get();
+        $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where('status','P')->order_by('date_created','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            $s = 1;
            foreach($query->result() as $row){
@@ -4261,7 +4148,7 @@ class Datatable_model extends CI_Model{
      }
      function Customer_Concern_Approved_Superuser_DataTable($id){
          $data =false;   
-        $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where('status','A')->where('created_by',$id)->get();
+        $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y %r") as date_created')->from('tbl_service_request')->where('status','A')->where('created_by',$id)->order_by('latest_update','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            $s = 1; 
            foreach($query->result() as $row){
@@ -4270,6 +4157,60 @@ class Datatable_model extends CI_Model{
                       'no'           => $s,
                       'production_no'=> $row->production_no,
                       'customer'     => $row->customer,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+                $s++;
+            }      
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;  
+     }
+       function Customized_Request_Sales_Datatable($id){
+         $data =false;   
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customized_request')->where('status','P')->where('created_by',$id)->order_by('date_created','DESC')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+           $s = 1; 
+           foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#customized-for-update"><i class="flaticon2-pen"></i></button>';  
+             $data[] = array(
+                      'no'           => $s,
+                      'subject'      => $row->subject,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+                $s++;
+            }      
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;  
+     }
+    function Customized_Approved_Sales_Datatable($id){
+        $data =false;   
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customized_request')->where('status','A')->where('created_by',$id)->order_by('latest_update','DESC')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+           $s = 1; 
+           foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#customized-for-update"><i class="flaticon2-pen"></i></button>';  
+             $data[] = array(
+                      'no'           => $s,
+                      'subject'      => $row->subject,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+                $s++;
+            }      
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;  
+     }
+       function Customized_Rejected_Sales_Datatable($id){
+         $data =false;   
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customized_request')->where('status','R')->where('created_by',$id)->order_by('latest_update','DESC')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+           $s = 1; 
+           foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#customized-for-update"><i class="flaticon2-pen"></i></button>';  
+             $data[] = array(
+                      'no'           => $s,
+                      'subject'      => $row->subject,
                       'date_created' => $row->date_created,
                       'action'       => $action);
                 $s++;
@@ -4345,6 +4286,156 @@ class Datatable_model extends CI_Model{
              $data =false;   
          }
          $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+    function Pre_Order_Request_Datatable(){
+        $data =false;   
+        $query =  $this->db->select('*,i.id,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',1)->order_by('i.date_created','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                  $action = '<button type="button" class="btn btn-sm btn-light-success btn-icon  btn-request" mr-2" data-status="2" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-check-mark"></i></button>
+                  <button type="button" class="btn btn-sm btn-light-danger btn-icon btn-request" data-status="3" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-cancel-music"></i></button>';    
+                   $data[] = array(
+                             'order_no'=>$row->order_no,
+                             'title' => $row->title.' ('.$row->c_name.')',
+                             'qty'=>$row->qty,
+                              'requestor'=>$row->requestor,
+                             'date_created'=>$row->date_created,
+                             'action'=> $action);
+                }  
+             }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+     function Pre_Order_Approved_Datatable($user_id){
+       $data =false;   
+        $query =  $this->db->select('*,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',2)->where('i.update_by',$user_id)->order_by('i.latest_update','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){ 
+                   $data[] = array(
+                             'order_no'=>$row->order_no,
+                             'title' => $row->title.' ('.$row->c_name.')',
+                             'qty'=>$row->qty,
+                              'requestor'=>$row->requestor,
+                             'date_created'=>$row->date_created);
+                }  
+             }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+    function Pre_Order_Rejected_Datatable($user_id){
+        $data =false;   
+        $query =  $this->db->select('*,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',3)->where('i.update_by',$user_id)->order_by('i.latest_update','DESC')->get();
+          if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){ 
+                   $data[] = array(
+                             'order_no'=>$row->order_no,
+                             'title' => $row->title.' ('.$row->c_name.')',
+                             'qty'=>$row->qty,
+                             'requestor'=>$row->requestor,
+                             'date_created'=>$row->date_created);
+                }  
+             }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+
+
+    function Customized_Request_Datatable(){
+        $data =false;$no = 1;  
+        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, 
+            CONCAT(u.firstname, " ",u.lastname) AS requestor')
+        ->from('tbl_customized_request as p')
+        ->join('tbl_users as u','u.id=p.created_by','LEFT')
+        ->where('p.status','P')
+        ->order_by('p.date_created','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+                 $data[] = array(
+                          'no'           => $no,
+                          'subject'      => $row->subject,
+                          'requestor'    => $row->requestor,
+                          'date_created' => $row->date_created,
+                          'action'       => $action);
+                 $no++;
+             }
+         }
+        $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+     function Customized_Approved_Datatable($user_id){
+        $data =false;$no = 1; 
+        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_customized_request as p')->join('tbl_users as u','u.id=p.created_by','LEFT')->where('p.status','A')->where('p.update_by',$user_id)->order_by('p.latest_update','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+                $data[] = array(
+                          'no'           => $no,
+                          'subject'      => $row->subject,
+                          'requestor'    => $row->requestor,
+                          'date_created' => $row->date_created,
+                          'action'=>$action);
+                $no++;
+             }
+         }
+        $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+    function Customized_Rejected_Datatable($user_id){
+        $data =false;$no = 1;  
+        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_customized_request as p')->join('tbl_users as u','u.id=p.created_by','LEFT')->where('p.status','R')->where('p.update_by',$user_id)->order_by('p.latest_update','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';
+                  $data[] = array(
+                          'no'           => $no,
+                          'subject'      => $row->subject,
+                          'requestor'    => $row->requestor,
+                          'date_created' => $row->date_created,
+                          'action'=>$action);
+                $no++;
+             }
+         }
+        $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+    function Inquiry_Request_Sales_Datatable(){
+        $data =false;$no = 1;  
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customer_inquiry')->where('status','P')->order_by('date_created','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+                   $data[] = array(
+                          'no'           => $no,
+                          'subject'      => $row->subject,
+                          'customer'     => $row->fullname,
+                          'email'        => $row->email,
+                          'date_created' => $row->date_created,
+                          'action'=>$action);
+                $no++;
+             }
+         }
+        $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+     function Inquiry_Approved_Sales_Datatable($user_id){
+        $data =false;$no = 1;  
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customer_inquiry')->where('status','A')->where('update_by',$user_id)->order_by('latest_update','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+                  $data[] = array(
+                          'no'           => $no,
+                          'subject'      => $row->subject,
+                          'customer'     => $row->fullname,
+                          'email'        => $row->email,
+                          'date_created' => $row->date_created,
+                          'action'=>$action);
+                $no++;
+             }
+         }
+        $json_data  = array("data" =>$data); 
          return $json_data;
     }
     

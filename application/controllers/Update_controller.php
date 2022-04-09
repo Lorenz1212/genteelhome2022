@@ -743,6 +743,35 @@ class Update_controller extends CI_Controller
         $data = $this->update_model->Update_Request_Materials_Cancelled($user_id,$id);
         echo json_encode($data);
      }
+     public function Update_Pre_Order_Request(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $data = $this->update_model->Update_Pre_Order_Request($user_id,$id,$status);
+        echo json_encode($data);
+     }
+     public function Update_Customized_Request(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $subject = $this->input->post('subject');
+        $description = $this->input->post('description');
+        $data = $this->update_model->Update_Customized_Request($user_id,$id,$subject,$description);        
+        echo json_encode($data); 
+    }
+    public function Update_Customized_Approval_Request(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $data = $this->update_model->Update_Customized_Approval_Request($user_id,$id,$status);
+        echo json_encode($data);
+     }
+     public function Update_Approval_Inquiry(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $data = $this->update_model->Update_Approval_Inquiry($user_id,$id,$status);
+        echo json_encode($data);
+     }
 
 }
 ?>

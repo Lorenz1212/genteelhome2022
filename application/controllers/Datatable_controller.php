@@ -41,24 +41,6 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Design_Project_Rejected_DataTable($user_id);
         echo json_encode($data);
     }  
-    public function Customization_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->Customization_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
-     public function Customization_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->Customization_Request_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
     public function RawMaterial_DataTable(){
         $data = $this->datatable_model->RawMaterial_DataTable();
         echo json_encode($data);
@@ -752,15 +734,6 @@ class Datatable_controller extends CI_Controller
      $data = $this->datatable_model->Preorder_DataTable();
      echo json_encode($data);
    }
-    public function OnlineCustomization_DataTable(){
-      $id = $this->session->userdata('id');
-      $base64_encode = $this->input->post('status');
-      $base64_decode = base64_decode($base64_encode);
-      $status =  trim($base64_decode,"=");
-      $status = strtoupper($status);
-      $data = $this->datatable_model->OnlineCustomization_DataTable($id,$status);
-      echo json_encode($data);
-   }
    public function Coupon_DataTable(){
       $data = $this->datatable_model->Coupon_DataTable();
       echo json_encode($data);
@@ -787,6 +760,21 @@ class Datatable_controller extends CI_Controller
       echo json_encode($data);
    }
 
+   public function Customized_Request_Sales_Datatable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Customized_Request_Sales_Datatable($id);
+      echo json_encode($data);
+   }
+   public function Customized_Approved_Sales_Datatable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Customized_Approved_Sales_Datatable($id);
+      echo json_encode($data);
+   }
+   public function Customized_Rejected_Sales_Datatable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Customized_Rejected_Sales_Datatable($id);
+      echo json_encode($data);
+   }
 
 
 
@@ -794,7 +782,44 @@ class Datatable_controller extends CI_Controller
       $data = $this->datatable_model->Customer_List_DataTable();
       echo json_encode($data);
    }
-    
+   public function Pre_Order_Request_Datatable(){
+      $data = $this->datatable_model->Pre_Order_Request_Datatable();
+      echo json_encode($data);
+   }
+   public function Pre_Order_Approved_Datatable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Pre_Order_Approved_Datatable($id);
+      echo json_encode($data);
+   }
+   public function Pre_Order_Rejected_Datatable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Pre_Order_Rejected_Datatable($id);
+      echo json_encode($data);
+   }
+   public function Customized_Request_Datatable(){
+      $data = $this->datatable_model->Customized_Request_Datatable();
+      echo json_encode($data);
+   }
+   public function Customized_Approved_Datatable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Customized_Approved_Datatable($id);
+      echo json_encode($data);
+   }
+   public function Customized_Rejected_Datatable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Customized_Rejected_Datatable($id);
+      echo json_encode($data);
+   } 
+
+   public function Inquiry_Request_Sales_Datatable(){
+      $data = $this->datatable_model->Inquiry_Request_Sales_Datatable();
+      echo json_encode($data);
+   }
+   public function Inquiry_Approved_Sales_Datatable(){
+      $id = $this->session->userdata('id');
+      $data = $this->datatable_model->Inquiry_Approved_Sales_Datatable($id);
+      echo json_encode($data);
+   }
 
 
 
@@ -802,17 +827,6 @@ class Datatable_controller extends CI_Controller
 
 
    // Repair
-
-     public function OnlineRequest_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->OnlineRequest_DataTable($user_id,$status);
-        echo json_encode($data);
-    }
-
     public function Approval_UsersRequest_DataTable(){
         $base64_encode = $this->input->post('status');
         $base64_decode = base64_decode($base64_encode);

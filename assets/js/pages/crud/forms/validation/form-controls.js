@@ -91,7 +91,7 @@ var KTFormControls = function () {
 				$('.request_project').text(response.request_project);
 				$('.approved_project').text(response.approved_project);
 				$('.rejected_project').text(response.rejected_project);
-				$('.request_stocks_project').text(parseInt(response.request_stocks+response.request_project));
+				$('.request_stocks_project').text(response.request_stocks_project);
 
 				$('.request_jo_stocks').text(response.request_jo_stocks);
 				$('.request_jo_project').text(response.request_jo_project);
@@ -100,6 +100,16 @@ var KTFormControls = function () {
 				$('.request_material_pending').text(response.request_material_pending);
 				$('.request_material_received').text(response.request_material_received);
 				$('.request_material_cancelled').text(response.request_material_cancelled);
+
+				$('.request_pre_order_pending').text(response.request_pre_order_pending);
+				$('.request_pre_order_approved').text(response.request_pre_order_approved);
+				$('.request_pre_order_rejected').text(response.request_pre_order_rejected);
+
+				$('.request_customized_pending').text(response.request_customized_pending);
+				$('.request_customized_approved').text(response.request_customized_approved);
+				$('.request_customized_rejected').text(response.request_customized_rejected);
+
+				$('.request_preoder_customized').text(response.request_preoder_customized);
 				break;
 			}
 			case "production":{
@@ -131,9 +141,20 @@ var KTFormControls = function () {
 
 				$('.sales_shipping_project').text(response.sales_shipping_project);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
-				$('.customer_count').text(response.customer_service_request);
+				$('.customer_count').text(response.customer_total_count);
 				$('.customer_request_count').text(response.customer_service_request);
 				$('.customer_approved_count').text(response.customer_service_approved);
+
+				$('.online_add_cart').text(response.online_add_cart);
+				$('.pre_order_count').text(response.pre_order_count);
+				$('.collection_count').text(response.collection_count);
+
+				$('.request_customized_pending').text(response.request_customized_pending);
+				$('.request_customized_approved').text(response.request_customized_approved);
+				$('.request_customized_rejected').text(response.request_customized_rejected);
+
+				$('.request_inquiry_pending').text(response.request_inquiry_pending);
+				$('.request_inquiry_approved').text(response.request_inquiry_approved);
 				break;
 			}
 			case "superuser":{
@@ -158,6 +179,33 @@ var KTFormControls = function () {
 
 				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
+				break;
+			}
+			case "admin":{
+				$('.request_stocks').text(response.request_stocks);
+				$('.approved_stocks').text(response.approved_stocks);
+				$('.rejected_stocks').text(response.rejected_stocks);
+				$('.request_project').text(response.request_project);
+				$('.approved_project').text(response.approved_project);
+				$('.rejected_project').text(response.rejected_project);
+
+				$('.request_sales_stocks').text(response.request_sales_stocks);
+				$('.approved_sales_stocks').text(response.approved_sales_stocks);
+				$('.rejected_sales_stocks').text(response.rejected_sales_stocks);
+
+				$('.request_sales_project').text(response.request_sales_project);
+				$('.approved_sales_project').text(response.approved_sales_project);
+				$('.rejected_sales_project').text(response.rejected_sales_project);
+
+				$('.stocks_inpection_pending').text(response.stocks_inpection_pending);
+				$('.stocks_inpection_approved').text(response.stocks_inpection_approved);
+				$('.stocks_inpection_rejected').text(response.stocks_inpection_rejected);
+
+				$('.project_inpection_pending').text(response.project_inpection_pending);
+				$('.project_inpection_approved').text(response.project_inpection_approved);
+				$('.project_inpection_rejected').text(response.project_inpection_rejected);
+
+				$('.total_request').text(response.total_request);
 				break;
 			}
 			
@@ -243,6 +291,151 @@ var KTFormControls = function () {
 
 	 var _FormSubmit = async function(action){
 	 	switch(action){
+	 		   case "Update_Approval_Inquiry":{
+	 		   		$('body').delegate('.btn-request','click',function(e){
+	 					e.preventDefault();
+	 					let status = $(this).attr('data-status');
+	 					let id = $('input[name=subject]').attr('data-id');
+	 					Swal.fire({
+                                 title: "Are you sure you want to submit the request?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',id);
+                                       formData.append('status',status);
+                                    thisURL = baseURL + 'update_controller/Update_Approval_Inquiry';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Approval_Inquiry",false);
+                                 }
+                          });
+	 				});
+	 		   		break;
+	 		   }
+	 		   case "Create_Customized_Request":{
+	 		   	 	form = document.getElementById('Create_Customized_Request');
+				         validation = FormValidation.formValidation(
+							form,
+							{
+								fields: {
+									subject: {
+											validators: {
+												notEmpty: {
+													message: 'Subject is required'
+												}
+											}
+										}
+								},
+								plugins: { 
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                   
+							}
+						   }
+					    );
+			 			$('.Create_Customized_Request').on('click', function(e){
+			 				e.preventDefault();
+			 				validation.validate().then(function(status) {
+						       if (status == 'Valid') {
+						       	if ($('.summernote').summernote('isEmpty')) {
+								    _initSwalWarning();
+								}else{
+									let formData = new FormData();
+				 					formData.append('subject',$('input[name=subject]').val());
+				 					formData.append('description',$('.summernote').summernote('code'));
+									thisURL = baseURL + 'create_controller/Create_Customized_Request';
+									 _ajaxForm(thisURL,"POST",formData,"Create_Customized_Request",false);
+								}
+						       }
+						   });
+	 		      });
+			 	var form_update = document.getElementById('Update_Customized_Request');
+			    var validation_update = FormValidation.formValidation(
+							form_update,
+							{
+								fields: {
+									subject: {
+											validators: {
+												notEmpty: {
+													message: 'Subject is required'
+												}
+											}
+										}
+								},
+								plugins: { 
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                   
+							}
+						   }
+					    );
+			 			$('.Update_Customized_Request').on('click', function(e){
+			 				e.preventDefault();
+			 				validation_update.validate().then(function(status) {
+						       if (status == 'Valid') {
+						       	if ($('.summernote1').summernote('isEmpty')) {
+								    _initSwalWarning();
+								}else{
+									let formData = new FormData();
+									formData.append('id',$('input[name=subject_update]').attr('data-id'));
+				 					formData.append('subject',$('input[name=subject_update]').val());
+				 					formData.append('description',$('.summernote1').summernote('code'));
+									thisURL = baseURL + 'update_controller/Update_Customized_Request';
+									 _ajaxForm(thisURL,"POST",formData,"Update_Customized_Request",false);
+								}
+						       }
+						   });
+	 		      });
+	 		   	 break;
+	 		   }
+	 		   case "Update_Customized_Request_Approval":{
+	 		   $('body').delegate('.btn-request','click',function(e){
+	 					e.preventDefault();
+	 					let status = $(this).attr('data-status');
+	 					let id = $('input[name=subject_update]').attr('data-id');
+	 					Swal.fire({
+                                 title: "Are you sure you want to submit the request?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',id);
+                                       formData.append('status',status);
+                                    thisURL = baseURL + 'update_controller/Update_Customized_Approval_Request';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Customized_Approval_Request",false);
+                                 }
+                          });
+	 				});
+	 		   	break;
+	 		   }
+	 			case "Update_Pre_Order_Request":{
+	 				$('body').delegate('.btn-request','click',function(e){
+	 					e.preventDefault();
+	 					let status = $(this).attr('data-status');
+	 					let id = $(this).attr('data-id');
+	 					Swal.fire({
+                                 title: "Are you sure you want to submit the request?",
+                                 text: "You won't be able to revert this",
+                                 icon: "warning",
+                                 confirmButtonText: "Submit!",
+                                 showCancelButton: true
+                             }).then(function(result) {
+                                 if (result.value) {
+                                   let formData = new FormData();
+                                       formData.append('id',id);
+                                       formData.append('status',status);
+                                    thisURL = baseURL + 'update_controller/Update_Pre_Order_Request';
+                                    _ajaxForm(thisURL,"POST",formData,"Update_Pre_Order_Request",false);
+                                 }
+                          });
+	 				});
+	 				break;
+	 			}
 		 	   case "Update_Request_Materials":{
 		 	   		$('.Update_Request_Materials').on('click',function(e){
 		 	   			if($('input[name=quantity]').val() == 0){
@@ -3468,6 +3661,110 @@ var KTFormControls = function () {
 	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 		 	}
 	 		 	break;
+	 		 }
+	 		 case "Update_Pre_Order_Request":{
+	 		 	if(response == 2){
+	 		 		_initToast('success','Request Approved');
+	 		 		let TableURL1 = baseURL + 'datatable_controller/Pre_Order_Approved_Datatable';
+					let TableData1 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_preoder_approved',TableURL1,TableData1,false);
+	 		 	}else if(response == 3){
+	 		 		_initToast('error','Request Rejected');
+	 		 		let TableURL2 = baseURL + 'datatable_controller/Pre_Order_Rejected_Datatable';
+					let TableData2 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_preoder_rejected',TableURL2,TableData2,false);
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+	 		 	}
+	 		 	let TableURL = baseURL + 'datatable_controller/Pre_Order_Request_Datatable';
+				let TableData = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_preoder_request',TableURL,TableData,false);
+				_initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Create_Customized_Request":{
+	 		 	if(response.status == true){
+	 		 		_initToast(response.type,response.message);
+	 		    let TableURL = baseURL + 'datatable_controller/Customized_Request_Sales_Datatable';
+				let TableData = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}];
+				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Sales_Datatable';
+				let TableData1 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Sales_Datatable';
+				let TableData2 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
+				$('.summernote').summernote('reset');
+				$('#Create_Customized_Request')[0].reset();
+				$('input[name=subject]').removeClass('is-valid');
+				$('#Create_Customized_Request > div.form-group.fv-plugins-icon-container.has-success > div').remove();
+				$('#customized-form').modal('hide');
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+	 		 	}
+
+	 		  	_initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Update_Customized_Request":{
+	 		 	if(response.status == true){
+	 		 		_initToast(response.type,response.message);
+	 		    let TableURL = baseURL + 'datatable_controller/Customized_Request_Sales_Datatable';
+				let TableData = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}];
+				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Sales_Datatable';
+				let TableData1 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Sales_Datatable';
+				let TableData2 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+	 		 	}
+	 		  	_initnotificationupdate();
+	 		 	break
+	 		 }
+	 		 case "Update_Customized_Approval_Request":{
+	 		 	if(response == 'A'){
+	 		 		_initToast('success','Request Approved');
+	 		 		let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Datatable';
+					let TableData1 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+					_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
+					$('#modal-form').modal('hide');
+	 		 	}else if(response == 'R'){
+	 		 		_initToast('error','Request Rejected');
+	 		 		let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Datatable';
+					let TableData2 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+					_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
+					$('#modal-form').modal('hide');
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+	 		 	}
+	 		 	let TableURL = baseURL + 'datatable_controller/Customized_Request_Datatable';
+				let TableData = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
+	 		  	_initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Update_Approval_Inquiry":{
+	 		 	if(response == 'A'){
+	 		 		_initToast('success','Request Approved');
+	 		 		let TableURL1 = baseURL + 'datatable_controller/Inquiry_Approved_Sales_Datatable';
+					let TableData1 = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action'}]; 
+					_DataTableLoader('tbl_inquiry_approved',TableURL1,TableData1,false);
+					$('#modal-form').modal('hide');
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+	 		 	}
+	 		  	let TableURL = baseURL + 'datatable_controller/Inquiry_Request_Sales_Datatable';
+				let TableData = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action'}];
+				_DataTableLoader('tbl_inquiry_request',TableURL,TableData,false);
+				_initnotificationupdate();
+	 		 	break
 	 		 }
 
 	 	}

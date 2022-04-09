@@ -11,6 +11,37 @@ class View_model extends CI_Model
         $row = $query->row();  
         return $row;
     }
+    function View_Salesorder_Update($id){
+        $data = array();
+         $rows = $this->db->select('u.*,s.*,r.*,s.id, 
+            DATE_FORMAT(s.date_created, "%M %d %Y") as date_created,
+            CONCAT(u.firstname, " ",u.lastname) AS name, 
+            CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address,
+            CONCAT(s.s_address, " ",s.s_city, " ",s.s_province) AS shipping_address')
+         ->from('tbl_cart_address as s')
+         ->join('tbl_customer_online as u','u.id=s.customer','LEFT')
+         ->join('tbl_region_shipping as r','r.id=s.region','LEFT')
+         ->where('s.order_no',$id)->get()->row();
+
+         $query =  $this->db->select('*,i.id,i.type,i.price,i.status,i.id,i.c_code,i.qty')
+          ->from('tbl_cart_add as i')
+          ->join('tbl_project_color as c','c.id=i.c_code','LEFT')
+          ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
+          ->where('i.order_no',$rows->order_no)->get();
+           if(!$query){return false;}else{  
+               foreach($query->result() as $row){
+                $data[] = array(
+                         'id'  => $row->id,
+                         'title' => $row->title,
+                         'color'=> $row->c_name,
+                         'qty' => $row->qty,
+                         'price'=> $row->price,
+                         'status'=> $row->status,
+                         'type'=> $row->type);
+               } 
+           }
+           return array('row'=>$rows,'data'=>$data);
+    }
     function View_Supplier_Data($id){
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_supplier')->where('id',$this->encryption->decrypt($id))->get()->row();
         return $query;

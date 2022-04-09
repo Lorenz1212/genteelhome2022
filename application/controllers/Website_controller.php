@@ -30,8 +30,7 @@ class Website_controller extends CI_Controller
                 $this->email_model->email($type,$email,$subject,$message,$row->firstname);  
                 
             }
-            $data_json = array('status' => $status,
-                                'id'     => $message);
+            $data_json = array('status' =>$status,'id'=> $message);
             echo json_encode($data_json);
     }
     public function notification(){
