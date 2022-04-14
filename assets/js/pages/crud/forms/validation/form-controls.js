@@ -1167,7 +1167,6 @@ var KTFormControls = function () {
                                                 showCancelButton: true
                                             }).then(function(result) {
                                                 if (result.value) {
-                                                	alert($('input[name="tin"]').val())
                                                   let formData = new FormData();
                                                       formData.append('date_created',$('input[name="date_created"]').val());
                                                       formData.append('customer',$('input[name="fullname"]').val());
@@ -1193,6 +1192,31 @@ var KTFormControls = function () {
                                    }
                              }
                           });
+                    });
+                    break;
+               }
+               case"Update_Salesorder_Stocks":{
+                         $(document).on('click','.btn-create-submit',function(e){
+                             e.preventDefault();
+                             Swal.fire({
+                                    title: "Are you sure?",
+                                    text: "You won't be able to revert this",
+                                    icon: "warning",
+                                    confirmButtonText: "Submit!",
+                                    showCancelButton: true
+                                }).then(function(result) {
+                                    if (result.value) {
+                                      let formData = new FormData();
+                                          formData.append('id',$('input[name="fullname"]').attr('data-id'));
+                                          formData.append('downpayment',$('input[name="downpayment"]').val());
+                                          formData.append('date_downpayment',$('input[name="date_downpayment"]').val());
+                                          formData.append('discount',$('input[name="discount"]').val());
+                                          formData.append('vat',$('select[name="vat"]').val());
+                                          formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+                                      thisURL = baseURL + 'update_controller/Update_Salesorder_Stocks';
+                                   _ajaxForm(thisURL,"POST",formData,"Update_Salesorder_Stocks",false);
+                                 }
+                             });
                     });
                     break;
                }
@@ -3766,6 +3790,17 @@ var KTFormControls = function () {
 				_DataTableLoader('tbl_inquiry_request',TableURL,TableData,false);
 				_initnotificationupdate();
 	 		 	break
+	 		 }
+	 		 case "Update_Salesorder_Stocks":{
+	 		 	if(response == true){
+                    Swal.fire("Create Successfully!", "This form is Completed!", "success").then(function(){
+                    	window.location = baseURL+'gh/sales/online-order';
+                     }); 
+                }else{
+                      Swal.fire("Error!", "Something went wrong!", "error");
+                }
+                _initnotificationupdate();
+	 		 	break;
 	 		 }
 
 	 	}

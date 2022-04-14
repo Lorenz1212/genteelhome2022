@@ -1669,6 +1669,59 @@ class Update_model extends CI_Model
             return false;
         }
     }
+    function Update_Salesorder_Stocks($user_id,$id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat){
+        $rows = $this->db->select('u.*,s.*,s.id,CONCAT(u.firstname, " ",u.lastname) AS name,CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address')->from('tbl_cart_address as s')
+        ->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.id',$this->encryption->decrypt($id))->get()->row();
+        $so_no = $this->get_code('tbl_salesorder_stocks','SO-FS'.date('Ymd'));
+        $row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$rows->name)->get()->row();
+        if(!$row){
+            $c_no = $this->get_code('tbl_salesorder_customer','CN'.date('Ymd'));
+            $this->db->insert('tbl_salesorder_customer',array('customer_no'=>$c_no,
+                                                             'fullname'=>$rows->name,
+                                                             'email'=>$rows->email,
+                                                             'mobile'=>$rows->mobile,
+                                                             'address'=>$rows->billing_address,
+                                                             'date_created'=>date('Y-m-d H:i:s'),
+                                                             'created_by'=>$user_id));
+            $last_id = $this->db->insert_id();
+        }else{
+            $last_id = $row->id;
+        }
+        $result = $this->db->insert('tbl_salesorder_stocks',array('so_no'=>$so_no,
+                      'customer'=>$last_id,
+                      'email'=>$rows->email,
+                      'mobile'=>$rows->mobile,
+                      'address'=>$rows->billing_address,
+                      'downpayment'=>$downpayment,
+                      'discount'=>$discount,
+                      'shipping_fee'=>$shipping_fee,
+                      'vat'=>$vat,
+                      'date_order'=>date('Y-m-d',strtotime($rows->date_order)),
+                      'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
+                      'date_created'=>date('Y-m-d H:i:s'),
+                      'created_by'=>$user_id));
+        $last_id_so = $this->db->insert_id();
+        $query =  $this->db->select('*')
+          ->from('tbl_cart_add')->where('type','In Stocks')->where('order_no',$rows->order_no)->get();
+           if(!$query){return false;}else{  
+               foreach($query->result() as $row){
+                $this->db->insert('tbl_salesorder_stocks_item',
+                      array('so_no'=>$last_id_so,
+                      'c_code'=>$row->c_code,
+                      'qty'=>$row->qty,
+                      'unit'=>'PCS',
+                      'amount'=>$row->price
+                    ));
+               } 
+           }
+        if($result){
+            return true;
+        }else{
+            return false;   
+        }
+
+
+    }
 
 }
 ?>

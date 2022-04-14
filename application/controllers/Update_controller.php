@@ -772,6 +772,17 @@ class Update_controller extends CI_Controller
         $data = $this->update_model->Update_Approval_Inquiry($user_id,$id,$status);
         echo json_encode($data);
      }
+     public function Update_Salesorder_Stocks(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $downpayment = floatval(str_replace(',', '', $this->input->post('downpayment')));
+        $date_downpayment = $this->input->post('date_downpayment');
+        $discount =  $this->input->post('discount');
+        $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
+        $vat =  $this->input->post('vat');
+        $data = $this->update_model->Update_Salesorder_Stocks($user_id,$id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat);
+        echo json_encode($data);
+     }
 
 }
 ?>

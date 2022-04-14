@@ -3285,8 +3285,14 @@ var arrows;var item_v;var price;var special_option;
 	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
 	               						<td class="text-right text-success"><div style="float:right;">'+response[0].discount+'%<div></td>');
 	               }
+	               if(response[0].downpayment==0){
+	               	$('.td-date-downpayment').text("");
+	               	$('.td-downpayment').text(0);
+	               }else{
+	                  $('.td-date-downpayment').text('('+response[0].date_downpayment+')');
+	                  $('.td-downpayment').text(response[0].downpayment);
+	               }
 	               $('.total').text(response[0].total);
-	               $('.td-downpayment').text(response[0].downpayment);
 	               $('.td-amountdue').text(response[0].amount_due);
 	               $('.shipping_fee').text(response[0].shipping_fee);
 	             	if(response[0].vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('(w/o vat)');}
@@ -3334,9 +3340,14 @@ var arrows;var item_v;var price;var special_option;
 	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
 	               						<td class="text-right text-success"><div style="float:right;">'+response[0].discount+'%<div></td>');
 	               }
-	               $('.td-date-downpayment').text('('+response[0].date_downpayment+')');
+	               if(response[0].downpayment==0){
+	               	$('.td-date-downpayment').text("");
+	               	$('.td-downpayment').text(0);
+	               }else{
+	                  $('.td-date-downpayment').text('('+response[0].date_downpayment+')');
+	                  $('.td-downpayment').text(response[0].downpayment);
+	               }
 	               $('.total').text(response[0].total);
-	               $('.td-downpayment').text(response[0].downpayment);
 	               $('.td-amountdue').text(response[0].amount_due);
 	             	if(response[0].vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('');}
 	             	for(var i=0;i<response.length;i++){
@@ -3395,8 +3406,13 @@ var arrows;var item_v;var price;var special_option;
 	               	$('.tr-discount').append('<td class="text-right text-success">DISCOUNTED :</td>\
 	               						<td class="text-right text-success"><div style="float:right;">'+response.soa.discount+'%<div></td>');
 	               }
-	               $('.td-date-downpayment').text('('+response.soa.date_downpayment+')');
-	               $('.td-downpayment').text(response.soa.downpayment);
+	               if(response[0].downpayment==0){
+	               	$('.td-date-downpayment').text("");
+	               	$('.td-downpayment').text(0);
+	               }else{
+	                  $('.td-date-downpayment').text('('+response.soa.date_downpayment+')');
+	                  $('.td-downpayment').text(response.soa.downpayment);
+	               }
 	               $('.td-amountdue').text(response.soa.amount_due);
 	             	if(response.soa.vat_status==1){$('.vat-included').text('(with vat)');}else{$('.vat-included').text('');}
 	             	for(var i=0;i<response.item.length;i++){
@@ -3482,28 +3498,6 @@ var arrows;var item_v;var price;var special_option;
 	  	//View Data Update
 
 	  	//supervisor
-	  	case "View_Return_Item_Data":{
-   		          let html =' ';
-				html +='<thead>'+'<tr><th class="pl-0 font-weight-bold text-muted text-uppercase">ITEM</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">QTY</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">UNIT</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">RETURN</th>'
-							 +'<th class="text-center font-weight-bold text-muted text-uppercase">ACTION</th></tr>'
-						  	 +'</thead><tbody>';
-				for(let i=0;i<response.length;i++){
-					_initNumberOnly("#balance_quantity"+response[i].id);
-					html +='<tr class="font-size-lg font-weight-bolder h-65px">'
-							+'<td class="align-middle pl-0 border-0"  width="300"><input type="hidden" id="item'+response[i].id+'" value="'+response[i].item+'">'+response[i].item+'</td>'
-							+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0">'+response[i].qty+'</td>'
-							+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><input type="hidden" id="unit'+response[i].id+'" value="'+response[i].unit+'">'+response[i].unit+'</td>'
-							+'<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0"><input type="text" id="balance_quantity'+response[i].id+'"  class="form-control" style="text-align:center"/></td>'
-							+'<td class="align-middle text-center text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button type="button" id="save" data-id="'+response[i].id+'" class="btn btn-success font-weight-bolder ml-sm-auto my-1">RETURN</button></td>'
-							+'</tr>';
-				}	
-				html +='</tbody>';
-			$('#tbl-return-item').html(html);	
-	  	   break;
-	  	}
 	  	case "View_Production_Data":{
 	  	    if(!response == false){
 	  	      	_initItem_option();
@@ -6292,11 +6286,20 @@ var arrows;var item_v;var price;var special_option;
 	  		break;
 	  	}
 	  	case "View_Salesorder_Update":{
-	  		$('input[name=fullname]').val(response.row.name);
+	  		_initNumberOnly("#discount");
+			_initCurrency_format('input[name="amount"],input[name="shipping_fee"],input[name="downpayment"]');
+	  		$('input[name=fullname]').val(response.row.name).attr('data-id',response.id);
                $('textarea[name=address]').text(response.row.billing_address);
                $('input[name=date_created]').val(response.row.date_created);
                $('input[name=email]').val(response.row.email);
                $('input[name=mobile]').val(response.row.mobile);
+               for(let i=0;i<response.data.length;i++){
+				$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
+					<td class="td-item['+i+']" data-id="'+response.data[i].id+'">'+response.data[i].title+' ('+response.data[i].color+')</td>\
+					<td class="text-center td-qty['+i+']">'+response.data[i].qty+'</td>\
+					<td class="text-right td-amount['+i+']">'+response.data[i].price+'</td>\
+					</tr>');	
+               }
 	  		break;
 	  	}
 	  }

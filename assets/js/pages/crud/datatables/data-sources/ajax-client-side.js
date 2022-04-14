@@ -559,12 +559,8 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
 				break;
 			}
-			case "tbl_joborder_admin":{
-				TableURL = baseURL + 'datatable_controller/Joborder_Admin_DataTable';
-				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
-				break;
-			}
+
+
 			case "tbl_users":{
 				TableURL = baseURL + 'datatable_controller/Users_DataTable';
 				TableData = [{data:'no'},{data:'username'},{data:'name'},{data:'date_created'},{data:'status'},{data:'action'}]; 

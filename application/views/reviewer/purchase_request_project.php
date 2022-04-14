@@ -20,68 +20,38 @@
 						<div class="col-xl-12">
 							<!--begin::Nav Panel Widget 1-->
 							<div class="card card-custom gutter-b">
-								<!--begin::Body-->
-								<div class="card-body">
-									<ul class="dashboard-tabs nav nav-pills nav-dark row row-paddingless m-0 p-0 flex-column flex-sm-row" role="tablist">
+								  <div class="card-header card-header-tabs-line">
+							        <div class="card-toolbar">
+							           <ul class="nav nav-tabs nav-bold nav-tabs-line">
 										<!--begin::Item-->
-										<li class="nav-item d-flex col-sm flex-grow-1 flex-shrink-0 mr-3 mb-3 mb-lg-0">
-											<a class="nav-link active border py-10 d-flex flex-grow-1 rounded flex-column align-items-center" data-toggle="pill" href="#request">
-												<span class="nav-icon py-2 w-auto">
-													<span class="svg-icon svg-icon-3x">
-														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-														        <rect x="0" y="0" width="24" height="24"/>
-														        <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
-														        <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1"/>
-														        <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1"/>
-														    </g>
-														</svg>
-													</span>
-												</span>
-												<span class="nav-text font-size-lg py-2 font-weight-bold text-center">REQUEST</span>
-											</a>
+										<li class="nav-item">
+											 <a class="nav-link active" data-toggle="tab" href="#request">
+						                        <span class="nav-text">Request</span>
+						                        <span class="label label-rounded label-warning request_material_pending">0</span>
+						                    </a>
 										</li>
 										<!--end::Item-->
 										<!--begin::Item-->
-										<li class="nav-item d-flex col-sm flex-grow-1 flex-shrink-0 mr-3 mb-3 mb-lg-0">
-											<a class="nav-link border py-10 d-flex flex-grow-1 rounded flex-column align-items-center" data-toggle="pill" href="#inprogress">
-												<span class="nav-icon py-2 w-auto">
-													<span class="svg-icon svg-icon-3x">
-														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-															<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-																<rect x="0" y="0" width="24" height="24" />
-																<rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
-																<path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3" />
-															</g>
-														</svg>
-													</span>
-												</span>
-												<span class="nav-text font-size-lg py-2 font-weight-bolder text-center">IN PROGRESS</span>
-											</a>
+										<li class="nav-item">
+											 <a class="nav-link" data-toggle="tab" href="#inprogress">
+						                        <span class="nav-text">IN PROGRESS</span>
+						                        <span class="label label-rounded label-primary request_material_pending">0</span>
+						                    </a>
 										</li>
 										<!--end::Item-->
 										<!--begin::Item-->
-										<li class="nav-item d-flex col-sm flex-grow-1 flex-shrink-0 mr-3 mb-3 mb-lg-0">
-											<a class="nav-link border py-10 d-flex flex-grow-1 rounded flex-column align-items-center" data-toggle="pill" href="#complete">
-												<span class="nav-icon py-2 w-auto">
-													<span class="svg-icon svg-icon-2x">
-														<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
-														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-														        <rect x="0" y="0" width="24" height="24"/>
-														        <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3"/>
-														        <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000"/>
-														        <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000"/>
-														    </g>
-														</svg>
-														<!--end::Svg Icon-->
-													</span>
-												</span>
-												<span class="nav-text font-size-lg py-2 font-weight-bolder text-center">COMPLETE</span>
-											</a>
+										<li class="nav-item">
+											 <a class="nav-link" data-toggle="tab" href="#complete">
+						                        <span class="nav-text">COMPLETE</span>
+						                        <span class="label label-rounded label-success request_material_pending">0</span>
+						                    </a>
 										</li>
 										<!--end::Item-->
 									</ul>
+							   		 </div>
+							   	</div>
+								<!--begin::Body-->
+								<div class="card-body">
 									<!--end::Nav Tabs-->
 									<!--begin::Nav Content-->
 									<div class="tab-content m-0 p-10">

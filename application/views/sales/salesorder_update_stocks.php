@@ -11,7 +11,7 @@
 	}
 </style>
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-update-stocks">
-	<div class="form" data-link="Create_Salesorder_Stocks"></div>
+	<div class="form" data-link="Update_Salesorder_Stocks"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -111,9 +111,7 @@
 														<tr>
 															<th class="text-left text-muted text-uppercase">DESCRIPTION</th>
 															<th class="text-center text-muted text-uppercase">QUANTITY</th>
-															<th class="text-center text-muted text-uppercase">UNIT</th>
 															<th class="text-right  text-muted text-uppercase">AMOUNT</th>
-															<th class="text-center text-muted text-uppercase">ACTION</th>
 														</tr>
 													</thead>
 												<tbody>

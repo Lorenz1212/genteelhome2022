@@ -810,7 +810,6 @@ class Datatable_controller extends CI_Controller
       $data = $this->datatable_model->Customized_Rejected_Datatable($id);
       echo json_encode($data);
    } 
-
    public function Inquiry_Request_Sales_Datatable(){
       $data = $this->datatable_model->Inquiry_Request_Sales_Datatable();
       echo json_encode($data);

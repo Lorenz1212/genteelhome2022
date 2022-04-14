@@ -1054,7 +1054,7 @@ class Datatable_model extends CI_Model{
      function Salesorder_Stocks_Request_DataTable_Production($user_id){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $user_id)->order_by('s.date_created','DESC')->get();
+       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
