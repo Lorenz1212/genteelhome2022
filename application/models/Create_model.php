@@ -1234,6 +1234,15 @@ class Create_model extends CI_Model{
     		return 'error';
     	}
     }
+    function Create_Customized_Request($user_id,$subject,$description){
+    	$result = $this->db->insert('tbl_customized_request',$data = array('subject'=>$subject,'description'=>$description,'status'=>'P','date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+    	if($result){
+    		return array('status'=>true,'type'=>'success','message'=>'Created Successfully');
+    	}else{
+    		return false;
+    	}
+    	
+    }
 
   }
 ?>

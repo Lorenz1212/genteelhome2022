@@ -70,8 +70,8 @@ class Website_model extends CI_Model{
    function footer(){        
       $userid = $this->session->userdata('userId');
       $project_query = $this->db->select('cd.*,c.*,d.*,cd.id as id,d.id as project_no')->from('tbl_cart_add as cd')
-      ->join('tbl_project_design as d','d.id=cd.project_no','LEFT')
-      ->join('tbl_project_color as c','c.c_code=cd.c_code','LEFT')
+      ->join('tbl_project_color as c','cd.c_code=cd.c_code','LEFT')
+      ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
       ->where('cd.customer',$userid)->where('cd.status','cart')->order_by('cd.id','DESC')->get();
        if($project_query !== FALSE && $project_query->num_rows() > 0){
            foreach($project_query->result() as $row)
@@ -670,12 +670,12 @@ class Website_model extends CI_Model{
           $this->email->message($comment);
           $this->email->send();
     }
-    $data = array('name'    => $name,
-                  'email'   => $email,
-                  'subject' => $subject,
-                  'comment' => $comment,
-                  'date_created' => date('Y-m-d H:i:s'));
-    $this->db->insert('tbl_contact_us',$data);
+    $data = array('fullname'=>$name,
+                  'email'=>$email,
+                  'subject'=>$subject,
+                  'description'=>$comment,
+                  'date_created'=>date('Y-m-d H:i:s'));
+    $this->db->insert('tbl_customer_inquiry',$data);
   }
     function Create_Service($firstname,$lastname,$mobile,$email,$production_no,$comment,$order_no,$service_image,$service_tmp,$path_service,$receipt_image,$receipt_tmp,$path_receipt){
           $status = false;

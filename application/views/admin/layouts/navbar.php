@@ -55,7 +55,8 @@
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Request</span>
+													<span class="menu-text mr-2">Request</span>
+													<span class="label label-rounded label-primary total_request">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -63,12 +64,14 @@
 													<ul class="menu-subnav">
 														 <li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/admin/design-approval-stocks";?>" class="menu-link">
-																<span class="menu-text">Design For Stocks Request</span>
+																<span class="menu-text mr-2">Design For Stocks Request</span>
+																<span class="label label-rounded label-primary request_stocks">0</span>
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/admin/design-approval-project";?>" class="menu-link">
-																<span class="menu-text">Design For Project Request</span>
+																<span class="menu-text mr-2">Design For Project Request</span>
+																<span class="label label-rounded label-primary request_project">0</span>
 															</a>
 														</li>
 														<!-- <li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
@@ -85,12 +88,14 @@
 																<ul class="menu-subnav">
 																	<li class="menu-item" aria-haspopup="true">
 																		<a href="<?php echo base_url()."gh/admin/inspection-stocks";?>" class="menu-link">
-																			<span class="menu-text">For Stocks</span>
+																			<span class="menu-text mr-2">For Stocks</span>
+																			<span class="label label-rounded label-primary stocks_inpection_pending">0</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
 																		<a href="<?php echo base_url()."gh/admin/inspection-project";?>" class="menu-link">
-																			<span class="menu-text">For Project</span>
+																			<span class="menu-text mr-2">For Project</span>
+																			<span class="label label-rounded label-primary project_inpection_pending">0</span>
 																		</a>
 																	</li>
 																</ul>
@@ -108,7 +113,8 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">For Stocks</span>
+																			<span class="menu-text mr-2">For Stocks</span>
+																			<span class="label label-rounded label-primary request_sales_stocks">0</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -116,7 +122,8 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">For Project</span>
+																			<span class="menu-text mr-2">For Project</span>
+																			<span class="label label-rounded label-primary request_sales_project">0</span>
 																		</a>
 																	</li>
 																</ul>
@@ -147,131 +154,6 @@
 																	</li>
 																</ul>
 															</div>
-														</li>
-													</ul>
-												</div>
-											</li>
-										<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Job Order</span>
-													<span class="menu-desc"></span>
-													<i class="menu-arrow"></i>
-												</a>
-												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">LIST</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/admin/joborder?".base64_encode('urlstatus=pending')."";?>"  class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">PENDING</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/admin/joborder?".base64_encode('urlstatus=request')."";?>"  class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">REQUEST</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/admin/joborder?".base64_encode('urlstatus=complete')."";?>"  class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">COMPLETE</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/admin/joborder?".base64_encode('urlstatus=cancelled')."";?>"  class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CANCELLED</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/admin/joborder_create";?>" class="menu-link">
-																<span class="menu-text">CREATE JOB ORDER</span>
-															</a>
-														</li>
-													</ul>
-												</div>
-											</li> -->
-											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text mr-2">Sales Order</span>
-													<span class="label label-rounded label-primary sales_count">0</span>
-													<span class="menu-desc"></span>
-													<i class="menu-arrow"></i>
-												</a>
-												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																 <a href="javascript:;" class="menu-link menu-toggle">
-																	<span class="menu-text">Sales Order List</span>
-																	<i class="menu-arrow"></i>
-																 </a>
-																 <div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/admin/salesorder-stocks";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">For Stock</span>
-																			<span class="label label-rounded label-primary sales_stocks">0</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/admin/salesorder-project";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">For Project</span>
-																			<span class="label label-rounded label-primary sales_project">0</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-															</li>
-																<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																	<a href="javascript:;" class="menu-link menu-toggle">
-																		<span class="menu-text">Create Sales Order</span>
-																		<i class="menu-arrow"></i>
-																	</a>
-																<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/admin/salesorder-create-stocks";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">For Stock</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/admin/salesorder-create-project";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">For Project</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-															</li>
 														</li>
 													</ul>
 												</div>

@@ -119,7 +119,7 @@
 						
 					</div>
 					<div class="modal-footer">
-						 <a type="button" class="btn btn-light-dark font-weight-bold"><i class="flaticon-file-1"></i> Create Sales Order</a>
+						 <a href="javascript:;" class="btn btn-light-dark font-weight-bold btn-create-sales-order"><i class="flaticon-file-1"></i> Create Sales Order</a>
 					</div>
 				</div>
             </div>

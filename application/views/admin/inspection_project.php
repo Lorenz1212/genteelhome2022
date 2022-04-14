@@ -21,19 +21,19 @@
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" href="#request">
 			                        <span class="nav-icon"><i class="flaticon-exclamation-1"></i></span>
-			                        <span class="nav-text">Request</span>
+			                        <span class="nav-text">Request <span class="label label-rounded label-warning project_inpection_pending">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#approved">
 			                        <span class="nav-icon"><i class="flaticon-list-3"></i></span>
-			                        <span class="nav-text">Approved</span>
+			                        <span class="nav-text">Approved <span class="label label-rounded label-success project_inpection_approved">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#rejected">
 			                        <span class="nav-icon"><i class="flaticon2-cross"></i></span>
-			                        <span class="nav-text">Rejected</span>
+			                        <span class="nav-text">Rejected <span class="label label-rounded label-danger project_inpection_rejected">0</span></span>
 			                    </a>
 			                </li>
 			            </ul>

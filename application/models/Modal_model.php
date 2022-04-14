@@ -1033,12 +1033,6 @@ class Modal_model extends CI_Model{
          $query = $this->db->select('*,DATE_FORMAT(date_request, "%M %d %Y") as date_created')->from('tbl_service_request')->where('id',$this->encryption->decrypt($id))->get()->row();
             return $query;
     }
-     function Modal_Inquiry_View($id){
-         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')
-         ->from('tbl_contact_us')
-         ->where('id',$id)->get();
-         if(!$query){return false;}else{return $query->row();}
-    }
     function Modal_Customer_Collection($id){
          $query = $this->db->select('*,FORMAT(amount,"#,###,##0.###\,###") as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('id',$id)->get();
          if(!$query){return false;}else{return $query->row();}
@@ -1245,6 +1239,14 @@ class Modal_model extends CI_Model{
     function Modal_Request_Material($id){
         $row = $this->db->select('*')->from('tbl_other_material_m_request')->where('id',$this->encryption->decrypt($id))->get()->row();
         return array('row'=>$row,'id'=>$this->encryption->encrypt($row->id));
+    }
+    function Modal_Customized_View($id){
+        $row = $this->db->select('*')->from('tbl_customized_request')->where('id',$this->encryption->decrypt($id))->get()->row();
+        return array('row'=>$row,'id'=>$this->encryption->encrypt($row->id));
+    }
+    function Modal_Inquiry_View($id){
+         $row = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_customer_inquiry')->where('id',$this->encryption->decrypt($id))->get()->row();
+          return array('row'=>$row,'id'=>$this->encryption->encrypt($row->id));
     }
 }
 ?>

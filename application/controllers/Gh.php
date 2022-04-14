@@ -222,9 +222,8 @@ class Gh extends CI_Controller {
           }
             
     }
-    public function designer($view = null,$id = null){
+    public function designer($view = null){
       if($this->session->userdata('currently_logged_in') == 1 && $this->session->userdata('page') == 'designer'){
-        $data['id'] = base64_decode($id);
         $this->load->view('designer/layouts/header.php');
         $this->load->view('designer/layouts/navbar.php');
         switch ($view) {
@@ -246,6 +245,9 @@ class Gh extends CI_Controller {
 
           case "request-material-list":{$this->load->view('designer/request_material_list.php');break;}
           case "request-material-create":{$this->load->view('designer/request_material_create.php');break;}
+
+          case "request-pre-order":{$this->load->view('designer/request_preorder.php');break;}
+          case "request-customized":{$this->load->view('designer/request_customized.php');break;}
           
           case "voucher":{$this->load->view('designer/coupon_list.php');break;}
           case "user_update":{$this->load->view('designer/user_update.php');break;}
@@ -302,7 +304,7 @@ class Gh extends CI_Controller {
               }else{$this->load->view('login/login.php');}           
           }else{redirect(base_url().'gh/production/index');}
     }
-    public function production($view = null,$id = null){
+    public function production($view = null){
        if($this->session->userdata('currently_logged_in') == 1 && $this->session->userdata('page') == 'production'){
           $this->load->view('production/layouts/header.php');
           $this->load->view('production/layouts/navbar.php');
@@ -539,11 +541,10 @@ class Gh extends CI_Controller {
           }else{redirect(base_url().'gh/admin/index');}
       
     }
-    public function admin($view = null,$id = null){
+    public function admin($view = null){
       if($this->session->userdata('currently_logged_in') == 1  && $this->session->userdata('page') == 'admin'){
           $this->load->view('admin/layouts/header.php');
           $this->load->view('admin/layouts/navbar.php');
-           $data['id'] = base64_decode($id);
           switch ($view) {
             case 'index':{$this->load->view('admin/index.php');break;}
             case "salesorder-stocks-request":{$this->load->view('admin/salesorder_stocks_request.php');break;}
@@ -567,11 +568,6 @@ class Gh extends CI_Controller {
             case 'cashfund':{$this->load->view('admin/report_cashfund.php');break;}
             case 'cash-position':{$this->load->view('admin/report_cashposition.php');break;}
             
-
-            case "salesorder-stocks":{$this->load->view('admin/salesorder_stocks.php');break;}
-            case "salesorder-project":{$this->load->view('admin/salesorder_project.php');break;}
-            case "salesorder-create-stocks":{$this->load->view('admin/salesorder_create_stocks.php');break;}
-            case "salesorder-create-project":{$this->load->view('admin/salesorder_create_project.php');break;}
 
             case 'report-sales-order-stocks':{$this->load->view('admin/report_salesorder_stocks.php');break;}
             case 'report-sales-order-project':{$this->load->view('admin/report_salesorder_project.php');break;}
@@ -794,23 +790,24 @@ class Gh extends CI_Controller {
               }else{$this->load->view('login/login.php');}           
           }else{redirect(base_url().'gh/sales/index');}
     }
-    public function sales($view = null,$id = null){
+    public function sales($view = null){
         if($this->session->userdata('currently_logged_in') == 1  && $this->session->userdata('page') == 'sales'){
           $this->load->view('sales/layouts/header.php');
           $this->load->view('sales/layouts/navbar.php');
-           $data['id'] = base64_decode($id);
           switch ($view) {
             case 'index':{$this->load->view('sales/index.php');break;}
             case 'user_update':{$this->load->view('sales/user_update.php');break;}
             case 'online-order':{$this->load->view('sales/online_order_request.php');break;}
-            case 'customer-inquiry':{$this->load->view('sales/online_customization');break;}
             case "salesorder-stocks":{$this->load->view('sales/salesorder_stocks.php');break;}
             case "salesorder-project":{$this->load->view('sales/salesorder_project.php');break;}
             case "salesorder-create-stocks":{$this->load->view('sales/salesorder_create_stocks.php');break;}
             case "salesorder-create-project":{$this->load->view('sales/salesorder_create_project.php');break;}
+            case "salesorder-update-stocks":{$this->load->view('sales/salesorder_update_stocks.php');break;}
             case "voucher":{$this->load->view('sales/coupon_list.php');break;}
             case "customer-concern":{$this->load->view('sales/customer_concern.php');break;}
             case "customer-list":{$this->load->view('sales/customer_list.php');break;}
+            case 'customer-inquiry':{$this->load->view('sales/customer_inquiry.php');break;}
+            case 'customer-customized':{$this->load->view('sales/customer_customized.php');break;}
             case "collection":{$this->load->view('sales/collection.php');break;}
             default: {redirect(base_url().'gh/sales/index');break;}
           }

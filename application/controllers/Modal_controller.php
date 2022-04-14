@@ -347,15 +347,18 @@ class Modal_controller extends CI_Controller
         $data = $this->modal_model->Modal_Web_Events($id);
         echo json_encode($data);
      }
+     public function Modal_Testimony_View(){
+       $id = $this->input->post('id');
+       $data = $this->modal_model->Modal_Testimony_View($id);
+       echo json_encode($data); 
+     } 
 
-    //Sales
-   public function Modal_Customer_Concern(){
+   //Sales
+    public function Modal_Customer_Concern(){
        $id = $this->input->post('id');
        $data = $this->modal_model->Modal_Customer_Concern($id);
        echo json_encode($data); 
- }
-
-
+    }
     public function Modal_OnlineOrder(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_OnlineOrder($id);
@@ -366,7 +369,6 @@ class Modal_controller extends CI_Controller
        $data = $this->modal_model->Modal_Voucher_Customer($id);
        echo json_encode($data); 
     }
-   
     public function Modal_Inquiry_View(){
        $id = $this->input->post('id');
        $data = $this->modal_model->Modal_Inquiry_View($id);
@@ -377,11 +379,11 @@ class Modal_controller extends CI_Controller
        $data = $this->modal_model->Modal_Customer_View($id);
        echo json_encode($data); 
     }   
-    public function Modal_Testimony_View(){
+    public function Modal_Customized_View(){
        $id = $this->input->post('id');
-       $data = $this->modal_model->Modal_Testimony_View($id);
+       $data = $this->modal_model->Modal_Customized_View($id);
        echo json_encode($data); 
-    }     
+    }    
         
 }
 ?>

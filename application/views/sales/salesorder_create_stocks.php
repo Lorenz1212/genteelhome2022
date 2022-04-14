@@ -177,7 +177,7 @@
 											</div>
 									    </div>
 								   		<div class="card-body">
-								   			<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 970px">
+								   			<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 737px">
 								       			<table class="table table-scroll table-sm" id="kt_product_breakdown_table">
 													<thead>
 														<tr>

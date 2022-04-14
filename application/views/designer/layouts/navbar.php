@@ -201,6 +201,30 @@
 											</li>
 										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
+													<span class="menu-text mr-2">Request</span>
+													<span class="label label-rounded label-primary request_preoder_customized">0</span>
+													<span class="menu-desc"></span>
+													<i class="menu-arrow"></i>
+												</a>
+												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+													<ul class="menu-subnav">
+														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/designer/request-pre-order";?>" class="menu-link">
+																<span class="menu-text mr-2">Pre Order</span>
+																<span class="label label-rounded label-primary request_pre_order_pending">0</span>
+															</a>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/designer/request-customized";?>" class="menu-link">
+																<span class="menu-text">Customized</span>
+																<span class="label label-rounded label-primary request_customized_pending">0</span>
+															</a>
+														</li>
+													</ul>
+												</div>
+											</li>
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text mr-2">Request Materials</span>
 													<span class="label label-rounded label-primary request_material_pending">0</span>
 													<span class="menu-desc"></span>

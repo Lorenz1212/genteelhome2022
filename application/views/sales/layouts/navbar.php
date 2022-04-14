@@ -144,12 +144,19 @@
 													<ul class="menu-subnav">
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															 <a href="<?php echo base_url()."gh/sales/customer-inquiry"?>" class="menu-link">
-																<span class="menu-text">Customer Inquiry</span>
+																<span class="menu-text">Inquiry</span>
+																<span class="label label-rounded label-primary request_inquiry">0</span>
+															 </a>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															 <a href="<?php echo base_url()."gh/sales/customer-customized"?>" class="menu-link">
+																<span class="menu-text">Customized</span>
+																<span class="label label-rounded label-primary request_customized_pending">0</span>
 															 </a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															 <a href="<?php echo base_url()."gh/sales/customer-concern";?>" class="menu-link">
-																<span class="menu-text mr-2">Customer Concerns</span>
+																<span class="menu-text mr-2">Concerns</span>
 																<span class="label label-rounded label-primary customer_concern_count">0</span>
 															 </a>
 														</li>

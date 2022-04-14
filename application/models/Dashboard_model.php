@@ -4,10 +4,11 @@ class Dashboard_model extends CI_Model
    //Fetch Data
     function designer_dashboard($id){        
         $request_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',1)->where('status', 1)->get()->row();  
-        $approved_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',1)->where('status',1)->get()->row();
+        $approved_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',1)->where('status',2)->get()->row();
         $rejected_stocks =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',1)->where('status', 3)->get()->row();
+
         $request_project = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',2)->where('status',1)->get()->row();  
-        $approved_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',2)->where('status',1)->get()->row();
+        $approved_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',2)->where('status',2)->get()->row();
         $rejected_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$id)->where('type',2)->where('status',3)->get()->row();
 
         $request_jo_stocks = $this->db->select('count(id) as id')->from('tbl_project')->where('type',1)->where('status',2)->get()->row();
@@ -17,18 +18,38 @@ class Dashboard_model extends CI_Model
         $request_material_received = $this->db->select('count(id) as id')->from('tbl_other_material_m_received')->where('created_by',$id)->get()->row();
         $request_material_cancelled = $this->db->select('count(id) as id')->from('tbl_other_material_m_request')->where('status',3)->where('created_by',$id)->get()->row();
 
+
+        $request_pre_order_pending = $this->db->select('count(id) as id')->from('tbl_cart_pre_order')->where('status',1)->get()->row();
+        $request_pre_order_approved = $this->db->select('count(id) as id')->from('tbl_cart_pre_order')->where('status',2)->get()->row();
+        $request_pre_order_rejected = $this->db->select('count(id) as id')->from('tbl_cart_pre_order')->where('status',3)->get()->row();
+
+        $request_customized_pending = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','P')->get()->row();
+        $request_customized_approved = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','A')->where('update_by',$id)->get()->row();
+        $request_customized_rejected = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','R')->where('update_by',$id)->get()->row();
+
+        $request_preoder_customized = intval($request_pre_order_pending->id+$request_customized_pending->id);
+        $request_stocks_project = intval($request_stocks->id+$request_project->id);
+
         $data = array('request_stocks'  => $request_stocks->id,
                       'approved_stocks' => $approved_stocks->id,
                       'rejected_stocks' => $rejected_stocks->id,
                       'request_project' => $request_project->id,
                       'approved_project'=> $approved_project->id,
                       'rejected_project'=> $rejected_project->id,
+                      'request_stocks_project'=>$request_stocks_project,
                       'request_jo_stocks'=>$request_jo_stocks->id,
                       'request_jo_project'=>$request_jo_project->id,
                       'request_jo_designer'=>intval($request_jo_stocks->id+$request_jo_project->id),
                       'request_material_pending'=>$request_material_pending->id,
                       'request_material_received'=>$request_material_received->id,
-                      'request_material_cancelled'=>$request_material_cancelled->id);
+                      'request_material_cancelled'=>$request_material_cancelled->id,
+                      'request_pre_order_pending'=>$request_pre_order_pending->id,
+                      'request_pre_order_approved'=>$request_pre_order_approved->id,
+                      'request_pre_order_rejected'=>$request_pre_order_rejected->id,
+                      'request_customized_pending'=>$request_customized_pending->id,
+                      'request_customized_approved'=>$request_customized_approved->id,
+                      'request_customized_rejected'=>$request_customized_rejected->id,
+                      'request_preoder_customized'=>$request_preoder_customized);
         return $data;   
   }
   function production_dashboard($id){        
@@ -57,21 +78,53 @@ class Dashboard_model extends CI_Model
               );
     return $data; 
   } 
-   function admin_dashboard(){        
-     $query_sales =  $this->db->select('sum(i.balance_price) as sales')->from('tbl_salesorder_item as i')
-     ->join('tbl_salesorder as s','s.so_no=i.so_no','LEFT')->where('s.status', 'DELIVERED')->get();  
-     $row_sales = $query_sales->row();
-	   $data[] = array('pd' 	   => $row_pd->id,
-      				 'pr' 	         => $row_pr->id,
-      				 'ir' 	         => $row_ir->id,
-      				 'so' 	         => $row_so->id,
-      				 'user' 	       => $row_user->id,
-      				 'customer'     => $row_c->id,
-                     'sr'           => $row_sr->id,
-                     'sd'           => $row_sd->id,
-                     'sg'           => $row_sg->id,
-                     'sales'        => number_format($row_sales->sales,2));
-	        $json_data = array('data'=>$data);
+   function admin_dashboard(){   
+      $request_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',1)->where('status', 1)->get()->row();  
+      $approved_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',1)->where('status',2)->get()->row();
+      $rejected_stocks =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',1)->where('status', 3)->get()->row();
+
+      $request_project = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',2)->where('status',1)->get()->row();  
+      $approved_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',2)->where('status',2)->get()->row();
+      $rejected_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',2)->where('status',3)->get()->row();
+
+      $request_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('status','P')->get()->row();
+      $approved_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('status','A')->get()->row();
+      $rejected_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('status','R')->get()->row();
+
+      $request_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('status','P')->get()->row();
+      $approved_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('status','A')->get()->row();
+      $rejected_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('status','R')->get()->row();
+
+
+      $stocks_inpection_pending = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',1)->get()->row();
+      $stocks_inpection_approved = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',2)->get()->row();
+      $stocks_inpection_rejected = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',3)->get()->row();
+
+      $project_inpection_pending = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',1)->get()->row();
+      $project_inpection_approved = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',2)->get()->row();
+      $project_inpection_rejected = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',3)->get()->row();
+
+      $total_request = intval($request_stocks->id+$request_project->id+$request_sales_stocks->id+$request_sales_project->id+$project_inpection_pending->id+$stocks_inpection_pending->id);
+	    $data = array('request_stocks'  => $request_stocks->id,
+                    'approved_stocks' => $approved_stocks->id,
+                    'rejected_stocks' => $rejected_stocks->id,
+                    'request_project' => $request_project->id,
+                    'approved_project'=> $approved_project->id,
+                    'rejected_project'=> $rejected_project->id,
+                    'request_sales_stocks'=>$request_sales_stocks->id,
+                    'approved_sales_stocks'=>$approved_sales_stocks->id,
+                    'rejected_sales_stocks'=>$rejected_sales_stocks->id,
+                    'request_sales_project'=>$request_sales_project->id,
+                    'approved_sales_project'=>$approved_sales_project->id,
+                    'rejected_sales_project'=>$rejected_sales_project->id,
+                    'stocks_inpection_pending'=>$stocks_inpection_pending->id,
+                    'stocks_inpection_approved'=>$stocks_inpection_approved->id,
+                    'stocks_inpection_rejected'=>$stocks_inpection_rejected->id,
+                    'project_inpection_pending'=>$project_inpection_pending->id,
+                    'project_inpection_approved'=>$project_inpection_approved->id,
+                    'project_inpection_rejected'=>$project_inpection_rejected->id,
+                    'total_request'=>$total_request
+              );
 	        return $data;   
 	}
    function superuser_dashboard(){       
@@ -173,6 +226,14 @@ class Dashboard_model extends CI_Model
 
     $collection_count = $this->db->select('count(id) as id')->from('tbl_customer_deposite')->where('status','P')->get()->row();
 
+    $request_customized_pending = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','P')->where('created_by',$id)->get()->row();
+    $request_customized_approved = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','A')->where('created_by',$id)->get()->row();
+    $request_customized_rejected = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','R')->where('created_by',$id)->get()->row();
+
+    $request_inquiry_pending = $this->db->select('count(id) as id')->from('tbl_customer_inquiry')->where('status','P')->get()->row();
+    $request_inquiry_approved = $this->db->select('count(id) as id')->from('tbl_customer_inquiry')->where('status','A')->where('update_by',$id)->get()->row();
+     
+    $customer_total_count = intval($request_customized_pending->id+$customer_service_request->id+$request_inquiry_pending->id);
     $data = array('request_sales_stocks'=>$request_sales_stocks->id,
                   'request_sales_project'=>$request_sales_project->id,
                   'request_salesorder'=>intval($request_sales_project->id+$request_sales_stocks->id),
@@ -184,7 +245,13 @@ class Dashboard_model extends CI_Model
                   'customer_service_approved'=>$customer_service_approved->id,
                   'online_add_cart'=>$online_add_cart->id,
                   'pre_order_count'=>$pre_order_count->id,
-                  'collection_count'=>$collection_count->id
+                  'collection_count'=>$collection_count->id,
+                  'request_customized_pending'=>$request_customized_pending->id,
+                  'request_customized_approved'=>$request_customized_approved->id,
+                  'request_customized_rejected'=>$request_customized_rejected->id,
+                  'customer_total_count'=>$customer_total_count,
+                  'request_inquiry_pending'=>$request_inquiry_pending->id,
+                  'request_inquiry_approved'=>$request_inquiry_approved->id
               );
     return $data; 
   }
