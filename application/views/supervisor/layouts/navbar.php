@@ -65,11 +65,11 @@
 													</ul>
 												</div>
 											</li>
-											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="<?php echo base_url()?>gh/supervisor/return-item" class="menu-link">
 													<span class="menu-text">Return Item</span>
 												</a>
-											</li>
+											</li> -->
 										<!-- 	<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Request For Stocks</span>

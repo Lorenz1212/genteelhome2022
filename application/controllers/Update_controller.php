@@ -559,21 +559,52 @@ class Update_controller extends CI_Controller
        $status       = array('status' => $data);
        echo json_encode($status);
     }
-    public function Update_Material_Purchase_Supervisor(){
+    public function Update_Purchase_Status_Request_Supervisor(){
         $user_id  = $this->session->userdata('id');
-        $id = isset($_POST['id'])  ? $this->input->post('id'): false;
-        $qty = isset($_POST['qty'])  ? $this->input->post('qty'): false;
-        $item_no = isset($_POST['item_no'])  ? $this->input->post('item_no'): false;
-        $type = isset($_POST['type'])  ? $this->input->post('type'): false;
-        $production_no = isset($_POST['production_no'])  ? $this->input->post('production_no'): false;
-        $unit = isset($_POST['unit'])  ? $this->input->post('unit'): false;
-        $action = isset($_POST['action'])  ? $this->input->post('action'): false;
-        $remarks = isset($_POST['remarks'])  ? $this->input->post('remarks'): false;
-        $item_special = isset($_POST['item_special'])  ? $this->input->post('item_special'): false;
-        $math = isset($_POST['math'])  ? $this->input->post('math'): false;
-        $data = $this->update_model->Update_Material_Purchase_Supervisor($user_id,$id,$item_no,$qty,$type,$action,$production_no,$unit,$remarks,$item_special,$math);
+        $id = $this->input->post('id');
+        $data = $this->update_model->Update_Purchase_Status_Request_Supervisor($user_id,$id);
         echo json_encode($data);
     }
+    public function Update_Material_Status_Request_Supervisor(){
+        $user_id  = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $qty = $this->input->post('qty');
+        $data = $this->update_model->Update_Material_Status_Request_Supervisor($user_id,$id,$qty);
+        echo json_encode($data);
+    }
+    public function Update_Material_Used_Lock_Request_Supervisor(){
+        $user_id  = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $data = $this->update_model->Update_Material_Used_Lock_Request_Supervisor($user_id,$id);
+        echo json_encode($data);
+    }
+    public function Update_Material_Used_Status_Request_Supervisor(){
+        $user_id  = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $qty = $this->input->post('qty');
+        $type = $this->input->post('type');
+        $data = $this->update_model->Update_Material_Used_Status_Request_Supervisor($user_id,$id,$qty,$type);
+        echo json_encode($data);
+    }
+    public function Update_Material_Request_Supervisor(){
+        $user_id  = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $qty = $this->input->post('qty');
+        $type = $this->input->post('type');
+        $data = $this->update_model->Update_Material_Request_Supervisor($user_id,$id,$qty,$type);
+        echo json_encode($data);
+    }
+    public function Update_Purchase_Request_Supervisor(){
+        $user_id  = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $qty = $this->input->post('qty');
+        $remarks = $this->input->post('remarks');
+        $data = $this->update_model->Update_Purchase_Request_Supervisor($user_id,$id,$qty,$remarks);
+        echo json_encode($data);
+    }
+
+
+
     public function Update_Project_Monitoring(){
         $user_id  = $this->session->userdata('id');
         $id = isset($_POST['id'])  ? $this->input->post('id'): false;

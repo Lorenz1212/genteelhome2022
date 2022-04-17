@@ -557,5 +557,29 @@ class Create_controller extends CI_Controller
         $data = $this->create_model->Create_Customized_Request($user_id,$subject,$description);        
         echo json_encode($data); 
     }
+    public function Create_Material_request_Supervisor(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $item = $this->input->post('item');
+        $qty = $this->input->post('qty');
+        $type = $this->input->post('type');
+        $data = $this->create_model->Create_Material_request_Supervisor($user_id,$id,$item,$qty,$type);        
+        echo json_encode($data); 
+    
+    }
+    public function Create_Purchase_request_Supervisor(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $item = $this->input->post('item');
+        $qty = $this->input->post('qty');
+        $remarks = $this->input->post('remarks');
+        $type = $this->input->post('type');
+        $status = $this->input->post('status');
+        $special = $this->input->post('special');
+        $unit = $this->input->post('unit');
+        $data = $this->create_model->Create_Purchase_request_Supervisor($user_id,$id,$item,$qty,$remarks,$type,$status,$special,$unit);        
+        echo json_encode($data); 
+    
+    }
 }
 ?>

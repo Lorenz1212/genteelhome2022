@@ -1,5 +1,11 @@
 <?php
 class Create_model extends CI_Model{  
+	private function move_to_folder_docs($image,$tmp,$path){
+         $newfilename=  'DOCS'.date('YmdHis').'-'.preg_replace('/[@\;\" "\()]+/', '', $image);
+         $path_folder = $path.$newfilename;
+         copy($tmp, $path_folder);
+         return $newfilename;
+  	}
 	private function move_to_folder1($image,$tmp,$path){
          $newfilename=  'IMG'.date('YmdHisu').'-'.preg_replace('/[@\;\" "\()]+/', '', $image);
          $path_folder = $path.$newfilename;
@@ -98,7 +104,7 @@ class Create_model extends CI_Model{
    			$message = 'Pallet Color is incorrect format';
    			$status = 'error';
    		}else{
-   			if($docs){$docs_file = $this->move_to_folder3('DOCUMENTS'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
+   			if($docs){$docs_file = $this->move_to_folder_docs('STOCKS'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
    			$project_no = $this->get_code('tbl_project_design','PCODE');
 	     	$value = $this->get_code('tbl_project_color','CCODE');
 	   		$data = array('project_no'=> $project_no,
@@ -142,7 +148,7 @@ class Create_model extends CI_Model{
 	   			$message = 'Pallet Color is incorrect format';
 	   			$status = 'error';
 	   		}else{
-	   			if($docs){$docs_file = $this->move_to_folder3('STOCKS'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
+	   			if($docs){$docs_file = $this->move_to_folder_docs('STOCKS'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
 	   			$value = $this->get_code('tbl_project_color','CCODE');
 		   		$data = array('designer' => $user_id,
 		   					  'project_no' => $id,
@@ -212,7 +218,6 @@ class Create_model extends CI_Model{
 									$data = array('user_id'=> $user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
 									$this->db->insert('tbl_materials',$data);
 									$item_no = $this->db->insert_id();
-									$this->logs('special-item','Create Special Material','tbl_project','ITEM NO: '.$new_no.'<b>JOB ORDER: '.$value);
     				     	    }
     				     }else{
     				     		$item_no = $row->id;
@@ -238,9 +243,7 @@ class Create_model extends CI_Model{
 					 			  'status'=>1,
 					 			  'type'=>1,
 					 			  'date_created'=>date('Y-m-d H:i:s'));
-					$this->db->insert('tbl_project',$data);
-					$this->logs('joborder-stocks','Create Job Order For Stocks','tbl_project','JOB ORDER: '.$value);
-					$this->logs('material-request-stocks','Create Material Request','tbl_material_project','JOB ORDER: '.$value);
+				$this->db->insert('tbl_project',$data);
 				$mat_itemnos = explode(',', $mat_itemno);
 	 		 	$mat_quantitys = explode(',', $mat_quantity);
 	 		 	$mat_remarkss = explode(',', $mat_remarks);
@@ -256,7 +259,6 @@ class Create_model extends CI_Model{
 						                'date_created'     =>  date('Y-m-d H:i:s'));
        				 $this->db->insert('tbl_material_project',$material_data);
 		       	}
-
 	 }
 	 function Create_Joborder_Project($user_id,$project_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
 	 		   $value = $this->get_code('tbl_project','JO'.date('Ymd').'-');
@@ -274,7 +276,6 @@ class Create_model extends CI_Model{
 									$data = array('user_id'=> $user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
 									$this->db->insert('tbl_materials',$data);
 									$item_no = $this->db->insert_id();
-									$this->logs('special-item','Create Special Material','tbl_project','ITEM NO: '.$new_no.'<b>JOB ORDER: '.$value);
     				     	    }
     				     }else{
     				     		$item_no = $row->id;
@@ -289,7 +290,6 @@ class Create_model extends CI_Model{
 				                'date_created'     =>  date('Y-m-d H:i:s'));
 	        			$this->db->insert('tbl_purchasing_project',$purchase_data);
 				    }
-				    $this->logs('purchase-request-project','Create Purchase Request','tbl_purchasing_project','JOB ORDER: '.$value);
 			    }
 					$data = array('production_no'=>$value,
 								  'production'=>$user_id,
@@ -299,8 +299,6 @@ class Create_model extends CI_Model{
 					 			  'type'=>2,
 					 			  'date_created'=>date('Y-m-d H:i:s'));
 				$this->db->insert('tbl_project',$data);
-				$this->logs('joborder-project','Create Job Order For Project','tbl_project','JOB ORDER: '.$value);
-				$this->logs('material-request-project','Create Material Request','tbl_material_project','JOB ORDER: '.$value);
 				$mat_itemnos = explode(',', $mat_itemno);
 	 		 	$mat_quantitys = explode(',', $mat_quantity);
 	 		 	$mat_remarkss = explode(',', $mat_remarks);
@@ -462,50 +460,6 @@ class Create_model extends CI_Model{
     	 }
     	 return true;
     }
-     function Create_EM_Purchase_Request($user_id,$production_no,$item,$quantity,$remarks,$unit){
-	      	for($i=0; $i<count($item);$i++){
-          	  $query = $this->db->select('*')->from('tbl_materials')->where('item',$items)->get();
-          	  $row = $query->row();
-          	  if($row > 0){
-          	  	 $data = array();
-          	  }
-              $items = strtoupper($item[$i]);
-                 $data = array(
-                  'supervisor'       =>  $user_id,
-                  'production_no'    =>  $production_no,
-                  'request_id'       =>  'PR'.date('YmdHis'),
-                  'item'             =>  $items,
-                  'quantity'         =>  $quantity[$i],
-                  'balance_quantity' =>  $quantity[$i],
-                  'unit' 			 =>  $unit[$i],
-                  'status'           =>  'PENDING',
-                  'remarks'          =>  $remarks[$i],
-                  'date_pending'     =>  date('Y-m-d H:i:s')
-                     );
-                $this->db->insert('tbl_purchasing_project',$data);
-          }
-	 }
-     function Create_EM_Material_Request($user_id,$production_no,$item,$quantity,$remarks,$requestor,$unit,$mat_type,$mat_itemno){
-          for($i=0; $i<count($mat_itemno);$i++){
-                 $data = array(
-                  'supervisor'    	=>  $user_id,
-                  'production_no' 	=>  $production_no,
-                  'request_id'    	=>  'PR'.date('YmdHis'),
-                  'production'    	=>  $requestor,
-                  'item_no'			=>  $mat_itemno[$i],
-                  'item'          	=>  $item[$i],
-                  'total_qty'     	=>  $quantity[$i],
-                  'quantity'     	=>  $quantity[$i],
-                  'balance_quantity'=>  $quantity[$i],
-                  'unit' 			=>  $unit[$i],
-                  'status'        	=>  'PENDING',
-                  'mat_type'		=>	 $mat_type[$i],
-                  'remarks'       	=>  $remarks[$i],
-                  'date_created'	=>	 date('Y-m-d H:i:s'),
-                  'date_pending'  	=>  date('Y-m-d H:i:s'));
-                $this->db->insert('tbl_material_project',$data);
-          }
-     }
 
     function Create_Purchase_Request_Stocks($user_id,$item,$quantity,$remarks,$amount,$unit){
 		        $value = $this->get_code('tbl_request_id','RMPR-'.date('Ymd'));
@@ -1243,6 +1197,75 @@ class Create_model extends CI_Model{
     	}
     	
     }
+    function Create_Material_request_Supervisor($user_id,$id,$item,$qty,$type){
+    	$row = $this->db->select('*')->from('tbl_material_project')->where('production_no',$id)->where('item_no',$item)->get()->row();
+    	if($row){
+    		return false;
+    	}else{
+			$material_data = array('production_no' 	  =>  $id,
+					               'production'       =>  $user_id,
+					               'item_no'		  =>  $item,
+					               'total_qty'        =>  $qty,
+					               'status'           =>  1,
+					               'mat_type'		  =>  $type,
+					               'date_created'     =>  date('Y-m-d H:i:s'),
+					               'created_by'		  =>  $user_id);
+    		$this->db->insert('tbl_material_project',$material_data);
+    		return $id;
+    	}
+    }
+    function Create_Purchase_request_Supervisor($user_id,$id,$item,$qty,$remarks,$type,$status,$special,$unit){
+    	if($status == 1){
+    		$row = $this->db->select('*')->from('tbl_purchasing_project')->where('production_no',$id)->where('item_no',$item)->get()->row();
+	    	if($row){
+	    		return false;
+	    	}else{
+				$purchase_data = array('production_no'=>  $id,
+				                'item_no'		   	  =>  $item,
+				                'quantity'            =>  $qty,
+				                'balance_quantity'    =>  $qty,
+				                'status'           	  =>  1,
+				                'remarks'          	  =>  $remarks,
+				                'material_type'    	  =>  $type,
+				                'date_created'     	  =>  date('Y-m-d H:i:s'));
+	    		$this->db->insert('tbl_purchasing_project',$purchase_data);
+	    		return $id;
+	    	}
+    	}else{
+				 $row_m = $this->db->select('*')->from('tbl_materials')->where('item',$special)->get()->row();
+			     if(!$row_m){
+			     	$new_no = $this->get_code('tbl_materials','RMCODE-');
+					$data = array('user_id'=> $user_id,'item_no'=> $new_no,'item'=> $special,'unit'=>$unit,'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
+					$this->db->insert('tbl_materials',$data);
+					$purchase_data = array('production_no'		  =>  $id,
+							                'item_no'		   	  =>  $this->db->insert_id(),
+							                'quantity'            =>  $qty,
+							                'balance_quantity'    =>  $qty,
+							                'status'           	  =>  1,
+							                'remarks'          	  =>  $remarks,
+							                'material_type'    	  =>  $type,
+							                'date_created'     	  =>  date('Y-m-d H:i:s'));
+		    		$this->db->insert('tbl_purchasing_project',$purchase_data);
+		    		return $id;
+			     }else{
+			     	$row_p = $this->db->select('*')->from('tbl_purchasing_project')->where('production_no',$id)->where('item_no',$row_m->id)->get()->row();
+		     		if($row_p){
+    					return false;
+			    	}else{
+						$purchase_data = array('production_no'=>  $id,
+						                'item_no'		   	  =>  $row_m->id,
+						                'quantity'            =>  $qty,
+						                'balance_quantity'    =>  $qty,
+						                'status'           	  =>  1,
+						                'remarks'          	  =>  $remarks,
+						                'material_type'    	  =>  $type,
+						                'date_created'     	  =>  date('Y-m-d H:i:s'));
+			    		$this->db->insert('tbl_purchasing_project',$purchase_data);
+			    		return $id;
+			    	}
+			    }
+    		}
+       }
 
   }
 ?>

@@ -1071,168 +1071,76 @@ class Update_model extends CI_Model
         $this->db->update('tbl_customer_online',$data);
         return 'update';
     }
-    function Update_Material_Purchase_Supervisor($user_id,$id,$item_no,$qty,$type,$action,$production_no,$unit,$remarks,$item_special,$math){
-        if($action == 'material'){
-            $query = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get();
-            $row = $query->row();
-            if($row->total_qty == $qty){
-                $data_response = array('status' => 'nothing');
-                return $data_response;
-            }else{
-                $data = array('total_qty' => $qty,
-                              'update_by' => $user_id);
-                $this->db->where('id',$id);
-                $this->db->update('tbl_material_project',$data); 
-                $data_response = array('status' => 'success',
-                                       'qty'    => $qty,
-                                       'id'     => $id);
-                return $data_response;
-            }
-        }else if($action == 'material-create'){
-            $p_query = $this->db->select('*')->from('tbl_material_project')->where('production_no',$production_no)->get();    
-            $p_row = $p_query->row();
-            $query = $this->db->select('*')->from('tbl_materials')->where('id',$item_no)->get();
-            $row = $query->row();
-            $data = array('production_no'   => $production_no,
-                          'production'      => $p_row->production,
-                          'item_no'         => $item_no,
-                          'total_qty'       => $qty,
-                          'status'          => 2,
-                          'mat_type'        => $type,
-                          'date_created'    => date('Y-m-d H:i:s'),
-                          'latest_update'   => date('Y-m-d H:i:s'),
-                          'update_by'       => $user_id);
-            $this->db->insert('tbl_material_project',$data);
-            $last_id = $this->db->insert_id();
-            $m_query = $this->db->select('*')->from('tbl_material_project')->where('id',$last_id)->get();    
-            $m_row = $m_query->row();
-            $data_response = array('status'   => 'material-create',
-                                   'id'       => $last_id,
-                                   'item'     => $m_row->item,
-                                   'previous' => $m_row->balance_quantity,
-                                   'p_qty'    => $m_row->production_quantity,
-                                   'stocks'   => $row->production_stocks,
-                                   'qty'      => $qty);
-            return $data_response;
-        }else if($action == 'material-remove'){
-            $this->db->where('id', $id);
-            $this->db->delete('tbl_material_project');
-            $data_response = array('status' => 'material-remove',
-                                    'id'    => $id);
-            return $data_response;
-        }else if($action == 'purchased-remove'){
-            $this->db->where('id', $id);
-            $this->db->delete('tbl_purchasing_project');
-            $data_response = array('status' => 'purchased-remove',
-                                    'id'    => $id);
-            return $data_response;
-        }else if($action == 'material-request'){
-            $query = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get();
-            $row = $query->row();
-            $balance = $row->quantity + $qty;
-            $data = array('quantity'          => $balance,
-                          'balance_quantity'  => $balance,
-                          'status'            => 2,
-                          'update_by'         => $user_id);
-            $this->db->where('id',$id);
-            $this->db->update('tbl_material_project',$data); 
-            $data_response = array('status' => 'material-request',
-                                   'balance'=> $balance,
-                                   'id'     => $id);
-            return $data_response;
-        }else if($action == 'purchased-create'){
-            $p_query = $this->db->select('*')->from('tbl_purchasing_project')->where('production_no',$production_no)->get();    
-            $p_row = $p_query->row();
+    function Update_Material_Status_Request_Supervisor($user_id,$id,$qty){
+        $row = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
+        $balance = $row->quantity + $qty;
+        $data = array('quantity'          => $balance,
+                      'balance_quantity'  => $balance,
+                      'status'            => 2,
+                      'update_by'         => $user_id);
+        $this->db->where('id',$id);
+        $this->db->update('tbl_material_project',$data); 
+        return $row->production_no;
+    }
+    function Update_Material_Used_Status_Request_Supervisor($user_id,$id,$qty,$type){
+         $row = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
+         $row_m = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
             if($type == 1){
-                 $where = array('item_no'=>$item_no);
-            }else{
-                $item_no = $this->get_code('tbl_materials','RM-CODE-');
-                $data = array('user_id'      => $user_id,
-                              'item_no'      => $item_no,
-                              'item'         => $item_special,
-                              'status'       => 1,
-                              'date_created' => date('Y-m-d H:i:s'));
-                $this->db->insert('tbl_materials',$data);
-                $item_id = $this->db->insert_id();
-                $where = array('id'=>$item_id);
-            }
-            $query = $this->db->select('*')->from('tbl_materials')->where($where)->get();
-            $row = $query->row();
-            $data = array('production_no'    =>  $production_no,
-                          'supervisor'       =>  $user_id,
-                          'item_no'          =>  $row->id,
-                          'quantity'         =>  $qty,
-                          'balance_quantity' =>  $qty,
-                          'status'           =>  2,
-                          'remarks'          =>  $remarks,
-                          'material_type'    =>  $type,
-                          'date_created'     =>  date('Y-m-d H:i:s'),
-                          'latest_update'    =>  date('Y-m-d H:i:s'));
-            $this->db->insert('tbl_purchasing_project',$data);
-            $last_id = $this->db->insert_id();
-            
-            $query_p = $this->db->select('*')->from('tbl_purchasing_project')->where('id',$last_id)->get();    
-            $row_p = $query_p->row();
-            $data_response = array('status' => 'purchased-create',
-                                   'id'     => $last_id,
-                                   'item'   => $row->item,
-                                   'unit'   => $row_p->unit,
-                                   'remarks'=> $row_p->remarks,
-                                   'qty'    => $qty);
-            return $data_response;
-        }else if($action == 'purchased'){
-            $query = $this->db->select('*')->from('tbl_purchasing_project')->where('id',$id)->get();
-            $row = $query->row();
-            if($row->quantity == $qty && $row->remarks == $remarks){
-                $data_response = array('status' => 'nothing');
-                return $data_response;
-            }else{
-                 $data = array('quantity'         => $qty,
-                               'balance_quantity' => $qty,
-                               'remarks'          => $remarks,
-                               'update_by'        => $user_id);
-                $this->db->where('id',$id);
-                $this->db->update('tbl_purchasing_project',$data); 
-                $data_response = array('status' => 'purchased-update',
-                                       'qty'    => $qty,
-                                       'remarks'=> $remarks,
-                                       'id'     => $id);
-                return $data_response;
-            }
-        }else if($action == 'purchased-request'){
-            $data = array('supervisor'     => $user_id,
-                          'status'         => 2,
-                          'update_by'      => $user_id);
-            $this->db->where('id',$id);
-            $this->db->update('tbl_purchasing_project',$data); 
-            $data_response = array('status' => 'purchased-request',
-                                   'id'     =>  $id);
-            return $data_response;
-        }else if($action == 'material-used'){
-            $query = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get();
-            $row = $query->row();
-
-            $query_m = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get();
-            $row_m = $query_m->row();
-            if($math == 'plus'){
                 $qtymath = $row->production_quantity+$qty;
                 $stocks = $row_m->production_stocks-$qty;
-                $data = array('production_quantity' => $qtymath);
-                $data1 = array('production_stocks' => $stocks);
             }else{
                 $qtymath = $row->production_quantity-$qty;
                 $stocks = $row_m->production_stocks+$qty;
-                $data = array('production_quantity' => $qtymath);
-                $data1 = array('production_stocks' => $stocks);
             }
             $this->db->where('id',$id);
-            $this->db->update('tbl_material_project',$data);
+            $this->db->update('tbl_material_project',array('production_quantity' => $qtymath));
 
-            $this->db->where('id',$row->id);
-            $this->db->update('tbl_materials',$data1);
-            $data_response = array('status' => 'material-used-saved','id'=>$id,'qty'=>$qtymath); 
-            return $data_response;
+            $this->db->where('id',$row_m->id);
+            $this->db->update('tbl_materials',array('production_stocks' => $stocks));
+
+            $rows = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
+            if($rows->production_quantity > 0){
+                $this->db->where('id',$id);
+                $this->db->update('tbl_material_project',array('lock_status' => 1));
+            }
+           return $row->production_no;
+    }
+    function Update_Material_Used_Lock_Request_Supervisor($user_id,$id){
+        $row = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
+        if($row->lock_status == 0){
+            $status = 1;
+        }else if($row->lock_status == 1){
+             $status = 0;
         }
+        $this->db->where('id',$id);
+        $result = $this->db->update('tbl_material_project',array('lock_status' => $status));
+        if($result){return array('id'=>$row->production_no,'status'=>$status);}else{return false;}
+    }
+    function Update_Purchase_Status_Request_Supervisor($user_id,$id){
+        $this->db->where('id',$id);
+        $result = $this->db->update('tbl_purchasing_project',array('status'=>2));
+        if($result){
+             $row = $this->db->select('*')->from('tbl_purchasing_project')->where('id',$id)->get()->row();
+             return $row->production_no;
+        }else{
+            return false;
+        }
+    }
+    function Update_Material_Request_Supervisor($user_id,$id,$qty,$type){
+        $row = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
+        $data = array('total_qty'=> $qty,'mat_type'=>$type);
+        $this->db->where('id',$id);
+        $this->db->update('tbl_material_project',$data); 
+        return $row->production_no;
+    }
+    function Update_Purchase_Request_Supervisor($user_id,$id,$qty,$remarks){
+       $row = $this->db->select('*')->from('tbl_purchasing_project')->where('id',$id)->get()->row();
+       $purchase_data = array('quantity'            =>  $qty,
+                              'balance_quantity'    =>  $qty,
+                              'remarks'             =>  $remarks);
+        $this->db->where('id',$id);
+        $this->db->update('tbl_purchasing_project',$purchase_data); 
+        return $row->production_no;
     }
     function Update_Project_Monitoring($user_id,$id,$data,$action,$start,$due){
         $query = $this->db->select('*')->from('tbl_project')->where('id',$id)->get();

@@ -49,5 +49,15 @@ class Delete_model extends CI_Model
       $this->db->where('id',$id);
       $this->db->delete('tbl_product_inspection');
    }
+   function Delete_Material_Request_Supervisor($id){
+      $this->db->where('id',$id);
+      $this->db->delete('tbl_material_project');
+      return true;
+   }
+   function Delete_Purchase_Request_Supervisor($id){
+      $this->db->where('id',$id);
+      $this->db->delete('tbl_purchasing_project');
+      return true;
+   }
 }
 ?>

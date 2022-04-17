@@ -820,8 +820,21 @@ class Datatable_controller extends CI_Controller
       echo json_encode($data);
    }
 
-
-
+   public function Material_List_Supervisor(){
+        $val = $this->input->post('val');
+        $data = $this->datatable_model->Material_List_Supervisor($val);
+        echo json_encode($data);
+   } 
+   public function Purchased_List_Supervisor(){
+        $val = $this->input->post('val');
+        $data = $this->datatable_model->Purchased_List_Supervisor($val);
+        echo json_encode($data);
+   } 
+   public function Material_Used_List_Supervisor(){
+        $val = $this->input->post('val');
+        $data = $this->datatable_model->Material_Used_List_Supervisor($val);
+        echo json_encode($data);
+   } 
 
 
 

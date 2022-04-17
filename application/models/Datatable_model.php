@@ -4438,6 +4438,86 @@ class Datatable_model extends CI_Model{
         $json_data  = array("data" =>$data); 
          return $json_data;
     }
+    function Material_List_Supervisor($val){
+        $data =false;
+        $query = $this->db->select('*,p.id,m.item,m.production_stocks,m.unit')->from('tbl_material_project as p')->join('tbl_materials as m','m.id=p.item_no','LEFT')->where('p.production_no',$val)->order_by('p.id','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                 $lock = "";
+                 if($row->lock_status == 1){
+                    $lock ='disabled';
+                 }
+                $unit =$row->unit.'(s)';
+                if(!$row->unit){ $unit ="";}
+                 $status = '<button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_remove_material" data-id="'.$row->id.'" data-toggle="tooltip" data-theme="dark" '.$lock.'><i class="flaticon-delete-1"></i></button>';       
+                 $item = '<a href="javascript:;" id="update-material-request" data-type="'.$row->mat_type.'" data-qty="'.$row->total_qty.'" data-name="'.$row->item.'" data-id="'.$row->id.'">'.$row->item.' - '.$unit.'</a>';
+                 $qty = '<input type="text" class="form-control form-control-sm text-center quantity" placeholder="Enter Quantity" autocomplete="off"/>';
+                 $action = '<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success btn_material_request"  data-id="'.$row->id.'"><i class="flaticon2-fast-next"></i></button>';
+                
+                  $data[] = array(
+                          'status'       => $status,
+                          'item'         => $item,
+                          'qty'          => $row->total_qty,
+                          'balance'      => $row->balance_quantity,
+                          'stocks'       => $row->production_stocks,
+                          'input'        => $qty,
+                          'action'       => $action);
+             }
+         }
+        $json_data  = array("data" =>$data); 
+        return $json_data;
+    }
+    function Purchased_List_Supervisor($val){
+        $data =false;
+         $query = $this->db->select('*,p.id,m.item,p.status,m.status')->from('tbl_purchasing_project as p')->join('tbl_materials as m','m.id=p.item_no','LEFT')->where('p.production_no',$val)->where('p.status',1)->order_by('p.id','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                    $unit =$row->unit.'(s)';
+                if(!$row->unit){ $unit ="";}
+                $status = '<button class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_remove_purchased" data-id="'.$row->id.'"><i class="flaticon-delete-1"></i></button>';
+                $item = '<a href="javascript:;" id="update-purchase-request"  data-id="'.$row->id.'">'.$row->item.'</a>';
+                $action = '<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success btn_purchased_request"  data-id="'.$row->id.'"><i class="flaticon2-fast-next"></i></button>';
+                $remarks = '(<a href="javascript:;" data-toggle="tooltip" data-theme="dark" title="'.$row->remarks.'">Remarks</a>)';
+                if(!$row->remarks){$remarks ="";}
+                  $data[] = array(
+                          'status'       => $status,
+                          'item'         => $item,
+                          'unit'         => $unit,
+                          'qty'          => $row->quantity,
+                          'remarks'      => $remarks,
+                          'action'       => $action);
+                }
+        }
+        return array("data" =>$data);
+    }
+    function Material_Used_List_Supervisor($val){
+        $data =false;
+        $query = $this->db->select('*,p.id,m.item,m.production_stocks')->from('tbl_material_project as p')->join('tbl_materials as m','m.id=p.item_no','LEFT')->where('p.production_no',$val)->order_by('p.id','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                $icon = '<i class="fas fa-lock-open"></i>';
+                $title = 'Click to lock';
+                if($row->lock_status == 1){
+                    $icon = '<i class="fas fa-lock"></i>';
+                    $title = 'Click to unlock';
+                }
+                $unit =$row->unit.'(s)';
+                if(!$row->unit){ $unit ="";}
+                 $status = '<button class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_lock_material" data-id="'.$row->id.'"  data-toggle="tooltip" data-theme="dark" title="'.$title.'">'.$icon.'</button>';
+                 $input = '<input type="text" class="form-control form-control-sm text-center quantity" placeholder="Enter Quantity" autocomplete="off"/>';    
+                 $action = '<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success btn_material_used"  data-m="1" data-id="'.$row->id.'"><i class="flaticon2-plus"></i></button>
+                     <button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_material_used"  data-m="2" data-id="'.$row->id.'"><i class="flaticon2-line"></i></button>';
+                  $data[] = array(
+                          'status'       => $status,
+                          'item'         => $row->item.' - '.$unit,
+                          'qty'          => $row->production_quantity,
+                          'input'        => $input,
+                          'action'       => $action);
+             }
+         }
+        $json_data  = array("data" =>$data); 
+        return $json_data;
+    }
     
 }
 ?>

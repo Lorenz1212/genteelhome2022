@@ -232,6 +232,51 @@ var KTFormControls = function () {
 			columns:TableData,
 		});
 	}
+	var _DataTableLoader = async function(link,TableURL,TableData,url_link){
+		var table = $('#'+link);
+		table.DataTable().clear().destroy();
+		$.fn.dataTable.ext.errMode = 'throw';
+		table.DataTable({
+			destroy: true,
+			responsive: true,
+			info: true,
+			language: { 
+			 	infoEmpty: "No records available", 
+			 },
+			serverSide:false,
+			ajax: {
+				url: TableURL,
+				type: 'POST',
+				datatype: "json",
+				data: {status:url_link},
+			},
+			columns:TableData,
+		});
+	}
+	var _DataTableLoader1 = async function(link,TableURL,TableData,val){
+		var table = $('#'+link);
+		table.DataTable().clear().destroy();
+		$.fn.dataTable.ext.errMode = 'throw';
+		table.DataTable({
+			destroy: true,
+			responsive: true,
+			info: true,
+			bFilter: false, 
+			bInfo: false,
+			bPaginate: false,
+			language: { 
+			 	infoEmpty: "No records available", 
+			 },
+			serverSide:false,
+			ajax: {
+				url: TableURL,
+				type: 'POST',
+				datatype: "json",
+				data: {val:val},
+			},
+			columns:TableData,
+		});
+	}
 	var _ajaxForm = async function(thisURL,type,val,view,url){
 		$.ajax({
 		    enctype: 'multipart/form-data',
@@ -2380,192 +2425,725 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
-	 		case "Update_Material_Purchase_Supervisor":{
-	 			$(document).on('click','#btn_changes',function(e){
-	 				e.preventDefault();
-	 				let action = $('#text-name').attr('data-action');
-	 				let qty = $('#text-qty').val();
-	 				if(action == 'material'){
-	 					let id = $('#text-name').attr('data-id');
-	 					let formdata = new FormData();
-	 					formdata.append('id',id);
-	 					formdata.append('action',action);
-	 					formdata.append('qty',qty);
-	 					thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-			 			_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
-	 				}else if(action == 'material-create'){
-		 					let item_no = $('select[name=item]').val();
-		 					let type = $('select[name=type]').val();
-		 					let unit = $('input[name=unit]').val();
-		 					let production_no = $('#project_no').attr('data-order');
-	 					if(!type || !qty || !unit){
-	 						Swal.fire("Please Complete The Form!", "Thank you!", "error");
-	 					}else{
-	 						let formdata = new FormData();
-		 					formdata.append('production_no',production_no);
-		 					formdata.append('item_no',item_no);
-		 					formdata.append('type',type);
-		 					formdata.append('unit',unit);
-		 					formdata.append('action',action);
-		 					formdata.append('qty',qty);
-		 					thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-				 			_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
-	 					}
-	 				}else if(action == 'purchased'){
-	 					let id = $('#text-name').attr('data-id');
-	 					let unit = $('input[name=unit]').val();
-	 					let remarks = $('textarea[name=remarks]').val();
-	 					let formdata = new FormData();
-	 					formdata.append('id',id);
-	 					formdata.append('action',action);
-	 					formdata.append('qty',qty);
-	 					formdata.append('unit',unit);
-	 					formdata.append('remarks',remarks);
-	 					thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-	 					_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
-	 				}else if(action == 'purchased-create'){
-	 					let production_no = $('#project_no').attr('data-order');
-	 					let item_no = $('select[name=item]').val();
-	 					let item_special = $('input[name=item_special]').val();
-	 					let unit = $('input[name=unit]').val();
-	 					let remarks = $('textarea[name=remarks]').val();
-	 					let type = $('select[name=type]').val();
-	 					if(type == 'common'){var item = item_no;}else{var item = item_special;}	
-	 					if(!item || !qty || !unit){
-	 						Swal.fire("Please Complete The Form!", "Thank you!", "error");
-	 					}else{
-	 						let formdata = new FormData();
-		 					formdata.append('production_no',production_no);
-			 				formdata.append('item_no',item_no);
-			 				formdata.append('item_special',item_special);
-		 					formdata.append('action',action);
-		 					formdata.append('qty',qty);
-		 					formdata.append('unit',unit);
-		 					formdata.append('remarks',remarks);
-		 					formdata.append('type',type);
-		 					thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-				 			_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
-	 					}
-	 				}
-	 			});
-	 			$(document).on('click','#btn_remove_material',function(e){
-	 				e.preventDefault();
-	 				let action = $(this).attr('data-action');
-	 				let id = $(this).attr('data-id');
-	 				  Swal.fire({
-				        title: "Are you sure?",
-				        text: "You won't be able to revert this!",
-				        icon: "warning",
-				        showCancelButton: true,
-				        confirmButtonText: "Yes, delete it!"
-				    }).then(function(result) {
-				        if (result.value) {
-				        	let formdata = new FormData();
-		 				formdata.append('id',id);
-		 				formdata.append('action',action);
-				          thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-		 				_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
-				        }
-				    });
-	 			});
-	 			$(document).on('click','#btn_remove_purchased',function(e){
-	 				e.preventDefault();
-	 				let action = $(this).attr('data-action');
-	 				let id = $(this).attr('data-id');
-	 				  Swal.fire({
-				        title: "Are you sure?",
-				        text: "You won't be able to revert this!",
-				        icon: "warning",
-				        showCancelButton: true,
-				        confirmButtonText: "Yes, delete it!"
-				    }).then(function(result) {
-				        if (result.value) {
-				        	let formdata = new FormData();
-		 				formdata.append('id',id);
-		 				formdata.append('action',action);
-				          thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-		 				_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
-				        }
-				    });
-	 			});
-	 			$(document).on('click','#btn_material_request',function(e){
-	 				e.preventDefault();
-	 				let action = $(this).attr('data-action');
-	 				let id = $(this).attr('data-id');
-	 				let qty = $('#quantity'+id).val();
-	 				let total_qty  = $('#tbl_material #row_'+id).find("td").eq(2).html();
-	 				if(!qty){
-	 					Swal.fire("Enter Item Quantity Request!", "Thank you!", "info");
-	 				}else{
-	 					if(parseFloat(total_qty) < parseFloat(qty)){
-	 						Swal.fire("Invalid Request!", "Thank you!", "error");
+	 		case "Joborder_Supervisor_Stocks":{
+	 			let form = document.getElementById('Create_Material_request');
+				let validation = FormValidation.formValidation(
+							form,
+							{
+								fields: {
+								item_add: {
+										validators: {
+											notEmpty: {
+												message: 'Item is required'
+											}
+										}
+									},
+								qty_add: {
+										validators: {
+											notEmpty: {
+												message: 'Quantity is required'
+											}
+										}
+									},
+								type_add: {
+										validators: {
+											notEmpty: {
+												message: 'Type is required'
+											}
+										}
+									}
+								
+								},
+
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                    icon: new FormValidation.plugins.Icon({
+				                    valid: 'fa fa-check',
+				                    invalid: 'fa fa-times',
+				                    validating: 'fa fa-refresh'
+				                }),
+							}
+						   }
+					    );
+		 			$('.Create_Material_request').on('click', function(e){
+		 				e.preventDefault();
+		 				validation.validate().then(function(status) {
+					     if (status == 'Valid') {
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData(form);	
+						        formData.append('id',$('#project_no').attr('data-order'));
+						        formData.append('item',$('select[name=item_add]').val());
+						        formData.append('qty',$('input[name=qty_add]').val());
+						        formData.append('type',$('select[name=type_add]').val());
+							  	 thisURL = baseURL + 'create_controller/Create_Material_request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Create_Material_request_Supervisor",false);
+					         }
+					   	 });
+					    }
+				   	 });
+	 		    });
+		 		let form_update = document.getElementById('Update_Material_request');
+				let validation_update = FormValidation.formValidation(
+							form_update,
+							{
+								fields: {
+								qty_update_m: {
+										validators: {
+											notEmpty: {
+												message: 'Quantity is required'
+											}
+										}
+									},
+								},
+
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                    icon: new FormValidation.plugins.Icon({
+				                    valid: 'fa fa-check',
+				                    invalid: 'fa fa-times',
+				                    validating: 'fa fa-refresh'
+				                }),
+							}
+						   }
+					    );
+		 			$('.Update_Material_request').on('click', function(e){
+		 				e.preventDefault();
+		 				validation_update.validate().then(function(status) {
+					     if (status == 'Valid') {
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData(form_update);	
+						        formData.append('id',$('input[name=qty_update_m]').attr('data-id'));
+						        formData.append('qty',$('input[name=qty_update_m]').val());
+						        formData.append('type',$('select[name=type_update_m]').val());
+							  	 thisURL = baseURL + 'update_controller/Update_Material_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Supervisor",false);
+					         }
+					   	 });
+					    }
+				   	 });
+	 		    });
+
+		 		let form_purchase = document.getElementById('Create_Purchase_request');
+				let validation_purchase = FormValidation.formValidation(
+							form_purchase,
+							{
+								fields: {
+								special_add_p: {
+									validators: {
+										notEmpty: {
+											message: 'Item is required'
+										}
+									}
+								},
+								item_add_p: {
+										validators: {
+											notEmpty: {
+												message: 'Item is required'
+											}
+										}
+									},
+								qty_add_p: {
+										validators: {
+											notEmpty: {
+												message: 'Quantity is required'
+											}
+										}
+									}
+								
+								},
+
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                    icon: new FormValidation.plugins.Icon({
+				                    valid: 'fa fa-check',
+				                    invalid: 'fa fa-times',
+				                    validating: 'fa fa-refresh'
+				                }),
+							}
+						   }
+					    );
+		 			$('.Create_Purchase_request').on('click', function(e){
+		 				e.preventDefault();
+		 				validation_purchase.validate().then(function(status) {
+					     if (status == 'Valid') {
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData(form_purchase);	
+						        formData.append('id',$('#project_no').attr('data-order'));
+						        formData.append('status',$('select[name=status_add_p]').val());
+						        formData.append('special',$('input[name=special_add_p]').val());
+						        formData.append('item',$('select[name=item_add_p]').val());
+						        formData.append('qty',$('input[name=qty_add_p]').val());
+						        formData.append('remarks',$('textarea[name=remarks_add_p]').val());
+						        formData.append('unit',$('input[name=unit_add_p]').val());
+						        formData.append('type',1);
+							  	 thisURL = baseURL + 'create_controller/Create_Purchase_request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Create_Purchase_request_Supervisor",false);
+					         }
+					   	 });
+					    }
+				   	 });
+	 		    });
+		 		let form_update_p = document.getElementById('Update_Purchase_request');
+				let validation_update_p = FormValidation.formValidation(
+							form_update_p,
+							{
+								fields: {
+								qty_update_p: {
+										validators: {
+											notEmpty: {
+												message: 'Quantity is required'
+											}
+										}
+									}
+								},
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                    icon: new FormValidation.plugins.Icon({
+				                    valid: 'fa fa-check',
+				                    invalid: 'fa fa-times',
+				                    validating: 'fa fa-refresh'
+				                }),
+							}
+						   }
+					    );
+		 			$('.Update_Purchase_request').on('click', function(e){
+		 				e.preventDefault();
+		 				alert('ok')
+		 				validation_update_p.validate().then(function(status) {
+					     if (status == 'Valid') {
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData();	
+						        formData.append('id',$('input[name=qty_update_p]').attr('data-id'));
+						        formData.append('qty',$('input[name=qty_update_p]').val());
+						        formData.append('remarks',$('textarea[name=remarks_update_p]').val());
+							  	 thisURL = baseURL + 'update_controller/Update_Purchase_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Purchase_Request_Supervisor",false);
+					         }
+					   	 });
+					    }
+				   	 });
+	 		    });
+		 		$(document).on('click','.btn_purchased_request', function(e){
+		 				e.preventDefault();
+	 		    		e.stopImmediatePropagation();
+		 				let element = $(this);
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData();	
+						        formData.append('id',element.attr('data-id'));
+							  	 thisURL = baseURL + 'update_controller/Update_Purchase_Status_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Purchase_Status_Request_Supervisor",false);
+					         }
+					   	 });
+	 		    });
+	 		    $(document).on('click','.btn_material_request', function(e){
+	 		    		e.preventDefault();
+	 		    		e.stopImmediatePropagation();
+		 				let element = $(this);
+		 				let row = element.closest("tr");
+		 				let qty = row.find("td:nth-child(6) input").val();
+		 				if(!qty || qty==0){
+		 					Swal.fire("Enter Item Quantity Request!", "Thank you!", "info");
 		 				}else{
-		 					 Swal.fire({
-					        title: "Are you sure?",
-					        text: "You won't be able to revert this!",
-					        icon: "warning",
-					        showCancelButton: true,
-					        confirmButtonText: "Yes, submit it!"
+		 					Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
 						    }).then(function(result) {
 						        if (result.value) {
-						        	let formdata = new FormData();
-				 				formdata.append('id',id);
-				 				formdata.append('action',action);
-				 				formdata.append('qty',qty);
-						          thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-				 				_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
-						        }
-						    });	
+						        var formData = new FormData();	
+						        formData.append('id',element.attr('data-id'));
+						        formData.append('qty',qty);
+							  	 thisURL = baseURL + 'update_controller/Update_Material_Status_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Status_Request_Supervisor",false);
+					         }
+					   	 });
 		 				}
-	 				} 
-	 			});
-	 			$(document).on('click','#btn_purchased_request',function(e){
+	 		    });
+	 		    $(document).on('click','.btn_material_used', function(e){
+	 		    		e.preventDefault();
+	 		    		e.stopImmediatePropagation();
+		 				let element = $(this);
+		 				let row = element.closest("tr");
+		 				let qty = row.find("td:nth-child(4) input").val();
+		 				if(!qty || qty==0){
+		 					Swal.fire("Enter Item Quantity Request!", "Thank you!", "info");
+		 				}else{
+		 					Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData();	
+						        formData.append('id',element.attr('data-id'));
+						        formData.append('qty',qty);
+						        formData.append('type',element.attr('data-m'));
+							  	 thisURL = baseURL + 'update_controller/Update_Material_Used_Status_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Used_Status_Request_Supervisor",false);
+					         }
+					   	 });
+		 				}
+	 		    });
+	 		    $(document).on('click','.btn_lock_material',function(e){
 	 				e.preventDefault();
-	 				let action = $(this).attr('data-action');
+	 				e.stopImmediatePropagation();
 	 				let id = $(this).attr('data-id');
 	 				  Swal.fire({
 				        title: "Are you sure?",
 				        text: "You won't be able to revert this!",
 				        icon: "warning",
 				        showCancelButton: true,
-				        confirmButtonText: "Yes, submit it!"
+				        confirmButtonText: "Yes, Submit it!"
 				    }).then(function(result) {
 				        if (result.value) {
 				        	let formdata = new FormData();
 		 				formdata.append('id',id);
-		 				formdata.append('action',action);
-				          thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-		 				_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
+				          thisURL = baseURL + 'update_controller/Update_Material_Used_Lock_Request_Supervisor';
+		 				_ajaxForm(thisURL,"POST",formdata,"Update_Material_Used_Lock_Request_Supervisor",false);
 				        }
 				    });
 	 			});
-	 			$(document).on('click','#btn_material_used',function(e){
+	 			$(document).on('click','.btn_remove_material',function(e){
 	 				e.preventDefault();
-	 				let action = $(this).attr('data-action');
-	 				let math = $(this).attr('data-m');
+	 				e.stopImmediatePropagation();
 	 				let id = $(this).attr('data-id');
-	 				let qty = $('#quantity_used'+id).val();
-	 				if(!qty){
-	 					Swal.fire("Enter Material Use!", "Thank you!", "info");
-	 				}else{
-	 					 Swal.fire({
-					        title: "Are you sure?",
-					        text: "You won't be able to revert this!",
-					        icon: "warning",
-					        showCancelButton: true,
-					        confirmButtonText: "Yes, submit it!"
+	 				  Swal.fire({
+				        title: "Are you sure?",
+				        text: "You won't be able to revert this!",
+				        icon: "warning",
+				        showCancelButton: true,
+				        confirmButtonText: "Yes, delete it!"
+				    }).then(function(result) {
+				        if (result.value) {
+				        	let formdata = new FormData();
+		 				formdata.append('id',id);
+				          thisURL = baseURL + 'delete_controller/Delete_Material_Request_Supervisor';
+		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Material_Request_Supervisor",false);
+				        }
+				    });
+	 			});
+	 			$(document).on('click','.btn_remove_purchased',function(e){
+	 				e.preventDefault();
+	 				e.stopImmediatePropagation();
+	 				let id = $(this).attr('data-id');
+	 				  Swal.fire({
+				        title: "Are you sure?",
+				        text: "You won't be able to revert this!",
+				        icon: "warning",
+				        showCancelButton: true,
+				        confirmButtonText: "Yes, delete it!"
+				    }).then(function(result) {
+				        if (result.value) {
+				         let formdata = new FormData();
+		 				 formdata.append('id',id);
+				         thisURL = baseURL + 'delete_controller/Delete_Purchase_Request_Supervisor';
+		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Purchase_Request_Supervisor",false);
+				        }
+				    });
+	 			});
+	 			break;
+	 		}
+	 		case "Joborder_Supervisor_Project":{
+	 			let form = document.getElementById('Create_Material_request');
+				let validation = FormValidation.formValidation(
+							form,
+							{
+								fields: {
+								item_add: {
+										validators: {
+											notEmpty: {
+												message: 'Item is required'
+											}
+										}
+									},
+								qty_add: {
+										validators: {
+											notEmpty: {
+												message: 'Quantity is required'
+											}
+										}
+									},
+								type_add: {
+										validators: {
+											notEmpty: {
+												message: 'Type is required'
+											}
+										}
+									}
+								
+								},
+
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                    icon: new FormValidation.plugins.Icon({
+				                    valid: 'fa fa-check',
+				                    invalid: 'fa fa-times',
+				                    validating: 'fa fa-refresh'
+				                }),
+							}
+						   }
+					    );
+		 			$('.Create_Material_request').on('click', function(e){
+		 				e.preventDefault();
+		 				validation.validate().then(function(status) {
+					     if (status == 'Valid') {
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
 						    }).then(function(result) {
 						        if (result.value) {
-						        	let formdata = new FormData();
-				 				formdata.append('id',id);
-				 				formdata.append('action',action);
-				 				formdata.append('qty',qty);
-				 				formdata.append('math',math);
-						          thisURL = baseURL + 'update_controller/Update_Material_Purchase_Supervisor';
-				 				_ajaxForm(thisURL,"POST",formdata,"Update_Material_Purchase_Supervisor",false);
-						        }
-						    });	
-	 				} 
+						        var formData = new FormData(form);	
+						        formData.append('id',$('#project_no').attr('data-order'));
+						        formData.append('item',$('select[name=item_add]').val());
+						        formData.append('qty',$('input[name=qty_add]').val());
+						        formData.append('type',$('select[name=type_add]').val());
+							  	 thisURL = baseURL + 'create_controller/Create_Material_request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Create_Material_request_Supervisor",false);
+					         }
+					   	 });
+					    }
+				   	 });
+	 		    });
+		 		let form_update = document.getElementById('Update_Material_request');
+				let validation_update = FormValidation.formValidation(
+							form_update,
+							{
+								fields: {
+								qty_update_m: {
+										validators: {
+											notEmpty: {
+												message: 'Quantity is required'
+											}
+										}
+									},
+								},
+
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                    icon: new FormValidation.plugins.Icon({
+				                    valid: 'fa fa-check',
+				                    invalid: 'fa fa-times',
+				                    validating: 'fa fa-refresh'
+				                }),
+							}
+						   }
+					    );
+		 			$('.Update_Material_request').on('click', function(e){
+		 				e.preventDefault();
+		 				validation_update.validate().then(function(status) {
+					     if (status == 'Valid') {
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData(form_update);	
+						        formData.append('id',$('input[name=qty_update_m]').attr('data-id'));
+						        formData.append('qty',$('input[name=qty_update_m]').val());
+						        formData.append('type',$('select[name=type_update_m]').val());
+							  	 thisURL = baseURL + 'update_controller/Update_Material_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Supervisor",false);
+					         }
+					   	 });
+					    }
+				   	 });
+	 		    });
+
+		 		let form_purchase = document.getElementById('Create_Purchase_request');
+				let validation_purchase = FormValidation.formValidation(
+							form_purchase,
+							{
+								fields: {
+								special_add_p: {
+									validators: {
+										notEmpty: {
+											message: 'Item is required'
+										}
+									}
+								},
+								item_add_p: {
+										validators: {
+											notEmpty: {
+												message: 'Item is required'
+											}
+										}
+									},
+								qty_add_p: {
+										validators: {
+											notEmpty: {
+												message: 'Quantity is required'
+											}
+										}
+									}
+								
+								},
+
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                    icon: new FormValidation.plugins.Icon({
+				                    valid: 'fa fa-check',
+				                    invalid: 'fa fa-times',
+				                    validating: 'fa fa-refresh'
+				                }),
+							}
+						   }
+					    );
+		 			$('.Create_Purchase_request').on('click', function(e){
+		 				e.preventDefault();
+		 				validation_purchase.validate().then(function(status) {
+					     if (status == 'Valid') {
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData(form_purchase);	
+						        formData.append('id',$('#project_no').attr('data-order'));
+						        formData.append('status',$('select[name=status_add_p]').val());
+						        formData.append('special',$('input[name=special_add_p]').val());
+						        formData.append('item',$('select[name=item_add_p]').val());
+						        formData.append('qty',$('input[name=qty_add_p]').val());
+						        formData.append('remarks',$('textarea[name=remarks_add_p]').val());
+						        formData.append('unit',$('input[name=unit_add_p]').val());
+						        formData.append('type',1);
+							  	 thisURL = baseURL + 'create_controller/Create_Purchase_request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Create_Purchase_request_Supervisor",false);
+					         }
+					   	 });
+					    }
+				   	 });
+	 		    });
+		 		let form_update_p = document.getElementById('Update_Purchase_request');
+				let validation_update_p = FormValidation.formValidation(
+							form_update_p,
+							{
+								fields: {
+								qty_update_p: {
+										validators: {
+											notEmpty: {
+												message: 'Quantity is required'
+											}
+										}
+									}
+								},
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap(),
+				                    icon: new FormValidation.plugins.Icon({
+				                    valid: 'fa fa-check',
+				                    invalid: 'fa fa-times',
+				                    validating: 'fa fa-refresh'
+				                }),
+							}
+						   }
+					    );
+		 			$('.Update_Purchase_request').on('click', function(e){
+		 				e.preventDefault();
+		 				alert('ok')
+		 				validation_update_p.validate().then(function(status) {
+					     if (status == 'Valid') {
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData();	
+						        formData.append('id',$('input[name=qty_update_p]').attr('data-id'));
+						        formData.append('qty',$('input[name=qty_update_p]').val());
+						        formData.append('remarks',$('textarea[name=remarks_update_p]').val());
+							  	 thisURL = baseURL + 'update_controller/Update_Purchase_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Purchase_Request_Supervisor",false);
+					         }
+					   	 });
+					    }
+				   	 });
+	 		    });
+		 		$(document).on('click','.btn_purchased_request', function(e){
+		 				e.preventDefault();
+	 		    		e.stopImmediatePropagation();
+		 				let element = $(this);
+		 				 Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData();	
+						        formData.append('id',element.attr('data-id'));
+							  	 thisURL = baseURL + 'update_controller/Update_Purchase_Status_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Purchase_Status_Request_Supervisor",false);
+					         }
+					   	 });
+	 		    });
+	 		    $(document).on('click','.btn_material_request', function(e){
+	 		    		e.preventDefault();
+	 		    		e.stopImmediatePropagation();
+		 				let element = $(this);
+		 				let row = element.closest("tr");
+		 				let qty = row.find("td:nth-child(6) input").val();
+		 				if(!qty || qty==0){
+		 					Swal.fire("Enter Item Quantity Request!", "Thank you!", "info");
+		 				}else{
+		 					Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData();	
+						        formData.append('id',element.attr('data-id'));
+						        formData.append('qty',qty);
+							  	 thisURL = baseURL + 'update_controller/Update_Material_Status_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Status_Request_Supervisor",false);
+					         }
+					   	 });
+		 				}
+	 		    });
+	 		    $(document).on('click','.btn_material_used', function(e){
+	 		    		e.preventDefault();
+	 		    		e.stopImmediatePropagation();
+		 				let element = $(this);
+		 				let row = element.closest("tr");
+		 				let qty = row.find("td:nth-child(4) input").val();
+		 				if(!qty || qty==0){
+		 					Swal.fire("Enter Item Quantity Request!", "Thank you!", "info");
+		 				}else{
+		 					Swal.fire({
+						        title: "Are you sure?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Submit!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+						        var formData = new FormData();	
+						        formData.append('id',element.attr('data-id'));
+						        formData.append('qty',qty);
+						        formData.append('type',element.attr('data-m'));
+							  	 thisURL = baseURL + 'update_controller/Update_Material_Used_Status_Request_Supervisor';
+							  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Used_Status_Request_Supervisor",false);
+					         }
+					   	 });
+		 				}
+	 		    });
+	 		    $(document).on('click','.btn_lock_material',function(e){
+	 				e.preventDefault();
+	 				e.stopImmediatePropagation();
+	 				let id = $(this).attr('data-id');
+	 				  Swal.fire({
+				        title: "Are you sure?",
+				        text: "You won't be able to revert this!",
+				        icon: "warning",
+				        showCancelButton: true,
+				        confirmButtonText: "Yes, Submit it!"
+				    }).then(function(result) {
+				        if (result.value) {
+				        	let formdata = new FormData();
+		 				formdata.append('id',id);
+				          thisURL = baseURL + 'update_controller/Update_Material_Used_Lock_Request_Supervisor';
+		 				_ajaxForm(thisURL,"POST",formdata,"Update_Material_Used_Lock_Request_Supervisor",false);
+				        }
+				    });
+	 			});
+	 			$(document).on('click','.btn_remove_material',function(e){
+	 				e.preventDefault();
+	 				e.stopImmediatePropagation();
+	 				let id = $(this).attr('data-id');
+	 				  Swal.fire({
+				        title: "Are you sure?",
+				        text: "You won't be able to revert this!",
+				        icon: "warning",
+				        showCancelButton: true,
+				        confirmButtonText: "Yes, delete it!"
+				    }).then(function(result) {
+				        if (result.value) {
+				        	let formdata = new FormData();
+		 				formdata.append('id',id);
+				          thisURL = baseURL + 'delete_controller/Delete_Material_Request_Supervisor';
+		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Material_Request_Supervisor",false);
+				        }
+				    });
+	 			});
+	 			$(document).on('click','.btn_remove_purchased',function(e){
+	 				e.preventDefault();
+	 				e.stopImmediatePropagation();
+	 				let id = $(this).attr('data-id');
+	 				  Swal.fire({
+				        title: "Are you sure?",
+				        text: "You won't be able to revert this!",
+				        icon: "warning",
+				        showCancelButton: true,
+				        confirmButtonText: "Yes, delete it!"
+				    }).then(function(result) {
+				        if (result.value) {
+				         let formdata = new FormData();
+		 				 formdata.append('id',id);
+				         thisURL = baseURL + 'delete_controller/Delete_Purchase_Request_Supervisor';
+		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Purchase_Request_Supervisor",false);
+				        }
+				    });
 	 			});
 	 			break;
 	 		}
@@ -2974,6 +3552,7 @@ var KTFormControls = function () {
 							<td><button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success" id="btn_material_request" data-action="material-request" data-id="'+response.id+'"><i class="flaticon2-fast-next"></i></button></td>\
 						</tr>');
 						$('#tbl_material_used > tbody').prepend('<tr id="row_'+response.id+'">\
+								<td><button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" id="btn_remove_material" data-action="material-remove"  data-toggle="tooltip" data-theme="dark" title="'+tool_title+'" data-id="'+id+'">'+icon+'</button></td>\
 								<td data-id="'+response.id+'">'+response.item+'</td>\
 								<td>'+response.p_qty+'</td>\
 								<td><input type="text" class="form-control form-control-sm text-center" id="quantity_used'+response.id+'" placeholder="Enter Quantity" autocomplete="off"/></td>\
@@ -3800,6 +4379,157 @@ var KTFormControls = function () {
                       Swal.fire("Error!", "Something went wrong!", "error");
                 }
                 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Create_Material_request_Supervisor":{
+	 		 	if(response !=false){
+	 		 		_initToast('success','Created Successfully');
+	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
+					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material',TableURL,TableData,response);
+
+					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+					$('#add-material-request').modal('hide');
+					$('#Create_Material_request')[0].reset();
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Create_Purchase_request_Supervisor":{
+	 		 	if(response !=false){
+	 		 		_initToast('success','Created Successfully');
+	 		 		let TableURL = baseURL + 'datatable_controller/Purchased_List_Supervisor';
+					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
+					_DataTableLoader1('tbl_puchased',TableURL,TableData,response);
+					$('#add-purchase-request').modal('hide');
+					$('#Create_Purchase_request')[0].reset();
+					$('.item-status').trigger('change');
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Update_Material_Status_Request_Supervisor":{
+	 		 	if(response !=false){
+	 		 		_initToast('success','Request Successfully Submitted');
+	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
+					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material',TableURL,TableData,response);
+
+					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Update_Material_Used_Status_Request_Supervisor":{
+	 		 	if(response !=false){
+	 		 		_initToast('success','Request Successfully Submitted');
+	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
+					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material',TableURL,TableData,response);
+
+					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Update_Material_Used_Lock_Request_Supervisor":{
+	 		 	if(response !=false){
+	 		 		if(response.status == 1){
+	 		 			_initToast('success','Item Lock');
+	 		 		}else{
+	 		 			_initToast('success','Item Unlock');
+	 		 		}
+	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
+					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material',TableURL,TableData,response.id);
+
+					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.id);
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Update_Purchase_Status_Request_Supervisor":{
+	 		 	if(response !=false){
+	 		 		_initToast('success','Request Successfully Submitted');
+					let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
+					let TableData1 = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
+					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Update_Material_Request_Supervisor":{
+		 		 	if(response !=false){
+		 		 		_initToast('success','Save Changes');
+		 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
+						let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+						_DataTableLoader1('tbl_material',TableURL,TableData,response);
+
+						let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
+						let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+						_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+						$('#edit-material-request').modal('hide');
+		 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Update_Purchase_Request_Supervisor":{
+		 		 	if(response !=false){
+		 		 		_initToast('success','Save Changes');
+		 		 		let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
+						let TableData1 = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
+						_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
+						$('#edit-purchase-request').modal('hide');
+		 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Delete_Material_Request_Supervisor":{
+	 		 	if(response !=false){
+	 		 		_initToast('success','Item Removed');
+					let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
+					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material',TableURL,TableData,response);
+
+					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.id);
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 		 	}
+	 		 	 _initnotificationupdate();
+	 		 	break;
+	 		 }
+	 		 case "Delete_Purchase_Request_Supervisor":{
+	 		 	if(response !=false){
+	 		 		_initToast('success','Item Removed');
+					let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
+					let TableData1 = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
+					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
+	 		 	}else{
+	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 		 	}
+	 		 	 _initnotificationupdate();
 	 		 	break;
 	 		 }
 
