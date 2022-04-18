@@ -1025,12 +1025,7 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
      function Joborder_Project_Supervisor_DataTable(){
-         $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
-         ->from('tbl_project as p')
-         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-         ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-         ->join('tbl_users as u','u.id=p.assigned','LEFT')
-         ->where('p.status !=',2)->where('p.type',2)->order_by('p.date_created','DESC')->get();
+         $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
               $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';

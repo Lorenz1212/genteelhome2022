@@ -134,7 +134,7 @@
 																	$query = $this->db->select('*,(stocks+production_stocks) as stocks')->from('tbl_materials')->where('status',1)->order_by('date_created','ASC')->get();
 																	    if(!$query){return false;}else{ 
 																	        foreach($query->result() as $row){  
-																	        	if(!$row->unit){$unit = "";}else{$unit = '('.$row->unit.')';}
+																	        	if(!$row->unit){$unit = "";}else{$unit = $row->unit.'(s)';}
 																	        	echo '<option value="'.$row->id.'">('.$row->stocks.') '.$row->item.' '.$unit.'</option>'; 
 																	        }  
 																	    }
@@ -145,7 +145,7 @@
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
 														<label>QTY</label>
-														<input type="number" class="form-control form-control-solid form-control-md" id="quantity" name="qty" placeholder="Enter Number" autocomplete="off"/>
+														<input type="number" min="1" class="form-control form-control-solid form-control-md" id="quantity" name="qty" value="1" autocomplete="off"/>
 													</div>
 												</div>
 												<div class="col-xl-3 col-xxl-3 col-md-3" id="type-select">

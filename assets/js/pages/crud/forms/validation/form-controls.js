@@ -975,7 +975,7 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Create_Joborder_Project":{
-	 			$('#Create_Joborder_Project').on('submit',function(e){
+	 			$('.Create_Joborder_Project').on('click',function(e){
 	 				e.preventDefault();
 	 				var rowCount = $('#kt_material_table tbody tr').length;
 	 				var project_no=$('select[name=project_no]').val();
@@ -3197,12 +3197,8 @@ var KTFormControls = function () {
                     }else{
                     	Swal.fire("TRACKING NO IS INVALID!", "Please check your receipt", "info");
                     }
+                     _initnotificationupdate();
                     break;
-	 		}
-
-	 		case "Create_Production_Order":{
-	 			if(response.status=="success"){_initSwalSuccess(url);}
-	 			break;
 	 		}
 
 	 		case "Create_RawMaterial_btn":{
@@ -3213,6 +3209,7 @@ var KTFormControls = function () {
 				var TableData = [{data:'no'},{data: 'item'},{data:'price'},{data: 'date_created'},{data: 'action'}]; 
 				_DataTableLoader('tbl_rawmaterials_add',TableURL,TableData,false);
 	 		     }
+	 		     _initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_RawMaterial":{
@@ -3220,16 +3217,13 @@ var KTFormControls = function () {
 	 			var TableURL = baseURL + 'datatable_controller/RawMaterial_DataTable';
 				var TableData = [{data:'no'},{data: 'item'},{data:'price'},{data: 'date_created'},{data: 'action'}]; 
 				_DataTableLoader('tbl_rawmaterials_add',TableURL,TableData,false);
+				_initnotificationupdate();
 	 			break
 	 		}
 	 		case "Create_RawMaterial":{
 	 			if(response.status=="success"){ _initToastSuccess();$('input[name="item"]').val('');
 	 			$('input[name="price"]').val('');}
-	 			break;
-	 		}
-	 		case "Create_EM_Material_Request":
-	 		case "Create_EM_Purchase_Request":{
-	 			if(response.status=="success"){_initSwalSuccess(url);}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_Supplier":{
@@ -3256,8 +3250,6 @@ var KTFormControls = function () {
 	 		}
 
 	 		//Update
-
-	 	
 	 		case "Update_SupplierItem":
 	 		case "Update_Supplier":
 	 		case "Update_Users":{
@@ -3274,12 +3266,14 @@ var KTFormControls = function () {
 	 			}else{
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Nothing Changes'});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Approval_Customization":{
 	 			if(response.status=="success"){
 	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){window.location = url;});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Material_Request_Approval":{
@@ -3288,6 +3282,7 @@ var KTFormControls = function () {
 	 			}else if(response.status == 'REJECTED'){
 	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){window.location = url;});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Approval_Purchase":{
@@ -3314,6 +3309,7 @@ var KTFormControls = function () {
 						$('#requestModal').modal('hide');
 	 				});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Approval_Project_Inspection":{
@@ -3340,6 +3336,7 @@ var KTFormControls = function () {
 						$('#requestModal').modal('hide');
 	 				});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Approval_Inspection_Stocks":{
@@ -3366,6 +3363,7 @@ var KTFormControls = function () {
 						$('#requestModal').modal('hide');
 	 				});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Approval_SalesOrder":{
@@ -3529,77 +3527,6 @@ var KTFormControls = function () {
 					_DataTableLoader('tbl_customer_list',TableURL,TableData,false);
 	 			}else{
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Nothing Changes'});
-	 			}
-	 			_initnotificationupdate();
-	 			break;
-	 		}
-	 		
-	 		
-	 		case "Update_Material_Purchase_Supervisor":{
-	 			if(response.status == 'success'){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
-					$('#tbl_material #row_'+response.id).find("td").eq(2).text(response.qty);
-					$('#exampleModal').modal('hide');
-	 			}else if(response.status == 'material-create'){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
-						$('#tbl_material > tbody').prepend('<tr id="row_'+response.id+'">\
-		  					<td><button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" id="btn_remove_material" data-action="material-remove" data-id="'+response.id+'"><i class="flaticon-delete-1"></i></button></td>\
-							<td data-id="'+response.id+'"><a href="#" id="form-item" data-action="material" data-name="'+response.item+'" data-id="'+response.id+'" data-toggle="modal" data-target="#exampleModal" data-id="'+response.id+'">'+response.item+'</a></td>\
-							<td>'+response.qty+'</td>\
-							<td class="text-center">'+response.previous+'</td>\
-							<td>'+response.stocks+'</td>\
-							<td><input type="text" class="form-control form-control-sm text-center" placeholder="Enter Quantity"/></td>\
-							<td><button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success" id="btn_material_request" data-action="material-request" data-id="'+response.id+'"><i class="flaticon2-fast-next"></i></button></td>\
-						</tr>');
-						$('#tbl_material_used > tbody').prepend('<tr id="row_'+response.id+'">\
-								<td><button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" id="btn_remove_material" data-action="material-remove"  data-toggle="tooltip" data-theme="dark" title="'+tool_title+'" data-id="'+id+'">'+icon+'</button></td>\
-								<td data-id="'+response.id+'">'+response.item+'</td>\
-								<td>'+response.p_qty+'</td>\
-								<td><input type="text" class="form-control form-control-sm text-center" id="quantity_used'+response.id+'" placeholder="Enter Quantity" autocomplete="off"/></td>\
-								<td><button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success" id="btn_material_used" data-action="material-used" data-m="plus" data-id="'+response.id+'"><i class="flaticon2-plus"></i></button>\
-								<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-danger btn-hover-danger" id="btn_material_used" data-action="material-used" data-m="minus" data-id="'+response.id+'"><i class="flaticon2-line"></i></button></td>\
-							</tr>');
-					$('#exampleModal').modal('hide');
-	 			}else if(response.status == 'purchased-create'){
-	 					const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
-						$('#tbl_puchased > tbody').prepend('<tr id="row_'+response.id+'">\
-			  					<td><button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" id="btn_remove_purchased" data-action="purchased-remove" data-id="'+response.id+'"><i class="flaticon-delete-1"></i></button></td>\
-								<td><a href="#" id="form-item" data-action="purchased" data-name="'+response.item+'" data-id="'+response.id+'" data-toggle="modal" data-target="#exampleModal">'+response.item+'</a></td>\
-								<td>'+response.qty+'</td>\
-								<td>'+response.unit+'</td>\
-								<td>'+response.remarks+'</td>\
-								<td><button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success" id="btn_purchased_request" data-action="purchased-request" data-id="'+response.id+'"><i class="flaticon2-fast-next"></i></button></td>\
-							</tr>');
-					$('#exampleModal').modal('hide');
-	 			}else if(response.status == 'material-remove'){
-	 				$('#tbl_material #row_'+response.id).remove();
-	 				$('#tbl_material_used #row_'+response.id).remove();
-					_initToast('success','Your Material has been removed');
-	 			}else if(response.status == 'purchased-remove'){
-	 				$('#tbl_puchased #row_'+response.id).remove();
-					_initToast('success','Your Material has been removed');
-	 			}else if(response.status == 'material-request'){
-	 				$('#quantity'+response.id).val('');
-	 				$('#tbl_material #row_'+response.id).find("td").eq(3).text(response.balance);
-	 				_initToast('success','Material Request Submited');
-				}else if(response.status == 'purchased-update'){
-					_initToast('success','Save Changes');
-					$('#tbl_puchased #row_'+response.id).find("td").eq(2).text(response.qty);
-					$('#tbl_puchased #row_'+response.id).find("td").eq(3).text(response.unit);
-				 	$('#tbl_puchased #row_'+response.id).find("td").eq(4).text(response.remarks);
-					$('#exampleModal').modal('hide');
-				}else if(response.status == 'purchased-request'){
-					$('#tbl_puchased #row_'+response.id).remove();
-					_initToast('success','Purchased Request Submited');
-				}else if(response.status == 'material-used'){
-					$('#quantity_used'+response.id).val('');
-					_initToast('success','Save Material');
-				}else if(response.status == 'material-used-saved'){
-					$('#quantity_used'+response.id).val('');
-					$('#tbl_material_used #row_'+response.id).find("td").eq(1).text(response.qty);
-					_initToast('success','Save Changes');
-				}else{
-					_initToast('info','Nothing Changes');
 	 			}
 	 			_initnotificationupdate();
 	 			break;

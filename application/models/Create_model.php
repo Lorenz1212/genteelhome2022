@@ -291,13 +291,13 @@ class Create_model extends CI_Model{
 	        			$this->db->insert('tbl_purchasing_project',$purchase_data);
 				    }
 			    }
-					$data = array('production_no'=>$value,
-								  'production'=>$user_id,
-				                  'assigned'=>$user_id,
-				                  'project_no'=>$this->encryption->decrypt($project_no),
-					 			  'status'=>1,
-					 			  'type'=>2,
-					 			  'date_created'=>date('Y-m-d H:i:s'));
+				$data = array('production_no'=>$value,
+							  'production'=>$user_id,
+			                  'assigned'=>$user_id,
+			                  'project_no'=>$this->encryption->decrypt($project_no),
+				 			  'status'=>1,
+				 			  'type'=>2,
+				 			  'date_created'=>date('Y-m-d H:i:s'));
 				$this->db->insert('tbl_project',$data);
 				$mat_itemnos = explode(',', $mat_itemno);
 	 		 	$mat_quantitys = explode(',', $mat_quantity);

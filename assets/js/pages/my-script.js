@@ -2185,7 +2185,7 @@ var arrows;var item_v;var price;var special_option;
 				$(document).ready(function() {
 					$(document).on("click","#form-request",function() {
 				 		let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
+					 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
 				     });
 				     $(document).on("click","#form-purchased",function() {
@@ -3688,165 +3688,6 @@ var arrows;var item_v;var price;var special_option;
 			});
 	  		break;
 	  	}
-	  	case "Modal_Joborder_Project_Supervisor":{
-	  		if(!response.row == false){
-	  			$('#project_no').text(response.row.production_no).attr('data-order',response.row.production_no);
-	  			$('#title').val(response.row.title);
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.row.image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.row.docs);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.row.image);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-	  		}
-	  		if(!response.material == false){
-	  			_initNumberOnly('#text-qty');
-	  			$('#tbl_material > tbody').empty();
-	  			$('#tbl_material_used > tbody').empty();
-	  			for(var i=0;i<response.material.length;i++){
-	  				_initNumberOnly('#quantity'+response.material[i].id);
-	  				$('#tbl_material > tbody').append('<tr id="row_'+response.material[i].id+'">\
-	  					<td><button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" id="btn_remove_material" data-action="material-remove" data-id="'+response.material[i].id+'"><i class="flaticon-delete-1"></i></button></td>\
-						<td data-id="'+response.material[i].id+'"><a href="#" id="form-item" data-action="material" data-name="'+response.material[i].item+'" data-id="'+response.material[i].id+'" data-toggle="modal" data-target="#exampleModal" data-id="'+response.material[i].id+'">'+response.material[i].item+'</a></td>\
-						<td>'+response.material[i].quantity+'</td>\
-						<td class="text-center">'+response.material[i].balance+'</td>\
-						<td>'+response.material[i].stocks+'</td>\
-						<td><input type="text" class="form-control form-control-sm text-center" id="quantity'+response.material[i].id+'" placeholder="Enter Quantity" autocomplete="off"/></td>\
-						<td><button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success" id="btn_material_request" data-action="material-request" data-id="'+response.material[i].id+'"><i class="flaticon2-fast-next"></i></button></td>\
-					</tr>');
-
-	  				let id = response.material[i].id;
-					$('#tbl_material_used > tbody').append('<tr id="row_'+id+'">\
-						<td data-id="'+response.material[i].id+'">'+response.material[i].item+'</td>\
-						<td>'+response.material[i].p_qty+'</td>\
-						<td><input type="text" class="form-control form-control-sm text-center" id="quantity_used'+response.material[i].id+'" placeholder="Enter Quantity" autocomplete="off"/></td>\
-						<td><button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success" id="btn_material_used" data-action="material-used" data-m="plus" data-id="'+response.material[i].id+'"><i class="flaticon2-plus"></i></button>\
-						<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-danger btn-hover-danger" id="btn_material_used" data-action="material-used" data-m="minus" data-id="'+response.material[i].id+'"><i class="flaticon2-line"></i></button></td>\
-					</tr>');
-	  			}
-	  		}
-	  		if(!response.purchase == false){
-	  			$('#tbl_puchased > tbody').empty();
-	  			for(var i=0;i<response.purchase.length;i++){
-	  				$('#tbl_puchased > tbody').append('<tr id="row_'+response.purchase[i].id+'">\
-	  					<td><button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" id="btn_remove_purchased" data-action="purchased-remove" data-id="'+response.purchase[i].id+'"><i class="flaticon-delete-1"></i></button></td>\
-						<td data-id="'+response.purchase[i].id+'"><a href="#" id="form-item" data-action="purchased" data-name="'+response.purchase[i].item+'" data-id="'+response.purchase[i].id+'" data-toggle="modal" data-target="#exampleModal" data-id="'+response.purchase[i].id+'">'+response.purchase[i].item+'</a></td>\
-						<td>'+response.purchase[i].quantity+'</td>\
-						<td>'+response.purchase[i].unit+'</td>\
-						<td>'+response.purchase[i].remarks+'</td>\
-						<td><button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success" id="btn_purchased_request" data-action="purchased-request" data-id="'+response.purchase[i].id+'"><i class="flaticon2-fast-next"></i></button></td>\
-					</tr>');
-	  			}
-	  		}
-	  		$(document).on("click","#form-item",function() {
-				 	let id = $(this).attr('data-id');
-				 	let name = $(this).attr('data-name');
-				 	let action = $(this).attr('data-action');
-				 	$('#text-name').text(name);
-				 	$('#text-name').attr('data-id',id);
-				 	$('#text-name').attr('data-action',action);
-				 	if(action == 'material'){
-				 		let qty  = $('#tbl_material #row_'+id).find("td").eq(2).html();
-				 		$('.data-append').empty().append('<div class="row"><div class="col-lg-12 col-xl-12"><div class="form-group"><label class="text-white item-p">QTY</label><input type="text" class="form-control" id="text-qty" value="'+qty+'" autocomplete="off"/></div></div></div>');
-				 	}else{
-				 		let qty  = $('#tbl_puchased #row_'+id).find("td").eq(2).html();
-				 		let unit  = $('#tbl_puchased #row_'+id).find("td").eq(3).html();
-				 		let remarks  = $('#tbl_puchased #row_'+id).find("td").eq(4).html();
-				 		$('.data-append').empty().append('<div class="row"><div class="col-lg-6 col-xl-6"><div class="form-group"><label class="text-white item-p">QTY</label><input type="text" class="form-control" id="text-qty" value="'+qty+'" autocomplete="off"/></div></div><div class="col-lg-6 col-xl-6"><div class="form-group"><label class="text-white item-p">UNIT</label><input type="text" class="form-control" name="unit" value="'+unit+'" autocomplete="off"/></div></div></div><div class="row"><div class="col-lg-12 col-xl-12"><div class="form-group"><label class="text-white item-p">Remark</label><textarea class="form-control" name="remarks" rows="4" autocomplete="off">'+remarks+'</textarea></div></div></div>');
-				 	}
-				 
-			});
-			$(document).on("click","#form-add",function() {
-				 	let action = $(this).attr('data-action');
-				 	_ajaxloaderOption('option_controller/Item_option',"POST",false,'material_item_no');
-				 	$('#text-name').attr('data-action',action);
-				 	if(action == 'material-create'){
-				 	$('#text-name').text('Add New Material');
-				 	for(var i=0;i<response.material.length;i++){
-				 		$('select[name=item] > option[value='+response.material[i].item_no+']').remove();
-				 	}
-				 	$('.data-append').empty().append('<div class="row">\
-				 		 <div class="col-lg-12 col-xl-12">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">ITEM</label>\
-						 		<select class="form-control" name="item" id="item"></select>\
-				 			 </div>\
-					 	</div>\
-					 	<div class="col-lg-6 col-xl-6">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">QTY</label>\
-						 		<input type="text" class="form-control" id="text-qty" autocomplete="off"/>\
-				 			 </div>\
-					 	</div>\
-					 	<div class="col-lg-6 col-xl-6">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">UNIT</label>\
-						 		<input type="text" class="form-control" name="unit" autocomplete="off"/>\
-				 			 </div>\
-					 	</div>\
-					 	<div class="col-lg-12 col-xl-12">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">TYPE</label>\
-						 		<select class="form-control" name="type">\
-						 			<option value="" selected="" disabled="">SELECT TYPE</option>\
-									<option value="1">FRAMING - MATERIALS</option>\
-									<option value="2">MECHANISM</option>\
-									<option value="3">FINISHING - MATERIALS</option>\
-									<option value="4">SULIHIYA</option>\
-									<option value="5">UPHOLSTERY</option>\
-									<option value="6">OTHERS</option>\
-						 		</select>\
-				 			 </div>\
-					 	</div>\
-					 </div>');
-				 }else{
-				 	$(document).on('change','select[name=type]',function(e){
-				 		if($(this).val() == 'common'){
-				 		   $("input[name=item_special]").css('display','none');
-				 		   $(".displayitem").removeAttr('style');
-				 		}else{
-				 		  $("input[name=item_special]").removeAttr('style');
-				 		  $(".displayitem").css('display','none');
-				 		}
-				 	});
-				 	$('.data-append').empty().append('<div class="row">\
-				 		<div class="col-lg-12 col-xl-12">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">TYPE</label>\
-						 		<select class="form-control" name="type">\
-									<option value="common" selected="">COMMON</option>\
-									<option value="special">SPECIAL</option>\
-						 		</select>\
-				 			 </div>\
-					 	</div>\
-				 		 <div class="col-lg-12 col-xl-12">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">ITEM</label>\
-						 		<input type="text" class="form-control" name="item_special" style="display:none">\
-						 		<select class="form-control displayitem" name="item" id="item"></select>\
-				 			 </div>\
-					 	</div>\
-					 	<div class="col-lg-6 col-xl-6">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">QTY</label>\
-						 		<input type="text" class="form-control" id="text-qty" autocomplete="off"/>\
-				 			 </div>\
-					 	</div>\
-					 	<div class="col-lg-6 col-xl-6">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">UNIT</label>\
-						 		<input type="text" class="form-control" name="unit" autocomplete="off"/>\
-				 			 </div>\
-					 	</div>\
-					 	<div class="col-lg-12 col-xl-12">\
-				 			<div class="form-group">\
-						 		<label class="text-white item-p">REMARKS</label>\
-						 		<textarea name="remarks" class="form-control" rows="4"/>\
-				 			 </div>\
-					 	</div>\
-					 </div>');
-				 }
-			});
-	  		break;
-	  	}
 	  	case "Modal_Joborder_Stocks_Supervisor":{
 	  		_initNumberOnly('.quantity');
 	  		$('[data-toggle="tooltip"]').tooltip();
@@ -3929,11 +3770,9 @@ var arrows;var item_v;var price;var special_option;
 	  			$('#project_no').text(response.production_no).attr('data-order',response.production_no);
 	  			$('#title').val(response.title);
 	  			$('#c_code').text(response.c_code);
-	  			$('#c_name').val(response.c_name);
 	  			$('#unit').val(response.unit);
 	  			$(".docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
 	  			$(".image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$(".c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	  			$(".docs").val(response.docs);
 
 	  			let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';

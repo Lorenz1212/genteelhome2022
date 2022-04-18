@@ -12,11 +12,11 @@
 }
 </style>
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-jobeorder-create-project">
-	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+	<div class="subheader py-2 py-lg-12 subheader-transparent form" id="kt_subheader" data-link="Create_Joborder_Project">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Create Job Order For Stocks</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Create Job Order For Project</h2>
 				</div>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 				        </div>
 				    </div>
 			   		<div class="card-body">
-			   			<form class="form" id="Create_Joborder_Project" data-link="Create_Joborder_Project" accept-charset="utf-8"  enctype="multipart/form-data">
+			   			<form  accept-charset="utf-8"  enctype="multipart/form-data">
 			       		 <div class="row">
 						 	  <div class="col-lg-12 col-xl-12 col-md-12">
 							    <div class="form-group">
@@ -68,7 +68,7 @@
 			    <div class="row">
 					<div class="col-lg-12 col-xl-12 col-md-12">
 						<div class="card card-custom gutter-b">
-							<button type="submit" class="btn btn-light-success font-weight-bold btn-lg btn-square">SUBMIT JOB ORDER</button>
+							<button type="button" class="btn btn-light-success font-weight-bold btn-lg btn-square Create_Joborder_Project">SUBMIT JOB ORDER</button>
 						</div>
 					</div>
 				</div>
@@ -93,8 +93,8 @@
 								       		 	  	<div class="form-group">
 													   <label>SPECIAL OPTION</label>
 													   <select class="form-control" name="special_option" id="special-option"/>
-													   	<option value="1">Common Item</option>
-													   	<option value="2">Special Item</option>
+													   	<option value="1">COMMON ITEM</option>
+													   	<option value="2">SPECIAL ITEM</option>
 													   </select>
 													</div>
 							       		 	 	</div>
@@ -113,8 +113,8 @@
 																	$query = $this->db->select('*,(stocks+production_stocks) as stocks')->from('tbl_materials')->where('status',1)->order_by('date_created','ASC')->get();
 																	    if(!$query){return false;}else{ 
 																	        foreach($query->result() as $row){  
-																	        	if(!$row->unit){$unit = "";}else{$unit = '('.$row->unit.')';}
-																	        	echo '<option value="'.$row->id.'">('.$row->stocks.') '.$row->item.' '.$unit.'</option>'; 
+																	        	if(!$row->unit){$unit = "";}else{$unit = $row->unit.'(s)';}
+																	        	echo '<option value="'.$row->id.'">('.$row->stocks.') '.$row->item.' - '.$unit.'</option>'; 
 																	        }  
 																	    }
 																?>
@@ -124,7 +124,7 @@
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
 														<label>QTY</label>
-														<input type="number" class="form-control form-control-solid form-control-md" id="quantity" name="qty" placeholder="Enter Number" autocomplete="off"/>
+														<input type="number" min="1" class="form-control form-control-solid form-control-md" id="quantity" name="qty" value="1" autocomplete="off"/>
 													</div>
 												</div>
 												<div class="col-xl-3 col-xxl-3 col-md-3" id="type-select">

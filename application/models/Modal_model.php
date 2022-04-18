@@ -1050,47 +1050,8 @@ class Modal_model extends CI_Model{
         return $query;
     }
     function Modal_Joborder_Project_Supervisor($id){
-    $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
-    ->from('tbl_project as p')
-    ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-    ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-    ->join('tbl_users as u','u.id=p.production','LEFT')
-    ->where('p.production_no', $id)->get();
-        $row = $query->row();
-        $m_query = $this->db->select('*,p.id as id,m.item as item,p.status as status')->from('tbl_material_project as p')
-                ->join('tbl_materials as m','m.id=p.item_no')
-                ->where('p.production_no',$id)->order_by('p.id','DESC')->get();
-        if($m_query !== FALSE && $m_query->num_rows() > 0){
-            foreach($m_query->result() as $m_row){
-                $data_m[] = array('id'       => $m_row->id,
-                                  'item_no'  => $m_row->item_no,
-                                  'item'     => $m_row->item,
-                                  'stocks'   => $m_row->production_stocks,
-                                  'quantity' => $m_row->total_qty,
-                                  'balance'  => $m_row->balance_quantity,
-                                  'p_qty'    => $m_row->production_quantity,
-                                  'status'   => $m_row->status);
-            }
-        }else{
-            $data_m = false;
-        }
-        $p_query = $this->db->select('*,p.id as id,m.item as item,p.status as status, IFNULL(m.unit," ") AS unit')->from('tbl_purchasing_project as p')->join('tbl_materials as m','m.id=p.item_no')->where('p.production_no',$id)->where('p.status',1)->order_by('p.id','ASC')->get();
-        if($p_query !== FALSE && $p_query->num_rows() > 0){
-            foreach($p_query->result() as $p_row){
-                $data_p[] = array('id'       => $p_row->id,
-                                  'item'     => $p_row->item,
-                                  'unit'     => $p_row->unit,
-                                  'quantity' => $p_row->quantity,
-                                  'remarks'  => $p_row->remarks,
-                                  'status'   => $p_row->status);
-            }
-        }else{$data_p = false;}
-
-
-        $data_array = array('row' => $row,
-                            'material' => $data_m,
-                            'purchase' => $data_p);
-        return $data_array;
+    $query = $this->db->select('p.*,c.*,d.*,c.image,p.status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get()->row();
+        return $query;
     }
      function Modal_Material_Request_Supervisor($id){
         $m_query = $this->db->select('*,DATE_FORMAT(p.date_created, "%M %d %Y %r") as  date_created')

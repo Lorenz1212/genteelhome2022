@@ -92,37 +92,46 @@
 <div class="modal fade" id="requestModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-			 <div class="modal-header">
-                <h5 class="modal-title"><span id="project_no"></span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
             <div class="modal-body">
             	<div class="card card-custom gutter-b">
-						<div class="card-body">
-								<ul class="nav nav-tabs" role="tablist">
+            		<div class="card-header card-header-tabs-line">
+		            		<div class="card-toolbar">
+		            			<ul class="nav nav-tabs nav-tabs-line  nav-tabs-inverse justify-content-center">
 									<li class="nav-item">
-										<button class="nav-link active" data-toggle="pill" href="#details">Details
-										</button>
+										<a  class="nav-link active" data-toggle="tab" href="#details">
+											<span class="nav-icon"><i class="flaticon-grid-menu"></i></span>
+                       						<span class="nav-text">Details</span>
+										</a>
 									</li>
 									<li class="nav-item">
-										<button class="nav-link" data-toggle="pill" href="#material">Material Request
-										</button>
+										<a class="nav-link" data-toggle="tab" href="#material">
+											<span class="nav-icon"><i class="flaticon-list-1"></i></span>
+                       						<span class="nav-text">Material Request</span>
+										</a>
 									</li>
 									<li class="nav-item">
-										<button class="nav-link" data-toggle="pill" href="#purchase">Purchase Request
-										</button>
+										<a class="nav-link" data-toggle="tab" href="#purchase">
+											<span class="nav-icon"><i class="flaticon-list-1"></i></span>
+                       						<span class="nav-text">Purchase Request</span>
+										</a>
 									</li>
 									<li class="nav-item">
-										<button class="nav-link" data-toggle="pill" href="#used">Material Used
-										</button>
+										<a class="nav-link" data-toggle="tab" href="#used">
+											<span class="nav-icon"><i class="flaticon-edit-1"></i></span>
+                       						<span class="nav-text">Material Used</span>
+										</a>
 									</li>
 								</ul>
-							<div class="tab-content p-5">
-							<div class="tab-pane active" id="details" role="tabpanel" style="height:400px">
-										<div class="row justify-content-center">
-											<div class="col-xl-12 col-xxl-12 col-md-12">
+		            		</div>
+		            		<div class="card-title">
+					            <h3 class="card-label" id="project_no"></h3>
+					        </div>
+		            	</div>
+						<div class="card-body">
+							<div class="tab-content">
+							<div class="tab-pane active" id="details" role="tabpanel" style="height:300px">
+										<div class="row justify-content-center p-10">
+											<div class="col-xl-10 col-xxl-10 col-md-10">
 												<div class="row">
 													<div class="col-lg-5 col-xl-5 col-md-5">
 														<div class="form-group">
@@ -144,7 +153,7 @@
 																    </div>
 														  		</div>
 															</div>
-															<div class="col-lg-7 col-xl-7 col-md-7">
+															<div class="col-lg-12 col-xl-12 col-md-12">
 																<div class="form-group">
 															   		<label>Project Name</label>
 														   			<input class="form-control" id="title" disabled />
@@ -168,95 +177,82 @@
 														  		</div>
 															</div>
 														</div>		
-
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane" id="material" role="tabpanel" style="height:400px">
-									<div class="card card-custom">
-										 <div class="card-header">
-										  	<div class="card-toolbar">
-									            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-material-request" data-action="material-create">
-									                <i class="flaticon2-plus"></i> Add Material
-									            </a>
-									        </div>
-										 </div>
-										 <div class="card-body">
-										 	 <div data-scroll="true" data-height="300">
-												    <table class="table table-sm" id="tbl_material">
-														<thead>
-															<tr>
-																<th></th>
-																<th>ITEM</th>
-																<th>QTY</th>
-																<th class="text-center">PREVIOUS</th>
-																<th>STOCKS</th>
-																<th class="text-center">INPUT REQUEST</th>
-																<th></th>
-															</tr>
-														</thead>
-														<tbody>
-														</tbody>
-													</table>
-										        </div>
-										 </div>
-									</div>
-									
-								</div>
-								<div class="tab-pane" id="purchase" role="tabpanel" style="height:400px">
-										<div class="card card-custom">
-										 <div class="card-header">
-										  	<div class="card-toolbar">
-									            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-purchase-request" data-action="purchased-create"><i class="flaticon2-plus"></i> Add Material</a>
-									            <a href="#" id="form-purchased" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#ModalTalble"><i class="flaticon2-plus"></i> View Request</a>
-									        </div>
-										 </div>
-										 <div class="card-body">
-										 	 <div data-scroll="true" data-height="300">
-												    <table class="table table-sm" id="tbl_puchased">
-														<thead>
-															<tr>
-																<th></th>
-																<th>ITEM</th>
-																<th>QTY</th>
-																<th>UNIT</th>
-																<th>REMARKS</th>
-																<th></th>
-															</tr>
-														</thead>
-														<tbody>
-														</tbody>
-													</table>
-										        </div>
-										 </div>
+								<div class="tab-pane" id="material" role="tabpanel" style="height:300px">
+									<div class="mb-10">
+							            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-material-request" data-action="material-create">
+							                <i class="flaticon2-plus"></i> Add Material
+							            </a>
+						        	</div>
+							 	 	<div data-scroll="true" data-height="290">
+									    <table class="table table-sm" id="tbl_material">
+											<thead>
+												<tr>
+													<th></th>
+													<th>ITEM</th>
+													<th>QTY</th>
+													<th class="text-center">PREVIOUS</th>
+													<th>STOCKS</th>
+													<th class="text-center">INPUT REQUEST</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
 									</div>
 								</div>
-								<div class="tab-pane" id="used" role="tabpanel" style="height:400px">
-									<div class="card card-custom">
-										 <div class="card-body">
-										 	 <div data-scroll="true" data-height="300">
-												    <table class="table table-sm" id="tbl_material_used">
-														<thead>
-															<tr>
-																<th></th>
-																<th>ITEM</th>
-																<th>QTY</th>
-																<th class="text-center">INPUT MATERIAL USE</th>
-																<th></th>
-															</tr>
-														</thead>
-														<tbody>
-														</tbody>
-													</table>
-										        </div>
-										 </div>
-									</div>		
+								<div class="tab-pane" id="purchase" role="tabpanel" style="height:300px">
+									<div class="mb-10">
+							            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-purchase-request" data-action="purchased-create"><i class="flaticon2-plus"></i> Add Material</a>
+							            <a href="#" id="form-purchased" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#ModalTalble"><i class="flaticon2-plus"></i> View Request</a>
+						        	</div>
+								 	 <div data-scroll="true" data-height="290">
+									    <table class="table table-sm" id="tbl_puchased">
+											<thead>
+												<tr>
+													<th></th>
+													<th>ITEM</th>
+													<th>QTY</th>
+													<th>UNIT</th>
+													<th>REMARKS</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane" id="used" role="tabpanel" style="height:300px">
+								 	 <div data-scroll="true" data-height="350">
+										    <table class="table table-sm" id="tbl_material_used">
+												<thead>
+													<tr>
+														<th></th>
+														<th>ITEM</th>
+														<th>QTY</th>
+														<th class="text-center">INPUT MATERIAL USE</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+								        </div>
 								</div>
 							</div>
 						</div>
 					</div>
+		            </div>
+		            <div class="modal-footer">
+		            	 <button type="button" class="btn btn-light-dark" data-dismiss="modal" aria-label="Close">
+		                   Close
+		                </button>
 		            </div>
 		        </div>
 		    </div>

@@ -216,7 +216,7 @@
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/designer/request-customized";?>" class="menu-link">
-																<span class="menu-text">Customized</span>
+																<span class="menu-text">For Customization</span>
 																<span class="label label-rounded label-primary request_customized_pending">0</span>
 															</a>
 														</li>
@@ -245,13 +245,6 @@
 													</ul>
 												</div>
 											</li>
-											<?php if($this->session->userdata('voucher') == 2) {
-												echo '<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-														<a href="'.base_url().'gh/designer/voucher" class="menu-link">
-															<span class="menu-text">Voucher</span>
-														</a>
-													</li>';}
-											?>
 										</ul>
 										<!--end::Header Nav-->
 									</div>
