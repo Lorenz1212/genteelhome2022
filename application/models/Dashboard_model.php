@@ -150,6 +150,30 @@ class Dashboard_model extends CI_Model
     $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',1)->get()->row();
     $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',2)->get()->row();
 
+    $material_request_complete_stocks = $this->db->select('*')->from('tbl_material_release')->where('type',1)->get()->num_rows();
+    $material_request_complete_project = $this->db->select('*')->from('tbl_material_release')->where('type',2)->get()->num_rows();
+
+    $stocks = $this->db->select('count(p.production_no) as id')->from('tbl_material_project as m')
+    ->join('tbl_project as p','m.production_no=p.production_no','LEFT')
+    ->where('m.status',2)->where('p.type',1)->group_by('m.production_no')->get();
+    $material_request_pending_stocks=0;
+    foreach($stocks->result() as $row){
+        if($row->id >= 0){
+           $material_request_pending_stocks += 1;
+        }
+        
+    }
+    $project = $this->db->select('count(p.production_no) as id')->from('tbl_material_project as m')
+    ->join('tbl_project as p','m.production_no=p.production_no','LEFT')
+    ->where('m.status',2)->where('p.type',2)->group_by('m.production_no')->get();
+    $material_request_pending_project=0;
+    foreach($project->result() as $row){
+        if($row->id >= 0){
+            $material_request_pending_project += 1;
+        }
+        
+    }
+
     $office=array();
     $spare=array();
     $rawmats =array();   
@@ -182,7 +206,7 @@ class Dashboard_model extends CI_Model
               }
             }      
          }
-      $total_request = intval($customer_service_request->id+$sales_shipping_stocks->id+$sales_shipping_project->id+$request_material_pending->id);
+      $total_request = intval($customer_service_request->id+$sales_shipping_stocks->id+$sales_shipping_project->id+$request_material_pending->id+$material_request_pending_stocks+$material_request_pending_project);
       $json_data = array( 'rawmats'      => $rawmats,
                           'office'       => $office,
                           'spare'        => $spare,
@@ -200,6 +224,11 @@ class Dashboard_model extends CI_Model
                           'request_sales_project'=>$sales_shipping_project->id,
                           'sales_deliver_stocks'=>$sales_deliver_stocks->id,
                           'sales_deliver_project'=>$sales_deliver_project->id,
+                          'material_request_complete_stocks'=>$material_request_complete_stocks,
+                          'material_request_complete_project'=>$material_request_complete_project,
+                          'material_request_pending_stocks'=>$material_request_pending_stocks,
+                          'material_request_pending_project'=>$material_request_pending_project,
+
                           'total_request'=>$total_request
                           );
       return $json_data;   

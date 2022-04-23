@@ -219,27 +219,10 @@ var KTFormControls = function () {
 			destroy: true,
 			responsive: true,
 			info: true,
-			language: { 
-			 	infoEmpty: "No records available", 
-			 },
-			serverSide:false,
-			ajax: {
-				url: TableURL,
-				type: 'POST',
-				datatype: "json",
-				data: {status:url_link},
-			},
-			columns:TableData,
-		});
-	}
-	var _DataTableLoader = async function(link,TableURL,TableData,url_link){
-		var table = $('#'+link);
-		table.DataTable().clear().destroy();
-		$.fn.dataTable.ext.errMode = 'throw';
-		table.DataTable({
-			destroy: true,
-			responsive: true,
-			info: true,
+			"fnDrawCallback": function() {
+                $('[data-toggle="tooltip"]').tooltip();
+
+           },
 			language: { 
 			 	infoEmpty: "No records available", 
 			 },
@@ -261,9 +244,13 @@ var KTFormControls = function () {
 			destroy: true,
 			responsive: true,
 			info: true,
-			bFilter: false, 
-			bInfo: false,
-			bPaginate: false,
+			searching: false,
+			pageLength : 4,
+    			lengthChange: false,
+			"fnDrawCallback": function() {
+	                $('[data-toggle="tooltip"]').tooltip();
+
+	           },
 			language: { 
 			 	infoEmpty: "No records available", 
 			 },
@@ -1840,7 +1827,9 @@ var KTFormControls = function () {
 	 			$(document).ready(function() {
 					 $(document).on("click",".btn-save",function(e) {
 					 	e.preventDefault();
-					 	var i = $(this).attr('data-count');
+					 	e.stopImmediatePropagation();
+					 	let element = $(this);
+					 	let row= element.closest("tr"); 
 					 	   Swal.fire({
 						        title: "Are you sure?",
 						        text: "You won't be able to revert this",
@@ -1849,36 +1838,88 @@ var KTFormControls = function () {
 						        showCancelButton: true
 						    }).then(function(result) {
 						        if (result.value) {
-						        	let count = parseInt(i)+1;
-						        	let id = $('#tbl_material_accept > tbody > tr:nth-child('+count+') > td:nth-child(1)').attr('data-id');
-						        	let type = $('#tbl_material_accept > tbody > tr:nth-child('+count+') > td:nth-child(1)').attr('data-type');
-						        	let balance = $('#tbl_material_accept > tbody > tr:nth-child('+count+') > td:nth-child(2)').attr('data-balance');
-						        	let request = $('#tbl_material_accept > tbody > tr:nth-child('+count+') > td:nth-child(4) > input').val();
+						        	let item = row.find("td:eq(1)").text();
+						        	let balance = row.find("td:eq(2)").text();
+						        	let stocks = row.find("td:eq(3)").text();
+						        	let request = row.find("td:eq(4) input").val();
 						        	let total = parseFloat(balance-request);
-						        	if(total >= 0){
-							          let formData = new FormData();
-							     	formData.append('id', id);
-							     	formData.append('production_no',$('#joborder').attr('data-id'));
-							     	formData.append('request',request);
-							     	formData.append('total',total);
-							     	formData.append('type',type);
-							     	thisURL = baseURL + 'update_controller/Update_Material_Request_Process';
-								     _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Stocks_Process",count);
+						        	if(stocks <= 0){
+						        		Swal.fire("Warning!", item+" is out of stock", "warning");
 						        	}else{
-						        		Swal.fire("Warning!", "Request Quantity is not Equal!<br> Please Input Correct Request", "warning");
+						        		if(balance <=0){
+						        			Swal.fire("Warning!", item+" balance is 0", "warning");
+						        		}else{
+							        		if(request <= 0  || !request){
+							        			Swal.fire("Warning!", "Request Quantity is not Equal!<br> Please Input Correct Request", "warning");
+							        		}else{
+							        			alert(element.attr('data-id'))
+							        			let formData = new FormData();
+										     	formData.append('id', element.attr('data-id'));
+										     	formData.append('request',request);
+										     	formData.append('total',total);
+										     	formData.append('type',1);
+										     	thisURL = baseURL + 'update_controller/Update_Material_Request_Process';
+											    _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Stocks_Process",row);
+							        		}
+						        		}
+						        		
 						        	}
-							 	
 					         }
 					    });
 				    });
+					 $(document).on("click",".btn-status",function(e) {
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let element = $(this);
+					 	   Swal.fire({
+						        title: "Would you like to cancel this item?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Yes, cancel it!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+							        let formData = new FormData();
+							     	formData.append('id', element.attr('data-id'));
+							     	formData.append('status', 4);
+							     	thisURL = baseURL + 'update_controller/Update_Material_Request_Process_Status';
+								     _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Stocks_Process_Status");
+
+					         }
+					    });
+				    });
+					  $(document).on("click",".btn-status-request",function(e) {
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let element = $(this);
+					 	   Swal.fire({
+						        title: "Would you like to return this item to request?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Yes, return it!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+							        let formData = new FormData();
+							     	formData.append('id', element.attr('data-id'));
+							     	formData.append('status', 2);
+							     	thisURL = baseURL + 'update_controller/Update_Material_Request_Process_Status';
+								     _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Stocks_Process_Status");
+
+					         }
+					    });
+				    });
+
 				})
 				break;
 	 		}
 	 		case "Update_Material_Request_Project_Process":{
 	 			$(document).ready(function() {
-					 $(document).on("click",".btn-save",function(e) {
+	 				$(document).on("click",".btn-save",function(e) {
 					 	e.preventDefault();
-					 	var i = $(this).attr('data-count');
+					 	e.stopImmediatePropagation();
+					 	let element = $(this);
+					 	let row= element.closest("tr"); 
 					 	   Swal.fire({
 						        title: "Are you sure?",
 						        text: "You won't be able to revert this",
@@ -1887,25 +1928,73 @@ var KTFormControls = function () {
 						        showCancelButton: true
 						    }).then(function(result) {
 						        if (result.value) {
-						        	let count = parseInt(i)+1;
-						        	let id = $('#tbl_material_accept > tbody > tr:nth-child('+count+') > td:nth-child(1)').attr('data-id');
-						        	let type = $('#tbl_material_accept > tbody > tr:nth-child('+count+') > td:nth-child(1)').attr('data-type');
-						        	let balance = $('#tbl_material_accept > tbody > tr:nth-child('+count+') > td:nth-child(2)').attr('data-balance');
-						        	let request = $('#tbl_material_accept > tbody > tr:nth-child('+count+') > td:nth-child(4) > input').val();
+						        	let item = row.find("td:eq(1)").text();
+						        	let balance = row.find("td:eq(2)").text();
+						        	let stocks = row.find("td:eq(3)").text();
+						        	let request = row.find("td:eq(4) input").val();
 						        	let total = parseFloat(balance-request);
-						        	if(total >= 0){
-							          let formData = new FormData();
-							     	formData.append('id', id);
-							     	formData.append('production_no',$('#joborder').attr('data-id'));
-							     	formData.append('request',request);
-							     	formData.append('total',total);
-							     	formData.append('type',type);
-							     	thisURL = baseURL + 'update_controller/Update_Material_Request_Process';
-								     _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Project_Process",count);
+						        	if(stocks <= 0){
+						        		Swal.fire("Warning!", item+" is out of stock", "warning");
 						        	}else{
-						        		Swal.fire("Warning!", "Request Quantity is not Equal!<br> Please Input Correct Request", "warning");
+						        		if(balance <=0){
+						        			Swal.fire("Warning!", item+" balance is 0", "warning");
+						        		}else{
+							        		if(request <= 0  || !request){
+							        			Swal.fire("Warning!", "Request Quantity is not Equal!<br> Please Input Correct Request", "warning");
+							        		}else{
+							        			alert(element.attr('data-id'))
+							        			let formData = new FormData();
+										     	formData.append('id', element.attr('data-id'));
+										     	formData.append('request',request);
+										     	formData.append('total',total);
+										     	formData.append('type',2);
+										     	thisURL = baseURL + 'update_controller/Update_Material_Request_Process';
+											    _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Project_Process",row);
+							        		}
+						        		}
 						        	}
-							 	
+					         }
+					    });
+				    });
+					  $(document).on("click",".btn-status",function(e) {
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let element = $(this);
+					 	   Swal.fire({
+						        title: "Would you like to cancel this item?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Yes, cancel it!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+							        let formData = new FormData();
+							     	formData.append('id', element.attr('data-id'));
+							     	formData.append('status', 4);
+							     	thisURL = baseURL + 'update_controller/Update_Material_Request_Process_Status';
+								     _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Project_Process_Status");
+
+					         }
+					    });
+				    });
+					  $(document).on("click",".btn-status-request",function(e) {
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let element = $(this);
+					 	   Swal.fire({
+						        title: "Would you like to return this item to request?",
+						        text: "You won't be able to revert this",
+						        icon: "warning",
+						        confirmButtonText: "Yes, return it!",
+						        showCancelButton: true
+						    }).then(function(result) {
+						        if (result.value) {
+							        let formData = new FormData();
+							     	formData.append('id', element.attr('data-id'));
+							     	formData.append('status', 2);
+							     	thisURL = baseURL + 'update_controller/Update_Material_Request_Process_Status';
+								     _ajaxForm(thisURL,"POST",formData,"Update_Material_Request_Project_Process_Status");
+
 					         }
 					    });
 				    });
@@ -2679,25 +2768,31 @@ var KTFormControls = function () {
 	 		    		e.stopImmediatePropagation();
 		 				let element = $(this);
 		 				let row = element.closest("tr");
+		 				let balance = row.find("td:nth-child(3)").text();
 		 				let qty = row.find("td:nth-child(6) input").val();
 		 				if(!qty || qty==0){
-		 					Swal.fire("Enter Item Quantity Request!", "Thank you!", "info");
+		 					Swal.fire("Please enter item quantity request!", "Thank you!", "info");
 		 				}else{
-		 					Swal.fire({
-						        title: "Are you sure?",
-						        text: "You won't be able to revert this",
-						        icon: "warning",
-						        confirmButtonText: "Submit!",
-						        showCancelButton: true
-						    }).then(function(result) {
-						        if (result.value) {
-						        var formData = new FormData();	
-						        formData.append('id',element.attr('data-id'));
-						        formData.append('qty',qty);
-							  	 thisURL = baseURL + 'update_controller/Update_Material_Status_Request_Supervisor';
-							  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Status_Request_Supervisor",false);
-					         }
-					   	 });
+		 					if(qty > balance){
+		 						Swal.fire("Please make sure the request item are equal or less than of the quantity!", "Thank you!", "error");
+		 					}else{
+		 						Swal.fire({
+								        title: "Are you sure?",
+								        text: "You won't be able to revert this",
+								        icon: "warning",
+								        confirmButtonText: "Submit!",
+								        showCancelButton: true
+								    }).then(function(result) {
+								        if (result.value) {
+								        var formData = new FormData();	
+								        formData.append('id',element.attr('data-id'));
+								        formData.append('qty',qty);
+									  	 thisURL = baseURL + 'update_controller/Update_Material_Status_Request_Supervisor';
+									  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Status_Request_Supervisor",false);
+							         }
+							   	 });
+		 					}
+		 					
 		 				}
 	 		    });
 	 		    $(document).on('click','.btn_material_used', function(e){
@@ -2707,7 +2802,7 @@ var KTFormControls = function () {
 		 				let row = element.closest("tr");
 		 				let qty = row.find("td:nth-child(4) input").val();
 		 				if(!qty || qty==0){
-		 					Swal.fire("Enter Item Quantity Request!", "Thank you!", "info");
+		 					Swal.fire("Please enter item quantity used", "Thank you!", "info");
 		 				}else{
 		 					Swal.fire({
 						        title: "Are you sure?",
@@ -2761,7 +2856,7 @@ var KTFormControls = function () {
 				        	let formdata = new FormData();
 		 				formdata.append('id',id);
 				          thisURL = baseURL + 'delete_controller/Delete_Material_Request_Supervisor';
-		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Material_Request_Supervisor",false);
+		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Material_Request_Supervisor",$('#project_no').attr('data-order'));
 				        }
 				    });
 	 			});
@@ -2780,7 +2875,7 @@ var KTFormControls = function () {
 				         let formdata = new FormData();
 		 				 formdata.append('id',id);
 				         thisURL = baseURL + 'delete_controller/Delete_Purchase_Request_Supervisor';
-		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Purchase_Request_Supervisor",false);
+		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Purchase_Request_Supervisor",$('#project_no').attr('data-order'));
 				        }
 				    });
 	 			});
@@ -3040,25 +3135,31 @@ var KTFormControls = function () {
 	 		    		e.stopImmediatePropagation();
 		 				let element = $(this);
 		 				let row = element.closest("tr");
+		 				let balance = row.find("td:nth-child(3)").text();
 		 				let qty = row.find("td:nth-child(6) input").val();
 		 				if(!qty || qty==0){
 		 					Swal.fire("Enter Item Quantity Request!", "Thank you!", "info");
 		 				}else{
-		 					Swal.fire({
-						        title: "Are you sure?",
-						        text: "You won't be able to revert this",
-						        icon: "warning",
-						        confirmButtonText: "Submit!",
-						        showCancelButton: true
-						    }).then(function(result) {
-						        if (result.value) {
-						        var formData = new FormData();	
-						        formData.append('id',element.attr('data-id'));
-						        formData.append('qty',qty);
-							  	 thisURL = baseURL + 'update_controller/Update_Material_Status_Request_Supervisor';
-							  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Status_Request_Supervisor",false);
-					         }
-					   	 });
+		 					if(qty > balance){
+		 						Swal.fire("Please make sure the request item are equal or less than of the quantity!", "Thank you!", "error");
+		 					}else{
+		 						Swal.fire({
+								        title: "Are you sure?",
+								        text: "You won't be able to revert this",
+								        icon: "warning",
+								        confirmButtonText: "Submit!",
+								        showCancelButton: true
+								    }).then(function(result) {
+								        if (result.value) {
+								        var formData = new FormData();	
+								        formData.append('id',element.attr('data-id'));
+								        formData.append('qty',qty);
+									  	 thisURL = baseURL + 'update_controller/Update_Material_Status_Request_Supervisor';
+									  	 _ajaxForm(thisURL,"POST",formData,"Update_Material_Status_Request_Supervisor",false);
+							         }
+							   	 });
+		 					}
+		 					
 		 				}
 	 		    });
 	 		    $(document).on('click','.btn_material_used', function(e){
@@ -3122,7 +3223,7 @@ var KTFormControls = function () {
 				        	let formdata = new FormData();
 		 				formdata.append('id',id);
 				          thisURL = baseURL + 'delete_controller/Delete_Material_Request_Supervisor';
-		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Material_Request_Supervisor",false);
+		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Material_Request_Supervisor",$('#project_no').attr('data-order'));
 				        }
 				    });
 	 			});
@@ -3141,7 +3242,7 @@ var KTFormControls = function () {
 				         let formdata = new FormData();
 		 				 formdata.append('id',id);
 				         thisURL = baseURL + 'delete_controller/Delete_Purchase_Request_Supervisor';
-		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Purchase_Request_Supervisor",false);
+		 				_ajaxForm(thisURL,"POST",formdata,"Delete_Purchase_Request_Supervisor",$('#project_no').attr('data-order'));
 				        }
 				    });
 	 			});
@@ -3763,22 +3864,94 @@ var KTFormControls = function () {
 	 		}
 	 		case "Update_Material_Request_Stocks_Process":{
 	 			if(response.status == 'success'){
-	 				_initToast('success','Puchased Item is Successfully Submited');
-	 				$('#tbl_material_request_stocks_modal > tbody > tr:nth-child('+(url+1)+') > td:nth-child(2)').text(response.total);
-			        	$('#tbl_material_accept > tbody > tr:nth-child('+url+') > td:nth-child(2)').attr('data-balance',response.total).text(response.total);
-			        	$('#tbl_material_accept > tbody > tr:nth-child('+url+') > td:nth-child(4) > input').val("");
+	 					let item = url.find("td:eq(1)").text();
+	 					_initToast('success', item+' is Successfully Submited');
+			        	url.find("td:eq(2)").text(response.total);
+			        	url.find("td:eq(3)").text(response.stocks);
+			        	url.find("td:eq(4) input").val("");
 	 			}
 	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Material_Request_Project_Process":{
 	 			if(response.status == 'success'){
-	 				_initToast('success','Puchased Item is Successfully Submited');
-	 				$('#tbl_material_request_stocks_modal > tbody > tr:nth-child('+url+') > td:nth-child(2)').text(response.total);
-			        	$('#tbl_material_accept > tbody > tr:nth-child('+url+') > td:nth-child(2)').attr('data-balance',response.total).text(response.total);
-			        	$('#tbl_material_accept > tbody > tr:nth-child('+url+') > td:nth-child(4) > input').val("");
+	 					let item = url.find("td:eq(1)").text();
+	 					_initToast('success', item+' is Successfully Submited');
+			        	url.find("td:eq(2)").text(response.total);
+			        	url.find("td:eq(3)").text(response.stocks);
+			        	url.find("td:eq(4) input").val("");
 	 			}
 	 			_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Update_Material_Request_Stocks_Process_Status":{
+	 			if(response.status  == 'request'){
+	 				 let count = '('+response.count+')';
+		  		     if(response.count <=0){
+		  		     	count ="";
+		  		     }
+		  		     $('#count-cancelled').text(count);
+
+	 				_initToast('success','Item successfully return to request');
+					let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
+					let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
+					_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.id);
+
+					let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
+					let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
+					_DataTableLoader1('tbl_material_cancelled',TableURL2,TableData2,response.id);
+	 			}else if(response.status == 'cancelled'){
+	 				_initToast('error','Removed item');
+	 				let count = '('+response.count+')';
+		  		     if(response.count <=0){
+		  		     	count ="";
+		  		     }
+		  		     $('#count-cancelled').text(count);
+	 				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
+					let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
+					_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.id);
+
+	 				let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
+					let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
+					_DataTableLoader1('tbl_material_cancelled',TableURL2,TableData2,response.id);
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+	 			break;
+	 		}
+	 		case "Update_Material_Request_Project_Process_Status":{
+	 			if(response.status  == 'request'){
+	 				 let count = '('+response.count+')';
+		  		     if(response.count <=0){
+		  		     	count ="";
+		  		     }
+		  		     $('#count-cancelled').text(count);
+
+	 				_initToast('success','Item successfully return to request');
+					let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
+					let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
+					_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.id);
+
+					let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
+					let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
+					_DataTableLoader1('tbl_material_cancelled',TableURL2,TableData2,response.id);
+	 			}else if(response.status == 'cancelled'){
+	 				_initToast('error','Removed item');
+	 				let count = '('+response.count+')';
+		  		     if(response.count <=0){
+		  		     	count ="";
+		  		     }
+		  		     $('#count-cancelled').text(count);
+	 				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
+					let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
+					_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.id);
+
+	 				let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
+					let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
+					_DataTableLoader1('tbl_material_cancelled',TableURL2,TableData2,response.id);
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
 	 			break;
 	 		}
 	 		case "Create_Joborder_Request":{
@@ -4312,12 +4485,13 @@ var KTFormControls = function () {
 	 		 	if(response !=false){
 	 		 		_initToast('success','Created Successfully');
 	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_material',TableURL,TableData,response);
 
 					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+
 					$('#add-material-request').modal('hide');
 					$('#Create_Material_request')[0].reset();
 	 		 	}else{
@@ -4329,9 +4503,9 @@ var KTFormControls = function () {
 	 		 case "Create_Purchase_request_Supervisor":{
 	 		 	if(response !=false){
 	 		 		_initToast('success','Created Successfully');
-	 		 		let TableURL = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
-					_DataTableLoader1('tbl_puchased',TableURL,TableData,response);
+	 		 		let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
+					let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
+					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
 					$('#add-purchase-request').modal('hide');
 					$('#Create_Purchase_request')[0].reset();
 					$('.item-status').trigger('change');
@@ -4345,11 +4519,11 @@ var KTFormControls = function () {
 	 		 	if(response !=false){
 	 		 		_initToast('success','Request Successfully Submitted');
 	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_material',TableURL,TableData,response);
 
 					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
@@ -4361,11 +4535,11 @@ var KTFormControls = function () {
 	 		 	if(response !=false){
 	 		 		_initToast('success','Request Successfully Submitted');
 	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_material',TableURL,TableData,response);
 
 					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
@@ -4381,11 +4555,11 @@ var KTFormControls = function () {
 	 		 			_initToast('success','Item Unlock');
 	 		 		}
 	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_material',TableURL,TableData,response.id);
 
 					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.id);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
@@ -4397,7 +4571,7 @@ var KTFormControls = function () {
 	 		 	if(response !=false){
 	 		 		_initToast('success','Request Successfully Submitted');
 					let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-					let TableData1 = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
+					let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
 					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
@@ -4409,11 +4583,11 @@ var KTFormControls = function () {
 		 		 	if(response !=false){
 		 		 		_initToast('success','Save Changes');
 		 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-						let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
+						let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 						_DataTableLoader1('tbl_material',TableURL,TableData,response);
 
 						let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-						let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
+						let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 						_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
 						$('#edit-material-request').modal('hide');
 		 		 	}
@@ -4424,7 +4598,7 @@ var KTFormControls = function () {
 		 		 	if(response !=false){
 		 		 		_initToast('success','Save Changes');
 		 		 		let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-						let TableData1 = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
+						let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
 						_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
 						$('#edit-purchase-request').modal('hide');
 		 		 	}
@@ -4435,12 +4609,12 @@ var KTFormControls = function () {
 	 		 	if(response !=false){
 	 		 		_initToast('success','Item Removed');
 					let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
-					_DataTableLoader1('tbl_material',TableURL,TableData,response);
+					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
+					_DataTableLoader1('tbl_material',TableURL,TableData,url);
 
 					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
-					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.id);
+					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
+					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,url);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
 	 		 	}
@@ -4451,8 +4625,8 @@ var KTFormControls = function () {
 	 		 	if(response !=false){
 	 		 		_initToast('success','Item Removed');
 					let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-					let TableData1 = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
-					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
+					let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
+					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,url);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
 	 		 	}

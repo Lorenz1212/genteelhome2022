@@ -64,12 +64,12 @@ class Delete_controller extends CI_Controller
     }
     public function Delete_Material_Request_Supervisor(){
         $id =  $this->input->post('id');
-        $this->delete_model->Delete_Material_Request_Supervisor($id);
+        $data = $this->delete_model->Delete_Material_Request_Supervisor($id);
         echo json_encode($data);
     }
     public function Delete_Purchase_Request_Supervisor(){
         $id =  $this->input->post('id');
-        $this->delete_model->Delete_Purchase_Request_Supervisor($id);
+        $data = $this->delete_model->Delete_Purchase_Request_Supervisor($id);
         echo json_encode($data);
     }
 }

@@ -27,7 +27,7 @@
 													<li class="nav-item">
 														 <a class="nav-link active" data-toggle="tab" href="#request">
 									                        <span class="nav-text">Request</span>
-									                        <span class="label label-rounded label-warning request_material_pending">0</span>
+									                        <span class="label label-rounded label-warning material_request_pending_stocks">0</span>
 									                    </a>
 													</li>
 													<!--end::Item-->
@@ -35,7 +35,7 @@
 													<li class="nav-item">
 														 <a class="nav-link" data-toggle="tab" href="#complete">
 									                        <span class="nav-text">COMPLETE</span>
-									                        <span class="label label-rounded label-success request_material_pending">0</span>
+									                        <span class="label label-rounded label-success material_request_complete_stocks">0</span>
 									                    </a>
 													</li>
 													<!--end::Item-->
@@ -91,74 +91,104 @@
 		<!--end::Entry-->
 	</div>
 	<!--end::Content-->
-	<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-        	
-        	 <div class="modal-header">
-                <h5 class="modal-title" id="joborder"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
             <div class="modal-body">
-            	<div class="row justify-content-center">
-								<div class="col-md-10">
-									<div class="d-flex justify-content-between align-items-center flex-column flex-md-row">
-										<div class="d-flex flex-column px-0 order-2 order-md-1 align-items-center align-items-md-start">
-											<span class="d-flex flex-column font-size-h5 font-weight-bold text-muted align-items-center align-items-md-start">
-												<span id="title"></span><span id="c_name"></span>
-												<span id="date_created"></span>
-												<span id="requestor"></span>
-											</span>
+            	<div class="row">
+						<div class="col-md-5">
+							<!--begin::Card-->
+								<div class="card card-custom gutter-b bg-dark">
+									<!--begin::Body-->
+									<div class="card-body pt-3">
+										<!--begin::User-->
+										<div class="d-flex align-items-center mt-5">
+											<div class="symbol symbol-60 symbol-xl-100 mr-5 align-self-start align-self-xxl-center">
+												<div class="symbol-label image-view" style="background-image:url('assets/media/users/300_13.jpg')"></div>
+											</div>
+											<div>
+												<span class="font-weight-bold font-size-h5 text-white text-hover-primary title"></span>
+												<div class="font-weight-bold font-size-h5 text-white text-hover-primary color"></div>
+												<div class="text-muted requestor" id="requestor"></div>
+												<div class="text-muted date_created" id="date_created"></div>
+												<div class="text-white text-hover-primary " id="joborder"></div>
+											</div>
 										</div>
-										<h1 class="display-3 font-weight-boldest order-1 order-md-2 mb-5 mb-md-0"></h1>
+										<!--end::User-->
 									</div>
-								</div>
-							</div>
-						<div class="row justify-content-center">
-							<div class="col-md-10">
-								<div data-scroll="true" data-height="300">
-									<div class="table-responsive">
-										<table class="table" id="tbl_material_request_stocks_modal">
-							              			<thead>
-													<tr>
-														<th class="align-middle pl-0">MATERIAL</th>
-														<th class="align-middle text-center">QUANTITY</th>
-														<th class="align-middle text-center">UNIT</th>
-														<th class="align-middle text-center">REMARKS</th>
-													</tr>
-												</thead>
-											<tbody>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-10">
-								<div data-scroll="true" data-height="300">
-									<div class="table-responsive">
-										<table class="table" id="tbl_material_accept">
-							              			<thead>
-													<tr>
-														<th class="align-middle">MATERIAL</th>
-														<th class="align-middle text-center">QUANTITY</th>
-														<th class="align-middle text-center">UNIT</th>
-														<th class="align-middle text-center">INPUT QUANTITY</th>
-														<th class="align-middle text-center">ACTION</th>
-													</tr>
-												</thead>
-											<tbody>
-											</tbody>
-										</table>
-									</div>
+									<!--end::Body-->
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-12">
+									<table class="table table-hover" id="tbl_material_request_stocks_modal">
+						              			<thead>
+												<tr class="table-primary">
+													<th class="align-middle pl-2">MATERIALS</th>
+													<th class="align-middle text-center">QUANTITY</th>
+													<th class="align-middle text-center">REMARKS</th>
+												</tr>
+											</thead>
+										<tbody>
+										</tbody>
+									</table>
+							</div>
+							<div class="col-md-12">
+									<table class="table table-hover" id="tbl_material_accept">
+						              			<thead>
+												<tr class="table-primary">
+													<th class="align-middle"></th>
+													<th class="align-middle">MATERIALS</th>
+													<th class="align-middle text-center">QUANTITY</th>
+													<th class="align-middle text-center">STOCKS</th>
+													<th class="align-middle text-center">INPUT QUANTITY</th>
+													<th class="align-middle text-center">ACTION</th>
+												</tr>
+											</thead>
+										<tbody>
+										</tbody>
+									</table>
+							</div>
+						</div>
 					</div>
-				 <div class="modal-footer">
+				 <div class="modal-footer d-flex justify-content-between">
+				 	<button type="button" class="btn btn-light-danger btn-shadow mr-2 btn-view-cancel"><span id="count-cancelled"></span> Cancelled item</button>
 				 	<button type="button" class="btn btn-dark btn-shadow mr-2 btn-change" data-action="view"></button>
             	</div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalTalble" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title text-white"><span id="text-table"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close text-white"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+             	<table class="table table-hover table-white" id="tbl_material_cancelled">
+				      <thead>
+				        <tr class="table-danger">
+					         <th>MATERIALS</th>
+					         <th>QUANTITY</th>
+					         <th>DATE CANCELLED</th>
+					         <th>ACTION</th>
+				        </tr>
+				      </thead>
+				      <tbody class="text-white">
+
+				      </tbody>
+				    </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-transparent-white font-weight-bold" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

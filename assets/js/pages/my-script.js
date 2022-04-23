@@ -342,6 +342,38 @@ var arrows;var item_v;var price;var special_option;
 			bFilter: false, 
 			bInfo: false,
 			bPaginate: false,
+			"fnDrawCallback": function() {
+	                $('[data-toggle="tooltip"]').tooltip();
+
+	           },
+			language: { 
+			 	infoEmpty: "No records available", 
+			 },
+			serverSide:false,
+			ajax: {
+				url: TableURL,
+				type: 'POST',
+				datatype: "json",
+				data: {val:val},
+			},
+			columns:TableData,
+		});
+	}
+	var _DataTableLoader1 = async function(link,TableURL,TableData,val){
+		var table = $('#'+link);
+		table.DataTable().clear().destroy();
+		$.fn.dataTable.ext.errMode = 'throw';
+		table.DataTable({
+			destroy: true,
+			responsive: true,
+			info: true,
+			searching: false,
+			pageLength : 4,
+    			lengthChange: false,
+			"fnDrawCallback": function() {
+	                $('[data-toggle="tooltip"]').tooltip();
+
+	           },
 			language: { 
 			 	infoEmpty: "No records available", 
 			 },
@@ -464,6 +496,12 @@ var arrows;var item_v;var price;var special_option;
 
 				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
+
+				$('.material_request_complete_stocks').text(response.material_request_complete_stocks);
+				$('.material_request_complete_project').text(response.material_request_complete_project);
+
+				$('.material_request_pending_stocks').text(response.material_request_pending_stocks);
+				$('.material_request_pending_project').text(response.material_request_pending_project);
 				break;
 			}
 			case "admin":{
@@ -1798,7 +1836,7 @@ var arrows;var item_v;var price;var special_option;
 					 	let thisUrl = 'modal_controller/Modal_Material_Request_Stocks_View';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Material_Request_Stocks_View");
 				     });
-				    $(document).on('click','.btn-change',function(e){
+				     $(document).on('click','.btn-change',function(e){
 					 	e.preventDefault();
 					 	e.stopPropagation();
 					 	let action = $(this).attr('data-action');
@@ -1813,7 +1851,14 @@ var arrows;var item_v;var price;var special_option;
 						 	$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
 						 	$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');	
 					 	}
-					 }); 
+					 });
+					 $(document).on('click','.btn-view-cancel',function(e){
+					 	e.preventDefault();
+			  			let TableURL = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
+						let TableData = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
+						_DataTableLoader1('tbl_material_cancelled',TableURL,TableData,$('#joborder').attr('data-id'));
+						$('#ModalTalble').modal('show');
+					 });
 				})
 				break;
 			}
@@ -1825,7 +1870,7 @@ var arrows;var item_v;var price;var special_option;
 					 	let thisUrl = 'modal_controller/Modal_Material_Request_Project_View';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Material_Request_Project_View");
 				     });
-				    $(document).on('click','.btn-change',function(e){
+				     $(document).on('click','.btn-change',function(e){
 					 	e.preventDefault();
 					 	e.stopPropagation();
 					 	let action = $(this).attr('data-action');
@@ -1840,7 +1885,14 @@ var arrows;var item_v;var price;var special_option;
 						 	$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
 						 	$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');	
 					 	}
-					 }); 
+					 });
+					 $(document).on('click','.btn-view-cancel',function(e){
+					 	e.preventDefault();
+			  			let TableURL = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
+						let TableData = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
+						_DataTableLoader1('tbl_material_cancelled',TableURL,TableData,$('#joborder').attr('data-id'));
+						$('#ModalTalble').modal('show');
+					 });
 				})
 				break;
 			}
@@ -2783,70 +2835,64 @@ var arrows;var item_v;var price;var special_option;
 	  	}
 	  	case "Modal_Material_Request_Stocks_View":{
 	  		if(!response == false){
-	  		     $('#joborder').text('JOB ORDER: '+response[0].production_no).attr('data-id',response[0].production_no);
-	  		     $('#title').text('ITEM: '+response[0].title+'('+response[0].c_name+')');
-	  		     $('#requestor').text('REQUESTOR: '+response[0].requestor);
-	  		     $('#date_created').text(response[0].date_created);
-	  		     $('#tbl_material_request_stocks_modal > tbody:last-child').empty();
-	  		     $('#tbl_material_accept > tbody:last-child').empty();
+	  		     $('#joborder').text('JOB ORDER: '+response.row.production_no).attr('data-id',response.row.production_no);
+	  		     $('.title').text(response.row.title);
+	  		     $('.color').text(response.row.c_name);
+	  		     $('.requestor').text('Created By: '+response.row.requestor);
+	  		     $('.date_created').text(response.row.date_created);
+	  		     $('.image-view').css('background-image','url('+baseURL+'assets/images/design/project_request/images/'+response.row.image+')');
+	  		     let count = '('+response.count+')';
+	  		     if(response.count <=0){
+	  		     	count ="";
+	  		     }
+	  		     $('#count-cancelled').text(count);
+	  		     $('#tbl_material_request_stocks_modal > tbody').empty();
+	  		     $('#tbl_material_accept > tbody').empty();
 	  		     $('.btn-change').attr('data-action','view');
 	             	$('.btn-change').html('Generate Quantity Item <i class="flaticon2-fast-next blink_me"></i>');
 	             	$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
 				$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
-	             	for(var i=0;i<response.length;i++){
-	             		 var remarks = "";
-	             		 if(response[i].remarks){remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'+response[i].remarks+'">Remarks</a>)';}
-	        				$('#tbl_material_request_stocks_modal > tbody:last-child').append('<tr>\
-						<td class="align-middle pl-0">'+response[i].item+'</td>\
-						<td class="align-middle text-center">'+response[i].balance+'</td>\
-						<td class="align-middle text-center">'+response[i].unit+'</td>\
-						<td class="align-middle text-center text-success">'+remarks+'</td>\
-						</tr>');
-					$('#tbl_material_accept > tbody:last-child').append('<tr>\
-						<td class="align-middle td-id-'+i+'" data-type="1" data-id="'+response[i].id+'">'+response[i].item+' </td>\
-						<td class="align-middle text-center td-balance-'+i+'" data-balance="'+response[i].balance+'">'+response[i].balance+'</td>\
-						<td class="align-middle text-center">'+response[i].unit+'</td>\
-						<td class="align-middle text-center" width="200"><input type="number" min="0" class="form-control form-control-solid form-control-sm text-center text-qty-'+i+'" placeholder="Input Quantity....."/></td>\
-						<td class="align-middle text-center">\
-							<button type="button" class="btn btn btn-light-dark font-weight-bold btn-icon btn-shadow btn-save" data-count="'+i+'" data-container="body" data-theme="dark" data-toggle="tooltip" data-placement="top" title="Submit Request"><i class="flaticon2-fast-next blink_me"></i></button>\
-						</td>\
-					</tr>')
-				 }
+
+				let TableURL = baseURL + 'modal_controller/Modal_Material_Request_List_View';
+				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'remarks', className: "text-center"}];
+				_DataTableLoader1('tbl_material_request_stocks_modal',TableURL,TableData,response.row.production_no);
+
+				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
+				let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
+				_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.row.production_no);
+
 				 $('[data-toggle="tooltip"]').tooltip();
 	  		}
 	  		break;
 	  	}
+	 
 	  	case "Modal_Material_Request_Project_View":{
 	  		if(!response == false){
-	  		     $('#joborder').text('JOB ORDER: '+response[0].production_no).attr('data-id',response[0].production_no);
-	  		     $('#title').text('ITEM: '+response[0].title);
-	  		     $('#requestor').text('REQUESTOR: '+response[0].requestor);
-	  		     $('#date_created').text(response[0].date_created);
-	  		     $('#tbl_material_request_stocks_modal > tbody:last-child').empty();
-	  		     $('#tbl_material_accept > tbody:last-child').empty();
+	  		     $('#joborder').text('JOB ORDER: '+response.row.production_no).attr('data-id',response.row.production_no);
+	  		     $('.title').text(response.row.title);
+	  		     $('.requestor').text('Created By: '+response.row.requestor);
+	  		     $('.date_created').text(response.row.date_created);
+	  		     $('.image-view').css('background-image','url('+baseURL+'assets/images/design/project_request/images/'+response.row.image+')');
+	  		     let count = '('+response.count+')';
+	  		     if(response.count <=0){
+	  		     	count ="";
+	  		     }
+	  		     $('#count-cancelled').text(count);
+	  		     $('#tbl_material_request_stocks_modal > tbody').empty();
+	  		     $('#tbl_material_accept > tbody').empty();
 	  		     $('.btn-change').attr('data-action','view');
 	             	$('.btn-change').html('Generate Quantity Item <i class="flaticon2-fast-next blink_me"></i>');
 	             	$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
 				$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
-	             	for(var i=0;i<response.length;i++){
-	             		 var remarks = "";
-	             		 if(response[i].remarks){remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'+response[i].remarks+'">Remarks</a>)';}
-	        				$('#tbl_material_request_stocks_modal > tbody:last-child').append('<tr>\
-						<td class="align-middle pl-0">'+response[i].item+'</td>\
-						<td class="align-middle text-center">'+response[i].balance+'</td>\
-						<td class="align-middle text-center">'+response[i].unit+'</td>\
-						<td class="align-middle text-center text-success">'+remarks+'</td>\
-						</tr>');
-					$('#tbl_material_accept > tbody:last-child').append('<tr>\
-						<td class="align-middle td-id-'+i+'" data-type="2" data-id="'+response[i].id+'">'+response[i].item+' </td>\
-						<td class="align-middle text-center td-balance-'+i+'" data-balance="'+response[i].balance+'">'+response[i].balance+'</td>\
-						<td class="align-middle text-center">'+response[i].unit+'</td>\
-						<td class="align-middle text-center" width="200"><input type="number" min="0" class="form-control form-control-solid form-control-sm text-center text-qty-'+i+'" placeholder="Input Quantity....."/></td>\
-						<td class="align-middle text-center">\
-							<button type="button" class="btn btn btn-light-dark font-weight-bold btn-icon btn-shadow btn-save" data-count="'+i+'" data-container="body" data-theme="dark" data-toggle="tooltip" data-placement="top" title="Submit Request"><i class="flaticon2-fast-next blink_me"></i></button>\
-						</td>\
-					</tr>')
-				 }
+
+				let TableURL = baseURL + 'modal_controller/Modal_Material_Request_List_View';
+				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'remarks', className: "text-center"}];
+				_DataTableLoader1('tbl_material_request_stocks_modal',TableURL,TableData,response.row.production_no);
+
+				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
+				let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
+				_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.row.production_no);
+
 				 $('[data-toggle="tooltip"]').tooltip();
 	  		}
 	  		break;
@@ -3703,16 +3749,16 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".docs").val(response.docs);
 
 	  			let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-				let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
-				_DataTableLoader('tbl_material',TableURL,TableData,response.production_no);
+				let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader1('tbl_material',TableURL,TableData,response.production_no);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-				let TableData1 = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
-				_DataTableLoader('tbl_puchased',TableURL1,TableData1,response.production_no);
+				let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response.production_no);
 
 				let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-				let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
-				_DataTableLoader('tbl_material_used',TableURL2,TableData2,response.production_no);
+				let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.production_no);
 
 	  		}
 	  		$(document).on("click","#update-material-request",function(e) {
@@ -3776,16 +3822,16 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".docs").val(response.docs);
 
 	  			let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-				let TableData = [{data:'status'},{data:'item'},{data:'qty'},{data:'balance'},{data:'stocks'},{data:'input'},{data:'action'}];
-				_DataTableLoader('tbl_material',TableURL,TableData,response.production_no);
+				let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader1('tbl_material',TableURL,TableData,response.production_no);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-				let TableData1 = [{data:'status'},{data:'item'},{data:'qty'},{data:'unit'},{data:'remarks'},{data:'action'}];
-				_DataTableLoader('tbl_puchased',TableURL1,TableData1,response.production_no);
+				let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response.production_no);
 
 				let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-				let TableData2 = [{data:'status'},{data:'item'},{data:'qty'},{data:'input'},{data:'action'}];
-				_DataTableLoader('tbl_material_used',TableURL2,TableData2,response.production_no);
+				let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.production_no);
 
 	  		}
 	  		$(document).on("click","#update-material-request",function(e) {

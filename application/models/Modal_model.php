@@ -1108,48 +1108,78 @@ class Modal_model extends CI_Model{
         return $data_array;
     }
     function Modal_Material_Request_Stocks_View($id){
-          $query = $this->db->select('mp.*,p.*,d.*,c.*,m.*,mp.status,mp.id,mp.remarks,m.unit,mp.quantity,DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_material_project as mp')->join('tbl_materials as m','mp.item_no=m.id','LEFT')->join('tbl_project as p','p.production_no=mp.production_no','LEFT')->join('tbl_project_color as c','p.c_code=c.id','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no',$id)->get();
-           if(!$query){return false;}else{  
-               foreach($query->result() as $row){
-                $data[] = array(
-                         'id'           => $this->encryption->encrypt($row->id),
-                         'production_no'=> $row->production_no,
-                         'production'   => $row->production,
-                         'unit'         => ($row->unit)?$row->unit:"",
-                         'title'        => $row->title,
-                         'c_name'       => $row->c_name,
-                         'item'         => $row->item,
-                         'quantity'     => $row->quantity,
-                         'balance'      => $row->balance_quantity,
-                         'remarks'      => $row->remarks,
-                         'requestor'    => $row->requestor,
-                         'date_created' => $row->date_created);
-               } 
-               return $data;}
+       $rows = $this->db->select('*,c.image,d.title,c.c_name,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+           ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no',$id)->get()->row();
+        $count = $this->db->select('*')->from('tbl_material_project ')->where('production_no',$id)->where('status',4)->get()->num_rows();
+        return array('row'=>$rows,'count'=>$count);
     }
     function Modal_Material_Request_Project_View($id){
-          $query = $this->db->select('mp.*,p.*,d.*,c.*,m.*,mp.status,mp.id,mp.remarks,m.unit,mp.quantity,DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
-           ->from('tbl_material_project as mp')->join('tbl_materials as m','mp.item_no=m.id','LEFT')
-           ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-           ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-           ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-           ->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no',$id)->get();
+       $rows = $this->db->select('*,c.image,d.title,c.c_name,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+           ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no',$id)->get()->row();
+        $count = $this->db->select('*')->from('tbl_material_project ')->where('production_no',$id)->where('status',4)->get()->num_rows();
+        return array('row'=>$rows,'count'=>$count);
+    }
+    function Modal_Material_Request_List_View($id){
+          $data = false;
+          $query = $this->db->select('*,mp.status,mp.id,mp.remarks,m.unit,mp.quantity,mp.remarks')
+           ->from('tbl_material_project as mp')->join('tbl_materials as m','mp.item_no=m.id','LEFT')->where('mp.production_no',$id)->where('mp.status!=1')->get();
            if(!$query){return false;}else{  
                foreach($query->result() as $row){
+                 $remarks = "";
+                 if($row->remarks){$remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'.$row->remarks.'">Remarks</a>)';}
+                ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+
                 $data[] = array(
-                         'id'           => $this->encryption->encrypt($row->id),
-                         'production_no'=> $row->production_no,
-                         'production'   => $row->production,
-                         'unit'         => ($row->unit)?$row->unit:"",
-                         'title'        => $row->title,
-                         'item'         => $row->item,
+                         'item'         => $row->item.' - '.$unit,
                          'quantity'     => $row->quantity,
                          'balance'      => $row->balance_quantity,
-                         'remarks'      => $row->remarks,
-                         'requestor'    => $row->requestor,
-                         'date_created' => $row->date_created);
+                         'remarks'      => $remarks);
                } 
-               return $data;}
+           }
+           return array('data'=>$data);
+    }
+    function Modal_Material_Request_Accept_View($id){
+          $data = false;
+          $query = $this->db->select('*,mp.status,mp.id,mp.remarks,m.unit,mp.quantity,mp.remarks')
+           ->from('tbl_material_project as mp')->join('tbl_materials as m','mp.item_no=m.id','LEFT')->where('mp.production_no',$id)->where('mp.status',2)->get();
+           if(!$query){return false;}else{  
+               foreach($query->result() as $row){
+                ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                $remove = '<button type="button" class="btn btn btn-light-danger font-weight-bold btn-icon btn-shadow btn-xs btn-status" data-container="body" data-theme="dark" data-toggle="tooltip" data-placement="top" data-id="'.$this->encryption->encrypt($row->id).'"  title="Cancel Item"><i class="flaticon2-trash"></i></button>';
+                $action = '<button type="button" class="btn btn btn-light-dark font-weight-bold btn-icon btn-shadow btn-xs btn-save" data-id="'.$this->encryption->encrypt($row->id).'" data-container="body" data-theme="dark" data-toggle="tooltip" data-placement="top" title="Submit Request"><i class="flaticon2-fast-next blink_me"></i></button>';
+
+                $input = '<input type="number" min="0" class="form-control form-control-solid form-control-sm text-center" placeholder="0"/>';
+
+                $data[] = array(
+                         'remove'       => $remove,
+                         'item'         => $row->item.' - '.$unit,
+                         'balance'      => $row->balance_quantity,
+                         'stocks'       => $row->stocks,
+                         'input'        => $input,
+                         'action'       => $action);
+               } 
+           }
+           return array('data'=>$data);
+    }
+    function Modal_Material_Request_Cancel_View($id){
+          $data = false;
+          $query = $this->db->select('*,mp.status,mp.id,mp.remarks,m.unit,mp.quantity,DATE_FORMAT(mp.date_cancelled, "%M %d %Y %r") as date_created')
+           ->from('tbl_material_project as mp')->join('tbl_materials as m','mp.item_no=m.id','LEFT')->where('mp.production_no',$id)->where('mp.status',4)->get();
+           if(!$query){return false;}else{  
+               foreach($query->result() as $row){
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-status-request" data-id="'.$this->encryption->encrypt($row->id).'" >Return to request</button>';    
+                  ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                $data[] = array(
+                         'id'           => $this->encryption->encrypt($row->id),
+                         'item'         => $row->item.' - '.$unit,
+                         'quantity'     => $row->quantity,
+                         'balance'      => $row->balance_quantity,
+                         'date_created' => $row->date_created,
+                         'action'       => $action);
+               } 
+           }
+         $json_data  = array("data" =>$data); 
+         return $json_data;   
     }
     function Modal_Request_Material($id){
         $row = $this->db->select('*')->from('tbl_other_material_m_request')->where('id',$this->encryption->decrypt($id))->get()->row();

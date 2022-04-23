@@ -279,11 +279,17 @@ class Update_controller extends CI_Controller
     public function Update_Material_Request_Process(){
         $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
-        $production_no = $this->input->post('production_no');
         $total = $this->input->post('total');
         $request = $this->input->post('request');
         $type = $this->input->post('type');
-        $data = $this->update_model->Update_Material_Request_Process($user_id,$id,$production_no,$total,$request,$type);
+        $data = $this->update_model->Update_Material_Request_Process($user_id,$id,$total,$request,$type);
+        echo json_encode($data);    
+     }
+     public function Update_Material_Request_Process_Status(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $data = $this->update_model->Update_Material_Request_Process_Status($user_id,$id,$status);
         echo json_encode($data);    
      }
 

@@ -361,36 +361,62 @@ class Update_model extends CI_Model
            $this->db->insert('tbl_salesorder_item_return',$data);
      }
         
-      function Update_Material_Request_Process($user_id,$id,$production_no,$total,$request,$type){
-            $query = $this->db->select('*')->from('tbl_material_project')->where('id',$this->encryption->decrypt($id))->get();
-            $row = $query->row();
-            $material = array('receiver'=> $user_id,
+      function Update_Material_Request_Process($user_id,$id,$total,$request,$type){
+            $row = $this->db->select('*')->from('tbl_material_project')->where('id',$this->encryption->decrypt($id))->get()->row();
+            if($row){
+                $material = array('receiver'=> $user_id,
                               'balance_quantity'=>$total,
+                              'project_lock'=>1,
                               'latest_update'=> date('Y-m-d H:i:s'),
                               'update_by'=>$user_id);
+                $this->db->where('id',$this->encryption->decrypt($id));
+               $result = $this->db->update('tbl_material_project',$material);
+               if($result){
+                    $release = array('production_no'=>$row->production_no,
+                                     'item_no' =>$row->item_no,
+                                     'quantity' => $request,
+                                     'type'=>$type,
+                                     'date_created' =>  date('Y-m-d H:i:s'),
+                                     'created_by'=>$user_id);
+                   $this->db->insert('tbl_material_release',$release);
+                   $row_m = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
+                   if($row_m){
+                        $quantity_deduc=0;
+                        $quantity_deduct =  floatval($row_m->stocks - $request);
+                        $production_stocks =  floatval($row_m->production_stocks + $request);
+                        $items = array('stocks' => $quantity_deduct,'production_stocks' => $production_stocks);
+                        $this->db->where('id',$row_m->id);
+                        $this->db->update('tbl_materials',$items);
+                   }
+                   $rows = $this->db->select('*')->from('tbl_material_project')->where('id',$this->encryption->decrypt($id))->get()->row();
+                   if($rows->balance_quantity == 0){
+                        $this->db->where('id',$this->encryption->decrypt($id));
+                        $this->db->update('tbl_material_project',array('status'=>3));
+                   }
+                   return array('status'=>'success','total'=>$total,'stocks'=>$quantity_deduct,'id'=>$row->production_no);
+               }else{
+                    return false;
+               }
+            }else{
+                return false;
+            }
+          
+        }
+        function Update_Material_Request_Process_Status($user_id,$id,$status){
             $this->db->where('id',$this->encryption->decrypt($id));
-            $this->db->update('tbl_material_project',$material);
-
-            $release = array('production_no'=>$production_no,
-                             'item_no' =>$row->item_no,
-                             'quantity' => $request,
-                             'type'=>$type,
-                             'date_created' =>  date('Y-m-d H:i:s'),
-                             'created_by'=>$user_id);
-             $this->db->insert('tbl_material_release',$release);
-           
-           $query_m = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get();
-           $row_m = $query_m->row();
-           if($row_m){
-                $quantity_deduct =  floatval($row_m->stocks - $request);
-                $production_stocks =  floatval($row_m->production_stocks + $request);
-                $items = array('stocks' => $quantity_deduct,'production_stocks' => $production_stocks);
-                $this->db->where('id',$row_m->id);
-                $this->db->update('tbl_materials',$items);
-           }
-           $data = array('status'=>'success',
-                         'total'=>$total);
-           return $data;
+            $result = $this->db->update('tbl_material_project',array('status'=>$status,'project_lock'=>1,'date_cancelled'=>date('Y-m-d H:i:s')));
+            if($result){
+                $row = $this->db->select('*')->from('tbl_material_project')->where('id',$this->encryption->decrypt($id))->get()->row();
+                $count = $this->db->select('*')->from('tbl_material_project')->where('production_no',$row->production_no)->where('status',4)->get()->num_rows();
+    
+                if($status == 2){
+                    return array('status'=>'request','id'=>$row->production_no,'count'=>$count);
+                }else{
+                    return array('status'=>'cancelled','id'=>$row->production_no,'count'=>$count);
+                }
+            }else{
+                return $this->encryption->decrypt($id);
+            }
         }
    
       function Update_Approval_SalesOrder($user_id,$so_no,$status){

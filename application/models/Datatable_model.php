@@ -225,10 +225,12 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('item','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
+            $unit =$row->unit.'(s)';
+            if(!$row->unit){ $unit ="";}
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
                $data[] = array(
                       'no'           => $row->item_no,
-                      'item'         => $row->item.' ('.$row->unit.')',
+                      'item'         => $row->item.' - '.$unit,
                       'stocks'       => $row->stocks,
                       'stocks_alert' => $row->stocks_alert,
                       'action'       => $action,
@@ -244,11 +246,13 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('item','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
+             $unit =$row->unit.'(s)';
+            if(!$row->unit){ $unit ="";}
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
                  if($row->stocks <= $row->stocks_alert && $row->stocks_alert <= $row->stocks){
                        $data[] = array(
                           'no'           => $row->item_no,
-                          'item'         => $row->item.' ('.$row->unit.')',
+                          'item'         => $row->item.' - '.$unit,
                           'stocks'       => $row->stocks,
                           'stocks_alert' => $row->stocks_alert,
                           'action'       => $action );
@@ -270,10 +274,12 @@ class Datatable_model extends CI_Model{
          ->order_by('n.date_created','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
+             $unit =$row->unit.'(s)';
+            if(!$row->unit){ $unit ="";}
                $data[] = array(
                       'receiver'     => $row->receiver,
                       'no'           => $row->item_no,
-                      'item'         => $row->item.' ('.$row->unit.')',
+                      'item'         => $row->item.' - '.$unit,
                       'stocks'       => $row->stocks,
                       'date_created' => $row->date_created);
             }      
@@ -287,10 +293,12 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('*')->from('tbl_materials')->order_by('id','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
+             $unit =$row->unit.'(s)';
+            if(!$row->unit){ $unit ="";}
              $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#exampleModal"><i class="la la-eye"></i></button>';
                $data[] = array(
                       'no'           => $row->item_no,
-                      'item'         => $row->item,
+                      'item'         => $row->item.' - '.$unit,
                       'stocks'       => $row->production_stocks,
                       'action'       => $action);
             }      
@@ -304,9 +312,11 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('*')->from('tbl_materials')->order_by('item_no','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
+             $unit =$row->unit.'(s)';
+            if(!$row->unit){ $unit ="";}
             $data[] = array(
                       'no'           => $row->item_no,
-                      'item'         => $row->item,
+                      'item'         => $row->item.' - '.$unit,
                       'stocks'       => $row->production_stocks);
             }      
          }else{   
@@ -4439,12 +4449,18 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                  $lock = "";
+                 $icon ='flaticon-delete-1';
                  if($row->lock_status == 1){
                     $lock ='disabled';
+                    $icon ='fas fa-lock';
+                 } 
+                 if($row->project_lock == 1){
+                    $lock ='disabled'; 
+                    $icon ='fas fa-lock';
                  }
                 $unit =$row->unit.'(s)';
                 if(!$row->unit){ $unit ="";}
-                 $status = '<button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_remove_material" data-id="'.$row->id.'" data-toggle="tooltip" data-theme="dark" '.$lock.'><i class="flaticon-delete-1"></i></button>';       
+                 $status = '<button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_remove_material" data-id="'.$row->id.'" data-toggle="tooltip" data-theme="dark" '.$lock.'><i class="'.$icon.'"></i></button>';       
                  $item = '<a href="javascript:;" id="update-material-request" data-type="'.$row->mat_type.'" data-qty="'.$row->total_qty.'" data-name="'.$row->item.'" data-id="'.$row->id.'">'.$row->item.' - '.$unit.'</a>';
                  $qty = '<input type="text" class="form-control form-control-sm text-center quantity" placeholder="Enter Quantity" autocomplete="off"/>';
                  $action = '<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success btn_material_request"  data-id="'.$row->id.'"><i class="flaticon2-fast-next"></i></button>';
@@ -4492,13 +4508,20 @@ class Datatable_model extends CI_Model{
              foreach($query->result() as $row){
                 $icon = '<i class="fas fa-lock-open"></i>';
                 $title = 'Click to lock';
+                $lock = "";
                 if($row->lock_status == 1){
                     $icon = '<i class="fas fa-lock"></i>';
                     $title = 'Click to unlock';
+                    $lock = "";
                 }
+                if($row->project_lock == 1){
+                    $icon = '<i class="fas fa-lock"></i>';
+                    $lock ='disabled';
+                    $title = 'Permanent lock'; 
+                 }
                 $unit =$row->unit.'(s)';
                 if(!$row->unit){ $unit ="";}
-                 $status = '<button class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_lock_material" data-id="'.$row->id.'"  data-toggle="tooltip" data-theme="dark" title="'.$title.'">'.$icon.'</button>';
+                 $status = '<button class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_lock_material" data-id="'.$row->id.'"  data-toggle="tooltip" data-theme="dark" title="'.$title.'" '.$lock.'>'.$icon.'</button>';
                  $input = '<input type="text" class="form-control form-control-sm text-center quantity" placeholder="Enter Quantity" autocomplete="off"/>';    
                  $action = '<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success btn_material_used"  data-m="1" data-id="'.$row->id.'"><i class="flaticon2-plus"></i></button>
                      <button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_material_used"  data-m="2" data-id="'.$row->id.'"><i class="flaticon2-line"></i></button>';

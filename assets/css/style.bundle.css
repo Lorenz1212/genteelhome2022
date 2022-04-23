@@ -87390,3 +87390,13 @@ body[data-header-scroll=on] .topbar .show .btn.btn-icon {
     opacity: 0;
   }
 }
+
+
+  .fixTableHead {
+      overflow-y: auto;
+      height: 260px;
+    }
+  .fixTableHead thead th {
+    position: sticky;
+    top: 0;
+  }

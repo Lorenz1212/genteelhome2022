@@ -115,6 +115,22 @@ class Modal_controller extends CI_Controller
         $data = $this->modal_model->Modal_Material_Request_Project_View($id);
         echo json_encode($data);
      }
+     public function Modal_Material_Request_List_View(){
+        $id = $this->input->post('val');
+        $data = $this->modal_model->Modal_Material_Request_List_View($id);
+        echo json_encode($data);
+     }
+     public function Modal_Material_Request_Accept_View(){
+        $id = $this->input->post('val');
+        $data = $this->modal_model->Modal_Material_Request_Accept_View($id);
+        echo json_encode($data);
+     }
+     public function Modal_Material_Request_Cancel_View(){
+        $id = $this->input->post('val');
+        $data = $this->modal_model->Modal_Material_Request_Cancel_View($id);
+        echo json_encode($data);
+     }
+     
      public function Modal_Material_Request_Partial_View(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_Material_Request_Partial_View($id);

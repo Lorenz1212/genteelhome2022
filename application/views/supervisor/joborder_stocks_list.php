@@ -188,15 +188,14 @@
 							                <i class="flaticon2-plus"></i> Add Material
 							            </a>
 						        	</div>
-							 	 	<div data-scroll="true" data-height="290">
 									    <table class="table table-sm" id="tbl_material">
 											<thead>
 												<tr>
 													<th></th>
 													<th>ITEM</th>
-													<th>QTY</th>
+													<th class="text-center">QTY</th>
 													<th class="text-center">PREVIOUS</th>
-													<th>STOCKS</th>
+													<th class="text-center">STOCKS</th>
 													<th class="text-center">INPUT REQUEST</th>
 													<th></th>
 												</tr>
@@ -204,46 +203,41 @@
 											<tbody>
 											</tbody>
 										</table>
-									</div>
 								</div>
 								<div class="tab-pane" id="purchase" role="tabpanel" style="height:300px">
 									<div class="mb-10">
 							            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-purchase-request" data-action="purchased-create"><i class="flaticon2-plus"></i> Add Material</a>
 							            <a href="#" id="form-purchased" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#ModalTalble"><i class="flaticon2-plus"></i> View Request</a>
 						        	</div>
-								 	 <div data-scroll="true" data-height="290">
 									    <table class="table table-sm" id="tbl_puchased">
 											<thead>
 												<tr>
 													<th></th>
 													<th>ITEM</th>
-													<th>QTY</th>
-													<th>UNIT</th>
-													<th>REMARKS</th>
+													<th class="text-center">QTY</th>
+													<th class="text-center">UNIT</th>
+													<th class="text-center">REMARKS</th>
 													<th></th>
 												</tr>
 											</thead>
 											<tbody>
 											</tbody>
 										</table>
-									</div>
 								</div>
 								<div class="tab-pane" id="used" role="tabpanel" style="height:300px">
-								 	 <div data-scroll="true" data-height="350">
-										    <table class="table table-sm" id="tbl_material_used">
-												<thead>
-													<tr>
-														<th></th>
-														<th>ITEM</th>
-														<th>QTY</th>
-														<th class="text-center">INPUT MATERIAL USE</th>
-														<th></th>
-													</tr>
-												</thead>
-												<tbody>
-												</tbody>
-											</table>
-								        </div>
+								    <table class="table table-sm" id="tbl_material_used">
+										<thead>
+											<tr>
+												<th></th>
+												<th class="text-center">ITEM</th>
+												<th class="text-center">QTY</th>
+												<th class="text-center">INPUT MATERIAL USE</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
