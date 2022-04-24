@@ -91,12 +91,12 @@
 		<!--end::Entry-->
 	</div>
 	<!--end::Content-->
-<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-form" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-body">
             	<div class="row">
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<!--begin::Card-->
 								<div class="card card-custom gutter-b bg-dark">
 									<!--begin::Body-->
@@ -118,6 +118,9 @@
 									</div>
 									<!--end::Body-->
 								</div>
+							</div>
+							<div class="col-md-6" >
+								<button type="button" class="close" style="float: right" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
 							</div>
 						</div>
 						<div class="row">

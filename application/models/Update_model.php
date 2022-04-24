@@ -120,99 +120,6 @@ class Update_model extends CI_Model
                $this->db->where('so_no',$so_no);
                $this->db->update('tbl_salesorder',$update);
      }
-     function Update_Purchase_Delivery_Material($user_id,$id,$deliver_no,$status,$item,$balance_quanity,$received){
-           $query = $this->db->select('*')->from('tbl_materials')->where('item',$item)->get();
-           $row = $query->row();
-           if(!$row){
-                 $value = $this->get_code('tbl_materials','ITEM');
-                 $data1 = array('item_no'      => $value,
-                                'user_id'      => $user_id,
-                                'item'         => $item,
-                                'stocks'       => $received,
-                                'status'       => 'INACTIVE',
-                                'date_created' => date('Y-m-d H:i:s'));
-                $this->db->insert('tbl_materials',$data1);
-           }else{
-                $quantity_deduct =  $row->stocks + $received;
-                $items = array('stocks' => $quantity_deduct);
-                $this->db->where('item',$item);
-                $this->db->update('tbl_materials',$items);
-           }
-            $data2 = array('receiver'       => $user_id,
-                           'item'         => $item,
-                           'stocks'       => $received,
-                           'date_created' => date('Y-m-d H:i:s'));
-            $this->db->insert('tbl_material_new',$data2);
-
-           if($status == 'COMPLETE'){$date_ = 'date_complete';}else if($status =='INCOMPLETE'){$date_ = 'date_incomplete';}
-           $update = array('balance' => $balance_quanity,
-                           'status'  => $status,
-                           $date_    =>date('Y-m-d H:i:s'));
-           $this->db->where('id',$id);
-           $this->db->update('tbl_purchase_delivery',$update);
-    }
-    function Update_Purchase_Delivery_Rawmat($user_id,$id,$deliver_no,$status,$item,$balance_quanity,$received){
-               $query = $this->db->select('*')->from('tbl_materials')->where('item',$item)->get();
-               $row = $query->row();
-               if(!$row){
-                     $value = $this->get_code('tbl_materials','ITEM');
-                     $data1 = array('item_no'      => $value,
-                                    'user_id'      => $user_id,
-                                    'item'         => $item,
-                                    'stocks'       => $received,
-                                    'status'       => 'INACTIVE',
-                                    'date_created' => date('Y-m-d H:i:s'));
-                    $this->db->insert('tbl_materials',$data1);
-               }else{
-                    $quantity_deduct =  $row->stocks + $received;
-                    $items = array('stocks' => $quantity_deduct);
-                    $this->db->where('item',$item);
-                    $this->db->update('tbl_materials',$items);
-               }
-                $data2 = array('receiver'     => $user_id,
-                               'item'         => $item,
-                               'stocks'       => $received,
-                               'date_created' => date('Y-m-d H:i:s'));
-                $this->db->insert('tbl_material_new',$data2);
-
-               if($status == 'COMPLETE'){$date_ = 'date_complete';}else if($status =='INCOMPLETE'){$date_ = 'date_incomplete';}
-               $update = array('balance' => $balance_quanity,
-                               'status'  => $status,
-                               $date_    =>date('Y-m-d H:i:s'));
-               $this->db->where('id',$id);
-               $this->db->update('tbl_purchase_stocks_delivery',$update);
-      }
-     function Update_Purchase_Delivery_Office($user_id,$id,$deliver_no,$status,$item,$balance_quanity,$received){
-               $query = $this->db->select('*')->from('tbl_office_janitorial')->where('item',$item)->get();
-               $row = $query->row();
-               if(!$row){
-                    $value = $this->get_code('tbl_office_janitorial','OFFICE');
-                    $data1 = array('item_no'      => $value,
-                                    'user_id'      => $user_id,
-                                    'item'         => $item,
-                                    'stocks'       => $received,
-                                    'status'       => 'INACTIVE',
-                                    'date_created' => date('Y-m-d H:i:s'));
-                    $this->db->insert('tbl_office_janitorial',$data1);
-               }else{
-                    $quantity_deduct =  $row->stocks + $received;
-                    $items = array('stocks' => $quantity_deduct);
-                    $this->db->where('item',$item);
-                    $this->db->update('tbl_office_janitorial',$items);
-               }
-                $data2 = array('receiver'     => $user_id,
-                               'item'         => $item,
-                               'stocks'       => $received,
-                               'date_created' => date('Y-m-d H:i:s'));
-                $this->db->insert('tbl_office_new',$data2);
-
-               if($status == 'COMPLETE'){$date_ = 'date_complete';}else if($status =='INCOMPLETE'){$date_ = 'date_incomplete';}
-               $update = array('balance' => $balance_quanity,
-                               'status'  => $status,
-                               $date_    =>date('Y-m-d H:i:s'));
-               $this->db->where('id',$id);
-               $this->db->update('tbl_purchase_stocks_delivery',$update);
-      }
      function Update_Rawmats_Stocks($id,$stocks,$status,$stocks_alert){
         $data = array('stocks' => $stocks,
                       'stocks_alert'=>$stocks_alert,
@@ -1363,12 +1270,12 @@ class Update_model extends CI_Model
     }
     function Update_Purchase_Stocks_Estimate($user_id,$id,$amount,$type){
         $pr_id = array_map('intval', explode(',', $id));
-        $amounts = explode('_',$amount);
+        $amounts = explode(',',$amount);
         $value = 'RPR'.date('YmdHisu');
         for($i=0;$i<count($pr_id);$i++){
             $data = array('fund_no'=> $value,
                           'purchaser'=>$user_id,
-                          'amount' => floatval(str_replace(',', '',$amounts[$i])),
+                          'amount' => $amounts[$i],
                           'status' => 3,
                           'type'=> $type,
                           'latest_update'=> date('Y-m-d H:i:s'),
@@ -1653,8 +1560,60 @@ class Update_model extends CI_Model
         }else{
             return false;   
         }
+    }
+    function Update_Supplier_Item($user_id,$id,$supplier,$amount){
+        $data = array('amount'         => $amount,
+                      'latest_update'   => date('Y-m-d H:i:s'),
+                      'update_by'     => $user_id);
+        $this->db->where('id',$id);        
+        $result = $this->db->update('tbl_supplier_item',$data);
+        if($result){
+            return $supplier;
+        }else{
+            return false;
+        }
+       
+    }
+     function Update_Supplier_Edit($user_id,$id,$name,$mobile,$email,$address){
+        $data = array('name'  => $name,
+                     'mobile' =>$mobile,
+                     'email'  =>$email,
+                     'address'=>$address,
+                     'latest_update' => date('Y-m-d H:i:s'),
+                     'update_by'  => $user_id);
+        $this->db->where('id',$id);        
+        $result = $this->db->update('tbl_supplier',$data);
 
-
+        $row = $this->db->select('*')->from('tbl_supplier')->where('id',$id)->get()->row();
+        if($result){
+            return $row;
+        }else{
+            return false;
+        }
+    }
+    function Update_Supplier_Image($user_id,$id,$image,$tmp,$path_image){
+        $row = $this->db->select('*')->from('tbl_supplier')->where('id',$id)->get()->row();
+        if($image){
+            $files = $this->move_to_folder4('SUPPLIER',$image,$tmp,$path_image,300,300);
+            if($files == false){
+                return false;
+            }else{
+               $images = $files;
+               if($row->image != 'default.jpg'){
+                  unlink("./".$path_image.$row->image);
+               }
+                $this->db->where('id',$id);        
+                $result = $this->db->update('tbl_supplier',array('image' => $images));
+                if($result){
+                    return $images;
+                }else{
+                    return false;
+                }
+            }
+            
+        }else{
+            return false;
+        }
     }
 
 }

@@ -483,8 +483,6 @@ class Gh extends CI_Controller {
             case "voucher":{$this->load->view('reviewer/coupon_list.php');break;}
             
             case "supplier":{$this->load->view('reviewer/supplier_list.php'); break;}
-            case "supplier_view":{$this->load->view('reviewer/supplier_view.php',$data); break;}
-            case "supplier_create":{$this->load->view('reviewer/supplier_add.php'); break;}
             default: {redirect(base_url().'gh/reviewer/index');break;}
           }
           $this->load->view('reviewer/layouts/footer.php');

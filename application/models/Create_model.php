@@ -1011,47 +1011,7 @@ class Create_model extends CI_Model{
 		$json = array('status'=>'success','image' => $images,'id' => $last_id);
     	return $json;
     }
-    function Create_Supplier($user_id,$name,$mobile,$email,$facebook,$website,$address){
-     	$query = $this->db->select('*')->from('tbl_supplier')->where('name',$name)->get();
-     	$row = $query->row();
-     	$status =  'error';
-     	if(!$row){
-     		$data = array('name'          =>  $name,
-		                  'mobile'        =>  $mobile,
-		                  'email'         =>  $email,
-		                  'facebook'      =>  $facebook,
-		                  'website'       =>  $website,
-		                  'address'       =>  $address,
-		                  'status'        =>  1,
-		                  'date_created'=>	 date('Y-m-d H:i:s'),
-		              	  'created_by'=>$user_id);
-	       $this->db->insert('tbl_supplier',$data);
-	       $status = 'success';
-	     }
-	     return $status;
-    }
-    function Create_SupplierItem($user_id,$id,$item,$amount){
-    	$id =$this->encryption->decrypt($id);
-    	$row = $this->db->select('*')->from('tbl_supplier_item')->where('item_no',$item)->where('supplier',$id)->get()->row();
-    	if($row){
-    		$data = array('amount'     => $amount,
-                      'latest_update'  => date('Y-m-d H:i:s'),
-                      'update_by'	   => $user_id); 
-    		$this->db->where('item_no',$item);
-    		$this->db->where('supplier',$id);
-    		$this->db->update('tbl_supplier_item',$data);
-    		return 'Save Changes';
-    	}else{
-    		$data = array('item_no'  => $item,
-                      'supplier'       => $id,
-                      'amount'         => $amount,
-                      'status'         => 1,
-                      'date_created'   => date('Y-m-d H:i:s'),
-                      'created_by'	   => $user_id);        
-        	$this->db->insert('tbl_supplier_item',$data);
-        	return 'Created Successfully';
-    	}
-    }
+   
      function Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin){
     	$so_no = $this->get_code('tbl_salesorder_stocks','SO-FS'.date('Ymd'));
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
@@ -1266,6 +1226,36 @@ class Create_model extends CI_Model{
 			    }
     		}
        }
-
+     function Create_Supplier($user_id,$name,$mobile,$email,$address){
+     	$row = $this->db->select('*')->from('tbl_supplier')->where('name',$name)->get()->row();
+     	if(!$row){
+     		$data = array('name'          =>  $name,
+		                  'mobile'        =>  $mobile,
+		                  'email'         =>  $email,
+		                  'address'       =>  $address,
+		                  'date_created'  =>date('Y-m-d H:i:s'),
+		              	  'created_by'=>$user_id);
+	       $this->db->insert('tbl_supplier',$data);
+	       return true;
+	     }else{
+	     	return false;
+	     }
+    }
+    function Create_Supplier_Item($user_id,$id,$item,$amount){
+    	$row = $this->db->select('*')->from('tbl_supplier_item')->where('item_no',$item)->where('supplier',$id)->get()->row();
+		if($row){
+			return false;
+		}else{
+			$data = array('item_no'  => $item,
+		                  'supplier'       => $id,
+		                  'amount'         => $amount,
+		                  'status'         => 1,
+		                  'date_created'   => date('Y-m-d H:i:s'),
+		                  'created_by'	   => $user_id);        
+	    	$this->db->insert('tbl_supplier_item',$data);
+	    	return $id;
+		}
+		
+    }
   }
 ?>

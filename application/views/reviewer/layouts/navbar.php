@@ -311,30 +311,9 @@
 															</div>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
+															<a  href="<?php echo base_url()."gh/superuser/supplier";?>" class="menu-link">
 																<span class="menu-text">Supplier</span>
-																<i class="menu-arrow"></i>
 															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/superuser/supplier";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">List of Supplier</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/superuser/supplier_create";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">Create New Supplier</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
 													</ul>
 												</div>

@@ -65,7 +65,7 @@ var KTFormControls = function () {
 		 }else if(urlpost == 'superuser'){
 		 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
 		 }else if(urlpost == 'admin'){
-
+		 	_ajaxloaderOption('Dashboard_controller/admin_dashboard','POST',false,'admin');
 		 }else if(urlpost == 'accounting'){
 
 		 }
@@ -179,6 +179,12 @@ var KTFormControls = function () {
 
 				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
 				$('.sales_deliver_project').text(response.sales_deliver_project);
+
+				$('.material_request_complete_stocks').text(response.material_request_complete_stocks);
+				$('.material_request_complete_project').text(response.material_request_complete_project);
+
+				$('.material_request_pending_stocks').text(response.material_request_pending_stocks);
+				$('.material_request_pending_project').text(response.material_request_pending_project);
 				break;
 			}
 			case "admin":{
@@ -1694,17 +1700,15 @@ var KTFormControls = function () {
 	 		case "Update_Purchase_Request_Stocks":{
 	 			$(document).on('click','#btn-save',function(e){
 	 				e.preventDefault();
-	 				let id = Array.from(document.getElementsByClassName('td-id')).map(item => item.getAttribute('data-id'));
-	 				let count = Array.from(document.getElementsByClassName('td-id')).map(item => item.getAttribute('data-count'));
-	 				let amount = Array.from(document.getElementsByClassName('td-amount')).map(item => item.value);
+	 				let id = Array.from(document.getElementsByClassName('td-amount')).map(item => item.getAttribute('data-id'));
+	 				let amount = Array.from(document.getElementsByClassName('td-amount')).map(item => item.value.replace(/,/g, ''));
 	 				let cleanArray = amount.filter(function(e){ return e.replace(/(\r\n|\n|\r)/gm,"")});
-	 				let am= amount.join("_");
-	 				if(cleanArray.length === 0){
+	 				if(cleanArray.length != amount.length){
 	 					Swal.fire("Warning!", "Please Input the Estimate Amount of each Item!", "warning");
 	 				}else{
 	 					let formdata = new FormData();
 		 				formdata.append('id',id);
-		 				formdata.append('amount',am);
+		 				formdata.append('amount',amount);
 		 				formdata.append('type',1);
 		 				thisURL = baseURL + 'update_controller/Update_Purchase_Stocks_Estimate';
 		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Stocks_Estimate",false);
@@ -1793,34 +1797,157 @@ var KTFormControls = function () {
 	 		}
 	 		
 
-	 		case "Update_SupplierItem":{
-	 			$('#Create_SupplierItem').on('click',function(e){		
-		 			 Swal.fire({
-					        title: "Are you sure?",
-					        text: "You won't be able to revert this",
-					        icon: "warning",
-					        confirmButtonText: "Submit!",
-					        showCancelButton: true
-					    }).then(function(result) {
-					        if (result.value) {
-					        	alert(supplier_id)
-					       let formData = new FormData();
-					       formData.append('id',supplier_id);
-					       formData.append('amount',$('#price').val());
-					       formData.append('item',$('#item').val());
-						  thisURL = baseURL + 'create_controller/Create_SupplierItem';
-						   _ajaxForm(thisURL,"POST",formData,"Create_SupplierItem",false);
-				         }
-				   	 });
-				});
-	 			$('#Update_Supplier').on('submit',function(e){
-				    e.preventDefault();
-				  	let element = this;
-			     	let formData = new FormData(element);
-			     	formData.append('id',supplier_id);
-				  	thisURL = baseURL + 'update_controller/Update_Supplier';
-				  	_ajaxForm(thisURL,"POST",formData,"Update_Suppliers",false);
-				});
+	 		case "Update_Supplier":{
+				var form = document.getElementById('Create_Supplier_Item');
+			         validation = FormValidation.formValidation(
+						form,
+						{
+							fields: {item_add: {validators: {notEmpty: {message: 'Item is required'}}},
+								amount_add: {validators: {notEmpty: {message: 'Amount is required'}}},
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                    icon: new FormValidation.plugins.Icon({
+			                    valid: 'fa fa-check',
+			                    invalid: 'fa fa-times',
+			                    validating: 'fa fa-refresh'
+			                }),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-add',function(e){
+	 				e.preventDefault();
+	 				validation.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form);
+		   					fd.append('id',$('.name').attr('data-id'));
+		   					fd.append('item',$('select[name=item_add]').val());
+		   					fd.append('amount',$('input[name=amount_add]').val());
+						 	thisURL = baseURL + 'create_controller/Create_Supplier_Item';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Supplier_Item",false);
+					     }
+					 });
+	 			})
+
+	 			var form1 = document.getElementById('Update_Supplier_Item');
+			    var validation1 = FormValidation.formValidation(
+						form1,
+						{
+							fields: {item: {validators: {notEmpty: {message: 'Item is required'}}},
+								amount: {validators: {notEmpty: {message: 'Amount is required'}}},
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                    icon: new FormValidation.plugins.Icon({
+			                    valid: 'fa fa-check',
+			                    invalid: 'fa fa-times',
+			                    validating: 'fa fa-refresh'
+			                }),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-save-item',function(e){
+	 				e.preventDefault();
+	 				validation1.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form1);
+		   					fd.append('supplier',$('.name').attr('data-id'));
+		   					fd.append('id',$('select[name=item]').attr('data-id'));
+		   					fd.append('amount',$('input[name=amount]').val());
+						 	thisURL = baseURL + 'update_controller/Update_Supplier_Item';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Update_Supplier_Item",false);
+					     }
+					 });
+	 			})
+	 			var form2 = document.getElementById('Update_Supplier_Edit');
+			    var validation2 = FormValidation.formValidation(
+						form2,
+						{
+							fields: {name: {validators: {notEmpty: {message: 'Supplier Name is required'}}},
+								mobile: {validators: {notEmpty: {message: 'Mobile is required'}}},
+								email: {validators: {notEmpty: {message: 'Email is required'}}},
+								address: {validators: {notEmpty: {message: 'Address is required'}}},
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                    icon: new FormValidation.plugins.Icon({
+			                    valid: 'fa fa-check',
+			                    invalid: 'fa fa-times',
+			                    validating: 'fa fa-refresh'
+			                }),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-save-supplier',function(e){
+	 				e.preventDefault();
+	 				validation2.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form2);
+		   					fd.append('id',$('.name').attr('data-id'));
+						 	thisURL = baseURL + 'update_controller/Update_Supplier_Edit';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Update_Supplier_Edit",false);
+					     }
+					 });
+	 			})
+	 			var form3 = document.getElementById('Create_Supplier');
+			    var validation3 = FormValidation.formValidation(
+						form3,
+						{
+							fields: {name_add: {validators: {notEmpty: {message: 'Supplier Name is required'}}},
+								mobile_add: {validators: {notEmpty: {message: 'Mobile is required'}}},
+								email_add: {validators: {notEmpty: {message: 'Email is required'}}},
+								address_add: {validators: {notEmpty: {message: 'Address is required'}}},
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                    icon: new FormValidation.plugins.Icon({
+			                    valid: 'fa fa-check',
+			                    invalid: 'fa fa-times',
+			                    validating: 'fa fa-refresh'
+			                }),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-add-supplier',function(e){
+	 				e.preventDefault();
+	 				validation3.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form3);
+						 	thisURL = baseURL + 'create_controller/Create_Supplier';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Supplier",false);
+					     }
+					 });
+	 			})
+	 			$(document).on('click','.btn-add-supplier',function(e){
+	 				e.preventDefault();
+	 				validation3.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form3);
+						 	thisURL = baseURL + 'create_controller/Create_Supplier';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Supplier",false);
+					     }
+					 });
+	 			})
+	 			$("input[name=image]").on('change',function(e) {
+                    e.preventDefault();
+                    if($('input[name=image]')[0].files[0]){
+                    	let name = e.target.files[0].name;
+                    	let extension = name.split(".");
+                    	if(extension[1] == 'docx' || extension[1] == 'pdf' || extension[1] == 'csv' || extension[1] == 'gif' || extension[1] == 'doc'){
+                    		Swal.fire("Warning!", "Make sure the file is jpg & png", "warning");
+                    	}else{
+                    		let fd = new FormData();
+	                    	fd.append('id',$('.name').attr('data-id'));
+	                    	fd.append('image',$('input[name=image]')[0].files[0]);
+	                    	thisURL = baseURL + 'update_controller/Update_Supplier_Image';
+						  	 _ajaxForm(thisURL,"POST",fd,"Update_Supplier_Image",false);
+                    	}
+                    }
+                  });
 	 			break;
 	 		}
 	 		case "Update_Material_Request_Stocks_Process":{
@@ -3327,20 +3454,7 @@ var KTFormControls = function () {
 	 			_initnotificationupdate();
 	 			break;
 	 		}
-	 		case "Create_Supplier":{
-		 			if(response=="success"){
-	                  	    _initToastSuccess();
-	                  	    $('input[name="name"]').val('');
-	                  	    $('input[name="mobile"]').val('');
-	                  	    $('input[name="email"]').val('');
-	                  	    $('input[name="facebook"]').val('');
-	                  	    $('input[name="website"]').val('');
-	                  	    $('input[name="address"]').val('');
-	                   }else{
-	                   		Swal.fire("Supplier Name is already used!", "Thank you!", "error");
-	                   }
-		          break;
-                   }
+
 	 		case "Create_Users":{
 	 			if(response.status=="success"){_initSwalSuccess(url);}
 	 			break;
@@ -3351,8 +3465,6 @@ var KTFormControls = function () {
 	 		}
 
 	 		//Update
-	 		case "Update_SupplierItem":
-	 		case "Update_Supplier":
 	 		case "Update_Users":{
 	 			if(response.status=="success"){_initSwalSuccess(url);}
 	 			break;
@@ -4182,20 +4294,7 @@ var KTFormControls = function () {
 	 			_initnotificationupdate();
 	 			break;
 	 		}
-	 		case "Create_SupplierItem":{
-	 			_initToast('success',response);
-	 			let TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
-				let TableData =  [{data:'item'},{data: 'price'},{data:'status'},{data: 'date_created'},{data: 'action'}];
-				_DataTableLoader('tbl_supplier_item',TableURL,TableData,supplier_id);
-				_initnotificationupdate();
-	 			break;
-	 		}
-	 		case "Update_Suppliers":{
-	 			Swal.fire("Update!", "This form is Completed!", "success").then(function(){
-		      			location.reload();
-				});
-	 			break;
-	 		}
+	 		
 	 		case "Create_Request_Material":
             case "Create_Salesorder_Stocks":
 	 		case "Create_Salesorder_Project":{
@@ -4633,6 +4732,71 @@ var KTFormControls = function () {
 	 		 	 _initnotificationupdate();
 	 		 	break;
 	 		 }
+	 		 case "Create_Supplier_Item":{
+	 			if(response !=false){
+	 				_initToast('success','Item created successfully');
+			 		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
+					let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
+					_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response);
+					$('#Create_Supplier_Item')[0].reset();
+					$('#add-item').modal('hide');
+	 			}else{
+	 				Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 			}
+				_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Update_Supplier_Item":{
+	 			if(response !=false){
+	 				_initToast('success','Save Changes');
+			 		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
+					let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
+					_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response);
+					$('#Update_Supplier_Item')[0].reset();
+					$('#edit-item').modal('hide');
+	 			}else{
+	 				Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 			}
+				_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Update_Supplier_Edit":{
+	 			if(response !=false){
+	 				$('.name').text(response.name).attr('data-id',response.id);
+			  		$('.mobile').text(response.mobile);
+			  		$('.email').text(response.email);
+			  		$('.address').text(response.address);
+	 				_initToast('success','Save Changes');
+					$('#edit-supplier').modal('hide');
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+				_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Create_Supplier":{
+	 			if(response !=false){
+	 				_initToast('success','New Supplier Created Successfully');
+	 				let TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
+					let TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data: 'action'}]; 
+					_DataTableLoader('tbl_supplier',TableURL,TableData,false);
+					$('#Create_Supplier')[0].reset();
+					$('#add-supplier').modal('hide');
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+				_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Update_Supplier_Image":{
+	 			if(response != false){
+	 				_initToast('success','Save changes');
+	 				$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response+')');
+	 			}else{
+	 				 Swal.fire("Error!", "Image upload is incorrect!", "warning");
+	 			}
+	 			break;
+	 		}
 
 	 	}
 	 }

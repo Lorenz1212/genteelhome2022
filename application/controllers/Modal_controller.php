@@ -67,16 +67,40 @@ class Modal_controller extends CI_Controller
         echo json_encode($data);
      }
 
-    public function Modal_Purchase_Stocks_Request_View(){
+   public function Modal_Purchase_Stocks_Request_View(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_Purchase_Stocks_Request_View($id);
         echo json_encode($data);
-     }
+   }
    public function Modal_Purchase_Stocks_Inprogress_View(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_Purchase_Stocks_Inprogress_View($id);
         echo json_encode($data);
    }
+
+
+
+   public function Modal_Purchase_Request_List_View(){
+        $id = $this->input->post('val');
+        $data = $this->modal_model->Modal_Purchase_Request_List_View($id);
+        echo json_encode($data);
+   }
+   public function Modal_Purchase_Request_Estimate_View(){
+        $id = $this->input->post('val');
+        $data = $this->modal_model->Modal_Purchase_Request_Estimate_View($id);
+        echo json_encode($data);
+   }
+   public function Modal_Purchase_Inprogress_View(){
+        $id = $this->input->post('val');
+        $data = $this->modal_model->Modal_Purchase_Inprogress_View($id);
+        echo json_encode($data);
+   }
+
+
+  
+
+
+
    public function Modal_Purchase_Project_Request_View(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_Purchase_Project_Request_View($id);
@@ -89,11 +113,26 @@ class Modal_controller extends CI_Controller
    }
 
 
-     public function Modal_SupplierItem_View(){
+
+
+
+     public function Modal_Supplier_View(){
         $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_SupplierItem_View($id);
+        $data = $this->modal_model->Modal_Supplier_View($id);
         echo json_encode($data);
      }
+     public function Modal_Supplier_Item_Update_View(){
+        $id = $this->input->post('id');
+        $data = $this->modal_model->Modal_Supplier_Item_Update_View($id);
+        echo json_encode($data);
+     }
+     public function Modal_Supplier_Item_View(){
+        $id = $this->input->post('val');
+        $data = $this->modal_model->Modal_Supplier_Item_View($id);
+        echo json_encode($data);
+     }
+
+
      public function Modal_Production_Stocks(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_Production_Stocks($id);

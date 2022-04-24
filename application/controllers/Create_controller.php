@@ -205,18 +205,7 @@ class Create_controller extends CI_Controller
         echo json_encode($data);
     }
       
-      public function Create_Supplier(){
-       $user_id = $this->session->userdata('id');
-       $name = $this->input->post('name');
-       $name = strtoupper($name);
-       $mobile = $this->input->post('mobile');
-       $email = $this->input->post('email');
-       $facebook = $this->input->post('facebook');
-       $website = $this->input->post('website');
-       $address = $this->input->post('address');
-       $data =  $this->create_model->Create_Supplier($user_id,$name,$mobile,$email,$facebook,$website,$address);
-        echo json_encode($data);
-     }
+    
      public function Create_Purchase_Request_Stocks(){
         $user_id = $this->session->userdata('id');
         $item = $this->input->post('item');
@@ -465,14 +454,7 @@ class Create_controller extends CI_Controller
         $data = $this->create_model->Create_Joborder_Inpection_Stocks_Image($id,$production_no,$image,$tmp,$path_image);
         echo json_encode($data);
     }
-    public function Create_SupplierItem(){
-        $user_id = $this->session->userdata('id');
-        $id = $this->input->post('id');
-        $item = $this->input->post('item');
-        $amount = floatval(str_replace(',', '', $this->input->post('amount')));
-        $data = $this->create_model->Create_SupplierItem($user_id,$id,$item,$amount);        
-        echo json_encode($data); 
-    }
+
     public function Create_Salesorder_Stocks(){
          $user_id = $this->session->userdata('id');
          $customer = $this->input->post('customer');
@@ -580,6 +562,23 @@ class Create_controller extends CI_Controller
         $data = $this->create_model->Create_Purchase_request_Supervisor($user_id,$id,$item,$qty,$remarks,$type,$status,$special,$unit);        
         echo json_encode($data); 
     
+    }
+    public function Create_Supplier(){
+       $user_id = $this->session->userdata('id');
+       $name = $this->input->post('name_add');
+       $mobile = $this->input->post('mobile_add');
+       $email = $this->input->post('email_add');
+       $address = $this->input->post('address_add');
+       $data =  $this->create_model->Create_Supplier($user_id,$name,$mobile,$email,$address);
+        echo json_encode($data);
+     }
+    public function Create_Supplier_Item(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $item = $this->input->post('item');
+        $amount = floatval(str_replace(',', '', $this->input->post('amount')));
+        $data = $this->create_model->Create_Supplier_Item($user_id,$id,$item,$amount);        
+        echo json_encode($data); 
     }
 }
 ?>

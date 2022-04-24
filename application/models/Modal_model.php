@@ -145,10 +145,26 @@ class Modal_model extends CI_Model{
            return array_merge($data,$data_array);
     }
    
-     function Modal_SupplierItem_View($id){
-          $this->db->select('ss.id as ss_id,ss.price as ss_price,ss.status as ss_status,m.item as m_item,DATE_FORMAT(ss.date_created, "%M %d %Y") as ss_date_created')->from('tbl_supplier_item as ss')->join('tbl_materials as m','m.id = ss.item','LEFT')->where('ss.id',$id);
-         $query = $this->db->get();
-         return $query->row();
+    function Modal_Supplier_View($id){
+          $row = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as ss_date_created')->from('tbl_supplier')->where('id',$this->encryption->decrypt($id))->get()->row();
+         return $row;
+    }
+    function Modal_Supplier_Item_Update_View($id){
+         $row = $this->db->select('*')->from('tbl_supplier_item')->where('id',$this->encryption->decrypt($id))->get()->row();
+         return $row;
+    }
+    function Modal_Supplier_Item_View($id){
+          $data = false;
+          $query = $this->db->select('*,mp.id,mp.amount')->from('tbl_supplier_item as mp')->join('tbl_materials as m','mp.item_no=m.id','LEFT')->where('mp.supplier',$id)->order_by('mp.id','ASC')->get();
+               foreach($query->result() as $row){
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="edit-item-view" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#edit-item"><i class="flaticon2-pen"></i></button>';    
+                  ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                $data[] = array('item'   => $row->item.' - '.$unit,
+                                'amount' => number_format($row->amount,2),
+                                'action' => $action);
+           }
+         $json_data  = array("data" =>$data); 
+         return $json_data;  
     }
     function Modal_Designer_Customization($id){
         $row = $this->db->select('*')->from('tbl_salesorder')->WHERE('so_no',$id)->get()->row();
@@ -305,62 +321,70 @@ class Modal_model extends CI_Model{
     }
 
      function Modal_Purchase_Stocks_Request_View($id){
-         $query =  $this->db->select('d.*,c.*,pr.id as id,p.production_no as production_no,
-            IFNULL(m.unit," ") as unit,m.item as item,pr.quantity as quantity,pr.balance_quantity as balance,
-            pr.status as status,pr.remarks as remarks,CONCAT(u.firstname, " ",u.lastname) AS production,
-            DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
-         ->from('tbl_purchasing_project as pr')
-         ->join('tbl_materials as m','m.id=pr.item_no','LEFT')
-         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-         ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
-         ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-         ->join('tbl_users as u','u.id=p.assigned','LEFT')
+         $row =  $this->db->select('d.*,c.*,p.production_no,
+            CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
+         ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->WHERE('p.production_no',$id)->get()->row(); 
+        return $row;
+     }
+     function Modal_Purchase_Request_List_View($id){
+         $data = false;
+         $query =  $this->db->select('pr.id as id,IFNULL(m.unit," ") as unit,m.item ,pr.quantity,pr.balance_quantity,
+            pr.status as status,pr.remarks as remarks')
+         ->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')
          ->WHERE('pr.status=2 AND pr.production_no="'.$id.'" AND pr.fund_no IS NULL')->get(); 
             foreach($query->result() as $row){
-                $data[] = array('id'    => $row->id,
-                         'production_no'=> $row->production_no,
-                         'title'        => $row->title,
-                         'c_name'       => $row->c_name,
-                         'item'         => $row->item,
-                         'quantity'     => $row->quantity,
-                         'balance'      => $row->balance,
-                         'unit'         => $row->unit,
-                         'status'       => $row->status,
-                         'remarks'      => $row->remarks,
-                         'production'   => $row->production,
-                         'date_created' => $row->date_created);
+                 if($row->remarks){$remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'.$row->remarks.'">Remarks</a>)';}
+                ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                $data[] = array('item'         => $row->item.' '.$unit,
+                                'quantity'     => $row->quantity,
+                                'balance'      => $row->balance_quantity,
+                                'remarks'      => $remarks);
               
             }
-            return $data;
+        return array("data" =>$data);  
      }
+     function Modal_Purchase_Request_Estimate_View($id){
+        $data = false;
+        $query =  $this->db->select('pr.id,m.unit,m.item ,pr.quantity,pr.balance_quantity,
+            pr.status as status,pr.remarks as remarks')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')->WHERE('pr.status=2 AND pr.production_no="'.$id.'" AND pr.fund_no IS NULL')->get(); 
+        foreach($query->result() as $row){
+            $action = '<input type="text" class="form-control form-control-sm text-center td-amount" data-id="'.$row->id.'" placeholder="Input Estimate Amount....."/>';
+             ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+            $data[] = array('item'         => $row->item.' '.$unit,
+                            'quantity'     => $row->quantity,
+                            'balance'      => $row->balance_quantity,
+                            'input'        => $action);
+          
+        }
+         return array("data" =>$data);   
+     }
+
      function Modal_Purchase_Stocks_Inprogress_View($id){
-        $query =  $this->db->select('d.*,c.*,pr.*,IFNULL(m.unit," ") as unit,pr.id as id,p.production_no as production_no,
-            m.item as item,pr.quantity as quantity,pr.remarks as remarks,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created,(SELECT count(status) from tbl_purchasing_project WHERE status=3 AND type=1 AND fund_no="'.$id.'") as status_request,(SELECT count(status) from tbl_purchasing_project WHERE status=4 AND type=1 AND fund_no="'.$id.'") as status_approved')
-         ->from('tbl_purchasing_project as pr')
-         ->join('tbl_materials as m','m.id=pr.item_no','LEFT')
-         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-         ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
-         ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
+        $row =  $this->db->select('d.*,c.*,p.production_no,pr.fund_no,
+            CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
+         ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')
          ->join('tbl_users as u','u.id=p.assigned','LEFT')
-         ->where('pr.fund_no',$id)->get();
+         ->join('tbl_purchasing_project as pr','p.production_no=pr.production_no','LEFT')
+         ->where('pr.fund_no',$id)->get()->row(); 
+         return $row;
+      }
+
+      function Modal_Purchase_Inprogress_View($id){
+        $data = false;
+        $query =  $this->db->select('pr.*,pr.id ,m.unit,m.item,pr.quantity,pr.remarks,pr.amount')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')->where('pr.fund_no',$id)->get();
            if(!$query){return false;}else{  
                foreach($query->result() as $row){
-                $data[] = array('id'        => $row->id,
-                         'production_no'    => $row->production_no,
-                         'unit'             => $row->unit,
-                         'title'            => $row->title,
-                         'c_name'           => $row->c_name,
-                         'item'             => $row->item,
-                         'quantity'         => $row->quantity,
-                         'balance'          => $row->balance_quantity,
-                         'remarks'          => $row->remarks,
-                         'requestor'        => $row->requestor,
-                         'status_request'   => $row->status_request,
-                         'status_approved'  => $row->status_approved,
-                         'date_created'     => $row->date_created);
+                if($row->remarks){$remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'.$row->remarks.'">Remarks</a>)';}
+                ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                $data[] = array('id'       => $row->id,
+                                'item'    => $row->item.' '.$unit,
+                                'quantity'=> $row->quantity,
+                                'amount'  => number_format($row->amount,2),
+                                'balance' => $row->balance_quantity,
+                                'remarks' => $remarks);
                } 
-               return $data;
            }
+            return array("data" =>$data);   
       }
 
       function Modal_Purchase_Project_Request_View($id){

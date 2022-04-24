@@ -235,26 +235,7 @@ class Update_controller extends CI_Controller
           $data = array('status' => 'success');
           echo json_encode($data);  
      }
-     public function Update_Purchase_Delivery_Stocks(){
-          $user_id = $this->session->userdata('id');
-          $id = $this->input->post('id');
-          $deliver_no = $this->input->post('deliver_no');
-          $status = $this->input->post('status');
-          $item = $this->input->post('item');
-          $balance_quanity = $this->input->post('balance_quanity');
-          $received = $this->input->post('received');
-          $query = $this->db->select('*')->from('tbl_purchase_stocks_delivery')->where('id',$id)->get();
-          $row = $query->row(); 
-          if($row->type == 'rawmats'){
-             $this->update_model->Update_Purchase_Delivery_Rawmat($user_id,$id,$deliver_no,$status,$item,$balance_quanity,$received);
-          }else if($row->type == 'office'){
-            $this->update_model->Update_Purchase_Delivery_Office($user_id,$id,$deliver_no,$status,$item,$balance_quanity,$received);
-          }else if($row->type == 'production'){
-            $this->update_model->Update_Purchase_Delivery_Spare($user_id,$id,$deliver_no,$status,$item,$balance_quanity,$received);
-          }
-          $data = array('status' => 'success');
-          echo json_encode($data);  
-     }
+
       public function Update_SupplierItem(){
         $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
@@ -818,6 +799,33 @@ class Update_controller extends CI_Controller
         $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
         $vat =  $this->input->post('vat');
         $data = $this->update_model->Update_Salesorder_Stocks($user_id,$id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat);
+        echo json_encode($data);
+     }
+     public function Update_Supplier_Item(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $supplier = $this->input->post('supplier');
+        $amount = floatval(str_replace(',', '', $this->input->post('amount')));
+        $data = $this->update_model->Update_Supplier_Item($user_id,$id,$supplier,$amount);
+        echo json_encode($data);
+     }
+     public function Update_Supplier_Edit(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $name = $this->input->post('name');
+        $mobile = $this->input->post('mobile');
+        $email = $this->input->post('email');
+        $address = $this->input->post('address');
+        $data = $this->update_model->Update_Supplier_Edit($user_id,$id,$name,$mobile,$email,$address);
+        echo json_encode($data);
+     }
+     public function Update_Supplier_Image(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $image      =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+        $tmp        =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+        $path_image =  "assets/images/supplier/";  
+        $data = $this->update_model->Update_Supplier_Image($user_id,$id,$image,$tmp,$path_image);
         echo json_encode($data);
      }
 

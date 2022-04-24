@@ -3,10 +3,10 @@ class Datatable_model extends CI_Model{
     //Fetch Data
     
        function supplier_DataTable(){
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_supplier')->order_by('date_created','DESC')->get();
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_supplier')->order_by('id','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-            $action = '<a href="'.base_url().'gh/'.$this->session->userdata('page').'/supplier_view/'.$this->encryption->encrypt($row->id).'" class="btn btn-sm btn-light-dark btn-icon"><i class="flaticon2-pen"></i></a>';
+             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
             if($row->status == 1){$status ='<span class="label label-lg label-light-primary label-inline">ACTIVE</span>';}else{$status='<span class="label label-lg label-light-danger label-inline">INACTIVE</span>';}
                    $data[] = array(
                             'name'         => $row->name,

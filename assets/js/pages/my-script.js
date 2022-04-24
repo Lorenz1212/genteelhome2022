@@ -372,6 +372,7 @@ var arrows;var item_v;var price;var special_option;
     			lengthChange: false,
 			"fnDrawCallback": function() {
 	                $('[data-toggle="tooltip"]').tooltip();
+	                _initCurrency_format('.td-amount');
 
 	           },
 			language: { 
@@ -2035,27 +2036,31 @@ var arrows;var item_v;var price;var special_option;
 			case "data-supplier":{
 				 $(document).ready(function() {
 				 	_initItem_option();
+
 					_initCurrency_format("#price");
-					let thisUrl = 'view_controller/View_Supplier_Data';
-					_ajaxloader(thisUrl,"POST",{id:supplier_id},"View_Supplier_Data");
-					   $(document).on("click","#form-request",function() {
-						let id = $(this).attr('data-id');
-						let val = {id:id};
-						let thisUrl = 'modal_controller/Modal_SupplierItem_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_SupplierItem_View");
-				        });
+					$(document).on("click","#form-request",function() {
+						let thisUrl = 'modal_controller/Modal_Supplier_View';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_View");
+				    	});
+				    	$(document).on("click","#edit-item-view",function() {
+						let thisUrl = 'modal_controller/Modal_Supplier_Item_Update_View';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_Item_Update_View");
+				    	});
+				    	$(document).on("click",".add-supplier",function() {
+						$('#Create_Supplier')[0].reset();
+				    	});
 				  });
 				break;
 			}
 			case "data-rawmaterials":{
 				_initCurrency_format("#price");
 				  $(document).ready(function() {
-					   $(document).on("click","#form-request",function() {
+					 $(document).on("click","#form-request",function() {
 						let id = $(this).attr('data-id');
 						let val = {id:id};
 						let thisUrl = 'modal_controller/Modal_RawMaterial_view';
 						_ajaxloader(thisUrl,"POST",val,"Modal_RawMaterial_view");
-				    });
+				    	});
 				  });
 				break;
 			}
@@ -2900,71 +2905,70 @@ var arrows;var item_v;var price;var special_option;
 	 
 	  	case "Modal_Purchase_Stocks_Request_View":{
 	  		if(!response == false){
-	  		     $('#production_no').text('JOB ORDER: '+response[0].production_no);
-	  		     $('#production_no').attr('data-id',response[0].production_no);
-	  		     $('#title').text('ITEM: '+response[0].title+' ('+response[0].c_name+')');
-	  		     $('#requestor').text('REQUESTOR: '+response[0].production);
-	               $('#date_created').text(response[0].date_created);
-	             	$('#tbl_purchasing_modal > tbody:last-child').empty();
-	             	$('#tbl_purchasing_estimate > tbody:last-child').empty();
+	  		     $('#joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
+	  		     $('.title').text(response.title);
+	  		     $('.color').text(response.c_name);
+	  		     $('.requestor').text(response.production);
+	               $('.date_created').text(response.date_created);
+	               $('.image-view').css('background-image','url('+baseURL+'assets/images/design/project_request/images/'+response.image+')');
 
-	             	$('.btn-change').attr('data-action','view');
+	               let TableURL = baseURL + 'modal_controller/Modal_Purchase_Request_List_View';
+				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'remarks', className: "text-center"}];
+				_DataTableLoader1('tbl_purchasing_modal',TableURL,TableData,response.production_no);
+
+				let TableURL1 = baseURL + 'modal_controller/Modal_Purchase_Request_Estimate_View';
+				let TableData1 = [{data:'item'},{data:'quantity',className: "text-center"},{data:'input', className: "text-center"}];
+				_DataTableLoader1('tbl_purchasing_estimate',TableURL1,TableData1,response.production_no);
+				$('.btn-change').attr('data-action','view');
 	             	$('.btn-change').html('Generate Cost Estimate <i class="flaticon2-fast-next blink_me"></i>');
 	             	$('.btn-submit').addClass('d-none').removeAttr('id');
 	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
-				$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
-	             	for(var i=0;i<response.length;i++){
-	             		_initCurrency_format('.text-amount'+i);
-	             		var remarks = "";
-	             		if(response[i].remarks){remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'+response[i].remarks+'">Remarks</a>)';}
-	        			$('#tbl_purchasing_modal > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder">'
-					+'<td class="align-middle pl-0">'+response[i].item+' </td>'
-					+'<td class="align-middle text-center text-success">'+response[i].balance+' '+response[i].unit+'</td>'
-					+'<td class="align-middle text-center text-success">'+remarks+'</td>'
-					+'</tr>');
+	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
+				$('[data-toggle="tooltip"]').tooltip();
 
-					$('#tbl_purchasing_estimate > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder">\
-					<td class="align-middle pl-0 td-id" data-id="'+response[i].id+'" data-count="'+i+'">'+response[i].item+' </td>\
-					<td class="align-middle text-center">'+response[i].balance+' '+response[i].unit+'</td>\
-					<td class="align-middle text-center" width="200"><input type="text" class="form-control form-control-solid form-control-sm text-center td-amount text-amount'+i+'" placeholder="Input Estimate Amount....."/></td>\
-					</tr>');
-				 }
-				 $('[data-toggle="tooltip"]').tooltip();
 	  		}
 	  		break;
 	  	}
 	  	case "Modal_Purchase_Stocks_Inprogress_View":{
 	  		if(!response == false){
-	  			_initCurrency_format('.text-amount-process');
-	  			$('#joborder').attr('data-id',response[0].production_no).text('JOB ORDER: '+response[0].production_no);
-	  		     $('#title_inprocess').text('ITEM: '+response[0].title+' ('+response[0].c_name+')');
-	  		     $('#requestor_inprocess').text('REQUESTOR: '+response[0].requestor);
-	               $('#date_created_inprocess').text(response[0].date_created);
-	             	$('#tbl_purchasing_inprogress_modal > tbody:last-child').empty();
-	             	$('.btn-change-process').attr('data-action','view');
+	               $('.joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
+	  		     $('.title').text(response.title);
+	  		     $('.color').text(response.c_name);
+	  		     $('.requestor').text(response.production);
+	               $('.date_created').text(response.date_created);
+	               $('.image-view').css('background-image','url('+baseURL+'assets/images/design/project_request/images/'+response.image+')');
+	               $('.btn-change-process').attr('data-action','view');
 	             	$('.btn-change-process').html('Inbound Item <i class="flaticon2-fast-next blink_me"></i>');
 	             	$('.btn-submit-process').addClass('d-none').removeAttr('id');
 	             	$('#view-details').removeClass('d-none');
 				$('#view-purchased').addClass('d-none');
-				$('#tbl_purchasing_process > tbody:last-child').empty();	
-	             	for(var i=0;i<response.length;i++){
-	             		if(response[i].remarks){remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'+response[i].remarks+'">Remarks</a>)';}
-	        			$('#tbl_purchasing_inprogress_modal > tbody:last-child').append('<tr>\
-						<td class="align-middle pl-0">'+response[i].item+' </td>\
-						<td class="align-middle text-center text-success pr-0">'+response[i].balance+' '+response[i].unit+'</td>\
-						<td class="align-middle text-center text-success">'+remarks+'</td>\
-					</tr>');
-					$('#select-material').append('<option value="'+response[i].id+'">'+response[i].item+'</option>');
-					$('#select-material').addClass('selectpicker');
-					$('#select-material').attr('data-live-search', 'true');
-					$('#select-material').selectpicker('refresh');
-				 }
-				   $('[data-toggle="tooltip"]').tooltip();
-				 if(response[0].status_request == 0){
-				 	$('.btn-hide').show();
-				 }else{
-				 	$('.btn-hide').hide();
-				 }
+
+	               let TableURL = baseURL + 'modal_controller/Modal_Purchase_Inprogress_View';
+				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'amount'},{data:'remarks', className: "text-center"}];
+				_DataTableLoader1('tbl_purchasing_inprogress_modal',TableURL,TableData,response.fund_no);
+
+	             	
+
+				// $('#tbl_purchasing_process > tbody:last-child').empty();
+
+	    //          	for(var i=0;i<response.length;i++){
+	    //          		if(response[i].remarks){remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'+response[i].remarks+'">Remarks</a>)';}
+	    //     			$('#tbl_purchasing_inprogress_modal > tbody:last-child').append('<tr>\
+					// 	<td class="align-middle pl-0">'+response[i].item+' </td>\
+					// 	<td class="align-middle text-center text-success pr-0">'+response[i].balance+' '+response[i].unit+'</td>\
+					// 	<td class="align-middle text-center text-success">'+remarks+'</td>\
+					// </tr>');
+					// $('#select-material').append('<option value="'+response[i].id+'">'+response[i].item+'</option>');
+					// $('#select-material').addClass('selectpicker');
+					// $('#select-material').attr('data-live-search', 'true');
+					// $('#select-material').selectpicker('refresh');
+				 // }
+				 //   $('[data-toggle="tooltip"]').tooltip();
+				 // if(response[0].status_request == 0){
+				 // 	$('.btn-hide').show();
+				 // }else{
+				 // 	$('.btn-hide').hide();
+				 // }
 				
 	  		}
 	  		break;
@@ -3560,26 +3564,6 @@ var arrows;var item_v;var price;var special_option;
 	  	}
 
 	  	//Reviewer
-	     case "View_Supplier_Data":{
-	  		if(!response == false){
-	  			$('#supplier_name').text(response.name);
-	  			$('#status').text(response.status);
-	  			$('#email').text(response.email);
-	  			$('#mobile').text(response.mobile);
-	  			$('#facebook').text(response.facebook);
-	  			$('#address').text(response.address);
-	  			$('#website').text(response.website);
-
-	  			$('input[name=name]').val(response.name);
-	  			$('select[name=s_status]').val(response.status).change();
-	  			$('input[name=email]').val(response.email);
-	  			$('input[name=mobile]').val(response.mobile);
-	  			$('input[name=facebook]').val(response.facebook);
-	  			$('input[name=address]').val(response.address);
-	  			$('input[name=website]').val(response.website);
-	  		}
-	  		break;
-	  	}
 	  	case "View_Profile":{
 	  		if(!response == false){
 	  			 _initAvatar('avatar');	
@@ -5964,6 +5948,31 @@ var arrows;var item_v;var price;var special_option;
                }
 	  		break;
 	  	}
+	  	case "Modal_Supplier_View":{
+	  		_initCurrency_format('.amount');
+	  		$('.name').text(response.name).attr('data-id',response.id);
+	  		$('.mobile').text(response.mobile);
+	  		$('.email').text(response.email);
+	  		$('.address').text(response.address);
+	  		$('input[name=name]').val(response.name);
+	  		$('input[name=mobile]').val(response.mobile);
+	  		$('input[name=email]').val(response.email);
+	  		$('input[name=address]').val(response.address);
+
+	  		$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response.image+')');
+	  		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
+			let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
+			_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response.id);
+	  		break;
+	  	}
+	  	case "Modal_Supplier_Item_Update_View":{
+	  		_initCurrency_format('.amount');
+	  		$('select[name=item]').val(response.item_no).change();
+	  		$('select[name=item]').attr('data-id',response.id);
+	  		$('input[name=amount]').val(response.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	  		break;
+	  	}
+
 	  }
 	}
 	return {
