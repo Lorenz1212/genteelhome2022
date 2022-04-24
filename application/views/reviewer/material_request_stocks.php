@@ -124,7 +124,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12" style="height: 300px;">
 									<table class="table table-hover" id="tbl_material_request_stocks_modal">
 						              			<thead>
 												<tr class="table-primary">
@@ -137,7 +137,7 @@
 										</tbody>
 									</table>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-12" style="height: 300px;">
 									<table class="table table-hover" id="tbl_material_accept">
 						              			<thead>
 												<tr class="table-primary">
