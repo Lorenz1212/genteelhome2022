@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
-    <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/logo/logo.jpg" />
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/logo.png') ?>" />
     <!--Title-->
     <title>Official Genteel Home - Furniture + Boutique + Lifestyle</title>
     <!--CSS bundle -->
