@@ -4,14 +4,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Company Info</h2>
-					<div class="d-flex align-items-center font-weight-bold my-2">
-						<a href="#" class="opacity-75 hover-opacity-100">
-							<i class="flaticon2-shelter text-white icon-1x"></i>
-						</a>
-						<span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
-						<a href="" class="text-white text-hover-white opacity-75 hover-opacity-100">Set Up</a>
-					</div>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Company Information</h2>
 				</div>
 			</div>
 		</div>
@@ -51,7 +44,7 @@
 								 <form class="form" data-link="Create_Company_Profile" enctype="multipart/form-data" accept-charset="utf-8">
 					            	<div class="row justify-content-center">
 										<div class="col-xl-6 col-xxl-6">
-								        	<div class="row">
+<!-- 								        	<div class="row">
 												<div class="col-lg-3 col-xl-3">
 													<div class="form-group">
 														<label>Logo</label>
@@ -76,7 +69,7 @@
 													    </div>
 												   </div>
 											  	</div>
-											</div>
+											</div> -->
 											<div class="row">
 												<div class="col-lg-12 col-xl-12">
 													<div class="form-group">

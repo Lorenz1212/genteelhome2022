@@ -14,10 +14,10 @@
                         <!-- === product gallery === -->
 
                        <div class="owl-product-gallery">
-                             <img id="image1" alt="" width="640" />
-                             <img id="image2" alt="" width="640" />
-                             <img id="image3" alt="" width="640" />
-                             <img id="image4" alt="" width="640" />
+                             <img id="image1" alt="" width="340" />
+                             <img id="image2" alt="" width="340" />
+                             <img id="image3" alt="" width="340" />
+                             <img id="image4" alt="" width="340" />
                         </div>
                             
                             

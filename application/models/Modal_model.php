@@ -321,7 +321,7 @@ class Modal_model extends CI_Model{
     }
 
      function Modal_Purchase_Stocks_Request_View($id){
-         $row =  $this->db->select('d.*,c.*,p.production_no,
+         $row =  $this->db->select('d.*,c.*,p.production_no
             CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
          ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->WHERE('p.production_no',$id)->get()->row(); 
         return $row;
@@ -360,7 +360,7 @@ class Modal_model extends CI_Model{
      }
 
      function Modal_Purchase_Stocks_Inprogress_View($id){
-        $row =  $this->db->select('d.*,c.*,p.production_no,pr.fund_no,
+        $row =  $this->db->select('d.*,c.*,p.production_no,pr.fund_no,pr.status,
             CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
          ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')
          ->join('tbl_users as u','u.id=p.assigned','LEFT')

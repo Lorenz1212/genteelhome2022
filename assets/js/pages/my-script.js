@@ -532,19 +532,6 @@ var arrows;var item_v;var price;var special_option;
 				$('.total_request').text(response.total_request);
 				break;
 			}
-			case "Purchased_Item":{
-				if(response.terms == 1){var terms = 'CASH';}else{var terms = 'TERMS';}
-				$('#tbl_purchasing_process > tbody:last-child').append('<tr>\
-				<td class="align-middle td-item" data-prid="'+response.data.item.id+'" data-item="'+response.data.item.item_id+'">'+response.data.item.item+'</td>\
-				<td class="align-middle text-right td-supplier" data-supplier="'+response.data.supplier.id+'">'+response.data.supplier.name+'</td>\
-				<td class="align-middle text-right td-terms" data-terms="'+response.terms+'">'+terms+'</td>\
-				<td class="align-middle text-center td-quantity" data-qty="'+response.quantity+'">'+response.quantity+'</td>\
-				<td class="align-middle text-right td-amount-process" data-amount="'+response.amount+'">'+response.amount+'</td>\
-				<td class="align-middle text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-circle btn-sm"><i class="la la-times"></i></button></td>\
-						</tr>');	
-				_initremovetable('#tbl_purchasing_process');
-				break;
-			}
 			case "pallet-color":{
 				if(!response == false){
                   	    $('#c_code').empty();
@@ -754,6 +741,35 @@ var arrows;var item_v;var price;var special_option;
 				</tr>');
 				_initremovetable('#kt_purchased_table');		
 			   break;
+			}
+			case "purchase_product":{
+				 $('#item').empty();
+				 $('#item').append('<option value="">SELECT MATERIAL</option>');
+				if(response !=false){
+					for(let i=0;i<response.length;i++){
+                  	  	  $('#item').append('<option value="'+response[i].id+'">'+response[i].item+'</option>');
+                  	  	  $('#item').addClass('selectpicker');
+					  $('#item').attr('data-live-search', 'true');
+					  $('#item').selectpicker('refresh');
+                  	  }	
+				}else{
+					$('#item').append('<option value="">No Data Available</option>');
+				}
+				break;
+			}
+			case "supplier_list":{
+				$('#supplier').empty();
+				if(response !=false){
+					for(let i=0;i<response.length;i++){
+                  	  	  $('#supplier').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+                  	  	  $('#supplier').addClass('selectpicker');
+					  $('#supplier').attr('data-live-search', 'true');
+					  $('#supplier').selectpicker('refresh');
+                  	  }	
+				}else{
+					$('#supplier').append('<option value="">No Data Available</option>');
+				}
+				break;
 			}
 			
 		}
@@ -1945,23 +1961,7 @@ var arrows;var item_v;var price;var special_option;
 						 	$('#view-purchased').addClass('d-none');	
 					 	}
 					 }); 
-					 $(document).on('click','.btn-add',function(e){
-					 	e.preventDefault();
-					 	e.stopPropagation();
-					 	let item = $('select[name="item"]').val();
-					 	let supplier = $('select[name=supplier]').val();
-					 	let terms = $('select[name=terms]').val();
-					 	let amount = $('input[name=amount_process]').val();
-					 	let quantity = $('input[name=quantity]').val();
-					 	if(!quantity || !amount){
-					 		Swal.fire("Warning!", "Please Enter Quantity and Amount!", "warning");
-					 	}else{
-					 		let val = {item:item,quantity:quantity,terms:terms,amount:amount,supplier:supplier};
-					 		_ajaxloaderOption('option_controller/Purchased_Item','POST',val,'Purchased_Item');
-					 		$('input[name=amount_process]').val("");
-					 		$('input[name=quantity]').val("");
-					 	}
-					 });
+					
 				})
 				break;
 			}
@@ -2036,7 +2036,6 @@ var arrows;var item_v;var price;var special_option;
 			case "data-supplier":{
 				 $(document).ready(function() {
 				 	_initItem_option();
-
 					_initCurrency_format("#price");
 					$(document).on("click","#form-request",function() {
 						let thisUrl = 'modal_controller/Modal_Supplier_View';
@@ -2919,6 +2918,7 @@ var arrows;var item_v;var price;var special_option;
 				let TableURL1 = baseURL + 'modal_controller/Modal_Purchase_Request_Estimate_View';
 				let TableData1 = [{data:'item'},{data:'quantity',className: "text-center"},{data:'input', className: "text-center"}];
 				_DataTableLoader1('tbl_purchasing_estimate',TableURL1,TableData1,response.production_no);
+
 				$('.btn-change').attr('data-action','view');
 	             	$('.btn-change').html('Generate Cost Estimate <i class="flaticon2-fast-next blink_me"></i>');
 	             	$('.btn-submit').addClass('d-none').removeAttr('id');
@@ -2942,34 +2942,52 @@ var arrows;var item_v;var price;var special_option;
 	             	$('.btn-submit-process').addClass('d-none').removeAttr('id');
 	             	$('#view-details').removeClass('d-none');
 				$('#view-purchased').addClass('d-none');
-
+				$('[data-toggle="tooltip"]').tooltip();
+				 $('.btn-hide').hide();
+				 if(response.status == 4){
+				 	$('.btn-hide').show();
+				 }
 	               let TableURL = baseURL + 'modal_controller/Modal_Purchase_Inprogress_View';
 				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'amount'},{data:'remarks', className: "text-center"}];
 				_DataTableLoader1('tbl_purchasing_inprogress_modal',TableURL,TableData,response.fund_no);
 
-	             	
+	             	_ajaxloaderOption('option_controller/purchase_product','POST',{id:response.fund_no},'purchase_product');
+	             	 $(document).on('change','select[name=item]',function(e){
+	             	 	e.preventDefault();
+	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val()},'supplier_list');
+	             	 });
 
-				// $('#tbl_purchasing_process > tbody:last-child').empty();
+				 
 
-	    //          	for(var i=0;i<response.length;i++){
-	    //          		if(response[i].remarks){remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'+response[i].remarks+'">Remarks</a>)';}
-	    //     			$('#tbl_purchasing_inprogress_modal > tbody:last-child').append('<tr>\
-					// 	<td class="align-middle pl-0">'+response[i].item+' </td>\
-					// 	<td class="align-middle text-center text-success pr-0">'+response[i].balance+' '+response[i].unit+'</td>\
-					// 	<td class="align-middle text-center text-success">'+remarks+'</td>\
-					// </tr>');
-					// $('#select-material').append('<option value="'+response[i].id+'">'+response[i].item+'</option>');
-					// $('#select-material').addClass('selectpicker');
-					// $('#select-material').attr('data-live-search', 'true');
-					// $('#select-material').selectpicker('refresh');
-				 // }
-				 //   $('[data-toggle="tooltip"]').tooltip();
-				 // if(response[0].status_request == 0){
-				 // 	$('.btn-hide').show();
-				 // }else{
-				 // 	$('.btn-hide').hide();
-				 // }
-				
+				  $(document).on('click','.btn-add',function(e){
+				 	e.preventDefault();
+				 	e.stopPropagation();
+				 	let item_id = $('select[name="item"]').val();
+				 	let item_name = $("select[name=item] option:selected" ).text();
+				 	let supplier_id = $('select[name=supplier]').val();
+				 	let supplier_name = $("select[name=supplier] option:selected" ).text();
+				 	let terms = $('select[name=terms]').val();
+				 	let amount = $('input[name=amount_process]').val();
+				 	let quantity = $('input[name=quantity]').val();
+				 	if(!quantity || !amount){
+				 		Swal.fire("Warning!", "Please Enter Quantity and Amount!", "warning");
+				 	}else{
+				 		let terms_name = 'TERMS';
+				 		if(terms == 1){terms_name = 'CASH';};
+						$('#tbl_purchasing_process > tbody').append('<tr>\
+						<td class="td-item" data-id="'+item_id+'">'+item_name+'</td>\
+						<td class="text-left td-supplier" data-id="'+supplier_id+'">'+supplier_name+'</td>\
+						<td class="text-left td-terms" data-terms="'+terms+'">'+terms_name+'</td>\
+						<td class="text-center td-quantity">'+quantity+'</td>\
+						<td class="text-right td-amount">'+amount+'</td>\
+						<td class="text-center">\
+						<button type="button" id="DeleteButton" class="btn btn btn-light-danger font-weight-bold btn-icon btn-shadow btn-xs btn-status" data-container="body" data-theme="dark" data-toggle="tooltip" data-placement="top" title="Remove item" data-original-title="Remove Item"><i class="flaticon2-trash"></i></button>\
+						</td>\
+								</tr>');	
+						_initremovetable('#tbl_purchasing_process');	
+				 	}
+				 });
+				$('[data-toggle="tooltip"]').tooltip();
 	  		}
 	  		break;
 	  	}

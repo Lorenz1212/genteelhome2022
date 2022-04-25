@@ -17,7 +17,7 @@
 				<div class="container">
 					<!--begin::Row-->
 					<div class="row">
-						<div class="col-xl-12">
+						<div class="col-xl-12 col-xxl-12 col-md-12">
 							<!--begin::Nav Panel Widget 1-->
 							<div class="card card-custom gutter-b">
 									  <div class="card-header card-header-tabs-line">
@@ -55,9 +55,9 @@
 									
 									<!--end::Nav Tabs-->
 									<!--begin::Nav Content-->
-									<div class="tab-content m-0 p-10">
+									<div class="tab-content">
 										<div class="tab-pane active" id="request" role="tabpanel">
-											<table class="table table-bordered table-hover table-checkable link" id="tbl_purchase_request" data-link="tbl_purchase_request_stocks" style="margin-top: 13px !important">
+											<table class="table table-bordered table-hover link" id="tbl_purchase_request" data-link="tbl_purchase_request_stocks" >
 												<thead>
 													<tr>
 														<th>NO</th>
@@ -72,7 +72,7 @@
 											</table>
 										</div>
 										<div class="tab-pane" id="inprogress" role="tabpanel">
-											<table class="table table-bordered table-hover table-checkable" id="tbl_purchase_request_inprogress" style="margin-top: 13px !important">
+											<table class="table table-bordered table-hover " id="tbl_purchase_request_inprogress" >
 												<thead>
 													<tr>
 														<th>NO</th>
@@ -87,7 +87,7 @@
 											</table>
 										</div>
 										<div class="tab-pane" id="complete" role="tabpanel">
-											<table class="table table-bordered table-hover table-checkable" id="tbl_purchase_request_complete" style="margin-top: 13px !important">
+											<table class="table table-bordered table-hover table-checkable" id="tbl_purchase_request_complete">
 												<thead>
 													<tr>
 														<th>NO</th>
@@ -245,20 +245,14 @@
 												<div class="col-xl-3 col-xxl-3 col-md-3">
 													<div class="form-group">
 														<label>Purchased Item</label>
-														<select class="form-control form-control-solid" id="select-material" name="item">
+														<select class="form-control form-control-solid" id="item" name="item">
 														</select>
 													</div>
 												</div>
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
 														<label>Supplier</label>
-														<select class="form-control form-control-solid" name="supplier">
-														<?php 
-															$query = $this->db->select('*')->from('tbl_supplier')->where('status',1)->get();
-															foreach($query->result() as $row){
-																echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->name.'</option>';
-															}
-														?>
+														<select class="form-control" id="supplier" name="supplier">
 														</select>
 													</div>
 												</div>
