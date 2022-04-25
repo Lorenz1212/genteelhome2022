@@ -524,7 +524,7 @@ var KTAjaxClient = function() {
 					_ajaxloader(thisUrl,"POST",val,false);
 				});
 			}
-	  		$('#logo').attr('src',baseURL+'assets/images/logo/'+response.row.logo);
+	  		
 	  		
 	  		$('#facebook').attr('href',response.row.facebook);
 	  		$('#youtube').attr('href',response.row.youtube);
@@ -1405,6 +1405,7 @@ var KTAjaxClient = function() {
 
 		//main function to initiate the module
 		init: function() {
+			$('#logo').attr('src',baseURL+'assets/images/logo/logo2.png');
 			var viewForm = $('#kt_content').attr('data-table');
 			_ViewController(viewForm);
 			_initView();
