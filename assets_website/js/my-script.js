@@ -1405,7 +1405,7 @@ var KTAjaxClient = function() {
 
 		//main function to initiate the module
 		init: function() {
-			$('#logo').attr('src',baseURL+'assets/images/logo/logo2.png');
+			// $('#logo').attr('src',baseURL+'assets/images/logo/logo2.png');
 			var viewForm = $('#kt_content').attr('data-table');
 			_ViewController(viewForm);
 			_initView();
