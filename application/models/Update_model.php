@@ -1271,7 +1271,7 @@ class Update_model extends CI_Model
     function Update_Purchase_Stocks_Estimate($user_id,$id,$amount,$type){
         $pr_id = array_map('intval', explode(',', $id));
         $amounts = explode(',',$amount);
-        $value = 'RPR'.date('YmdHis');
+        $value = 'TN'.date('YmdHis');
         for($i=0;$i<count($pr_id);$i++){
             $data = array('fund_no'=> $value,
                           'purchaser'=>$user_id,

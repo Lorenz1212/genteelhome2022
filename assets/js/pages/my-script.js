@@ -2944,15 +2944,46 @@ var arrows;var item_v;var price;var special_option;
 	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
 	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
 				$('[data-toggle="tooltip"]').tooltip();
-
 	  		}
 	  		break;
 	  	}
 	  	case "Modal_Purchase_Stocks_Inprogress_View":{
 	  		if(!response == false){
-	  		     $('#joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
+	               $('.joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
+	               $('.fund_no').text('Trans #: '+response.fund_no).attr('data-id',response.fund_no);;
 	  		     $('.title').text(response.title);
 	  		     $('.color').text(response.c_name);
+	  		     $('.requestor').text(response.production);
+	               $('.date_created').text(response.date_created);
+	               $('.image-view').css('background-image','url('+baseURL+'assets/images/design/project_request/images/'+response.image+')');
+	               $('.btn-change-process').attr('data-action','view');
+	             	$('.btn-change-process').html('Inbound Item <i class="flaticon2-fast-next blink_me"></i>');
+	             	$('.btn-submit-process').addClass('d-none').removeAttr('id');
+	             	$('#view-details').removeClass('d-none');
+				$('#view-purchased').addClass('d-none');
+				$('[data-toggle="tooltip"]').tooltip();
+				 $('.btn-hide').hide();
+				 if(response.status == 4){
+				 	$('.btn-hide').show();
+				 }
+	               let TableURL = baseURL + 'modal_controller/Modal_Purchase_Inprogress_View';
+				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'amount'},{data:'remarks', className: "text-center"}];
+				_DataTableLoader1('tbl_purchasing_inprogress_modal',TableURL,TableData,response.fund_no);
+	             	_ajaxloaderOption('option_controller/purchase_product','POST',{id:response.fund_no},'purchase_product');
+	             	 $(document).on('change','select[name=item]',function(e){
+	             	 	e.preventDefault();
+	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val()},'supplier_list');
+	             	 });
+	             	 _ajaxloaderOption('option_controller/purchase_transaction','POST',{id:response.fund_no},'purchase_transaction');
+				$('[data-toggle="tooltip"]').tooltip();
+				_initCurrency_format('.amount');
+	  		}
+	  		break;
+	  	}
+	  	case "Modal_Purchase_Project_Request_View":{
+	  		if(!response == false){
+	  		     $('#joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
+	  		     $('.title').text(response.title);
 	  		     $('.requestor').text(response.production);
 	               $('.date_created').text(response.date_created);
 	               $('.image-view').css('background-image','url('+baseURL+'assets/images/design/project_request/images/'+response.image+')');
@@ -2971,48 +3002,13 @@ var arrows;var item_v;var price;var special_option;
 	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
 	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
 				$('[data-toggle="tooltip"]').tooltip();
-
-	  		}
-	  		break;
-	  	}
-	  	case "Modal_Purchase_Project_Request_View":{
-	  		if(!response == false){
-	  		     $('#production_no').attr('data-id',response[0].production_no).text('JOB ORDER: '+response[0].production_no);
-	  		     $('#title').text('ITEM: '+response[0].title);
-	  		     $('#requestor').text('REQUESTOR: '+response[0].production);
-	               $('#date_created').text(response[0].date_created);
-	             	$('#tbl_purchasing_modal > tbody:last-child').empty();
-	             	$('#tbl_purchasing_estimate > tbody:last-child').empty();
-
-	             	$('.btn-change').attr('data-action','view');
-	             	$('.btn-change').html('Generate Cost Estimate <i class="flaticon2-fast-next blink_me"></i>');
-	             	$('.btn-submit').addClass('d-none').removeAttr('id');
-	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
-				$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
-	             	for(var i=0;i<response.length;i++){
-	             		_initCurrency_format('.text-amount'+i);
-	             		var remarks = "";
-	             		if(response[i].remarks){remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'+response[i].remarks+'">Remarks</a>)';}
-	        			$('#tbl_purchasing_modal > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder">'
-					+'<td class="align-middle pl-0">'+response[i].item+' </td>'
-					+'<td class="align-middle text-center text-success">'+response[i].balance+' '+response[i].unit+'</td>'
-					+'<td class="align-middle text-center text-success">'+remarks+'</td>'
-					+'</tr>');
-
-					$('#tbl_purchasing_estimate > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder">\
-					<td class="align-middle pl-0 td-id" data-id="'+response[i].id+'" data-count="'+i+'">'+response[i].item+' </td>\
-					<td class="align-middle text-center">'+response[i].balance+' '+response[i].unit+'</td>\
-					<td class="align-middle text-center" width="200"><input type="text" class="form-control form-control-solid form-control-sm text-center td-amount text-amount'+i+'" placeholder="Input Estimate Amount....."/></td>\
-					</tr>');
-				 }
-				 $('[data-toggle="tooltip"]').tooltip();
 	  		}
 	  		break;
 	  	}
 	  	case "Modal_Purchase_Project_Inprogress_View":{
 	  		if(!response == false){
 	               $('.joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
-	               $('.fund_no').text('T.N: '+response.fund_no).attr('data-id',response.fund_no);;
+	               $('.fund_no').text('Trans #: '+response.fund_no).attr('data-id',response.fund_no);;
 	  		     $('.title').text(response.title);
 	  		     $('.requestor').text(response.production);
 	               $('.date_created').text(response.date_created);
