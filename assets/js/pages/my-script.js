@@ -744,7 +744,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "purchase_product":{
 				 $('#item').empty();
-				 $('#item').append('<option value="">SELECT MATERIAL</option>');
+				 $('#item').append('<option value="" disabled selected>SELECT MATERIAL</option>');
 				if(response !=false){
 					for(let i=0;i<response.length;i++){
                   	  	  $('#item').append('<option value="'+response[i].id+'">'+response[i].item+'</option>');
@@ -759,6 +759,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "supplier_list":{
 				$('#supplier').empty();
+				$('#supplier').append('<option value="" disabled selected>SELECT SUPPLIER</option>');
 				if(response !=false){
 					for(let i=0;i<response.length;i++){
                   	  	  $('#supplier').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
@@ -768,6 +769,24 @@ var arrows;var item_v;var price;var special_option;
                   	  }	
 				}else{
 					$('#supplier').append('<option value="">No Data Available</option>');
+				}
+				 break;
+			}
+			case "purchase_transaction":{
+				let container = $('#tbl_purchasing_process > tbody');
+				container.empty();
+				if(response != false){
+					for(let i =0;i<response.length;i++){
+						container.append('<tr>\
+							<td>'+response[i].item+'</td>\
+							<td>'+response[i].supplier+'</td>\
+							<td>'+response[i].payment+'</td>\
+							<td class="text-center">'+response[i].quantity+'</td>\
+							<td class="text-right">'+response[i].amount+'</td>\
+							<td class="text-center"><button type="button" class="btn btn-icon btn-light-danger btn-xs btn-delete" data-id="'+response[i].id+'"><i class="flaticon2-trash"></i></button></td>\
+						</tr>');
+					}
+					
 				}
 				break;
 			}
@@ -2931,63 +2950,28 @@ var arrows;var item_v;var price;var special_option;
 	  	}
 	  	case "Modal_Purchase_Stocks_Inprogress_View":{
 	  		if(!response == false){
-	               $('.joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
+	  		     $('#joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
 	  		     $('.title').text(response.title);
 	  		     $('.color').text(response.c_name);
 	  		     $('.requestor').text(response.production);
 	               $('.date_created').text(response.date_created);
 	               $('.image-view').css('background-image','url('+baseURL+'assets/images/design/project_request/images/'+response.image+')');
-	               $('.btn-change-process').attr('data-action','view');
-	             	$('.btn-change-process').html('Inbound Item <i class="flaticon2-fast-next blink_me"></i>');
-	             	$('.btn-submit-process').addClass('d-none').removeAttr('id');
-	             	$('#view-details').removeClass('d-none');
-				$('#view-purchased').addClass('d-none');
+
+	               let TableURL = baseURL + 'modal_controller/Modal_Purchase_Request_List_View';
+				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'remarks', className: "text-center"}];
+				_DataTableLoader1('tbl_purchasing_modal',TableURL,TableData,response.production_no);
+
+				let TableURL1 = baseURL + 'modal_controller/Modal_Purchase_Request_Estimate_View';
+				let TableData1 = [{data:'item'},{data:'quantity',className: "text-center"},{data:'input', className: "text-center"}];
+				_DataTableLoader1('tbl_purchasing_estimate',TableURL1,TableData1,response.production_no);
+
+				$('.btn-change').attr('data-action','view');
+	             	$('.btn-change').html('Generate Cost Estimate <i class="flaticon2-fast-next blink_me"></i>');
+	             	$('.btn-submit').addClass('d-none').removeAttr('id');
+	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
+	             	$('#requestModal > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
 				$('[data-toggle="tooltip"]').tooltip();
-				 $('.btn-hide').hide();
-				 if(response.status == 4){
-				 	$('.btn-hide').show();
-				 }
-	               let TableURL = baseURL + 'modal_controller/Modal_Purchase_Inprogress_View';
-				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'amount'},{data:'remarks', className: "text-center"}];
-				_DataTableLoader1('tbl_purchasing_inprogress_modal',TableURL,TableData,response.fund_no);
 
-	             	_ajaxloaderOption('option_controller/purchase_product','POST',{id:response.fund_no},'purchase_product');
-	             	 $(document).on('change','select[name=item]',function(e){
-	             	 	e.preventDefault();
-	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val()},'supplier_list');
-	             	 });
-
-				 
-
-				  $(document).on('click','.btn-add',function(e){
-				 	e.preventDefault();
-				 	e.stopPropagation();
-				 	let item_id = $('select[name="item"]').val();
-				 	let item_name = $("select[name=item] option:selected" ).text();
-				 	let supplier_id = $('select[name=supplier]').val();
-				 	let supplier_name = $("select[name=supplier] option:selected" ).text();
-				 	let terms = $('select[name=terms]').val();
-				 	let amount = $('input[name=amount_process]').val();
-				 	let quantity = $('input[name=quantity]').val();
-				 	if(!quantity || !amount){
-				 		Swal.fire("Warning!", "Please Enter Quantity and Amount!", "warning");
-				 	}else{
-				 		let terms_name = 'TERMS';
-				 		if(terms == 1){terms_name = 'CASH';};
-						$('#tbl_purchasing_process > tbody').append('<tr>\
-						<td class="td-item" data-id="'+item_id+'">'+item_name+'</td>\
-						<td class="text-left td-supplier" data-id="'+supplier_id+'">'+supplier_name+'</td>\
-						<td class="text-left td-terms" data-terms="'+terms+'">'+terms_name+'</td>\
-						<td class="text-center td-quantity">'+quantity+'</td>\
-						<td class="text-right td-amount">'+amount+'</td>\
-						<td class="text-center">\
-						<button type="button" id="DeleteButton" class="btn btn btn-light-danger font-weight-bold btn-icon btn-shadow btn-xs btn-status" data-container="body" data-theme="dark" data-toggle="tooltip" data-placement="top" title="Remove item" data-original-title="Remove Item"><i class="flaticon2-trash"></i></button>\
-						</td>\
-								</tr>');	
-						_initremovetable('#tbl_purchasing_process');	
-				 	}
-				 });
-				$('[data-toggle="tooltip"]').tooltip();
 	  		}
 	  		break;
 	  	}
@@ -3027,36 +3011,33 @@ var arrows;var item_v;var price;var special_option;
 	  	}
 	  	case "Modal_Purchase_Project_Inprogress_View":{
 	  		if(!response == false){
-	  			_initCurrency_format('.text-amount-process');
-	  			$('#joborder').attr('data-id',response[0].production_no).text('JOB ORDER: '+response[0].production_no);
-	  		     $('#title_inprocess').text('ITEM: '+response[0].title);
-	  		     $('#requestor_inprocess').text('REQUESTOR: '+response[0].requestor);
-	               $('#date_created_inprocess').text(response[0].date_created);
-	             	$('#tbl_purchasing_inprogress_modal > tbody:last-child').empty();
-	             	$('.btn-change-process').attr('data-action','view');
+	               $('.joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
+	               $('.fund_no').text('T.N: '+response.fund_no).attr('data-id',response.fund_no);;
+	  		     $('.title').text(response.title);
+	  		     $('.requestor').text(response.production);
+	               $('.date_created').text(response.date_created);
+	               $('.image-view').css('background-image','url('+baseURL+'assets/images/design/project_request/images/'+response.image+')');
+	               $('.btn-change-process').attr('data-action','view');
 	             	$('.btn-change-process').html('Inbound Item <i class="flaticon2-fast-next blink_me"></i>');
 	             	$('.btn-submit-process').addClass('d-none').removeAttr('id');
 	             	$('#view-details').removeClass('d-none');
 				$('#view-purchased').addClass('d-none');
-				$('#tbl_purchasing_process > tbody:last-child').empty();	
-	             	for(var i=0;i<response.length;i++){
-	             		if(response[i].remarks){remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'+response[i].remarks+'">Remarks</a>)';}
-	        			$('#tbl_purchasing_inprogress_modal > tbody:last-child').append('<tr>\
-						<td class="align-middle pl-0">'+response[i].item+' </td>\
-						<td class="align-middle text-center text-success pr-0">'+response[i].balance+' '+response[i].unit+'</td>\
-						<td class="align-middle text-center text-success">'+remarks+'</td>\
-					</tr>');
-					$('#select-material').append('<option value="'+response[i].id+'">'+response[i].item+'</option>');
-					$('#select-material').addClass('selectpicker');
-					$('#select-material').attr('data-live-search', 'true');
-					$('#select-material').selectpicker('refresh');
-				 }
-				   $('[data-toggle="tooltip"]').tooltip();
-				 if(response[0].status_request == 0){
+				$('[data-toggle="tooltip"]').tooltip();
+				 $('.btn-hide').hide();
+				 if(response.status == 4){
 				 	$('.btn-hide').show();
-				 }else{
-				 	$('.btn-hide').hide();
 				 }
+	               let TableURL = baseURL + 'modal_controller/Modal_Purchase_Inprogress_View';
+				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'amount'},{data:'remarks', className: "text-center"}];
+				_DataTableLoader1('tbl_purchasing_inprogress_modal',TableURL,TableData,response.fund_no);
+	             	_ajaxloaderOption('option_controller/purchase_product','POST',{id:response.fund_no},'purchase_product');
+	             	 $(document).on('change','select[name=item]',function(e){
+	             	 	e.preventDefault();
+	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val()},'supplier_list');
+	             	 });
+	             	 _ajaxloaderOption('option_controller/purchase_transaction','POST',{id:response.fund_no},'purchase_transaction');
+				$('[data-toggle="tooltip"]').tooltip();
+				_initCurrency_format('.amount');
 	  		}
 	  		break;
 	  	}

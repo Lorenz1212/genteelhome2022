@@ -1616,5 +1616,32 @@ class Update_model extends CI_Model
         }
     }
 
+    function Update_Purchased_Transaction($fund_no,$item,$supplier,$terms,$quantity,$amount){
+        $rows = $this->db->select('*')->from('tbl_purchase_transactions')->where('fund_no',$fund_no)->where('item_no',$item)->where('supplier',$supplier)->get()->row();
+        if($rows){
+            $this->db->where('id',$rows->id);
+            $this->db->update('tbl_purchase_transactions',array('payment'=>$terms,'quantity'=>$quantity,'amount'=>$amount,'latest_update'=>date('Y-m-d H:i:s')));
+            $status = 'Save changes';
+        }else{
+            $this->db->insert('tbl_purchase_transactions',array('fund_no'=>$fund_no,'item_no'=>$item,'supplier'=>$supplier,'payment'=>$terms,'quantity'=>$quantity,'amount'=>$amount,'latest_update'=>date('Y-m-d H:i:s')));
+            $status = 'Create Successfully';
+        }
+         $data = false;
+       $query = $this->db->select('*,s.name,m.item,m.unit,t.payment,t.quantity,t.id')->from('tbl_purchase_transactions as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->join('tbl_materials as m','m.id=t.item_no')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
+        if($query){
+             foreach($query->result() as $row){
+                 ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                 ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
+                     $data[] = array('id'=>$row->id,
+                                     'item'=> $row->item.' '.$unit,
+                                     'supplier'=>$row->name,
+                                     'payment'=>$terms,
+                                     'quantity'=>$row->quantity,
+                                     'amount'=>number_format($row->amount,2));
+               } 
+           }
+        return array('type'=>'success','status'=>$status,'row'=>$data);
+    }
+
 }
 ?>

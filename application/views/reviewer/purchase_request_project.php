@@ -119,144 +119,149 @@
 <!-- Modal-->
 <<!-- Modal-->
 <div class="modal fade" id="requestModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-        	 <div class="modal-header">
-                <h5 class="modal-title" id="production_no"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
             <div class="modal-body">
-            	<div class="row justify-content-center py-5 px-5 py-md-5 px-md-0">
-								<div class="col-md-12">
-									<div class="d-flex justify-content-between align-items-center flex-column flex-md-row">
-										<div class="d-flex flex-column px-0 order-2 order-md-1 align-items-center align-items-md-start">
-											<span class="d-flex flex-column font-size-h5 font-weight-bold text-muted align-items-center align-items-md-start">
-												<span id="title"></span>
-												<span id="date_created"></span>
-												<span id="requestor"></span>
-											</span>
+            	<div class="row d-flex justify-content-between">
+						<div class="col-md-6">
+							<!--begin::Card-->
+								<div class="card card-custom gutter-b bg-dark">
+									<!--begin::Body-->
+									<div class="card-body pt-3">
+										<!--begin::User-->
+										<div class="d-flex align-items-center mt-5">
+											<div class="symbol symbol-60 symbol-xl-100 mr-5 align-self-start align-self-xxl-center">
+												<div class="symbol-label image-view" style="background-image:url('assets/media/users/300_13.jpg')"></div>
+											</div>
+											<div>
+												<span class="font-weight-bold font-size-h5 text-white text-hover-primary title"></span>
+												<div class="font-weight-bold font-size-h5 text-white text-hover-primary color"></div>
+												<div class="text-muted requestor" id="requestor"></div>
+												<div class="text-muted date_created" id="date_created"></div>
+												<div class="text-white text-hover-primary " id="joborder"></div>
+											</div>
 										</div>
-										<h1 class="display-3 font-weight-boldest order-1 order-md-2 mb-5 mb-md-0"><span id="status"></span></h1>
+										<!--end::User-->
 									</div>
+									<!--end::Body-->
 								</div>
 							</div>
-						<div class="row justify-content-center">
+							<div class="col-md-6" >
+								<button type="button" class="close" style="float: right" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+							</div>
+						</div>
+						<div class="row justify-content-center" style="height: 300px;">
 							<div class="col-md-12">
-								<div data-scroll="true" data-height="300">
-									<div class="table-responsive">
-										<table class="table" id="tbl_purchasing_modal">
-											<thead>
-												<tr class="font-weight-boldest h-65px">
-													<th class="align-middle font-size-h4 pl-0 ">MATERIAL</th>
-													<th class="align-middle font-size-h4 text-center">QUANTITY</th>
-													<th class="align-middle font-size-h4 text-center">REMARKS</th>
-												</tr>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>
-									</div>
+									<table class="table" id="tbl_purchasing_modal">
+										<thead>
+											<tr class="table-primary">
+												<th>MATERIAL</th>
+												<th class="text-center">QUANTITY</th>
+												<th class="text-center">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
 								</div>
-								</div>
-								<div class="col-md-12 d-none">
-									<div data-scroll="true" data-height="300">
-									<div class="table-responsive">
+								<div class="col-md-12 d-none" style="height: 300px;">
 										<table class="table" id="tbl_purchasing_estimate">
 											<thead>
-												<tr class="font-weight-boldest h-65px">
-													<th class="align-middle font-size-h4 pl-0 ">MATERIAL</th>
-													<th class="align-middle font-size-h4 text-center">QUANTITY</th>
-													<th class="align-middle font-size-h4 text-center">AMOUNT</th>
+												<tr class="table-primary">
+													<th>MATERIAL</th>
+													<th class="text-center">QUANTITY</th>
+													<th class="text-center">AMOUNT</th>
 												</tr>
 											</thead>
 											<tbody>
 											</tbody>
 										</table>
-									</div>
-								</div>
 								</div>
 							</div>
 						</div>
-					 <div class="modal-footer">
+					 <div class="modal-footer d-flex justify-content-between">
 					 	<button class="btn btn-dark btn-shadow mr-2 btn-change" data-action="view"></button>
 					 	<button class="btn btn-success btn-shadow mr-2 btn-submit d-none">Submit Form</button>
-					 </div>
+	            	</div>	
 				</form>
 		    </div>
 		</div>
 	</div>
+
+
 <div class="modal fade" id="processModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
-        	 <div class="modal-header">
-                <h5 class="modal-title" id="joborder"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close"></i>
-                </button>
-            </div>
             <div class="modal-body">
-            	<div class="row justify-content-center py-5 px-5 py-md-5 px-md-0">
-								<div class="col-md-12">
-									<div class="d-flex justify-content-between align-items-center flex-column flex-md-row">
-										<div class="d-flex flex-column px-0 order-2 order-md-1 align-items-center align-items-md-start">
-											<span class="d-flex flex-column font-size-h5 font-weight-bold text-muted align-items-center align-items-md-start">
-												<span id="title_inprocess"></span>
-												<span id="date_created_inprocess"></span>
-												<span id="requestor_inprocess"></span>
-											</span>
+            	<div class="row d-flex justify-content-between">
+						<div class="col-md-6">
+							<!--begin::Card-->
+								<div class="card card-custom gutter-b bg-dark">
+									<!--begin::Body-->
+									<div class="card-body pt-3">
+										<!--begin::User-->
+										<div class="d-flex align-items-center mt-5">
+											<div class="symbol symbol-60 symbol-xl-100 mr-5 align-self-start align-self-xxl-center">
+												<div class="symbol-label image-view" style="background-image:url('assets/media/users/300_13.jpg')"></div>
+											</div>
+											<div>
+												<span class="font-weight-bold font-size-h5 text-white text-hover-primary title"></span>
+												<div class="font-weight-bold font-size-h5 text-white text-hover-primary color"></div>
+												<div class="text-muted requestor"></div>
+												<div class="text-muted date_created"></div>
+												<div class="text-white text-hover-primary joborder"></div>
+												<div class="text-white text-hover-primary fund_no"></div>
+											</div>
 										</div>
-										<h1 class="display-3 font-weight-boldest order-1 order-md-2 mb-5 mb-md-0"><span id="status"></span></h1>
+										<!--end::User-->
 									</div>
+									<!--end::Body-->
 								</div>
 							</div>
-						<div class="row justify-content-center">
+							<div class="col-md-6" >
+								<button type="button" class="close" style="float: right" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+							</div>
+						</div>
+						<div class="row" style="height: 300px;">
 							<div class="col-xl-12 col-xxl-12 col-md-12" id="view-details">
-								<div data-scroll="true" data-height="300">
-									<div class="table-responsive">
-										<table class="table" id="tbl_purchasing_inprogress_modal">
-											<thead>
-												<tr class="font-weight-boldest h-65px">
-													<th class="align-middle font-size-h4 pl-0 ">MATERIAL</th>
-													<th class="align-middle font-size-h4 text-center">QUANTITY</th>
-													<th class="align-middle font-size-h4 text-center">REMARKS</th>
-												</tr>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>
-									</div>
+									<table class="table" id="tbl_purchasing_inprogress_modal">
+										<thead>
+											<tr class="table-primary">
+												<th>MATERIAL</th>
+												<th class="text-center">QUANTITY</th>
+												<th class="text-center">ESTIMATE AMOUNT</th>
+												<th class="text-center">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
 								</div>
-								</div>
-								<div class="col-xl-12 col-xxl-12 col-md-12" id="view-purchased">
+								<div class="col-xl-12 col-xxl-12 col-md-12" id="view-purchased" style="height: 300px;">
+									
 									<div class="row">
 										<div class="col-xl-12 col-xxl-12 col-md-12">
+											<form id="Update_Purchase_Process">
 											<div class="row">
 												<div class="col-xl-3 col-xxl-3 col-md-3">
 													<div class="form-group">
 														<label>Purchased Item</label>
-														<select class="form-control form-control-solid" id="select-material" name="item">
+														<select class="form-control form-control-solid" id="item" name="item">
 														</select>
 													</div>
 												</div>
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
 														<label>Supplier</label>
-														<select class="form-control form-control-solid" name="supplier">
-														<?php 
-															$query = $this->db->select('*')->from('tbl_supplier')->where('status',1)->get();
-															foreach($query->result() as $row){
-																echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->name.'</option>';
-															}
-														?>
+														<select class="form-control" id="supplier" name="supplier" style="width:160px">
 														</select>
 													</div>
 												</div>
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
-														<label>Terms</label>
-														<select class="form-control form-control-solid" name="terms">
+														<label>Payment</label>
+														<select class="form-control" name="terms">
+															<option value="">SELECT PAYMENT</option>
 															<option value="1">CASH</option>
 															<option value="2">TERMS</option>
 														</select>
@@ -265,42 +270,39 @@
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
 														<label>Quantity</label>
-														<input type="number" min="0" class="form-control form-control-solid text-center" name="quantity" placeholder="Input Quantity" />
+														<input type="number" min="1" class="form-control form-control-solid text-center" name="quantity" placeholder="0" />
 													</div>
 												</div>
 												<div class="col-xl-3 col-xxl-3 col-md-3">
 													<div class="form-group">
 														<label>Amount</label>
 														 <div class="input-group">
-														<input class="form-control form-control-solid text-center text-amount-process" name="amount_process" placeholder="Input Item Amount" />
+														<input class="form-control form-control-solid text-center text-amount-process amount" name="amount_process" placeholder="0.00" />
 														<div class="input-group-append">
 																<button class="btn btn-light-dark font-weight-bold mr-2 btn-add" data-toggle="tooltip" data-theme="dark" title="Click To Add Purchased Item"><i class="flaticon2-plus"></i></button>
 														</div>
 														</div>
 													</div>
 												</div>
-		
+				
 											</div>
+											</form>
 										</div>
 										<div class="col-xl-12 col-xxl-12 col-md-12">
-											<div data-scroll="true" data-height="300">
-											<div class="table-responsive">
 												<table class="table" id="tbl_purchasing_process">
 													<thead>
-														<tr class="font-weight-boldest h-65px">
-															<th class="align-middle font-size-h4 pl-0">MATERIAL</th>
-															<th class="align-middle font-size-h4 text-right">SUPPLIER</th>
-															<th class="align-middle font-size-h4 text-right">TERMS</th>
-															<th class="align-middle font-size-h4 text-center">QUANTITY</th>
-															<th class="align-middle font-size-h4 text-right">AMOUNT</th>
-															<th class="align-middle font-size-h4 text-center">ACTION</th>
+														<tr class="table-primary">
+															<th>MATERIAL</th>
+															<th>SUPPLIER</th>
+															<th>TERMS</th>
+															<th class="text-center">QUANTITY</th>
+															<th class="text-right">AMOUNT</th>
+															<th class="text-center">ACTION</th>
 														</tr>
 													</thead>
 													<tbody>
 													</tbody>
-												</table>
-												</div>
-											</div>	
+												</table>	
 										</div>
 									</div>
 								</div>

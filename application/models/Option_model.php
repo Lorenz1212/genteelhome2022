@@ -429,14 +429,30 @@ class Option_model extends CI_Model
 	}
 	function supplier_list($id){
 		$data = false;
-		 $query =  $this->db->select('*')->from('tbl_supplier as s')->join('tbl_supplier_item as m','s.id=m.supplier','LEFT')->where('m.item_no',$id)->group_by('m.supplier')->get();
-           if($query){
-           	 foreach($query->result() as $row){
-                 $data[] = array('id'=> $row->id,'name'=> $row->name);
+		 $query =  $this->db->select('*,s.id')->from('tbl_supplier as s')->join('tbl_supplier_item as m','s.id=m.supplier','LEFT')->where('m.item_no',$id)->group_by('m.supplier')->get();
+	       if($query){
+	       	 foreach($query->result() as $row){
+	             $data[] = array('id'=> $row->id,'name'=> $row->name);
+	           } 
+	       }
+	       return $data; 
+	}
+	function purchase_transaction($id){
+		 $data = false;
+          $query = $this->db->select('*,s.name,m.item,m.unit,t.payment,t.quantity,t.id')->from('tbl_purchase_transactions as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->join('tbl_materials as m','m.id=t.item_no')->where('t.fund_no',$id)->order_by('t.latest_update','DESC')->get();
+        if($query){
+             foreach($query->result() as $row){
+                 ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                 ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
+                     $data[] = array('id'=>$row->id,
+                                     'item'=> $row->item.' '.$unit,
+                                     'supplier'=>$row->name,
+                                     'payment'=>$terms,
+                                     'quantity'=>$row->quantity,
+                                     'amount'=>number_format($row->amount,2));
                } 
            }
-           return $data; 
-			 
+        return $data;
 	}
 }
 ?>

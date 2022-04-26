@@ -251,5 +251,10 @@ class Option_Controller extends CI_Controller
         $data = $this->option_model->supplier_list($id);
         echo json_encode($data);
     }
+    public function purchase_transaction(){
+        $id = $this->input->post('id');
+        $data = $this->option_model->purchase_transaction($id);
+        echo json_encode($data);
+    }
 }
 ?>

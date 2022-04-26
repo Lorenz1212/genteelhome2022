@@ -212,6 +212,7 @@
 												<div class="text-muted requestor"></div>
 												<div class="text-muted date_created"></div>
 												<div class="text-white text-hover-primary joborder"></div>
+												<div class="text-white text-hover-primary fund_no"></div>
 											</div>
 										</div>
 										<!--end::User-->
@@ -239,8 +240,10 @@
 									</table>
 								</div>
 								<div class="col-xl-12 col-xxl-12 col-md-12" id="view-purchased" style="height: 300px;">
+									
 									<div class="row">
 										<div class="col-xl-12 col-xxl-12 col-md-12">
+											<form id="Update_Purchase_Process">
 											<div class="row">
 												<div class="col-xl-3 col-xxl-3 col-md-3">
 													<div class="form-group">
@@ -252,14 +255,15 @@
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
 														<label>Supplier</label>
-														<select class="form-control" id="supplier" name="supplier">
+														<select class="form-control" id="supplier" name="supplier" style="width:160px">
 														</select>
 													</div>
 												</div>
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
-														<label>Terms</label>
-														<select class="form-control form-control-solid" name="terms">
+														<label>Payment</label>
+														<select class="form-control" name="terms">
+															<option value="">SELECT PAYMENT</option>
 															<option value="1">CASH</option>
 															<option value="2">TERMS</option>
 														</select>
@@ -268,22 +272,23 @@
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
 														<label>Quantity</label>
-														<input type="number" min="0" class="form-control form-control-solid text-center" name="quantity" placeholder="Input Quantity" />
+														<input type="number" min="1" class="form-control form-control-solid text-center" name="quantity" placeholder="0" />
 													</div>
 												</div>
 												<div class="col-xl-3 col-xxl-3 col-md-3">
 													<div class="form-group">
 														<label>Amount</label>
 														 <div class="input-group">
-														<input class="form-control form-control-solid text-center text-amount-process" name="amount_process" placeholder="Input Item Amount" />
+														<input class="form-control form-control-solid text-center text-amount-process amount" name="amount_process" placeholder="0.00" />
 														<div class="input-group-append">
 																<button class="btn btn-light-dark font-weight-bold mr-2 btn-add" data-toggle="tooltip" data-theme="dark" title="Click To Add Purchased Item"><i class="flaticon2-plus"></i></button>
 														</div>
 														</div>
 													</div>
 												</div>
-		
+				
 											</div>
+											</form>
 										</div>
 										<div class="col-xl-12 col-xxl-12 col-md-12">
 												<table class="table" id="tbl_purchasing_process">

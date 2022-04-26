@@ -828,6 +828,16 @@ class Update_controller extends CI_Controller
         $data = $this->update_model->Update_Supplier_Image($user_id,$id,$image,$tmp,$path_image);
         echo json_encode($data);
      }
+     public function Update_Purchased_Transaction(){
+        $fund_no = $this->input->post('fund_no');
+        $item = $this->input->post('item');
+        $supplier = $this->input->post('supplier');
+        $terms = $this->input->post('terms');
+        $quantity = $this->input->post('quantity');
+        $amount = floatval(str_replace(',', '', $this->input->post('amount_process')));
+        $data = $this->update_model->Update_Purchased_Transaction($fund_no,$item,$supplier,$terms,$quantity,$amount);
+        echo json_encode($data);
+     }
 
 }
 ?>

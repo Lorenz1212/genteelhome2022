@@ -59,5 +59,28 @@ class Delete_model extends CI_Model
       $this->db->delete('tbl_purchasing_project');
       return true;
    }
+   function Delete_Purchased_Transaction($fund_no,$id){
+      $this->db->where('id',$id);
+      $result = $this->db->delete('tbl_purchase_transactions');
+      if($result){
+        $data = false;
+        $query = $this->db->select('*,s.name,m.item,m.unit,t.payment,t.quantity,t.id')->from('tbl_purchase_transactions as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->join('tbl_materials as m','m.id=t.item_no')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
+        if($query){
+             foreach($query->result() as $row){
+                 ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                 ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
+                     $data[] = array('id'=>$row->id,
+                                     'item'=> $row->item.' '.$unit,
+                                     'supplier'=>$row->name,
+                                     'payment'=>$terms,
+                                     'quantity'=>$row->quantity,
+                                     'amount'=>number_format($row->amount,2));
+               } 
+           }
+         return array('type'=>'error','status'=>'Remove Item','row'=>$data);
+      }else{
+         return array('status'=>false);
+      }
+   }
 }
 ?>
