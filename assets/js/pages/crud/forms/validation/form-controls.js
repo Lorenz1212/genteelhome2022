@@ -4869,7 +4869,7 @@ var KTFormControls = function () {
 						}else{
 							$('#item').append('<option value="">No Data Available</option>');
 						}
-						$('#supplier').selectpicker('refresh');
+						$('#supplier').empty();
 
 			 			let container = $('#tbl_purchasing_process > tbody');
 						container.empty();

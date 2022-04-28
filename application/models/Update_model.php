@@ -1677,7 +1677,7 @@ class Update_model extends CI_Model
                 if($result){
                     $q = $this->db->select('item_no,sum(quantity) as qty')->from('tbl_purchase_received')->where('fund_no',$fund_no)->group_by('item_no')->get();
                      foreach($q->result() as $row){
-                         $row_mats = $this->db->select('id,stocks')->from('tbl_purchase_received')->where('id',$row->item_no)->get()->row();
+                         $row_mats = $this->db->select('id,stocks')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
                          $stocks = $row_mats->stocks + $row->qty;
                          $this->db->where('id',$row_mats->id);
                          $this->db->update('tbl_materials',array('stocks',$stocks));
