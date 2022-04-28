@@ -236,27 +236,6 @@ class Update_controller extends CI_Controller
           echo json_encode($data);  
      }
 
-      public function Update_SupplierItem(){
-        $user_id = $this->session->userdata('id');
-        $id = $this->input->post('id');
-        $price = $this->input->post('price');
-        $status = $this->input->post('status');
-        $data = $this->update_model->Update_SupplierItem($user_id,$id,$price,$status);         
-        echo json_encode($data); 
-     }
-    public function Update_Supplier(){  
-        $user_id = $this->session->userdata('id');
-        $id = $this->input->post('id');
-        $name = $this->input->post('name');
-        $mobile = $this->input->post('mobile');
-        $email = $this->input->post('email');
-        $facebook = $this->input->post('facebook');
-        $website = $this->input->post('website');
-        $address = $this->input->post('address');
-        $status = $this->input->post('status');
-        $data = $this->update_model->Update_Supplier($user_id,$id,$name,$mobile,$email,$facebook,$website,$address,$status);
-        echo json_encode($data);
-     }
     public function Update_Material_Request_Process(){
         $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
@@ -835,7 +814,17 @@ class Update_controller extends CI_Controller
         $terms = $this->input->post('terms');
         $quantity = $this->input->post('quantity');
         $amount = floatval(str_replace(',', '', $this->input->post('amount_process')));
-        $data = $this->update_model->Update_Purchased_Transaction($fund_no,$item,$supplier,$terms,$quantity,$amount);
+        $terms_start  = isset($_POST["terms_start"]) ? date('Y-m-d',strtotime($this->input->post('terms_start'))): false;
+        $terms_end  = isset($_POST["terms_end"]) ? date('Y-m-d',strtotime($this->input->post('terms_end'))): false;
+        $data = $this->update_model->Update_Purchased_Transaction($fund_no,$item,$supplier,$terms,$quantity,$amount,$terms_start,$terms_end);
+        echo json_encode($data);
+     }
+     public function Update_Purchase_Complete(){
+        $user_id = $this->session->userdata('id');
+        $fund_no = $this->input->post('fund_no');
+        $joborder = $this->input->post('joborder');
+        $type = $this->input->post('type');
+        $data = $this->update_model->Update_Purchase_Complete($user_id,$fund_no,$joborder,$type);
         echo json_encode($data);
      }
 

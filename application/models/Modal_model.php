@@ -328,7 +328,7 @@ class Modal_model extends CI_Model{
      }
      function Modal_Purchase_Request_List_View($id){
          $data = false;
-         $query =  $this->db->select('pr.id as id,IFNULL(m.unit," ") as unit,m.item ,pr.quantity,pr.balance_quantity,
+         $query =  $this->db->select('pr.id as id,IFNULL(m.unit," ") as unit,m.item ,pr.quantity,pr.balance,
             pr.status as status,pr.remarks as remarks')
          ->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')
          ->WHERE('pr.status=2 AND pr.production_no="'.$id.'" AND pr.fund_no IS NULL')->get(); 
@@ -337,7 +337,7 @@ class Modal_model extends CI_Model{
                 ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
                 $data[] = array('item'         => $row->item.' '.$unit,
                                 'quantity'     => $row->quantity,
-                                'balance'      => $row->balance_quantity,
+                                'balance'      => $row->balance,
                                 'remarks'      => $remarks);
               
             }
@@ -345,14 +345,14 @@ class Modal_model extends CI_Model{
      }
      function Modal_Purchase_Request_Estimate_View($id){
         $data = false;
-        $query =  $this->db->select('pr.id,m.unit,m.item ,pr.quantity,pr.balance_quantity,
+        $query =  $this->db->select('pr.id,m.unit,m.item ,pr.quantity,pr.balance,
             pr.status as status,pr.remarks as remarks')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')->WHERE('pr.status=2 AND pr.production_no="'.$id.'" AND pr.fund_no IS NULL')->get(); 
         foreach($query->result() as $row){
             $action = '<input type="text" class="form-control form-control-sm text-center td-amount" data-id="'.$row->id.'" placeholder="Input Estimate Amount....."/>';
              ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
             $data[] = array('item'         => $row->item.' '.$unit,
                             'quantity'     => $row->quantity,
-                            'balance'      => $row->balance_quantity,
+                            'balance'      => $row->balance,
                             'input'        => $action);
           
         }
@@ -380,7 +380,7 @@ class Modal_model extends CI_Model{
                                 'item'    => $row->item.' '.$unit,
                                 'quantity'=> $row->quantity,
                                 'amount'  => number_format($row->amount,2),
-                                'balance' => $row->balance_quantity,
+                                'balance' => $row->balance,
                                 'remarks' => $remarks);
                } 
            }
@@ -433,7 +433,7 @@ class Modal_model extends CI_Model{
                          'title'            => $row->title,
                          'item'             => $row->item,
                          'quantity'         => $row->quantity,
-                         'balance'          => $row->balance_quantity,
+                         'balance'          => $row->balance,
                          'remarks'          => $row->remarks,
                          'requestor'        => $row->requestor,
                          'status_request'   => $row->status_request,
@@ -474,7 +474,7 @@ class Modal_model extends CI_Model{
            }
          }
     function Modal_Purchase_Approval_View($id,$status){
-         $query = $this->db->select('pp.unit as units,pp.id as id,pp.amount as amount,p.production_no as production_no,p.title as title,p.unit as unit,pp.item as item,pp.quantity as quantity,pp.balance_quantity as balance,pp.status as status,pp.delivery as delivery,pp.type as type,pp.remarks as remarks, CONCAT(u.firstname, " ",u.lastname) AS approver1, CONCAT(uu.firstname, " ",uu.lastname) AS approver2,CONCAT(uuu.firstname, " ",uuu.lastname) AS receiver,CONCAT(uuuu.firstname, " ",uuuu.lastname) AS production,DATE_FORMAT(pp.date_pending, "%M %d %Y %r") as date_pending,DATE_FORMAT(pp.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(pp.date_complete, "%M %d %Y %r") as date_complete,DATE_FORMAT(pp.date_rejected, "%M %d %Y %r") as date_rejected,DATE_FORMAT(pp.date_inprogress, "%M %d %Y %r") as date_inprogress,DATE_FORMAT(pp.date_approved1, "%M %d %Y %r") as date_approved1,(SELECT sum(amount ) FROM tbl_purchasing_project WHERE production_no = "'.$id.'" AND status = "'.$status.'") as total')->from('tbl_purchasing_project as pp')->join('tbl_project as p','p.production_no=pp.production_no','LEFT')->join('tbl_users as u','u.id=pp.approver1','LEFT')->join('tbl_users as uu','uu.id=pp.approver2','LEFT')->join('tbl_users as uuu','uuu.id=pp.receiver','LEFT')->join('tbl_users as uuuu','uuuu.id=p.production','LEFT')->WHERE('pp.production_no',$id)->WHERE('pp.status',$status)->get(); 
+         $query = $this->db->select('pp.unit as units,pp.id as id,pp.amount as amount,p.production_no as production_no,p.title as title,p.unit as unit,pp.item as item,pp.quantity as quantity,pp.balance as balance,pp.status as status,pp.delivery as delivery,pp.type as type,pp.remarks as remarks, CONCAT(u.firstname, " ",u.lastname) AS approver1, CONCAT(uu.firstname, " ",uu.lastname) AS approver2,CONCAT(uuu.firstname, " ",uuu.lastname) AS receiver,CONCAT(uuuu.firstname, " ",uuuu.lastname) AS production,DATE_FORMAT(pp.date_pending, "%M %d %Y %r") as date_pending,DATE_FORMAT(pp.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(pp.date_complete, "%M %d %Y %r") as date_complete,DATE_FORMAT(pp.date_rejected, "%M %d %Y %r") as date_rejected,DATE_FORMAT(pp.date_inprogress, "%M %d %Y %r") as date_inprogress,DATE_FORMAT(pp.date_approved1, "%M %d %Y %r") as date_approved1,(SELECT sum(amount ) FROM tbl_purchasing_project WHERE production_no = "'.$id.'" AND status = "'.$status.'") as total')->from('tbl_purchasing_project as pp')->join('tbl_project as p','p.production_no=pp.production_no','LEFT')->join('tbl_users as u','u.id=pp.approver1','LEFT')->join('tbl_users as uu','uu.id=pp.approver2','LEFT')->join('tbl_users as uuu','uuu.id=pp.receiver','LEFT')->join('tbl_users as uuuu','uuuu.id=p.production','LEFT')->WHERE('pp.production_no',$id)->WHERE('pp.status',$status)->get(); 
                if(!$query){return false;}else{  
                foreach($query->result() as $row)  
                {

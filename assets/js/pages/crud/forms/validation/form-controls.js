@@ -1736,30 +1736,33 @@ var KTFormControls = function () {
 				 	e.preventDefault();
 				 	e.stopPropagation();
 				 	validation.validate().then(function(status) {
-					if (status == 'Valid'){ 	
-					 	let formdata = new FormData(form);
-					 	formdata.append('fund_no',$('.fund_no').attr('data-id'));
-		 				thisURL = baseURL + 'update_controller/Update_Purchased_Transaction';
-		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchased_Transaction",false);
+					  if (status == 'Valid'){ 
+					  	if($('select[name=terms]').val() == 2){
+					  		$('#view-terms').modal('show');
+					  	}else{
+					  		let formdata = new FormData(form);
+						 	formdata.append('fund_no',$('.fund_no').attr('data-id'));
+			 				thisURL = baseURL + 'update_controller/Update_Purchased_Transaction';
+			 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchased_Transaction",false);
+					  	}
 
 					   }
 				 	});
 				 });
-
-
-	 			$(document).on('click','#btn-save-process',function(e){
-	 				e.preventDefault();
-	 				var rowCount = $('#tbl_purchasing_process tr').length-1;
-	 				if(!rowCount){
-	 					Swal.fire("Warning!", "Please Complete This Form!", "warning");
-	 				}else{
-	 					// let formdata = new FormData();
-	 					// formdata.append('fund_no',$('.fund_no').attr('data-id'));
-	 					// formdata.append('joborder',$('.joborder').attr('data-id'));
-		 				// thisURL = baseURL + 'update_controller/Update_Purchase_Stocks_Process';
-		 				// _ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Stocks_Process",false);
-	 				}
-	 			});
+	 			$(document).on('click','.btn-submit-terms',function(e){
+				 	e.preventDefault();
+				 	e.stopPropagation();
+				 	validation.validate().then(function(status) {
+					  if (status == 'Valid'){ 
+				  		let formdata = new FormData(form);
+					 	formdata.append('fund_no',$('.fund_no').attr('data-id'));
+					 	formdata.append('terms_start',$('input[name=start]').val());
+					 	formdata.append('terms_end',$('input[name=end]').val());
+		 				thisURL = baseURL + 'update_controller/Update_Purchased_Transaction';
+		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchased_Transaction",false);
+					   }
+				 	});
+				 });
 	 			$(document).on('click','.btn-delete',function(e){
 	 				e.preventDefault();
 	 				let id = $(this).attr('data-id');
@@ -1778,6 +1781,20 @@ var KTFormControls = function () {
 						   _ajaxForm(thisURL,"POST",formdata,"Delete_Purchased_Transaction",false);
 			             }
 			   	   });
+	 			});
+	 			$(document).on('click','#btn-save-process',function(e){
+	 				e.preventDefault();
+	 				var rowCount = $('#tbl_purchasing_process tr').length-1;
+	 				if(!rowCount){
+	 					Swal.fire("Warning!", "Please Complete This Form!", "warning");
+	 				}else{
+	 					let formdata = new FormData();
+	 					formdata.append('fund_no',$('.fund_no').attr('data-id'));
+	 					formdata.append('joborder',$('.joborder').attr('data-id'));
+	 					formdata.append('type',1);
+		 				thisURL = baseURL + 'update_controller/Update_Purchase_Complete';
+		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Complete",false);
+	 				}
 	 			});
 	 			break;
 	 		}
@@ -4836,27 +4853,57 @@ var KTFormControls = function () {
 	 		case "Delete_Purchased_Transaction":
 	 		case "Update_Purchased_Transaction":{
 	 			if(response != false){
-	 				_initToast(response.type,response.status);
-		 			let container = $('#tbl_purchasing_process > tbody');
-					container.empty();
-					if(response != false){
-						for(let i =0;i<response.row.length;i++){
-							container.append('<tr>\
-								<td>'+response.row[i].item+'</td>\
-								<td>'+response.row[i].supplier+'</td>\
-								<td>'+response.row[i].payment+'</td>\
-								<td class="text-center">'+response.row[i].quantity+'</td>\
-								<td class="text-right">'+response.row[i].amount+'</td>\
-								<td class="text-center"><button type="button" class="btn btn-icon btn-light-danger btn-xs btn-delete" data-id="'+response.row[i].id+'"><i class="flaticon2-trash"></i></button></td>\
-							</tr>');
+	 				if(response.type == 'info'){
+	 					Swal.fire("Oops!",response.status, response.type);
+	 				}else{
+	 					_initToast(response.type,response.status);
+	 					 $('#item').empty();
+						 $('#item').append('<option value="" disabled selected>SELECT MATERIAL</option>');
+						if(response !=false){
+							for(let i=0;i<response.material.length;i++){
+		                  	  	  $('#item').append('<option value="'+response.material[i].id+'">'+response.material[i].item+'</option>');
+		                  	  	  $('#item').addClass('selectpicker');
+							  $('#item').attr('data-live-search', 'true');
+							  $('#item').selectpicker('refresh');
+		                  	  }	
+						}else{
+							$('#item').append('<option value="">No Data Available</option>');
 						}
-						
-					}
+						$('#supplier').selectpicker('refresh');
+
+			 			let container = $('#tbl_purchasing_process > tbody');
+						container.empty();
+						if(response.row != false){
+							for(let i =0;i<response.row.length;i++){
+								container.append('<tr>\
+									<td>'+response.row[i].item+'</td>\
+									<td>'+response.row[i].supplier+'</td>\
+									<td>'+response.row[i].payment+'</td>\
+									<td class="text-center">'+response.row[i].quantity+'</td>\
+									<td class="text-right">'+response.row[i].amount+'</td>\
+									<td class="text-center"><button type="button" class="btn btn-icon btn-light-danger btn-xs btn-delete" data-id="'+response.row[i].id+'"><i class="flaticon2-trash"></i></button></td>\
+								</tr>');
+							}
+							
+						}
+						document.getElementById("Update_Purchase_Process").reset();
+	 				}
+	 				
 	 			}else{
 	 				 Swal.fire("Error!", "Something went wrong!", "error");
 	 			}
-	 			
+	 			_initnotificationupdate();
 	 			break;
+	 		}
+	 		case "Update_Purchase_Complete":{
+	 			if(response != false){
+	 				_initToast('success',response);
+		 			$('#tbl_purchasing_process > tbody').empty();
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+	 			_initnotificationupdate();
+	 		   break;
 	 		}
 
 	 	}

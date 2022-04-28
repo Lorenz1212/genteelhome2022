@@ -57,14 +57,14 @@
 								<div class="form-group">
 									<label class="font-size-h6 font-weight-bolder text-dark">ROLE</label>
 										<select class="form-control form-control-solid h-auto py-6 px-6 rounded-lg" type="text" name="status" autocomplete="off" />
-										<option value="designer">DESIGNER</option>
-										<option value="production">PRODUCTION</option>
-										<option value="supervisor">SUPERVISOR</option>
-										<option value="sales">SALES</option>
-										<option value="superuser">SUPERUSER</option>
-										<option value="accounting">ACCOUNTING</option>
-										<option value="admin">ADMIN</option>
-										<option value="webmodifier">WEB MODIFIER</option>
+										<option value="designer">Creatives</option>
+										<option value="production">Production</option>
+										<option value="supervisor">Production Supervisor</option>
+										<option value="sales">Sales</option>
+										<option value="superuser">Inventory</option>
+										<option value="accounting">Accounting</option>
+										<option value="admin">Admin</option>
+										<option value="webmodifier">Web Modifier</option>
 									</select>
 								</div>
 								<!--end::Form group-->

@@ -2977,6 +2977,11 @@ var arrows;var item_v;var price;var special_option;
 	             	 _ajaxloaderOption('option_controller/purchase_transaction','POST',{id:response.fund_no},'purchase_transaction');
 				$('[data-toggle="tooltip"]').tooltip();
 				_initCurrency_format('.amount');
+				$('#kt_datepicker_5').datepicker({
+					   rtl: KTUtil.isRTL(),
+					   todayHighlight: true,
+					   templates: arrows
+				 });	
 	  		}
 	  		break;
 	  	}

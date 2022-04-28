@@ -1069,7 +1069,7 @@ class Update_model extends CI_Model
     function Update_Purchase_Request_Supervisor($user_id,$id,$qty,$remarks){
        $row = $this->db->select('*')->from('tbl_purchasing_project')->where('id',$id)->get()->row();
        $purchase_data = array('quantity'            =>  $qty,
-                              'balance_quantity'    =>  $qty,
+                              'balance'             =>  $qty,
                               'remarks'             =>  $remarks);
         $this->db->where('id',$id);
         $this->db->update('tbl_purchasing_project',$purchase_data); 
@@ -1256,9 +1256,7 @@ class Update_model extends CI_Model
         $this->db->insert('tbl_project_finished',$insert);
         if($type == 1){
             $total = $row->unit - $qty;
-            $data = array('unit' => $total,
-                          'latest_update'=> date('Y-m-d H:i:s'),
-                          'update_by' => $user_id);
+            $data = array('unit' => $total,'latest_update'=> date('Y-m-d H:i:s'),'update_by' => $user_id);
             $this->db->where('production_no',$production_no);
             $this->db->update('tbl_project',$data);
             $data_response = array('status'=>$status,'type'=>$type,'qty'=> $qty,'unit'=>$total);
@@ -1267,54 +1265,6 @@ class Update_model extends CI_Model
             $data_response = array('status'=>$status,'type'=>$type);
             return $data_response;
         }
-    }
-    function Update_Purchase_Stocks_Estimate($user_id,$id,$amount,$type){
-        $pr_id = array_map('intval', explode(',', $id));
-        $amounts = explode(',',$amount);
-        $value = 'TN'.date('YmdHis');
-        for($i=0;$i<count($pr_id);$i++){
-            $data = array('fund_no'=> $value,
-                          'purchaser'=>$user_id,
-                          'amount' => $amounts[$i],
-                          'status' => 3,
-                          'type'=> $type,
-                          'latest_update'=> date('Y-m-d H:i:s'),
-                          'update_by'=> $user_id);
-            $this->db->where('id',$pr_id[$i]);
-            $this->db->update('tbl_purchasing_project',$data);
-        }
-        return true;
-    }
-    function Update_Purchase_Stocks_Process($user_id,$joborder,$pr_id,$item_id,$quantity,$amount,$supplier,$terms,$type){
-         $rv_id = $this->get_code('tbl_purchase_received','RVNO'.date('YmdHis'));
-         $pr_ids = array_map('intval', explode(',', $pr_id));
-         $item_ids = array_map('intval', explode(',', $item_id));
-         $amounts = explode('_',$amount);
-         $quantities = explode(',',$quantity);
-         $suppliers = array_map('intval', explode(',', $supplier));
-         $termss = array_map('intval', explode(',', $terms));
-         for($i=0;$i<count($pr_ids);$i++){
-            $data = array('production_no'=>$joborder,
-                          'pr_id'=> $pr_ids[$i],
-                          'rv_id'=>$rv_id,
-                          'item_no'=> $item_ids[$i],
-                          'quantity'=>$quantities[$i],
-                          'amount' => floatval(str_replace(',', '',$amounts[$i])),
-                          'supplier' => $suppliers[$i],
-                          'terms' => $termss[$i],
-                          'type'=> $type,
-                          'date_created'=> date('Y-m-d H:i:s'),
-                          'created_by'=> $user_id);
-            $this->db->insert('tbl_purchase_received',$data);
-        }
-        $query = $this->db->select('item_no,sum(quantity) as qty')->from('tbl_purchase_received')->where('rv_id',$rv_id)->group_by('item_no')->get();
-        foreach($query->result() as $row){
-            $mat = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
-            $total = $mat->stocks+$row->qty;
-            $this->db->where('id',$mat->id);
-            $this->db->update('tbl_materials',array('stocks'=>$total));
-        }
-        return true;
     }
     function Update_Joborder_Stocks($user_id,$production_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
                 $pur_items = explode(',', $pur_item);
@@ -1338,7 +1288,7 @@ class Update_model extends CI_Model
                         $purchase_data = array('production_no'=>$production_no,
                                 'item_no'          =>  $item_no,
                                 'quantity'         =>  $pur_quantitys[$i],
-                                'balance_quantity' =>  $pur_quantitys[$i],
+                                'balance'          =>  $pur_quantitys[$i],
                                 'status'           =>  1,
                                 'remarks'          =>  $pur_remarkss[$i],
                                 'material_type'    =>  $pur_types[$i],
@@ -1366,29 +1316,6 @@ class Update_model extends CI_Model
                 }
 
      }
-     function Update_SupplierItem($user_id,$id,$price,$status){
-            $data = array('amount'=> $price,
-                          'status'=> $status,
-                          'latest_update'=> date('Y-m-d H:i:s'),
-                          'update_by'=>$user_id);
-        $this->db->where('id',$this->encryption->decrypt($id));        
-        $this->db->update('tbl_supplier_item',$data);
-        return 'success'; 
-    }
-    function Update_Supplier($user_id,$id,$name,$mobile,$email,$facebook,$website,$address,$status){
-         $data = array('name' => $name,
-                      'mobile' => $mobile,
-                      'email'=>$email,
-                      'facebook'=>$facebook,
-                      'website'=>$website,
-                      'address'=>$address,
-                      'status'=>$status,
-                      'latest_update'=> date('Y-m-d H:i:s'),
-                      'update_by'=>$user_id);
-        $this->db->where('id',$this->encryption->decrypt($id));        
-        $this->db->update('tbl_supplier',$data); 
-        return 'success'; 
-    }
     function Update_Salesorder_Stock_Request($user_id,$id,$status){
         $delivery = 0;if($status == 'A'){$delivery = 1;}
         $this->db->where('id',$this->encryption->decrypt($id));
@@ -1615,33 +1542,158 @@ class Update_model extends CI_Model
             return false;
         }
     }
-
-    function Update_Purchased_Transaction($fund_no,$item,$supplier,$terms,$quantity,$amount){
-        $rows = $this->db->select('*')->from('tbl_purchase_transactions')->where('fund_no',$fund_no)->where('item_no',$item)->where('supplier',$supplier)->get()->row();
-        if($rows){
-            $this->db->where('id',$rows->id);
-            $this->db->update('tbl_purchase_transactions',array('payment'=>$terms,'quantity'=>$quantity,'amount'=>$amount,'latest_update'=>date('Y-m-d H:i:s')));
-            $status = 'Save changes';
-        }else{
-            $this->db->insert('tbl_purchase_transactions',array('fund_no'=>$fund_no,'item_no'=>$item,'supplier'=>$supplier,'payment'=>$terms,'quantity'=>$quantity,'amount'=>$amount,'latest_update'=>date('Y-m-d H:i:s')));
-            $status = 'Create Successfully';
+        function Update_Purchase_Stocks_Estimate($user_id,$id,$amount,$type){
+        $pr_id = array_map('intval', explode(',', $id));
+        $amounts = explode(',',$amount);
+        $value = 'TN'.date('YmdHis');
+        for($i=0;$i<count($pr_id);$i++){
+            $data = array('fund_no'=> $value,
+                          'purchaser'=>$user_id,
+                          'amount' => $amounts[$i],
+                          'status' => 3,
+                          'type'=> $type,
+                          'latest_update'=> date('Y-m-d H:i:s'),
+                          'update_by'=> $user_id);
+            $this->db->where('id',$pr_id[$i]);
+            $this->db->update('tbl_purchasing_project',$data);
         }
-         $data = false;
-       $query = $this->db->select('*,s.name,m.item,m.unit,t.payment,t.quantity,t.id')->from('tbl_purchase_transactions as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->join('tbl_materials as m','m.id=t.item_no')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
-        if($query){
-             foreach($query->result() as $row){
-                 ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
-                 ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
-                     $data[] = array('id'=>$row->id,
-                                     'item'=> $row->item.' '.$unit,
-                                     'supplier'=>$row->name,
-                                     'payment'=>$terms,
-                                     'quantity'=>$row->quantity,
-                                     'amount'=>number_format($row->amount,2));
-               } 
-           }
-        return array('type'=>'success','status'=>$status,'row'=>$data);
+        return true;
     }
+    function Update_Purchase_Stocks_Process($user_id,$joborder,$pr_id,$item_id,$quantity,$amount,$supplier,$terms,$type){
+         $rv_id = $this->get_code('tbl_purchase_received','RVNO'.date('YmdHis'));
+         $pr_ids = array_map('intval', explode(',', $pr_id));
+         $item_ids = array_map('intval', explode(',', $item_id));
+         $amounts = explode('_',$amount);
+         $quantities = explode(',',$quantity);
+         $suppliers = array_map('intval', explode(',', $supplier));
+         $termss = array_map('intval', explode(',', $terms));
+         for($i=0;$i<count($pr_ids);$i++){
+            $data = array('production_no'=>$joborder,
+                          'pr_id'=> $pr_ids[$i],
+                          'rv_id'=>$rv_id,
+                          'item_no'=> $item_ids[$i],
+                          'quantity'=>$quantities[$i],
+                          'amount' => floatval(str_replace(',', '',$amounts[$i])),
+                          'supplier' => $suppliers[$i],
+                          'terms' => $termss[$i],
+                          'type'=> $type,
+                          'date_created'=> date('Y-m-d H:i:s'),
+                          'created_by'=> $user_id);
+            $this->db->insert('tbl_purchase_received',$data);
+        }
+        $query = $this->db->select('item_no,sum(quantity) as qty')->from('tbl_purchase_received')->where('rv_id',$rv_id)->group_by('item_no')->get();
+        foreach($query->result() as $row){
+            $mat = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
+            $total = $mat->stocks+$row->qty;
+            $this->db->where('id',$mat->id);
+            $this->db->update('tbl_materials',array('stocks'=>$total));
+        }
+        return true;
+    }
+
+     function Update_Purchased_Transaction($fund_no,$item,$supplier,$terms,$quantity,$amount,$terms_start,$terms_end){
+        $data_item = false;
+        $data = false;
+        $row_b =  $this->db->select('*')->from('tbl_purchasing_project')->where('fund_no',$fund_no)->where('item_no',$item)->get()->row();
+        if($row_b){
+            if($quantity > $row_b->balance){
+                $row_m =  $this->db->select('*')->from('tbl_materials')->where('id',$item)->get()->row();
+               ($row_m->unit)?$unit = $row_m->unit.'(s)':$unit = "";
+
+               if($row_b->balance == 0){
+                  return array('type'=>'info','status'=>''.$row_m->item.' '.$unit.'</br> You exceeded the required quantity ('.$row_b->balance.')');
+               }else{
+                  return array('type'=>'info','status'=>''.$row_m->item.' '.$unit.'</br>Make sure the input quantity is less than or equal to request quantity ('.$row_b->balance.')');
+               }
+             
+            }else{
+                $balance = $row_b->balance - $quantity; 
+                $this->db->where('id',$row_b->id);
+                $this->db->update('tbl_purchasing_project',array('balance'=>$balance,'latest_update'=>date('Y-m-d H:i:s')));
+
+                $row = $this->db->select('*')->from('tbl_purchase_transactions')->where('fund_no',$fund_no)->where('item_no',$item)->where('supplier',$supplier)->get()->row();
+                if($row){
+                    $balance_quantity = $row->quantity+$quantity;
+                    $this->db->where('id',$row->id);
+                    $this->db->update('tbl_purchase_transactions',array('payment'=>$terms,'quantity'=>$balance_quantity,'amount'=>$amount,'terms_start'=>$terms_start,'terms_end'=>$terms_end,'latest_update'=>date('Y-m-d H:i:s')));
+                    $status = 'Save changes';
+                }else{
+                    $this->db->insert('tbl_purchase_transactions',array('fund_no'=>$fund_no,'item_no'=>$item,'supplier'=>$supplier,'payment'=>$terms,'quantity'=>$quantity,'amount'=>$amount,'terms_start'=>$terms_start,'terms_end'=>$terms_end,'latest_update'=>date('Y-m-d H:i:s')));
+                    $status = 'Create Successfully';
+                }
+                
+                 $query = $this->db->select('pr.*,pr.balance,m.id ,m.unit,m.item,pr.quantity,pr.remarks,pr.amount')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')->where('pr.fund_no',$fund_no)->get();
+                   if($query){  
+                       foreach($query->result() as $row){
+                            ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                              $data_item[] = array('id'=> $row->id,'item'=> $row->item.' '.$unit.' - '.$row->balance);
+                       } 
+                   }
+
+
+               
+                $query = $this->db->select('*,s.name,m.item,m.unit,t.payment,t.quantity,t.id')->from('tbl_purchase_transactions as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->join('tbl_materials as m','m.id=t.item_no')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
+                if($query){
+                     foreach($query->result() as $row){
+                         ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                         ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
+                             $data[] = array('id'=>$row->id,
+                                             'item'=> $row->item.' '.$unit,
+                                             'supplier'=>$row->name,
+                                             'payment'=>$terms,
+                                             'quantity'=>$row->quantity,
+                                             'amount'=>number_format($row->amount,2));
+                       } 
+                }
+                return array('type'=>'success','status'=>$status,'row'=>$data,'material'=>$data_item);           
+            }
+        }else{
+           return false;
+        }
+       
+    }
+    function Update_Purchase_Complete($user_id,$fund_no,$joborder,$type){
+        $query = $this->db->select('*')->from('tbl_purchase_transactions')->where('fund_no',$fund_no)->get();
+        if($query){
+           $this->db->where('fund_no',$fund_no);
+           $result = $this->db->update('tbl_purchasing_project',array('status'=>5));
+           if($result){
+                 foreach($query->result() as $row){
+                    $this->db->insert('tbl_purchase_received',array('production_no'=>$joborder,
+                                      'fund_no'=>$row->fund_no,
+                                      'supplier'=>$row->supplier,
+                                      'item_no'=>$row->item_no,
+                                      'payment'=>$row->payment,
+                                      'terms_start'=>$row->terms_start,
+                                      'terms_end'=>$row->terms_end,
+                                      'quantity'=>$row->quantity,
+                                      'amount'=>$row->amount,
+                                      'type'=>$type,
+                                      'date_created'=>date('Y-m-d H:i:s'),
+                                      'created_by'=>$user_id));
+                }
+                $this->db->where('fund_no',$fund_no);
+                $result = $this->db->delete('tbl_purchase_transactions');
+                if($result){
+                    $q = $this->db->select('item_no,sum(quantity) as qty')->from('tbl_purchase_received')->where('fund_no',$fund_no)->group_by('item_no')->get();
+                     foreach($q->result() as $row){
+                         $row_mats = $this->db->select('id,stocks')->from('tbl_purchase_received')->where('id',$row->item_no)->get()->row();
+                         $stocks = $row_mats->stocks + $row->qty;
+                         $this->db->where('id',$row_mats->id);
+                         $this->db->update('tbl_materials',array('stocks',$stocks));
+                     }
+                    return 'Purchased item completed';
+                }else{
+                    return false;
+                }
+            }else{
+                 return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
 
 }
 ?>

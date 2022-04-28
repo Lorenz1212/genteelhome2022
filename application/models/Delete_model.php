@@ -60,24 +60,47 @@ class Delete_model extends CI_Model
       return true;
    }
    function Delete_Purchased_Transaction($fund_no,$id){
-      $this->db->where('id',$id);
-      $result = $this->db->delete('tbl_purchase_transactions');
-      if($result){
-        $data = false;
-        $query = $this->db->select('*,s.name,m.item,m.unit,t.payment,t.quantity,t.id')->from('tbl_purchase_transactions as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->join('tbl_materials as m','m.id=t.item_no')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
-        if($query){
-             foreach($query->result() as $row){
-                 ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
-                 ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
-                     $data[] = array('id'=>$row->id,
-                                     'item'=> $row->item.' '.$unit,
-                                     'supplier'=>$row->name,
-                                     'payment'=>$terms,
-                                     'quantity'=>$row->quantity,
-                                     'amount'=>number_format($row->amount,2));
-               } 
-           }
-         return array('type'=>'error','status'=>'Remove Item','row'=>$data);
+      $data_item = false;
+      $data = false;
+      $row_m = $this->db->select('*')->from('tbl_purchase_transactions')->where('id',$id)->get()->row();
+      if($row_m){
+         $row_p = $this->db->select('*')->from('tbl_purchasing_project')->where('fund_no',$fund_no)->where('item_no',$row_m->item_no)->get()->row();
+         $balanced = $row_p->balance + $row_m->quantity;
+         $this->db->where('id',$row_p->id);
+         $result = $this->db->update('tbl_purchasing_project',array('balance'=>$balanced));
+         if($result){
+            $this->db->where('id',$id);
+            $result = $this->db->delete('tbl_purchase_transactions');
+            if($result){
+
+              $querys = $this->db->select('t.amount,s.name,m.item,m.unit,t.payment,t.quantity,t.id')->from('tbl_purchase_transactions as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->join('tbl_materials as m','m.id=t.item_no')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
+              if($querys){
+                foreach($querys->result() as $row){
+                    ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                    ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
+                        $data[] = array('id'=>$row->id,
+                                        'item'=> $row->item.' '.$unit,
+                                        'supplier'=>$row->name,
+                                        'payment'=>$terms,
+                                        'quantity'=>$row->quantity,
+                                        'amount'=>number_format($row->amount,2));
+                  } 
+               }
+               $query = $this->db->select('pr.*,pr.balance,m.id ,m.unit,m.item,pr.quantity,pr.remarks,pr.amount')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')->where('pr.fund_no',$fund_no)->get();
+                if($query){  
+                    foreach($query->result() as $row){
+                         ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                           $data_item[] = array('id'=> $row->id,'item'=> $row->item.' '.$unit.' - '.$row->balance);
+                    } 
+                }
+               return array('type'=>'error','status'=>'Remove Item','row'=>$data,'material'=>$data_item);
+            }else{
+               return array('status'=>false);
+            }
+         }else{
+            return array('status'=>false);
+         }
+         
       }else{
          return array('status'=>false);
       }

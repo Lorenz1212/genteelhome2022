@@ -416,13 +416,12 @@ class Option_model extends CI_Model
 		}
 	}
 	function purchase_product($id){
-        $query =  $this->db->select('pr.*,m.id ,m.unit,m.item,pr.quantity,pr.remarks,pr.amount')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')->where('pr.fund_no',$id)->get();
-           if(!$query){
-           		$data = false;
-           }else{  
+		$data = false;
+        $query =  $this->db->select('pr.*,pr.balance,m.id ,m.unit,m.item,pr.quantity,pr.remarks,pr.amount')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')->where('pr.fund_no',$id)->get();
+           if($query){  
                foreach($query->result() as $row){
-                ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
-	                $data[] = array('id'=> $row->id,'item'=> $row->item.' '.$unit);
+                	($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+	                $data[] = array('id'=> $row->id,'item'=> $row->item.' '.$unit.' - '.$row->balance);
                } 
            }
            return $data;   
