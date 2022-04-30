@@ -75,7 +75,8 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">For Stocks</span>
+																			<span class="menu-text mr-2">For Stocks</span>
+																			<span class="label label-rounded label-primary purchase_stocks">0</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -84,6 +85,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Project</span>
+																			<span class="label label-rounded label-primary purchase_project">0</span>
 																		</a>
 																	</li>
 																</ul>

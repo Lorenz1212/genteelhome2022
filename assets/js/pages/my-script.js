@@ -503,6 +503,16 @@ var arrows;var item_v;var price;var special_option;
 
 				$('.material_request_pending_stocks').text(response.material_request_pending_stocks);
 				$('.material_request_pending_project').text(response.material_request_pending_project);
+
+				$('.purchase_stocks_pending').text(response.purchase_stocks_pending);
+				$('.purchase_stocks_approved').text(response.purchase_stocks_approved);
+				$('.purchase_project_pending').text(response.purchase_project_pending);
+				$('.purchase_project_approved').text(response.purchase_project_approved);
+				$('.purchase_stocks').text(response.purchase_stocks);
+				$('.purchase_project').text(response.purchase_project);
+
+				$('.purchase_stocks_complete').text(response.purchase_stocks_complete);
+				$('.purchase_project_complete').text(response.purchase_project_complete);
 				break;
 			}
 			case "admin":{

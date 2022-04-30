@@ -439,7 +439,7 @@ class Datatable_model extends CI_Model{
             ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
             ->join('tbl_purchasing_project as pr','pr.production_no=p.production_no','LEFT')
             ->join('tbl_users as u','u.id=p.assigned','LEFT')
-            ->where('pr.status',2)
+            ->where('pr.status',1)
             ->where('p.type',1)
             ->group_by('pr.production_no')
             ->order_by('p.date_created','DESC')->get();
@@ -496,8 +496,8 @@ class Datatable_model extends CI_Model{
          return $json_data;    
     }
      function Purchase_Material_Stocks_Complete_DataTable($user_id){
-            $query =  $this->db->select('mp.*,p.*,d.*,c.*,
-                m.item ,s.name,mp.amount,
+            $query =  $this->db->select('mp.*,p.*,
+                m.item ,s.name,mp.amount,m.unit,
                 DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
                  DATE_FORMAT(mp.terms_start, "%M %d %Y") as terms_start,
                 DATE_FORMAT(mp.terms_end, "%M %d %Y") as terms_end,
@@ -506,8 +506,6 @@ class Datatable_model extends CI_Model{
             ->join('tbl_materials as m','m.id=mp.item_no','LEFT')
             ->join('tbl_supplier as s','s.id=mp.supplier','LEFT')
             ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-            ->join('tbl_project_design as d','d.project_no=p.project_no','LEFT')
-            ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
             ->join('tbl_users as u','u.id=p.production','LEFT')
             ->where('mp.type=1')
             ->where('mp.created_by',$user_id)
@@ -522,7 +520,7 @@ class Datatable_model extends CI_Model{
                     ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
                      $data[] = array(
                           'production_no' => $row->production_no,
-                          'item'          => $row->item.' '.$unit,
+                          'item'          => $row->item.' - '.$unit,
                           'quantity'      => $row->quantity,
                           'amount'        => number_format($row->amount,2),
                           'supplier'      => $row->name,
@@ -596,7 +594,6 @@ class Datatable_model extends CI_Model{
                           'date_created' => $row->date_created,
                           'status'       => $status,
                           'action'       => $action);
-
             }      
          }else{   
              $data =false;   
@@ -605,27 +602,31 @@ class Datatable_model extends CI_Model{
          return $json_data;    
     }
     function Purchase_Material_Project_Complete_DataTable($user_id){
-            $query =  $this->db->select('mp.*,p.*,d.*,c.*,
-                m.item as item,s.name as name,mp.amount as amount,
+             $query =  $this->db->select('mp.*,p.*,
+                m.item ,s.name,mp.amount,m.unit,
                 DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
+                 DATE_FORMAT(mp.terms_start, "%M %d %Y") as terms_start,
+                DATE_FORMAT(mp.terms_end, "%M %d %Y") as terms_end,
                 CONCAT(u.firstname, " ",u.lastname) AS requestor')
             ->from('tbl_purchase_received as mp')
             ->join('tbl_materials as m','m.id=mp.item_no','LEFT')
             ->join('tbl_supplier as s','s.id=mp.supplier','LEFT')
             ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-            ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-            ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
             ->join('tbl_users as u','u.id=p.production','LEFT')
-            ->where('mp.type=2')
+            ->where('mp.type',2)
             ->where('mp.created_by',$user_id)
             ->order_by('mp.date_created','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  { 
-                if($row->terms==1){$terms ='<span class="label label-lg label-light-primary label-inline">CASH</span>';
-                }else if($row->terms == 2){$terms ='<span class="label label-lg label-light-primary label-inline">TERMS </span>';}
+                if($row->payment==1){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Cash</span></span>';
+                }else if($row->payment == 2){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Terms</span></span>
+                    <span class="font-weight-bold d-block">From: '.$row->terms_start.'</span>
+                    <span class="font-weight-bold">To: '.$row->terms_end.'</span>';}
+            $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-muted font-weight-bold">'.$row->fund_no.'</span>';
+                    ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
                      $data[] = array(
                           'production_no' => $row->production_no,
-                          'item'          => $row->item,
+                          'item'          => $row->item.' - '.$unit,
                           'quantity'      => $row->quantity,
                           'amount'        => number_format($row->amount,2),
                           'supplier'      => $row->name,

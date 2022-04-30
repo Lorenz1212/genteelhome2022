@@ -25,6 +25,7 @@ class Dashboard_model extends CI_Model
 
         $request_customized_pending = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','P')->get()->row();
         $request_customized_approved = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','A')->where('update_by',$id)->get()->row();
+
         $request_customized_rejected = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','R')->where('update_by',$id)->get()->row();
 
         $request_preoder_customized = intval($request_pre_order_pending->id+$request_customized_pending->id);
@@ -151,6 +152,7 @@ class Dashboard_model extends CI_Model
     $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',2)->get()->row();
 
     $material_request_complete_stocks = $this->db->select('*')->from('tbl_material_release')->where('type',1)->get()->num_rows();
+
     $material_request_complete_project = $this->db->select('*')->from('tbl_material_release')->where('type',2)->get()->num_rows();
 
     $stocks = $this->db->select('count(p.production_no) as id')->from('tbl_material_project as m')
@@ -171,8 +173,46 @@ class Dashboard_model extends CI_Model
         if($row->id >= 0){
             $material_request_pending_project += 1;
         }
-        
     }
+
+    $purchase_stocks_pending_query = $this->db->select('count(production_no) as id')->from('tbl_purchasing_project')
+    ->where('status',2)->where('type',1)->group_by('production_no')->get();
+    $purchase_stocks_pending=0;
+    foreach($purchase_stocks_pending_query->result() as $row){
+        if($row->id >= 0){
+            $purchase_stocks_pending += 1;
+        }
+    }
+
+    $purchase_stocks_approved_query = $this->db->select('count(production_no) as id')->from('tbl_purchasing_project')
+    ->where('status',4)->where('type',1)->group_by('production_no')->get();
+    $purchase_stocks_approved=0;
+    foreach($purchase_stocks_approved_query->result() as $row){
+        if($row->id >= 0){
+            $purchase_stocks_approved += 1;
+        }
+    }
+    $purchase_project_pending_query = $this->db->select('count(production_no) as id')->from('tbl_purchasing_project')
+    ->where('status',2)->where('type',2)->group_by('production_no')->get();
+    $purchase_project_pending=0;
+    foreach($purchase_project_pending_query->result() as $row){
+        if($row->id >= 0){
+            $purchase_project_pending += 1;
+        }
+    }
+
+    $purchase_project_approved_query = $this->db->select('count(production_no) as id')->from('tbl_purchasing_project')
+    ->where('status',4)->where('type',2)->group_by('production_no')->get();
+    $purchase_project_approved=0;
+    foreach($purchase_project_approved_query->result() as $row){
+        if($row->id >= 0){
+            $purchase_project_approved += 1;
+        }
+    }
+
+    $purchase_stocks_complete = $this->db->select('*')->from('tbl_purchase_received')->where('type',1)->get()->num_rows();
+    $purchase_project_complete = $this->db->select('*')->from('tbl_purchase_received')->where('type',2)->get()->num_rows();
+    
 
     $office=array();
     $spare=array();
@@ -206,7 +246,9 @@ class Dashboard_model extends CI_Model
               }
             }      
          }
-      $total_request = intval($customer_service_request->id+$sales_shipping_stocks->id+$sales_shipping_project->id+$request_material_pending->id+$material_request_pending_stocks+$material_request_pending_project);
+      $total_request = intval($customer_service_request->id+$sales_shipping_stocks->id+$sales_shipping_project->id+$request_material_pending->id+$material_request_pending_stocks+$material_request_pending_project+$purchase_stocks_pending+$purchase_stocks_approved+$purchase_project_pending+$purchase_project_approved);
+      $purchase_stocks = intval($purchase_stocks_pending+$purchase_stocks_approved);
+      $purchase_project = intval($purchase_project_pending+$purchase_project_approved);
       $json_data = array( 'rawmats'      => $rawmats,
                           'office'       => $office,
                           'spare'        => $spare,
@@ -228,7 +270,14 @@ class Dashboard_model extends CI_Model
                           'material_request_complete_project'=>$material_request_complete_project,
                           'material_request_pending_stocks'=>$material_request_pending_stocks,
                           'material_request_pending_project'=>$material_request_pending_project,
-
+                          'purchase_stocks_pending'=>$purchase_stocks_pending,
+                          'purchase_stocks_approved'=>$purchase_stocks_approved,
+                          'purchase_project_pending'=>$purchase_project_pending,
+                          'purchase_project_approved'=>$purchase_project_approved,
+                          'purchase_stocks_complete'=>$purchase_stocks_complete,
+                          'purchase_project_complete'=>$purchase_project_complete,
+                          'purchase_stocks'=>$purchase_stocks,
+                          'purchase_project'=>$purchase_project,
                           'total_request'=>$total_request
                           );
       return $json_data;   

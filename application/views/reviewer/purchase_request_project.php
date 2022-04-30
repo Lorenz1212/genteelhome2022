@@ -27,7 +27,7 @@
 										<li class="nav-item">
 											 <a class="nav-link active" data-toggle="tab" href="#request">
 						                        <span class="nav-text">Request</span>
-						                        <span class="label label-rounded label-warning request_material_pending">0</span>
+						                        <span class="label label-rounded label-warning purchase_project_pending">0</span>
 						                    </a>
 										</li>
 										<!--end::Item-->
@@ -35,15 +35,15 @@
 										<li class="nav-item">
 											 <a class="nav-link" data-toggle="tab" href="#inprogress">
 						                        <span class="nav-text">IN PROGRESS</span>
-						                        <span class="label label-rounded label-primary request_material_pending">0</span>
+						                        <span class="label label-rounded label-primary purchase_project_approved">0</span>
 						                    </a>
 										</li>
 										<!--end::Item-->
 										<!--begin::Item-->
 										<li class="nav-item">
 											 <a class="nav-link" data-toggle="tab" href="#complete">
-						                        <span class="nav-text">COMPLETE</span>
-						                        <span class="label label-rounded label-success request_material_pending">0</span>
+						                        <span class="nav-text">RECEIVED</span>
+						                        <span class="label label-rounded label-success purchase_project_complete">0</span>
 						                    </a>
 										</li>
 										<!--end::Item-->
@@ -294,7 +294,7 @@
 														<tr class="table-primary">
 															<th>MATERIAL</th>
 															<th>SUPPLIER</th>
-															<th>TERMS</th>
+															<th>PAYMENT</th>
 															<th class="text-center">QUANTITY</th>
 															<th class="text-right">AMOUNT</th>
 															<th class="text-center">ACTION</th>
@@ -316,3 +316,34 @@
 		    </div>
 		</div>
 	</div>
+<div class="modal fade" id="view-terms" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm " role="document">
+        <div class="modal-content bg-dark">
+        	<div class="modal-body">
+	        	<div class="row">
+	        		<div class="col-xl-12 col-xxl-12 col-md-12 col-sm-12">
+	        			  <div class="form-group" style="float: center">
+						    <label class="text-white">Date of Terms</label>
+						     <div class="input-daterange input-group" id="kt_datepicker_5">
+						      <input type="text" class="form-control" name="start" placeholder="mm/dd/YYYY" readonly />
+						      <div class="input-group-append">
+						       <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
+						      </div>
+						      <input type="text" class="form-control" name="end" placeholder="mm/dd/YYYY" readonly />
+						     </div>
+						     <span class="form-text text-muted">Date From-To</span>
+						   </div>
+	        		</div>
+	        	</div>
+
+	        	<div class="row d-flex justify-content-between">
+	        		<div class="col-xl-12 col-xxl-12 col-md-12 col-sm-12">
+	        			<button class="btn btn-primary btn-shadow mr-2" data-dismiss="modal" aria-label="Close">Close</button>
+	        			<button class="btn btn-success btn-shadow mr-2 btn-submit-terms" style="float: right">Submit</button>
+	        		</div>
+	        	</div>
+
+	        </div>
+        </div>
+    </div>
+</div>

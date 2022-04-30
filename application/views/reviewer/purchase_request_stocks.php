@@ -27,7 +27,7 @@
 										<li class="nav-item">
 											 <a class="nav-link active" data-toggle="tab" href="#request">
 						                        <span class="nav-text">Request</span>
-						                        <span class="label label-rounded label-warning request_material_pending">0</span>
+						                        <span class="label label-rounded label-warning purchase_stocks_pending">0</span>
 						                    </a>
 										</li>
 										<!--end::Item-->
@@ -35,15 +35,15 @@
 										<li class="nav-item">
 											 <a class="nav-link" data-toggle="tab" href="#inprogress">
 						                        <span class="nav-text">IN PROGRESS</span>
-						                        <span class="label label-rounded label-primary request_material_pending">0</span>
+						                        <span class="label label-rounded label-primary purchase_stocks_approved">0</span>
 						                    </a>
 										</li>
 										<!--end::Item-->
 										<!--begin::Item-->
 										<li class="nav-item">
 											 <a class="nav-link" data-toggle="tab" href="#complete">
-						                        <span class="nav-text">COMPLETE</span>
-						                        <span class="label label-rounded label-success request_material_pending">0</span>
+						                        <span class="nav-text">RECEIVED</span>
+						                        <span class="label label-rounded label-success purchase_stocks_complete">0</span>
 						                    </a>
 										</li>
 										<!--end::Item-->
