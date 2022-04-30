@@ -36,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+            <!--     <div class="row">
                      <div class="grid grid--layout-1 grid--current">
                         <div class="grid__item"></div>
                         <div class="grid__item"></div>
@@ -47,7 +47,7 @@
                         <div class="grid__item"></div>
                         <div class="grid__item"></div>
                     </div>
-                </div>
+                </div> -->
                 </div>
 
         
