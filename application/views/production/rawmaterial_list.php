@@ -73,7 +73,7 @@
 			    <label>Stocks Alert <span class="text-danger">*</span></label>
 			    <input type="text" class="form-control" name="stocks_alert" id="alert" disabled="" />
 			   </div>
-			    <div class="form-group">
+			    <div class="form-group" style="display: none;">
 			    <label>STATUS <span class="text-danger">*</span></label>
 			    <select type="text" class="form-control" name="status" disabled="" >
 			    	<option value="ACTIVE">ACTIVE</option>
