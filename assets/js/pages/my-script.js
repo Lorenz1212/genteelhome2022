@@ -2042,23 +2042,7 @@ var arrows;var item_v;var price;var special_option;
 						 	$('#view-purchased').addClass('d-none');	
 					 	}
 					 }); 
-					 $(document).on('click','.btn-add',function(e){
-					 	e.preventDefault();
-					 	e.stopPropagation();
-					 	let item = $('select[name="item"]').val();
-					 	let supplier = $('select[name=supplier]').val();
-					 	let terms = $('select[name=terms]').val();
-					 	let amount = $('input[name=amount_process]').val();
-					 	let quantity = $('input[name=quantity]').val();
-					 	if(!quantity || !amount){
-					 		Swal.fire("Warning!", "Please Enter Quantity and Amount!", "warning");
-					 	}else{
-					 		let val = {item:item,quantity:quantity,terms:terms,amount:amount,supplier:supplier};
-					 		_ajaxloaderOption('option_controller/Purchased_Item','POST',val,'Purchased_Item');
-					 		$('input[name=amount_process]').val("");
-					 		$('input[name=quantity]').val("");
-					 	}
-					 });
+					
 				})
 				break;
 			}

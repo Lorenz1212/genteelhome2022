@@ -117,7 +117,7 @@
 </div>
 <!--end::Content-->
 <!-- Modal-->
-<<!-- Modal-->
+<!-- Modal-->
 <div class="modal fade" id="requestModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
@@ -135,7 +135,7 @@
 											</div>
 											<div>
 												<span class="font-weight-bold font-size-h5 text-white text-hover-primary title"></span>
-												<div class="font-weight-bold font-size-h5 text-white text-hover-primary color"></div>
+											<!-- 	<div class="font-weight-bold font-size-h5 text-white text-hover-primary color"></div> -->
 												<div class="text-muted requestor" id="requestor"></div>
 												<div class="text-muted date_created" id="date_created"></div>
 												<div class="text-white text-hover-primary " id="joborder"></div>

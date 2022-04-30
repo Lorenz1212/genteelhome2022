@@ -321,7 +321,7 @@ class Modal_model extends CI_Model{
     }
 
      function Modal_Purchase_Stocks_Request_View($id){
-         $row =  $this->db->select('d.*,c.*,p.production_no
+         $row =  $this->db->select('d.*,c.*,p.production_no,
             CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
          ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->WHERE('p.production_no',$id)->get()->row(); 
         return $row;
@@ -388,60 +388,19 @@ class Modal_model extends CI_Model{
       }
 
       function Modal_Purchase_Project_Request_View($id){
-         $query =  $this->db->select('d.*,c.*,pr.id as id,p.production_no as production_no,
-            IFNULL(m.unit," ") as unit,m.item as item,pr.quantity as quantity,pr.balance_quantity as balance,
-            pr.status as status,pr.remarks as remarks,CONCAT(u.firstname, " ",u.lastname) AS production,
-            DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
-         ->from('tbl_purchasing_project as pr')
-         ->join('tbl_materials as m','m.id=pr.item_no','LEFT')
-         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-         ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
-         ->join('tbl_users as u','u.id=p.assigned','LEFT')
-         ->WHERE('pr.status=2 AND pr.production_no="'.$id.'" AND pr.fund_no IS NULL')->get(); 
-            foreach($query->result() as $row){
-                $data[] = array('id'    => $row->id,
-                         'production_no'=> $row->production_no,
-                         'title'        => $row->title,
-                         'item'         => $row->item,
-                         'quantity'     => $row->quantity,
-                         'balance'      => $row->balance,
-                         'unit'         => $row->unit,
-                         'status'       => $row->status,
-                         'remarks'      => $row->remarks,
-                         'production'   => $row->production,
-                         'date_created' => $row->date_created);
-              
-            }
-            return $data;
+          $row =  $this->db->select('d.*,c.*,p.production_no,
+            CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
+         ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->WHERE('p.production_no',$id)->get()->row(); 
+        return $row;
     }
      function Modal_Purchase_Project_Inprogress_View($id){
-        $query =  $this->db->select('d.*,c.*,pr.*,IFNULL(m.unit," ") as unit,pr.id as id,p.production_no as production_no,
-            m.item as item,pr.quantity as quantity,pr.remarks as remarks,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created,(SELECT count(status) from tbl_purchasing_project WHERE status=3 AND type=2 AND fund_no="'.$id.'") as status_request,(SELECT count(status) from tbl_purchasing_project WHERE status=4 AND type=2 AND fund_no="'.$id.'") as status_approved')
-         ->from('tbl_purchasing_project as pr')
-         ->join('tbl_materials as m','m.id=pr.item_no','LEFT')
-         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-         ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
+        $row =  $this->db->select('d.*,c.*,p.production_no,pr.fund_no,pr.status,
+            CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
+         ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')
          ->join('tbl_users as u','u.id=p.assigned','LEFT')
-         ->where('pr.fund_no',$id)->get();
-           if(!$query){return false;}else{  
-               foreach($query->result() as $row){
-                $data[] = array('id'        => $row->id,
-                         'production_no'    => $row->production_no,
-                         'unit'             => $row->unit,
-                         'title'            => $row->title,
-                         'item'             => $row->item,
-                         'quantity'         => $row->quantity,
-                         'balance'          => $row->balance,
-                         'remarks'          => $row->remarks,
-                         'requestor'        => $row->requestor,
-                         'status_request'   => $row->status_request,
-                         'status_approved'  => $row->status_approved,
-                         'date_created'     => $row->date_created);
-               } 
-               return $data;
-           }
+         ->join('tbl_purchasing_project as pr','p.production_no=pr.production_no','LEFT')
+         ->where('pr.fund_no',$id)->get()->row(); 
+         return $row;
       }
     
     
