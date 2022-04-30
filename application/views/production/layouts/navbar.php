@@ -128,7 +128,7 @@
 													</ul>
 												</div>
 											</li>
-												<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+									<!-- 			<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Request For Stocks</span>
 													<span class="menu-desc"></span>
@@ -207,7 +207,7 @@
 													</ul>
 												</div>
 											</li>
-												<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+ -->												<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Inventory</span>
 													<span class="menu-desc"></span>
@@ -269,7 +269,7 @@
 																</ul>
 															</div>
 														</li>
-													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+													<!-- <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="javascript:;" class="menu-link menu-toggle">
 																<span class="menu-text">Finish Product</span>
 																<i class="menu-arrow"></i>
@@ -286,17 +286,11 @@
 																	</li>
 																</ul>
 															</div>
-														</li>
+														</li> -->
 													</ul>
 												</div>
 											</li>
-											<?php if($this->session->userdata('voucher') == 2) {
-												echo '<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-														<a href="'.base_url().'gh/production/voucher" class="menu-link">
-															<span class="menu-text">Voucher</span>
-														</a>
-													</li>';}
-											?>
+
 										</ul>
 										<!--end::Header Nav-->
 									</div>
