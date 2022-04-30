@@ -455,7 +455,7 @@ class Update_model extends CI_Model
         }else{
             $images = $image_previous;
         }
-        if($images == false || $color_images == false){
+        if($images == false){
              $data_response = array('status'=> 'error');
         }else{
               if($docs){$docs_file = $this->move_to_folder3('DOCUMENTS'.$docs,$docs_tmp,$path_docs);
