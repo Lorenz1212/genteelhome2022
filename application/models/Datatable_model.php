@@ -536,13 +536,14 @@ class Datatable_model extends CI_Model{
     }
 
      function Purchase_Material_Project_Request_DataTable($user_id){
-           $query = $this->db->select('d.*,c.*,p.*,
+         $query = $this->db->select('d.*,c.*,p.*,
             CONCAT(u.firstname, " ",u.lastname) AS requestor,
              DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,
-            (SELECT count(id) FROM tbl_purchasing_project WHERE status=2 AND type=2 AND production_no=p.production_no GROUP BY production_no) as status,c.image,d.title,p.production_no as production_no')
+            (SELECT count(id) FROM tbl_purchasing_project WHERE status=2 AND production_no=p.production_no GROUP BY production_no) as status,
+            c.image as image,c.c_image as c_image,d.title as title,c.c_name,p.production_no as production_no')
             ->from('tbl_project as p')
-            ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-            ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
+             ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
+            ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
             ->join('tbl_purchasing_project as pr','pr.production_no=p.production_no','LEFT')
             ->join('tbl_users as u','u.id=p.assigned','LEFT')
             ->where('pr.status',2)
@@ -555,7 +556,7 @@ class Datatable_model extends CI_Model{
                     $data =false;   
                 }else{
                    $action = '<button data-toggle="modal" data-target="#requestModal" id="form-request" data-id="'.$row->production_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
-                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
+                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
                          $data[] = array(
                               'production_no'=> $row->production_no,
                               'title'        => $title,

@@ -175,8 +175,9 @@ class Dashboard_model extends CI_Model
         }
     }
 
-    $purchase_stocks_pending_query = $this->db->select('count(production_no) as id')->from('tbl_purchasing_project')
-    ->where('status',2)->where('type',1)->group_by('production_no')->get();
+    $purchase_stocks_pending_query = $this->db->select('count(pr.production_no) as id')->from('tbl_purchasing_project as pr')
+    ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
+    ->where('pr.status',2)->where('p.type',1)->group_by('pr.production_no')->get();
     $purchase_stocks_pending=0;
     foreach($purchase_stocks_pending_query->result() as $row){
         if($row->id >= 0){
@@ -184,16 +185,18 @@ class Dashboard_model extends CI_Model
         }
     }
 
-    $purchase_stocks_approved_query = $this->db->select('count(production_no) as id')->from('tbl_purchasing_project')
-    ->where('status',4)->where('type',1)->group_by('production_no')->get();
+    $purchase_stocks_approved_query = $this->db->select('count(pr.production_no) as id')->from('tbl_purchasing_project as pr')
+    ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
+    ->where('pr.status',4)->where('p.type',1)->group_by('pr.fund_no')->get();
     $purchase_stocks_approved=0;
     foreach($purchase_stocks_approved_query->result() as $row){
         if($row->id >= 0){
             $purchase_stocks_approved += 1;
         }
     }
-    $purchase_project_pending_query = $this->db->select('count(production_no) as id')->from('tbl_purchasing_project')
-    ->where('status',2)->where('type',2)->group_by('production_no')->get();
+    $purchase_project_pending_query = $this->db->select('count(pr.production_no) as id')->from('tbl_purchasing_project as pr')
+    ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
+    ->where('pr.status',2)->where('p.type',2)->group_by('pr.production_no')->get();
     $purchase_project_pending=0;
     foreach($purchase_project_pending_query->result() as $row){
         if($row->id >= 0){
@@ -201,8 +204,9 @@ class Dashboard_model extends CI_Model
         }
     }
 
-    $purchase_project_approved_query = $this->db->select('count(production_no) as id')->from('tbl_purchasing_project')
-    ->where('status',4)->where('type',2)->group_by('production_no')->get();
+    $purchase_project_approved_query = $this->db->select('count(pr.production_no) as id')->from('tbl_purchasing_project as pr')
+    ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
+    ->where('pr.status',4)->where('p.type',2)->group_by('pr.fund_no')->get();
     $purchase_project_approved=0;
     foreach($purchase_project_approved_query->result() as $row){
         if($row->id >= 0){

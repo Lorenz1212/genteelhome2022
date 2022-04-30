@@ -1187,6 +1187,7 @@ class Create_model extends CI_Model{
 				                'status'           	  =>  1,
 				                'remarks'          	  =>  $remarks,
 				                'material_type'    	  =>  $type,
+				                'type'    	  		  =>  $type,
 				                'date_created'     	  =>  date('Y-m-d H:i:s'));
 	    		$this->db->insert('tbl_purchasing_project',$purchase_data);
 	    		return $id;
