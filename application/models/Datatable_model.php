@@ -425,7 +425,7 @@ class Datatable_model extends CI_Model{
                   }
             }      
          }
-         $json_data  = array("data" =>$data); 
+         $json_data  = array("data" =>$data);
          return $json_data;
      }
      function Purchase_Material_Stocks_Request_DataTable($user_id){
@@ -2143,7 +2143,7 @@ class Datatable_model extends CI_Model{
         ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
         ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
         ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-        ->join('tbl_users as u','u.id=m.supervisor','LEFT')
+        ->join('tbl_users as u','u.id=m.purchaser','LEFT')
         ->where('m.status',3)->where('m.type',1)->group_by('m.fund_no')->get();  
          $data=array();
         if($query !== FALSE && $query->num_rows() > 0){
@@ -2172,7 +2172,7 @@ class Datatable_model extends CI_Model{
         ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
         ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
         ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-        ->join('tbl_users as u','u.id=m.supervisor','LEFT')
+        ->join('tbl_users as u','u.id=m.purchaser','LEFT')
         ->where('m.status',4)->where('m.type',1)->where('m.accounting',$user_id)->group_by('m.fund_no')->get();
          $data=array();
            if($query !== FALSE && $query->num_rows() > 0){
@@ -2196,7 +2196,7 @@ class Datatable_model extends CI_Model{
           function Accounting_Purchase_Material_Stocks_Received($user_id){
         $query = $this->db->select('d.*,c.*,m.*,pc.*,DATE_FORMAT(m.date_created, "%M %d %Y") as date_created,
                      CONCAT(u.firstname, " ",u.lastname) AS requestor')
-        ->from('tbl_purchase_received as m')->join('tbl_purchasing_project as pp','pp.id=m.pr_id','LEFT')
+        ->from('tbl_purchase_received as m')->join('tbl_purchasing_project as pp','pp.fund_no=m.fund_no','LEFT')
         ->join('tbl_pettycash as pc','pc.fund_no=pp.fund_no','LEFT')
         ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
         ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
@@ -2231,7 +2231,7 @@ class Datatable_model extends CI_Model{
         ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
         ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-        ->join('tbl_users as u','u.id=m.supervisor','LEFT')
+        ->join('tbl_users as u','u.id=m.purchaser','LEFT')
         ->where('m.status',3)->where('m.type',2)->group_by('m.fund_no')->get();  
         $data=array();
         if($query !== FALSE && $query->num_rows() > 0){
@@ -2253,7 +2253,7 @@ class Datatable_model extends CI_Model{
       function Accounting_Purchase_Material_Project_Approval($user_id){
       $query = $this->db->select('d.*,c.*,m.*,d.title,c.image,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,
         CONCAT(u.firstname, " ",u.lastname) AS requestor')
-        ->from('tbl_purchasing_project as m')->join('tbl_project as p','p.production_no=m.production_no','LEFT')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=m.supervisor','LEFT')->where('m.status',4)->where('m.type',2)->where('m.accounting',$user_id)->group_by('m.fund_no')->get();
+        ->from('tbl_purchasing_project as m')->join('tbl_project as p','p.production_no=m.production_no','LEFT')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=m.purchaser','LEFT')->where('m.status',4)->where('m.type',2)->where('m.accounting',$user_id)->group_by('m.fund_no')->get();
             $data=array();
            if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
@@ -2274,7 +2274,7 @@ class Datatable_model extends CI_Model{
      function Accounting_Purchase_Material_Project_Received($user_id){
         $query = $this->db->select('d.*,c.*,m.*,pc.*,DATE_FORMAT(m.date_created, "%M %d %Y") as date_created,
                      CONCAT(u.firstname, " ",u.lastname) AS requestor')
-        ->from('tbl_purchase_received as m')->join('tbl_purchasing_project as pp','pp.id=m.pr_id','LEFT')
+        ->from('tbl_purchase_received as m')->join('tbl_purchasing_project as pp','pp.fund_no=m.fund_no','LEFT')
         ->join('tbl_pettycash as pc','pc.fund_no=pp.fund_no','LEFT')
         ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')

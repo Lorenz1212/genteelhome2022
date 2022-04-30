@@ -184,7 +184,6 @@ class Dashboard_model extends CI_Model
             $purchase_stocks_pending += 1;
         }
     }
-
     $purchase_stocks_approved_query = $this->db->select('count(pr.production_no) as id')->from('tbl_purchasing_project as pr')
     ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
     ->where('pr.status',4)->where('p.type',1)->group_by('pr.fund_no')->get();
