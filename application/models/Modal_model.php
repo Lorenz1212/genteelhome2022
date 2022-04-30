@@ -333,6 +333,7 @@ class Modal_model extends CI_Model{
          ->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')
          ->WHERE('pr.status=2 AND pr.production_no="'.$id.'" AND pr.fund_no IS NULL')->get(); 
             foreach($query->result() as $row){
+                $remarks="";
                  if($row->remarks){$remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'.$row->remarks.'">Remarks</a>)';}
                 ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
                 $data[] = array('item'         => $row->item.' '.$unit,
@@ -374,6 +375,7 @@ class Modal_model extends CI_Model{
         $query =  $this->db->select('pr.*,pr.id ,m.unit,m.item,pr.quantity,pr.remarks,pr.amount')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','m.id=pr.item_no','LEFT')->where('pr.fund_no',$id)->get();
            if(!$query){return false;}else{  
                foreach($query->result() as $row){
+                $remarks="";
                 if($row->remarks){$remarks = '(<a href="javascript:;" data-container="body"  data-theme="dark" data-toggle="tooltip" data-placement="top" title="'.$row->remarks.'">Remarks</a>)';}
                 ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
                 $data[] = array('id'       => $row->id,
