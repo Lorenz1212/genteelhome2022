@@ -4937,7 +4937,7 @@ var KTFormControls = function () {
 						}else{
 							$('#item').append('<option value="">No Data Available</option>');
 						}
-						$('#supplier').empty();
+						$('#supplier option[value=""]').attr('selected',true);
 
 			 			let container = $('#tbl_purchasing_process > tbody');
 						container.empty();

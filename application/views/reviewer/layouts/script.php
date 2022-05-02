@@ -17,3 +17,4 @@
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/widgets/bootstrap-select.js"></script>
 		<script src="<?php echo base_url(); ?>assets/plugins/custom/tinymce/tinymce.bundle.js"></script>
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/editors/tinymce.js"></script>
+		<script type="text/javascript" src="<?php echo base_url() ?>assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>

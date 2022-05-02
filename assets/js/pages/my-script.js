@@ -3006,7 +3006,7 @@ var arrows;var item_v;var price;var special_option;
 	  	}
 	  	case "Modal_Purchase_Project_Inprogress_View":{
 	  		if(!response == false){
-	               $('.joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
+	              $('.joborder').text('JOB ORDER: '+response.production_no).attr('data-id',response.production_no);
 	               $('.fund_no').text('Trans #: '+response.fund_no).attr('data-id',response.fund_no);;
 	  		     $('.title').text(response.title);
 	  		     $('.requestor').text(response.production);
@@ -3033,6 +3033,9 @@ var arrows;var item_v;var price;var special_option;
 	             	 _ajaxloaderOption('option_controller/purchase_transaction','POST',{id:response.fund_no},'purchase_transaction');
 				$('[data-toggle="tooltip"]').tooltip();
 				_initCurrency_format('.amount');
+
+				KTBootstrapDatepicker.init();
+				$(".datepicker").css('width', '360px'); 
 	  		}
 	  		break;
 	  	}
@@ -4730,22 +4733,11 @@ var arrows;var item_v;var price;var special_option;
 				  			  	<td></td>\
 			  			     </tr>';	
 	  		    	  for (var i =0;i<response.jan_add.length;i++){
-	  		    		html +='<tr data-id="'+response.jan_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.jan_add[i].date+'"><div id="input-dateposition">'+response.jan_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.jan_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.jan_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.jan_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.jan_add[i].date_position+'</td>\
+			  		    		   <td>'+response.jan_add[i].name+'</td>\
+			  		    		   <td>'+response.jan_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	    html +='<tr class="bg-success text-white">\
@@ -4766,22 +4758,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.jan_less.length;i++){
-	  		    		html +='<tr data-id="'+response.jan_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.jan_less[i].date+'"><div id="input-dateposition">'+response.jan_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.jan_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.jan_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.jan_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		   <td>'+response.jan_less[i].date_position+'</td>\
+			  		    		   <td>'+response.jan_less[i].name+'</td>\
+			  		    		   <td >'+response.jan_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	   html +='<tr class="bg-warning text-white">\
@@ -4820,22 +4801,11 @@ var arrows;var item_v;var price;var special_option;
 				  			  	<td></td>\
 			  			     </tr>';	
 	  		    	  for (var i =0;i<response.feb_add.length;i++){
-	  		    		html +='<tr data-id="'+response.feb_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.feb_add[i].date+'"><div id="input-dateposition">'+response.feb_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.feb_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.feb_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.feb_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.feb_add[i].date_position+'</td>\
+			  		    		   <td>'+response.feb_add[i].name+'</td>\
+			  		    		   <td>'+response.feb_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	    html +='<tr class="bg-success text-white">\
@@ -4856,22 +4826,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.feb_less.length;i++){
-	  		    		html +='<tr data-id="'+response.feb_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.feb_less[i].date+'"><div id="input-dateposition">'+response.feb_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.feb_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.feb_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.feb_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr >\
+			  		    		  <td>'+response.feb_less[i].date_position+'</td>\
+			  		    		   <td>'+response.feb_less[i].name+'</td>\
+			  		    		   <td>'+response.feb_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	   html +='<tr class="bg-warning text-white">\
@@ -4911,21 +4870,10 @@ var arrows;var item_v;var price;var special_option;
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.march_add.length;i++){
 	  		    		html +='<tr data-id="'+response.march_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.march_add[i].date+'"><div id="input-dateposition">'+response.march_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.march_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.march_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.march_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    				   <td>'+response.march_add[i].date_position+'</td>\
+			  		    		   <td>'+response.march_add[i].name+'</td>\
+			  		    		   <td>'+response.march_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	    html +='<tr class="bg-success text-white">\
@@ -4946,22 +4894,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.march_less.length;i++){
-	  		    		html +='<tr data-id="'+response.march_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.march_less[i].date+'"><div id="input-dateposition">'+response.march_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.march_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.march_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.march_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		  <td>'+response.march_less[i].date_position+'</td>\
+			  		    		   <td>'+response.march_less[i].name+'</td>\
+			  		    		   <td>'+response.march_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	   html +='<tr class="bg-warning text-white">\
@@ -5000,21 +4937,10 @@ var arrows;var item_v;var price;var special_option;
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.april_add.length;i++){
 	  		    		html +='<tr data-id="'+response.april_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.april_add[i].date+'"><div id="input-dateposition">'+response.april_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.april_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.april_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.april_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    				   <td>'+response.april_add[i].date_position+'</td>\
+			  		    		   <td>'+response.april_add[i].name+'</td>\
+			  		    		   <td>'+response.april_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	    html +='<tr class="bg-success text-white">\
@@ -5036,21 +4962,10 @@ var arrows;var item_v;var price;var special_option;
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.april_less.length;i++){
 	  		    		html +='<tr data-id="'+response.april_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.april_less[i].date+'"><div id="input-dateposition">'+response.april_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.april_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.april_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.april_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+			  		    		  <td >'+response.april_less[i].date_position+'</td>\
+			  		    		   <td >'+response.april_less[i].name+'</td>\
+			  		    		   <td >'+response.april_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	   html +='<tr class="bg-warning text-white">\
@@ -5089,22 +5004,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.may_add.length;i++){
-	  		    		html +='<tr data-id="'+response.may_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.may_add[i].date+'"><div id="input-dateposition">'+response.may_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.may_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.may_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.may_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.may_add[i].date_position+'</td>\
+			  		    		   <td>'+response.may_add[i].name+'</td>\
+			  		    		   <td>'+response.may_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	    html +='<tr class="bg-success text-white">\
@@ -5125,22 +5029,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.may_less.length;i++){
-	  		    		html +='<tr data-id="'+response.may_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.may_less[i].date+'"><div id="input-dateposition">'+response.may_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.may_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.may_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.may_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		  <td>'+response.may_less[i].date_position+'</td>\
+			  		    		   <td>'+response.may_less[i].name+'</td>\
+			  		    		   <td>'+response.may_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	   html +='<tr class="bg-warning text-white">\
@@ -5179,22 +5072,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.june_add.length;i++){
-	  		    		html +='<tr data-id="'+response.june_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.june_add[i].date+'"><div id="input-dateposition">'+response.june_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.june_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.june_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.june_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.june_add[i].date_position+'</td>\
+			  		    		   <td >'+response.june_add[i].name+'</td>\
+			  		    		   <td>'+response.june_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	    html +='<tr class="bg-success text-white">\
@@ -5215,22 +5097,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.june_less.length;i++){
-	  		    		html +='<tr data-id="'+response.june_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.june_less[i].date+'"><div id="input-dateposition">'+response.june_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.june_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.june_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.june_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		  <td>'+response.june_less[i].date_position+'</td>\
+			  		    		   <td>'+response.june_less[i].name+'</td>\
+			  		    		   <td>'+response.june_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	   html +='<tr class="bg-warning text-white">\
@@ -5269,22 +5140,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.july_add.length;i++){
-	  		    		html +='<tr data-id="'+response.july_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.july_add[i].date+'"><div id="input-dateposition">'+response.july_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.july_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.july_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.july_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.july_add[i].date_position+'</td>\
+			  		    		   <td>'+response.july_add[i].name+'</td>\
+			  		    		   <td>'+response.july_add[i].amount+'</td>\
+			  		    		   <td></button></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	    html +='<tr class="bg-success text-white">\
@@ -5305,22 +5165,11 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.july_less.length;i++){
-	  		    		html +='<tr data-id="'+response.july_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.july_less[i].date+'"><div id="input-dateposition">'+response.july_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.july_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.july_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.july_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		  <td>'+response.july_less[i].date_position+'</td>\
+			  		    		   <td >'+response.july_less[i].name+'</td>\
+			  		    		   <td >'+response.july_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	   html +='<tr class="bg-warning text-white">\
@@ -5359,8 +5208,8 @@ var arrows;var item_v;var price;var special_option;
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.august_add.length;i++){
-	  		    		html +='<tr data-id="'+response.august_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.august_add[i].date+'"><div id="input-dateposition">'+response.august_add[i].date_position+'</div>\
+	  		    		html +='<tr>\
+	  		    				   <td><div id="input-dateposition">'+response.august_add[i].date_position+'</div>\
 	  		    				   <div class="form-group" style="display:none">\
 							    <div class="input-group">\
 							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\

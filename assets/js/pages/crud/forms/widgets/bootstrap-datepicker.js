@@ -119,6 +119,6 @@ var KTBootstrapDatepicker = function () {
     };
 }();
 
-jQuery(document).ready(function() {    
-    KTBootstrapDatepicker.init();
-});
+// jQuery(document).ready(function() {    
+//     KTBootstrapDatepicker.init();
+// });
