@@ -73,7 +73,7 @@
                                             <div class="card-body p-0 d-flex flex-column">
                                                 <!--begin::Items-->
                                                 <div class="flex-grow-1 card-spacer">
-                                                    <div class="row row-paddingless mt-5 mb-10">
+                                                    <div class="row  mt-5 mb-10">
                                                         <!--begin::Item-->
                                                         <div class="col">
                                                             <div class="d-flex align-items-center mr-2">
@@ -133,7 +133,7 @@
                                                         </div>
                                                         <!--end::Widget Item-->
                                                     </div>
-                                                    <div class="row row-paddingless">
+                                                    <div class="row">
                                                         <!--begin::Item-->
                                                         <div class="col">
                                                             <div class="d-flex align-items-center mr-2">

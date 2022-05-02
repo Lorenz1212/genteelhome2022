@@ -356,6 +356,35 @@ const month = ["January","February","March","April","May","June","July","August"
 			  }
 	      });
 	}
+	var _DataTableLoader1 = async function(link,TableURL,TableData,val){
+		var table = $('#'+link);
+		table.DataTable().clear().destroy();
+		$.fn.dataTable.ext.errMode = 'throw';
+		table.DataTable({
+			destroy: true,
+			responsive: true,
+			info: true,
+			searching: false,
+			pageLength : 4,
+    			lengthChange: false,
+			"fnDrawCallback": function() {
+	                $('[data-toggle="tooltip"]').tooltip();
+	                _initCurrency_format('.td-amount');
+
+	           },
+			language: { 
+			 	infoEmpty: "No records available", 
+			 },
+			serverSide:false,
+			ajax: {
+				url: TableURL,
+				type: 'POST',
+				datatype: "json",
+				data: {val:val},
+			},
+			columns:TableData,
+		});
+	}
 	var _ajaxloaderOption = async function(thisURL,type,val,sub){
 		  $.ajax({
 	             url: baseURL + thisURL,
@@ -957,6 +986,24 @@ const month = ["January","February","March","April","May","June","July","August"
 						let thisUrl = 'modal_controller/Modal_Production_Stocks';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Production_Stocks");
 				    });
+				  });
+				break;
+			}
+			case "data-supplier":{
+				 $(document).ready(function() {
+				 	_initItem_option();
+					_initCurrency_format("#price");
+					$(document).on("click","#form-request",function() {
+						let thisUrl = 'modal_controller/Modal_Supplier_View';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_View");
+				    	});
+				    	$(document).on("click","#edit-item-view",function() {
+						let thisUrl = 'modal_controller/Modal_Supplier_Item_Update_View';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_Item_Update_View");
+				    	});
+				    	$(document).on("click",".add-supplier",function() {
+						$('#Create_Supplier')[0].reset();
+				    	});
 				  });
 				break;
 			}
@@ -3496,9 +3543,32 @@ const month = ["January","February","March","April","May","June","July","August"
 					html +='</table>';
 					$('#tbl_income_monthly').empty().append(html);
 				}
-				
 		  		break;
 	  		}
+	  	case "Modal_Supplier_View":{
+	  		_initCurrency_format('.amount');
+	  		$('.name').text(response.name).attr('data-id',response.id);
+	  		$('.mobile').text(response.mobile);
+	  		$('.email').text(response.email);
+	  		$('.address').text(response.address);
+	  		$('input[name=name]').val(response.name);
+	  		$('input[name=mobile]').val(response.mobile);
+	  		$('input[name=email]').val(response.email);
+	  		$('input[name=address]').val(response.address);
+
+	  		$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response.image+')');
+	  		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
+			let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
+			_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response.id);
+	  		break;
+	  	}
+	  	case "Modal_Supplier_Item_Update_View":{
+	  		_initCurrency_format('.amount');
+	  		$('select[name=item]').val(response.item_no).change();
+	  		$('select[name=item]').attr('data-id',response.id);
+	  		$('input[name=amount]').val(response.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	  		break;
+	  	}
 	  }
 	}
 	return {

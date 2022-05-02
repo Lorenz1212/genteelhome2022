@@ -18,6 +18,11 @@ var KTFormControls = function () {
 		       window.location = url;
 		});
 	}
+	var _initCurrency_format = function(action){
+		$( document ).ready(function() {
+			$(''+action+'').mask('000,000,000,000,000.00', {reverse: true});
+		});
+	}
 	var _initToastSuccess = function()
 	{
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save changes'});
@@ -120,6 +125,191 @@ var KTFormControls = function () {
                                                      
 		});
 	}
+	var _initnotificationupdate = function(){
+		 let url = window.location.pathname;
+		 let urlpost;
+		 if(url.split('/')[0] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[2];
+		 }else if(url.split('/')[1] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[3];
+		 }else if(url.split('/')[2] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[4];
+		 }else if(url.split('/')[3] == 'genteelhome2022'){
+		 	urlpost = url.split('/')[6];
+		 }
+		 if(urlpost == 'designer'){
+		 	_ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
+		 }else if(urlpost =='production'){
+		 	_ajaxloaderOption('Dashboard_controller/production_dashboard','POST',false,'production');
+		 }else if(urlpost == 'sales'){
+		 	_ajaxloaderOption('Dashboard_controller/sales_dashboard','POST',false,'sales');
+		 }else if(urlpost =='supervisor'){
+
+		 }else if(urlpost == 'superuser'){
+		 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
+		 }else if(urlpost == 'admin'){
+		 	_ajaxloaderOption('Dashboard_controller/admin_dashboard','POST',false,'admin');
+		 }else if(urlpost == 'accounting'){
+
+		 }
+	}
+	var _ajaxloaderOption = async function(thisURL,type,val,sub){
+		  $.ajax({
+	             url: baseURL + thisURL,
+	             type: type,
+	             data: val,
+	             dataType:"json",
+                  success: function(response)
+                  {
+                  	  _initOption(sub,response);
+                  }                                     
+		});	
+	}
+      var _initOption = function(view,response){
+		switch(view){
+			case "designer":{
+				$('.request_stocks').text(response.request_stocks);
+				$('.approved_stocks').text(response.approved_stocks);
+				$('.rejected_stocks').text(response.rejected_stocks);
+				$('.request_project').text(response.request_project);
+				$('.approved_project').text(response.approved_project);
+				$('.rejected_project').text(response.rejected_project);
+				$('.request_stocks_project').text(response.request_stocks_project);
+
+				$('.request_jo_stocks').text(response.request_jo_stocks);
+				$('.request_jo_project').text(response.request_jo_project);
+				$('.request_jo').text(response.request_jo_designer);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
+
+				$('.request_pre_order_pending').text(response.request_pre_order_pending);
+				$('.request_pre_order_approved').text(response.request_pre_order_approved);
+				$('.request_pre_order_rejected').text(response.request_pre_order_rejected);
+
+				$('.request_customized_pending').text(response.request_customized_pending);
+				$('.request_customized_approved').text(response.request_customized_approved);
+				$('.request_customized_rejected').text(response.request_customized_rejected);
+
+				$('.request_preoder_customized').text(response.request_preoder_customized);
+				break;
+			}
+			case "production":{
+				$('.request_jo_stocks_production').text(response.request_jo_stocks);
+				$('.request_jo_project_production').text(response.request_jo_project);
+				$('.request_jo_production').text(response.request_jo_production);
+				$('.sales_count').text(response.request_salesorder);
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+
+				$('.sales_shipping_project').text(response.sales_shipping_project);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
+				break;
+			}
+			case "sales":{
+				$('.sales_count').text(response.request_salesorder);
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+
+				$('.sales_shipping_project').text(response.sales_shipping_project);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
+				$('.customer_count').text(response.customer_total_count);
+				$('.customer_request_count').text(response.customer_service_request);
+				$('.customer_approved_count').text(response.customer_service_approved);
+
+				$('.online_add_cart').text(response.online_add_cart);
+				$('.pre_order_count').text(response.pre_order_count);
+				$('.collection_count').text(response.collection_count);
+
+				$('.request_customized_pending').text(response.request_customized_pending);
+				$('.request_customized_approved').text(response.request_customized_approved);
+				$('.request_customized_rejected').text(response.request_customized_rejected);
+
+				$('.request_inquiry_pending').text(response.request_inquiry_pending);
+				$('.request_inquiry_approved').text(response.request_inquiry_approved);
+				break;
+			}
+			case "superuser":{
+				$('.request_count').text(response.total_request);
+				$('.customer_concern_count').text(response.customer_service_request);
+
+				$('.customer_request_count').text(response.customer_service_request);
+				$('.customer_approved_count').text(response.customer_service_approved);
+				
+				$('.return_item_good').text(response.return_item_good);
+				$('.return_item_rejected').text(response.return_item_rejected);
+				$('.return_item_customer_repair').text(response.return_item_customer_repair);
+				$('.return_item_customer_good').text(response.return_item_customer_good);
+				$('.return_item_customer_rejected').text(response.return_item_customer_rejected);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
+
+				$('.sales_project').text(response.request_sales_project);
+				$('.sales_stocks').text(response.request_sales_stocks);
+
+				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+				$('.sales_deliver_project').text(response.sales_deliver_project);
+
+				$('.material_request_complete_stocks').text(response.material_request_complete_stocks);
+				$('.material_request_complete_project').text(response.material_request_complete_project);
+
+				$('.material_request_pending_stocks').text(response.material_request_pending_stocks);
+				$('.material_request_pending_project').text(response.material_request_pending_project);
+
+				$('.purchase_stocks_pending').text(response.purchase_stocks_pending);
+				$('.purchase_stocks_approved').text(response.purchase_stocks_approved);
+				$('.purchase_project_pending').text(response.purchase_project_pending);
+				$('.purchase_project_approved').text(response.purchase_project_approved);
+				$('.purchase_stocks').text(response.purchase_stocks);
+				$('.purchase_project').text(response.purchase_project);
+
+				$('.purchase_stocks_complete').text(response.purchase_stocks_complete);
+				$('.purchase_project_complete').text(response.purchase_project_complete);
+				break;
+			}
+			case "admin":{
+				$('.request_stocks').text(response.request_stocks);
+				$('.approved_stocks').text(response.approved_stocks);
+				$('.rejected_stocks').text(response.rejected_stocks);
+				$('.request_project').text(response.request_project);
+				$('.approved_project').text(response.approved_project);
+				$('.rejected_project').text(response.rejected_project);
+
+				$('.request_sales_stocks').text(response.request_sales_stocks);
+				$('.approved_sales_stocks').text(response.approved_sales_stocks);
+				$('.rejected_sales_stocks').text(response.rejected_sales_stocks);
+
+				$('.request_sales_project').text(response.request_sales_project);
+				$('.approved_sales_project').text(response.approved_sales_project);
+				$('.rejected_sales_project').text(response.rejected_sales_project);
+
+				$('.stocks_inpection_pending').text(response.stocks_inpection_pending);
+				$('.stocks_inpection_approved').text(response.stocks_inpection_approved);
+				$('.stocks_inpection_rejected').text(response.stocks_inpection_rejected);
+
+				$('.project_inpection_pending').text(response.project_inpection_pending);
+				$('.project_inpection_approved').text(response.project_inpection_approved);
+				$('.project_inpection_rejected').text(response.project_inpection_rejected);
+
+				$('.total_request').text(response.total_request);
+				break;
+			}
+			
+		}
+	}
 	var _ajaxForm_loaded = async function(thisURL,type,val,view,url){
 		$.ajax({
               url: thisURL,
@@ -144,6 +334,35 @@ var KTFormControls = function () {
                        Swal.fire("Oopps!", "Something went wrong, Please try again later", "info");    
               }
                                                      
+		});
+	}
+	var _DataTableLoader1 = async function(link,TableURL,TableData,val){
+		var table = $('#'+link);
+		table.DataTable().clear().destroy();
+		$.fn.dataTable.ext.errMode = 'throw';
+		table.DataTable({
+			destroy: true,
+			responsive: true,
+			info: true,
+			searching: false,
+			pageLength : 4,
+    			lengthChange: false,
+			"fnDrawCallback": function() {
+	                $('[data-toggle="tooltip"]').tooltip();
+	                _initCurrency_format('.td-amount');
+
+	           },
+			language: { 
+			 	infoEmpty: "No records available", 
+			 },
+			serverSide:false,
+			ajax: {
+				url: TableURL,
+				type: 'POST',
+				datatype: "json",
+				data: {val:val},
+			},
+			columns:TableData,
 		});
 	}
 	var _DataTableLoader = async function(link,TableURL,TableData,val){

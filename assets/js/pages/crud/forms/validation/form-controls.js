@@ -70,6 +70,11 @@ var KTFormControls = function () {
 
 		 }
 	}
+	var _initCurrency_format = function(action){
+		$( document ).ready(function() {
+			$(''+action+'').mask('000,000,000,000,000.00', {reverse: true});
+		});
+	}
 	var _ajaxloaderOption = async function(thisURL,type,val,sub){
 		  $.ajax({
 	             url: baseURL + thisURL,
