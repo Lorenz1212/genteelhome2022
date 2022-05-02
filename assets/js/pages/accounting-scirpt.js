@@ -738,17 +738,12 @@ const month = ["January","February","March","April","May","June","July","August"
 			}
 			case "data-purchased-material-stocks-request":{
 				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
+					 $(document).on("click","#view-request-form",function() {
 					 	let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Material_Stocks_Request';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Stocks_Request");
+						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Stocks");
 				    });
-					$(document).on("click","#form-approval",function() {
-					 	let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Material_Stocks_Approved';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Stocks_Approved");
-				    });
-					$(document).on("click","#form-received",function() {
+					$(document).on("click","#view-received-form",function() {
 					 	let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Received_Stocks';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Received_Stocks");
@@ -758,17 +753,12 @@ const month = ["January","February","March","April","May","June","July","August"
 			}
 			case "data-purchased-material-project-request":{
 				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
+					$(document).on("click","#view-request-form",function() {
 					 	let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Material_Project_Request';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Project_Request");
+						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Project");
 				    });
-					$(document).on("click","#form-approved",function() {
-					 	let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Material_Project_Approved';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Project_Approved");
-				    });
-				    $(document).on("click","#form-received",function() {
+					$(document).on("click","#view-received-form",function() {
 					 	let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Received_Project';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Received_Project");
@@ -1188,271 +1178,171 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		}
 		  		break;
 		  	}
-	  	case "Modal_Accounting_Purchase_Material_Stocks_Request":{
-	  		if(!response == false){
-	  			_initCurrency_format('#cash_request');
-	  		     $('#joborder').text('JOB ORDER: '+response[0].production_no).attr('data-id',response[0].fund_no);
-	  		     $('#title').text('ITEM: '+response[0].title);
-	  		     $('#c_name').text('('+response[0].c_name+')');
-	  		     $('#requestor').text('REQUESTOR : '+response[0].requestor);
-	  		     $('input[name="cash"]').focus();
-	  		     $('#button_status').html('<div class="row"><div class="col-lg-7">'
-	  		     				+'<input type="text" id="cash_request" name="cash_request" class="form-control form-control-solid border border-success" placeholder="Input Cash Fund"/></div>'
-	  		     				+'<div class="col-lg-4"><button type="button" class="btn btn-success save_request">UPDATE</button></div></div>');
-	               $('#status').text('TOTAL: P'+response[0].total);
-	               $('#date_created').text('DATE: '+response[0].date_created);
-	             	$('#tbl_purchase_request_modal > tbody:last-child').empty();
-	             	for(var i=0;i<response.length;i++){
-	             			$('#tbl_purchase_request_modal > tbody:last-child').append('<tr>'
-						+'<td class="align-middle text-left">'+response[i].item+'</td>'
-						+'<td class="align-middle text-center">'+response[i].quantity+' '+response[i].unit+'</td>'
-						+'<td class="align-middle text-right">'+response[i].amount+'</td>'
-						+'</tr>');
-				 }
-	  		   }
-	  		   break;
-	  		}
-	  		case "Modal_Accounting_Purchase_Material_Stocks_Approved":{
-		  		if(!response == false){
-		  		     $('#production_no_f').text('JOB ORDER: '+response[0].production_no).attr('data-id',response[0].fund_no);
-		  		     $('#title_f').text('ITEM: '+response[0].title+' ('+response[0].c_name+')');
-		  		     $('#requestor_f').text('REQUESTOR : '+response[0].requestor);
-		  		     $('#button_edits').html('<button type="button" class="btn btn-success edit'+response[0].fund_no+'">EDIT</button>');
-		  		     if(!response[0].updatecash || response[0].updatecash == "0.00"){
-		  		     	var cash = response[0].pettycash;
-		  		     	var del = '';
-		  		     }else{
-		  		     	if(response[0].updatecash == response[0].pettycash){var del = '';}else{var del = response[0].pettycash;}
-		  		     	 var cash = response[0].updatecash;
-		  		     }
-		  		     $('#del_cash').text(del);
-		  		     $('#pettycash').text(cash);
-		  		     $('input[name="previouscash"]').val(response[0].pettycash);
-		  		     $(document).on('click','.close',function(e){
-		  		     	   $('#button_edit').show();
-		  		    		   $('#button_save').hide();
-		  		     });
-			  		$(document).on('click','.edit'+response[0].fund_no,function(e){
-		  		     	if(!response[0].updatecash || response[0].updatecash == "0.00"){
-		  		     	 _initCurrency_format('#cash_approved');
-		  		     	   $('#button_edits').hide();
-		  		     	   $('input[name="cash_approved"]').focus();
-		  		    		   $('#button_saves').fadeIn();
-			  		     }else{
-			  		     	if(response[0].updatecash == response[0].pettycash){
-			  		     	   $('#button_edits').hide();
-			  		     	   $('input[name="cash_approved"]').focus();
-			  		    		   $('#button_saves').fadeIn();
-			  		     	}else{
-			  		     	  Swal.fire("Warning!", "Cash fund is already changed!", "warning");
-			  		     	}
-			  		     }
-		  		     });
-		  		     $('#button_saves').hide();
-		  		     $('#button_saves').html('<div class="row"><div class="col-lg-7">'
-  		     				+'<input type="text" id="cash_approved" name="cash_approved" value="'+cash+'" class="form-control form-control-solid border border-success" placeholder="Input Cash Fund"/></div>'
-  		     				+'<div class="col-lg-4"><button type="button" class="btn btn-success save_approved">UPDATE</button></div></div>');
-		               $('#status_f').text('TOTAL: P'+response[0].total);
-		               $('#date_created_f').text('DATE: '+response[0].date_created);
-		             	$('#tbl_purchased_approved_modal > tbody:last-child').empty();
-		             	for(var i=0;i<response.length;i++){
-		             			$('#tbl_purchased_approved_modal > tbody:last-child').append('<tr>'
-							+'<td class="align-middle">'+response[i].item+'</td>'
-							+'<td class="align-middle text-center">'+response[i].quantity+' '+response[i].unit+'</td>'
-							+'<td class="align-middle text-right">'+response[i].amount+'</td>'
-							+'</tr>');
-					 }
+	  	case "Modal_Accounting_Purchase_Material_Stocks":{
+	  			if(!response == false){
+	  				_initCurrency_format(".amount");
+	  			    $('.cash_fund').text(response.info.fund_no);
+		  		    $('.joborder').text(response.info.production_no);
+		  		    $('.requestor').text(response.info.requestor);
+		  		    $('.date_created').text(response.info.date_created);
+		  		    $('.title').text(response.info.title+' ('+response.info.c_name+')');
+		  		    $('.total').text(response.total);
+		  		    let container = $('#tbl_purchased_estimate > tbody:last-child');
+		  		    container.empty();
+		  		    for(let i=0;i<response.material.length;i++){
+		  		    		container.append('<tr>\
+		  		    					  	 <td>'+response.material[i].item+'</td>\
+		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
+		  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+		  		    					  </tr>');
+		  		    }
+	  		    		$('.purchase-button').show();
+	  		    		$('.purchase-cash-fund').hide();
+	  		    		$('.total_fund').text(response.fund);
+	  		    		$('.btn-request-submit').text('Submit').attr('data-status',1);
+		  		    	if(response.info.status == 5){
+		  		    		$('.purchase-button').hide();
+		  		    		$('.purchase-cash-fund').show();
+		  		    		$('.status').text('Complete').removeClass('text-primary text-warning').addClass('text-success');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-warning separator-primary').addClass('separator-success');
+		  		    	}else if(response.info.status == 4){
+		  		    		$('.status').text('Approved').removeClass('text-warning text-success').addClass('text-primary');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-warning separator-success').addClass('separator-primary');
+		  		    		$('input[name=cash_fund]').val(response.fund);
+		  		    		$('.btn-request-submit').text('Update').attr('data-status',2);
+		  		    	}else{
+		  		    		$('.status').text('Request').removeClass('text-primary text-success').addClass('text-warning');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-success separator-primary').addClass('separator-warning');
+		  		    	}
+		  		    $('#view-purchased-request').modal('show');
+
 		  		}
-	  		 break;
+	  		   break;
 	  		}
 	  		case "Modal_Accounting_Purchase_Received_Stocks":{
 		  		if(!response == false){
-		  			$('input[name="fund_no"]').val(response[0].fund_no);
-		  		     $('#production_no_c').text('JOB ORDER: '+response[0].production_no);
-		  		     $('#title_c').text('ITEM: '+response[0].title);
-		  		     $('#c_name_c').text('('+response[0].c_name+')');
-		  		     $('#requestor_c').text('PURCHASER : '+response[0].requestor);
-		  		     $('#button_save').hide();
-		  		     $(document).on('click','.close',function(e){
-		  		     	   $('#button_edit').show();
-		  		    		   $('#button_save').hide();
-		  		     });
-		  		     if(!response[0].updatecash || response[0].updatecash == "0.00"){var cash = response[0].pettycash;var del = '';
-		  		     }else{if(response[0].updatecash == response[0].pettycash){var del = '';}else{var del = response[0].pettycash;	}
-		  		     var cash = response[0].updatecash;}
-		  		     $('#del_cash').text(del);
-		  		     $('#pettycash').text(cash);
-		  		     $('#pettycash1').text(cash);
-		  		     if(response[0].actual_change == "0.00"){var actual_change = 0;}else{var actual_change =response[0].actual_change;}
-		  		     if(response[0].refund == "0.00"){var refund = 0;}else{var refund =response[0].refund;}
-		  		    $('#button_edit').html('<button type="button" class="btn btn-success edit'+response[0].fund_no+'">EDIT</button>');
-		  		     _initCurrency_format('#cash');
-	  		     	_initCurrency_format('input[name="refund"]');
-	  		     	 $(document).on('click','.edit'+response[0].fund_no,function(e){
-			  		     	 $('#button_edit').hide();
-			  		     	 $('input[name="cash"]').focus();
-			  		    		 $('#button_save').fadeIn();
-			  		    		 $('#change').show();
-			  		    		 $('#change1').hide();
-			  		    		 $('#refund').show();
-			  		    		 $('#refund1').hide();
-	  		   		  });
-	  		    		$('#change1').html('<span>'+actual_change+'</span>'); 
-	  		    		$('#change').hide(); 
-		  		     $('#change').html('<input type="text" style="text-align:right;" id="cash" name="change" value="'+actual_change+'" class="form-control form-control-solid border border-success" placeholder="Input Actual Change"/>');
-		  		     $('#refund1').html('<span>'+refund+'</span>'); 
-	  		    		$('#refund').hide(); 
-		  		     $('#refund').html('<input type="text" style="text-align:right;" id="refund" name="refund" value="'+refund+'" class="form-control form-control-solid border border-success" placeholder="Input Rund"/>');
-		  		     $('#button_save').html('<button type="button" class="btn btn-success save_received">UPDATE</button>');
-		  		     $('#save').on('keyup keypress', function(e) { var keyCode = e.keyCode || e.which; if (keyCode === 13) { e.preventDefault(); return false; } });
-		               $('#total').text(response[0].total);
-		               $('#total_payment').text(response[0].total);
-		               $('#date_created_c').text('DATE: '+response[0].date_created);
-		             	$('#tbl_purchased_received_modal > tbody:last-child').empty();
-		             	for(var i=0;i<response.length;i++){
-		             			$('#tbl_purchased_received_modal > tbody:last-child').append('<tr>'
-							+'<td class="align-middle pl-0">'+response[i].item+'</td>'
-							+'<td class="align-middle text-center">'+response[i].quantity+' '+response[i].unit+'</td>'
-							+'<td class="align-middle text-center">'+response[i].supplier+'</td>'
-							+'<td class="align-middle text-center">'+response[i].type+'</td>'
-							+'<td class="align-middle text-right">'+response[i].amount+'</td>'
-							+'</tr>');
-					 }
+	  				_initCurrency_format(".amount");
+	  			    $('.cash_fund_r').text(response.info.fund_no);
+		  		    $('.joborder_r').text(response.info.production_no);
+		  		    $('.requestor_r').text(response.info.requestor);
+		  		    $('.date_created_r').text(response.info.date_created);
+		  		    $('.title_r').text(response.info.title+' ('+response.info.c_name+')');
+		  		    $('.total-received').text(response.total);
+		  		    $('.total_petty').text(response.total_petty);
+		  		    $('.actual_change').text(response.total_change);
+		  		    $('.total_refund').text(response.total_refund);
+		  		    let container = $('#tbl_purchased_received_modal > tbody:last-child');
+		  		    container.empty();
+		  		    for(let i=0;i<response.material.length;i++){
+		  		    		container.append('<tr>\
+		  		    					  	 <td>'+response.material[i].item+'</td>\
+		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
+		  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+		  		    					  	 <td class="text-right">'+response.material[i].supplier+'</td>\
+		  		    					  	 <td class="text-center">'+response.material[i].payment+'</td>\
+		  		    					  </tr>');
+
+		  		    }
+		  		     $('.purchased-received-input').show();
+	  		    		$('.purchased-received-hide').hide();
+		  		    	if(response.info.status == 2){
+		  		    		$('.purchased-received-hide').show();
+		  		    		$('.purchased-received-input').hide();
+		  		    		$('.status-received').text('Complete').removeClass('text-primary text-warning').addClass('text-success');
+		  		    		$('#separator-status-received-1,#separator-status-received-2').removeClass('separator-warning separator-primary').addClass('separator-success');
+		  		    	}else{
+		  		    		$('.status-received').text('Request').removeClass('text-primary text-success').addClass('text-warning');
+		  		    		$('#separator-status-received-1,#separator-status-received-2').removeClass('separator-success separator-primary').addClass('separator-warning');
+		  		    	}
+		  		    $('#view-purchased-received').modal('show');
+
 		  		}
 	  		 break;
 	  		}
-	  		case "Modal_Accounting_Purchase_Material_Project_Request":{
+	  		case "Modal_Accounting_Purchase_Material_Project":{
 	  			if(!response == false){
-	  			_initCurrency_format('#cash_request');
-	  			$('input[name="cash"]').focus();
-	  		     $('#joborder').text('JOB ORDER: '+response[0].production_no).attr('data-id',response[0].fund_no);
-	  		     $('#title').text('ITEM: '+response[0].title);
-	  		     $('#requestor').text('REQUESTOR : '+response[0].requestor);
-	  		     $('#button_status').html('<div class="row"><div class="col-lg-7">'
-	  		     				+'<input type="text" id="cash_request" name="cash_request" class="form-control form-control-solid border border-success" placeholder="Input Cash Fund"/></div>'
-	  		     				+'<div class="col-lg-4"><button type="button" class="btn btn-success save_request">UPDATE</button></div></div>');
-	               $('#status').text('TOTAL: P'+response[0].total);
-	               $('#date_created').text('DATE: '+response[0].date_created);
-	             	$('#tbl_purchase_request_modal > tbody:last-child').empty();
-	             	for(var i=0;i<response.length;i++){
-	             			$('#tbl_purchase_request_modal > tbody:last-child').append('<tr>'
-						+'<td class="align-middle text-left">'+response[i].item+'</td>'
-						+'<td class="align-middle text-center">'+response[i].quantity+' '+response[i].unit+'</td>'
-						+'<td class="align-middle text-right">'+response[i].amount+'</td>'
-						+'</tr>');
-				 }
-	  		   }
+	  				_initCurrency_format(".amount");
+	  			    $('.cash_fund').text(response.info.fund_no);
+		  		    $('.joborder').text(response.info.production_no);
+		  		    $('.requestor').text(response.info.requestor);
+		  		    $('.date_created').text(response.info.date_created);
+		  		    $('.title').text(response.info.title);
+		  		    $('.total').text(response.total);
+		  		    let container = $('#tbl_purchased_estimate > tbody:last-child');
+		  		    container.empty();
+		  		    for(let i=0;i<response.material.length;i++){
+		  		    		container.append('<tr>\
+		  		    					  	 <td>'+response.material[i].item+'</td>\
+		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
+		  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+		  		    					  </tr>');
+		  		    }
+	  		    		$('.purchase-button').show();
+	  		    		$('.purchase-cash-fund').hide();
+	  		    		$('.total_fund').text(response.fund);
+	  		    		$('.btn-request-submit').text('Submit').attr('data-status',1);
+		  		    	if(response.info.status == 5){
+		  		    		$('.purchase-button').hide();
+		  		    		$('.purchase-cash-fund').show();
+		  		    		$('.status').text('Complete').removeClass('text-primary text-warning').addClass('text-success');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-warning separator-primary').addClass('separator-success');
+		  		    	}else if(response.info.status == 4){
+		  		    		$('.status').text('Approved').removeClass('text-warning text-success').addClass('text-primary');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-warning separator-success').addClass('separator-primary');
+		  		    		$('input[name=cash_fund]').val(response.fund);
+		  		    		$('.btn-request-submit').text('Update').attr('data-status',2);
+		  		    	}else{
+		  		    		$('.status').text('Request').removeClass('text-primary text-success').addClass('text-warning');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-success separator-primary').addClass('separator-warning');
+		  		    	}
+		  		    $('#view-purchased-request').modal('show');
+
+		  		}
 	  		   break;
 	  		}
-	  		case "Modal_Accounting_Purchase_Material_Project_Approved":{
-		  		if(!response == false){
-		  		     $('#production_no_f').text('JOB ORDER: '+response[0].production_no).attr('data-id',response[0].fund_no);
-		  		     $('#title_f').text('ITEM: '+response[0].title);
-		  		     $('#requestor_f').text('REQUESTOR : '+response[0].requestor);
-		  		     $('#button_edits').html('<button type="button" class="btn btn-success edit'+response[0].fund_no+'">EDIT</button>');
-		  		     if(!response[0].updatecash || response[0].updatecash == "0.00"){
-		  		     	var cash = response[0].pettycash;
-		  		     	var del = '';
-		  		     }else{
-		  		     	if(response[0].updatecash == response[0].pettycash){var del = '';}else{var del = response[0].pettycash;}
-		  		     	 var cash = response[0].updatecash;
-		  		     }
-		  		     $('#del_cash').text(del);
-		  		     $('#pettycash').text(cash);
-		  		     $('input[name="previouscash"]').val(response[0].pettycash);
-		  		     $(document).on('click','.close',function(e){
-		  		     	   $('#button_edit').show();
-		  		    		   $('#button_save').hide();
-		  		     });
-			  		$(document).on('click','.edit'+response[0].fund_no,function(e){
-		  		     	if(!response[0].updatecash || response[0].updatecash == "0.00"){
-		  		     	 _initCurrency_format('#cash_approved');
-		  		     	   $('#button_edits').hide();
-		  		     	   $('input[name="cash_approved"]').focus();
-		  		    		   $('#button_saves').fadeIn();
-			  		     }else{
-			  		     	if(response[0].updatecash == response[0].pettycash){
-			  		     	   $('#button_edits').hide();
-			  		     	   $('input[name="cash_approved"]').focus();
-			  		    		   $('#button_saves').fadeIn();
-			  		     	}else{
-			  		     	  Swal.fire("Warning!", "Cash fund is already changed!", "warning");
-			  		     	}
-			  		     }
-		  		     });
-		  		     $('#button_saves').hide();
-		  		     $('#button_saves').html('<div class="row"><div class="col-lg-7">'
-  		     				+'<input type="text" id="cash_approved" name="cash_approved" value="'+cash+'" class="form-control form-control-solid border border-success" placeholder="Input Cash Fund"/></div>'
-  		     				+'<div class="col-lg-4"><button type="button" class="btn btn-success save_approved">UPDATE</button></div></div>');
-		               $('#status_f').text('TOTAL: P'+response[0].total);
-		               $('#date_created_f').text('DATE: '+response[0].date_created);
-		             	$('#tbl_purchased_approved_modal > tbody:last-child').empty();
-		             	for(var i=0;i<response.length;i++){
-		             			$('#tbl_purchased_approved_modal > tbody:last-child').append('<tr>'
-							+'<td class="align-middle">'+response[i].item+'</td>'
-							+'<td class="align-middle text-center">'+response[i].quantity+' '+response[i].unit+'</td>'
-							+'<td class="align-middle text-right">'+response[i].amount+'</td>'
-							+'</tr>');
-					 }
-		  		}
-	  		 break;
-	  		}
+
 	  		case "Modal_Accounting_Purchase_Received_Project":{
 		  		if(!response == false){
-		  			$('input[name="fund_no"]').val(response[0].fund_no);
-		  		     $('#production_no_c').text('JOB ORDER: '+response[0].production_no);
-		  		     $('#title_c').text('ITEM: '+response[0].title);
-		  		     $('#requestor_c').text('PURCHASER : '+response[0].requestor);
-		  		     $('#button_save').hide();
-		  		     $(document).on('click','.close',function(e){
-		  		     	   $('#button_edit').show();
-		  		    		   $('#button_save').hide();
-		  		     });
-		  		     if(!response[0].updatecash || response[0].updatecash == "0.00"){var cash = response[0].pettycash;var del = '';
-		  		     }else{if(response[0].updatecash == response[0].pettycash){var del = '';}else{var del = response[0].pettycash;	}
-		  		     var cash = response[0].updatecash;}
-		  		     $('#del_cash').text(del);
-		  		     $('#pettycash').text(cash);
-		  		     $('#pettycash1').text(cash);
-		  		     if(response[0].actual_change == "0.00"){var actual_change = 0;}else{var actual_change =response[0].actual_change;}
-		  		     if(response[0].refund == "0.00"){var refund = 0;}else{var refund =response[0].refund;}
-		  		    $('#button_edit').html('<button type="button" class="btn btn-success edit'+response[0].fund_no+'">EDIT</button>');
-		  		     _initCurrency_format('#cash');
-	  		     	_initCurrency_format('input[name="refund"]');
-	  		     	 $(document).on('click','.edit'+response[0].fund_no,function(e){
-			  		     	 $('#button_edit').hide();
-			  		     	 $('input[name="cash"]').focus();
-			  		    		 $('#button_save').fadeIn();
-			  		    		 $('#change').show();
-			  		    		 $('#change1').hide();
-			  		    		 $('#refund').show();
-			  		    		 $('#refund1').hide();
-	  		   		  });
-	  		    		$('#change1').html('<span>'+actual_change+'</span>'); 
-	  		    		$('#change').hide(); 
-		  		     $('#change').html('<input type="text" style="text-align:right;" id="cash" name="change" value="'+actual_change+'" class="form-control form-control-solid border border-success" placeholder="Input Actual Change"/>');
+	  				_initCurrency_format(".amount");
+	  			    $('.cash_fund_r').text(response.info.fund_no);
+		  		    $('.joborder_r').text(response.info.production_no);
+		  		    $('.requestor_r').text(response.info.requestor);
+		  		    $('.date_created_r').text(response.info.date_created);
+		  		    $('.title_r').text(response.info.title);
+		  		    $('.total-received').text(response.total);
+		  		    $('.total_petty').text(response.total_petty);
+		  		    $('.actual_change').text(response.total_change);
+		  		    $('.total_refund').text(response.total_refund);
+		  		    let container = $('#tbl_purchased_received_modal > tbody:last-child');
+		  		    container.empty();
+		  		    for(let i=0;i<response.material.length;i++){
+		  		    		container.append('<tr>\
+		  		    					  	 <td>'+response.material[i].item+'</td>\
+		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
+		  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+		  		    					  	 <td class="text-right">'+response.material[i].supplier+'</td>\
+		  		    					  	 <td class="text-center">'+response.material[i].payment+'</td>\
+		  		    					  </tr>');
 
-		  		     $('#refund1').html('<span>'+refund+'</span>'); 
-	  		    		$('#refund').hide(); 
-		  		     $('#refund').html('<input type="text" style="text-align:right;" id="refund" name="refund" value="'+refund+'" class="form-control form-control-solid border border-success" placeholder="Input Rund"/>');
-		  		     $('#button_save').html('<button type="button" class="btn btn-success save_received">UPDATE</button>');
-		  		     $('#save').on('keyup keypress', function(e) { var keyCode = e.keyCode || e.which; if (keyCode === 13) { e.preventDefault(); return false; } });
-		               $('#total').text(response[0].total);
-		               $('#total_payment').text(response[0].total);
-		               $('#date_created_c').text('DATE: '+response[0].date_created);
-		             	$('#tbl_purchased_received_modal > tbody:last-child').empty();
-		             	for(var i=0;i<response.length;i++){
-		             			$('#tbl_purchased_received_modal > tbody:last-child').append('<tr>'
-							+'<td class="align-middle pl-0">'+response[i].item+'</td>'
-							+'<td class="align-middle text-center">'+response[i].quantity+' '+response[i].unit+'</td>'
-							+'<td class="align-middle text-center">'+response[i].supplier+'</td>'
-							+'<td class="align-middle text-center">'+response[i].type+'</td>'
-							+'<td class="align-middle text-right">'+response[i].amount+'</td>'
-							+'</tr>');
-					 }
+		  		    }
+		  		     $('.purchased-received-input').show();
+	  		    		$('.purchased-received-hide').hide();
+		  		    	if(response.info.status == 2){
+		  		    		$('.purchased-received-hide').show();
+		  		    		$('.purchased-received-input').hide();
+		  		    		$('.status-received').text('Complete').removeClass('text-primary text-warning').addClass('text-success');
+		  		    		$('#separator-status-received-1,#separator-status-received-2').removeClass('separator-warning separator-primary').addClass('separator-success');
+		  		    	}else{
+		  		    		$('.status-received').text('Request').removeClass('text-primary text-success').addClass('text-warning');
+		  		    		$('#separator-status-received-1,#separator-status-received-2').removeClass('separator-success separator-primary').addClass('separator-warning');
+		  		    	}
+		  		    $('#view-purchased-received').modal('show');
+
 		  		}
 	  		 break;
 	  		}
+	  	
+
 	  		case "Account_Report_Collection_Stocks_Daily":{
 	  			let container = $('#tbl_collection_daily > tbody:last-child');
 	  			container.empty();

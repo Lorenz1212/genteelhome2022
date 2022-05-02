@@ -1090,7 +1090,7 @@ class Datatable_model extends CI_Model{
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
        ->where('s.delivery',1)
-       ->where('s.created_by', $user_id)->order_by('s.date_created','DESC')->get();
+       ->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1108,7 +1108,7 @@ class Datatable_model extends CI_Model{
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',2)->where('s.created_by', $user_id)->order_by('s.date_created','DESC')->get();
+       ->where('s.delivery',2)->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1149,7 +1149,7 @@ class Datatable_model extends CI_Model{
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
        ->where('s.delivery',1)
-       ->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1167,7 +1167,7 @@ class Datatable_model extends CI_Model{
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',2)->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->where('s.delivery',2)->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1308,7 +1308,7 @@ class Datatable_model extends CI_Model{
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',1)->order_by('s.date_created','ASC')->get();
+       ->where('s.delivery',1)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1326,7 +1326,7 @@ class Datatable_model extends CI_Model{
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',2)->order_by('s.date_created','ASC')->get();
+       ->where('s.delivery',2)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1344,7 +1344,7 @@ class Datatable_model extends CI_Model{
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',1)->order_by('s.date_created','ASC')->get();
+       ->where('s.delivery',1)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1362,7 +1362,7 @@ class Datatable_model extends CI_Model{
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',2)->order_by('s.date_created','ASC')->get();
+       ->where('s.delivery',2)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -2136,28 +2136,26 @@ class Datatable_model extends CI_Model{
 
 
      //ACCOUNTING
-     function Accounting_Purchase_Material_Stocks_Request(){
-        $query =  $this->db->select('d.*,c.*,m.*,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,
-                     CONCAT(u.firstname, " ",u.lastname) AS requestor')
-        ->from('tbl_purchasing_project as m')
-        ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
-        ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
-        ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-        ->join('tbl_users as u','u.id=m.purchaser','LEFT')
-        ->where('m.status',3)->where('m.type',1)->group_by('m.fund_no')->get();  
+     function Accounting_Purchase_Material_Stocks(){
+        $query =  $this->db->select('d.*,c.*,m.*,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,m.status,
+                     CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_purchasing_project as m')
+        ->join('tbl_project as p','p.production_no=m.production_no','LEFT')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=m.purchaser','LEFT')->where_in('m.status',array(3,4,5))->where('p.type',1)->group_by('m.fund_no')->get();  
          $data=array();
         if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row){
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->fund_no.'" data-target="#requestModalRequest"><i class="la la-eye"></i></button>';   
+                 if($row->status==3){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
+                }else if($row->status == 4){$status ='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';}else if($row->status == 5){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';}
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="view-request-form" data-id="'.$this->encryption->encrypt($row->fund_no).'"><i class="flaticon2-pen"></i></button>';   
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+               $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
                      $data[] = array(
-                          'production_no'=> $row->production_no,
+                          'production_no'=> $production_no,
                           'image'        => $image,
                           'title'        => $title,
                           'requestor'    => $row->requestor,
                           'date_created' => $row->date_created,
-                          'status'       => $row->status,
+                          'status'       => $status,
                           'action'       => $action);
             }      
          }
@@ -2165,140 +2163,104 @@ class Datatable_model extends CI_Model{
          return $json_data;   
      }
     
-     function Accounting_Purchase_Material_Stocks_Approval($user_id){
-      $query = $this->db->select('d.*,c.*,m.*,d.title,c.image as image,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,
-        CONCAT(u.firstname, " ",u.lastname) AS requestor')
-        ->from('tbl_purchasing_project as m')
-        ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
-        ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
-        ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-        ->join('tbl_users as u','u.id=m.purchaser','LEFT')
-        ->where('m.status',4)->where('m.type',1)->where('m.accounting',$user_id)->group_by('m.fund_no')->get();
-         $data=array();
-           if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-approval" data-id="'.$row->fund_no.'" data-target="#requestModalApproved"><i class="la la-eye"></i></button>';   
-            $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
-             $data[] = array(
-                          'fund_no'      => $row->fund_no,
-                          'production_no'=> $row->production_no,
-                          'image'        => $image,
-                          'title'        => $title,
-                          'requestor'    => $row->requestor,
-                          'date_created' => $row->date_created,
-                          'action'       => $action);
-            }      
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data; 
-     }
           function Accounting_Purchase_Material_Stocks_Received($user_id){
-        $query = $this->db->select('d.*,c.*,m.*,pc.*,DATE_FORMAT(m.date_created, "%M %d %Y") as date_created,
-                     CONCAT(u.firstname, " ",u.lastname) AS requestor')
-        ->from('tbl_purchase_received as m')->join('tbl_purchasing_project as pp','pp.fund_no=m.fund_no','LEFT')
-        ->join('tbl_pettycash as pc','pc.fund_no=pp.fund_no','LEFT')
-        ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
-        ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
-        ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-        ->join('tbl_users as u','u.id=m.created_by','LEFT')
-        ->where('(pc.status=1 OR pc.status=2) AND pc.accounting='.$user_id.' AND pp.type=1')
-        ->group_by('pp.fund_no')->get();
-        $data = array();
-           if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-            $action = ' <button data-toggle="modal" data-target="#requestModalReceived" id="form-received" data-id="'.$row->fund_no.'" class="btn btn-sm btn-dark btn-icon" title="View Request"><i class="la la-eye"></i></button>'; 
-            $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
-             $data[] = array(
-                          'fund_no'      => $row->fund_no,
-                          'production_no'=> $row->production_no,
-                          'image'        => $image,
-                          'title'        => $title,
-                          'requestor'    => $row->requestor,
-                          'date_created' => $row->date_created,
-                          'status'       => $row->status,
-                          'action'       => $action);
-            }      
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data; 
+           $query = $this->db->select('d.*,c.*,m.*,m.status,
+            DATE_FORMAT(m.date_created, "%M %d %Y") as date_created,
+            CONCAT(u.firstname, " ",u.lastname) AS requestor')
+           ->from('tbl_purchase_received as m')
+           ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
+           ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
+           ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
+           ->join('tbl_users as u','u.id=m.purchaser','LEFT')
+           ->where('p.type',1)->group_by('m.fund_no')->order_by('m.date_created')->get();  
+             $data=array();
+            if($query !== FALSE && $query->num_rows() > 0){
+                foreach($query->result() as $row){
+                     if($row->status==1){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
+                     }else if($row->status == 2){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';}
+                    $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="view-received-form" data-id="'.$this->encryption->encrypt($row->fund_no).'"><i class="flaticon2-pen"></i></button>';     
+                   $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
+                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+                   $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
+                if($row->payment==1){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Cash</span></span>';
+                }else if($row->payment == 2){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Terms</span></span>
+                    <span class="font-weight-bold d-block">From: '.$row->terms_start.'</span>
+                    <span class="font-weight-bold">To: '.$row->terms_end.'</span>';} 
+                         $data[] = array(
+                              'production_no'=> $production_no,
+                              'image'        => $image,
+                              'title'        => $title,
+                              'requestor'    => $row->requestor,
+                              'date_created' => $row->date_created,
+                              'status'       => $status,
+                              'action'       => $action);
+                }      
+             }
+             $json_data  = array("data" =>$data); 
+             return $json_data; 
      }
       function Accounting_Purchase_Material_Project_Request(){
-        $query = $this->db->select('d.*,c.*,m.*,d.title,c.image as image,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,
-        CONCAT(u.firstname, " ",u.lastname) AS requestor')
+      $query =  $this->db->select('d.*,c.*,m.*,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,m.status,
+                     CONCAT(u.firstname, " ",u.lastname) AS requestor')
         ->from('tbl_purchasing_project as m')
         ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-        ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
+        ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
         ->join('tbl_users as u','u.id=m.purchaser','LEFT')
-        ->where('m.status',3)->where('m.type',2)->group_by('m.fund_no')->get();  
-        $data=array();
+        ->where_in('m.status',array(3,4,5))->where('p.type',2)->group_by('m.fund_no')->get();  
+         $data=array();
         if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row){
-                $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->fund_no.'" data-target="#requestModalRequest"><i class="la la-eye"></i></button>';   
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
+                 if($row->status==3){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
+                }else if($row->status == 4){$status ='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';}else if($row->status == 5){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';}
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="view-request-form" data-id="'.$this->encryption->encrypt($row->fund_no).'"><i class="flaticon2-pen"></i></button>';   
+               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+               $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
                      $data[] = array(
-                          'production_no'=> $row->production_no,
+                          'production_no'=> $production_no,
                           'title'        => $title,
                           'requestor'    => $row->requestor,
                           'date_created' => $row->date_created,
-                          'status'       => $row->status,
+                          'status'       => $status,
                           'action'       => $action);
             }      
          }
          $json_data  = array("data" =>$data); 
-         return $json_data;   
-     }
-      function Accounting_Purchase_Material_Project_Approval($user_id){
-      $query = $this->db->select('d.*,c.*,m.*,d.title,c.image,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,
-        CONCAT(u.firstname, " ",u.lastname) AS requestor')
-        ->from('tbl_purchasing_project as m')->join('tbl_project as p','p.production_no=m.production_no','LEFT')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=m.purchaser','LEFT')->where('m.status',4)->where('m.type',2)->where('m.accounting',$user_id)->group_by('m.fund_no')->get();
-            $data=array();
-           if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-approved" data-id="'.$row->fund_no.'" data-target="#requestModalApproved"><i class="la la-eye"></i></button>';
-            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
-             $data[] = array(
-                          'fund_no'      => $row->fund_no,
-                          'production_no'=> $row->production_no,
-                          'title'        => $title,
-                          'requestor'    => $row->requestor,
-                          'date_created' => $row->date_created,
-                          'action'       => $action);
-            }      
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data; 
+         return $json_data;  
      }
      function Accounting_Purchase_Material_Project_Received($user_id){
-        $query = $this->db->select('d.*,c.*,m.*,pc.*,DATE_FORMAT(m.date_created, "%M %d %Y") as date_created,
-                     CONCAT(u.firstname, " ",u.lastname) AS requestor')
-        ->from('tbl_purchase_received as m')->join('tbl_purchasing_project as pp','pp.fund_no=m.fund_no','LEFT')
-        ->join('tbl_pettycash as pc','pc.fund_no=pp.fund_no','LEFT')
-        ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
-        ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-        ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-        ->join('tbl_users as u','u.id=m.created_by','LEFT')
-        ->where('(pc.status=1 OR pc.status=2) AND pc.accounting='.$user_id.' AND pp.type=2')
-        ->group_by('pp.fund_no')->get();
-        $data = array();
-           if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-            $action = ' <button data-toggle="modal" data-target="#requestModalReceived" id="form-received" data-id="'.$row->fund_no.'" class="btn btn-sm btn-dark btn-icon" title="View Request"><i class="la la-eye"></i></button>'; 
-            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
-             $data[] = array(
-                          'fund_no'      => $row->fund_no,
-                          'production_no'=> $row->production_no,
-                          'title'        => $title,
-                          'requestor'    => $row->requestor,
-                          'date_created' => $row->date_created,
-                          'status'       => $row->status,
-                          'action'       => $action);
-            }      
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data; 
+      $query = $this->db->select('d.*,c.*,m.*,m.status,
+            DATE_FORMAT(m.date_created, "%M %d %Y") as date_created,
+            CONCAT(u.firstname, " ",u.lastname) AS requestor')
+           ->from('tbl_purchase_received as m')
+           ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
+           ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
+           ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
+           ->join('tbl_users as u','u.id=m.purchaser','LEFT')
+           ->where('p.type',2)->group_by('m.fund_no')->order_by('m.date_created')->get();  
+             $data=array();
+            if($query !== FALSE && $query->num_rows() > 0){
+                foreach($query->result() as $row){
+                     if($row->status==1){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
+                     }else if($row->status == 2){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';}
+                    $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="view-received-form" data-id="'.$this->encryption->encrypt($row->fund_no).'"><i class="flaticon2-pen"></i></button>';     
+                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+                   $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
+                if($row->payment==1){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Cash</span></span>';
+                }else if($row->payment == 2){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Terms</span></span>
+                    <span class="font-weight-bold d-block">From: '.$row->terms_start.'</span>
+                    <span class="font-weight-bold">To: '.$row->terms_end.'</span>';} 
+                         $data[] = array(
+                              'production_no'=> $production_no,
+                              'title'        => $title,
+                              'requestor'    => $row->requestor,
+                              'date_created' => $row->date_created,
+                              'status'       => $status,
+                              'action'       => $action);
+                }      
+             }
+             $json_data  = array("data" =>$data); 
+             return $json_data;
      }
 
      function Account_Report_Collection_Stocks_Daily($month,$year){
@@ -3921,8 +3883,7 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_customer_testimony')->order_by('id','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
             $no =1;
-              foreach($query->result() as $row)  
-            {
+              foreach($query->result() as $row){
               $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/testimony/'.$row->image.'" alt="'.$row->name.'"></div>';
               $action = '<button type="button" class="btn btn-sm  btn-icon btn-dark btn-shadow btn-create" data-id="'.$this->encryption->encrypt($row->id).'" data-action="update" data-toggle="modal" data-target="#staticBackdrop"><i class="la la-eye icon-md"></i></button>
                          <button type="button" class="btn btn-sm btn-icon btn-danger btn-shadow btn-delete" data-id="'.$this->encryption->encrypt($row->id).'" data-action="delete"><i class="flaticon2-delete icon-md"></i></button>';

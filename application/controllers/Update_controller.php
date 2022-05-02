@@ -326,38 +326,20 @@ class Update_controller extends CI_Controller
      }
 
      //ACCOUNTING
-     public function Update_Accounting_Purchase_Stocks_Request(){
+     public function Update_Accounting_Purchase_Request(){
          $user_id = $this->session->userdata('id');
-         $fund_no = $this->input->post('fund_no');
-         $cash = floatval(str_replace(',', '', $this->input->post('cash')));
-         $data = $this->update_model->Update_Accounting_Purchase_Stocks_Request($user_id,$fund_no,$cash);
+         $id = $this->input->post('id');
+         $cash = floatval(str_replace(',', '', $this->input->post('cash_fund')));
+         $action =$this->input->post('action');
+         $data = $this->update_model->Update_Accounting_Purchase_Request($user_id,$id,$cash,$action);
          echo json_encode($data); 
      }
-     public function Update_Accounting_Purchase_Material_Stocks_Approved(){
-         $user_id   = $this->session->userdata('id');
-         $fund_no   = $this->input->post('fund_no');
-         $previous  = $this->input->post('previous');
-         $cash      = floatval(str_replace(',', '', $this->input->post('cash')));
-         $status = $this->update_model->Update_Accounting_Purchase_Material_Stocks_Approved($user_id,$fund_no,$cash);
-         $data = array(
-            'previous' => $previous,
-            'cash'     => $this->input->post('cash'),
-            'fund_no'  => $fund_no,
-            'status'   => $status);
-         echo json_encode($data); 
-     }
-     public function Update_Accounting_Purchase_Stocks_Received(){
+     public function Update_Accounting_Purchase_Received(){
          $user_id = $this->session->userdata('id');
-         $fund_no = $this->input->post('fund_no');
+         $fund_no = $this->input->post('id');
+         $change  = floatval(str_replace(',', '', $this->input->post('actual_change')));
          $refund  = floatval(str_replace(',', '', $this->input->post('refund')));
-         $change  = floatval(str_replace(',', '', $this->input->post('change')));
-         $total   = floatval(str_replace(',', '', $this->input->post('total')));
-         $status  = $this->update_model->Update_Accounting_Purchase_Stocks_Received($user_id,$fund_no,$change,$refund,$total);
-         $data = array(
-            'refund'   => number_format($refund,2),
-            'change'   => number_format($change,2),
-            'fund_no'  => $fund_no,
-            'status'   => $status);
+         $data  = $this->update_model->Update_Accounting_Purchase_Received($user_id,$fund_no,$change,$refund);
          echo json_encode($data); 
      }
 
@@ -660,12 +642,12 @@ class Update_controller extends CI_Controller
         $data = $this->update_model->Update_Joborder_Status($user_id,$production_no,$qty,$status,$type);
         echo json_encode($data);
      }
-     public function Update_Purchase_Stocks_Estimate(){
+     public function Update_Purchase_Estimate(){
         $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $amount = $this->input->post('amount');
         $type = $this->input->post('type');
-        $data = $this->update_model->Update_Purchase_Stocks_Estimate($user_id,$id,$amount,$type);
+        $data = $this->update_model->Update_Purchase_Estimate($user_id,$id,$amount,$type);
         echo json_encode($data);
      }
     public function Update_Purchase_Stocks_Process(){

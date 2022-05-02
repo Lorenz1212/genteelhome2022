@@ -273,11 +273,6 @@ class Modal_controller extends CI_Controller
         $data = $this->modal_model->Modal_Accounting_Purchase_Material_Stocks_Request($id);
         echo json_encode($data);
      }
-     public function Modal_Accounting_Purchase_Material_Stocks_Approved(){
-        $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_Accounting_Purchase_Material_Stocks_Approved($id);
-        echo json_encode($data);
-     }
     public function Modal_Accounting_Purchase_Received_Stocks(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_Accounting_Purchase_Received_Stocks($id);
@@ -286,11 +281,6 @@ class Modal_controller extends CI_Controller
       public function Modal_Accounting_Purchase_Material_Project_Request(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_Accounting_Purchase_Material_Project_Request($id);
-        echo json_encode($data);
-     }
-     public function Modal_Accounting_Purchase_Material_Project_Approved(){
-        $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_Accounting_Purchase_Material_Project_Approved($id);
         echo json_encode($data);
      }
       public function Modal_Accounting_Purchase_Received_Project(){

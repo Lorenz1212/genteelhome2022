@@ -55,7 +55,13 @@ class Modal_model extends CI_Model{
           $id = $this->encryption->decrypt($id);
           $data=array();
           $dis = 0; 
-          $query =  $this->db->select('s.*,i.*,c.*,d.*,s.id,s.status,s.so_no,sc.*,s.tin as tin_no,CONCAT(u.firstname, " ",u.lastname) AS sales_person,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order,(SELECT sum(amount) FROM tbl_salesorder_stocks_item WHERE so_no=s.id) as subtotal')->from('tbl_salesorder_stocks_item as i')->join('tbl_salesorder_stocks as s','i.so_no=s.id','LEFT')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_salesorder_customer as sc','sc.id=s.customer','LEFT')->join('tbl_users as u','u.id=s.created_by','LEFT')->where('s.id',$id)->get();
+          $query =  $this->db->select('s.*,i.*,c.*,d.*,s.id,s.status,s.so_no,sc.*,s.tin as tin_no,CONCAT(u.firstname, " ",u.lastname) AS sales_person,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order,(SELECT sum(amount) FROM tbl_salesorder_stocks_item WHERE so_no=s.id) as subtotal')
+          ->from('tbl_salesorder_stocks_item as i')
+          ->join('tbl_salesorder_stocks as s','i.so_no=s.id','LEFT')
+          ->join('tbl_project_color as c','c.id=i.c_code','LEFT')
+          ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
+          ->join('tbl_salesorder_customer as sc','sc.id=s.customer','LEFT')
+          ->join('tbl_users as u','u.id=s.created_by','LEFT')->where('s.id',$id)->get();
            if(!$query){return false;}else{  
                foreach($query->result() as $row){
                     if($row->discount !=0){
@@ -72,7 +78,7 @@ class Modal_model extends CI_Model{
                     }
                 $item = $row->qty.' '.$row->unit.' '.$row->title.' ('.$row->c_name.')';
                 $data[] = array(
-                         'id'           => $this->encryption->encrypt($row->id),
+                         'id'           => $this->encryption->encrypt($id),
                          'so_no'		=> $row->so_no,
                          'si_no'        => $row->si_no,
                          'tin'          => $row->tin_no,
@@ -122,7 +128,7 @@ class Modal_model extends CI_Model{
                 $amount_due = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
             }
             $data['soa'] = array(
-                     'id'           => $this->encryption->encrypt($row->id),
+                     'id'           => $this->encryption->encrypt($id),
                      'so_no'        => $row->so_no,
                      'si_no'        => $row->si_no,
                      'tin'          => $row->tin_no,
@@ -472,189 +478,138 @@ class Modal_model extends CI_Model{
 
          //ACCOUNTING
          function Modal_Accounting_Purchase_Material_Stocks_Request($id){
-               $query = $this->db->select('pr.*,p.*,c.*,d.*,m.unit,pr.id,pr.amount,p.production_no,m.item,pr.quantity as quantity,pr.status,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(pr.latest_update, "%M %d %Y %r") as date_created,(SELECT sum(amount) FROM tbl_purchasing_project WHERE fund_no = "'.$id.'" AND status=3 AND type=1) as total')->from('tbl_purchasing_project as pr')->join('tbl_materials as m','pr.item_no=m.id','LEFT')->join('tbl_project as p','p.production_no=pr.production_no','LEFT')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=pr.supervisor','LEFT')->where('pr.status',3)->where('pr.type',1)->where('pr.fund_no',$id)->get(); 
-               if(!$query){return false;}else{  
-               foreach($query->result() as $row){
-                 if($row->unit){$unit = '('.$row->unit.')';}else{$unit="";}
-                    $data[] = array('id'  => $row->id,
-                     'production_no'  => $row->production_no,
-                     'fund_no'        => $row->fund_no,
-                     'unit'           => $unit,
-                     'title'          => $row->title,
-                     'c_name'         => $row->c_name,
-                     'item'           => $row->item,
-                     'amount'         => number_format($row->amount,2),
-                     'total'          => number_format($row->total,2),
-                     'quantity'       => $row->quantity,
-                     'status'         => $row->status,
-                     'requestor'      => $row->requestor,
-                     'date_created'   => $row->date_created);
-               } 
-               return $data;
-         }
+                $data=false;
+                $total=0;
+                $total_fund=0;
+             $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
+                        DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
+                        ->from('tbl_purchasing_project as pr')
+                        ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
+                        ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
+                        ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
+                        ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
+                        ->join('tbl_project_design as d','p.project_no=d.id','LEFT')
+                        ->where('pr.fund_no',$this->encryption->decrypt($id))
+                        ->group_by('pr.fund_no')->get()->row();
+             $row_f =  $this->db->select('sum(pettycash) as fund')->from('tbl_pettycash')->where('fund_no',$this->encryption->decrypt($id))->get()->row();
+             if($row_f){
+                $total_fund =number_format($row_f->fund,2);
+             }                  
+             $query = $this->db->select('*,p.amount,p.id,m.unit,m.item')->from('tbl_purchasing_project as p')->join('tbl_materials as m','p.item_no=m.id','LEFT')->where('p.fund_no',$this->encryption->decrypt($id))->order_by('p.item_no')->get();        
+             foreach($query->result() as $row){
+                    if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";}
+                    $data[] = array('id' => $row->id,
+                                    'item'=> $row->item.$unit,
+                                    'amount'=> '₱ '.number_format($row->amount,2),
+                                    'quantity'=> $row->quantity);
+                    $total +=$row->amount;
+              } 
+            return array('material'=>$data,'info'=>$row_data,'total'=>number_format($total,2),'fund'=>$total_fund);
      }
-          function Modal_Accounting_Purchase_Material_Stocks_Approved($id){
-                $query = $this->db->select('pr.*,p.*,c.*,d.*,pc.*,pr.id,pr.amount,p.production_no,m.unit,m.item ,pr.quantity,pr.status as status,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(pc.date_created, "%M %d %Y %r") as date_created,(SELECT sum(amount) FROM tbl_purchasing_project WHERE fund_no= "'.$id.'") as total')
-                    ->from('tbl_purchasing_project as pr')
-                    ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
-                    ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-                    ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
-                    ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-                    ->join('tbl_pettycash as pc','pc.fund_no=pr.fund_no','LEFT')
-                    ->join('tbl_users as u','u.id=pr.supervisor','LEFT')->WHERE('pr.fund_no',$id)->get(); 
-               if(!$query){return false;}else{  
-               foreach($query->result() as $row){
-                 if($row->unit){$unit = '('.$row->unit.')';}else{$unit="";}
-                       $data[] = array('id'             => $row->id,
-                                       'fund_no'        => $row->fund_no,
-                                       'production_no'  => $row->production_no,
-                                       'unit'           => $unit,
-                                       'title'          => $row->title,
-                                       'c_name'         => $row->c_name,
-                                       'item'           => $row->item,
-                                       'pettycash'      => number_format($row->pettycash,2),
-                                       'updatecash'     => number_format($row->update_pettycash,2),
-                                       'amount'         => number_format($row->amount,2),
-                                       'total'          => number_format($row->total,2),
-                                       'quantity'       => $row->quantity,
-                                       'requestor'      => $row->requestor,
-                                       'date_created' => $row->date_created);
-               } 
-               return $data;
-         }
-    }
+
     function Modal_Accounting_Purchase_Received_Stocks($id){
-        $query = $this->db->select('*,d.title,m.unit,c.c_name,pp.id,pp.amount,pc.fund_no,pp.production_no,pp.quantity,pc.status,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(pp.date_created, "%M %d %Y %r") as date_created,(SELECT sum(amount) FROM tbl_purchase_received WHERE pr_id=pr.id) as total')
-                    ->from('tbl_purchase_received as pp')
-                    ->join('tbl_materials as m','m.id=pp.item_no','LEFT')
-                    ->join('tbl_supplier as s','s.id=pp.supplier','LEFT')
-                    ->join('tbl_purchasing_project as pr','pr.id=pp.pr_id','LEFT')
-                    ->join('tbl_project as p','p.production_no=pp.production_no','LEFT')
-                    ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
-                    ->join('tbl_project_design as d','c.project_no=d.id','LEFT')
-                    ->join('tbl_pettycash as pc','pc.fund_no=pr.fund_no','LEFT')
-                    ->join('tbl_users as u','u.id=pp.created_by','LEFT')->WHERE('pc.fund_no',$id)->get(); 
-            if(!$query){return false;}else{  
-               foreach($query->result() as $row){    
-                if($row->unit){$unit = '('.$row->unit.')';}else{$unit="";}
-                 if($row->terms==1){$terms ='<span class="label label-lg label-light-primary label-inline">CASH</span>';
-                }else if($row->terms == 2){$terms ='<span class="label label-lg label-light-primary label-inline">TERMS </span>';} 
-                       $data[] = array('id'             => $row->id,
-                                       'fund_no'        => $row->fund_no,
-                                       'production_no'  => $row->production_no,
-                                       'unit'           => $unit,
-                                       'title'          => $row->title,
-                                       'c_name'         => $row->c_name,
-                                       'item'           => $row->item,
-                                       'pettycash'      => number_format($row->pettycash,2),
-                                       'updatecash'     => number_format($row->update_pettycash,2),
-                                       'amount'         => number_format($row->amount,2),
-                                       'total'          => number_format($row->total,2),
-                                       'actual_change'  => number_format($row->actual_change,2),
-                                       'refund'         => number_format($row->refund,2),
-                                       'quantity'       => $row->quantity,
-                                       'requestor'      => $row->requestor,
-                                       'supplier'       => $row->name,
-                                       'type'           => $terms,
-                                       'date_created'   => $row->date_created);
-               } 
-               return $data;
-         }
+            $data=false;
+            $total=0;
+            $total_petty=0;
+            $total_change=0;
+            $total_refund=0;
+             $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
+                        DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
+                        ->from('tbl_purchase_received as pr')
+                        ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
+                        ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
+                        ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
+                        ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
+                        ->join('tbl_project_design as d','p.project_no=d.id','LEFT')
+                        ->where('pr.fund_no',$this->encryption->decrypt($id))
+                        ->group_by('pr.fund_no')->get()->row();
+
+             $row_f =  $this->db->select('sum(pettycash) as total_petty,sum(actual_change) as actual_change,sum(refund) as refund')->from('tbl_pettycash')->where('fund_no',$this->encryption->decrypt($id))->get()->row();
+             if($row_f){
+                $total_petty =number_format($row_f->total_petty,2);
+                $total_change =number_format($row_f->actual_change,2);
+                $total_refund =number_format($row_f->refund,2);
+             }  
+
+             $query = $this->db->select('*,p.amount,p.id,m.unit,m.item,s.name')
+             ->from('tbl_purchase_received as p')
+             ->join('tbl_materials as m','p.item_no=m.id','LEFT')
+             ->join('tbl_supplier as s','s.id=p.supplier','LEFT')
+             ->where('p.fund_no',$this->encryption->decrypt($id))->order_by('p.item_no')->get();        
+             foreach($query->result() as $row){
+                    if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";};
+                     if($row->payment==1){$terms ='<span style="width: 112px;"><span class="label label-primary label-dot"></span><span class="font-weight-bold text-primary"> Cash</span></span>';
+                    }else if($row->payment == 2){$terms ='<span style="width: 112px;"><span class="label label-warning label-dot"></span><span class="font-weight-bold text-warning"> Terms</span>';} 
+                    $data[] = array('id' => $row->id,
+                                    'item'=> $row->item.$unit,
+                                    'amount'=> '₱ '.number_format($row->amount,2),
+                                    'supplier'=>$row->name,
+                                    'payment'=>$terms,
+                                    'quantity'=> $row->quantity);
+                    $total +=$row->amount;
+              } 
+            return array('material'=>$data,'info'=>$row_data,'total'=>number_format($total,2),'total_petty'=>$total_petty,'total_refund'=>$total_refund,'total_change'=>$total_change);
     }
 
 
      function Modal_Accounting_Purchase_Material_Project_Request($id){
-               $query = $this->db->select('pr.*,p.*,c.*,d.*,m.unit,pr.id,pr.amount,p.production_no,m.item,pr.quantity as quantity,pr.status,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(pr.latest_update, "%M %d %Y %r") as date_created,(SELECT sum(amount) FROM tbl_purchasing_project WHERE fund_no = "'.$id.'" AND status=3 AND type=2) as total')->from('tbl_purchasing_project as pr')
-               ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
-               ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-               ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-               ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-               ->join('tbl_users as u','u.id=pr.supervisor','LEFT')
-               ->where('pr.status',3)->where('pr.type',2)
-               ->where('pr.fund_no',$id)->get(); 
-               if(!$query){return false;}else{  
-               foreach($query->result() as $row){
-                if($row->unit){$unit = '('.$row->unit.')';}else{$unit="";}
-                    $data[] = array('id'  => $row->id,
-                     'production_no'  => $row->production_no,
-                     'fund_no'        => $row->fund_no,
-                     'unit'           => $unit,
-                     'title'          => $row->title,
-                     'item'           => $row->item,
-                     'amount'         => number_format($row->amount,2),
-                     'total'          => number_format($row->total,2),
-                     'quantity'       => $row->quantity,
-                     'status'         => $row->status,
-                     'requestor'      => $row->requestor,
-                     'date_created'   => $row->date_created);
-               } 
-               return $data;
-         }
+               $data=false;
+                $total=0;
+                $total_fund=0;
+             $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
+                        DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
+                        ->from('tbl_purchasing_project as pr')
+                        ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
+                        ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
+                        ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
+                        ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
+                        ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
+                        ->where('pr.fund_no',$this->encryption->decrypt($id))
+                        ->group_by('pr.fund_no')->get()->row();
+             $row_f =  $this->db->select('sum(pettycash) as fund')->from('tbl_pettycash')->where('fund_no',$this->encryption->decrypt($id))->get()->row();
+             if($row_f){
+                $total_fund =number_format($row_f->fund,2);
+             }                  
+             $query = $this->db->select('*,p.amount,p.id,m.unit,m.item')->from('tbl_purchasing_project as p')->join('tbl_materials as m','p.item_no=m.id','LEFT')->where('p.fund_no',$this->encryption->decrypt($id))->order_by('p.item_no')->get();        
+             foreach($query->result() as $row){
+                    if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";}
+                    $data[] = array('id' => $row->id,
+                                    'item'=> $row->item.$unit,
+                                    'amount'=> '₱ '.number_format($row->amount,2),
+                                    'quantity'=> $row->quantity);
+                    $total +=$row->amount;
+              } 
+            return array('material'=>$data,'info'=>$row_data,'total'=>number_format($total,2),'fund'=>$total_fund);
      }
 
-       function Modal_Accounting_Purchase_Material_Project_Approved($id){
-                $query = $this->db->select('pr.*,p.*,c.*,d.*,pc.*,pr.id,pr.amount,p.production_no,m.unit,m.item ,pr.quantity,pr.status as status,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(pc.date_created, "%M %d %Y %r") as date_created,(SELECT sum(amount) FROM tbl_purchasing_project WHERE fund_no= "'.$id.'") as total')
-                    ->from('tbl_purchasing_project as pr')
-                    ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
-                    ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-                    ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-                    ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-                    ->join('tbl_pettycash as pc','pc.fund_no=pr.fund_no','LEFT')
-                    ->join('tbl_users as u','u.id=pr.supervisor','LEFT')->WHERE('pr.fund_no',$id)->get(); 
-               foreach($query->result() as $row){
-                 if($row->unit){$unit = '('.$row->unit.')';}else{$unit=" ";}
-                       $data[] = array('id'             => $row->id,
-                                       'fund_no'        => $row->fund_no,
-                                       'production_no'  => $row->production_no,
-                                       'unit'           => $unit,
-                                       'title'          => $row->title,
-                                       'item'           => $row->item,
-                                       'pettycash'      => number_format($row->pettycash,2),
-                                       'updatecash'     => number_format($row->update_pettycash,2),
-                                       'amount'         => number_format($row->amount,2),
-                                       'total'          => number_format($row->total,2),
-                                       'quantity'       => $row->quantity,
-                                       'requestor'      => $row->requestor,
-                                       'date_created' => $row->date_created);
-               } 
-               return $data;
-    }
     function Modal_Accounting_Purchase_Received_Project($id){
-        $query = $this->db->select('*,d.title,m.unit,c.c_name,pp.id,pp.amount,pc.fund_no,pp.production_no,pp.quantity,pc.status,CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(pp.date_created, "%M %d %Y %r") as date_created,(SELECT sum(amount) FROM tbl_purchase_received WHERE pr_id=pr.id) as total')
-                    ->from('tbl_purchase_received as pp')
-                    ->join('tbl_materials as m','m.id=pp.item_no','LEFT')
-                    ->join('tbl_supplier as s','s.id=pp.supplier','LEFT')
-                    ->join('tbl_purchasing_project as pr','pr.id=pp.pr_id','LEFT')
-                    ->join('tbl_project as p','p.production_no=pp.production_no','LEFT')
-                    ->join('tbl_project_design as d','p.project_no=d.id','LEFT')
-                     ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-                    ->join('tbl_pettycash as pc','pc.fund_no=pr.fund_no','LEFT')
-                    ->join('tbl_users as u','u.id=pp.created_by','LEFT')->WHERE('pc.fund_no',$id)->get(); 
-            if(!$query){return false;}else{  
-               foreach($query->result() as $row){   
-                if($row->unit){$unit = '('.$row->unit.')';}else{$unit="";}  
-                 if($row->terms==1){$terms ='<span class="label label-lg label-light-primary label-inline">CASH</span>';
-                }else if($row->terms == 2){$terms ='<span class="label label-lg label-light-primary label-inline">TERMS </span>';} 
-                       $data[] = array('id'             => $row->id,
-                                       'fund_no'        => $row->fund_no,
-                                       'production_no'  => $row->production_no,
-                                       'unit'           => $unit,
-                                       'title'          => $row->title,
-                                       'item'           => $row->item,
-                                       'pettycash'      => number_format($row->pettycash,2),
-                                       'updatecash'     => number_format($row->update_pettycash,2),
-                                       'amount'         => number_format($row->amount,2),
-                                       'total'          => number_format($row->total,2),
-                                       'actual_change'  => number_format($row->actual_change,2),
-                                       'refund'         => number_format($row->refund,2),
-                                       'quantity'       => $row->quantity,
-                                       'requestor'      => $row->requestor,
-                                       'supplier'       => $row->name,
-                                       'type'           => $terms,
-                                       'date_created'   => $row->date_created);
-               } 
-               return $data;
-         }
+         $data=false;
+                $total=0;
+                $total_fund=0;
+             $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
+                        DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
+                        ->from('tbl_purchasing_project as pr')
+                        ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
+                        ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
+                        ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
+                         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
+                         ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
+                        ->where('pr.fund_no',$this->encryption->decrypt($id))
+                        ->group_by('pr.fund_no')->get()->row();
+             $row_f =  $this->db->select('sum(pettycash) as fund')->from('tbl_pettycash')->where('fund_no',$this->encryption->decrypt($id))->get()->row();
+             if($row_f){
+                $total_fund =number_format($row_f->fund,2);
+             }                  
+             $query = $this->db->select('*,p.amount,p.id,m.unit,m.item')->from('tbl_purchasing_project as p')->join('tbl_materials as m','p.item_no=m.id','LEFT')->where('p.fund_no',$this->encryption->decrypt($id))->order_by('p.item_no')->get();        
+             foreach($query->result() as $row){
+                    if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";}
+                    $data[] = array('id' => $row->id,
+                                    'item'=> $row->item.$unit,
+                                    'amount'=> '₱ '.number_format($row->amount,2),
+                                    'quantity'=> $row->quantity);
+                    $total +=$row->amount;
+              } 
+            return array('material'=>$data,'info'=>$row_data,'total'=>number_format($total,2),'fund'=>$total_fund);
     }
 
 

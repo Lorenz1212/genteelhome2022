@@ -26,6 +26,9 @@ var KTFormControls = function () {
 	{
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'warning',title: 'Nothing to change'});
 	}
+	var _initToast = function(type,message){
+		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
+	}
 	var _initgetvaluetable = function(){
 
 			 $("table thead th").each(function() {
@@ -243,98 +246,147 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
-	 		   case "Update_Purchase_Material_Stocks_Request":{
-		 			$(document).on('click','.save_request',function(e){
+	 		   case "Update_Purchase_Stocks_Request":{
+	 		   		form = document.getElementById('Update_Accounting_Purchase_Request_Stocks');
+				         validation = FormValidation.formValidation(
+							form,{
+								fields: {
+									cash_fund: {validators: {notEmpty: {message: 'Cash Fund is required'}}}
+								},
+								plugins: {
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					    );
+					    $(document).on('click','.btn-request-submit',function(e){
 		 				e.preventDefault();
-		 				let cash = $('input[name="cash_request"]').val();
-		 				let fund_no = $('#joborder').attr('data-id');
-		 				if(!cash){
-		 					Swal.fire("Warning!", "Please Input the cash fund!", "warning");
-		 				}else{
-			 				let formdata = new FormData();
-			 				formdata.append('fund_no',fund_no);
-			 				formdata.append('cash',cash);
-			 				thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Stocks_Request';
-			 			   _ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Material_Stocks_Request",false);	
-		 				}
-		 				
-		 			});
-		 			 $(document).on('click','.save_approved',function(e){
-		 			 	e.preventDefault();
-		 				let cash = $('input[name="cash_approved"]').val();
-		 				let fund_no = $('#production_no_f').attr('data-id');
-		 				let previous = $('#pettycash').text();
-		 				if(!cash){
-		 					Swal.fire("Warning!", "Please Input the cash fund!", "warning");
-		 				}else{
-			 				val = {fund_no:fund_no,cash:cash,previous:previous};
-			 				thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Material_Stocks_Approved';
-			 			   _ajaxForm_loaded(thisURL,"POST",val,"Update_Accounting_Purchase_Material_Stocks_Approved",false);	
-		 				}
-		 				
-		 			});
-		 			  $(document).on('click','.save_received',function(e){
-		 			  	e.preventDefault();
-		 				let refund = $('input[name="refund"]').val();
-		 				let change = $('input[name="change"]').val();
-		 				let fund_no = $('input[name="fund_no"]').val();
-		 				let total = $('#total').text(); 
-		 				if(!change){
-		 					Swal.fire("Warning!", "Please Input the Actual changed!", "warning");
-		 				}else{
-			 				val = {fund_no:fund_no,change:change,refund:refund,total:total};
-			 				thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Stocks_Received';
-			 			   _ajaxForm_loaded(thisURL,"POST",val,"Update_Purchase_Stocks_Received",false);	
-		 				}
-		 				
-		 			});
+		 				let action = $(this).attr('data-status');
+		 				validation.validate().then(function(status) {
+					     if (status == 'Valid') {
+				     		 Swal.fire({
+							        title: "Are you sure?",
+							        text: "You won't be able to revert this",
+							        icon: "warning",
+							        confirmButtonText: "Submit!",
+							        showCancelButton: true
+							    }).then(function(result) {
+							        if (result.value) {
+	                                           let formData = new FormData(form);
+	                                            formData.append('id',$('.cash_fund').text());
+	                                            formData.append('action',action);
+                                                 thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Request';
+									  _ajaxForm(thisURL,"POST",formData,"Update_Accounting_Purchase_Stocks_Request",false);
+						          	}
+					     		});
+					   	 }
+				   	 	});
+		 			});	
+					var form_received = document.getElementById('Update_Accounting_Purchase_Request_Received');
+				     var validation_received = FormValidation.formValidation(
+							form_received,{
+								fields: {
+									actual_change: {validators: {notEmpty: {message: 'Change is required'}}}
+								},
+								plugins: {
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					    );
+					    $(document).on('click','.btn-received-submit',function(e){
+		 				e.preventDefault();
+		 				validation_received.validate().then(function(status) {
+					     if (status == 'Valid') {
+				     		 Swal.fire({
+							        title: "Are you sure?",
+							        text: "You won't be able to revert this",
+							        icon: "warning",
+							        confirmButtonText: "Submit!",
+							        showCancelButton: true
+							    }).then(function(result) {
+							        if (result.value) {
+	                                           let formData = new FormData(form_received);
+	                                            formData.append('id',$('.cash_fund_r').text());
+                                                 thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Received';
+									  _ajaxForm(thisURL,"POST",formData,"Update_Accounting_Purchase_Stocks_Received",false);
+						          	}
+					     		});
+					   	 }
+				   	 	});
+		 			});	    
 	 			break;
 	 		   }
 	 		   case "Update_Purchase_Material_Project_Request":{
-		 			$(document).on('click','.save_request',function(e){
+		 			form = document.getElementById('Update_Accounting_Purchase_Request_Stocks');
+				         validation = FormValidation.formValidation(
+							form,{
+								fields: {
+									cash_fund: {validators: {notEmpty: {message: 'Cash Fund is required'}}}
+								},
+								plugins: {
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					    );
+					    $(document).on('click','.btn-request-submit',function(e){
 		 				e.preventDefault();
-		 				let cash = $('input[name="cash_request"]').val();
-		 				let fund_no = $('#joborder').attr('data-id');
-		 				if(!cash){
-		 					Swal.fire("Warning!", "Please Input the cash fund!", "warning");
-		 				}else{
-			 				let formdata = new FormData();
-			 				formdata.append('fund_no',fund_no);
-			 				formdata.append('cash',cash);
-			 				thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Stocks_Request';
-			 			   _ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Material_Project_Request",false);	
-		 				}
-		 				
-		 			});
-		 			 $(document).on('click','.save_approved',function(e){
-		 			 	e.preventDefault();
-		 				let cash = $('input[name="cash_approved"]').val();
-		 				let fund_no = $('#production_no_f').attr('data-id');
-		 				let previous = $('#pettycash').text();
-		 				if(!cash){
-		 					Swal.fire("Warning!", "Please Input the cash fund!", "warning");
-		 				}else{
-			 				val = {fund_no:fund_no,cash:cash,previous:previous};
-			 				thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Material_Stocks_Approved';
-			 			   _ajaxForm_loaded(thisURL,"POST",val,"Update_Accounting_Purchase_Material_Project_Approved",false);	
-		 				}
-		 				
-		 			});
-		 			  $(document).on('click','.save_received',function(e){
-		 			  	e.preventDefault();
-		 				let refund = $('input[name="refund"]').val();
-		 				let change = $('input[name="change"]').val();
-		 				let fund_no = $('input[name="fund_no"]').val();
-		 				let total = $('#total').text(); 
-		 				if(!change){
-		 					Swal.fire("Warning!", "Please Input the Actual changed!", "warning");
-		 				}else{
-			 				val = {fund_no:fund_no,change:change,refund:refund,total:total};
-			 				thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Stocks_Received';
-			 			   _ajaxForm_loaded(thisURL,"POST",val,"Update_Purchase_Project_Received",false);	
-		 				}
-		 				
-		 			});
+		 				let action = $(this).attr('data-status');
+		 				validation.validate().then(function(status) {
+					     if (status == 'Valid') {
+				     		 Swal.fire({
+							        title: "Are you sure?",
+							        text: "You won't be able to revert this",
+							        icon: "warning",
+							        confirmButtonText: "Submit!",
+							        showCancelButton: true
+							    }).then(function(result) {
+							        if (result.value) {
+	                                           let formData = new FormData(form);
+	                                            formData.append('id',$('.cash_fund').text());
+	                                            formData.append('action',action);
+                                                 thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Request';
+									  _ajaxForm(thisURL,"POST",formData,"Update_Accounting_Purchase_Project_Request",false);
+						          	}
+					     		});
+					   	 }
+				   	 	});
+		 			});	
+					var form_received = document.getElementById('Update_Accounting_Purchase_Request_Received');
+				     var validation_received = FormValidation.formValidation(
+							form_received,{
+								fields: {
+									actual_change: {validators: {notEmpty: {message: 'Change is required'}}}
+								},
+								plugins: {
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					    );
+					    $(document).on('click','.btn-received-submit',function(e){
+		 				e.preventDefault();
+		 				validation_received.validate().then(function(status) {
+					     if (status == 'Valid') {
+				     		 Swal.fire({
+							        title: "Are you sure?",
+							        text: "You won't be able to revert this",
+							        icon: "warning",
+							        confirmButtonText: "Submit!",
+							        showCancelButton: true
+							    }).then(function(result) {
+							        if (result.value) {
+	                                           let formData = new FormData(form_received);
+	                                            formData.append('id',$('.cash_fund_r').text());
+                                                 thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Received';
+									  _ajaxForm(thisURL,"POST",formData,"Update_Accounting_Purchase_Project_Received",false);
+						          	}
+					     		});
+					   	 }
+				   	 	});
+		 			});	    
+	 			break;
 	 			break;
 	 		   }
 	 		   	 		case"Create_Salesorder_Project":{
@@ -464,59 +516,6 @@ var KTFormControls = function () {
                }
 
 
-	 		 //   case "Update_Purchase_Stocks_Request":{
-		 		// 	$(document).on('click','.save_request',function(e){
-		 		// 		e.preventDefault();
-		 		// 		let cash = $('input[name="cash_request"]').val();
-		 		// 		let request_id = $('input[name="request_id"]').val();
-		 		// 		if(!cash){
-		 		// 			Swal.fire("Warning!", "Please Input the cash fund!", "warning");
-		 		// 		}else{
-		 		// 			let formdata = new FormData();
-		 		// 			formdata.append('request_id',request_id);
-		 		// 			formdata.append('cash',cash);
-			 	// 			thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Stocks_Request';
-			 	// 			url = baseURL + 'gh/accounting/purchase-project-request';
-			 	// 		    _ajaxForm(thisURL,"POST",val,"Update_Purchase_Stocks_Request",url);	
-		 		// 		}
-		 		// 	});
-		 		// 	 $(document).on('click','.save_approved',function(e){
-		 		// 	 	e.preventDefault();
-		 		// 		let cash = $('input[name="cash_approved"]').val();
-		 		// 		let fund_no = $('input[name="fund_no"]').val();
-		 		// 		let previous = $('#pettycash').text();
-		 		// 		if(!cash){
-		 		// 			Swal.fire("Warning!", "Please Input the cash fund!", "warning");
-		 		// 		}else{
-		 		// 			let formdata = new FormData();
-		 		// 			formdata.append('fund_no',fund_no);
-		 		// 			formdata.append('cash',cash);
-		 		// 			formdata.append('previous',previous);
-			 	// 			thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Stocks_Approved';
-			 	// 		     _ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Stocks_Approved",false);	
-		 		// 		}
-		 				
-		 		// 	});
-		 		// 	$(document).on('click','.save_received',function(e){
-		 		// 		e.preventDefault();
-		 		// 		let refund   		= $('input[name="refund"]').val();
-		 		// 		let change   		= $('input[name="change"]').val();
-		 		// 		let total    		= $('#total').text(); 
-		 		// 		if(!change){
-		 		// 			Swal.fire("Warning!", "Please Input the Actual changed!", "warning");
-		 		// 		}else{
-		 		// 		   let formdata = new FormData();
-		 		// 		   formdata.append('fund_no',$('input[name="fund_no"]').val());
-				 //     	   formdata.append('change',change);
-				 //     	   formdata.append('refund',refund);	
-				 //     	   formdata.append('total',total);	
-				 //     	   thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Stocks_Received';
-			 	// 		   _ajaxForm(thisURL,"POST",formdata,"Update_Accounting_Purchase_Stocks_Received",false);		
-		 		// 		}
-		 		// 	});
-	 			// break;
-	 		 //   }	
-	 		  
 	 		   case "Update_Project_Monitoring":{
 	 		   	$(document).on('click','.save',function(e){
 	 		   		e.preventDefault();
@@ -665,39 +664,14 @@ var KTFormControls = function () {
 					});
 	 			break;
 	 		}
-	 		case "Create_SupplierItem":{
-	 			$('#Create_SupplierItem').on('click',function(e){		
-		 			 Swal.fire({
-					        title: "Are you sure?",
-					        text: "You won't be able to revert this",
-					        icon: "warning",
-					        confirmButtonText: "Submit!",
-					        showCancelButton: true
-					    }).then(function(result) {
-					        if (result.value) {
-					        	 id = $('input[name=id]').val(); 
-					   		 amount = $('#price').val();
-					   		 item = $('#item').val().split('-');
-					   		 val = {id:id,item:item[0],price:amount};
-						  	 thisURL = baseURL + 'create_controller/Create_SupplierItem';
-						  	 url = baseURL + 'gh/superuser/supplier_view/'+btoa(id);
-						  	 _ajaxForm_loaded(thisURL,"POST",val,"Create_SupplierItem",false);
-				         }
-				   	 });
-				});
-				break;
-	 		}
-	 		case "Create_Supplier":{
-				    form = document.getElementById('Create_Supplier');
+	 		case "Update_Supplier":{
+				var form = document.getElementById('Create_Supplier_Item');
 			         validation = FormValidation.formValidation(
 						form,
 						{
-							fields: {
-								name: {validators: {notEmpty: {message: 'Supplier Name is required'}}},
-			                   		mobile: {validators: {notEmpty: {message: 'Mobile No. is required'}}},
-			                   		email: {validators: {notEmpty: {message: 'Email is required'}}},
-								address: {validators: {notEmpty: {message: 'Address is required'}}}},
-
+							fields: {item_add: {validators: {notEmpty: {message: 'Item is required'}}},
+								amount_add: {validators: {notEmpty: {message: 'Amount is required'}}},
+			                },
 							plugins: {
 							trigger: new FormValidation.plugins.Trigger(),
 							bootstrap: new FormValidation.plugins.Bootstrap(),
@@ -709,21 +683,138 @@ var KTFormControls = function () {
 						}
 					   }
 					);
-					$('#Create_Supplier').on('submit',function(e){
-					    e.preventDefault();
-					     let element = this;
-					    validation.validate().then(function(status) {
-				            if (status == 'Valid') 
-				            { 
-				            	let formData = new FormData(element);
-				            	val = formData;
-						     thisURL = baseURL + 'create_controller/Create_Supplier';
-						     url = baseURL + 'gh/superuser/supplier_create';
-						     _ajaxForm(thisURL,"POST",val,"Create_Supplier",url);
-						
-							}
-						});
-					});
+	 			$(document).on('click','.btn-add',function(e){
+	 				e.preventDefault();
+	 				validation.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form);
+		   					fd.append('id',$('.name').attr('data-id'));
+		   					fd.append('item',$('select[name=item_add]').val());
+		   					fd.append('amount',$('input[name=amount_add]').val());
+						 	thisURL = baseURL + 'create_controller/Create_Supplier_Item';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Supplier_Item",false);
+					     }
+					 });
+	 			})
+
+	 			var form1 = document.getElementById('Update_Supplier_Item');
+			    var validation1 = FormValidation.formValidation(
+						form1,
+						{
+							fields: {item: {validators: {notEmpty: {message: 'Item is required'}}},
+								amount: {validators: {notEmpty: {message: 'Amount is required'}}},
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                    icon: new FormValidation.plugins.Icon({
+			                    valid: 'fa fa-check',
+			                    invalid: 'fa fa-times',
+			                    validating: 'fa fa-refresh'
+			                }),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-save-item',function(e){
+	 				e.preventDefault();
+	 				validation1.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form1);
+		   					fd.append('supplier',$('.name').attr('data-id'));
+		   					fd.append('id',$('select[name=item]').attr('data-id'));
+		   					fd.append('amount',$('input[name=amount]').val());
+						 	thisURL = baseURL + 'update_controller/Update_Supplier_Item';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Update_Supplier_Item",false);
+					     }
+					 });
+	 			})
+	 			var form2 = document.getElementById('Update_Supplier_Edit');
+			    var validation2 = FormValidation.formValidation(
+						form2,
+						{
+							fields: {name: {validators: {notEmpty: {message: 'Supplier Name is required'}}},
+								mobile: {validators: {notEmpty: {message: 'Mobile is required'}}},
+								email: {validators: {notEmpty: {message: 'Email is required'}}},
+								address: {validators: {notEmpty: {message: 'Address is required'}}},
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                    icon: new FormValidation.plugins.Icon({
+			                    valid: 'fa fa-check',
+			                    invalid: 'fa fa-times',
+			                    validating: 'fa fa-refresh'
+			                }),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-save-supplier',function(e){
+	 				e.preventDefault();
+	 				validation2.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form2);
+		   					fd.append('id',$('.name').attr('data-id'));
+						 	thisURL = baseURL + 'update_controller/Update_Supplier_Edit';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Update_Supplier_Edit",false);
+					     }
+					 });
+	 			})
+	 			var form3 = document.getElementById('Create_Supplier');
+			    var validation3 = FormValidation.formValidation(
+						form3,
+						{
+							fields: {name_add: {validators: {notEmpty: {message: 'Supplier Name is required'}}},
+								mobile_add: {validators: {notEmpty: {message: 'Mobile is required'}}},
+								email_add: {validators: {notEmpty: {message: 'Email is required'}}},
+								address_add: {validators: {notEmpty: {message: 'Address is required'}}},
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+			                    icon: new FormValidation.plugins.Icon({
+			                    valid: 'fa fa-check',
+			                    invalid: 'fa fa-times',
+			                    validating: 'fa fa-refresh'
+			                }),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-add-supplier',function(e){
+	 				e.preventDefault();
+	 				validation3.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form3);
+						 	thisURL = baseURL + 'create_controller/Create_Supplier';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Supplier",false);
+					     }
+					 });
+	 			})
+	 			$(document).on('click','.btn-add-supplier',function(e){
+	 				e.preventDefault();
+	 				validation3.validate().then(function(status) {
+					     if (status == 'Valid'){ 	
+						 	let fd = new FormData(form3);
+						 	thisURL = baseURL + 'create_controller/Create_Supplier';
+					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Supplier",false);
+					     }
+					 });
+	 			})
+	 			$("input[name=image]").on('change',function(e) {
+                    e.preventDefault();
+                    if($('input[name=image]')[0].files[0]){
+                    	let name = e.target.files[0].name;
+                    	let extension = name.split(".");
+                    	if(extension[1] == 'docx' || extension[1] == 'pdf' || extension[1] == 'csv' || extension[1] == 'gif' || extension[1] == 'doc'){
+                    		Swal.fire("Warning!", "Make sure the file is jpg & png", "warning");
+                    	}else{
+                    		let fd = new FormData();
+	                    	fd.append('id',$('.name').attr('data-id'));
+	                    	fd.append('image',$('input[name=image]')[0].files[0]);
+	                    	thisURL = baseURL + 'update_controller/Update_Supplier_Image';
+						  	 _ajaxForm(thisURL,"POST",fd,"Update_Supplier_Image",false);
+                    	}
+                    }
+                  });
 	 			break;
 	 		}
 	 		case "Create_Deposit":{
@@ -810,257 +901,8 @@ var KTFormControls = function () {
 	 			}
 	 			break;
 	 		}
-	 		case "Update_Purchase_Material_Stocks_Request":{
-	 			if(response == true){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-		 				let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Request';
-						let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
-						_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Approval';
-						let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
-						let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
-						$('#requestModalRequest').modal('hide');
-	 				});
-                	 }
-                 	
-	 			break;
-	 		}
-	 		case "Update_Accounting_Purchase_Material_Stocks_Approved":{
-	 			if(response.status=="success"){
-		 				$(document).ready(function(){
-			 				_initToastSuccess();
-			 				$('#button_edit').show('<button type="button" class="btn btn-success edit">EDIT</button>');
-			 				$('#button_save').hide();
-			 				var s = $('input[name="previouscash"]').val();
-			 				if(response.cash == s){
-			 					$('#del_cash').text('');
-			 				}else{
-			 					$('#del_cash').text(response.previous);
-			 				}
-				  		   	 $('#pettycash').text(response.cash);
-		 				});
-			           }else{
-			           	_initToastWarning();
-			                $('#button_edits').show('<button type="button" class="btn btn-success edit">EDIT</button>');
-			                $('#button_saves').hide();
-
-			           }
-
-	               let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Request';
-				let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
-				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Approval';
-				let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
-				let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
-                break;
-	 		}
-	 		case "Update_Purchase_Stocks_Received":{
-	 			if(response.status=="success"){
-		 				$(document).ready(function(){
-			 				_initToastSuccess();
-			 				$('#button_edit').show('<button type="button" class="btn btn-success edit'+response.fund_no+'">EDIT</button>');
-			 				$('#button_save').hide();
-			 				$('#change').hide();
-			 				$('#change1').show();
-				  		   	$('#change1').html('<span>'+response.change+'</span>');
-
-				  		   	$('#refund').hide();
-			 				$('#refund1').show();
-				  		   	$('#refund1').html('<span>'+response.refund+'</span>');
-		 				});
-			           }else{
-			           	_initToastWarning();
-			                $('#button_edit').show('<button type="button" class="btn btn-success edit'+response.fund_no+'">EDIT</button>');
-			                $('#button_save').hide();
-			           }
-			     let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Request';
-				let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
-				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Approval';
-				let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
-				let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
-                break;
-	 		}
-	 		case "Update_Purchase_Material_Project_Request":{
-	 			if(response == true){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-		 				let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
-						let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
-						_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Approval';
-						let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
-						let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
-						$('#requestModalRequest').modal('hide');
-	 				});
-                	 }
-                 	
-	 			break;
-	 		}
-	 		case "Update_Accounting_Purchase_Material_Project_Approved":{
-	 			if(response.status=="success"){
-		 				$(document).ready(function(){
-			 				_initToastSuccess();
-			 				$('#button_edit').show('<button type="button" class="btn btn-success edit">EDIT</button>');
-			 				$('#button_save').hide();
-			 				var s = $('input[name="previouscash"]').val();
-			 				if(response.cash == s){
-			 					$('#del_cash').text('');
-			 				}else{
-			 					$('#del_cash').text(response.previous);
-			 				}
-				  		   	 $('#pettycash').text(response.cash);
-		 				});
-			           }else{
-			           	_initToastWarning();
-			                $('#button_edits').show('<button type="button" class="btn btn-success edit">EDIT</button>');
-			                $('#button_saves').hide();
-			           }
-	               let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
-				let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
-				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Approval';
-				let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
-				let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
-                break;
-	 		}
-	 		case "Update_Purchase_Project_Received":{
-	 			if(response.status=="success"){
-		 				$(document).ready(function(){
-			 				_initToastSuccess();
-			 				$('#button_edit').show('<button type="button" class="btn btn-success edit'+response.fund_no+'">EDIT</button>');
-			 				$('#button_save').hide();
-			 				$('#change').hide();
-			 				$('#change1').show();
-				  		   	$('#change1').html('<span>'+response.change+'</span>');
-
-				  		   	$('#refund').hide();
-			 				$('#refund1').show();
-				  		   	$('#refund1').html('<span>'+response.refund+'</span>');
-		 				});
-			           }else{
-			           	_initToastWarning();
-			                $('#button_edit').show('<button type="button" class="btn btn-success edit'+response.fund_no+'">EDIT</button>');
-			                $('#button_save').hide();
-			           }
-			     let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
-				let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
-				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Approval';
-				let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
-				let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
-                break;
-	 		}
 
 
-	 		case "Update_Purchase_Stocks_Request":{
-	 			if(response.status=="success"){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Request';
-						let TableData =  [{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action'}];
-						_DataTableLoader('tbl_purchased_stocks_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Approval';
-						let TableData1 =  [{data:'fund_no'},{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action'}];
-						_DataTableLoader('tbl_purchased_stocks_approved',TableURL1,TableData1,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Received';
-						let TableData2 =  [{data:'fund_no'},{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action'}];
-						_DataTableLoader('tbl_purchased_stocks_received',TableURL2,TableData2,false);
-	 					$('#requestModal').modal('hide');
-	 				});
-                 }
-	 			break;
-	 		}
-	 		case "Update_Purchase_Stocks_Approved":{
-	 			if(response.status=="success"){
-		 				$(document).ready(function(){
-			 				_initToastSuccess();
-			 				$('#button_edit').show('<button type="button" class="btn btn-success edit">EDIT</button>');
-			 				$('#button_save').hide();
-			 				var s = $('input[name="previouscash"]').val();
-			 				if(response.cash == s){
-			 					$('#del_cash').text('');
-			 				}else{
-			 					$('#del_cash').text(response.previous);
-			 				}
-				  		   	 $('#pettycash').text(response.cash);
-		 				});
-			           }else{
-			           	_initToastWarning();
-			                $('#button_edit').show('<button type="button" class="btn btn-success edit">EDIT</button>');
-			                $('#button_save').hide();
-			           }
-			          let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Request';
-					let TableData =  [{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action'}];
-					_DataTableLoader('tbl_purchased_stocks_request',TableURL,TableData,false);
-
-					let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Received';
-					let TableData2 =  [{data:'fund_no'},{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action'}];
-					_DataTableLoader('tbl_purchased_stocks_received',TableURL2,TableData2,false);
-                break;
-	 		}
-	 		case "Update_Accounting_Purchase_Stocks_Received":{
-	 			if(response.status=="success"){
-		 			$(document).ready(function(){
-			 				_initToastSuccess();
-			 				$('#button_edit').show('<button type="button" class="btn btn-success edit'+response.fund_no+'">EDIT</button>');
-			 				$('#button_save').hide();
-			 				$('#change').hide();
-			 				$('#change1').show();
-				  		   	$('#change1').html('<span>'+response.change+'</span>');
-
-				  		   	$('#refund').hide();
-			 				$('#refund1').show();
-				  		   	$('#refund1').html('<span>'+response.refund+'</span>');
-		 				});
-			           }else{
-			           	_initToastWarning();
-			                $('#button_edit').show('<button type="button" class="btn btn-success edit'+response.fund_no+'">EDIT</button>');
-			                $('#button_save').hide();
-			           }
-			 	let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Request';
-				let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
-				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Approval';
-				let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
-				let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
-                break;
-	 		}
 	 		case "Update_Project_Monitoring":{
 	 			if(response.status == 'success'){
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Saves Changes!'});
@@ -1177,15 +1019,110 @@ var KTFormControls = function () {
 	 			}
 	 			break;
 	 		}
-	 		case "Create_SupplierItem":{
-	 			if(response.status == 'success'){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
-	 				let TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
-					let TableData =  [{data: 'item'},{data: 'price'},{data: 'status'},{data: 'date_created'},{data: 'action'}];
-					let id = $('input[name=id]').val();
-					_DataTableLoader('tbl_supplier_item',TableURL,TableData,id);
-		 			}
+	 		case "Create_Supplier_Item":{
+	 			if(response !=false){
+	 				_initToast('success','Item created successfully');
+			 		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
+					let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
+					_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response);
+					$('#Create_Supplier_Item')[0].reset();
+					$('#add-item').modal('hide');
+	 			}else{
+	 				Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 			}
+				_initnotificationupdate();
 	 			break;
+	 		}
+	 		case "Update_Supplier_Item":{
+	 			if(response !=false){
+	 				_initToast('success','Save Changes');
+			 		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
+					let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
+					_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response);
+					$('#Update_Supplier_Item')[0].reset();
+					$('#edit-item').modal('hide');
+	 			}else{
+	 				Swal.fire("Oopps!", "Item Already Exist", "error"); 
+	 			}
+				_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Update_Supplier_Edit":{
+	 			if(response !=false){
+	 				$('.name').text(response.name).attr('data-id',response.id);
+			  		$('.mobile').text(response.mobile);
+			  		$('.email').text(response.email);
+			  		$('.address').text(response.address);
+	 				_initToast('success','Save Changes');
+					$('#edit-supplier').modal('hide');
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+				_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Create_Supplier":{
+	 			if(response !=false){
+	 				_initToast('success','New Supplier Created Successfully');
+	 				let TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
+					let TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data: 'action'}]; 
+					_DataTableLoader('tbl_supplier',TableURL,TableData,false);
+					$('#Create_Supplier')[0].reset();
+					$('#add-supplier').modal('hide');
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+				_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Update_Supplier_Image":{
+	 			if(response != false){
+	 				_initToast('success','Save changes');
+	 				$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response+')');
+	 			}else{
+	 				 Swal.fire("Error!", "Image upload is incorrect!", "warning");
+	 			}
+	 			break;
+	 		}
+	 		case "Update_Accounting_Purchase_Stocks_Received":
+	 		case"Update_Accounting_Purchase_Stocks_Request":{
+	 			if(response.type == 'success'){
+	 				_initToast(response.type,response.message);
+	 				let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks';
+					let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}];
+					_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
+
+					let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
+					let TableData2 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+					_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
+					if(response.type == 'success'){
+						$('#view-purchased-request').modal('hide');
+						$('#view-purchased-received').modal('hide');
+					}
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong! ("+response.message+")", response.type);
+	 			}
+				break;
+	 		}
+	 		case "Update_Accounting_Purchase_Project_Received":
+	 		case"Update_Accounting_Purchase_Project_Request":{
+	 			if(response.type == 'success'){
+	 				_initToast(response.type,response.message);
+	 				let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
+					let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}];
+					_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
+
+					let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
+					let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+					_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
+					if(response.type == 'success'){
+						$('#view-purchased-request').modal('hide');
+						$('#view-purchased-received').modal('hide');
+					}
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong! ("+response.message+")", response.type);
+	 			}
+				break;
 	 		}
 	 	}
 	 }

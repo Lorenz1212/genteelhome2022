@@ -59,30 +59,22 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				break;
 			}
 			case "tbl_purchased_material_stocks_request":{
-				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Request';
-				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks';
+				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}];
 				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
 
-				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Approval';
-				let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
-				let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}]; 
 				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
 				break;
 			}
-			case "tbl_purchased_material_project_request":{
+			case "tbl_purchased_material_project":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
-				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}];
 				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
 
-				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Approval';
-				let TableData1 = [{data:'fund_no'},{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_purchased_approved',TableURL1,TableData1,false);
-
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
-				let TableData2 = [{data:'fund_no'},{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}]; 
 				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
 				break;
 			}

@@ -491,13 +491,8 @@ class Datatable_controller extends CI_Controller
     
  
     //ACCOUNTING
-    public function Accounting_Purchase_Material_Stocks_Request(){
-        $data = $this->datatable_model->Accounting_Purchase_Material_Stocks_Request();
-        echo json_encode($data);
-    }
-    public function Accounting_Purchase_Material_Stocks_Approval(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Accounting_Purchase_Material_Stocks_Approval($user_id);
+    public function Accounting_Purchase_Material_Stocks(){
+        $data = $this->datatable_model->Accounting_Purchase_Material_Stocks();
         echo json_encode($data);
     }
     public function Accounting_Purchase_Material_Stocks_Received(){
@@ -510,19 +505,11 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Accounting_Purchase_Material_Project_Request();
         echo json_encode($data);
     }
-    public function Accounting_Purchase_Material_Project_Approval(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Accounting_Purchase_Material_Project_Approval($user_id);
-        echo json_encode($data);
-    }
     public function Accounting_Purchase_Material_Project_Received(){
         $user_id = $this->session->userdata('id');
         $data = $this->datatable_model->Accounting_Purchase_Material_Project_Received($user_id);
         echo json_encode($data);
     }
-
-
-   
     public function Account_Report_Collection_Stocks_Daily(){
         $month = isset($_POST['month']) ? $this->input->post('month'): false;
         $year = isset($_POST['year']) ? $this->input->post('year'): false;

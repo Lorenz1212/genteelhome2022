@@ -639,77 +639,64 @@ class Update_model extends CI_Model
       
     }
 
-    function Update_Accounting_Purchase_Stocks_Request($user_id,$fund_no,$cash){
-                $value = $this->get_code('tbl_pettycash','CF'.date('Ymd'));
-                $insert = array('accounting'    => $user_id,
+    function Update_Accounting_Purchase_Request($user_id,$id,$cash,$action){
+        $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$id)->get()->row();
+        if(!$query){
+            if($action == 1){
+                  $value = $this->get_code('tbl_pettycash','CNXID'.date('Ymd'));
+                    $this->db->insert('tbl_pettycash',array('accounting'=> $user_id,
                                 'fund_no'       => $value,
                                 'pettycash'     => $cash,
                                 'status'        => 1,
                                 'type'          => 1,
                                 'date_created'  => date('Y-m-d H:i:s'),
-                                'created_by'    => $user_id);
-                $this->db->insert('tbl_pettycash',$insert);
-                $update = array('fund_no' => $value,
-                                'accounting'=> $user_id,
-                                'status'=> 4,
-                                'latest_update'=>date('Y-m-d H:i:s'),
-                                'update_by'=>$user_id);
-                $this->db->where('status',3);
-                $this->db->where('fund_no',$fund_no);
-                $this->db->update('tbl_purchasing_project',$update);
-                return true;
-    }
-    function Update_Accounting_Purchase_Material_Stocks_Approved($user_id,$fund_no,$cash){
-            $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$fund_no)->where('pettycash',$cash)->get();
-            $row = $query->row();
-            if($query !== FALSE && $query->num_rows() > 0) {  
-                if(!$row->update_pettycash){
-                  return 'nothing to change';  
-                }else{
-                  $data = array('update_pettycash' => $cash,
-                                'latest_update'=> date('Y-m-d H:i:s'),
-                                'update_by'=>$user_id);
-                  $this->db->where('fund_no',$fund_no);
-                  $this->db->update('tbl_pettycash',$data);
-                  return 'success';  
-                }
+                                'created_by'    => $user_id));
+                    $this->db->where('fund_no',$id);
+                    $result = $this->db->update('tbl_purchasing_project',array('fund_no' => $value,
+                                         'accounting'=> $user_id,
+                                         'status'=> 4,
+                                         'latest_update'=>date('Y-m-d H:i:s'),
+                                         'update_by'=>$user_id));
+                    if($result){
+                        return array('type'=>'success','message'=>'Save Changes');
+                    }else{
+                        return array('type'=>'info','message'=>'error(002)');
+                    }
             }else{
-                $data = array('update_pettycash' => $cash,
-                            'latest_update'=> date('Y-m-d H:i:s'),
-                            'update_by'=>$user_id);
-                $this->db->where('fund_no',$fund_no);
-                $this->db->update('tbl_pettycash',$data);
-                return 'success';
-            }
-
-    }
-    function Update_Accounting_Purchase_Stocks_Received($user_id,$fund_no,$change,$refund,$total){
-            $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$fund_no)->where('actual_change',$change)->get();
-            $row = $query->row();
-            if($query !== FALSE && $query->num_rows() > 0){  
-                if(!$row->actual_change){
-                  return 'nothing to change';  
+                $this->db->where('fund_no',$id);
+                $result = $this->db->update('tbl_pettycash',array('pettycash'=> $cash));
+                if($result){
+                    return array('type'=>'success','message'=>'Save Changes');
                 }else{
-                  $data = array('actual_change'   =>  $change,
-                                'refund'          =>  $refund,
-                                'total_amount'    =>  $total,
-                                'date_received'   =>  date('Y-m-d H:i:s'),
-                                'status'          =>  2);
-                  $this->db->where('fund_no',$fund_no);
-                  $this->db->update('tbl_pettycash',$data);
-                  return 'success';  
+                    return array('type'=>'error','message'=>'Nothing Changes');
                 }
-            } 
-            else{
-                $data = array(  'actual_change'   =>  $change,
-                                'refund'          =>  $refund,
-                                'total_amount'    =>  $total,
-                                'date_received'   =>  date('Y-m-d H:i:s'),
-                                'status'          =>  2);
-                $this->db->where('fund_no',$fund_no);
-                $this->db->update('tbl_pettycash',$data);
-                return 'success';
+            }                   
+        }else{
+            $this->db->where('fund_no',$id);
+            $result = $this->db->update('tbl_pettycash',array('pettycash'=> $cash));
+            if($result){
+                return array('type'=>'success','message'=>'Save Changes');
+            }else{
+                return array('type'=>'error','message'=>'Nothing Changes');
             }
+            //return array('type'=>'info','message'=>'error(001)');
+        }
+    }
+    function Update_Accounting_Purchase_Received($user_id,$id,$change,$refund){
+        $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$id)->get()->row();
+        if($query){
+            $this->db->where('fund_no',$id);
+            $result = $this->db->update('tbl_pettycash',array('actual_change'=> $change,'refund'=>$refund));
+            if($result){
+                $this->db->where('fund_no',$id);
+                $this->db->update('tbl_purchase_received',array('status'=> 2));
+                return array('type'=>'success','message'=>'Save Changes');
+            }else{
+                return array('type'=>'error','message'=>'Nothing Changes');
+            }                
+        }else{
+           return array('type'=>'info','message'=>'error(001)');
+        }
     }
    
 
@@ -1542,7 +1529,7 @@ class Update_model extends CI_Model
             return false;
         }
     }
-        function Update_Purchase_Stocks_Estimate($user_id,$id,$amount,$type){
+    function Update_Purchase_Estimate($user_id,$id,$amount,$type){
         $pr_id = array_map('intval', explode(',', $id));
         $amounts = explode(',',$amount);
         $value = 'TN'.date('YmdHis');
@@ -1556,37 +1543,6 @@ class Update_model extends CI_Model
                           'update_by'=> $user_id);
             $this->db->where('id',$pr_id[$i]);
             $this->db->update('tbl_purchasing_project',$data);
-        }
-        return true;
-    }
-    function Update_Purchase_Stocks_Process($user_id,$joborder,$pr_id,$item_id,$quantity,$amount,$supplier,$terms,$type){
-         $rv_id = $this->get_code('tbl_purchase_received','RVNO'.date('YmdHis'));
-         $pr_ids = array_map('intval', explode(',', $pr_id));
-         $item_ids = array_map('intval', explode(',', $item_id));
-         $amounts = explode('_',$amount);
-         $quantities = explode(',',$quantity);
-         $suppliers = array_map('intval', explode(',', $supplier));
-         $termss = array_map('intval', explode(',', $terms));
-         for($i=0;$i<count($pr_ids);$i++){
-            $data = array('production_no'=>$joborder,
-                          'pr_id'=> $pr_ids[$i],
-                          'rv_id'=>$rv_id,
-                          'item_no'=> $item_ids[$i],
-                          'quantity'=>$quantities[$i],
-                          'amount' => floatval(str_replace(',', '',$amounts[$i])),
-                          'supplier' => $suppliers[$i],
-                          'terms' => $termss[$i],
-                          'type'=> $type,
-                          'date_created'=> date('Y-m-d H:i:s'),
-                          'created_by'=> $user_id);
-            $this->db->insert('tbl_purchase_received',$data);
-        }
-        $query = $this->db->select('item_no,sum(quantity) as qty')->from('tbl_purchase_received')->where('rv_id',$rv_id)->group_by('item_no')->get();
-        foreach($query->result() as $row){
-            $mat = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
-            $total = $mat->stocks+$row->qty;
-            $this->db->where('id',$mat->id);
-            $this->db->update('tbl_materials',array('stocks'=>$total));
         }
         return true;
     }
@@ -1658,9 +1614,11 @@ class Update_model extends CI_Model
            $this->db->where('fund_no',$fund_no);
            $result = $this->db->update('tbl_purchasing_project',array('status'=>5));
            if($result){
+                $row = $this->db->select('*')->from('tbl_purchasing_project')->where('fund_no',$fund_no)->get()->row();
                  foreach($query->result() as $row){
                     $this->db->insert('tbl_purchase_received',array('production_no'=>$joborder,
                                       'fund_no'=>$row->fund_no,
+                                      'purchaser'=>$row->purchaser,
                                       'supplier'=>$row->supplier,
                                       'item_no'=>$row->item_no,
                                       'payment'=>$row->payment,

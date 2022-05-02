@@ -26,7 +26,7 @@
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#delivered">
-			                        <span class="nav-text mr-2">DELIVERED</span>
+			                        <span class="nav-text mr-2">FOR DELIVERY</span>
 			                        <span class="label label-rounded label-success sales_deliver_stocks">0</span>
 			                    </a>
 			                </li>

@@ -530,7 +530,9 @@ var KTFormControls = function () {
 		 	   }
                case "Update_Salesorder_Stock_Request":{
                     $('.btn-status-save').on('click', function(e){
+                    	e.preventDefault();
                          let status = $(this).attr('data-status');
+                         alert($('.so_no').attr('data-id'))
                           Swal.fire({
                                  title: "Are you sure?",
                                  text: "You won't be able to revert this",
@@ -1720,7 +1722,7 @@ var KTFormControls = function () {
 		 				formdata.append('id',id);
 		 				formdata.append('amount',amount);
 		 				formdata.append('type',1);
-		 				thisURL = baseURL + 'update_controller/Update_Purchase_Stocks_Estimate';
+		 				thisURL = baseURL + 'update_controller/Update_Purchase_Estimate';
 		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Stocks_Estimate",false);
 	 				}
 	 			});
@@ -1811,49 +1813,100 @@ var KTFormControls = function () {
 	 		case "Update_Purchase_Request_Project":{
 	 			$(document).on('click','#btn-save',function(e){
 	 				e.preventDefault();
-	 				let id = Array.from(document.getElementsByClassName('td-id')).map(item => item.getAttribute('data-id'));
-	 				let count = Array.from(document.getElementsByClassName('td-id')).map(item => item.getAttribute('data-count'));
-	 				let amount = Array.from(document.getElementsByClassName('td-amount')).map(item => item.value);
+	 				let id = Array.from(document.getElementsByClassName('td-amount')).map(item => item.getAttribute('data-id'));
+	 				let amount = Array.from(document.getElementsByClassName('td-amount')).map(item => item.value.replace(/,/g, ''));
 	 				let cleanArray = amount.filter(function(e){ return e.replace(/(\r\n|\n|\r)/gm,"")});
-	 				let am= amount.join("_");
-	 				if(cleanArray.length === 0){
+	 				if(cleanArray.length != amount.length){
 	 					Swal.fire("Warning!", "Please Input the Estimate Amount of each Item!", "warning");
 	 				}else{
 	 					let formdata = new FormData();
 		 				formdata.append('id',id);
-		 				formdata.append('amount',am);
+		 				formdata.append('amount',amount);
 		 				formdata.append('type',2);
-		 				thisURL = baseURL + 'update_controller/Update_Purchase_Stocks_Estimate';
+		 				thisURL = baseURL + 'update_controller/Update_Purchase_Estimate';
 		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Project_Estimate",false);
 	 				}
 	 			});
 
+	 			var form = document.getElementById('Update_Purchase_Process');
+			         validation = FormValidation.formValidation(
+						form,
+						{
+							fields: {item: {validators: {notEmpty: {message: 'Item is required'}}},
+								supplier: {validators: {notEmpty: {message: 'Supplier is required'}}},
+								terms: {validators: {notEmpty: {message: 'Payment terms is required'}}},
+								quantity: {validators: {notEmpty: {message: 'quantity is required'}}},
+								amount_process: {validators: {notEmpty: {message: 'amount is required'}}},
+							
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-add',function(e){
+				 	e.preventDefault();
+				 	e.stopPropagation();
+				 	validation.validate().then(function(status) {
+					  if (status == 'Valid'){ 
+					  	if($('select[name=terms]').val() == 2){
+					  		$('#view-terms').modal('show');
+					  	}else{
+					  		let formdata = new FormData(form);
+						 	formdata.append('fund_no',$('.fund_no').attr('data-id'));
+			 				thisURL = baseURL + 'update_controller/Update_Purchased_Transaction';
+			 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchased_Transaction",false);
+					  	}
 
+					   }
+				 	});
+				 });
+	 			$(document).on('click','.btn-submit-terms',function(e){
+				 	e.preventDefault();
+				 	e.stopPropagation();
+				 	validation.validate().then(function(status) {
+					  if (status == 'Valid'){ 
+				  		let formdata = new FormData(form);
+					 	formdata.append('fund_no',$('.fund_no').attr('data-id'));
+					 	formdata.append('terms_start',$('input[name=start]').val());
+					 	formdata.append('terms_end',$('input[name=end]').val());
+		 				thisURL = baseURL + 'update_controller/Update_Purchased_Transaction';
+		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchased_Transaction",false);
+					   }
+				 	});
+				 });
+	 			$(document).on('click','.btn-delete',function(e){
+	 				e.preventDefault();
+	 				let id = $(this).attr('data-id');
+	 				 Swal.fire({
+				        title: "Are you sure?",
+				        text: "You won't be able to revert this",
+				        icon: "warning",
+				        confirmButtonText: "Submit!",
+				        showCancelButton: true
+				    }).then(function(result) {
+				        if (result.value) {
+	                             let formdata = new FormData();
+	                             formdata.append('fund_no',$('.fund_no').attr('data-id'));
+	                             formdata.append('id',id);
+	                             thisURL = baseURL + 'delete_controller/Delete_Purchased_Transaction';
+						   _ajaxForm(thisURL,"POST",formdata,"Delete_Purchased_Transaction",false);
+			             }
+			   	   });
+	 			});
 	 			$(document).on('click','#btn-save-process',function(e){
 	 				e.preventDefault();
-	 				let pr_id = Array.from(document.getElementsByClassName('td-item')).map(item => item.getAttribute('data-prid'));
-	 				let item_id = Array.from(document.getElementsByClassName('td-item')).map(item => item.getAttribute('data-item'));
-	 				let quantity = Array.from(document.getElementsByClassName('td-quantity')).map(item => item.getAttribute('data-qty'));
-	 				let amount = Array.from(document.getElementsByClassName('td-amount-process')).map(item => item.getAttribute('data-amount'));
-	 				let supplier = Array.from(document.getElementsByClassName('td-supplier')).map(item => item.getAttribute('data-supplier'));
-	 				let terms = Array.from(document.getElementsByClassName('td-terms')).map(item => item.getAttribute('data-terms'));
-	 				let cleanArray = amount.filter(function(e){ return e.replace(/(\r\n|\n|\r)/gm,"")});
-	 				let am= amount.join("_");
 	 				var rowCount = $('#tbl_purchasing_process tr').length-1;
 	 				if(!rowCount){
 	 					Swal.fire("Warning!", "Please Complete This Form!", "warning");
 	 				}else{
 	 					let formdata = new FormData();
-	 					formdata.append('joborder',$('#joborder').attr('data-id'));
-		 				formdata.append('pr_id',pr_id);
-		 				formdata.append('item_id',item_id);
-		 				formdata.append('amount',am);
-		 				formdata.append('quantity',quantity);
-		 				formdata.append('supplier',supplier);
-		 				formdata.append('terms',terms);
-		 				formdata.append('type',2);
-		 				thisURL = baseURL + 'update_controller/Update_Purchase_Stocks_Process';
-		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Project_Process",false);
+	 					formdata.append('fund_no',$('.fund_no').attr('data-id'));
+	 					formdata.append('joborder',$('.joborder').attr('data-id'));
+	 					formdata.append('type',1);
+		 				thisURL = baseURL + 'update_controller/Update_Purchase_Complete';
+		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Complete",false);
 	 				}
 	 			});
 	 			break;
@@ -4011,7 +4064,7 @@ var KTFormControls = function () {
 					_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
 
 					let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Project_Inprogress_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+					let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
 					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
 					$('#requestModal').modal('hide');
 	 			}
