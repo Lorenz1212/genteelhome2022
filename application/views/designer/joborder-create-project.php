@@ -98,14 +98,14 @@
 													   </select>
 													</div>
 							       		 	 	</div>
-							       		 	 	<div class="col-xl-4 col-xxl-4 col-md-4" id="special-item">
+							       		 	 	<div class="col-xl-6 col-xxl-6 col-md-6" id="special-item">
 								       		 	  	<div class="form-group">
 													   <label>SPECIAL ITEM:</label>
 													   <input type="text" class="form-control form-control-solid special" id="special_item" name="special_item" />
 													   <span class="form-text text-muted">Please enter your item</span>
 													</div>
 							       		 	 	</div>
-								       		    <div class="col-xl-4 col-xxl-4 col-md-4" id="item-select">	
+								       		    <div class="col-xl-6 col-xxl-6 col-md-6" id="item-select">	
 									       			<div class="form-group">
 														<label>ITEM</label>
 															<select class="form-control form-control-md selectpicker" data-live-search="true" name="item">
@@ -127,7 +127,7 @@
 														<input type="number" min="1" class="form-control form-control-solid form-control-md" id="quantity" name="qty" value="1" autocomplete="off"/>
 													</div>
 												</div>
-												<div class="col-xl-3 col-xxl-3 col-md-3" id="type-select">
+												<div class="col-xl-4 col-xxl-4 col-md-4" id="type-select">
 													<div class="form-group">
 														<label>TYPE</label>
 														<select class="form-control form-control-solid form-control-md" name="type">
@@ -140,9 +140,9 @@
 														</select>
 													</div>
 												</div>
-												<div class="col-xl-3 col-xxl-3 col-md-3">
+												<div class="col-xl-12 col-xxl-12 col-md-12">
 													<div class="form-group">
-														<label>REMARKS</label>
+														<label>REMARKS (Optional)</label>
 														 <textarea class="form-control" id="remarks" rows="3" placeholder="Description"></textarea>
 													</div>
 												</div>
