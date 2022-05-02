@@ -1662,86 +1662,63 @@ const month = ["January","February","March","April","May","June","July","August"
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Daily":{
-	  				$('#tbl_cashfund_daily > tbody:last-child').empty();
-	  				$('#total_pettycash').text(response.data[0].total_pettycash);
-	  				$('#total_change').text(response.data[0].total_change);
-	  				$('#total_refund').text(response.data[0].total_refund);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-	  				$('#total_amount').text(response.data[0].total_amount);
+	  				let container = $('#tbl_cashfund_daily > tbody:last-child');
+	  				container.empty();
 		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_cashfund_daily > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.data[i].production_no+'</span></td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].pettycash+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].change+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].refund+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
+		             			container.append('<tr>'
+		             				+'<td class="font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
+		             				+'<td><span class="text-dark-75 font-weight-bolder font-size-lg">'+response.data[i].fund_no+'</span></td>'
+		             				+'<td>'+response.data[i].pettycash+'</td>'
+		             				+'<td class="text-right">'+response.data[i].change+'</td>'
+		             				+'<td class="text-right">'+response.data[i].refund+'</td>'
+		             				+'<td class="text-right">'+response.data[i].gross+'</span></td>'
+		             				+'<td class="text-right">'+response.data[i].vat+'</td>'
+		             				+'<td class="text-right">'+response.data[i].amount+'</td>'
 							+'</tr>');
 					}
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Weekly":{
 	  				$('#tbl_cashfund_weekly > tbody:last-child').empty();
-	  				$('#total_pettycash').text(response.data[0].total_pettycash);
-	  				$('#total_change').text(response.data[0].total_change);
-	  				$('#total_refund').text(response.data[0].total_refund);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-	  				$('#total_amount').text(response.data[0].total_amount);
 		             	for(var i=0;i<response.data.length;i++){
 		             			$('#tbl_cashfund_weekly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].pettycash+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].change+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].refund+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
+		             				+'<td class="font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
+		             				+'<td>'+response.data[i].pettycash+'</td>'
+		             				+'<td class="text-right">'+response.data[i].change+'</td>'
+		             				+'<td class="text-right">'+response.data[i].refund+'</td>'
+		             				+'<td class="text-right">'+response.data[i].gross+'</td>'
+		             				+'<td class="text-right">'+response.data[i].vat+'</td>'
+		             				+'<td class="text-right">'+response.data[i].amount+'</td>'
 							+'</tr>');
 					}
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Monthly":{
 	  				$('#tbl_cashfund_monthly > tbody:last-child').empty();
-	  				$('#total_pettycash').text(response.data[0].total_pettycash);
-	  				$('#total_change').text(response.data[0].total_change);
-	  				$('#total_refund').text(response.data[0].total_refund);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-	  				$('#total_amount').text(response.data[0].total_amount);
 		             	for(var i=0;i<response.data.length;i++){
 		             			$('#tbl_cashfund_monthly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].pettycash+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].change+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].refund+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
+		             				+'<td class="font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
+		             				+'<td >'+response.data[i].pettycash+'</td>'
+		             				+'<td class="text-right">'+response.data[i].change+'</td>'
+		             				+'<td class="text-right">'+response.data[i].refund+'</td>'
+		             				+'<td class="text-right">'+response.data[i].gross+'</td>'
+		             				+'<td class="text-right">'+response.data[i].vat+'</td>'
+		             				+'<td class="text-right">'+response.data[i].amount+'</td>'
 							+'</tr>');
 					}
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Yearly":{
 	  				$('#tbl_cashfund_yearly > tbody:last-child').empty();
-	  				$('#total_pettycash').text(response.data[0].total_pettycash);
-	  				$('#total_change').text(response.data[0].total_change);
-	  				$('#total_refund').text(response.data[0].total_refund);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-	  				$('#total_amount').text(response.data[0].total_amount);
 		             	for(var i=0;i<response.data.length;i++){
 		             			$('#tbl_cashfund_yearly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].pettycash+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].change+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].refund+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
+		             				+'<td class="font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
+		             				+'<td>'+response.data[i].pettycash+'</td>'
+		             				+'<td class="text-right">'+response.data[i].change+'</td>'
+		             				+'<td class="text-right">'+response.data[i].refund+'</td>'
+		             				+'<td class="text-right">'+response.data[i].gross+'</td>'
+		             				+'<td class="text-right">'+response.data[i].vat+'</td>'
+		             				+'<td class="text-right">'+response.data[i].amount+'</td>'
 							+'</tr>');
 					}
 	  			break;

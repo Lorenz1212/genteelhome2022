@@ -2770,21 +2770,21 @@ class Datatable_model extends CI_Model{
             }else{
                 $date = "MONTH(date_received)=".$month." AND YEAR(date_received)=".$year."";
             }   
-            $query = $this->db->select('*,DATE_FORMAT(date_received, "%M %d %Y") as date_created,IF(pettycash=0, 0,pettycash) as pettycash,
-                 (SELECT SUM(pettycash) FROM tbl_pettycash WHERE status="COMPLETE" AND '.$date.') as total_pettycash')->from('tbl_pettycash')->where($where)->where('status','COMPLETE')->where('type',1)->get();
+            $query = $this->db->select('*,DATE_FORMAT(date_received, "%M %d %Y") as date_created,pettycash')
+                ->from('tbl_pettycash')->where($date)->where('status',2)->order_by('date_received','ASC')->get();
               if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row)  {
-                 $gross = $row->total_amount / 1.12;
+                 $row_t = $this->db->select('sum(amount) as amount')->from('tbl_purchase_received')->where('fund_no',$row->fund_no)->get()->row();
+                 $gross = $row_t->amount / 1.12;
                  $vat = $gross*0.12;
-                 $total_vat = $row->total_gross*0.12;
                  $data[] = array(
-                            'cashfund'          => $row->fund_no,
+                            'fund_no'          => $row->fund_no,
                             'pettycash'         => number_format($row->pettycash,2),
                             'change'            => number_format($row->actual_change,2),
                             'refund'            => number_format($row->refund,2),
                             'gross'             => number_format($gross,2),
                             'vat'               => number_format($vat,2),
-                            'amount'            => number_format($row->total_amount,2),
+                            'amount'            => number_format($row_t->amount,2),
                             'date_created'      => $row->date_created);
                 }  
              }else{   
@@ -2795,42 +2795,24 @@ class Datatable_model extends CI_Model{
      }  
      function Account_Report_Project_Weekly($year,$month){
             if($month == false || $year == false){
-                $where = array('MONTH(date_received)'=> date('m'), 'YEAR(date_received)'=> date('Y'));
-                $date = "MONTH(date_received)=".date('m')." AND YEAR(date_received)=".date('Y')."";
+                $date_where = "MONTH(date_received)=".date('m')." AND YEAR(date_received)=".date('Y')." AND status=2";
             }else{
-                $where = array('MONTH(date_received)'=>$month,'YEAR(date_received)'=> $year);
-                $date = "MONTH(date_received)=".$month." AND YEAR(date_received)=".$year."";
-            }   
-            $query = $this->db->select('*,CONCAT("WEEK", " ",WEEK(date_received, 3) - WEEK(date_received - INTERVAL DAY(date_received)-1 DAY, 3) + 1)
-                      as date_created,
-                 IF(update_pettycash=0, update_pettycash,pettycash) as pettycash,
-                 (SELECT sum(total_amount/1.12) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND '.$date.') as total_gross,
-                 (SELECT sum(total_amount) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND  '.$date.') as total_grand,
-                 (SELECT sum(actual_change) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND  '.$date.') as total_change,
-                 (SELECT sum(refund) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND '.$date.') as total_refund,
-                 (SELECT SUM(IF(update_pettycash = 0,  update_pettycash, pettycash)) FROM tbl_pettycash WHERE status="COMPLETE" AND '.$date.') as total_pettycash')->from('tbl_pettycash')->where($where)->where('status','COMPLETE')->where('type',1)->group_by('WEEK(date_received)')
-                 ->order_by('WEEK(date_received)','ASC')->get();
+                $date_where = "MONTH(date_received)=".$month." AND YEAR(date_received)=".$year." AND status=2";
+            }  
+            $query = $this->db->query('SELECT *,CONCAT("WEEK", " ",WEEK(date_received, 3) - WEEK(date_received - INTERVAL DAY(date_received)-1 DAY, 3) + 1) as date_created,sum(pettycash) as pettycash,
+               (SELECT sum(amount) FROM tbl_purchase_received WHERE fund_no=tbl_pettycash.fund_no) as amount FROM tbl_pettycash WHERE '.$date_where.' GROUP BY WEEK(date_received) ORDER BY  WEEK(date_received) ASC
+              ');
               if($query !== FALSE && $query->num_rows() > 0){
-             foreach($query->result() as $row)  
-                {
-                 $gross = $row->total_amount / 1.12;
+             foreach($query->result() as $row){
+                 $gross = $row->amount / 1.12;
                  $vat = $gross*0.12;
-                 $total_vat = $row->total_gross*0.12;
                  $data[] = array(
-                            'cashfund'          => $row->fund_no,
-                            'production_no'     => $row->production_no,
                             'pettycash'         => number_format($row->pettycash,2),
                             'change'            => number_format($row->actual_change,2),
                             'refund'            => number_format($row->refund,2),
                             'gross'             => number_format($gross,2),
                             'vat'               => number_format($vat,2),
-                            'amount'            => number_format($row->total_amount,2),
-                            'total_pettycash'   => number_format($row->total_pettycash,2),
-                            'total_change'      => number_format($row->total_change,2),
-                            'total_refund'      => number_format($row->total_refund,2),
-                            'total_gross'       => number_format($row->total_gross,2),
-                            'total_vat'         => number_format($total_vat,2),
-                            'total_amount'      => number_format($row->total_grand,2),
+                            'amount'            => number_format($row->amount,2),
                             'date_created'      => $row->date_created);
                 }  
              }else{   
@@ -2841,41 +2823,25 @@ class Datatable_model extends CI_Model{
      }
      function Account_Report_Project_Monthly($year,$month){
             if($month == false || $year == false){
-                $where = array('MONTH(date_received)'=> date('m'), 'YEAR(date_received)'=> date('Y'));
-                $date = "MONTH(date_received)=".date('m')." AND YEAR(date_received)=".date('Y')."";
+                $date_where = "MONTH(date_received)<=".date('m')." AND YEAR(date_received)=".date('Y')." AND status=2";
+                $date_where1 = "MONTH(p.date_received)<=".date('m')." AND YEAR(p.date_received)=".date('Y')." AND p.status=2";
             }else{
-                $where = array('MONTH(date_received)'=>$month,'YEAR(date_received)'=> $year);
-                $date = "MONTH(date_received)=".$month." AND YEAR(date_received)=".$year."";
-            }   
-            $query = $this->db->select('*, DATE_FORMAT(date_received, "%M") as date_created,
-                 IF(update_pettycash=0, update_pettycash,pettycash) as pettycash,
-                 (SELECT sum(total_amount/1.12) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND '.$date.') as total_gross,
-                 (SELECT sum(total_amount) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND  '.$date.') as total_grand,
-                 (SELECT sum(actual_change) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND  '.$date.') as total_change,
-                 (SELECT sum(refund) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND '.$date.') as total_refund,
-                 (SELECT SUM(IF(update_pettycash = 0,  update_pettycash, pettycash)) FROM tbl_pettycash WHERE status="COMPLETE" AND '.$date.') as total_pettycash')->from('tbl_pettycash')->where($where)->where('status','COMPLETE')->where('type',1)->group_by('MONTH(date_received)')
-                 ->order_by('MONTH(date_received)','ASC')->get();
+                $date_where = "MONTH(date_received)<=".$month." AND YEAR(date_received)=".$year." AND status=2";
+                $date_where1 = "MONTH(p.date_received)<=".$month." AND YEAR(p.date_received)=".$year." AND p.status=2";
+            }
+             $query = $this->db->query('SELECT *,DATE_FORMAT(date_received, "%M") as date_created,sum(pettycash) as pettycash,
+               sum(total_amount) as amount FROM tbl_pettycash WHERE '.$date_where.' GROUP BY MONTH(date_received) ORDER BY MONTH(date_received) ASC');   
               if($query !== FALSE && $query->num_rows() > 0){
-             foreach($query->result() as $row)  
-                {
-                 $gross = $row->total_amount / 1.12;
+             foreach($query->result() as $row){
+                 $gross = $row->amount / 1.12;
                  $vat = $gross*0.12;
-                 $total_vat = $row->total_gross*0.12;
                  $data[] = array(
-                            'cashfund'          => $row->fund_no,
-                            'production_no'     => $row->production_no,
                             'pettycash'         => number_format($row->pettycash,2),
                             'change'            => number_format($row->actual_change,2),
                             'refund'            => number_format($row->refund,2),
                             'gross'             => number_format($gross,2),
                             'vat'               => number_format($vat,2),
-                            'amount'            => number_format($row->total_amount,2),
-                            'total_pettycash'   => number_format($row->total_pettycash,2),
-                            'total_change'      => number_format($row->total_change,2),
-                            'total_refund'      => number_format($row->total_refund,2),
-                            'total_gross'       => number_format($row->total_gross,2),
-                            'total_vat'         => number_format($total_vat,2),
-                            'total_amount'      => number_format($row->total_grand,2),
+                            'amount'            => number_format($row->amount,2),
                             'date_created'      => $row->date_created);
                 }  
              }else{   
@@ -2886,40 +2852,25 @@ class Datatable_model extends CI_Model{
      }  
       function Account_Report_Project_Yearly($year){
             if($year == false){
-                $where = array('YEAR(date_received) <='=> date('Y'));
-                $date = "YEAR(date_received)<=".date('Y')."";
+                $date_where = "YEAR(date_received)<=".date('Y')." AND status=2";
+                 $date_where1 = "YEAR(p.date_received)<=".date('Y')." AND p.status=2";
             }else{
-                $where = array('YEAR(date_received)'=> $year);
-                $date = "YEAR(date_received)<=".$year."";
-            } 
-            $query = $this->db->select('*, DATE_FORMAT(date_received, "%Y") as date_created,
-                 IF(update_pettycash=0, update_pettycash,pettycash) as pettycash,
-                 (SELECT sum(total_amount/1.12) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND '.$date.') as total_gross,
-                 (SELECT sum(total_amount) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND  '.$date.') as total_grand,
-                 (SELECT sum(actual_change) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND  '.$date.') as total_change,
-                 (SELECT sum(refund) FROM tbl_pettycash WHERE status="COMPLETE" AND type=1 AND '.$date.') as total_refund,
-                 (SELECT SUM(IF(update_pettycash = 0,  update_pettycash, pettycash)) FROM tbl_pettycash WHERE status="COMPLETE" AND '.$date.') as total_pettycash')->from('tbl_pettycash')->where($where)->where('status','COMPLETE')->where('type',1)->group_by('YEAR(date_received)')
-                 ->order_by('YEAR(date_received)','ASC')->get();
+                $date_where = "YEAR(date_received)<=".$year." AND status=2";
+                $date_where1 = "YEAR(p.date_received)<=".$year." AND p.status=2";
+            }
+             $query = $this->db->query('SELECT *,DATE_FORMAT(date_received, "%Y") as date_created,sum(pettycash) as pettycash,
+               sum(total_amount) as amount FROM tbl_pettycash WHERE '.$date_where.' GROUP BY YEAR(date_received) ORDER BY YEAR(date_received) ASC');  
               if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
-                 $gross = $row->total_amount / 1.12;
+                 $gross = $row->amount / 1.12;
                  $vat = $gross*0.12;
-                 $total_vat = $row->total_gross*0.12;
                  $data[] = array(
-                            'cashfund'          => $row->fund_no,
-                            'production_no'     => $row->production_no,
                             'pettycash'         => number_format($row->pettycash,2),
                             'change'            => number_format($row->actual_change,2),
                             'refund'            => number_format($row->refund,2),
                             'gross'             => number_format($gross,2),
                             'vat'               => number_format($vat,2),
-                            'amount'            => number_format($row->total_amount,2),
-                            'total_pettycash'   => number_format($row->total_pettycash,2),
-                            'total_change'      => number_format($row->total_change,2),
-                            'total_refund'      => number_format($row->total_refund,2),
-                            'total_gross'       => number_format($row->total_gross,2),
-                            'total_vat'         => number_format($total_vat,2),
-                            'total_amount'      => number_format($row->total_grand,2),
+                            'amount'            => number_format($row->amount,2),
                             'date_created'      => $row->date_created);
                 }  
              }else{$data =false;}

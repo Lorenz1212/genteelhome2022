@@ -685,8 +685,10 @@ class Update_model extends CI_Model
     function Update_Accounting_Purchase_Received($user_id,$id,$change,$refund){
         $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$id)->get()->row();
         if($query){
+            $row = $this->db->select('sum(amount) as amount')->from('tbl_purchase_received')->where('fund_no',$id)->get()->row();
+
             $this->db->where('fund_no',$id);
-            $result = $this->db->update('tbl_pettycash',array('actual_change'=> $change,'refund'=>$refund));
+            $result = $this->db->update('tbl_pettycash',array('actual_change'=> $change,'refund'=>$refund,'total_amount'=>$row->amount,'status'=>2,'date_received'=>date('Y-m-d H:i:s')));
             if($result){
                 $this->db->where('fund_no',$id);
                 $this->db->update('tbl_purchase_received',array('status'=> 2));

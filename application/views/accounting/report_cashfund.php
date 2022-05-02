@@ -4,7 +4,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Purchased for Project</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Summary of Cash Fund </h2>
 				</div>
 			</div>
 		</div>
@@ -45,22 +45,20 @@
 										     <select class="form-control" name="year" style="width:10%;"></select>
 										     <div class="input-group-append">
 										     	<button type="button" class="btn btn-success" id="search_collection" data-action="daily">SEARCH</button></div>
-										     <div class="input-group-append">
+										    <!--  <div class="input-group-append">
 										     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">EXPORT</button>
 										     <div class="dropdown-menu">
 											     <div role="separator" class="dropdown-divider" style="background-color:blue;"></div>
 											    	<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-excel-o"></i></span><span class="navi-text">Excel</span></a>
 													<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-pdf-o"></i></span><span class="navi-text"> PDF</span></a>
 												</div>
-											</div>
+											</div> -->
 									     </div>
 								     </div>
 								</li>
 							</ul>
+
 						</div>
-						<h3 class="card-title align-items-start flex-column">
-							<span class="card-label font-weight-bolder text-dark">Summary of Item Purchased</span>
-						</h3>
 					</div>
 					<!--end::Header-->
 					<!--begin::Body-->
@@ -74,12 +72,13 @@
 										<thead>
 											<tr>
 												<th>DATE</th>
-												<th class="text-right">CASH FUND</th>
-												<th class="text-right">CHANGE</th>
-												<th class="text-right">REFUND</th>
-												<th class="text-right">AMOUNT</th>
-												<th class="text-right">VAT(Output Tax)</th>
-												<th class="text-right">TOTAL</th>
+												<th>Trans #</th>
+												<th>Cash Fund</th>
+												<th class="text-right">Change</th>
+												<th class="text-right">Refund</th>
+												<th class="text-right">Amount</th>
+												<th class="text-right">Vat(Output Tax)</th>
+												<th class="text-right">Total</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -97,12 +96,12 @@
 										<thead>
 											<tr>
 												<th>WEEKLY</th>
-												<th class="text-right">CASH FUND</th>
-												<th class="text-right">CHANGE</th>
-												<th class="text-right">REFUND</th>
-												<th class="text-right">AMOUNT</th>
-												<th class="text-right">VAT(Output Tax)</th>
-												<th class="text-right">TOTAL</th>
+												<th>Cash Fund</th>
+												<th class="text-right">Change</th>
+												<th class="text-right">Refund</th>
+												<th class="text-right">Amount</th>
+												<th class="text-right">Vat(Output Tax)</th>
+												<th class="text-right">Total</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -120,12 +119,12 @@
 										<thead>
 											<tr>
 												<th>MONTH</th>
-												<th class="text-right">CASH FUND</th>
-												<th class="text-right">CHANGE</th>
-												<th class="text-right">REFUND</th>
-												<th class="text-right">AMOUNT</th>
-												<th class="text-right">VAT(Output Tax)</th>
-												<th class="text-right">TOTAL</th>
+												<th>Cash Fund</th>
+												<th class="text-right">Change</th>
+												<th class="text-right">Refund</th>
+												<th class="text-right">Amount</th>
+												<th class="text-right">Vat(Output Tax)</th>
+												<th class="text-right">Total</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -143,12 +142,12 @@
 										<thead>
 											<tr>
 												<th>YEAR</th>
-												<th class="text-right">CASH FUND</th>
-												<th class="text-right">CHANGE</th>
-												<th class="text-right">REFUND</th>
-												<th class="text-right">AMOUNT</th>
-												<th class="text-right">VAT(Output Tax)</th>
-												<th class="text-right">TOTAL</th>
+												<th>Cash Fund</th>
+												<th class="text-right">Change</th>
+												<th class="text-right">Refund</th>
+												<th class="text-right">Amount</th>
+												<th class="text-right">Vat(Output Tax)</th>
+												<th class="text-right">Total</th>
 											</tr>
 										</thead>
 										<tbody>
