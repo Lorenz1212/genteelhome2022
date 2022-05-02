@@ -1614,11 +1614,11 @@ class Update_model extends CI_Model
            $this->db->where('fund_no',$fund_no);
            $result = $this->db->update('tbl_purchasing_project',array('status'=>5));
            if($result){
-                $row = $this->db->select('*')->from('tbl_purchasing_project')->where('fund_no',$fund_no)->get()->row();
+                $rows = $this->db->select('*')->from('tbl_purchasing_project')->where('fund_no',$fund_no)->get()->row();
                  foreach($query->result() as $row){
                     $this->db->insert('tbl_purchase_received',array('production_no'=>$joborder,
                                       'fund_no'=>$row->fund_no,
-                                      'purchaser'=>$row->purchaser,
+                                      'purchaser'=>$rows->purchaser,
                                       'supplier'=>$row->supplier,
                                       'item_no'=>$row->item_no,
                                       'payment'=>$row->payment,
@@ -1635,10 +1635,10 @@ class Update_model extends CI_Model
                 if($result){
                     $q = $this->db->select('item_no,sum(quantity) as qty')->from('tbl_purchase_received')->where('fund_no',$fund_no)->group_by('item_no')->get();
                      foreach($q->result() as $row){
-                         $row_mats = $this->db->select('id,stocks')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
+                         $row_mats = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
                          $stocks = $row_mats->stocks + $row->qty;
                          $this->db->where('id',$row_mats->id);
-                         $this->db->update('tbl_materials',array('stocks',$stocks));
+                         $this->db->update('tbl_materials',array('stocks'=>$stocks));
                      }
                     return 'Purchased item completed';
                 }else{

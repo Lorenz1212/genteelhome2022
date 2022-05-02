@@ -4967,6 +4967,7 @@ var KTFormControls = function () {
 	 			if(response != false){
 	 				_initToast('success',response);
 		 			$('#tbl_purchasing_process > tbody').empty();
+		 			$('#processModal').modal('hide');
 	 			}else{
 	 				 Swal.fire("Error!", "Something went wrong!", "error");
 	 			}

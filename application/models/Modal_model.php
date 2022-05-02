@@ -553,7 +553,7 @@ class Modal_model extends CI_Model{
 
 
      function Modal_Accounting_Purchase_Material_Project_Request($id){
-               $data=false;
+             $data=false;
                 $total=0;
                 $total_fund=0;
              $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
@@ -583,33 +583,47 @@ class Modal_model extends CI_Model{
      }
 
     function Modal_Accounting_Purchase_Received_Project($id){
-         $data=false;
-                $total=0;
-                $total_fund=0;
+            $data=false;
+            $total=0;
+            $total_petty=0;
+            $total_change=0;
+            $total_refund=0;
              $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
                         DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
-                        ->from('tbl_purchasing_project as pr')
+                        ->from('tbl_purchase_received as pr')
                         ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
                         ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
                         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-                         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-                         ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
+                        ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
+                        ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
                         ->where('pr.fund_no',$this->encryption->decrypt($id))
                         ->group_by('pr.fund_no')->get()->row();
-             $row_f =  $this->db->select('sum(pettycash) as fund')->from('tbl_pettycash')->where('fund_no',$this->encryption->decrypt($id))->get()->row();
+
+             $row_f =  $this->db->select('sum(pettycash) as total_petty,sum(actual_change) as actual_change,sum(refund) as refund')->from('tbl_pettycash')->where('fund_no',$this->encryption->decrypt($id))->get()->row();
              if($row_f){
-                $total_fund =number_format($row_f->fund,2);
-             }                  
-             $query = $this->db->select('*,p.amount,p.id,m.unit,m.item')->from('tbl_purchasing_project as p')->join('tbl_materials as m','p.item_no=m.id','LEFT')->where('p.fund_no',$this->encryption->decrypt($id))->order_by('p.item_no')->get();        
+                $total_petty =number_format($row_f->total_petty,2);
+                $total_change =number_format($row_f->actual_change,2);
+                $total_refund =number_format($row_f->refund,2);
+             }  
+
+             $query = $this->db->select('*,p.amount,p.id,m.unit,m.item,s.name')
+             ->from('tbl_purchase_received as p')
+             ->join('tbl_materials as m','p.item_no=m.id','LEFT')
+             ->join('tbl_supplier as s','s.id=p.supplier','LEFT')
+             ->where('p.fund_no',$this->encryption->decrypt($id))->order_by('p.item_no')->get();        
              foreach($query->result() as $row){
-                    if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";}
+                    if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";};
+                     if($row->payment==1){$terms ='<span style="width: 112px;"><span class="label label-primary label-dot"></span><span class="font-weight-bold text-primary"> Cash</span></span>';
+                    }else if($row->payment == 2){$terms ='<span style="width: 112px;"><span class="label label-warning label-dot"></span><span class="font-weight-bold text-warning"> Terms</span>';} 
                     $data[] = array('id' => $row->id,
                                     'item'=> $row->item.$unit,
                                     'amount'=> '₱ '.number_format($row->amount,2),
+                                    'supplier'=>$row->name,
+                                    'payment'=>$terms,
                                     'quantity'=> $row->quantity);
                     $total +=$row->amount;
               } 
-            return array('material'=>$data,'info'=>$row_data,'total'=>number_format($total,2),'fund'=>$total_fund);
+            return array('material'=>$data,'info'=>$row_data,'total'=>number_format($total,2),'total_petty'=>$total_petty,'total_refund'=>$total_refund,'total_change'=>$total_change);
     }
 
 

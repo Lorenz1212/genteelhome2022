@@ -24,6 +24,9 @@
 								<li class="nav-item">
 									<a class="nav-link py-2 px-4" id="action" data-action="monthly" data-toggle="tab" href="#monthly">Monthly</a>
 								</li>
+								<li class="nav-item">
+									<a class="nav-link py-2 px-4" id="action" data-action="income-statement" data-toggle="tab" href="#income-statement">Income Statement</a>
+								</li>
 								<li class="nav-item">	
 									<div class="form-group mb-2">
 									     <div class="input-group">
@@ -74,6 +77,14 @@
 									<div class="wrapper" id="tbl_cashposition_monthly"></div>
 								</div>
 								<!--end::Table-->
+							</div>
+							<!--end::Tap pane-->
+							<!--begin::Tap pane-->
+							<div class="tab-pane fade" id="income-statement" role="tabpanel" aria-labelledby="income-statement">
+								<div class="table-responsive">
+									<table class="table table-vertical-center" id="tbl_income_monthly">
+									</table>
+								</div>
 							</div>
 							<!--end::Tap pane-->
 						</div>

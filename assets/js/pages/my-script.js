@@ -4263,25 +4263,25 @@ var arrows;var item_v;var price;var special_option;
 	  		case "Account_Report_Income_Monthly":{
 	  			if(!response == false){
 	  			let html = '';
-	  			    html +='<table class="table table-striped table-sm"><thead><tr class="text-white bg-dark">';
-	  			    html +='<th></th>\
-	  			    		 <th>JANUARY</th>\
-	  			    		 <th>FEBRUARY</th>\
-	  			    		 <th>MARCH</th>\
-	  			    		 <th>APRIL</th>\
-	  			    		 <th>MAY</th>\
-	  			    		 <th>JUNE</th>\
-	  			    		 <th>JULY</th>\
-	  			    		 <th>AUGUST</th>\
-	  			    		 <th>SEPTEMBER</th>\
-	  			    		 <th>OCTOBER</th>\
-	  			    		 <th>NOVEMBER</th>\
-	  			    		 <th>DECEMBER</th>\
-	  			    		 <th>TOTAL</th>\
+	  			    html +='<table class="table table-striped table-sm"><thead><tr class="text-white">';
+	  			    html +='<th class="bg-dark"></th>\
+	  			    		 <th class="bg-dark">JANUARY</th>\
+	  			    		 <th class="bg-dark">FEBRUARY</th>\
+	  			    		 <th class="bg-dark">MARCH</th>\
+	  			    		 <th class="bg-dark">APRIL</th>\
+	  			    		 <th class="bg-dark">MAY</th>\
+	  			    		 <th class="bg-dark">JUNE</th>\
+	  			    		 <th class="bg-dark">JULY</th>\
+	  			    		 <th class="bg-dark">AUGUST</th>\
+	  			    		 <th class="bg-dark">SEPTEMBER</th>\
+	  			    		 <th class="bg-dark">OCTOBER</th>\
+	  			    		 <th class="bg-dark">NOVEMBER</th>\
+	  			    		 <th class="bg-dark">DECEMBER</th>\
+	  			    		 <th class="bg-dark">TOTAL</th>\
 	  			    		 ';
 	  			    html +='</tr></thead>';
 	  			    html +='<tbody>';
-	  			    html +='<tr class="bg-success text-white">\
+	  			    html +='<tr class="table-success text-dark">\
 	  			    			 <td>SALES</td>\
 		             			 <td id="td-input" data-date="'+response.year+'-01-01">'+response.sales.jan+'</td>\
 		             			 <td id="td-input" data-date="'+response.year+'-02-01">'+response.sales.feb+'</td>\
@@ -4363,32 +4363,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.beginning+'</td>\
 	  		    		 </tr>';	
 	  			if(response.week1_type2){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.week1_type2.length;i++){
-	  		    		html +='<tr data-id="'+response.week1_type2[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.week1_type2[i].date+'"><div id="input-dateposition">'+response.week1_type2[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.week1_type2[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.week1_type2[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.week1_type2[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.week1_type2[i].date_position+'</td>\
+			  		    		   <td>'+response.week1_type2[i].name+'</td>\
+			  		    		   <td>'+response.week1_type2[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week1_add+'</td>\
@@ -4400,32 +4389,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    }
 	  		   
 	  		    if(response.week1_type1){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.week1_type1.length;i++){
-	  		    		html +='<tr data-id="'+response.week1_type1[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.week1_type1[i].date+'"><div id="input-dateposition">'+response.week1_type1[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.week1_type1[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.week1_type1[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.week1_type1[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		  <td>'+response.week1_type1[i].date_position+'</td>\
+			  		    		  <td>'+response.week1_type1[i].name+'</td>\
+			  		    		  <td >'+response.week1_type1[i].amount+'</td>\
+			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-		  		    	   html +='<tr class="bg-warning text-white">\
+		  		    	   html +='<tr class="table-warning text-dark">\
 		  		    	   			<td></td>\
 		  		    	   			<td>TOTAL</td>\
 		  		    	   			<td>'+response.week1_less+'</td>\
@@ -4453,32 +4431,21 @@ var arrows;var item_v;var price;var special_option;
 		  		    			<td>'+response.balanced1+'</td>\
 		  		    		 </tr>';	  	 
 		  	    if(response.week2_type2){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			   </tr>';	
 	  		    	  for (var i =0;i<response.week2_type2.length;i++){
-	  		    		html +='<tr data-id="'+response.week2_type2[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.week2_type2[i].date+'"><div id="input-dateposition">'+response.week2_type2[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.week2_type2[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.week2_type2[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.week2_type2[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
-			  		    		</tr>';
+	  		    		html +='<tr>\
+  		    				    <td>'+response.week2_type2[i].date_position+'</td>\
+		  		    		    <td>'+response.week2_type2[i].name+'</td>\
+		  		    		    <td>'+response.week2_type2[i].amount+'</td>\
+		  		    		    <td></td>\
+		  		    		  </tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week2_add+'</td>\
@@ -4489,32 +4456,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.week2_type1){
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			   </tr>';
 	  		    	  for (var i =0;i<response.week2_type1.length;i++){
-	  		    		html +='<tr data-id="'+response.week2_type1[i].id+'">\
-			  		    		   <td id="td-input" data-action="date_position" data-date="'+response.week2_type1[i].date+'"><div id="input-dateposition">'+response.week2_type1[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.week2_type1[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.week2_type1[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.week2_type1[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		   <td>'+response.week2_type1[i].date_position+'</td>\
+			  		    		   <td>'+response.week2_type1[i].name+'</td>\
+			  		    		   <td>'+response.week2_type1[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week2_less+'</td>\
@@ -4543,32 +4499,21 @@ var arrows;var item_v;var price;var special_option;
 		  		    			<td>'+response.balanced2+'</td>\
 		  		    		 </tr>';	
 	  		        if(response.week3_type2){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			   </tr>';	
 	  		    	  for (var i =0;i<response.week3_type2.length;i++){
-	  		    		html +='<tr data-id="'+response.week3_type2[i].id+'">\
-	  		    				  <td id="td-input" data-action="date_position" data-date="'+response.week3_type2[i].date+'"><div id="input-dateposition">'+response.week3_type2[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.week3_type2[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.week3_type2[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.week3_type2[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.week3_type2[i].date_position+'</td>\
+			  		    		   <td>'+response.week3_type2[i].name+'</td>\
+			  		    		   <td>'+response.week3_type2[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week3_add+'</td>\
@@ -4577,7 +4522,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    }
 	  		 
 	  		    if(response.week3_type1){
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -4585,24 +4530,13 @@ var arrows;var item_v;var price;var special_option;
 		  			   </tr>';
 	  		    	  for (var i =0;i<response.week3_type1.length;i++){
 	  		    		html +='<tr data-id="'+response.week3_type1[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.week3_type1[i].date+'"><div id="input-dateposition">'+response.week3_type1[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.week3_type1[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.week3_type1[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.week3_type1[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+			  		    		  <td>'+response.week3_type1[i].date_position+'</td>\
+			  		    		   <td>'+response.week3_type1[i].name+'</td>\
+			  		    		   <td>'+response.week3_type1[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week3_less+'</td>\
@@ -4630,32 +4564,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.balanced3+'</td>\
 	  		    		 </tr>';	
 	  		        if(response.week4_type2){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			   </tr>';	
 	  		    	  for (var i =0;i<response.week4_type2.length;i++){
-	  		    		html +='<tr data-id="'+response.week4_type2[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.week4_type2[i].date+'"><div id="input-dateposition">'+response.week4_type2[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.week4_type2[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.week4_type2[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.week4_type2[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
-			  		    		</tr>';
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.week4_type2[i].date_position+'</td>\
+			  		    		   <td>'+response.week4_type2[i].name+'</td>\
+			  		    		   <td>'+response.week4_type2[i].amount+'</td>\
+			  		    		   <td></td>\
+			  		    	   </tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week4_add+'</td>\
@@ -4664,32 +4587,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    }
 	  		 
 	  		    if(response.week4_type1){
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			   </tr>';
 	  		    	  for (var i =0;i<response.week4_type1.length;i++){
-	  		    		html +='<tr data-id="'+response.week4_type1[i].id+'">\
-			  		    		   <td id="td-input" data-action="date_position" data-date="'+response.week4_type1[i].date+'"><div id="input-dateposition">'+response.week4_type1[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.week4_type1[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.week4_type1[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.week4_type1[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		   <td>'+response.week4_type1[i].date_position+'</td>\
+			  		    		   <td>'+response.week4_type1[i].name+'</td>\
+			  		    		   <td>'+response.week4_type1[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week4_less+'</td>\
@@ -4726,7 +4638,7 @@ var arrows;var item_v;var price;var special_option;
 		  		    			<td>'+response.beginning+'</td>\
 		  		    		 </tr>';	
 	  			if(response.jan_add){
-		  			  html +='<tr class="bg-success text-white">\
+		  			  html +='<tr class="table-success text-dark">\
 				  			  	<td>Date</td>\
 				  			  	<td>Add: Collection</td>\
 				  			  	<td>Amount</td>\
@@ -4740,7 +4652,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td></td>\
@@ -4748,30 +4660,30 @@ var arrows;var item_v;var price;var special_option;
 	  		    	   		</tr>';
 	  		    }
 	  		    html +='<tr>\
-	  		    			<td colspan="4></td>\
+	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
-	  		    if(response.jan_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
-			  			  	<td>Date</td>\
-			  			  	<td>Less: Disbursement</td>\
-			  			  	<td>Amount</td>\
-			  			  	<td></td>\
-			  			  </tr>';
-	  		    	  for (var i =0;i<response.jan_less.length;i++){
-	  		    		html +='<tr>\
-			  		    		   <td>'+response.jan_less[i].date_position+'</td>\
-			  		    		   <td>'+response.jan_less[i].name+'</td>\
-			  		    		   <td >'+response.jan_less[i].amount+'</td>\
-			  		    		   <td></td>\
-			  		    		</tr>';
-	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
-	  		    	   			<td></td>\
-	  		    	   			<td>TOTAL</td>\
-	  		    	   			<td>'+response.jan_less_total+'</td>\
-	  		    	   			<td></td>\
-	  		    	   		</tr>';
-	  		    }
+		  		    if(response.jan_less){
+		  		    	  html +='<tr class="table-warning text-dark">\
+				  			  	<td>Date</td>\
+				  			  	<td>Less: Disbursement</td>\
+				  			  	<td>Amount</td>\
+				  			  	<td></td>\
+				  			  </tr>';
+		  		    	  for (var i =0;i<response.jan_less.length;i++){
+		  		    		html +='<tr>\
+				  		    		   <td>'+response.jan_less[i].date_position+'</td>\
+				  		    		   <td>'+response.jan_less[i].name+'</td>\
+				  		    		   <td >'+response.jan_less[i].amount+'</td>\
+				  		    		   <td></td>\
+				  		    		</tr>';
+		  		    	   }
+		  		    	   html +='<tr class="table-warning text-dark">\
+		  		    	   			<td></td>\
+		  		    	   			<td>TOTAL</td>\
+		  		    	   			<td>'+response.jan_less_total+'</td>\
+		  		    	   			<td></td>\
+		  		    	   		</tr>';
+		  		    }
 	  		    	   html +='<tr class="bg-dark text-white">\
 		  		    			<td></td>\
 		  		    			<td>BALANCED</td>\
@@ -4794,7 +4706,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.jan_balanced+'</td>\
 	  		    		 </tr>';	
 	  			if(response.feb_add){
-		  			  html +='<tr class="bg-success text-white">\
+		  			  html +='<tr class="table-success text-dark">\
 				  			  	<td>Date</td>\
 				  			  	<td>Add: Collection</td>\
 				  			  	<td>Amount</td>\
@@ -4808,7 +4720,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.feb_add_total+'</td>\
@@ -4819,7 +4731,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.feb_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -4833,7 +4745,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.feb_less_total+'</td>\
@@ -4862,7 +4774,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.feb_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.march_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -4876,7 +4788,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.march_add_total+'</td>\
@@ -4887,7 +4799,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.march_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -4901,7 +4813,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.march_less_total+'</td>\
@@ -4929,7 +4841,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.march_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.april_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -4943,7 +4855,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.april_add_total+'</td>\
@@ -4954,21 +4866,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.april_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.april_less.length;i++){
-	  		    		html +='<tr data-id="'+response.april_less[i].id+'">\
-			  		    		  <td >'+response.april_less[i].date_position+'</td>\
-			  		    		   <td >'+response.april_less[i].name+'</td>\
-			  		    		   <td >'+response.april_less[i].amount+'</td>\
-			  		    		   <td></td>\
+	  		    		html +='<tr>\
+			  		    		  <td>'+response.april_less[i].date_position+'</td>\
+			  		    		  <td>'+response.april_less[i].name+'</td>\
+			  		    		  <td>'+response.april_less[i].amount+'</td>\
+			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.april_less_total+'</td>\
@@ -4997,7 +4909,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.april_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.may_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -5011,7 +4923,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.may_add_total+'</td>\
@@ -5022,7 +4934,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.may_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -5036,7 +4948,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.may_less_total+'</td>\
@@ -5065,7 +4977,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.may_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.june_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -5079,7 +4991,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.june_add_total+'</td>\
@@ -5090,7 +5002,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.june_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -5104,7 +5016,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.june_less_total+'</td>\
@@ -5133,7 +5045,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.june_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.july_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -5147,7 +5059,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></button></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.july_add_total+'</td>\
@@ -5158,7 +5070,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.july_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -5172,7 +5084,7 @@ var arrows;var item_v;var price;var special_option;
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.july_less_total+'</td>\
@@ -5201,7 +5113,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.july_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.august_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -5209,24 +5121,13 @@ var arrows;var item_v;var price;var special_option;
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.august_add.length;i++){
 	  		    		html +='<tr>\
-	  		    				   <td><div id="input-dateposition">'+response.august_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.august_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.august_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.august_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    				   <td>'+response.august_add[i].date_position+'</td>\
+			  		    		   <td>'+response.august_add[i].name+'</td>\
+			  		    		   <td>'+response.august_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.august_add_total+'</td>\
@@ -5237,32 +5138,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.august_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.august_less.length;i++){
-	  		    		html +='<tr data-id="'+response.august_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.august_less[i].date+'"><div id="input-dateposition">'+response.august_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.august_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.august_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.august_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		  <td>'+response.august_less[i].date_position+'</td>\
+			  		    		   <td>'+response.august_less[i].name+'</td>\
+			  		    		   <td >'+response.august_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.august_less_total+'</td>\
@@ -5291,32 +5181,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.august_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.sept_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.sept_add.length;i++){
-	  		    		html +='<tr data-id="'+response.sept_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.sept_add[i].date+'"><div id="input-dateposition">'+response.sept_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.sept_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.sept_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.sept_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.sept_add[i].date_position+'</td>\
+			  		    		   <td>'+response.sept_add[i].name+'</td>\
+			  		    		   <td>'+response.sept_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.sept_add_total+'</td>\
@@ -5327,32 +5206,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.sept_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.sept_less.length;i++){
-	  		    		html +='<tr data-id="'+response.sept_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.sept_less[i].date+'"><div id="input-dateposition">'+response.sept_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.sept_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.sept_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.sept_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
-			  		    		</tr>';
+	  		    		html +='<tr>\
+			  		    		  <td >'+response.sept_less[i].date_position+'</td>\
+			  		    		  <td>'+response.sept_less[i].name+'</td>\
+			  		    		  <td>'+response.sept_less[i].amount+'</td>\
+			  		    		  <td></td>\
+			  		    	  </tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.sept_less_total+'</td>\
@@ -5382,32 +5250,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.oc_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.oct_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.oct_add.length;i++){
-	  		    		html +='<tr data-id="'+response.oct_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.oct_add[i].date+'"><div id="input-dateposition">'+response.oct_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.oct_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.oct_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.oct_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.oct_add[i].date_position+'</td>\
+			  		    		   <td>'+response.oct_add[i].name+'</td>\
+			  		    		   <td>'+response.oct_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.oct_add_total+'</td>\
@@ -5418,32 +5275,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.oct_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.oct_less.length;i++){
-	  		    		html +='<tr data-id="'+response.oct_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.oct_less[i].date+'"><div id="input-dateposition">'+response.oct_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.oct_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.oct_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.oct_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+			  		    		  <td>'+response.oct_less[i].date_position+'</td>\
+			  		    		   <td>'+response.oct_less[i].name+'</td>\
+			  		    		   <td>'+response.oct_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.oct_less_total+'</td>\
@@ -5472,32 +5318,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.oct_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.nov_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.nov_add.length;i++){
-	  		    		html +='<tr data-id="'+response.nov_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.nov_add[i].date+'"><div id="input-dateposition">'+response.nov_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.nov_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.nov_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.nov_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.nov_add[i].date_position+'</td>\
+			  		    		   <td>'+response.nov_add[i].name+'</td>\
+			  		    		   <td>'+response.nov_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.nov_add_total+'</td>\
@@ -5508,7 +5343,7 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.nov_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -5516,21 +5351,10 @@ var arrows;var item_v;var price;var special_option;
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.nov_less.length;i++){
 	  		    		html +='<tr data-id="'+response.nov_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.nov_less[i].date+'"><div id="input-dateposition">'+response.nov_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.nov_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.nov_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.nov_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+			  		    		   <td>'+response.nov_less[i].date_position+'</td>\
+			  		    		   <td>'+response.nov_less[i].name+'</td>\
+			  		    		   <td>'+response.nov_less[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
 	  		    	   html +='<tr class="bg-warning text-white">\
@@ -5563,32 +5387,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td>'+response.nov_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.dec_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 		  			     </tr>';	
 	  		    	  for (var i =0;i<response.dec_add.length;i++){
-	  		    		html +='<tr data-id="'+response.dec_add[i].id+'">\
-	  		    				   <td id="td-input" data-action="date_position" data-date="'+response.dec_add[i].date+'"><div id="input-dateposition">'+response.dec_add[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.dec_add[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.dec_add[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.dec_add[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
+	  		    		html +='<tr>\
+	  		    				   <td>'+response.dec_add[i].date_position+'</td>\
+			  		    		   <td>'+response.dec_add[i].name+'</td>\
+			  		    		   <td>'+response.dec_add[i].amount+'</td>\
+			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.dec_add_total+'</td>\
@@ -5599,32 +5412,21 @@ var arrows;var item_v;var price;var special_option;
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.dec_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
 			  			  	<td></td>\
 			  			  </tr>';
 	  		    	  for (var i =0;i<response.dec_less.length;i++){
-	  		    		html +='<tr data-id="'+response.dec_less[i].id+'">\
-			  		    		  <td id="td-input" data-action="date_position" data-date="'+response.dec_less[i].date+'"><div id="input-dateposition">'+response.dec_less[i].date_position+'</div>\
-	  		    				   <div class="form-group" style="display:none">\
-							    <div class="input-group">\
-							     <input type="text" class="form-control datepicker-input" style="width:50px" readonly/>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-success btn-xs btn-save" type="button"><i class="flaticon2-check-mark icon-sm"></i></button>\
-							     </div>\
-							     <div class="input-group-append">\
-							      <button class="btn btn-danger btn-xs btn-cancelled" type="button"><i class="flaticon2-cross icon-sm"></i></button>\
-							     </div>\
-							    </div>\
-							   </div></td>\
-			  		    		   <td id="td-input" data-action="name">'+response.dec_less[i].name+'</td>\
-			  		    		   <td id="td-input" data-action="amount">'+response.dec_less[i].amount+'</td>\
-			  		    		   <td><button class="btn btn-icon btn-danger btn-xs delete" data-id="'+response.dec_less[i].id+'" style="display:none"><i class="flaticon2-cross"></i></button></td>\
-			  		    		</tr>';
+	  		    		html +='<tr>\
+		  		    		     <td>'+response.dec_less[i].date_position+'</td>\
+		  		    		     <td>'+response.dec_less[i].name+'</td>\
+		  		    		     <td>'+response.dec_less[i].amount+'</td>\
+		  		    		     <td></td>\
+		  		    		  </tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.dec_less_total+'</td>\

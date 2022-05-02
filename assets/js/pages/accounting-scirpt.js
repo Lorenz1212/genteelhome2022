@@ -1984,7 +1984,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td></td>\
 	  		    		 </tr>';	
 	  			if(response.week1_type2){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -2045,7 +2045,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						          $('select.select-type[data-count='+count+'] option[value='+status+']').attr('selected', 'selected');
 						      }); 
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week1_add+'</td>\
@@ -2059,7 +2059,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    }
 	  		   
 	  		    if(response.week1_type1){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2119,7 +2119,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						          $('select.select-type[data-count='+count+'] option[value='+status+']').attr('selected', 'selected');
 						      }); 
 	  		    	   }
-		  		    	   html +='<tr class="bg-warning text-white">\
+		  		    	   html +='<tr class="table-warning text-dark">\
 		  		    	   			<td></td>\
 		  		    	   			<td>TOTAL</td>\
 		  		    	   			<td>'+response.week1_less+'</td>\
@@ -2153,7 +2153,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    			<td></td>\
 		  		    		 </tr>';	  	 
 		  	    if(response.week2_type2){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -2213,7 +2213,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						          $('select.select-type[data-count='+count+'] option[value='+status+']').attr('selected', 'selected');
 						      }); 
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week2_add+'</td>\
@@ -2226,7 +2226,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="6"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.week2_type1){
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2286,7 +2286,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						          $('select.select-type[data-count='+count+'] option[value='+status+']').attr('selected', 'selected');
 						      }); 
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week2_less+'</td>\
@@ -2321,7 +2321,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    			<td></td>\
 		  		    		 </tr>';	
 	  		        if(response.week3_type2){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -2381,7 +2381,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						          $('select.select-type[data-count='+count+'] option[value='+status+']').attr('selected', 'selected');
 						      }); 
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week3_add+'</td>\
@@ -2392,7 +2392,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    }
 	  		 
 	  		    if(response.week3_type1){
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2452,7 +2452,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						          $('select.select-type[data-count='+count+'] option[value='+status+']').attr('selected', 'selected');
 						      }); 
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week3_less+'</td>\
@@ -2486,7 +2486,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td></td>\
 	  		    		 </tr>';	
 	  		        if(response.week4_type2){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -2546,7 +2546,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						          $('select.select-type[data-count='+count+'] option[value='+status+']').attr('selected', 'selected');
 						      }); 
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week4_add+'</td>\
@@ -2557,7 +2557,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    }
 	  		 
 	  		    if(response.week4_type1){
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2617,7 +2617,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						          $('select.select-type[data-count='+count+'] option[value='+status+']').attr('selected', 'selected');
 						      }); 
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.week4_less+'</td>\
@@ -2660,7 +2660,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    			<td>'+response.beginning+'</td>\
 		  		    		 </tr>';	
 	  			if(response.jan_add){
-		  			  html +='<tr class="bg-success text-white">\
+		  			  html +='<tr class="table-success text-dark">\
 				  			  	<td>Date</td>\
 				  			  	<td>Add: Collection</td>\
 				  			  	<td>Amount</td>\
@@ -2674,7 +2674,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td></td>\
@@ -2685,7 +2685,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.jan_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2699,7 +2699,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.jan_less_total+'</td>\
@@ -2728,7 +2728,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.jan_balanced+'</td>\
 	  		    		 </tr>';	
 	  			if(response.feb_add){
-		  			  html +='<tr class="bg-success text-white">\
+		  			  html +='<tr class="table-success text-dark">\
 				  			  	<td>Date</td>\
 				  			  	<td>Add: Collection</td>\
 				  			  	<td>Amount</td>\
@@ -2742,7 +2742,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.feb_add_total+'</td>\
@@ -2753,7 +2753,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.feb_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2767,7 +2767,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    	   </tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.feb_less_total+'</td>\
@@ -2796,7 +2796,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.feb_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.march_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -2810,7 +2810,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.march_add_total+'</td>\
@@ -2821,7 +2821,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.march_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark>\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2835,7 +2835,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.march_less_total+'</td>\
@@ -2863,7 +2863,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.march_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.april_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -2877,7 +2877,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.april_add_total+'</td>\
@@ -2888,7 +2888,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.april_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2902,7 +2902,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.april_less_total+'</td>\
@@ -2931,7 +2931,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.april_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.may_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -2945,7 +2945,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.may_add_total+'</td>\
@@ -2956,7 +2956,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.may_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -2970,7 +2970,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.may_less_total+'</td>\
@@ -2999,7 +2999,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.may_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.june_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -3013,7 +3013,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.june_add_total+'</td>\
@@ -3024,7 +3024,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.june_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -3038,7 +3038,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td>></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.june_less_total+'</td>\
@@ -3067,7 +3067,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.june_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.july_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -3081,7 +3081,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.july_add_total+'</td>\
@@ -3092,7 +3092,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.july_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -3106,7 +3106,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.july_less_total+'</td>\
@@ -3135,7 +3135,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.july_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.august_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -3149,7 +3149,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.august_add_total+'</td>\
@@ -3160,7 +3160,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.august_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -3174,7 +3174,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.august_less_total+'</td>\
@@ -3203,7 +3203,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.august_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.sept_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -3217,7 +3217,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    		   <td></td>\
 		  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.sept_add_total+'</td>\
@@ -3228,7 +3228,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.sept_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -3242,7 +3242,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.sept_less_total+'</td>\
@@ -3270,7 +3270,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.oc_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.oct_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -3284,7 +3284,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.oct_add_total+'</td>\
@@ -3295,7 +3295,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.oct_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -3309,7 +3309,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.oct_less_total+'</td>\
@@ -3338,7 +3338,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.oct_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.nov_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -3352,7 +3352,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.nov_add_total+'</td>\
@@ -3363,7 +3363,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.nov_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -3377,7 +3377,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.nov_less_total+'</td>\
@@ -3406,7 +3406,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td>'+response.nov_balanced+'</td>\
 		  		    		 </tr>';	
 	  			if(response.dec_add){
-	  			  html +='<tr class="bg-success text-white">\
+	  			  html +='<tr class="table-success text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Add: Collection</td>\
 			  			  	<td>Amount</td>\
@@ -3420,7 +3420,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	    html +='<tr class="bg-success text-white">\
+	  		    	    html +='<tr class="table-success text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.dec_add_total+'</td>\
@@ -3431,7 +3431,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		    			<td colspan="4"></td>\
 	  		    		 </tr>'; 
 	  		    if(response.dec_less){
-	  		    	  html +='<tr class="bg-warning text-white">\
+	  		    	  html +='<tr class="table-warning text-dark">\
 			  			  	<td>Date</td>\
 			  			  	<td>Less: Disbursement</td>\
 			  			  	<td>Amount</td>\
@@ -3445,7 +3445,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		  <td></td>\
 			  		    		</tr>';
 	  		    	   }
-	  		    	   html +='<tr class="bg-warning text-white">\
+	  		    	   html +='<tr class="table-warning text-dark">\
 	  		    	   			<td></td>\
 	  		    	   			<td>TOTAL</td>\
 	  		    	   			<td>'+response.dec_less_total+'</td>\
@@ -3467,21 +3467,21 @@ const month = ["January","February","March","April","May","June","July","August"
 	  	case "Account_Report_Income_Monthly":{
 	  			if(!response == false){
 	  			let html = '';
-	  			    html +='<table class="table table-striped table-sm"><thead><tr class="text-white bg-dark">';
-	  			    html +='<th></th>\
-	  			    		 <th>JANUARY</th>\
-	  			    		 <th>FEBRUARY</th>\
-	  			    		 <th>MARCH</th>\
-	  			    		 <th>APRIL</th>\
-	  			    		 <th>MAY</th>\
-	  			    		 <th>JUNE</th>\
-	  			    		 <th>JULY</th>\
-	  			    		 <th>AUGUST</th>\
-	  			    		 <th>SEPTEMBER</th>\
-	  			    		 <th>OCTOBER</th>\
-	  			    		 <th>NOVEMBER</th>\
-	  			    		 <th>DECEMBER</th>\
-	  			    		 <th>TOTAL</th>\
+	  			    html +='<table class="table table-striped table-sm"><thead><tr class="text-white">';
+	  			    html +='<th class="bg-dark"></th>\
+	  			    		 <th class="bg-dark">JANUARY</th>\
+	  			    		 <th class="bg-dark">FEBRUARY</th>\
+	  			    		 <th class="bg-dark">MARCH</th>\
+	  			    		 <th class="bg-dark">APRIL</th>\
+	  			    		 <th class="bg-dark">MAY</th>\
+	  			    		 <th class="bg-dark">JUNE</th>\
+	  			    		 <th class="bg-dark">JULY</th>\
+	  			    		 <th class="bg-dark">AUGUST</th>\
+	  			    		 <th class="bg-dark">SEPTEMBER</th>\
+	  			    		 <th class="bg-dark">OCTOBER</th>\
+	  			    		 <th class="bg-dark">NOVEMBER</th>\
+	  			    		 <th class="bg-dark">DECEMBER</th>\
+	  			    		 <th class="bg-dark">TOTAL</th>\
 	  			    		 ';
 	  			    html +='</tr></thead>';
 	  			    html +='<tbody>';

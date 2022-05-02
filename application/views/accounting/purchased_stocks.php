@@ -297,7 +297,7 @@
 											<span class="font-weight-bold text-primary total_petty"></span>
 										</div>
 										<div class="d-flex justify-content-between align-items-center">
-											<span class="text-dark-75 font-weight-bolder mr-2">Actualt Change :</span>
+											<span class="text-dark-75 font-weight-bolder mr-2">Actual Change :</span>
 											<span class="font-weight-bold text-primary actual_change"></span>
 										</div>
 										<div class="d-flex justify-content-between align-items-center">
