@@ -110,7 +110,7 @@
 								</div>
 								<div class="form-group image-update" style="display: none;">
 										<label class="col-xl-3 col-lg-3 col-form-label text-left">Image</label>
-										<div class="col-lg-3 col-xl-3">
+										<div class="col-lg-4 col-xl-4">
 											<div class="image-input image-input-outline" id="design_image">
 												<div class="image-input-wrapper image-stocks"></div>
 												<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
@@ -122,6 +122,7 @@
 												<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
 													<i class="ki ki-bold-close icon-xs text-muted"></i>
 												</span>
+												<span>File Size (500 X 500)</span>
 											</div>
 										</div>
 									</div>

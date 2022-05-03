@@ -400,7 +400,7 @@ class Update_model extends CI_Model
         return $action;
      }
      function Update_Design_Stocks($user_id,$id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs,$image_previous,$color_previous,$docs_previous){
-        if($image){$images = $this->move_to_folder4('STOCKS',$image,$tmp,$path_image,500,500);
+        if($image){$images = $this->move_to_folder1('STOCKS',$image,$tmp,$path_image);
             if($files1 == false){$images = false;
             }else{
                $images = $files1;
@@ -409,7 +409,7 @@ class Update_model extends CI_Model
         }else{$images=$image_previous;}
 
         if($color_image){
-            $files2 = $this->move_to_folder5('COLOR',$color_image,$color_tmp,$path_color,300,300);
+            $files2 = $this->move_to_folder1('COLOR',$color_image,$color_tmp,$path_color);
             if($files2 == false){$color_images = false;}else{
                  $color_images = $files2;
                  unlink("./".$path_color.$color_previous);
@@ -446,7 +446,7 @@ class Update_model extends CI_Model
         return $data_response;
     }
      function Update_Design_Project($user_id,$id,$title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs,$image_previous,$docs_previous){
-       if($image){$images = $this->move_to_folder4('PROJECT',$image,$tmp,$path_image,500,500);
+       if($image){$images = $this->move_to_folder1('PROJECT',$image,$tmp,$path_image);
             if($files1 == false){$images = false;
             }else{
                $images = $files1;

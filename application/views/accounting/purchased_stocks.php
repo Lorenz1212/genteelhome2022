@@ -36,9 +36,9 @@
 			        </div>
 			    </div>
 			    <div class="card-body">
-			        <div class="tab-content">
+			        <div class="tab-content link" data-link="tbl_purchased_material_stocks_request">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
-			                <table class="table table-bordered table-hover table-checkable link" id="tbl_purchased_request" data-link="tbl_purchased_material_stocks_request" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover table-checkable " id="tbl_purchased_request"  style="margin-top: 13px !important">
 								<thead>
 									<tr>
 										<th>NO</th>

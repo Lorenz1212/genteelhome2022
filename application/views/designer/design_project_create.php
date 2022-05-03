@@ -4,7 +4,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Create For Product Stocks</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Create For Project</h2>
 				</div>
 			</div>
 		</div>
@@ -42,7 +42,7 @@
 														<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
 															<i class="ki ki-bold-close icon-xs text-muted"></i>
 														</span>
-														<span>File Size (360 X 360)</span>
+														<span>File Size (500 X 500)</span>
 													</div>
 												</div>
 											</div>

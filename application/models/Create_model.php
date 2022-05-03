@@ -89,11 +89,11 @@ class Create_model extends CI_Model{
   	   $this->db->insert('tbl_logs',$data);
   	}
 	function Create_Design_Stocks($user_id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){  
-		 if($image){$files1 = $this->move_to_folder4('PRODUCT',$image,$tmp,$path_image,500,500);
+		 if($image){$files1 = $this->move_to_folder1('PRODUCT',$image,$tmp,$path_image);
 		 	if($files1 == false){$images = false;}else{$images = $files1;}
 		 }else{$images="default.jpg";}
 
-	   	if($color_image){$files2 = $this->move_to_folder5('PALLET',$color_image,$color_tmp,$path_color,300,300);
+	   	if($color_image){$files2 = $this->move_to_folder1('PALLET',$color_image,$color_tmp,$path_color);
 	    	if($files2 == false){$color_images = false;}else{$color_images = $files2;}
 	    }else{$color_images="default.jpg";}
    	
@@ -134,11 +134,11 @@ class Create_model extends CI_Model{
    }
    function Create_Design_Existing($user_id,$project_no,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){    
    	  	$id = $this->encryption->decrypt($project_no);
-   		if($image){$files1 = $this->move_to_folder4('PRODUCT',$image,$tmp,$path_image,500,500);
+   		if($image){$files1 = $this->move_to_folder1('PRODUCT',$image,$tmp,$path_image);
 		 	if($files1 == false){$images = false;}else{$images = $files1;}
 		 }else{$images="default.jpg";}
 
-	   	if($color_image){$files2 = $this->move_to_folder5('PALLET',$color_image,$color_tmp,$path_color,300,300);
+	   	if($color_image){$files2 = $this->move_to_folder1('PALLET',$color_image,$color_tmp,$path_color);
 	    	if($files2 == false){$color_images = false;}else{$color_images = $files2;}
 	    }else{$color_images="default.jpg";}
 	   		if($images == false){

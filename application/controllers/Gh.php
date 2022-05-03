@@ -232,7 +232,7 @@ class Gh extends CI_Controller {
           case "design-for-stocks":{$this->load->view('designer/design_stocks.php'); break;}
           case "design-for-project":{$this->load->view('designer/design_project.php'); break;}
           case "create-design-stocks":{$this->load->view('designer/design_stocks_create.php'); break;}
-          case "create-design-pallet":{$this->load->view('designer/design_pallet_create.php',$data); break;}
+          case "create-design-pallet":{$this->load->view('designer/design_pallet_create.php'); break;}
           case "create-design-project":{$this->load->view('designer/design_project_create.php'); break;}
 
           case "joborder-stocks":{$this->load->view('designer/joborder-stocks.php'); break;}
