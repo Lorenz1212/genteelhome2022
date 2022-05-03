@@ -439,7 +439,7 @@ class Datatable_model extends CI_Model{
             ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
             ->join('tbl_purchasing_project as pr','pr.production_no=p.production_no','LEFT')
             ->join('tbl_users as u','u.id=p.assigned','LEFT')
-            ->where('pr.status',1)
+            ->where('pr.status',2)
             ->where('p.type',1)
             ->group_by('pr.production_no')
             ->order_by('p.date_created','DESC')->get();
