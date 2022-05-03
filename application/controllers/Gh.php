@@ -317,17 +317,12 @@ class Gh extends CI_Controller {
             case "salesorder-create-stocks":{$this->load->view('production/salesorder_create_stocks.php');break;}
             case "salesorder-create-project":{$this->load->view('production/salesorder_create_project.php');break;}
 
-            case "officesupplies-request":{$this->load->view('production/officesupplies_request.php');break;}
-            case "create-officesupplies-request":{$this->load->view('production/officesupplies_create.php');break;}
-            case "spare-request":{$this->load->view('production/spare_request.php');break;}
-            case "create-spare-request":{$this->load->view('production/sparerequest_create.php');break;}
-            case "spareparts":{$this->load->view('production/spareparts_list.php');break;}
-            case "officesupplies":{$this->load->view('production/officesupplies_list.php');break;}
-            case "rawmaterials":{$this->load->view('production/rawmaterial_list.php');break;}
-            case "finishproduct":{$this->load->view('production/finishproduct_list.php');break;}
-            case "rawmaterials":{$this->load->view('production/rawmaterial_list.php'); break;}
+            case "spare-parts":{$this->load->view('production/spareparts_list.php');break;}
+            case "office-supplies":{$this->load->view('production/officesupplies_list.php');break;}
+            case "finish-product":{$this->load->view('production/finishproduct_list.php');break;}
+            case "raw-materials":{$this->load->view('production/rawmaterial_list.php'); break;}
+            case "production-stocks":{$this->load->view('production/production_stocks.php'); break;}
 
-            case "voucher":{$this->load->view('production/coupon_list.php');break;}
             case "user_update":{$this->load->view('production/user_update.php');break;}
             default: {redirect(base_url().'gh/production/index');break;}
           }

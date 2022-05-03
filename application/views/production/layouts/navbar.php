@@ -137,18 +137,23 @@
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/production/rawmaterials";?>" class="menu-link">
+															<a href="<?php echo base_url()."gh/production/raw-materials";?>" class="menu-link">
 																<span class="menu-text">Raw Material</span>
 															</a>
 														</li>
 													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/production/spareparts";?>" class="menu-link">
+															<a href="<?php echo base_url()."gh/production/spare-parts";?>" class="menu-link">
 																	<span class="menu-text">Spare Parts</span>
 															</a>
 														</li>
 													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/production/officesupplies";?>" class="menu-link">
+															<a href="<?php echo base_url()."gh/production/office-supplies";?>" class="menu-link">
 																<span class="menu-text">Office & Janitorial Supplies</span>
+															</a>
+														</li>
+													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/production/production-stocks";?>" class="menu-link">
+																<span class="menu-text">Production Stocks</span>
 															</a>
 														</li>
 													<!-- <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">

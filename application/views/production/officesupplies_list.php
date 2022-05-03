@@ -10,7 +10,6 @@
 		</div>
 	</div>
 <!--end::Subheader-->
-
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 	<div class="container">
