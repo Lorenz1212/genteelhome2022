@@ -586,10 +586,11 @@ class Datatable_model extends CI_Model{
               foreach($query->result() as $row){
                $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
-                if($row->status==3){$status ='<span class="label label-lg label-light-warning label-inline">Request</span>';
-                }else if($row->status == 4){$status ='<span class="label label-lg label-light-primary label-inline">Approved </span>';}
+                if($row->status==3){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Pending</span></span>';
+                }else if($row->status == 4){$status ='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';}else if($row->status == 5){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Complete</span></span>';}
+                $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-muted font-weight-bold">'.$row->fund_no.'</span>';
               $data[] = array(
-                          'production_no'=> $row->production_no,
+                          'production_no'=> $production_no,
                           'title'        => $title,
                           'requestor'    => $row->requestor,
                           'date_created' => $row->date_created,
