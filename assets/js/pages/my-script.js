@@ -373,7 +373,34 @@ var arrows;var item_v;var price;var special_option;
 			"fnDrawCallback": function() {
 	                $('[data-toggle="tooltip"]').tooltip();
 	                _initCurrency_format('.td-amount');
-
+	           },
+			language: { 
+			 	infoEmpty: "No records available", 
+			 },
+			serverSide:false,
+			ajax: {
+				url: TableURL,
+				type: 'POST',
+				datatype: "json",
+				data: {val:val},
+			},
+			columns:TableData,
+		});
+	}
+	var _DataTableLoader2 = async function(link,TableURL,TableData,val){
+		var table = $('#'+link);
+		table.DataTable().clear().destroy();
+		$.fn.dataTable.ext.errMode = 'throw';
+		table.DataTable({
+			destroy: true,
+			responsive: true,
+			info: false,
+			searching: false,
+    			lengthChange: false,
+			paging: false,
+			"fnDrawCallback": function() {
+	                $('[data-toggle="tooltip"]').tooltip();
+	                _initCurrency_format('.td-amount');
 	           },
 			language: { 
 			 	infoEmpty: "No records available", 
@@ -3000,7 +3027,7 @@ var arrows;var item_v;var price;var special_option;
 
 				let TableURL1 = baseURL + 'modal_controller/Modal_Purchase_Request_Estimate_View';
 				let TableData1 = [{data:'item'},{data:'quantity',className: "text-center"},{data:'input', className: "text-center"}];
-				_DataTableLoader1('tbl_purchasing_estimate',TableURL1,TableData1,response.production_no);
+				_DataTableLoader2('tbl_purchasing_estimate',TableURL1,TableData1,response.production_no);
 
 				$('.btn-change').attr('data-action','view');
 	             	$('.btn-change').html('Generate Cost Estimate <i class="flaticon2-fast-next blink_me"></i>');
@@ -3063,7 +3090,7 @@ var arrows;var item_v;var price;var special_option;
 
 				let TableURL1 = baseURL + 'modal_controller/Modal_Purchase_Request_Estimate_View';
 				let TableData1 = [{data:'item'},{data:'quantity',className: "text-center"},{data:'input', className: "text-center"}];
-				_DataTableLoader1('tbl_purchasing_estimate',TableURL1,TableData1,response.production_no);
+				_DataTableLoader2('tbl_purchasing_estimate',TableURL1,TableData1,response.production_no);
 
 				$('.btn-change').attr('data-action','view');
 	             	$('.btn-change').html('Generate Cost Estimate <i class="flaticon2-fast-next blink_me"></i>');

@@ -165,6 +165,7 @@
 									</table>
 								</div>
 								<div class="col-md-12 d-none" style="height: 300px;">
+									<div class="tableFixHead">
 										<table class="table" id="tbl_purchasing_estimate">
 											<thead>
 												<tr class="table-primary">
@@ -176,6 +177,7 @@
 											<tbody>
 											</tbody>
 										</table>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -229,7 +231,7 @@
 											<tr class="table-primary">
 												<th>MATERIAL</th>
 												<th class="text-center">QUANTITY</th>
-												<th class="text-center">ESTIMATE AMOUNT</th>
+												<th class="text-left">ESTIMATE AMOUNT</th>
 												<th class="text-center">REMARKS</th>
 											</tr>
 										</thead>
