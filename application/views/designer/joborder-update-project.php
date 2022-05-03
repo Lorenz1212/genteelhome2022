@@ -100,7 +100,7 @@
 													   <span class="form-text text-muted">Please enter your item</span>
 													</div>
 							       		 	 	</div>
-								       		    <div class="col-xl-4 col-xxl-4 col-md-4" id="item-select">	
+								       		    <div class="col-xl-5 col-xxl-5 col-md-5" id="item-select">	
 									       			<div class="form-group">
 														<label>ITEM</label>
 															<select class="form-control form-control-md selectpicker" data-live-search="true" name="item">
@@ -108,7 +108,7 @@
 																	$query = $this->db->select('*,(stocks+production_stocks) as stocks')->from('tbl_materials')->where('status',1)->order_by('date_created','ASC')->get();
 																	    if(!$query){return false;}else{ 
 																	        foreach($query->result() as $row){  
-																	        	if(!$row->unit){$unit = "";}else{$unit = '('.$row->unit.')';}
+																	        	if(!$row->unit){$unit = "";}else{$unit = $row->unit.'(s)';}
 																	        	echo '<option value="'.$row->id.'">('.$row->stocks.') '.$row->item.' '.$unit.'</option>'; 
 																	        }  
 																	    }
@@ -119,10 +119,10 @@
 												<div class="col-xl-2 col-xxl-2 col-md-2">
 													<div class="form-group">
 														<label>QTY</label>
-														<input type="number" class="form-control form-control-solid form-control-md" id="quantity" name="qty" placeholder="Enter Number" autocomplete="off"/>
+														<input type="number" min="1"  class="form-control form-control-solid form-control-md" id="quantity" name="qty" placeholder="0" autocomplete="off"/>
 													</div>
 												</div>
-												<div class="col-xl-3 col-xxl-3 col-md-3" id="type-select">
+												<div class="col-xl-4 col-xxl-4 col-md-4" id="type-select">
 													<div class="form-group">
 														<label>TYPE</label>
 														<select class="form-control form-control-solid form-control-md" name="type">
@@ -135,7 +135,7 @@
 														</select>
 													</div>
 												</div>
-												<div class="col-xl-3 col-xxl-3 col-md-3">
+												<div class="col-xl-12 col-xxl-12 col-md-12">
 													<div class="form-group">
 														<label>REMARKS</label>
 														 <textarea class="form-control" id="remarks" rows="3" placeholder="Description"></textarea>

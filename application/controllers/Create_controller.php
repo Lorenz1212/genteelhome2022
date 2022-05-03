@@ -94,7 +94,7 @@ class Create_controller extends CI_Controller
         $project_no = $this->input->post('project_no');
         $assigned = $this->input->post('assigned');
         $c_code = $this->input->post('c_code');
-        $unit = $this->input->post('unit');
+        $unit = $this->input->post('unit')??0;
         $type = $this->input->post('type');
         $data = $this->create_model->Create_Joborder_Request($user_id,$project_no,$c_code,$unit,$type);        
         echo json_encode($data); 

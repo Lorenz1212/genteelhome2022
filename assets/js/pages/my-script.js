@@ -565,10 +565,14 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "design-project-docs":{
-				if(!response == false){
-                  	   $("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-                  	   $("#docs_href").attr('target','_blank');
-
+				if(response != false){
+				   if(response.docs){
+				   	$("#docs_href").attr("href", baseURL+'assets/images/design/project_request/docx/'+response.docs);
+                  	     $("#docs_href").attr('target','_blank');
+				   }else{
+				   	$("#docs_href").removeAttr("target");
+                  	   	$("#docs_href").removeAttr("href");
+				   }
                   	}else{
                   	   $("#docs_href").removeAttr("target");
                   	   $("#docs_href").removeAttr("href");
@@ -576,7 +580,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "region":{
-				if(!response == false){
+				if(response != false){
 					$('.region-option').empty();
 				     $('.region-option').append('<option value="">SELECT REGION</option>');
 					for(let i=0;i<response.length;i++){

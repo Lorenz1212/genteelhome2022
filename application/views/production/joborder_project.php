@@ -331,15 +331,15 @@
 									  }
 									?>
 							  </select>
-							   <div class="input-group-append" style="padding-left: 10px;">
-							   		<a class="btn btn-light-dark font-weight-bold btn-sm btn-shadow btn-square" id="docs_href" data-toggle="tooltip" data-theme="dark" title="View Specification"><i class="flaticon2-paper"></i></a>
+							   <div class="input-group-append pl-2">
+							   		<a class="btn btn-light-dark font-weight-bold btn-sm btn-shadow btn-square" href="" id="docs_href" data-toggle="tooltip" data-theme="dark" title="View Specification"><i class="flaticon2-paper"></i></a>
 							   </div>
 							</div>
 						</div>
 					</div>	
 		        </div>
 		    </div>
-		    <div class="modal-footer"><button class="btn btn-dark">Submit <i class="flaticon2-paper-plane"></i></button></div>
+		    <div class="modal-footer"><button class="btn btn-dark" id="create_joborder_request">Submit <i class="flaticon2-paper-plane"></i></button></div>
 		</div>
 	</div>
 </div>		

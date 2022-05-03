@@ -128,86 +128,7 @@
 													</ul>
 												</div>
 											</li>
-									<!-- 			<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Request For Stocks</span>
-													<span class="menu-desc"></span>
-													<i class="menu-arrow"></i>
-												</a>
-												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Office / Janitorial Supplies</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/officesupplies-request?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">PENDING</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/officesupplies-request?".base64_encode('urlstatus=received')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">RECEIVED</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/create-officesupplies-request";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CREATE REQUEST</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Production Supplies/ Spare Parts</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/spare-request?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">PENDING</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/spare-request?".base64_encode('urlstatus=recieved')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">RECEIVED</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/create-spare-request";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CREATE REQUEST</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-														</li>
-													</ul>
-												</div>
-											</li>
- -->												<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Inventory</span>
 													<span class="menu-desc"></span>
@@ -216,58 +137,19 @@
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
+															<a href="<?php echo base_url()."gh/production/rawmaterials";?>" class="menu-link">
 																<span class="menu-text">Raw Material</span>
-																<i class="menu-arrow"></i>
 															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/rawmaterials";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">STOCKS</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
 													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Production Supplies/Spare Parts</span>
-																<i class="menu-arrow"></i>
+															<a href="<?php echo base_url()."gh/production/spareparts";?>" class="menu-link">
+																	<span class="menu-text">Spare Parts</span>
 															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/spareparts?".base64_encode('urlstatus=stocks')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">STOCKS</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
 													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
+															<a href="<?php echo base_url()."gh/production/officesupplies";?>" class="menu-link">
 																<span class="menu-text">Office & Janitorial Supplies</span>
-																<i class="menu-arrow"></i>
 															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/production/officesupplies?".base64_encode('urlstatus=stocks')."";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">STOCKS</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
 													<!-- <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="javascript:;" class="menu-link menu-toggle">
