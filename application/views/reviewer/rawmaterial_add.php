@@ -116,7 +116,7 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <form id="Update_RawMaterial" data-link="Update_RawMaterial">
+            <form id="Update_RawMaterial">
 	            <div class="modal-body">
 					 <div class="form-group">
 						<label>ITEM</label>
