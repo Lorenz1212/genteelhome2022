@@ -1432,9 +1432,9 @@ var KTFormControls = function () {
 						     _ajaxForm_loaded(thisURL,"POST",val,"Create_RawMaterial_btn",false);	
 				            	}
 					});
-					var form = document.getElementById('Update_RawMaterial');
-			          validation = FormValidation.formValidation(
-						form,
+					var form_item = document.getElementById('Update_RawMaterial');
+			                var validation_item = FormValidation.formValidation(
+						form_item,
 						{
 							fields: {item: {validators: {notEmpty: {message: 'Item is required'}}},
 			                },
@@ -1449,15 +1449,13 @@ var KTFormControls = function () {
 						}
 					   }
 					);
-					$('#Update_RawMaterial').on('submit',function(e){
+					$('.Update_RawMaterial').on('click',function(e){
 					    e.preventDefault();
-					     let element = this;
-					    validation.validate().then(function(status) {
+					    validation_item.validate().then(function(status) {
 				            if (status == 'Valid') { 
-				            	let formData = new FormData(element);
-				            	val = formData;
+				            	let formData = new FormData(form_item);
 						     thisURL = baseURL + 'update_controller/Update_RawMaterial';
-							_ajaxForm(thisURL,"POST",val,"Update_RawMaterial",false);
+							_ajaxForm(thisURL,"POST",formData,"Update_RawMaterial",false);
 						    }
 						});
 					});
