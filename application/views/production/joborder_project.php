@@ -64,9 +64,9 @@
 									<tr>
 										<th>NO</th>
 										<th>TITLE</th>
-										<th>REQUESTOR</th>
-										<th>DATE</th>
-										<th>ACTION</th>
+										<th style="width:30px;">REQUESTOR</th>
+										<th >DATE</th>
+										<th style="width:5px;">ACTION</th>
 									</tr>
 								</thead>
 							</table>
@@ -200,7 +200,7 @@
 												  	 <div class="form-group">
 														  <button class="btn btn-dark btn-lg btn-inspection" data-toggle="pill" href="#inspections">Click This Button For Inspection <i class="flaticon2-fast-next blink_me"></i></button>
 												  	 </div>
-												  	 <div class="form-group">
+												  	 <div class="form-group status-hide">
 														 <div class="input-group">
 														 	<select class="form-control form-control-solid" name="status"/>
 														 		<option value="1">COMPLETE</option>

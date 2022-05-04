@@ -225,12 +225,11 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('item','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-            $unit =$row->unit.'(s)';
-            if(!$row->unit){ $unit ="";}
+             ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
                $data[] = array(
                       'no'           => $row->item_no,
-                      'item'         => $row->item.' - '.$unit,
+                      'item'         => $row->item.$unit,
                       'stocks'       => $row->stocks,
                       'stocks_alert' => $row->stocks_alert,
                       'action'       => $action,
@@ -246,13 +245,12 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('item','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-             $unit =$row->unit.'(s)';
-            if(!$row->unit){ $unit ="";}
+             ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
                  if($row->stocks <= $row->stocks_alert && $row->stocks_alert <= $row->stocks){
                        $data[] = array(
                           'no'           => $row->item_no,
-                          'item'         => $row->item.' - '.$unit,
+                          'item'         => $row->item.$unit,
                           'stocks'       => $row->stocks,
                           'stocks_alert' => $row->stocks_alert,
                           'action'       => $action );
@@ -274,12 +272,11 @@ class Datatable_model extends CI_Model{
          ->order_by('n.date_created','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-             $unit =$row->unit.'(s)';
-            if(!$row->unit){ $unit ="";}
+             ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
                $data[] = array(
                       'receiver'     => $row->receiver,
                       'no'           => $row->item_no,
-                      'item'         => $row->item.' - '.$unit,
+                      'item'         => $row->item.$unit,
                       'stocks'       => $row->stocks,
                       'date_created' => $row->date_created);
             }      
@@ -450,7 +447,8 @@ class Datatable_model extends CI_Model{
                 }else{
                    $action = '<button data-toggle="modal" data-target="#requestModal" id="form-request" data-id="'.$row->production_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
                    $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
+
                          $data[] = array(
                               'production_no'=> $row->production_no,
                               'image'        => $image,
@@ -475,7 +473,8 @@ class Datatable_model extends CI_Model{
               foreach($query->result() as $row){
                $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
+
                 if($row->status==3){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Pending</span></span>';
                 }else if($row->status == 4){$status ='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';}else if($row->status == 5){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Complete</span></span>';}
                 $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-muted font-weight-bold">'.$row->fund_no.'</span>';
@@ -517,10 +516,10 @@ class Datatable_model extends CI_Model{
                     <span class="font-weight-bold d-block">From: '.$row->terms_start.'</span>
                     <span class="font-weight-bold">To: '.$row->terms_end.'</span>';}
             $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-muted font-weight-bold">'.$row->fund_no.'</span>';
-                    ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                     ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
                      $data[] = array(
                           'production_no' => $row->production_no,
-                          'item'          => $row->item.' - '.$unit,
+                          'item'          => $row->item.$unit,
                           'quantity'      => $row->quantity,
                           'amount'        => number_format($row->amount,2),
                           'supplier'      => $row->name,
@@ -556,7 +555,7 @@ class Datatable_model extends CI_Model{
                     $data =false;   
                 }else{
                    $action = '<button data-toggle="modal" data-target="#requestModal" id="form-request" data-id="'.$row->production_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
-                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                          $data[] = array(
                               'production_no'=> $row->production_no,
                               'title'        => $title,
@@ -585,7 +584,7 @@ class Datatable_model extends CI_Model{
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
                $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
+              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                 if($row->status==3){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Pending</span></span>';
                 }else if($row->status == 4){$status ='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';}else if($row->status == 5){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Complete</span></span>';}
                 $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-muted font-weight-bold">'.$row->fund_no.'</span>';
@@ -625,10 +624,10 @@ class Datatable_model extends CI_Model{
                     <span class="font-weight-bold d-block">From: '.$row->terms_start.'</span>
                     <span class="font-weight-bold">To: '.$row->terms_end.'</span>';}
             $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-muted font-weight-bold">'.$row->fund_no.'</span>';
-                    ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+                   ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
                      $data[] = array(
                           'production_no' => $row->production_no,
-                          'item'          => $row->item.' - '.$unit,
+                          'item'          => $row->item.$unit,
                           'quantity'      => $row->quantity,
                           'amount'        => number_format($row->amount,2),
                           'supplier'      => $row->name,
@@ -659,7 +658,7 @@ class Datatable_model extends CI_Model{
             {
                $action = ' <button data-toggle="modal" data-target="#modal-form" id="form-request-inprogress" data-id="'.$row->production_no.'" class="btn btn-icon btn-light-dark btn-hover-primark btn-sm mx-3" title="View Request"><i class="la la-eye"></i></button>';  
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                      $data[] = array(
                           'production_no' => $row->production_no,
                           'image'         => $image,
@@ -677,7 +676,7 @@ class Datatable_model extends CI_Model{
          return $json_data; 
      } 
     function Material_Complete_Stocks_DataTable($user_id){
-         $query =  $this->db->select('*,
+         $query =  $this->db->select('*,mp.production_no,
               mp.quantity as quantity,m.item,m.unit,
             DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
             CONCAT(u.firstname, " ",u.lastname) AS requestor')
@@ -688,10 +687,10 @@ class Datatable_model extends CI_Model{
         ->order_by('mp.date_created','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
-                    $unit = ($row->unit)?$row->unit:"";
+                    ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
                      $data[] = array( 'production_no' => $row->production_no,
-                                      'item'          => $row->item,
-                                      'quantity'      => $row->quantity .' ('.$unit.')',
+                                      'item'          => $row->item.$unit,
+                                      'quantity'      => $row->quantity,
                                       'requestor'     => $row->requestor,
                                       'date_created'  => $row->date_created);
             }      
@@ -715,7 +714,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  {
                $action = ' <button data-toggle="modal" data-target="#modal-form" id="form-request-inprogress" data-id="'.$row->production_no.'" class="btn btn-icon btn-light-dark btn-hover-primark btn-sm mx-3" title="View Request"><i class="la la-eye"></i></button>';  
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                      $data[] = array(
                           'production_no' => $row->production_no,
                           'title'         => $title,
@@ -743,10 +742,10 @@ class Datatable_model extends CI_Model{
         ->order_by('mp.date_created','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
-                     $unit = ($row->unit)?$row->unit:"";
+                      ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
                      $data[] = array( 'production_no' => $row->production_no,
-                                      'item'          => $row->item,
-                                      'quantity'      => $row->quantity .' ('.$unit.')',
+                                      'item'          => $row->item.$unit,
+                                      'quantity'      => $row->quantity,
                                       'requestor'     => $row->requestor,
                                       'date_created'  => $row->date_created);
             }      
@@ -762,7 +761,7 @@ class Datatable_model extends CI_Model{
          foreach($query->result() as $row)  {
                 $action = '<a  href="'.base_url().'gh/'.$this->session->userdata('page').'/joborder-update-stocks?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'image'         => $image,
@@ -789,7 +788,7 @@ class Datatable_model extends CI_Model{
          foreach($query->result() as $row){
              $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'image'         => $image,
@@ -816,7 +815,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'image'         => $image,
@@ -842,7 +841,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+             $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'image'         => $image,
@@ -863,7 +862,7 @@ class Datatable_model extends CI_Model{
          foreach($query->result() as $row)  {
                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'image'         => $image,
@@ -884,7 +883,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                  $action = '<a  href="'.base_url().'gh/'.$this->session->userdata('page').'/joborder-update-project?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-light-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
-                 $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"/></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
+                 $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'title'         => $title,
@@ -904,7 +903,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
-                 $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
+                 $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array('production_no' => $row->production_no,
                                 'title'         => $title,
                                 'requestor'     => $row->requestor,
@@ -920,14 +919,16 @@ class Datatable_model extends CI_Model{
          return $json_data;
       } 
       function Joborder_Project_Complete_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_finished as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',1)->where('p.assigned',$user_id)->order_by('p.date_created','DESC')->get();
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+          ->from('tbl_project_finished as p')
+          ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
+          ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
+          ->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',1)->where('p.assigned',$user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-               $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
-                          'image'         => $image,
                           'title'         => $title,
                           'requestor'     => $row->requestor,
                           'date_created'  => $row->date_created);
@@ -943,7 +944,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
-                 $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
+                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'title'         => $title,
@@ -962,7 +963,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
-                 $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"/></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
+                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'title'         => $title,
@@ -981,8 +982,8 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
-              if($row->status==1){$status = '<span class="label label-lg label-light-success label-inline">Approved</span>';}else{$status ='<span class="label label-lg label-light-danger label-inline">Cancelled</span>';};
+               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
+              if($row->status==1){$status = '<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Complete</span></span>';}else{$status ='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';};
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'image'         => $image,
@@ -1003,8 +1004,8 @@ class Datatable_model extends CI_Model{
           $query = $this->db->select('p.*,c.*,d.*,p.status,c.image,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_finished as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
-                 $title = '<span style="width: 250px;"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
-               if($row->status==1){$status = '<span class="label label-lg label-light-success label-inline">Approved</span>';}else{$status ='<span class="label label-lg label-light-danger label-inline">Cancelled</span>';};
+               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
+               if($row->status==1){$status = '<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Complete</span></span>';}else{$status ='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';};
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'title'         => $title,
@@ -1026,7 +1027,7 @@ class Datatable_model extends CI_Model{
          foreach($query->result() as $row){
               $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'image'         => $image,
@@ -1048,7 +1049,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
               $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
-                 $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
+             $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'title'         => $title,

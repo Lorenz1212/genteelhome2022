@@ -47,15 +47,15 @@
 										<!--begin::Nav Content-->
 										<div class="tab-content m-0 p-10">
 											<div class="tab-pane active" id="request" role="tabpanel">
-												<table class="table table-bordered table-hover table-checkable link" id="tbl_material_request" data-link="tbl_material_request_stocks" style="margin-top: 13px !important">
+												<table class="table table-bordered table-hover table-checkable link" id="tbl_material_request" data-link="tbl_material_request_stocks" style="width: 100%;">
 													<thead>
 														<tr>
-															<th>NO</th>
+															<th style="width: 15%;">Trans #</th>
 															<th>IMAGE</th>
-															<th>TITLE</th>
-															<th>REQUESTOR</th>
+															<th style="width: 30%;">TITLE</th>
+															<th style="width:10px;">REQUESTOR</th>
 															<th>DATE</th>
-															<th>ACTION</th>
+															<th  style="width:5px;">ACTION</th>
 														</tr>
 													</thead>
 												</table>
@@ -64,7 +64,7 @@
 												<table class="table table-bordered table-hover table-checkable" id="tbl_material_request_complete" style="margin-top: 13px !important">
 													<thead>
 														<tr>
-															<th>NO</th>
+															<th>Trans #</th>
 															<th>ITEM</th>
 															<th>QTY</th>
 															<th>REQUESTOR</th>

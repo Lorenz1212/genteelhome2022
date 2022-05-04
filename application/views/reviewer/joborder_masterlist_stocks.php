@@ -27,13 +27,13 @@
 					<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_masterlist" data-link="tbl_joborder_masterlist_stocks" style="margin-top: 13px !important">
 						<thead>
 							<tr>
-								<th>NO</th>
+								<th style="width:15px;">Trans #</th>
 								<th>IMAGE</th>
 								<th>TITLE</th>
-								<th>QTY</th>
-								<th>STATUS</th>
-								<th>REQUESTOR</th>
+								<th style="width:5px;">QTY</th>
 								<th>DATE</th>
+								<th style="width:10px;">REQUESTOR</th>
+								<th style="width:5px;">STATUS</th>
 							</tr>
 						</thead>
 					</table>

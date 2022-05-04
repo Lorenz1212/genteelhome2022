@@ -98,12 +98,12 @@
             <div class="modal-body">
             	<div class="form" id="Update_Request_Materials" data-link="Update_Request_Materials">
 	            	<div class="form-group">
-				    <label>Balanced</label>
+				    <label>Request Quantity</label>
 				    <input type="text" class="form-control form-control-lg balance-quantity" name="balance" disabled />
 				   </div>
 	                <div class="form-group">
 				    <label>Quantity</label>
-				    <input type="number" min="0" value="0" name="quantity" class="form-control form-control-lg quantity"  placeholder="Input quantity....."/>
+				    <input type="text"  name="quantity" class="form-control form-control-lg quantity numbers"  placeholder="Input quantity....."/>
 				   </div>
 			   </div>
             </div>

@@ -24,15 +24,15 @@
 				<div class="card-header">
 				</div>
 				<div class="card-body">
-					<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_masterlist" data-link="tbl_joborder_masterlist_project" style="margin-top: 13px !important">
+					<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_masterlist" data-link="tbl_joborder_masterlist_project" style="width: 100%;">
 						<thead>
 							<tr>
-								<th>NO</th>
-								<th>TITLE</th>
-								<th>QTY</th>
-								<th>STATUS</th>
-								<th>REQUESTOR</th>
-								<th>DATE</th>
+								<th style="width:15%;">Trans #</th>
+								<th style="width:30%;">TITLE</th>
+								<th style="width:5px;">QTY</th>
+								<th style="width:15px;">DATE</th>
+								<th style="width:5px;">REQUESTOR</th>
+								<th style="width:5px;">STATUS</th>
 							</tr>
 						</thead>
 					</table>

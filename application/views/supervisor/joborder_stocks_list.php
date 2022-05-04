@@ -44,11 +44,11 @@
 									<tr>
 										<th>NO</th>
 										<th>IMAGE</th>
-										<th>TITLE</th>
-										<th>QTY</th>
-										<th>REQUESTOR</th>
+										<th style="white-space:nowrap;">TITLE</th>
+										<th style="width:5px;">QTY</th>
+										<th style="width:10px;">REQUESTOR</th>
 										<th>DATE</th>
-										<th>ACTION</th>
+										<th style="width:5px;">ACTION</th>
 									</tr>
 								</thead>
 							</table>

@@ -44,9 +44,9 @@
 									<tr>
 										<th>NO</th>
 										<th>TITLE</th>
-										<th>REQUESTOR</th>
-										<th>DATE</th>
-										<th>ACTION</th>
+										<th style="width:30px;">REQUESTOR</th>
+										<th >DATE</th>
+										<th style="width:5px;">ACTION</th>
 									</tr>
 								</thead>
 							</table>
@@ -56,7 +56,7 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>TITLE</th>
+										<th style="width: 100%;">TITLE</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
 									</tr>
@@ -68,7 +68,7 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>TITLE</th>
+										<th style="width: 100%;">TITLE</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
 									</tr>

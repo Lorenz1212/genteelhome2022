@@ -140,23 +140,23 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_joborder_masterlist_stocks":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Masterlist_Stocks_DataTable';
-				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'quantity'},{data:'status'},{data:'requestor'},{data:'date_created'}]; 
+				TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'quantity'},{data:'date_created'},{data:'requestor'},{data:'status'}]; 
 				_DataTableLoader('tbl_joborder_masterlist',TableURL,TableData,false);
 				break;
 			}
 			case "tbl_joborder_masterlist_project":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Masterlist_Project_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'quantity'},{data:'status'},{data:'requestor'},{data:'date_created'}]; 
+				TableData = [{data:'production_no'},{data:'title'},{data:'quantity'},{data:'date_created'},{data:'requestor'},{data:'status'}]; 
 				_DataTableLoader('tbl_joborder_masterlist',TableURL,TableData,false);
 				break;
 			}
 			case "tbl_purchase_request_stocks":{
 				TableURL = baseURL + 'datatable_controller/Purchase_Material_Stocks_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
+				TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Inprogress_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
+				let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
 
 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Complete_DataTable';
@@ -166,11 +166,11 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_purchase_request_project":{
 				TableURL = baseURL + 'datatable_controller/Purchase_Material_Project_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Project_Inprogress_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
 
 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Project_Complete_DataTable';
@@ -180,7 +180,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_material_request_stocks":{
 				let TableURL1 = baseURL + 'datatable_controller/Material_Request_Stocks_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_material_request',TableURL1,TableData1,false);
 
 				let TableURL3 = baseURL + 'datatable_controller/Material_Complete_Stocks_DataTable';
@@ -190,7 +190,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_material_request_project":{
 				let TableURL1 = baseURL + 'datatable_controller/Material_Request_Project_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_material_request',TableURL1,TableData1,false);
 
 				let TableURL3 = baseURL + 'datatable_controller/Material_Complete_Project_DataTable';
@@ -201,11 +201,11 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 
 			case "tbl_rawmats":{
 				TableURL = baseURL + 'datatable_controller/RawMaterial_Stocks_DataTable';
-				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
+				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_rawmats',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/RawMaterial_OutStocks_DataTable';
-				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
+				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_rawmats_outofstocks',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/RawMaterial_New_DataTable';
@@ -215,11 +215,11 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_officesupplies":{
 				TableURL = baseURL + 'datatable_controller/OfficeSupplies_Stocks_DataTable';
-				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
+				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_officesupplies',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/OfficeSupplies_Outofstocks_DataTable';
-				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
+				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_officesupplies_outofstocks',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/OfficeSupplies_newstocks_DataTable';
@@ -230,11 +230,11 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 
 			case "tbl_spareparts":{
 				TableURL = baseURL + 'datatable_controller/SpareParts_Stocks_DataTable';
-				TableData =  [{data: 'no'},{data:'item'},{data:'stocks'},{data:'stocks_alert'},{data:'action'}];
+				TableData =  [{data: 'no'},{data:'item'},{data:'stocks'},{data:'stocks_alert'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_spareparts',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/SpareParts_Outofstocks_DataTable';
-				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
+				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_spareparts_outofstocks',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/SpareParts_newstocks_DataTable';
@@ -244,79 +244,79 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_spareparts_add":{
 				TableURL = baseURL + 'datatable_controller/SpareParts_DataTable';
-				TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action'}]; 
+				TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action',orderable:false}]; 
 				_DataTableLoader(view,TableURL,TableData,false);
 				break;
 			}
 			case "tbl_officesupplies_add":{
 				TableURL = baseURL + 'datatable_controller/OfficeSupplies_DataTable';
-				TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action'}]; 
+				TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action',orderable:false}]; 
 				_DataTableLoader(view,TableURL,TableData,false);
 				break;
 			}
 			case "tbl_customer_deposite":{
 				TableURL = baseURL + 'datatable_controller/Customer_Collected_Request_DataTable';
-				TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}]; 
+				TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_customer_deposite',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Customer_Collected_Approved_DataTable';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_customer_collected',TableURL1,TableData1,false);
 				break;
 			}
 			case "tbl_approval_inspection_stocks":{
 				TableURL = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+				TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_stocks_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Approved_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+				let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_stocks_approved',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Rejected_DataTable';
-				let TableData2 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+				let TableData2 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_stocks_rejected',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_approval_inspection_project":{
 				TableURL = baseURL + 'datatable_controller/Approval_Inspection_Project_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_project_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Project_Approved_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_project_approved',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Project_Rejected_DataTable';
-				let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+				let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_project_rejected',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_approval_design_stocks_request":{
 				TableURL = baseURL + 'datatable_controller/Approval_Design_Stocks_Request_DataTable';
-				TableData = [{data:'project_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'project_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_design_stocks_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Approval_Design_Stocks_Approved_DataTable';
-				let TableData1 = [{data:'project_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'project_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_design_stocks_approved',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Approval_Design_Stocks_Rejected_DataTable';
-				let TableData2 = [{data:'project_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'project_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_design_stocks_rejected',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_approval_design_project_request":{
 				TableURL = baseURL + 'datatable_controller/Approval_Design_Project_Request_DataTable';
-				TableData = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_design_project_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Approval_Design_Project_Approved_DataTable';
-				let TableData1 = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_design_project_approved',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Approval_Design_Project_Rejected_DataTable';
-				let TableData2 = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_design_project_rejected',TableURL2,TableData2,false);
 
 				break;
@@ -329,19 +329,19 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_supplier_item":{
 				TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
-				TableData =  [{data:'item'},{data: 'price'},{data:'status'},{data: 'date_created'},{data: 'action'}];
+				TableData =  [{data:'item'},{data: 'price'},{data:'status'},{data: 'date_created'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_supplier_item',TableURL,TableData,supplier_id);
 				break;
 			}
 			case "tbl_supplier":{
 				TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
-				TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data: 'action'}]; 
+				TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data: 'action',orderable:false}]; 
 				_DataTableLoader('tbl_supplier',TableURL,TableData,false);
 				break;
 			}
 			case "tbl_salesorder_stocks_production":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Production';
-				 TableData = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Shipping_DataTable_Production';
@@ -355,43 +355,43 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_salesorder_project_production":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Production';
-				 TableData = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Shipping_DataTable_Production';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Delivered_DataTable_Production';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_salesorder_stocks_request_admin":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Admin';
-				 TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Approved_DataTable_Admin';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Rejected_DataTable_Admin';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_salesorder_project_request_admin":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Admin';
-				 TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Approved_DataTable_Admin';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Rejected_DataTable_Admin';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
 				break;
 			}
@@ -401,17 +401,17 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Delivered_DataTable_Superuser';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_salesorder_project_superuser":{
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Shipping_DataTable_Superuser';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Delivered_DataTable_Superuser';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
 				break;
 			}
@@ -490,17 +490,17 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_onlineorder":{
 				TableURL = baseURL + 'datatable_controller/OnlineOrder_DataTable';
-				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_order'},{data:'action'}]; 
+				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_order'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_onlineorder_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Preorder_DataTable';
-				let TableData1 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_preorder_request',TableURL1,TableData1,false);
 				break;
 			}
 			case "tbl_preoder":{
 				TableURL = baseURL + 'datatable_controller/Pre_Order_Request_Datatable';
-				TableData = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_preoder_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Pre_Order_Approved_Datatable';
@@ -514,39 +514,39 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_customized_sales":{
 				TableURL = baseURL + 'datatable_controller/Customized_Request_Sales_Datatable';
-				TableData = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}];
+				TableData = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Sales_Datatable';
-				let TableData1 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Sales_Datatable';
-				let TableData2 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_customized":{
 				TableURL = baseURL + 'datatable_controller/Customized_Request_Datatable';
-				TableData = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Datatable';
-				let TableData1 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Datatable';
-				let TableData2 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
 				break;
 			}
 			case "tbl_inquiry":{
 				TableURL = baseURL + 'datatable_controller/Inquiry_Request_Sales_Datatable';
-				TableData = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action'}];
+				TableData = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_inquiry_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Inquiry_Approved_Sales_Datatable';
-				let TableData1 = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_inquiry_approved',TableURL1,TableData1,false);
 				break;
 			}
@@ -555,7 +555,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			case "tbl_coupon":{
 				TableURL = baseURL + 'datatable_controller/Coupon_DataTable';
-				TableData = [{data:'no'},{data:'promo_code'},{data:'discount'},{data:'date_from'},{data:'date_to'},{data:'status'},{data:'action'}]; 
+				TableData = [{data:'no'},{data:'promo_code'},{data:'discount'},{data:'date_from'},{data:'date_to'},{data:'status'},{data:'action',orderable:false}]; 
 				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
 				break;
 			}
@@ -563,7 +563,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 
 			case "tbl_users":{
 				TableURL = baseURL + 'datatable_controller/Users_DataTable';
-				TableData = [{data:'no'},{data:'username'},{data:'name'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				TableData = [{data:'no'},{data:'username'},{data:'name'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
 				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
 				break;
 			}
@@ -578,22 +578,22 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			//Approval
 			case "tbl_approval_purchased_request":{
 				TableURL = baseURL + 'datatable_controller/Approval_Purchase_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_purchased_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Approval_Purchase_Approved_DataTable';
-				let TableData1 =[{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 =[{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_purchased_approved',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Approval_Purchase_Rejected_DataTable';
-				let TableData2 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData2 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_purchased_rejected',TableURL2,TableData2,false);
 				break;
 			}
 			
 			case "tbl_approval_userrequest":{
 				TableURL = baseURL + 'datatable_controller/Approval_UsersRequest_DataTable';
-				TableData = [{data:'no'},{data:'username'},{data:'name'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				TableData = [{data:'no'},{data:'username'},{data:'name'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
 				_DataTableLoader(view,TableURL,TableData,url_Params_Status);
 				break;
 			}
@@ -628,7 +628,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_customer_list":{
 				TableURL = baseURL + 'datatable_controller/Customer_List_DataTable';
-				TableData =  [{data: 'no'},{data: 'name'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status'},{data: 'action'}];
+				TableData =  [{data: 'no'},{data: 'name'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_customer_list',TableURL,TableData,false);
 				break;
 			}

@@ -1014,12 +1014,16 @@ class Update_model extends CI_Model
                 $qtymath = $row->production_quantity-$qty;
                 $stocks = $row_m->production_stocks+$qty;
             }
+            if($row->cost == 0){
+                $this->db->where('id',$id);
+                $this->db->update('tbl_material_project',array('cost' => $row_m->price));
+            }
             $this->db->where('id',$id);
             $this->db->update('tbl_material_project',array('production_quantity' => $qtymath));
 
             $this->db->where('id',$row_m->id);
             $this->db->update('tbl_materials',array('production_stocks' => $stocks));
-
+            
             $rows = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
             if($rows->production_quantity > 0){
                 $this->db->where('id',$id);
@@ -1247,13 +1251,31 @@ class Update_model extends CI_Model
             $total = $row->unit - $qty;
             $data = array('unit' => $total,'latest_update'=> date('Y-m-d H:i:s'),'update_by' => $user_id);
             $this->db->where('production_no',$production_no);
-            $this->db->update('tbl_project',$data);
-            $data_response = array('status'=>$status,'type'=>$type,'qty'=> $qty,'unit'=>$total);
-            return $data_response;
+            $result = $this->db->update('tbl_project',$data);
+            if($result){
+                if($status == 1){
+                    $row_s = $this->db->select('*')->from('tbl_project_color')->where('id',$row->c_code)->get()->row();
+                    $stocks = $row_s->stocks+$qty;
+                    $this->db->where('id',$row_s->id)->update('tbl_project_color',array('stocks'=>$stocks));
+                }
+                $data_response = array('status'=>$status,'type'=>$type,'qty'=> $qty,'unit'=>$total);
+            }else{
+                $data_response = false;
+            }
         }else{
-            $data_response = array('status'=>$status,'type'=>$type);
-            return $data_response;
+            $status_update = 2;
+            if($status == 2){
+                $status_update == 3;
+            }
+            $this->db->where('production_no',$production_no);
+            $result = $this->db->update('tbl_project',array('status'=>$status_update));
+            if($result){
+                $data_response = array('status'=>$status,'type'=>$type);
+            }else{
+                $data_response = false;
+            }
         }
+        return $data_response;
     }
     function Update_Joborder_Stocks($user_id,$production_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
                 $pur_items = explode(',', $pur_item);

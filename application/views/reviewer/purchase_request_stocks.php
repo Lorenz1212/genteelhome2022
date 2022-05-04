@@ -60,26 +60,26 @@
 											<table class="table table-bordered table-hover link" id="tbl_purchase_request" data-link="tbl_purchase_request_stocks" >
 												<thead>
 													<tr>
-														<th>NO</th>
+														<th>Trans #</th>
 														<th>IMAGE</th>
-														<th>TITLE</th>
-														<th>REQUESTOR</th>
-														<th>ITEM REQUEST</th>
+														<th style="white-space:nowrap;">TITLE</th>
+														<th style="width:5px;">QTY</th>
+														<th style="width:10px;">REQUESTOR</th>
 														<th>DATE</th>
-														<th>ACTION</th>
+														<th  style="width:5px;">ACTION</th>
 													</tr>
 												</thead>
 											</table>
 										</div>
 										<div class="tab-pane" id="inprogress" role="tabpanel">
-											<table class="table table-bordered table-hover " id="tbl_purchase_request_inprogress" >
+											<table class="table table-bordered table-hover " id="tbl_purchase_request_inprogress" style="width:100%">
 												<thead>
 													<tr>
-														<th>NO</th>
+														<th style="width: 140px;;">Trans #</th>
 														<th>IMAGE</th>
-														<th>TITLE</th>
-														<th>REQUESTOR</th>
-														<th>STATUS</th>
+														<th class="mr-2" style="width: 180px;;">TITLE</th>
+														<th >REQUESTOR</th>
+														<th >STATUS</th>
 														<th>DATE</th>
 														<th>ACTION</th>
 													</tr>
@@ -90,7 +90,7 @@
 											<table class="table table-bordered table-hover table-checkable" id="tbl_purchase_request_complete">
 												<thead>
 													<tr>
-														<th>NO</th>
+														<th>Trans #</th>
 														<th>ITEM</th>
 														<th>QUANTITY</th>
 														<th>AMOUNT</th>

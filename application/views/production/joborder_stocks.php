@@ -47,13 +47,13 @@
 			    <div class="card-body">
 			        <div class="tab-content">
 			            <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
-			               	<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_production" data-link="tbl_joborder_stocks" style="margin-top: 13px !important">
+			               	<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_production" data-link="tbl_joborder_stocks" style="width:100%">
 								<thead>
 									<tr>
 										<th>NO</th>
 										<th>IMAGE</th>
 										<th>TITLE</th>
-										<th>QTY</th>
+										<th style="width:5px;">QTY</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
 									</tr>
@@ -66,11 +66,11 @@
 									<tr>
 										<th>NO</th>
 										<th>IMAGE</th>
-										<th>TITLE</th>
-										<th>QTY</th>
-										<th>REQUESTOR</th>
+										<th style="white-space:nowrap;">TITLE</th>
+										<th style="width:5px;">QTY</th>
+										<th style="width:10px;">REQUESTOR</th>
 										<th>DATE</th>
-										<th>ACTION</th>
+										<th  style="width:5px;">ACTION</th>
 									</tr>
 								</thead>
 							</table>
@@ -82,7 +82,7 @@
 										<th>NO</th>
 										<th>IMAGE</th>
 										<th>TITLE</th>
-										<th>QTY</th>
+										<th style="width:5px;">QTY</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
 									</tr>
@@ -96,7 +96,7 @@
 										<th>NO</th>
 										<th>IMAGE</th>
 										<th>TITLE</th>
-										<th>QTY</th>
+										<th style="width:5px;">QTY</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
 									</tr>
@@ -217,11 +217,11 @@
 												  	 <div class="form-group">
 														  <button class="btn btn-dark btn-lg btn-inspection" data-toggle="pill" href="#inspections">Click This Button For Inspection <i class="flaticon2-fast-next blink_me"></i></button>
 												  	 </div>
-												  	 <div class="form-group">
+												  	 <div class="form-group status-hide">
 												  	 	<label>Unit</label>
 														  <input type="text" class="form-control form-control-solid form-control-lg"  id="unit" readonly />
 												  	 </div>
-												  	 <div class="form-group">
+												  	 <div class="form-group status-hide">
 														 <div class="input-group">
 														 	<input type="number" min="0" class="form-control form-control-solid" name="unit" placeholder="0" />
 														 	<div class="input-group-append">
