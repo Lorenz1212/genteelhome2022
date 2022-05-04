@@ -4548,9 +4548,9 @@ var KTFormControls = function () {
 	 			}else if(response == false){
 	 				Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 			}else{
-	 				$('.balance-quantity').val(response.qty);
-	 				$('input[name=quantity]').val(0);
 	 				Swal.fire("Oopps!", response.item+" is out of stocks", "error"); 
+	 				$('.balance-quantity').val(response.qty);
+	 				$('input[name=quantity]').val("");
 	 			}
 	 			let TableURL = baseURL + 'datatable_controller/Request_Material_List_Superuser_Datatable';
 				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'},{data:'action'}]; 
@@ -4967,6 +4967,14 @@ var KTFormControls = function () {
 	 				_initToast('success',response);
 		 			$('#tbl_purchasing_process > tbody').empty();
 		 			$('#processModal').modal('hide');
+
+	 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Complete_DataTable';
+					let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_purchase_request_complete',TableURL3,TableData3,false);
+
+					let TableURL4 = baseURL + 'datatable_controller/Purchase_Material_Project_Complete_DataTable';
+					let TableData4 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
+					_DataTableLoader('tbl_purchase_request_complete',TableURL4,TableData4,false);
 	 			}else{
 	 				 Swal.fire("Error!", "Something went wrong!", "error");
 	 			}

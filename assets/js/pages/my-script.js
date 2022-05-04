@@ -2732,6 +2732,10 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	  			$("#docs").val(response.docs);
 	  			$('#unit').val(response.unit);
+	  			$('.status-hide').show();
+	  			if(response.unit == 0){
+	  				$('.status-hide').hide();
+	  			}
 	  		}
 	  		break;
 	  	}
@@ -2743,6 +2747,10 @@ var arrows;var item_v;var price;var special_option;
 	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
 	  			$("#docs").val(response.docs);
 	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
+	  			$('.status-hide').show();
+	  			if(response.status == 2){
+	  				$('.status-hide').hide();
+	  			}
 	  		}
 	  		break;
 	  	}
@@ -5620,13 +5628,15 @@ var arrows;var item_v;var price;var special_option;
 	  		break;
 	  	}
 	  	case "Modal_Request_Material":{
+	  		_initNumberOnly(".numbers");
 	  		$('#title-item').text(response.row.item).attr('data-id',response.id);
 	  		$('.balance-quantity').val(response.row.qty);
+	  		$('input[name=quantity]').val("");
 	  		$('input[name=quantity]').on('input',function(e){
 	  			let quantity = $(this).val();
 	  			let total = parseFloat(response.row.qty-quantity);
-	  			if(total  <= -1){
-	  				$(this).val(0);
+	  			if(total  < 0){
+	  				$(this).val("");
 	  				$('.balance-quantity').val(response.row.qty);
 	  			}else{
 	  				$('.balance-quantity').val(total)

@@ -80,41 +80,41 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_joborder_stocks":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Stocks_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_joborder_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Joborder_Stocks_Pending_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,false);
 
 				let TableURL3 = baseURL + 'datatable_controller/Joborder_Stocks_Complete_DataTable';
-				let TableData3 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+				let TableData3 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,false);
 
 				let TableURL4 = baseURL + 'datatable_controller/Joborder_Stocks_Cancelled_DataTable';
-				let TableData4 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+				let TableData4 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,false);
 
 				let TableURL5 = baseURL + 'datatable_controller/Joborder_Stocks_Material_Request_DataTable';
-				let TableData5 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData5 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_joborder_material',TableURL5,TableData5,false);
 
 				let TableURL6 = baseURL + 'datatable_controller/Joborder_Stocks_Supervisor_DataTable';
-				let TableData6 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData6 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,false);
 
 				let TableURL7 = baseURL + 'datatable_controller/Joborder_Stocks_Production_DataTable';
-				let TableData7 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+				let TableData7 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_joborder_production',TableURL7,TableData7,false);
 				break;
 			}
 			case "tbl_joborder_project":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Project_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_joborder_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Joborder_Project_Pending_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,false);
 
 				let TableURL3 = baseURL + 'datatable_controller/Joborder_Project_Complete_DataTable';
@@ -126,11 +126,11 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,false);
 
 				let TableURL5 = baseURL + 'datatable_controller/Joborder_Project_Material_Request_DataTable';
-				let TableData5 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData5 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_joborder_material',TableURL5,TableData5,false);
 
 				let TableURL6 = baseURL + 'datatable_controller/Joborder_Project_Supervisor_DataTable';
-				let TableData6 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+				let TableData6 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,false);
 
 				let TableURL7 = baseURL + 'datatable_controller/Joborder_Project_Production_DataTable';
@@ -152,11 +152,11 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_purchase_request_stocks":{
 				TableURL = baseURL + 'datatable_controller/Purchase_Material_Stocks_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+				TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Inprogress_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+				let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
 
 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Complete_DataTable';
