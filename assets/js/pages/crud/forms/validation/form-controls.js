@@ -1454,6 +1454,7 @@ var KTFormControls = function () {
 					    validation_item.validate().then(function(status) {
 				            if (status == 'Valid') { 
 				            	let formData = new FormData(form_item);
+						    formData.append('item',$('#item').val());
 						     thisURL = baseURL + 'update_controller/Update_RawMaterial';
 							_ajaxForm(thisURL,"POST",formData,"Update_RawMaterial",false);
 						    }
