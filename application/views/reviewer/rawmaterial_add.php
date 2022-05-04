@@ -1,6 +1,6 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-rawmaterials">
-	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+	<div class="subheader py-2 py-lg-12 subheader-transparent form" data-link="Create_RawMaterial" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
@@ -38,7 +38,7 @@
 									<!--begin::Content-->
 									<div class="d-flex justify-content-center px-8 my-lg-5 px-lg-5">
 										<div class="col-xl-8 col-xxl-8 col-md-8">
-										<form class="form" id="Create_RawMaterial" data-link="Create_RawMaterial">
+										<form id="Create_RawMaterial" >
 											<div class="row">
 											  <div class="col-lg-5">
 												  <div class="form-group">
@@ -116,7 +116,7 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <form class="form" id="Update_RawMaterial" data-link="Update_RawMaterial">
+            <form id="Update_RawMaterial" data-link="Update_RawMaterial">
 	            <div class="modal-body">
 					 <div class="form-group">
 						<label>ITEM</label>
@@ -141,7 +141,7 @@
 	            </div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-	                <button type="submit" class="btn btn-primary font-weight-bold type">Save changes</button>
+	                <button type="click" class="btn btn-primary font-weight-bold type Update_RawMaterial">Save changes</button>
 	            </div>
        		</form>
         </div>
