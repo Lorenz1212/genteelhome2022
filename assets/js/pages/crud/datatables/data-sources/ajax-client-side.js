@@ -146,7 +146,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_joborder_masterlist_project":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Masterlist_Project_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'quantity'},{data:'date_created'},{data:'requestor'},{data:'status'}]; 
+				TableData = [{data:'production_no'},{data:'title'},{data:'quantity',visible:false},{data:'date_created'},{data:'requestor'},{data:'status'}]; 
 				_DataTableLoader('tbl_joborder_masterlist',TableURL,TableData,false);
 				break;
 			}
