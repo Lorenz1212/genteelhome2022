@@ -184,7 +184,7 @@ class Update_controller extends CI_Controller
      public function Update_RawMaterial(){
         $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
-        $item = strtoupper($this->input->post('item_update'));
+        $item = $this->input->post('item_update');
         $unit = $this->input->post('unit');
         $status = $this->input->post('status');
         $price = floatval(preg_replace('/[^\d.]/', '',  $this->input->post('price')));
