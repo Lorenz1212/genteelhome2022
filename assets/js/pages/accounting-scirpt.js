@@ -491,7 +491,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				    });
 				})
 			}
-			case "data-salesorder-create-project":{
+				case "data-salesorder-create-project":{
 				_initNumberOnly(".qty,#discount");
 				_initCurrency_format('input[name="amount"],input[name="shipping_fee"],input[name="downpayment"]');
 				_ajaxloaderOption('option_controller/Customer_Name','POST',false,'customer_name');
