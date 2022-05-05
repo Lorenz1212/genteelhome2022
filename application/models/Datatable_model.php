@@ -1627,7 +1627,6 @@ class Datatable_model extends CI_Model{
                       'quantity'      => $row->quantity,
                       'date_created'  => $row->date_created);
             }  
-             
          }else{   
              $data =false;   
          }
@@ -2148,12 +2147,10 @@ class Datatable_model extends CI_Model{
                  if($row->status==3){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
                 }else if($row->status == 4){$status ='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';}else if($row->status == 5){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';}
                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="view-request-form" data-id="'.$this->encryption->encrypt($row->fund_no).'"><i class="flaticon2-pen"></i></button>';   
-               $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+                 $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
                      $data[] = array(
                           'production_no'=> $production_no,
-                          'image'        => $image,
                           'title'        => $title,
                           'requestor'    => $row->requestor,
                           'date_created' => $row->date_created,
@@ -2180,9 +2177,8 @@ class Datatable_model extends CI_Model{
                 foreach($query->result() as $row){
                      if($row->status==1){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
                      }else if($row->status == 2){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';}
-                    $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="view-received-form" data-id="'.$this->encryption->encrypt($row->fund_no).'"><i class="flaticon2-pen"></i></button>';     
-                   $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
-                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></span>';
+                     $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="view-received-form" data-id="'.$this->encryption->encrypt($row->fund_no).'"><i class="flaticon2-pen"></i></button>';     
+                    $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                    $production_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->production_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
                 if($row->payment==1){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Cash</span></span>';
                 }else if($row->payment == 2){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Terms</span></span>
@@ -2190,7 +2186,6 @@ class Datatable_model extends CI_Model{
                     <span class="font-weight-bold">To: '.$row->terms_end.'</span>';} 
                          $data[] = array(
                               'production_no'=> $production_no,
-                              'image'        => $image,
                               'title'        => $title,
                               'requestor'    => $row->requestor,
                               'date_created' => $row->date_created,

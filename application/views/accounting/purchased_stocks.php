@@ -38,11 +38,10 @@
 			    <div class="card-body">
 			        <div class="tab-content link" data-link="tbl_purchased_material_stocks_request">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
-			                <table class="table table-bordered table-hover table-checkable " id="tbl_purchased_request"  style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover table-sm " id="tbl_purchased_request"  style="width: 100%;">
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>IMAGE</th>
 										<th>TITLE</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
@@ -53,11 +52,10 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="delivered">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_purchased_received" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover table-sm" id="tbl_purchased_received" style="width: 100%;">
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>IMAGE</th>
 										<th>TITLE</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>

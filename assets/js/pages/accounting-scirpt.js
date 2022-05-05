@@ -514,6 +514,34 @@ const month = ["January","February","March","April","May","June","July","August"
 									</tr>');	
 					}
 				})
+				$('input[name=checkbox-status]').click(function() {
+					let status = $(this).attr('data-status');
+					if($(this).prop('checked') == true){
+						if(status == 'downpayment'){
+							$('#modal_downpayment').modal('show');
+						}
+						$('input[name='+status+']').attr('disabled',false);
+					}else{
+						if(status == 'downpayment'){
+							$('input[name=date_downpayment]').val("");
+							$('#date-text-downpayment').html('Downpayment :');
+							$('#date-text-downpayment').attr('data-date',"");
+						}
+						$('input[name='+status+']').val("");
+						$('input[name='+status+']').attr('disabled',true);
+					}
+				});
+				$('#date-text-downpayment').html('Downpayment :');
+				$('.save-downpayment').on('click',function(e){
+					e.preventDefault();
+					let date = $('input[name=date_downpayment]').val();
+					if(date){
+						$('#date-text-downpayment').html('Downpayment <br> ('+date+') :');
+						$('#date-text-downpayment').attr('data-date',date);
+						$('input[name=date_downpayment]').val("");
+						$('#modal_downpayment').modal('hide');
+					}
+				});
 				_initremovetable('#kt_product_breakdown_table');
 				break;
 			}
@@ -538,15 +566,43 @@ const month = ["January","February","March","April","May","June","July","August"
 						Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
 					}else{
 						let i = $('#kt_product_breakdown_table tbody tr').length;
-						$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
+						$('#kt_product_breakdown_table > tbody').append('<tr>\
 							<td class="td-item['+i+']" data-id="'+id+'">'+description+' ('+color+')</td>\
 							<td class="text-center td-qty['+i+']">'+qty+'</td>\
 							<td class="text-center td-unit['+i+']">'+unit+'</td>\
 							<td class="text-right td-amount['+i+']">'+amount+'</td>\
-							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="la la-times"></i></button></td>\
+							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="far fa-trash-alt"></i></button></td>\
 									</tr>');	
 					}
 				})
+				$('input[name=checkbox-status]').click(function() {
+					let status = $(this).attr('data-status');
+					if($(this).prop('checked') == true){
+						if(status == 'downpayment'){
+							$('#modal_downpayment').modal('show');
+						}
+						$('input[name='+status+']').attr('disabled',false);
+					}else{
+						if(status == 'downpayment'){
+							$('input[name=date_downpayment]').val("");
+							$('#date-text-downpayment').html('Downpayment :');
+							$('#date-text-downpayment').attr('data-date',"");
+						}
+						$('input[name='+status+']').val("");
+						$('input[name='+status+']').attr('disabled',true);
+					}
+				});
+				$('#date-text-downpayment').html('Downpayment :');
+				$('.save-downpayment').on('click',function(e){
+					e.preventDefault();
+					let date = $('input[name=date_downpayment]').val();
+					if(date){
+						$('#date-text-downpayment').html('Downpayment <br> ('+date+') :');
+						$('#date-text-downpayment').attr('data-date',date);
+						$('input[name=date_downpayment]').val("");
+						$('#modal_downpayment').modal('hide');
+					}
+				});
 				_initremovetable('#kt_product_breakdown_table');
 				break;
 			}

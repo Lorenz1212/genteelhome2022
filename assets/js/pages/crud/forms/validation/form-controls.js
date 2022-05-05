@@ -1169,7 +1169,7 @@ var KTFormControls = function () {
                                                       formData.append('tin',$('input[name="tin"]').val());
                                                       formData.append('address',$('textarea[name="address"]').val());
                                                       formData.append('downpayment',$('input[name="downpayment"]').val());
-                                                      formData.append('date_downpayment',$('input[name="date_downpayment"]').val());
+                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
                                                       formData.append('discount',$('input[name="discount"]').val());
                                                       formData.append('vat',$('select[name="vat"]').val());
                                                       formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
@@ -1230,7 +1230,7 @@ var KTFormControls = function () {
                                                       formData.append('address',$('textarea[name="address"]').val());
                                                       formData.append('tin',$('input[name="tin"]').val());
                                                       formData.append('downpayment',$('input[name="downpayment"]').val());
-                                                      formData.append('date_downpayment',$('input[name="date_downpayment"]').val());
+                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
                                                       formData.append('discount',$('input[name="discount"]').val());
                                                       formData.append('vat',$('select[name="vat"]').val());
                                                       formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
@@ -3622,22 +3622,22 @@ var KTFormControls = function () {
 	 			if(response.status == 'IN PROGRESS'){
 	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
 	 					let TableURL = baseURL + 'datatable_controller/Approval_Purchase_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+						let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_approval_purchased_request',TableURL,TableData,false);
 
 						let TableURL1 = baseURL + 'datatable_controller/Approval_Purchase_Approved_DataTable';
-						let TableData1 =[{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+						let TableData1 =[{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_approval_purchased_approved',TableURL1,TableData1,false);
 						$('#requestModal').modal('hide');
 	 				});
 	 			}else if(response.status == 'REJECTED'){
 	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
 	 					let TableURL = baseURL + 'datatable_controller/Approval_Purchase_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+						let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_approval_purchased_request',TableURL,TableData,false);
 
 						let TableURL2 = baseURL + 'datatable_controller/Approval_Purchase_Rejected_DataTable';
-						let TableData2 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
+						let TableData2 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_approval_purchased_rejected',TableURL2,TableData2,false);
 						$('#requestModal').modal('hide');
 	 				});
@@ -3649,22 +3649,22 @@ var KTFormControls = function () {
 	 			if(response.status == 2){
 	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
 	 					let TableURL = baseURL + 'datatable_controller/Approval_Inspection_Project_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+						let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 						_DataTableLoader('tbl_approval_inspection_project_request',TableURL,TableData,false);
 
 						let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Project_Approved_DataTable';
-						let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+						let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 						_DataTableLoader('tbl_approval_inspection_project_approved',TableURL1,TableData1,false);
 						$('#requestModal').modal('hide');
 	 				});
 	 			}else if(response.status == 3){
 	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
 	 					let TableURL = baseURL + 'datatable_controller/Approval_Inspection_Project_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+						let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 						_DataTableLoader('tbl_approval_inspection_project_request',TableURL,TableData,false);
 
 						let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Project_Rejected_DataTable';
-						let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+						let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 						_DataTableLoader('tbl_approval_inspection_project_rejected',TableURL2,TableData2,false);
 						$('#requestModal').modal('hide');
 	 				});
@@ -3676,22 +3676,22 @@ var KTFormControls = function () {
 	 			if(response.status == 2){
 	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
 	 					let TableURL = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+						let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 						_DataTableLoader('tbl_approval_inspection_stocks_request',TableURL,TableData,false);
 
 						let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Approved_DataTable';
-						let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+						let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 						_DataTableLoader('tbl_approval_inspection_stocks_approved',TableURL1,TableData1,false);
 						$('#requestModal').modal('hide');
 	 				});
 	 			}else if(response.status == 3){
 	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
 	 					let TableURL = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+						let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 						_DataTableLoader('tbl_approval_inspection_stocks_request',TableURL,TableData,false);
 
 						let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Rejected_DataTable';
-						let TableData2 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}];
+						let TableData2 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 						_DataTableLoader('tbl_approval_inspection_stocks_rejected',TableURL2,TableData2,false);
 						$('#requestModal').modal('hide');
 	 				});
@@ -3704,11 +3704,11 @@ var KTFormControls = function () {
 	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
 	 					$('#requestModal').modal('hide');
 	 					let TableURL = baseURL + 'datatable_controller/Approval_Request_Salesorder_DataTable';
-						let TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
+						let TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_approval_salesorder_request',TableURL,TableData,false);
 
 	 					let TableURL1 = baseURL + 'datatable_controller/Approval_Approved_Salesorder_DataTable';
-						let TableData1 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
+						let TableData1 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_approval_salesorder_approved',TableURL1,TableData1,false);
 	 				});
 	 			}else if(response.status == 'REJECTED'){
@@ -3718,7 +3718,7 @@ var KTFormControls = function () {
 						let TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
 						_DataTableLoader('tbl_approval_salesorder_request',TableURL,TableData,false);
 	 					let TableURL2 = baseURL + 'datatable_controller/Approval_Rejected_Salesorder_DataTable';
-						let TableData2 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
+						let TableData2 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_approval_salesorder_rejected',TableURL2,TableData2,false);
 	 				});
 	 			}
@@ -3807,31 +3807,31 @@ var KTFormControls = function () {
 	 			if(response == 'P'){
 	 				Swal.fire("Approved!", "Thank you!", "success").then(function(){
                         let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Sales_DataTable';
-						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
 
 						let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Sales_DataTable';
-						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);
                     });
 	 			}else if(response == 'A'){
 	 				Swal.fire("Approved!", "Thank you!", "success").then(function(){
                         let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Superuser_DataTable';
-						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
 
 						let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
-						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);     
                      });
 	 			}else if(response == 'C'){
 	 				Swal.fire("Rejected!", "Thank you!", "error").then(function(){
 	 					let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Superuser_DataTable';
-						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
 
                         let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
-						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
+						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
 						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);  
                      });
 	 			}
@@ -4030,11 +4030,11 @@ var KTFormControls = function () {
 	 			if(response == true){
 	 				_initToast('success','Estimated Cost is Successfully Submited');
 	 				let TableURL = baseURL + 'datatable_controller/Purchase_Material_Stocks_Request_DataTable';
-					let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+					let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 					_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
 
 					let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Inprogress_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+					let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
 					$('#requestModal').modal('hide');
 	 			}
@@ -4045,11 +4045,11 @@ var KTFormControls = function () {
 	 			if(response == true){
 	 				_initToast('success','Puchased Item is Successfully Submited');
 	 				let TableURL = baseURL + 'datatable_controller/Purchase_Material_Stocks_Request_DataTable';
-					let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+					let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 					_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
 
 					let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Inprogress_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
+					let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
 						
 					let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Complete_DataTable';

@@ -651,7 +651,7 @@ var KTFormControls = function () {
                                                       formData.append('tin',$('input[name="tin"]').val());
                                                       formData.append('address',$('textarea[name="address"]').val());
                                                       formData.append('downpayment',$('input[name="downpayment"]').val());
-                                                      formData.append('date_downpayment',$('input[name="downpayment"]').val());
+                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
                                                       formData.append('discount',$('input[name="discount"]').val());
                                                       formData.append('vat',$('select[name="vat"]').val());
                                                       formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
@@ -713,7 +713,7 @@ var KTFormControls = function () {
                                                       formData.append('address',$('textarea[name="address"]').val());
                                                       formData.append('tin',$('input[name="tin"]').val());
                                                       formData.append('downpayment',$('input[name="downpayment"]').val());
-                                                      formData.append('date_downpayment',$('input[name="date_downpayment"]').val());
+                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
                                                       formData.append('discount',$('input[name="discount"]').val());
                                                       formData.append('vat',$('select[name="vat"]').val());
                                                       formData.append('shipping_fee',$('input[name="shipping_fee"]').val());

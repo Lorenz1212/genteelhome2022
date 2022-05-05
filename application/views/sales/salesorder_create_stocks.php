@@ -1,15 +1,4 @@
-<style type="text/css">
-	.table-scroll tbody {
-	  display: block;
-	  max-height: 430px;
-	  overflow-y: scroll;
-	}
-	.table-scroll thead, table tbody tr {
-	  display: table;
-	  width: 100%;
-	  table-layout: fixed;
-	}
-</style>
+
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-salesorder-create-stocks">
 	<div class="form" data-link="Create_Salesorder_Stocks"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
@@ -67,38 +56,11 @@
 													<label>Address</label>
 													<textarea class="form-control" name="address" rows="3"></textarea>
 												</div>
-												<div class="form-group row">
-													<label>Downpayment</label>
-													<input type="text" class="form-control form-control-solid form-control-lg" name="downpayment" placeholder="0.00" />
-												</div>
-												<div class="form-group row">
-													<label>Date of downpayment</label>
-													<input type="date" class="form-control form-control-solid form-control-lg" name="date_downpayment"/>
-												</div>
-												<div class="form-group row">
-													<div class="col-lg-5 col-xl-5 col-md-5">
-													<label>Discount (%)</label>
-													<input type="text" class="form-control form-control-solid form-control-lg" name="discount" id="discount" placeholder="0.00%" autocomplete="off"/>
-													</div>
-													<div class="col-lg-7 col-xl-7 col-md-7">
-														<label>Vat</label>
-														<select class="form-control form-control-lg" name="vat">
-															<option value="1">Vatable</option>
-															<option value="2">W/o Vat</option>
-														</select>
-													</div>
-												</div>
-												<div class="form-group row">
-													<label>Shipping Fee</label>
-													<input type="text" class="form-control form-control-solid form-control-lg" name="shipping_fee" placeholder="0.00" />
-												</div>
+
+												
+												
 										 </div>
 									</div>
-									 <div class="row">
-										 	<div class="col-lg-12 col-xl-12 col-md-12 text-center">
-											<button type="button" class="btn btn-dark font-weight-bold btn-lg btn-square btn-create-submit">SUBMIT SALES ORDER</button>
-											</div>
-										</div>
 						        </div>
 						   </div>
 					</div>
@@ -120,7 +82,7 @@
 						    </div>
 					   		<div class="card-body">
 								       		<div class="row">
-								       		    <div class="col-xl-3 col-xxl-3 col-md-3">	
+								       		    <div class="col-xl-5 col-xxl-5 col-md-5">	
 									       			<div class="form-group">
 														<label>DESCRIPTION</label>
 														 <select class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" id="project_no" name="project_no" required />
@@ -132,12 +94,11 @@
 																  }
 																?>
 														  </select>
-														<span class="form-text text-muted">Please enter Item</span>
 													</div>
 												</div>
-												<div class="col-lg-3 col-xl-3 col-md-3">
+												<div class="col-lg-5 col-xl-5 col-md-5">
 													 <div class="form-group">
-														   <label>PALLETE COLOR</label>
+														   <label>Pallet Color</label>
 														     <select type="text" class="form-control form-control-solid" id="c_code" name="c_code" required >
 														     	<option value="" disabled="" selected>Select Pallet Color</option>
 														     </select>
@@ -145,23 +106,20 @@
 												</div>
 												 <div class="col-xl-2 col-xxl-2 col-md-2">	
 									       			<div class="form-group">
-														<label>QUANTITY</label>
-														<input type="number" min="1" name="qty" class="form-control qty" />
-														<span class="form-text text-muted">Please enter Item Quanity</span>
+														<label>Quantity</label>
+														<input type="number" min="1" name="qty" class="form-control qty" placeholder="0" />
 													</div>
 												</div>
-												<div class="col-xl-2 col-xxl-2 col-md-2">	
+												<div class="col-xl-4 col-xxl-4 col-md-4">	
 									       			<div class="form-group">
-														<label>UNIT</label>
+														<label>UNIT (e.i PC,Kilo, etc)</label>
 														<input type="text" name="unit" class="form-control" />
-														<span class="form-text text-muted">Please enter unit, ex. PCS/PC,KILO,etc</span>
 													</div>
 												</div>
-												<div class="col-xl-2 col-xxl-2 col-md-2">	
+												<div class="col-xl-4 col-xxl-4 col-md-4">	
 									       			<div class="form-group">
 														<label>AMOUNT</label>
 														<input type="text" name="amount" class="form-control" placeholder="0.00" />
-														<span class="form-text text-muted">Please enter amount</span>
 													</div>
 												</div>
 								       		</div>
@@ -177,21 +135,98 @@
 											</div>
 									    </div>
 								   		<div class="card-body">
-								   			<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 737px">
-								       			<table class="table table-scroll table-sm" id="kt_product_breakdown_table">
-													<thead>
-														<tr>
-															<th class="text-left text-muted text-uppercase">DESCRIPTION</th>
-															<th class="text-center text-muted text-uppercase">QUANTITY</th>
-															<th class="text-center text-muted text-uppercase">UNIT</th>
-															<th class="text-right  text-muted text-uppercase">AMOUNT</th>
-															<th class="text-center text-muted text-uppercase">ACTION</th>
-														</tr>
-													</thead>
-												<tbody>
-												</tbody>
-											   </table>
+								   			<div class="row">
+								   				<div class="col-xl-12 col-xxl-12 col-md-12">
+										   			<div class="tableFixHead">
+										       			<table class="table table-hover table-sm" id="kt_product_breakdown_table">
+															<thead>
+																<tr>
+																	<th class="text-left">DESCRIPTION</th>
+																	<th class="text-center">QUANTITY</th>
+																	<th class="text-center">UNIT</th>
+																	<th class="text-right">AMOUNT</th>
+																	<th class="text-center">ACTION</th>
+																</tr>
+															</thead>
+														<tbody>
+														</tbody>
+													   </table>
+													</div>
+												</div>
 											</div>
+											<div class="row mt-2">
+				      		  					<div class="col-xl-12 col-md-12">
+													<div class="separator separator-dashed separator-border-2 separator-dark"></div>
+												</div>
+											</div>
+											<div class="row mt-2">
+												<div class="col-xl-5 col-md-5">
+												</div>
+												<div class="col-xl-7 col-xxl-7 col-md-7">
+																<div class="row mb-2">
+																	<div class="col-xl-6 col-xxl-6 col-md-6">
+																		<label class="checkbox checkbox-outline checkbox-success mt-2 text-dark-75 font-weight-bolder">
+														                    <input type="checkbox" name="checkbox-status" data-status="downpayment" />
+														                    <span class="mr-2"></span>
+														                    <div id="date-text-downpayment"> </div>
+														                </label>
+																	</div>
+																	<div class="col-xl-6 col-xxl-6 col-md-6">
+																		<input type="text" class="form-control form-control-sm" name="downpayment" placeholder="0.00" disabled />
+																	</div>
+																</div>
+																<div class="row mb-2">
+																	<div class="col-xl-6 col-xxl-6 col-md-6">
+																		<label class="checkbox checkbox-outline checkbox-success mt-2 text-dark-75 font-weight-bolder">
+														                    <input type="checkbox" name="checkbox-status" data-status="shipping_fee" />
+														                    <span class="mr-2"></span>
+														                     Shipping Fee:
+														                </label>
+																	</div>
+																	<div class="col-xl-6 col-xxl-6 col-md-6">
+																		<input type="text" class="form-control form-control-sm" name="shipping_fee" placeholder="0.00" disabled/>
+																	</div>
+																</div>
+																<div class="row mb-2">
+																	<div class="col-xl-6 col-xxl-6 col-md-6">
+																		<label class="checkbox checkbox-outline checkbox-success mt-2 text-dark-75 font-weight-bolder">
+														                    <input type="checkbox" name="checkbox-status" data-status="discount" />
+														                    <span class="mr-2"></span>
+														                     Discount (%):
+														                </label>
+																	</div>
+																	<div class="col-xl-6 col-xxl-6 col-md-6">
+																		<input type="text" class="form-control form-control-sm" name="discount" id="discount" placeholder="0.00%" autocomplete="off" disabled/>
+																	</div>
+																</div>
+																<div class="row mb-5">
+																	<div class="col-xl-6 col-xxl-6 col-md-6">
+																		<span class="text-dark-75 font-weight-bolder ml-8">Vat :</span>
+																	</div>
+																	<div class="col-xl-6 col-xxl-6 col-md-6">
+																		<select class="form-control form-control-sm" name="vat">
+																			<option value="1">Vatable</option>
+																			<option value="2">W/o Vat</option>
+																		</select>
+																	</div>
+																</div>
+																<div class="row mb-2">
+																	<div class="col-xl-4 col-xxl-4 col-md-4">
+		
+																	</div>
+																	<div class="col-xl-8 col-xxl-8 col-md-8">
+																		<button type="button" class="btn btn-outline-success btn-lg btn-block btn-create-submit">SUBMIT SALES ORDER</button>
+																	</div>
+																</div>
+																
+																
+															</div>
+														
+														</div>
+												</div>
+											</div>
+
+
 								        </div>
 								    </div>
 								</div>
@@ -222,6 +257,21 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary font-weight-bold search">Search...</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_downpayment" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-group row">
+					<label>Date of downpayment</label>
+					<input type="date" class="form-control form-control-solid form-control-lg" name="date_downpayment"/>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary font-weight-bold save-downpayment">Save</button>
             </div>
         </div>
     </div>

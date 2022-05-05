@@ -91,7 +91,7 @@
 							<!--begin::Tap pane-->
 							<div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly">
 								<!--begin::Table-->
-								<div class="table-responsive">
+								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table  table-vertical-center"  id="tbl_cashfund_weekly">
 										<thead>
 											<tr>
@@ -114,7 +114,7 @@
 							<!--begin::Tap pane-->
 							<div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly">
 								<!--begin::Table-->
-								<div class="table-responsive">
+								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table  table-vertical-center"  id="tbl_cashfund_monthly">
 										<thead>
 											<tr>
@@ -137,7 +137,7 @@
 							<!--begin::Tap pane-->
 							<div class="tab-pane fade" id="yearly" role="tabpanel" aria-labelledby="yearly">
 								<!--begin::Table-->
-								<div class="table-responsive">
+								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table  table-vertical-center"  id="tbl_cashfund_yearly">
 										<thead>
 											<tr>

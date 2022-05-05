@@ -19,7 +19,7 @@
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" href="#approved">
-			                        <span class="nav-text">REQUEST FOR APPROVAL <span class="label label-rounded label-primary request_sales_stocks_production">0</span></span>
+			                        <span class="nav-text">REQUEST FOR APPROVAL <span class="label label-rounded label-primary sales_stocks">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
