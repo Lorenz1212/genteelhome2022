@@ -249,13 +249,13 @@ var arrows;var item_v;var price;var special_option;
 	var _initnotificationupdate = function(){
 		 let url = window.location.pathname;
 		 let urlpost;
-		 if(url.split('/')[0] == 'genteelhome2022'){
+		 if(url.split('/')[0] == 'genteelhome2022' || url.split('/')[0] == 'genteelhomev2'){
 		 	urlpost = url.split('/')[2];
-		 }else if(url.split('/')[1] == 'genteelhome2022'){
+		 }else if(url.split('/')[1] == 'genteelhome2022' || url.split('/')[0] == 'genteelhomev2'){
 		 	urlpost = url.split('/')[3];
-		 }else if(url.split('/')[2] == 'genteelhome2022'){
+		 }else if(url.split('/')[2] == 'genteelhome2022' || url.split('/')[0] == 'genteelhomev2'){
 		 	urlpost = url.split('/')[4];
-		 }else if(url.split('/')[3] == 'genteelhome2022'){
+		 }else if(url.split('/')[3] == 'genteelhome2022' || url.split('/')[0] == 'genteelhomev2'){
 		 	urlpost = url.split('/')[6];
 		 }
 		 if(urlpost == 'designer'){
