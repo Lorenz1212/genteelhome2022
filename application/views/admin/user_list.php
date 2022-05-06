@@ -88,11 +88,11 @@
 						    	<option value="INACTIVE">INACTIVE</option>
 							</select>
 					    </div>
-						<div class="col-lg-3">
+						<div class="col-lg-3" style="display:none">
 						    <label>COMMISSION</label>
 						    <input type="text" class="form-control" id="commission" name="commission"/>
 						</div>
-						 <div class="col-lg-3">
+						 <div class="col-lg-3" style="display:none">
 						    <label>Voucher Access</label>
 						    <select class="form-control" id="voucher" name="voucher">
 						    	<option value="1">INACTIVE</option>
