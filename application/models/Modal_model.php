@@ -177,7 +177,7 @@ class Modal_model extends CI_Model{
         return $row;
     }
     function Modal_Users($id){
-        $row = $this->db->select('*')->from('tbl_users')->WHERE('id',$id)->get()->get();
+        $row = $this->db->select('*')->from('tbl_users')->WHERE('id',$id)->get()->row();
         return $row;
     }
     function Modal_RawMaterial_view($id){
