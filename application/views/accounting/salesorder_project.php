@@ -192,7 +192,7 @@
 						
 					</div>
 					<div class="modal-footer">
-						 <a href="<?php echo base_url()?>gh/print/print-salesorder-project" target="_blank" class="btn btn-light-dark font-weight-bold btn-icon btn-print"  type="button"><i class="flaticon2-printer"></i></a>
+						 <button class="btn btn-light-dark font-weight-bold btn-icon btn-print"  type="button"><i class="flaticon2-printer"></i></button>
 					</div>
 				</div>
             </div>

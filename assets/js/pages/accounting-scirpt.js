@@ -1338,18 +1338,6 @@ const month = ["January","February","March","April","May","June","July","August"
 						<td class="text-right td1-border-1px"><b><div style="float:left;">₱</div><div style="float:right;">'+response[0].subtotal+'</div></b></td>\
 					   </tr>';
 				container.append(html);
-				if(response[0].delivery == 1){
-	  				$('.modal-delivery').show();
-	  				$('.btn-print').hide();
-	  			}else{
-	  				$('.modal-delivery').hide();
-	  				$('.btn-print').show();
-	  			}
-				if(response[0].status == 'P'){
-	  				$('#requestModal > div > div > div.modal-approval').show();
-	  			}else{
-	  				$('#requestModal > div > div > div.modal-approval').hide();
-	  			}
 	  		}
 	  		break;
 	  	}
@@ -1398,18 +1386,6 @@ const month = ["January","February","March","April","May","June","July","August"
 						<td class="text-right td1-border-1px"><b><div style="float:left;">₱</div><div style="float:right;">'+response.soa.subtotal+'</div></b></td>\
 					   </tr>';
 				container.append(html);
-				if(response.soa.delivery == 1){
-	  				$('.modal-delivery').show();
-	  				$('.btn-print').hide();
-	  			}else{
-	  				$('.modal-delivery').hide();
-	  				$('.btn-print').show();
-	  			}
-				if(response.soa.status == 'P'){
-	  				$('#requestModal > div > div > div.modal-approval').show();
-	  			}else{
-	  				$('#requestModal > div > div > div.modal-approval').hide();
-	  			}
 	  		}
 	  		break;
 	  	}
