@@ -77,7 +77,7 @@ class Modal_model extends CI_Model{
           $id = $this->encryption->decrypt($id);
           $data=array();
           $dis = 0; 
-          $query =  $this->db->select('s.*,i.*,c.*,d.*,s.id,s.status,s.so_no,sc.*,s.tin as tin_no,CONCAT(u.firstname, " ",u.lastname) AS sales_person,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order,(SELECT sum(amount) FROM tbl_salesorder_stocks_item WHERE so_no=s.id) as subtotal')
+          $query =  $this->db->select('s.*,i.*,c.*,d.*,s.id,s.status,s.so_no,sc.*,s.tin,CONCAT(u.firstname, " ",u.lastname) AS sales_person,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order,(SELECT sum(amount) FROM tbl_salesorder_stocks_item WHERE so_no=s.id) as subtotal')
           ->from('tbl_salesorder_stocks_item as i')
           ->join('tbl_salesorder_stocks as s','i.so_no=s.id','LEFT')
           ->join('tbl_project_color as c','c.id=i.c_code','LEFT')
@@ -103,7 +103,7 @@ class Modal_model extends CI_Model{
                          'id'           => $this->encryption->encrypt($id),
                          'so_no'		=> $row->so_no,
                          'si_no'        => $row->si_no,
-                         'tin'          => $row->tin_no,
+                         'tin'          => $row->tin,
                          'sales_order'	=> $row->sales_person,
                          'customer'     => $row->fullname,
                          'mobile'       => $row->mobile,
@@ -121,7 +121,6 @@ class Modal_model extends CI_Model{
                          'vat'          => number_format($vat,2),
                          'date_order'   => $row->date_order,
                          'date_downpayment'=> date('m/d/Y',strtotime($row->date_downpayment)),
-                         'delivery'     => $row->delivery,
                          'status'       => $row->status
                      );
                } 
@@ -131,7 +130,7 @@ class Modal_model extends CI_Model{
     function Modal_SalesOrder_Project($id){
       $id = $this->encryption->decrypt($id);
       $dis = 0; 
-      $row =  $this->db->select('s.*,s.tin as tin_no,sc.*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
+      $row =  $this->db->select('s.*,s.tin,sc.*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as sc','sc.id=s.customer','LEFT')
       ->join('tbl_users as u','u.id=s.created_by','LEFT')->WHERE('s.id',$id)->get()->row();
             $lineup = json_decode($row->item,true);
@@ -153,7 +152,7 @@ class Modal_model extends CI_Model{
                      'id'           => $this->encryption->encrypt($id),
                      'so_no'        => $row->so_no,
                      'si_no'        => $row->si_no,
-                     'tin'          => $row->tin_no,
+                     'tin'          => $row->tin,
                      'customer'     => $row->fullname,
                      'mobile'       => $row->mobile,
                      'address'      => $row->address,
@@ -167,7 +166,6 @@ class Modal_model extends CI_Model{
                      'vat'          => number_format($vat,2),
                      'date_order'   => $row->date_order,
                      'date_downpayment'=> date('m/d/Y',strtotime($row->date_downpayment)),
-                     'delivery'     => $row->delivery,
                      'status'       => $row->status
                  );
            return array_merge($data,$data_array);
