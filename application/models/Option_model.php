@@ -399,7 +399,7 @@ class Option_model extends CI_Model
 	function so_no_item($so_no){
 		$row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$so_no)->get()->row();
 		if($row){
-			$query = $this->db->select('*')->from('tbl_salesorder_stocks_item as s')->join('tbl_project_color as c','s.c_code=c.id','LEFT')->join('tbl_project_design as d','c.project_no=d.id','LEFT')->where('s.so_no',$row->id)->get()->result();
+			$query = $this->db->select('*,s.id')->from('tbl_salesorder_stocks_item as s')->join('tbl_project_color as c','s.c_code=c.id','LEFT')->join('tbl_project_design as d','c.project_no=d.id','LEFT')->where('s.so_no',$row->id)->get()->result();
 			foreach($query as $row){
 	             $data[] = array('id'=> $row->id,
 	             				 'name'=> $row->title.' ('.$row->c_name.')');
@@ -414,6 +414,21 @@ class Option_model extends CI_Model
 			}
             return $data;
 		}
+	}
+	function soa_no($id){
+		$data = false;
+		if($id == 1){
+			$query = $this->db->select('*')->from('tbl_salesorder_stocks')->where_in('status',array('APPROVED','COMPLETED'))->get();
+			foreach($query->result() as $row){
+				$data[] = array('so_no'=>$row->so_no);
+			}
+		}else{
+			$query = $this->db->select('*')->from('tbl_salesorder_project')->where_in('status',array('APPROVED','COMPLETED'))->get();
+			foreach($query->result() as $row){
+				$data[] = array('so_no'=>$row->so_no);
+			}
+		}
+		return $data;
 	}
 	function purchase_product($id){
 		$data = false;

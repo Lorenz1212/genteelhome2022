@@ -20,6 +20,11 @@ class Modal_controller extends CI_Controller
         $data = $this->modal_model->Modal_Design_Project_View($id);
         echo json_encode($data);
     }
+    public function Modal_SalesOrder_Delivery(){
+        $id = $this->input->post('id');
+        $data = $this->modal_model->Modal_SalesOrder_Delivery($id);
+        echo json_encode($data);
+    }
      public function Modal_SalesOrder_Stocks(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_SalesOrder_Stocks($id);

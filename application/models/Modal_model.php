@@ -51,6 +51,28 @@ class Modal_model extends CI_Model{
         $row = $this->db->select('*')->from('tbl_other_materials')->WHERE('id',$id)->get()->row(); 
         return $row;
     }
+     function Modal_SalesOrder_Delivery($id){
+          $id = $this->encryption->decrypt($id);
+          $data=array();
+          $data_item=array();
+          $row_info = $this->db->select('*,s.id,DATE_FORMAT(s.date_created, "%M %d %Y") as date_created')
+                ->from('tbl_sales_delivery_header as s')
+                ->join('tbl_salesorder_customer as sc','sc.id=s.customer','LEFT')
+                ->where('s.id',$id)->get()->row();
+          $data['info']= $row_info;
+          $data['id']= $this->encryption->encrypt($id);
+          $query =  $this->db->select('*')->from('tbl_sales_delivery_item')->where('dr_no',$row_info->id)->get();
+           if($query){    
+                foreach($query->result() as $row){
+                  $data_item['result'][] = array('item'=> $row->item,
+                                        'qty'=> $row->quantity);
+               } 
+           }
+
+          return array_merge($data,$data_item);
+    }
+
+
      function Modal_SalesOrder_Stocks($id){
           $id = $this->encryption->decrypt($id);
           $data=array();

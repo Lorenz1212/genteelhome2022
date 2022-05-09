@@ -4,6 +4,9 @@ var arrows;
 var html;
 var option;
 const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+	var _initToast = function(type,message){
+		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
+	}
 	var _initToastSuccess = function(type,message)
 	{
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
@@ -385,6 +388,9 @@ const month = ["January","February","March","April","May","June","July","August"
 			columns:TableData,
 		});
 	}
+	var _initnotificationupdate = function(){
+		 _ajaxloaderOption('Dashboard_controller/accounting_dashboard','POST',false,'accounting');
+	}
 	var _ajaxloaderOption = async function(thisURL,type,val,sub){
 		  $.ajax({
 	             url: baseURL + thisURL,
@@ -399,6 +405,59 @@ const month = ["January","February","March","April","May","June","July","August"
 
       var _initOption = function(view,response){
 		switch(view){
+			case "accounting":{
+				let purchase_stocks_pending = $('.purchase_stocks_pending');
+				(response.purchase_stocks_pending != 0)?purchase_stocks_pending.addClass('label label-rounded label-warning').text(response.purchase_stocks_pending):purchase_stocks_pending.removeClass("label label-rounded label-warning").text("");
+
+				let purchase_project_pending = $('.purchase_project_pending');
+				(response.purchase_project_pending != 0)?purchase_project_pending.addClass('label label-rounded label-warning').text(response.purchase_project_pending):purchase_project_pending.removeClass("label label-rounded label-warning").text("");
+
+				let purchase_stocks_received = $('.purchase_stocks_received');
+				(response.purchase_stocks_received != 0)?purchase_stocks_received.addClass('label label-rounded label-warning').text(response.purchase_stocks_received):purchase_stocks_received.removeClass("label label-rounded label-warning").text("");
+
+				let purchase_project_received = $('.purchase_project_received');
+				(response.purchase_project_received != 0)?purchase_project_received.addClass('label label-rounded label-warning').text(response.purchase_project_received):purchase_project_received.removeClass("label label-rounded label-warning").text("");
+
+				let total_purchase_stocks = $('.total_purchase_stocks');
+				(response.total_purchase_stocks != 0)?total_purchase_stocks.addClass('label label-rounded label-warning').text(response.total_purchase_stocks):total_purchase_stocks.removeClass("label label-rounded label-warning").text("");
+				let total_purchase_project = $('.total_purchase_project');
+				(response.total_purchase_project != 0)?total_purchase_project.addClass('label label-rounded label-warning').text(response.total_purchase_project):total_purchase_project.removeClass("label label-rounded label-warning").text("");
+
+				let total_purchase = $('.total_purchase');
+				(response.total_purchase != 0)?total_purchase.addClass('label label-rounded label-warning').text(response.total_purchase):total_purchase.removeClass("label label-rounded label-warning").text("");
+
+				let total_request = $('.total_request');
+				(response.total_request != 0)?total_request.addClass('label label-rounded label-warning').text(response.total_request):total_request.removeClass("label label-rounded label-warning").text("");
+				
+				let total_salesoder_request = $('.total_salesoder_request');
+				(response.total_salesoder_request != 0)?total_salesoder_request.addClass('label label-rounded label-warning').text(response.total_salesoder_request):total_salesoder_request.removeClass("label label-rounded label-warning").text("");
+
+				let sales_stocks_pending = $('.sales_stocks_pending_request');
+				(response.sales_stocks_pending != 0)?sales_stocks_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_stocks_pending.removeClass("label label-rounded label-warning").text("");
+
+				let sales_project_pending = $('.sales_project_pending_request');
+				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+				
+				$('.sales_stocks_pending').text(response.sales_stocks_pending);
+				$('.sales_project_pending').text(response.sales_project_pending);
+				$('.sales_stocks_approved').text(response.sales_stocks_approved);
+				$('.sales_project_approved').text(response.sales_project_approved);
+				$('.sales_stocks_completed').text(response.sales_stocks_completed);
+				$('.sales_project_completed').text(response.sales_project_completed);
+				$('.sales_stocks_cancelled').text(response.sales_stocks_cancelled);
+				$('.sales_project_cancelled').text(response.sales_project_cancelled);
+				break;
+			}
+			case "pallet-color":{
+				if(!response == false){
+                  	    $('#c_code').empty();
+                  	    $('#c_code').append('<option value="" disabled selected>SELECT PALLETE COLOR</option>');
+                       for(let i=0;i<response.length;i++){
+                         $('#c_code').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+                  	   }
+                  	}
+				break;
+			}
 			case "job_order":{
 				if(!response == false){
 					 $('#joborder').empty();
@@ -474,7 +533,122 @@ const month = ["January","February","March","April","May","June","July","August"
 		           });
 				break;
 			}
+			case "data-purchased-material-stocks-request":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_purchased_material_stocks');
+				$(document).ready(function() {
+					 $(document).on("click","#view-request-form",function() {
+					 	let val = {id:$(this).attr('data-id')};
+					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Material_Stocks_Request';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Stocks");
+				    });
+					$(document).on("click","#view-received-form",function() {
+					 	let val = {id:$(this).attr('data-id')};
+					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Received_Stocks';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Received_Stocks");
+				    });
+				})
+			   break;
+			}
+			case "data-purchased-material-project-request":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_purchased_material_project');
+				$(document).ready(function() {
+					$(document).on("click","#view-request-form",function() {
+					 	let val = {id:$(this).attr('data-id')};
+					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Material_Project_Request';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Project");
+				    });
+					$(document).on("click","#view-received-form",function() {
+					 	let val = {id:$(this).attr('data-id')};
+					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Received_Project';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Received_Project");
+				    });
+				})
+			   break;
+			}
+			case "data-production-supplies":{
+				$(document).ready(function(){
+					_initCurrency_format('.text-amount,.text-labor');
+					_initDatepicker('#start-date,#end-date');
+					_ajaxloaderOption('option_controller/Joborder_Option','POST',false,'job_order');
+					 $(document).on('click','.btn-search',function(e){
+					 	e.preventDefault();
+					 	let val = {id:$('select[name=joborder]').val()};
+						let thisUrl = 'datatable_controller/Account_Report_Production_Supplies';
+						_ajaxloader(thisUrl,"POST",val,"Account_Report_Production_Supplies");
+					});
+				})
+				break;
+			}
+			case "data-rawmats-list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_rawmats');
+				$(document).ready(function() {
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let val = {id:id};
+					 	let thisUrl = 'modal_controller/Modal_Stocks_Rawmats_View';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Stocks_Rawmats_View");
+				    });
+				})
+				break;
+			}
+			case "data-spareparts-list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_spareparts');
+				$(document).ready(function() {
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let val = {id:id};
+					 	let thisUrl = 'modal_controller/Modal_Stocks_SpareParts_View';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Stocks_SpareParts_View");
+				    });
+				})
+				break;
+			}
+			case "data-officesupplies-list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_officesupplies');
+				$(document).ready(function() {
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let val = {id:id};
+					 	let thisUrl = 'modal_controller/Modal_Stocks_OfficeSupplies_View';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Stocks_OfficeSupplies_View");
+				    });
+				})
+				break;
+			}
+			case "data-production-stocks":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_production_stocks');
+				_initNumberOnly('#stockss');
+				  $(document).ready(function() {
+					   $(document).on("click","#form-request",function() {
+						let val = {id:$(this).attr('data-id')};
+						let thisUrl = 'modal_controller/Modal_Production_Stocks';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Production_Stocks");
+				    });
+				  });
+				break;
+			}
+			case "data-supplier":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_supplier');
+
+				 $(document).ready(function() {
+				 	_initItem_option();
+					_initCurrency_format("#price");
+					$(document).on("click","#form-request",function() {
+						let thisUrl = 'modal_controller/Modal_Supplier_View';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_View");
+				    	});
+				    	$(document).on("click","#edit-item-view",function() {
+						let thisUrl = 'modal_controller/Modal_Supplier_Item_Update_View';
+						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_Item_Update_View");
+				    	});
+				    	$(document).on("click",".add-supplier",function() {
+						$('#Create_Supplier')[0].reset();
+				    	});
+				  });
+				break;
+			}
 			case "data-collection":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_collection');
 				$('#kt_datepicker_4_3').datepicker({
 				   rtl: KTUtil.isRTL(),
 				   orientation: "bottom left",
@@ -607,6 +781,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				break;
 			}
 			case "data-salesorder-stocks":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_salesorder_stocks');
 				$(document).ready(function() {
 					$(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
@@ -619,10 +794,86 @@ const month = ["January","February","March","April","May","June","July","August"
 						sessionStorage.setItem('so_no', id);
 						window.open(baseURL+'gh/printview/print-salesorder-stocks');
 				    });
+					 $('body').delegate('.btn-approved','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Do you want to move this form? Trans #: "+element.attr('data-trans'),
+			                          text: "You wont be able to revert this!",
+			                          icon: "warning",
+			                          showCancelButton: true,
+			                          confirmButtonText: "Yes, proceed!",
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      }).then(function(result) {
+			                          if (result.value){
+			                              let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Salesorder_Stocks_Accounting';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status},"Update_Salesorder_Stocks_Accounting");
+			                          } 
+			                      });
+			            });
+					 $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Salesorder_Stocks_Accounting';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status,remarks:result.value},"Update_Salesorder_Stocks_Accounting");
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+					 $('body').delegate('.btn-remarks','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Trans #: "+element.attr('data-trans')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
+
 				})
 				break;
 			}
 			case "data-salesorder-project":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_salesorder_project');
 				$(document).ready(function() {
 				    $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
@@ -635,7 +886,80 @@ const month = ["January","February","March","April","May","June","July","August"
 						sessionStorage.setItem('so_no', id);
 						window.open(baseURL+'gh/printview/print-salesorder-project');
 				    });
-
+				     $('body').delegate('.btn-approved','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Do you want to move this form? Trans #: "+element.attr('data-trans'),
+			                          text: "You wont be able to revert this!",
+			                          icon: "warning",
+			                          showCancelButton: true,
+			                          confirmButtonText: "Yes, proceed!",
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      }).then(function(result) {
+			                          if (result.value){
+			                              let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Salesorder_Project_Accounting';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status},"Update_Salesorder_Project_Accounting");
+			                          } 
+			                      });
+			            });
+				     $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Salesorder_Project_Accounting';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status,remarks:result.value},"Update_Salesorder_Project_Accounting");
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+					 $('body').delegate('.btn-remarks','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Trans #: "+element.attr('data-trans')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
 				})
 				break;
 			}
@@ -821,50 +1145,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#action').trigger('click');
 				break;
 			}
-			case "data-purchased-material-stocks-request":{
-				$(document).ready(function() {
-					 $(document).on("click","#view-request-form",function() {
-					 	let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Material_Stocks_Request';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Stocks");
-				    });
-					$(document).on("click","#view-received-form",function() {
-					 	let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Received_Stocks';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Received_Stocks");
-				    });
-				})
-			   break;
-			}
-			case "data-purchased-material-project-request":{
-				$(document).ready(function() {
-					$(document).on("click","#view-request-form",function() {
-					 	let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Material_Project_Request';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Material_Project");
-				    });
-					$(document).on("click","#view-received-form",function() {
-					 	let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Accounting_Purchase_Received_Project';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Purchase_Received_Project");
-				    });
-				})
-			   break;
-			}
-			case "data-production-supplies":{
-				$(document).ready(function(){
-					_initCurrency_format('.text-amount,.text-labor');
-					_initDatepicker('#start-date,#end-date');
-					_ajaxloaderOption('option_controller/Joborder_Option','POST',false,'job_order');
-					 $(document).on('click','.btn-search',function(e){
-					 	e.preventDefault();
-					 	let val = {id:$('select[name=joborder]').val()};
-						let thisUrl = 'datatable_controller/Account_Report_Production_Supplies';
-						_ajaxloader(thisUrl,"POST",val,"Account_Report_Production_Supplies");
-					});
-				})
-				break;
-			}
+
 			case "data-cashposition":{
 				$(document).ready(function(){
 					_initDatepicker('#date_position');
@@ -989,80 +1270,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				})
 				break;
 			}
-			case "data-rawmats-list":{
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Stocks_Rawmats_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Stocks_Rawmats_View");
-				    });
-				})
-				break;
-			}
-			case "data-spareparts-list":{
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Stocks_SpareParts_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Stocks_SpareParts_View");
-				    });
-				})
-				break;
-			}
-			case "data-officesupplies-list":{
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Stocks_OfficeSupplies_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Stocks_OfficeSupplies_View");
-				    });
-				})
-				break;
-			}
-			case "data-rawmaterials":{
-				_initCurrency_format("#price");
-				  $(document).ready(function() {
-					   $(document).on("click","#form-request",function() {
-						let id = $(this).attr('data-id');
-						let val = {id:id};
-						let thisUrl = 'modal_controller/Modal_RawMaterial_view';
-						_ajaxloader(thisUrl,"POST",val,"Modal_RawMaterial_view");
-				    });
-				  });
-				break;
-			}
-			case "data-production-stocks":{
-				_initNumberOnly('#stockss');
-				  $(document).ready(function() {
-					   $(document).on("click","#form-request",function() {
-						let val = {id:$(this).attr('data-id')};
-						let thisUrl = 'modal_controller/Modal_Production_Stocks';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Production_Stocks");
-				    });
-				  });
-				break;
-			}
-			case "data-supplier":{
-				 $(document).ready(function() {
-				 	_initItem_option();
-					_initCurrency_format("#price");
-					$(document).on("click","#form-request",function() {
-						let thisUrl = 'modal_controller/Modal_Supplier_View';
-						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_View");
-				    	});
-				    	$(document).on("click","#edit-item-view",function() {
-						let thisUrl = 'modal_controller/Modal_Supplier_Item_Update_View';
-						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_Item_Update_View");
-				    	});
-				    	$(document).on("click",".add-supplier",function() {
-						$('#Create_Supplier')[0].reset();
-				    	});
-				  });
-				break;
-			}
+			
 		}
 	}
 
@@ -3576,6 +3784,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					html +='</table>';
 					$('#tbl_income_monthly').empty().append(html);
 				}
+				_initnotificationupdate();
 		  		break;
 	  		}
 	  	case "Modal_Supplier_View":{
@@ -3590,9 +3799,11 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		$('input[name=address]').val(response.address);
 
 	  		$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response.image+')');
+
 	  		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
 			let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
 			_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response.id);
+			_initnotificationupdate();
 	  		break;
 	  	}
 	  	case "Modal_Supplier_Item_Update_View":{
@@ -3600,8 +3811,30 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		$('select[name=item]').val(response.item_no).change();
 	  		$('select[name=item]').attr('data-id',response.id);
 	  		$('input[name=amount]').val(response.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	  		_initnotificationupdate();
 	  		break;
 	  	}
+	  	case "Update_Salesorder_Stocks_Accounting":{
+	  		if(response != false){
+	  			_initToast(response.type,response.message);
+	  			KTDatatablesDataSourceAjaxClient.init('tbl_salesorder_stocks');
+	  		}else{
+
+	  		}
+	  		_initnotificationupdate();
+	  		break;
+	  	}
+	  	case "Update_Salesorder_Project_Accounting":{
+	  		if(response != false){
+	  			_initToast(response.type,response.message);
+	  			KTDatatablesDataSourceAjaxClient.init('tbl_salesorder_project');
+	  		}else{
+
+	  		}
+	  		_initnotificationupdate();
+	  		break;
+	  	}
+
 	  }
 	}
 	return {
@@ -3611,6 +3844,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			var viewForm = $('#kt_content').attr('data-table');
 			_ViewController(viewForm);
 			_initView();
+			_initnotificationupdate();
 		},
 
 	};

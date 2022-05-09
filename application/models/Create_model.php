@@ -850,40 +850,32 @@ class Create_model extends CI_Model{
 	        $json = array('status'=>$status,'image' => $images,'id'=> $last_id);
   			return $json;
     }
-    function Create_Deposite($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image){
+    function Create_Deposite($user_id,$firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image){
           if($image){$images = $this->move_to_folder1($image,$tmp,$path_image);}else{$images='default.jpg';}
-	         $si_no ="";
 	         $type ="";
 	        $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$order_no)->get()->row();
 	        if($row){
-	        	$si_no = $row->si_no;
 	        	$type = 1;
 	        }else{
 	        	$row1 = $this->db->select('*')->from('tbl_salesorder_project')->where('so_no',$order_no)->get()->row();
 	        	if($row1){
-	        	   $si_no = $row1->si_no;
 	        	   $type = 2;
 	        	}
 	        }
            $data = array('order_no' => $order_no,
-          				'si_no'=> $si_no,
-                        'firstname' => $firstname,
-                        'lastname' => $lastname,
-                        'mobile'=> $mobile,
-                        'email'=> $email,
-                        'date_deposite'=> date('Y-m-d',strtotime($date_deposite)),
-                        'amount'=> $amount,
-                        'bank'=> $bank,
-                        'image'=> $images,
-                        'status' => 'A',
-                        'type'=>$type);
-           if(!$si_no){
-           	  	return array('status'=>$order_no);
-           }else{
+                         'firstname' => $firstname,
+                         'lastname' => $lastname,
+                         'mobile'=> $mobile,
+                         'email'=> $email,
+                         'date_deposite'=> date('Y-m-d',strtotime($date_deposite)),
+                         'amount'=> $amount,
+                         'bank'=> $bank,
+                         'image'=> $images,
+                         'type'=>$type,
+                     	 'date_created'=> date('Y-m-d H:i:s'),
+                     	 'created_by'=>$user_id);
             	$this->db->insert('tbl_customer_deposite',$data);
             	return array('status'=>'success');
-           }
-            
   	}
   	function Create_Customer($user_id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region){
 				$data = array('firstname' => $firstname,
@@ -1012,7 +1004,7 @@ class Create_model extends CI_Model{
     	return $json;
     }
    
-     function Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin){
+     function Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end){
     	$so_no = $this->get_code('tbl_salesorder_stocks','SO-FS'.date('Ymd'));
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
     	if(!$row){
@@ -1039,6 +1031,8 @@ class Create_model extends CI_Model{
     				  'discount'=>$discount,
     				  'shipping_fee'=>$shipping_fee,
     				  'vat'=>$vat,
+    				  'terms_start'=>$terms_start,
+    				  'terms_end'=>$terms_end,
     				  'date_order'=>date('Y-m-d',strtotime($date_created)),
     				  'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
     				  'date_created'=>date('Y-m-d H:i:s'),
@@ -1058,7 +1052,7 @@ class Create_model extends CI_Model{
     		return false;	
     	}
     }
-    function Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin){
+    function Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end){
     	$so_no = $this->get_code('tbl_salesorder_project','SO-FP'.date('Ymd'));
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
     	if(!$row){
@@ -1096,6 +1090,8 @@ class Create_model extends CI_Model{
     				  'discount'=>$discount,
     				  'shipping_fee'=>$shipping_fee,
     				  'vat'=>$vat,
+    				  'terms_start'=>$terms_start,
+    				  'terms_end'=>$terms_end,
     				  'date_order'=>date('Y-m-d',strtotime($date_created)),
     				  'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
     				  'date_created'=>date('Y-m-d H:i:s'),
@@ -1256,7 +1252,75 @@ class Create_model extends CI_Model{
 	    	$this->db->insert('tbl_supplier_item',$data);
 	    	return $id;
 		}
-		
     }
+    function Create_Delivery_Receipt($user_id,$id,$item,$qty,$so_no,$type){
+    	$dr_no = $this->get_code('tbl_sales_delivery_item','DRN'.date('Ymd'));
+		if($type ==1){
+			$row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$so_no)->get()->row();
+			if($row){
+				$this->db->insert('tbl_sales_delivery_header',
+			 	array('so_no'=>$so_no,
+			 		  'dr_no'=>$dr_no,
+			 		  'customer'=>$row->customer,
+			 		  'mobile'=>$row->mobile,
+			 		  'email'=>$row->email,
+			 		  'address'=>$row->address,
+			 		  'type'=>1,
+			 		  'date_order'=>$row->date_order,
+			 		  'date_created'=>date('Y-m-d H:i:s'),
+			 		  'created_by'=>$user_id
+			 		)
+			 );
+				$last_id = $this->db->insert_id();
+				$ids = explode(',', $id);
+		    	$items = explode(',', $item);
+				$qtys = explode(',', $qty);
+				for($i=0; $i<count($ids);$i++){
+				 $row_mat = $this->db->select('*')->from('tbl_salesorder_stocks_item')->where('id',$ids[$i])->get()->row();	
+				 $this->db->insert('tbl_sales_delivery_item',
+				 	array('dr_no'=>$last_id,
+				 		  'c_code'=>$row_mat->c_code,
+				 		  'item'=>$items[$i],
+				 		  'quantity'=>$qtys[$i]));
+		       	}
+		       	return true;
+		       	exit();
+			}else{
+				return false;
+			}
+		}else{
+			$row_p = $this->db->select('*')->from('tbl_salesorder_project')->where('so_no',$so_no)->get()->row();
+			if($row_p){
+				$this->db->insert('tbl_sales_delivery_header',
+				 	array('so_no'=>$so_no,
+				 		  'dr_no'=>$dr_no,
+				 		  'customer'=>$row_p->customer,
+				 		  'mobile'=>$row_p->mobile,
+				 		  'email'=>$row_p->email,
+				 		  'address'=>$row_p->address,
+				 		  'type'=>2,
+				 		  'date_order'=>$row_p->date_order,
+				 		  'date_created'=>date('Y-m-d H:i:s'),
+				 		  'created_by'=>$user_id));
+				$last_id = $this->db->insert_id();
+				$id = explode(',', $id);
+		    	$item = explode(',', $item);
+				$qty = explode(',', $qty);
+				for($i=0; $i<count($id);$i++){
+				    $this->db->insert('tbl_sales_delivery_item',
+				 	array('dr_no'=>$last_id,
+				 		  'item'=>$item[$i],
+				 		  'quantity'=>$qty[$i]));
+		       	}
+		       	return true;
+		       	exit();
+			}else{
+				return false;
+			}	
+			
+		}
+    }
+
+
   }
 ?>

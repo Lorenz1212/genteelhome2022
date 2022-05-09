@@ -1,10 +1,10 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-saleorder-stocks-report">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-saleorder-project-report">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Summary of Sales Order For Stocks</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Summary of Sales Order</h2>
 				</div>
 			</div>
 		</div>
@@ -102,14 +102,14 @@
 										     <select class="form-control" name="year" style="width:10%;"></select>
 										     <div class="input-group-append">
 										     	<button type="button" class="btn btn-success" id="search_collection" data-action="daily">SEARCH</button></div>
-										     <div class="input-group-append">
+										     <!-- <div class="input-group-append">
 										     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">EXPORT</button>
 										     <div class="dropdown-menu">
 											     <div role="separator" class="dropdown-divider" style="background-color:blue;"></div>
 											    	<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-excel-o"></i></span><span class="navi-text">Excel</span></a>
 													<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-pdf-o"></i></span><span class="navi-text"> PDF</span></a>
 												</div>
-											</div>
+											</div> -->
 									     </div>
 								     </div>
 								</li>

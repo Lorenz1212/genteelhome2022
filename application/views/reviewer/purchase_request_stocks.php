@@ -52,7 +52,6 @@
 							   	</div>
 								<!--begin::Body-->
 								<div class="card-body">
-									
 									<!--end::Nav Tabs-->
 									<!--begin::Nav Content-->
 									<div class="tab-content">

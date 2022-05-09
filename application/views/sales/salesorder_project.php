@@ -4,7 +4,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Sales Order</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Sales Order (Project)</h2>
 				</div>
 			</div>
 		</div>
@@ -17,19 +17,28 @@
 			    <div class="card-header card-header-tabs-line">
 			        <div class="card-toolbar">
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
-			                <li class="nav-item">
-			                    <a class="nav-link active" data-toggle="tab" href="#approved">
-			                        <span class="nav-text">REQUEST FOR APPROVAL <span class="label label-rounded label-primary sales_project">0</span></span>
+			                 <li class="nav-item">
+			                    <a class="nav-link active" data-toggle="tab" href="#request">
+			                    	<span class="nav-icon"><i class="flaticon-exclamation-1"></i></span>
+			                        <span class="nav-text">Request <span class="label label-rounded label-warning sales_project_pending">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#shipping">
-			                        <span class="nav-text">FOR SHIPPING <span class="label label-rounded label-warning sales_shipping_project">0</span></span>
+			                    <a class="nav-link" data-toggle="tab" href="#approved">
+			                    	<span class="nav-icon"><i class="la la-check-circle"></i></span>
+			                        <span class="nav-text">Approved <span class="label label-rounded label-primary sales_project_approved">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#delivered">
-			                        <span class="nav-text">DELIVERED <span class="label label-rounded label-success sales_deliver_project">0</span></span>
+			                    <a class="nav-link" data-toggle="tab" href="#completed">
+			                    	<span class="nav-icon"><i class="flaticon-clipboard"></i></span>
+			                        <span class="nav-text">Completed <span class="label label-rounded label-success sales_project_completed">0</span></span>
+			                    </a>
+			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" data-toggle="tab" href="#cancelled">
+			                    	<span class="nav-icon"><i class="la la-times-circle-o"></i></span>
+			                        <span class="nav-text">Cancelled <span class="label label-rounded label-danger sales_project_cancelled">0</span></span>
 			                    </a>
 			                </li>
 			            </ul>
@@ -37,38 +46,61 @@
 			   		</div>
 			    <div class="card-body link" data-link="tbl_salesorder_project_production">
 			        <div class="tab-content">
-			            <div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved" style="margin-top: 13px !important">
+			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
+			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_request">
 								<thead>
 									<tr>
-										<th>SO NO.</th>
+										<th>Trans #.</th>
 										<th>CUSTOMER</th>
-										<th>DATE</th>
+										<th>MOBILE</th>
+										<th>EMAIL</th>
+										<th>DATE ORDER</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
 								</thead>
 							</table>
 			            </div>
-			            <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_shipping" style="margin-top: 13px !important">
+			            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved">
+			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved">
 								<thead>
 									<tr>
-										<th>SO NO.</th>
+										<th>Trans #.</th>
 										<th>CUSTOMER</th>
-										<th>DATE</th>
+										<th>MOBILE</th>
+										<th>EMAIL</th>
+										<th>DATE ORDER</th>
+										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
 								</thead>
 							</table>
 			            </div>
-			            <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_delivered" style="margin-top: 13px !important">
+			            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed">
+			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_completed" style="margin-top: 13px !important">
 								<thead>
 									<tr>
-										<th>SO NO.</th>
+										<th>Trans #.</th>
 										<th>CUSTOMER</th>
-										<th>DATE</th>
+										<th>MOBILE</th>
+										<th>EMAIL</th>
+										<th>DATE ORDER</th>
+										<th>STATUS</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
+							</table>
+			            </div>
+			             <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled">
+			                <table class="table table-bordered table-hover" id="tbl_salesorder_cancelled">
+								<thead>
+									<tr>
+										<th>Trans #.</th>
+										<th>CUSTOMER</th>
+										<th>MOBILE</th>
+										<th>EMAIL</th>
+										<th>DATE ORDER</th>
+										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
 								</thead>

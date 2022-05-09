@@ -87407,3 +87407,134 @@ body[data-header-scroll=on] .topbar .show .btn.btn-icon {
 table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
 th     { background:#eee; }
+
+
+/*EMPTY CART*/
+.cart-empty-page {
+    text-align: center;
+    max-width: 760px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.empty-icon {
+    position: relative;
+    text-align: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    background-color: #eaecef;
+    overflow: hidden;
+}
+.cart-empty-page .empty-icon {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 10rem;
+    height: 10rem;
+    margin-bottom: 1.875rem;
+}
+
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+  /* Force table to not be like tables anymore */
+  .custom-table table,.custom-table thead,.custom-table tbody,.custom-table th,.custom-table td,.custom-table tr { 
+    display: block; 
+  }
+  
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .custom-table thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  /*tr { border: 1px solid #ccc; }*/
+  
+  .custom-table td { 
+    /* Behave  like a "row" */
+    border: none;
+    /*border-top: 1px solid #eee;*/
+    position: relative;
+    /*padding-left: 50%; */
+    display: flex;
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+  }
+  
+  .custom-table td:before { 
+    /* Now like a table header */
+    position: relative;
+    /* Top/left values mimic padding */
+ /*   top: 6px;
+    left: 6px;*/
+    width: 45%; 
+    padding-right: 10px; 
+    white-space: nowrap;
+  }
+  
+  /*
+  Label the data
+  */
+  .custom-table td:nth-of-type(6){
+    border-bottom: 1px solid #eee;
+  }
+  /*td:nth-of-type(1):before { content: "Code"; }*/
+  .custom-table td:nth-of-type(2):before { content: "Regular Price"; }
+  .custom-table td:nth-of-type(3):before { content: "Members Price"; }
+  .custom-table td:nth-of-type(4):before { content: "Qty"; }
+  .custom-table td:nth-of-type(5):before { content: "Total Price"; }
+  .custom-table td:nth-of-type(6):before { content: ""; }
+}
+
+.quantity {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.quantity .quantity-button {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background-color: var(--color-border-light);
+    border-radius: 50%;
+    cursor: pointer;
+}
+.quantity .qty {
+    width: 2.625rem;
+    height: 2.75rem;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    text-align: center;
+    /*pointer-events: none;*/
+}
+.qty:focus{
+    outline: none;
+}

@@ -64,7 +64,7 @@
 										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text mr-2">Sales Order</span>
-													<span class="label label-rounded label-primary sales_count">0</span>
+													<span class="total_salesoder_request"></span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -83,7 +83,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Stock</span>
-																			<span class="label label-rounded label-primary sales_stocks">0</span>
+																			<span class="sales_stocks_pending_request"></span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -92,7 +92,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Project</span>
-																			<span class="label label-rounded label-primary sales_project">0</span>
+																			<span class="sales_project_pending_request"></span>
 																		</a>
 																	</li>
 																</ul>

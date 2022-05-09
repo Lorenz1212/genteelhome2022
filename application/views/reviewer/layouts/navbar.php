@@ -119,34 +119,6 @@
 																</ul>
 															</div>
 														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;"class="menu-link">
-																<span class="menu-text">Sales Order</span>
-																<i class="menu-arrow"></i>
-															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/superuser/salesorder-stocks-request"?>"  class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text mr-2">For Stocks</span>
-																			<span class="label label-rounded label-primary sales_stocks">0</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/superuser/salesorder-project-request"?>"  class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text mr-2">For Project</span>
-																			<span class="label label-rounded label-primary sales_project">0</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
-														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
 															<a  href="<?php echo base_url()."gh/superuser/customer-concern";?>" class="menu-link">
 																<span class="menu-text mr-2">Customer Concern</span>
@@ -183,6 +155,12 @@
 													</ul>
 												</div>
 											</li> -->
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+												<a href="<?php echo base_url()."gh/superuser/delivery-receipt-list";?>" class="menu-link">
+														<span class="menu-text">Delivery Receipt</span>
+														<span class="menu-desc"></span>
+												</a>
+											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 														<span class="menu-text">Job Order Master List</span>

@@ -84,42 +84,7 @@ class Update_model extends CI_Model
                     'date_created'=>date('Y-m-d H:i:s'));
        $this->db->insert('tbl_logs',$data);
     }
-     function Update_SalesOrder($so_no,$project_no,$c_code,$price,$qty,$b_address,$b_city,$b_province,$b_zipcode,$s_address,$s_city,$s_province,$s_zipcode){
-          for($i=0; $i<count($c_code);$i++){
-                $prices = floatval(preg_replace('/[^\d.]/', '', $price[$i]));
-                 $data = array('so_no'         => $so_no,
-                               'project_no'    => $project_no[$i],
-                               'c_code'        => $c_code[$i],
-                               'qty'           => $qty[$i],
-                               'balance'       => $qty[$i],
-                               'price'         => $prices,
-                               'total_amount'  => $prices,
-                               'balance_price' => $prices);
-                $this->db->insert('tbl_salesorder_item',$data);
-          }
-        $query1 = $this->db->select('sum(price) as price')->from('tbl_salesorder_item')->where('so_no',$so_no)->get();
-        $row1 = $query1->row();
-        $subtotal = $row1->price;
-        $percent = str_replace('%', '', $row->discount);
-        $dis = floatval($row->discount / 100);
-        $total_dis = $subtotal*$dis;
-        $total = $subtotal - $total_dis;
-        $update = array('b_address'     => $b_address,
-                        'b_city'          => $b_city,
-                        'b_province'      => $b_province,
-                        'b_zipcode'       => $b_zipcode,
-                        's_address'       => $s_address,
-                        's_city'          => $s_city,
-                        's_province'      => $s_province,
-                        's_zipcode'       => $s_zipcode,
-                        'subtotal'        => $subtotal,
-                        'discount'        => $dis,
-                        'total'           => $total,
-                        'type'            => 'On Stocks',
-                        'status'          => 'REQUEST FOR APPROVAL');
-               $this->db->where('so_no',$so_no);
-               $this->db->update('tbl_salesorder',$update);
-     }
+
      function Update_Rawmats_Stocks($id,$stocks,$status,$stocks_alert){
         $data = array('stocks' => $stocks,
                       'stocks_alert'=>$stocks_alert,
@@ -1676,6 +1641,138 @@ class Update_model extends CI_Model
         }
     }
 
+    function Update_Approval_SalesOrder_Accounting($user_id,$id,$status,$table){
+        if($status == 'approve'){
+            $status_update = 'A';
+            $delivery=1;
+        }else{
+            $status_update ='C';
+            $delivery = 0;
+        }
+        $result = $this->db->where('id',$this->encryption->decrypt($id))->update($table,array('status'=>$status_update,'delivery'=>$delivery,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        if($result){
+            if($status == 'approve'){
+                 return array('type'=>'success','message'=>'SOA form approved');
+            }else{
+                 return array('type'=>'error','message'=>'SOA form canclled');
+            }
+        }else{
+            return false;
+        }
+    }
+    function Update_Sales_Delivery_Receipt_Superuser($user_id,$id,$status,$remarks){
+        $id = $this->encryption->decrypt($id);
+        $row = $this->db->select('*')->from('tbl_sales_delivery_header')->where('id',$id)->get()->row();
+        if($row){
+            $result = $this->db->where('id',$id)->update('tbl_sales_delivery_header',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+            if($result){
+                if($status == 'TO-SHIP'){
+                     return array('type'=>'success','message'=>'Move to ship','status'=>$status);
+                }else if($status == 'CANCELLED'){
+                     return array('type'=>'error','message'=>'D.R form canclled','status'=>$status);
+                }else if($status == 'TO-RECEIVED'){
+                     return array('type'=>'success','message'=>'Move to received','status'=>$status);
+                }else if($status == 'COMPLETED'){
+                    if($row->type == 1){
+                        $row_p = $this->db->select('*,sum(quantity) as qty')->from('tbl_sales_delivery_item')->where('dr_no',$id)->get()->row();
+                        if($row_p){
+                            $row_s = $this->db->select('*')->from('tbl_project_color')->where('id',$row_p->c_code)->get()->row();
+                            if($row_s){
+                                $stocks = $row_s->stocks+$row_p->qty;
+                                $this->db->where('id',$row_s->id)->update('tbl_project_color',array('stocks'=>$stocks));
+                            }
+                        }
 
+                    }
+                    return array('type'=>'success','message'=>'D.R is successfully delivered','status'=>$status);
+                }else{
+                    return false;
+                }
+            }else{
+                    return false;
+            }
+        }else{
+           return false; 
+        }
+    }
+
+     function Update_Salesorder_Stocks_Accounting($user_id,$id,$status,$remarks){
+        $id = $this->encryption->decrypt($id);
+        $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('id',$id)->get()->row();
+        if($row){
+            $result = $this->db->where('id',$id)->update('tbl_salesorder_stocks',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+            if($result){
+                if($status == 'APPROVED'){
+                     return array('type'=>'success','message'=>'Move to approved','status'=>$status);
+                }else if($status == 'CANCELLED'){
+                     return array('type'=>'error','message'=>'S.O form canclled','status'=>$status);
+                }else if($status == 'COMPLETED'){
+                     $dis = 0;
+
+                     $subtotal = $this->db->select('sum(amount) as amount')->from('tbl_salesorder_stocks_item')->where('so_no',$row->id)->get()->row();
+                    if($row->discount !=0){
+                        $dis = floatval($row->discount/100);
+                    }
+                    $discount = $subtotal->amount*$dis;
+                    $subtotals = $subtotal->amount-$discount;
+                    if($row->vat==1){
+                        $vat = $subtotal->amount*0.12;
+                        $total_amount = floatval($subtotals - $row->downpayment + $row->shipping_fee + $vat);
+                    }else{
+                        $vat = 0;
+                        $total_amount = floatval($subtotals - $row->downpayment + $row->shipping_fee); 
+                    }
+
+                    $this->db->insert('tbl_salesorder_completed',array('so_no'=>$row->so_no,'discount'=>$row->discount,'downpayment'=>$row->downpayment,'shipping_fee'=>$row->shipping_fee,'vat'=>$vat,'subtotal'=>$subtotal->amount,'total_amount'=>$total_amount,'date_order'=>$row->date_order,'date_downpayment'=>$row->date_downpayment));
+                     return array('type'=>'success','message'=>'Move to completed','status'=>$status);
+                }else{
+                    return false;
+                }
+            }else{
+                    return false;
+            }
+        }else{
+           return false; 
+        }
+    }
+     function Update_Salesorder_Project_Accounting($user_id,$id,$status,$remarks){
+        $id = $this->encryption->decrypt($id);
+        $row = $this->db->select('*')->from('tbl_salesorder_project')->where('id',$id)->get()->row();
+        if($row){
+            $result = $this->db->where('id',$id)->update('tbl_salesorder_project',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+            if($result){
+                if($status == 'APPROVED'){
+                     return array('type'=>'success','message'=>'Move to approved','status'=>$status);
+                }else if($status == 'CANCELLED'){
+                     return array('type'=>'error','message'=>'S.O form canclled','status'=>$status);
+                }else if($status == 'COMPLETED'){
+                    $lineup = json_decode($row->item,true);
+                    $data_array['item'] = $lineup;
+                    $subtotal = array_sum(array_column($lineup,'amount'));
+                    if($row->discount !=0){
+                        $dis = floatval($row->discount/100);
+                    }
+                    $discount = $subtotal*$dis;
+                    $subtotal_grand = $subtotal-$discount;
+                    if($row->vat==1){
+                        $vat = $subtotal*0.12;
+                        $total_amount = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee + $vat);
+                    }else{
+                        $vat = 0;
+                        $total_amount = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
+                    }
+
+                     $this->db->insert('tbl_salesorder_completed',array('so_no'=>$row->so_no,'discount'=>$discount,'downpayment'=>$row->downpayment,'shipping_fee'=>$row->shipping_fee,'vat'=>$vat,'subtotal'=>$subtotal,'total_amount'=>$total_amount,'date_order'=>$row->date_order,'date_downpayment'=>$row->date_downpayment));
+                     return array('type'=>'success','message'=>'Move to completed','status'=>$status);
+                }else{
+                    return false;
+                }
+            }else{
+                    return false;
+            }
+        }else{
+           return false; 
+        }
+    }
 }
 ?>

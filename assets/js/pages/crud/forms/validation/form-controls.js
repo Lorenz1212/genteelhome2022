@@ -66,8 +66,6 @@ var KTFormControls = function () {
 		 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
 		 }else if(urlpost == 'admin'){
 		 	_ajaxloaderOption('Dashboard_controller/admin_dashboard','POST',false,'admin');
-		 }else if(urlpost == 'accounting'){
-
 		 }
 	}
 	var _initCurrency_format = function(action){
@@ -121,15 +119,24 @@ var KTFormControls = function () {
 				$('.request_jo_stocks_production').text(response.request_jo_stocks);
 				$('.request_jo_project_production').text(response.request_jo_project);
 				$('.request_jo_production').text(response.request_jo_production);
-				$('.sales_count').text(response.request_salesorder);
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
 
-				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+				let total_salesoder_request = $('.total_salesoder_request');
+				(response.total_salesoder_request != 0)?total_salesoder_request.addClass('label label-rounded label-warning').text(response.total_salesoder_request):total_salesoder_request.removeClass("label label-rounded label-warning").text("");
 
-				$('.sales_shipping_project').text(response.sales_shipping_project);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
+				let sales_stocks_pending = $('.sales_stocks_pending_request');
+				(response.sales_stocks_pending != 0)?sales_stocks_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_stocks_pending.removeClass("label label-rounded label-warning").text("");
+
+				let sales_project_pending = $('.sales_project_pending_request');
+				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+
+				$('.sales_stocks_pending').text(response.sales_stocks_pending);
+				$('.sales_project_pending').text(response.sales_project_pending);
+				$('.sales_stocks_approved').text(response.sales_stocks_approved);
+				$('.sales_project_approved').text(response.sales_project_approved);
+				$('.sales_stocks_completed').text(response.sales_stocks_completed);
+				$('.sales_project_completed').text(response.sales_project_completed);
+				$('.sales_stocks_cancelled').text(response.sales_stocks_cancelled);
+				$('.sales_project_cancelled').text(response.sales_project_cancelled);
 
 				$('.request_material_pending').text(response.request_material_pending);
 				$('.request_material_received').text(response.request_material_received);
@@ -137,15 +144,24 @@ var KTFormControls = function () {
 				break;
 			}
 			case "sales":{
-				$('.sales_count').text(response.request_salesorder);
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
+				let total_salesoder_request = $('.total_salesoder_request');
+				(response.total_salesoder_request != 0)?total_salesoder_request.addClass('label label-rounded label-warning').text(response.total_salesoder_request):total_salesoder_request.removeClass("label label-rounded label-warning").text("");
 
-				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+				let sales_stocks_pending = $('.sales_stocks_pending_request');
+				(response.sales_stocks_pending != 0)?sales_stocks_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_stocks_pending.removeClass("label label-rounded label-warning").text("");
 
-				$('.sales_shipping_project').text(response.sales_shipping_project);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
+				let sales_project_pending = $('.sales_project_pending_request');
+				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+
+				$('.sales_stocks_pending').text(response.sales_stocks_pending);
+				$('.sales_project_pending').text(response.sales_project_pending);
+				$('.sales_stocks_approved').text(response.sales_stocks_approved);
+				$('.sales_project_approved').text(response.sales_project_approved);
+				$('.sales_stocks_completed').text(response.sales_stocks_completed);
+				$('.sales_project_completed').text(response.sales_project_completed);
+				$('.sales_stocks_cancelled').text(response.sales_stocks_cancelled);
+				$('.sales_project_cancelled').text(response.sales_project_cancelled);
+
 				$('.customer_count').text(response.customer_total_count);
 				$('.customer_request_count').text(response.customer_service_request);
 				$('.customer_approved_count').text(response.customer_service_approved);
@@ -179,12 +195,6 @@ var KTFormControls = function () {
 				$('.request_material_received').text(response.request_material_received);
 				$('.request_material_cancelled').text(response.request_material_cancelled);
 
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
-
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
-
 				$('.material_request_complete_stocks').text(response.material_request_complete_stocks);
 				$('.material_request_complete_project').text(response.material_request_complete_project);
 
@@ -200,6 +210,12 @@ var KTFormControls = function () {
 
 				$('.purchase_stocks_complete').text(response.purchase_stocks_complete);
 				$('.purchase_project_complete').text(response.purchase_project_complete);
+
+				$('.sales_delivery_pending').text(response.sales_delivery_pending);
+				$('.sales_delivery_ship').text(response.sales_delivery_ship);
+				$('.sales_delivery_received').text(response.sales_delivery_received);
+				$('.sales_delivery_completed').text(response.sales_delivery_completed);
+				$('.sales_delivery_cancelled').text(response.sales_delivery_cancelled);
 				break;
 			}
 			case "admin":{
@@ -243,7 +259,7 @@ var KTFormControls = function () {
 			"fnDrawCallback": function() {
                 $('[data-toggle="tooltip"]').tooltip();
 
-           },
+          	 },
 			language: { 
 			 	infoEmpty: "No records available", 
 			 },
@@ -1143,48 +1159,67 @@ var KTFormControls = function () {
 								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
-					    );
+					 );
+				      var form_terms = document.getElementById('terms_condition');
+				      var validation_terms = FormValidation.formValidation(
+							form_terms,{
+								fields: {
+									terms_start: {validators: {notEmpty: {message: 'Field is required'}}},
+									terms_end: {validators: {notEmpty: {message: 'Field is required'}}},
+								},
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					 );
 		 			$(document).on('click','.btn-create-submit',function(e){
 		 				e.preventDefault();
 		 				validation.validate().then(function(status) {
 					     if (status == 'Valid') {
-					     	var rowCount = $('#kt_product_breakdown_table tbody tr').length;
-					     	if(!rowCount){
-	 							Swal.fire("Warning!", "Product break down form is empty!", "warning")
-					     	}else{
-					     		 Swal.fire({
-								        title: "Are you sure?",
-								        text: "You won't be able to revert this",
-								        icon: "warning",
-								        confirmButtonText: "Submit!",
-								        showCancelButton: true
-								    }).then(function(result) {
-								        if (result.value) {
-                                                  let formData = new FormData();
-                                                      formData.append('project_no',$('select[name="project_no"]').val());
-                                                      formData.append('date_created',$('input[name="date_created"]').val());
-                                                      formData.append('customer',$('input[name="fullname"]').val());
-                                                      formData.append('email',$('input[name="email"]').val());
-                                                      formData.append('mobile',$('input[name="mobile"]').val());
-                                                      formData.append('tin',$('input[name="tin"]').val());
-                                                      formData.append('address',$('textarea[name="address"]').val());
-                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
-                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
-                                                      formData.append('discount',$('input[name="discount"]').val());
-                                                      formData.append('vat',$('select[name="vat"]').val());
-                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
-                                                       for(let i =0;i<rowCount;i++){
-     									  	    formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.textContent));
-     									  	    formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
-     									  	    formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
-     									  	    formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
-									         }
-                                                      thisURL = baseURL + 'create_controller/Create_Salesorder_Project';
-									  _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Project",false);
-							          }
-							   	 });
-					     	}
-					    }
+					     	validation_terms.validate().then(function(statuss) {
+					     		 if (statuss == 'Valid') {
+					     		 	var rowCount = $('#kt_product_breakdown_table tbody tr').length;
+					     		 	if(!rowCount){
+			 							Swal.fire("Warning!", "Product break down form is empty!", "warning");
+							     	}else{
+							     		 Swal.fire({
+										        title: "Are you sure?",
+										        text: "You won't be able to revert this",
+										        icon: "warning",
+										        confirmButtonText: "Submit!",
+										        showCancelButton: true
+										    }).then(function(result) {
+										        if (result.value) {
+		                                                  let formData = new FormData();
+		                                                      formData.append('project_no',$('select[name="project_no"]').val());
+		                                                      formData.append('date_created',$('input[name="date_created"]').val());
+		                                                      formData.append('customer',$('input[name="fullname"]').val());
+		                                                      formData.append('email',$('input[name="email"]').val());
+		                                                      formData.append('mobile',$('input[name="mobile"]').val());
+		                                                      formData.append('tin',$('input[name="tin"]').val());
+		                                                      formData.append('address',$('textarea[name="address"]').val());
+		                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
+		                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
+		                                                      formData.append('discount',$('input[name="discount"]').val());
+		                                                      formData.append('vat',$('select[name="vat"]').val());
+		                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+		                                                      formData.append('terms_start',$('input[name="terms_start"]').val());
+		                                                      formData.append('terms_end',$('input[name="terms_end"]').val());
+		                                                       for(let i =0;i<rowCount;i++){
+		     									  	    formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.textContent));
+		     									  	    formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+		     									  	    formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
+		     									  	    formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+											         }
+		                                                      thisURL = baseURL + 'create_controller/Create_Salesorder_Project';
+											  _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Project",false);
+									          }
+									   	 });
+							     	}
+					     		 }
+					     	});
+					     }
 				   	 });
 		 		});
 	 			break;
@@ -1206,47 +1241,66 @@ var KTFormControls = function () {
                                    }
                                  }
                              );
+                          var form_terms = document.getElementById('terms_condition');
+				      var validation_terms = FormValidation.formValidation(
+							form_terms,{
+								fields: {
+									terms_start: {validators: {notEmpty: {message: 'Field is required'}}},
+									terms_end: {validators: {notEmpty: {message: 'Field is required'}}},
+								},
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					 );
                          $(document).on('click','.btn-create-submit',function(e){
                               e.preventDefault();
                               validation.validate().then(function(status) {
-                              if (status == 'Valid') {
-                                   var rowCount = $('#kt_product_breakdown_table tbody tr').length;
-                                   if(!rowCount){
-                                        Swal.fire("Warning!", "Product break down form is empty!", "warning")
-                                   }else{
-                                         Swal.fire({
-                                                title: "Are you sure?",
-                                                text: "You won't be able to revert this",
-                                                icon: "warning",
-                                                confirmButtonText: "Submit!",
-                                                showCancelButton: true
-                                            }).then(function(result) {
-                                                if (result.value) {
-                                                  let formData = new FormData();
-                                                      formData.append('date_created',$('input[name="date_created"]').val());
-                                                      formData.append('customer',$('input[name="fullname"]').val());
-                                                      formData.append('email',$('input[name="email"]').val());
-                                                      formData.append('mobile',$('input[name="mobile"]').val());
-                                                      formData.append('address',$('textarea[name="address"]').val());
-                                                      formData.append('tin',$('input[name="tin"]').val());
-                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
-                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
-                                                      formData.append('discount',$('input[name="discount"]').val());
-                                                      formData.append('vat',$('select[name="vat"]').val());
-                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
-                                                       for(let i =0;i<rowCount;i++){
-                                                           formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.getAttribute('data-id')));
-                                                           formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
-                                                           formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
-                                                           formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
-                                                      }
-                                                  thisURL = baseURL + 'create_controller/Create_Salesorder_Stocks';
-                                               _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Stocks",false);
-                                             }
-                                         });
-                                   }
-                             }
-                          });
+	                              if (status == 'Valid') {
+	                              	validation_terms.validate().then(function(statuss) {
+						     		 if (statuss == 'Valid') {
+						     		 	var rowCount = $('#kt_product_breakdown_table tbody tr').length;
+			                                   if(!rowCount){
+			                                        Swal.fire("Warning!", "Product break down form is empty!", "warning")
+			                                   }else{
+			                                         Swal.fire({
+			                                                title: "Are you sure?",
+			                                                text: "You won't be able to revert this",
+			                                                icon: "warning",
+			                                                confirmButtonText: "Submit!",
+			                                                showCancelButton: true
+			                                            }).then(function(result) {
+			                                                if (result.value) {
+			                                                  let formData = new FormData();
+			                                                      formData.append('date_created',$('input[name="date_created"]').val());
+			                                                      formData.append('customer',$('input[name="fullname"]').val());
+			                                                      formData.append('email',$('input[name="email"]').val());
+			                                                      formData.append('mobile',$('input[name="mobile"]').val());
+			                                                      formData.append('address',$('textarea[name="address"]').val());
+			                                                      formData.append('tin',$('input[name="tin"]').val());
+			                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
+			                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
+			                                                      formData.append('discount',$('input[name="discount"]').val());
+			                                                      formData.append('vat',$('select[name="vat"]').val());
+			                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+			                                                      formData.append('terms_start',$('input[name="terms_start"]').val());
+					                                            formData.append('terms_end',$('input[name="terms_end"]').val());
+			                                                       for(let i =0;i<rowCount;i++){
+			                                                           formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.getAttribute('data-id')));
+			                                                           formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+			                                                           formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
+			                                                           formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+			                                                      }
+			                                                  thisURL = baseURL + 'create_controller/Create_Salesorder_Stocks';
+			                                               _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Stocks",false);
+			                                             }
+			                                         });
+			                                   }
+						     		 }
+						     	});
+	                              }
+	                         });
                     });
                     break;
                }
@@ -3517,6 +3571,28 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
+	 		case "Create_Delivery_Receipt":{
+	 			$('.Create_Delivery_Receipt').on('click',function(e){
+	 				e.preventDefault();
+	 				var rowCount = $('#tbl_delivery_breakdown tbody tr').length;
+	 				if(!rowCount){
+	 					_initSwalWarning();
+	 				}else{
+		 				let id = Array.from(document.getElementsByClassName('td-id')).map(item => item.getAttribute('data-id'));
+						let item = Array.from(document.getElementsByClassName('td-id')).map(item => item.textContent);
+						let qty = Array.from(document.getElementsByClassName('td-qty')).map(item => item.textContent);
+					   	let formData = new FormData();
+					   	formData.append('so_no',$('.text-dr').text());
+					   	formData.append('type',$('.text-dr').attr('data-type'));
+					   	formData.append('id', id);
+					   	formData.append('item',item);
+					   	formData.append('qty',qty);
+					   	thisURL = baseURL + 'create_controller/Create_Delivery_Receipt';
+	 					_ajaxForm(thisURL,"POST",formData,"Create_Delivery_Receipt",false);
+	 				}
+	 			});
+	 			break;
+	 		}
 	 	}
 	 }
 
@@ -4416,7 +4492,7 @@ var KTFormControls = function () {
 	 		}
 	 		
 	 		case "Create_Request_Material":
-            case "Create_Salesorder_Stocks":
+            	case "Create_Salesorder_Stocks":
 	 		case "Create_Salesorder_Project":{
                 if(response == true){
                     Swal.fire("Create Successfully!", "This form is Completed!", "success").then(function(){
@@ -4980,6 +5056,21 @@ var KTFormControls = function () {
 	 			}
 	 			_initnotificationupdate();
 	 		   break;
+	 		}
+	 		case "Create_Delivery_Receipt":{
+	 			if(response != false){
+	 				_initToast('success','Create Successfully');
+		 			$('#tbl_delivery_breakdown > tbody').empty();
+		 			$('#create-delivery-receipt-modal').modal('hide');
+
+	 				let TableURL1 = baseURL + 'datatable_controller/Sales_Delivery_Request_DataTable_Superuser';
+					let TableData1 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action'}]; 
+					_DataTableLoader('tbl_delivery_request',TableURL1,TableData1,false);
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+	 			_initnotificationupdate();
+	 			break;
 	 		}
 
 	 	}

@@ -68,6 +68,10 @@
   }
 }  
 @media print {
+	.image1-size-r{
+    width: 300px;
+    height: 145px;
+  }
     @page {
         margin-left: .5em;
         margin-right: .6em;

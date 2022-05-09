@@ -157,6 +157,8 @@
 														<tbody>
 														</tbody>
 													   </table>
+													   <div class="cart-empty-page m-0">
+														</div>
 													</div>
 												</div>
 											</div>
@@ -167,7 +169,30 @@
 											</div>
 											<div class="row mt-2">
 												<div class="col-xl-5 col-md-5">
-												</div>
+													<div class="border-bottom border-color-1 border-dotted-bottom">
+                                                    <div class="p-3" id="pay-with-cod">
+											               <h4>Payment date terms</h4>
+                                                    </div>
+                                                    <div class="border-top border-color-1 border-dotted-top bg-dark-lighter">
+                                                        <div class="p-4 bg-gray-100">
+                                                        	<form id="terms_condition">
+	                                                            <div class="form-group row">
+																	<label class="col-4 col-form-label">Date From</label>
+																	<div class="col-8">
+																		<input class="form-control form-control-sm" type="date" name="terms_start">
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-4 col-form-label">Date To</label>
+																	<div class="col-8">
+																		<input class="form-control form-control-sm" type="date" name="terms_end">
+																	</div>
+																</div>
+															</form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+											</div>
 												<div class="col-xl-7 col-xxl-7 col-md-7">
 																<div class="row mb-2">
 																	<div class="col-xl-6 col-xxl-6 col-md-6">

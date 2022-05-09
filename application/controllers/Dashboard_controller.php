@@ -32,7 +32,12 @@ class Dashboard_controller extends CI_Controller
     public function superuser_dashboard(){  
         $data = $this->dashboard_model->superuser_dashboard();
         echo json_encode($data);
-    } 
+    }
+    public function accounting_dashboard(){ 
+        $id = $this->session->userdata('id'); 
+        $data = $this->dashboard_model->accounting_dashboard($id);
+        echo json_encode($data);
+    }  
     
 }
 ?>

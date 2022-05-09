@@ -1,4 +1,4 @@
-	<body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
+`	<body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
 		<!--begin::Main-->
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile">
@@ -55,7 +55,8 @@
 											</li>
 									<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Request</span>
+													<span class="menu-text mr-2">Request</span>
+													<span class="total_request"></span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -63,7 +64,8 @@
 													<ul class="menu-subnav">
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Joborder</span>
+																<span class="menu-text mr-2">Joborder</span>
+																<span class="total_purchase"></span>
 																<i class="menu-arrow"></i>
 															</a>
 															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
@@ -73,7 +75,8 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">For Stocks</span>
+																			<span class="menu-text mr-2">For Stocks</span>
+																			<span class="total_purchase_stocks"></span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -81,7 +84,8 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">For Project</span>
+																			<span class="menu-text mr-2">For Project</span>
+																			<span class="total_purchase_project"></span>
 																		</a>
 																	</li>
 																</ul>
@@ -92,7 +96,8 @@
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Sales Order</span>
+													<span class="menu-text mr-2">Sales Order</span>
+													<span class="total_salesoder_request"></span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -111,6 +116,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Stock</span>
+																			<span class="sales_stocks_pending_request"></span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -119,6 +125,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Project</span>
+																			<span class="sales_project_pending_request"></span>
 																		</a>
 																	</li>
 																</ul>
@@ -204,19 +211,11 @@
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																 <a href="<?php echo base_url()."gh/accounting/report-sales-order-stocks";?>" class="menu-link"><span class="menu-text">Sales Order For Stocks</span>
+																 <a href="<?php echo base_url()."gh/accounting/report-sales-order";?>" class="menu-link"><span class="menu-text">Sales Order</span>
 																 </a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																 <a href="<?php echo base_url()."gh/accounting/report-sales-order-project";?>" class="menu-link"><span class="menu-text">Sales Order For Project</span>
-																 </a>
-															</li>
-															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/report-collection-stocks";?>" class="menu-link "><span class="menu-text">Sales Collection For Stocks</span>
-																</a>
-															</li>
-															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/report-collection-project";?>" class="menu-link "><span class="menu-text">Sales Collection For Project</span>
+																<a href="<?php echo base_url()."gh/accounting/report-collection-stocks";?>" class="menu-link "><span class="menu-text">Sales Collection </span>
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
@@ -231,22 +230,10 @@
 																<a href="<?php echo base_url()."gh/accounting/cash-position";?>" class="menu-link "><span class="menu-text">Cash Position</span>
 																</a>
 															</li>
-															<!-- <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/income-statement";?>" class="menu-link "><span class="menu-text">Summary of Income Statement</span>
-																</a>
-															</li> -->
 														</li>
 													</ul>
 												</div>
 											</li>
-											<?php if($this->session->userdata('voucher') == 2) {
-												echo '<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-														<a href="'.base_url().'"gh/accounting/voucher" class="menu-link">
-															<span class="menu-text">Voucher</span>
-														</a>
-													</li>';}
-											?>
-											
 										</ul>
 										<!--end::Header Nav-->
 									</div>

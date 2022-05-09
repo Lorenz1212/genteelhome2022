@@ -54,28 +54,36 @@ class Dashboard_model extends CI_Model
         return $data;   
   }
   function production_dashboard($id){        
-    $request_jo_stocks = $this->db->select('count(id) as id')->from('tbl_project')->where('assigned',$id)->where('type',1)->where('status',2)->get()->row();
-    $request_jo_project = $this->db->select('count(id) as id')->from('tbl_project')->where('assigned',$id)->where('type',2)->where('status',2)->get()->row();
+    $request_jo_stocks = $this->db->select('*')->from('tbl_project')->where('assigned',$id)->where('type',1)->where('status',2)->get()->num_rows();
+    $request_jo_project = $this->db->select('*')->from('tbl_project')->where('assigned',$id)->where('type',2)->where('status',2)->get()->num_rows();
 
-    $request_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','P')->get()->row();
-    $request_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','P')->get()->row();
+    $sales_stocks_pending = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','PENDING')->get()->num_rows();
+    $sales_project_pending = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','PENDING')->get()->num_rows();
 
-    $sales_shipping_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',1)->get()->row();
-    $sales_deliver_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',2)->get()->row();
+    $sales_stocks_approved = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','APPROVED')->get()->num_rows();
+    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','AAPROVED')->get()->num_rows();
 
-    $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',1)->get()->row();
-    $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',2)->get()->row();
+    $sales_stocks_completed = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','COMPLETED')->get()->num_rows();
+    $sales_project_completed = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','COMPLETED')->get()->num_rows();
 
-    $data = array('request_jo_stocks'=>$request_jo_stocks->id,
-                  'request_jo_project'=>$request_jo_project->id,
-                  'request_jo_production'=>intval($request_jo_stocks->id+$request_jo_project->id),
-                  'request_sales_stocks'=>$request_sales_stocks->id,
-                  'request_sales_project'=>$request_sales_project->id,
-                  'request_salesorder'=>intval($request_sales_project->id+$request_sales_stocks->id),
-                  'sales_shipping_stocks'=>$sales_shipping_stocks->id,
-                  'sales_deliver_stocks'=>$sales_deliver_stocks->id,
-                  'sales_shipping_project'=>$sales_shipping_project->id,
-                  'sales_deliver_project'=>$sales_deliver_project->id,
+    $sales_stocks_cancelled = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','CANCELLED')->get()->num_rows();
+    $sales_project_cancelled = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','CANCELLED')->get()->num_rows();
+
+    $total_request_purchase  = intval($request_jo_stocks+$request_jo_project);
+    $total_salesoder_request = intval($sales_stocks_pending+$sales_project_pending);
+
+    $data = array('request_jo_stocks'=>$request_jo_stocks,
+                  'request_jo_project'=>$request_jo_project,
+                  'request_jo_production'=>$total_request_purchase,
+                  'sales_stocks_pending'=>$sales_stocks_pending,
+                  'sales_project_pending'=>$sales_project_pending,
+                  'sales_stocks_approved'=>$sales_stocks_approved,
+                  'sales_project_approved'=>$sales_project_approved,
+                  'sales_stocks_completed'=>$sales_stocks_completed,
+                  'sales_project_completed'=>$sales_project_completed,
+                  'sales_stocks_cancelled'=>$sales_stocks_cancelled,
+                  'sales_project_cancelled'=>$sales_project_cancelled,
+                  'total_salesoder_request'=>$total_salesoder_request
               );
     return $data; 
   } 
@@ -131,8 +139,6 @@ class Dashboard_model extends CI_Model
    function superuser_dashboard(){       
     $customer_service_request = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','P')->get()->row();
     $customer_service_approved = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','A')->get()->row();
-    $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',1)->get()->row();
-    $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',2)->get()->row();
 
     $return_item_good = $this->db->select('count(id) as id')->from('tbl_return_item_warehouse')->where('status',1)->get()->row();
     $return_item_rejected = $this->db->select('count(id) as id')->from('tbl_return_item_warehouse')->where('status',2)->get()->row();
@@ -145,15 +151,16 @@ class Dashboard_model extends CI_Model
     $request_material_received = $this->db->select('count(id) as id')->from('tbl_other_material_m_received')->get()->row();
     $request_material_cancelled = $this->db->select('count(id) as id')->from('tbl_other_material_m_request')->where('status',3)->get()->row();
 
-    $sales_shipping_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('delivery',1)->get()->row();
-    $sales_deliver_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('delivery',2)->get()->row();
-
-    $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',1)->get()->row();
-    $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('delivery',2)->get()->row();
-
     $material_request_complete_stocks = $this->db->select('*')->from('tbl_material_release')->where('type',1)->get()->num_rows();
 
     $material_request_complete_project = $this->db->select('*')->from('tbl_material_release')->where('type',2)->get()->num_rows();
+
+    $sales_delivery_pending = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','PENDING')->get()->num_rows();
+    $sales_delivery_ship = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','TO-SHIP')->get()->num_rows();
+    $sales_delivery_received = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','TO-RECEIVED')->get()->num_rows();
+    $sales_delivery_completed = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','COMPLETED')->get()->num_rows();
+    $sales_delivery_cancelled = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','CANCELLED')->get()->num_rows();
+
 
     $stocks = $this->db->select('count(p.production_no) as id')->from('tbl_material_project as m')
     ->join('tbl_project as p','m.production_no=p.production_no','LEFT')
@@ -249,7 +256,7 @@ class Dashboard_model extends CI_Model
               }
             }      
          }
-      $total_request = intval($customer_service_request->id+$sales_shipping_stocks->id+$sales_shipping_project->id+$request_material_pending->id+$material_request_pending_stocks+$material_request_pending_project+$purchase_stocks_pending+$purchase_stocks_approved+$purchase_project_pending+$purchase_project_approved);
+      $total_request = intval($customer_service_request->id+$request_material_pending->id+$material_request_pending_stocks+$material_request_pending_project+$purchase_stocks_pending+$purchase_stocks_approved+$purchase_project_pending+$purchase_project_approved);
       $purchase_stocks = intval($purchase_stocks_pending+$purchase_stocks_approved);
       $purchase_project = intval($purchase_project_pending+$purchase_project_approved);
       $json_data = array( 'rawmats'      => $rawmats,
@@ -265,10 +272,11 @@ class Dashboard_model extends CI_Model
                           'request_material_pending'=>$request_material_pending->id,
                           'request_material_received'=>$request_material_received->id,
                           'request_material_cancelled'=>$request_material_cancelled->id,
-                          'request_sales_stocks'=>$sales_shipping_stocks->id,
-                          'request_sales_project'=>$sales_shipping_project->id,
-                          'sales_deliver_stocks'=>$sales_deliver_stocks->id,
-                          'sales_deliver_project'=>$sales_deliver_project->id,
+                          'sales_delivery_pending'=>$sales_delivery_pending,
+                          'sales_delivery_ship'=>$sales_delivery_ship,
+                          'sales_delivery_received'=>$sales_delivery_received,
+                          'sales_delivery_completed'=>$sales_delivery_completed,
+                          'sales_delivery_cancelled'=>$sales_delivery_cancelled,
                           'material_request_complete_stocks'=>$material_request_complete_stocks,
                           'material_request_complete_project'=>$material_request_complete_project,
                           'material_request_pending_stocks'=>$material_request_pending_stocks,
@@ -288,14 +296,17 @@ class Dashboard_model extends CI_Model
   
    
   function sales_dashboard($id){
-    $request_sales_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','P')->get()->row();
-    $request_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','P')->get()->row();
+    $sales_stocks_pending = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','PENDING')->get()->num_rows();
+    $sales_project_pending = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','PENDING')->get()->num_rows();
 
-    $sales_shipping_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',1)->get()->row();
-    $sales_deliver_stocks = $this->db->select('count(id) as id')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('delivery',2)->get()->row();
+    $sales_stocks_approved = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','APPROVED')->get()->num_rows();
+    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','AAPROVED')->get()->num_rows();
 
-    $sales_shipping_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',1)->get()->row();
-    $sales_deliver_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('created_by',$id)->where('delivery',2)->get()->row();
+    $sales_stocks_completed = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','COMPLETED')->get()->num_rows();
+    $sales_project_completed = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','COMPLETED')->get()->num_rows();
+
+    $sales_stocks_cancelled = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$id)->where('status','CANCELLED')->get()->num_rows();
+    $sales_project_cancelled = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$id)->where('status','CANCELLED')->get()->num_rows();
 
     $customer_service_request = $this->db->select('count(id) as id')->from('tbl_service_request')->where('status','R')->get()->row();
 
@@ -315,13 +326,16 @@ class Dashboard_model extends CI_Model
     $request_inquiry_approved = $this->db->select('count(id) as id')->from('tbl_customer_inquiry')->where('status','A')->where('update_by',$id)->get()->row();
      
     $customer_total_count = intval($request_customized_pending->id+$customer_service_request->id+$request_inquiry_pending->id);
-    $data = array('request_sales_stocks'=>$request_sales_stocks->id,
-                  'request_sales_project'=>$request_sales_project->id,
-                  'request_salesorder'=>intval($request_sales_project->id+$request_sales_stocks->id),
-                  'sales_shipping_stocks'=>$sales_shipping_stocks->id,
-                  'sales_deliver_stocks'=>$sales_deliver_stocks->id,
-                  'sales_shipping_project'=>$sales_shipping_project->id,
-                  'sales_deliver_project'=>$sales_deliver_project->id,
+     $total_salesoder_request = intval($sales_stocks_pending+$sales_project_pending);
+    $data = array('sales_stocks_pending'=>$sales_stocks_pending,
+                  'sales_project_pending'=>$sales_project_pending,
+                  'sales_stocks_approved'=>$sales_stocks_approved,
+                  'sales_project_approved'=>$sales_project_approved,
+                  'sales_stocks_completed'=>$sales_stocks_completed,
+                  'sales_project_completed'=>$sales_project_completed,
+                  'sales_stocks_cancelled'=>$sales_stocks_cancelled,
+                  'sales_project_cancelled'=>$sales_project_cancelled,
+                  'total_salesoder_request'=>$total_salesoder_request,
                   'customer_service_request'=>$customer_service_request->id,
                   'customer_service_approved'=>$customer_service_approved->id,
                   'online_add_cart'=>$online_add_cart->id,
@@ -335,6 +349,60 @@ class Dashboard_model extends CI_Model
                   'request_inquiry_approved'=>$request_inquiry_approved->id
               );
     return $data; 
+  }
+  function accounting_dashboard($id){
+    $purchase_stocks_pending = $this->db->select('*')->from('tbl_purchasing_project as m')
+      ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
+      ->where('m.status',3)->where('p.type',1)->group_by('m.fund_no')->get()->num_rows();
+
+    $purchase_project_pending = $this->db->select('*')->from('tbl_purchasing_project as m')
+      ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
+      ->where('m.status',3)->where('p.type',2)->group_by('m.fund_no')->get()->num_rows();
+
+    $purchase_stocks_received = $this->db->select('*')->from('tbl_purchase_received as m')
+           ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
+           ->where('m.status',1)->where('p.type',1)->group_by('m.fund_no')->get()->num_rows();    
+    $purchase_project_received = $this->db->select('*')->from('tbl_purchase_received as m')
+           ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
+           ->where('m.status',1)->where('p.type',1)->group_by('m.fund_no')->get()->num_rows();  
+
+    $sales_stocks_pending = $this->db->select('*')->from('tbl_salesorder_stocks')->where('status','PENDING')->get()->num_rows();
+    $sales_project_pending = $this->db->select('*')->from('tbl_salesorder_project')->where('status','PENDING')->get()->num_rows();
+
+    $sales_stocks_approved = $this->db->select('*')->from('tbl_salesorder_stocks')->where('status','APPROVED')->get()->num_rows();
+    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('status','AAPROVED')->get()->num_rows();
+
+    $sales_stocks_completed = $this->db->select('*')->from('tbl_salesorder_stocks')->where('status','COMPLETED')->get()->num_rows();
+    $sales_project_completed = $this->db->select('*')->from('tbl_salesorder_project')->where('status','COMPLETED')->get()->num_rows();
+
+    $sales_stocks_cancelled = $this->db->select('*')->from('tbl_salesorder_stocks')->where('status','CANCELLED')->get()->num_rows();
+    $sales_project_cancelled = $this->db->select('*')->from('tbl_salesorder_project')->where('status','CANCELLED')->get()->num_rows();
+
+
+    $total_purchase_stocks = intval($purchase_stocks_pending+$purchase_stocks_received);
+    $total_purchase_project = intval($purchase_project_pending+$purchase_project_received);
+    $total_purchase = intval($purchase_stocks_pending+$purchase_project_pending+$purchase_stocks_received+$purchase_project_received);
+    $total_request = intval($purchase_stocks_pending+$purchase_project_pending+$purchase_stocks_received+$purchase_project_received);
+    $total_salesoder_request = intval($sales_stocks_pending+$sales_project_pending);
+
+    $data = array('purchase_stocks_pending'=>$purchase_stocks_pending,
+                  'purchase_project_pending'=>$purchase_project_pending,
+                  'purchase_stocks_received'=>$purchase_stocks_received,
+                  'purchase_project_received'=>$purchase_project_received,
+                  'sales_stocks_pending'=>$sales_stocks_pending,
+                  'sales_project_pending'=>$sales_project_pending,
+                  'sales_stocks_approved'=>$sales_stocks_approved,
+                  'sales_project_approved'=>$sales_project_approved,
+                  'sales_stocks_completed'=>$sales_stocks_completed,
+                  'sales_project_completed'=>$sales_project_completed,
+                  'sales_stocks_cancelled'=>$sales_stocks_cancelled,
+                  'sales_project_cancelled'=>$sales_project_cancelled,
+                  'total_purchase_stocks'=>$total_purchase_stocks,
+                  'total_purchase_project'=>$total_purchase_project,
+                  'total_purchase'=>$total_purchase,
+                  'total_request'=>$total_request,
+                  'total_salesoder_request'=>$total_salesoder_request);
+     return $data; 
   }
 
 }

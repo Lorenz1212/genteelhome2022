@@ -266,9 +266,9 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('*,m.item as item,
             DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created,
             CONCAT(u.firstname, " ",u.lastname) AS receiver')
-         ->from('tbl_material_new as n')
+         ->from('tbl_purchasing_received as n')
          ->join('tbl_materials as m','m.id=n.item_no','LEFT')
-         ->join('tbl_users as u','u.id=n.created_by','LEFT')
+         ->join('tbl_users as u','u.id=n.purchaser','LEFT')
          ->order_by('n.date_created','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
@@ -290,12 +290,11 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('*')->from('tbl_materials')->order_by('id','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-             $unit =$row->unit.'(s)';
-            if(!$row->unit){ $unit ="";}
+           ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
              $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#exampleModal"><i class="la la-eye"></i></button>';
                $data[] = array(
                       'no'           => $row->item_no,
-                      'item'         => $row->item.' - '.$unit,
+                      'item'         => $row->item.$unit,
                       'stocks'       => $row->production_stocks,
                       'action'       => $action);
             }      
@@ -309,11 +308,10 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('*')->from('tbl_materials')->order_by('item_no','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-             $unit =$row->unit.'(s)';
-            if(!$row->unit){ $unit ="";}
+            ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
             $data[] = array(
                       'no'           => $row->item_no,
-                      'item'         => $row->item.' - '.$unit,
+                      'item'         => $row->item.$unit,
                       'stocks'       => $row->production_stocks);
             }      
          }else{   
@@ -1048,7 +1046,7 @@ class Datatable_model extends CI_Model{
          $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-              $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+              $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="flaticon2-pen"></i></button></div>';
              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
@@ -1069,16 +1067,16 @@ class Datatable_model extends CI_Model{
      function Salesorder_Stocks_Request_DataTable_Production($user_id){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $user_id)->where('s.status','PENDING')->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-            if($row->status == 'P'){$status='<span class="label label-lg label-light-primary label-inline">Request</span>';}
-            else if($row->status == 'A'){$status = '<span class="label label-lg label-light-success label-inline">Approved</span>';}else{
-                $status = '<span class="label label-lg label-light-danger label-inline">Cancelled</span>';}
+            $status='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
+           $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
                       'status'       => $status,
                       'date_created' => $row->date_created,
                       'action'       => $action);
@@ -1087,18 +1085,21 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Stocks_Shipping_DataTable_Production($user_id){
+     function Salesorder_Stocks_Approved_DataTable_Production($user_id){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',1)
-       ->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
+       ->where('s.status','APPROVED')->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-             $data[] = array(
+            $status='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'"data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+            $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
                       'date_created' => $row->date_created,
                       'action'       => $action);
             }  
@@ -1106,17 +1107,43 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Stocks_Delivered_DataTable_Production($user_id){
+     function Salesorder_Stocks_Completed_DataTable_Production($user_id){
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',2)->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
+       ->where('s.status','COMPLETED')->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-             $data[] = array(
+             $status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Salesorder_Stocks_Cancelled_DataTable_Production($user_id){
+       $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','CANCELLED')->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button><button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'"  data-trans="'.$row->so_no.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button></div>';  
+              $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
                       'date_created' => $row->date_created,
                       'action'       => $action);
             }  
@@ -1128,16 +1155,16 @@ class Datatable_model extends CI_Model{
      function Salesorder_Project_Request_DataTable_Production($user_id){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.status','PENDING')->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-            if($row->status == 'P'){$status='<span class="label label-lg label-light-primary label-inline">Request</span>';}
-            else if($row->status == 'A'){$status = '<span class="label label-lg label-light-success label-inline">Approved</span>';}else{
-                $status = '<span class="label label-lg label-light-danger label-inline">Cancelled</span>';}
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+            $status='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
                       'status'       => $status,
                       'date_created' => $row->date_created,
                       'action'       => $action);
@@ -1146,18 +1173,22 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Project_Shipping_DataTable_Production($user_id){
+     function Salesorder_Project_Approved_DataTable_Production($user_id){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',1)
+       ->where('s.status','APPROVED')
        ->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+            $status='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';  
              $data[] = array(
-                      'so_no'        => $row->so_no,
+                       'so_no'       => $row->so_no,
                       'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
                       'date_created' => $row->date_created,
                       'action'       => $action);
             }  
@@ -1165,17 +1196,114 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Project_Delivered_DataTable_Production($user_id){
+     function Salesorder_Project_Completed_DataTable_Production($user_id){
+       $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','COMPLETED')->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>'; 
+            $status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';   
+             $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+
+     function Salesorder_Project_Cancelled_DataTable_Production($user_id){
+       $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','CANCELLED')->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+             $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button><button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'"  data-trans="'.$row->so_no.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button></div>';  
+             $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';   
+             $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+
+     function Salesorder_Stocks_Request_DataTable_Accounting(){
+        $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.status','PENDING')->order_by('s.date_created','ASC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $status='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-approved" data-id="'.$this->encryption->encrypt($row->id).'" data-trans="'.$row->so_no.'"  data-status="APPROVED" data-toggle="tooltip" data-theme="dark" title="Move to approve"><i class="la la-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'" data-trans="'.$row->so_no.'" data-status="CANCELLED" data-toggle="tooltip" data-theme="dark" title="Cancel"><i class="la la-remove"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+             $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Salesorder_Stocks_Approved_DataTable_Accounting(){
+        $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','APPROVED')->order_by('s.latest_update','DESC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $status='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-approved" data-id="'.$this->encryption->encrypt($row->id).'" data-trans="'.$row->so_no.'" data-status="COMPLETED" data-toggle="tooltip" data-theme="dark" title="Move to complete"><i class="la la-check"></i></button>
+                <button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'" data-trans="'.$row->so_no.'" data-status="CANCELLED" data-toggle="tooltip" data-theme="dark" title="Cancel"><i class="la la-remove"></i></button>
+                <button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+            $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Salesorder_Stocks_Completed_DataTable_Accounting(){
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',2)->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
+       ->where('s.status','COMPLETED')->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-             $data[] = array(
+             $status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button>';  
+              $data[] = array(
                       'so_no'        => $row->so_no,
                       'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
                       'date_created' => $row->date_created,
                       'action'       => $action);
             }  
@@ -1183,6 +1311,134 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
+     function Salesorder_Stocks_Cancelled_DataTable_Accounting(){
+       $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','CANCELLED')->order_by('s.latest_update','DESC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';
+           $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button><button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'"  data-trans="'.$row->so_no.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button></div>';  
+              $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+
+     function Salesorder_Project_Request_DataTable_Accounting(){
+        $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.status','PENDING')->order_by('s.date_created','ASC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-approved" data-id="'.$this->encryption->encrypt($row->id).'"data-trans="'.$row->so_no.'"  data-status="APPROVED" data-toggle="tooltip" data-theme="dark" title="Move to approve"><i class="la la-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'" data-trans="'.$row->so_no.'" data-status="CANCELLED" data-toggle="tooltip" data-theme="dark" title="Cancel"><i class="la la-remove"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+            $status='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
+             $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Salesorder_Project_Approved_DataTable_Accounting(){
+        $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','APPROVED')->order_by('s.latest_update','ASC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-approved" data-id="'.$this->encryption->encrypt($row->id).'" data-trans="'.$row->so_no.'" data-status="COMPLETED" data-toggle="tooltip" data-theme="dark" title="Move to complete"><i class="la la-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'" data-trans="'.$row->so_no.'" data-status="CANCELLED" data-toggle="tooltip" data-theme="dark" title="Cancel"><i class="la la-remove"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'"  data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+            $status='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';  
+             $data[] = array(
+                       'so_no'       => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Salesorder_Project_Completed_DataTable_Accounting(){
+       $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','COMPLETED')->order_by('s.latest_update','ASC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>'; 
+            $status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';   
+             $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+
+     function Salesorder_Project_Cancelled_DataTable_Accounting(){
+       $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','CANCELLED')->order_by('s.latest_update','ASC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button><button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'" data-trans="'.$row->so_no.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button></div>';  
+             $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';   
+             $data[] = array(
+                      'so_no'        => $row->so_no,
+                      'customer'     => $row->fullname,
+                      'mobile'       => $row->mobile,
+                      'email'        => $row->email,
+                      'status'       => $status,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
       
     function Salesorder_Stocks_Request_DataTable_Admin($user_id){
        $data=false;
@@ -1289,7 +1545,7 @@ class Datatable_model extends CI_Model{
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
        ->join('tbl_users as u','u.id=s.created_by','LEFT')
-       ->where('s.status','C')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->where('s.status','CANCELLED')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1306,35 +1562,27 @@ class Datatable_model extends CI_Model{
      }
 
 
-     function Salesorder_Stocks_Shipping_DataTable_Superuser($user_id){
-        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',1)->order_by('s.latest_update','DESC')->get();
-      if($query !== FALSE && $query->num_rows() > 0){
-         foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
-             $data[] = array(
-                      'so_no'        => $row->so_no,
-                      'customer'     => $row->fullname,
-                      'date_created' => $row->date_created,
-                      'action'       => $action);
-            }  
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
-     }
-     function Salesorder_Stocks_Delivered_DataTable_Superuser($user_id){
+
+
+
+
+
+      function Sales_Delivery_Request_DataTable_Superuser(){
        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',2)->order_by('s.latest_update','DESC')->get();
+       $query = $this->db->select('*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_sales_delivery_header as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','PENDING')->order_by('s.date_order','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-approved" data-id="'.$this->encryption->encrypt($row->id).'" data-dr="'.$row->dr_no.'"  data-status="TO-SHIP" data-toggle="tooltip" data-theme="dark" title="Move to ship"><i class="la la-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'" data-dr="'.$row->dr_no.'" data-status="CANCELLED" data-toggle="tooltip" data-theme="dark" title="Cancel"><i class="la la-remove"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+             $trans_num = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->dr_no.'</span><span class="text-muted font-weight-bold">'.$row->so_no.'</span>';  
              $data[] = array(
-                      'so_no'        => $row->so_no,
+                      'so_no'        => $trans_num,
                       'customer'     => $row->fullname,
+                      'email'        => $row->email,
+                      'mobile'       => $row->mobile,
                       'date_created' => $row->date_created,
                       'action'       => $action);
             }  
@@ -1342,17 +1590,23 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Project_Shipping_DataTable_Superuser($user_id){
+
+      function Sales_Delivery_Ship_DataTable_Superuser(){
         $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',1)->order_by('s.latest_update','DESC')->get();
+       $query = $this->db->select('s.*,c.*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_sales_delivery_header as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','TO-SHIP')->order_by('s.date_created','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-approved" data-id="'.$this->encryption->encrypt($row->id).'" data-dr="'.$row->dr_no.'"  data-status="TO-RECEIVED" data-toggle="tooltip" data-theme="dark" title="Move to receive"><i class="la la-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'" data-dr="'.$row->dr_no.'" data-status="CANCELLED" data-toggle="tooltip" data-theme="dark" title="Cancel"><i class="la la-remove"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+             $trans_num = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->dr_no.'</span><span class="text-muted font-weight-bold">'.$row->so_no.'</span>';  
              $data[] = array(
-                      'so_no'        => $row->so_no,
+                      'so_no'        => $trans_num,
                       'customer'     => $row->fullname,
+                      'email'        => $row->email,
+                      'mobile'       => $row->mobile,
                       'date_created' => $row->date_created,
                       'action'       => $action);
             }  
@@ -1360,17 +1614,22 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Project_Delivered_DataTable_Superuser($user_id){
+      function Sales_Delivery_Received_DataTable_Superuser(){
        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.delivery',2)->order_by('s.latest_update','DESC')->get();
+       $query = $this->db->select('s.*,c.*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_sales_delivery_header as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','TO-RECEIVED')->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
+             $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-approved" data-id="'.$this->encryption->encrypt($row->id).'" data-dr="'.$row->dr_no.'"  data-status="COMPLETED" data-toggle="tooltip" data-theme="dark" title="Move to complete"><i class="la la-check"></i></button>
+                     <button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2 btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'" data-dr="'.$row->dr_no.'" data-status="CANCELLED"><i class="la la-remove"></i></button>
+                    <button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
+             $trans_num = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->dr_no.'</span><span class="text-muted font-weight-bold">'.$row->so_no.'</span>';  
              $data[] = array(
-                      'so_no'        => $row->so_no,
+                      'so_no'        => $trans_num,
                       'customer'     => $row->fullname,
+                      'email'        => $row->email,
+                      'mobile'       => $row->mobile,
                       'date_created' => $row->date_created,
                       'action'       => $action);
             }  
@@ -1378,6 +1637,68 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
+     function Sales_Delivery_Completed_DataTable_Superuser(){
+        $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_sales_delivery_header as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','COMPLETED')->order_by('s.latest_update','DESC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button>';
+             $trans_num = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->dr_no.'</span><span class="text-muted font-weight-bold">'.$row->so_no.'</span>';  
+             $data[] = array(
+                      'so_no'        => $trans_num,
+                      'customer'     => $row->fullname,
+                      'email'        => $row->email,
+                      'mobile'       => $row->mobile,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+     function Sales_Delivery_Cancelled_DataTable_Superuser(){
+       $data=false;
+       $query = $this->db->select('s.*,c.*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
+       ->from('tbl_sales_delivery_header as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->where('s.status','CANCELLED')->order_by('s.latest_update','DESC')->get();
+      if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row){
+            $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button>
+                <button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-id="'.$this->encryption->encrypt($row->id).'" data-dr="'.$row->dr_no.'" data-remarks="'.$row->remarks.'";><i class="la la-comment"></i></button></div>';
+             $trans_num = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->dr_no.'</span><span class="text-muted font-weight-bold">'.$row->so_no.'</span>';  
+             $data[] = array(
+                      'so_no'        => $trans_num,
+                      'customer'     => $row->fullname,
+                      'email'        => $row->email,
+                      'mobile'       => $row->mobile,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+     }
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
      function Request_Material_List_Datatable($user_id){
            $data=false;
@@ -2113,8 +2434,8 @@ class Datatable_model extends CI_Model{
          return $json_data;   
     }
 
-    function Approval_UsersRequest_DataTable($status){
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_users')->where('status',$status)->order_by('date_created','DESC')->get();
+    function Approval_UsersRequest_DataTable(){
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_users')->order_by('date_created','DESC')->get();
         $data=array();
          if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row)  
@@ -2197,7 +2518,7 @@ class Datatable_model extends CI_Model{
              return $json_data; 
      }
       function Accounting_Purchase_Material_Project_Request(){
-      $query =  $this->db->select('d.*,c.*,m.*,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,m.status,
+      $query =  $this->db->select('d.*,c.*,m.*,m.status,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,
                      CONCAT(u.firstname, " ",u.lastname) AS requestor')
         ->from('tbl_purchasing_project as m')
         ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
@@ -4144,12 +4465,12 @@ class Datatable_model extends CI_Model{
 
 
 
-    function Customer_Collected_Request_DataTable(){
+    function Collected_Request_DataTable_Accounting(){
          $data=false;
         $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','P')->order_by('date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
-         foreach($query->result() as $row)  
-            {
+         foreach($query->result() as $row) {
+             $status='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';  
              $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
              $data[] = array(
                           'so_no'        => $row->order_no,
@@ -4157,17 +4478,19 @@ class Datatable_model extends CI_Model{
                           'bank'         => $row->bank,
                           'amount'       => number_format($row->amount,2),
                           'date'         => $row->date_created,
+                          'status'       => $status,
                           'action'       => $action);
             }  
          }
          $json_data  = array("data" =>$data); 
          return $json_data;
     }
-    function Customer_Collected_Approved_DataTable(){
+    function Collected_Approved_DataTable_Accounting(){
         $data =false;  
-        $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','A')->order_by('date_created','DESC')->get();
+        $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','APPROVED')->order_by('date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
+             $status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Approved</span></span>';  
              $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
              $data[] = array(
                           'so_no'        => $row->order_no,
@@ -4175,6 +4498,27 @@ class Datatable_model extends CI_Model{
                           'bank'         => $row->bank,
                           'amount'       => number_format($row->amount,2),
                           'date'         => $row->date_created,
+                          'status'       => $status,
+                          'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+     function Collected_Cancelled_DataTable_Accounting(){
+        $data =false;  
+        $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','CANCELLED')->order_by('date_created','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row)  {
+             $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';  
+             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
+             $data[] = array(
+                          'so_no'        => $row->order_no,
+                          'customer'     => $row->customer,
+                          'bank'         => $row->bank,
+                          'amount'       => number_format($row->amount,2),
+                          'date'         => $row->date_created,
+                          'status'       => $status,
                           'action'       => $action);
             }  
          }

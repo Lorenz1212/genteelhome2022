@@ -50,7 +50,7 @@
 												<table class="table table-bordered table-hover table-checkable link" id="tbl_material_request" data-link="tbl_material_request_project" style="margin-top: 13px !important">
 													<thead>
 														<tr>
-															<th>Trans #.</th>
+															<th>Trans #</th>
 															<th>TITLE</th>
 															<th style="width:30px;">REQUESTOR</th>
 															<th >DATE</th>
@@ -63,7 +63,7 @@
 												<table class="table table-bordered table-hover table-checkable" id="tbl_material_request_complete" style="margin-top: 13px !important">
 													<thead>
 														<tr>
-															<th>Trans #.</th>
+															<th>Trans #</th>
 															<th>ITEM</th>
 															<th>QTY</th>
 															<th>REQUESTOR</th>

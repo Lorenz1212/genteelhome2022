@@ -33,6 +33,9 @@ var arrows;var item_v;var price;var special_option;
 	    }
 	    return false;
 	};
+	var _initToast = function(type,message){
+		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
+	}
 	var _initremovetable = function(action){
 		$(""+action+"").on("click", "#DeleteButton", function() {
 			   $(this).closest("tr").remove();
@@ -248,7 +251,7 @@ var arrows;var item_v;var price;var special_option;
 	}
 	var _initnotificationupdate = function(){
 		 let url = window.location.pathname;
-		 let urlpost;
+		 let urlpost="";
 		 if(url.split('/')[0] == 'genteelhome2022' || url.split('/')[0] == 'genteelhomev2'){
 		 	urlpost = url.split('/')[2];
 		 }else if(url.split('/')[1] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
@@ -258,6 +261,7 @@ var arrows;var item_v;var price;var special_option;
 		 }else if(url.split('/')[3] == 'genteelhome2022' || url.split('/')[3] == 'genteelhomev2'){
 		 	urlpost = url.split('/')[6];
 		 }
+
 		 if(urlpost == 'designer'){
 		 	_ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
 		 }else if(urlpost =='production'){
@@ -270,8 +274,6 @@ var arrows;var item_v;var price;var special_option;
 		 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
 		 }else if(urlpost == 'admin'){
 		 	_ajaxloaderOption('Dashboard_controller/admin_dashboard','POST',false,'admin');
-		 }else if(urlpost == 'accounting'){
-
 		 }
 	}
 	var _ajaxloader = async function(thisURL,type,val,sub){
@@ -461,15 +463,24 @@ var arrows;var item_v;var price;var special_option;
 				$('.request_jo_stocks_production').text(response.request_jo_stocks);
 				$('.request_jo_project_production').text(response.request_jo_project);
 				$('.request_jo_production').text(response.request_jo_production);
-				$('.sales_count').text(response.request_salesorder);
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
 
-				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+				let total_salesoder_request = $('.total_salesoder_request');
+				(response.total_salesoder_request != 0)?total_salesoder_request.addClass('label label-rounded label-warning').text(response.total_salesoder_request):total_salesoder_request.removeClass("label label-rounded label-warning").text("");
 
-				$('.sales_shipping_project').text(response.sales_shipping_project);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
+				let sales_stocks_pending = $('.sales_stocks_pending_request');
+				(response.sales_stocks_pending != 0)?sales_stocks_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_stocks_pending.removeClass("label label-rounded label-warning").text("");
+
+				let sales_project_pending = $('.sales_project_pending_request');
+				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+
+				$('.sales_stocks_pending').text(response.sales_stocks_pending);
+				$('.sales_project_pending').text(response.sales_project_pending);
+				$('.sales_stocks_approved').text(response.sales_stocks_approved);
+				$('.sales_project_approved').text(response.sales_project_approved);
+				$('.sales_stocks_completed').text(response.sales_stocks_completed);
+				$('.sales_project_completed').text(response.sales_project_completed);
+				$('.sales_stocks_cancelled').text(response.sales_stocks_cancelled);
+				$('.sales_project_cancelled').text(response.sales_project_cancelled);
 
 				$('.request_material_pending').text(response.request_material_pending);
 				$('.request_material_received').text(response.request_material_received);
@@ -477,15 +488,24 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "sales":{
-				$('.sales_count').text(response.request_salesorder);
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
+				let total_salesoder_request = $('.total_salesoder_request');
+				(response.total_salesoder_request != 0)?total_salesoder_request.addClass('label label-rounded label-warning').text(response.total_salesoder_request):total_salesoder_request.removeClass("label label-rounded label-warning").text("");
 
-				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
+				let sales_stocks_pending = $('.sales_stocks_pending_request');
+				(response.sales_stocks_pending != 0)?sales_stocks_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_stocks_pending.removeClass("label label-rounded label-warning").text("");
 
-				$('.sales_shipping_project').text(response.sales_shipping_project);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
+				let sales_project_pending = $('.sales_project_pending_request');
+				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+
+				$('.sales_stocks_pending').text(response.sales_stocks_pending);
+				$('.sales_project_pending').text(response.sales_project_pending);
+				$('.sales_stocks_approved').text(response.sales_stocks_approved);
+				$('.sales_project_approved').text(response.sales_project_approved);
+				$('.sales_stocks_completed').text(response.sales_stocks_completed);
+				$('.sales_project_completed').text(response.sales_project_completed);
+				$('.sales_stocks_cancelled').text(response.sales_stocks_cancelled);
+				$('.sales_project_cancelled').text(response.sales_project_cancelled);
+
 				$('.customer_count').text(response.customer_total_count);
 				$('.customer_request_count').text(response.customer_service_request);
 				$('.customer_approved_count').text(response.customer_service_approved);
@@ -519,12 +539,6 @@ var arrows;var item_v;var price;var special_option;
 				$('.request_material_received').text(response.request_material_received);
 				$('.request_material_cancelled').text(response.request_material_cancelled);
 
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
-
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
-
 				$('.material_request_complete_stocks').text(response.material_request_complete_stocks);
 				$('.material_request_complete_project').text(response.material_request_complete_project);
 
@@ -540,6 +554,12 @@ var arrows;var item_v;var price;var special_option;
 
 				$('.purchase_stocks_complete').text(response.purchase_stocks_complete);
 				$('.purchase_project_complete').text(response.purchase_project_complete);
+
+				$('.sales_delivery_pending').text(response.sales_delivery_pending);
+				$('.sales_delivery_ship').text(response.sales_delivery_ship);
+				$('.sales_delivery_received').text(response.sales_delivery_received);
+				$('.sales_delivery_completed').text(response.sales_delivery_completed);
+				$('.sales_delivery_cancelled').text(response.sales_delivery_cancelled);
 				break;
 			}
 			case "admin":{
@@ -701,32 +721,51 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "item_list":{
-				$('#item').empty();
+				let element = $('#item');
+				element.empty();
 				if(response!=false){
+					 element.append('<option value="">Select Item</option>');
 					for(let i=0;i<response.length;i++){
-	                  	  	  $('#item').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+	                  	  	  element.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
 	                  	  	  
                   	 	}
 				}else{
-					$('#item').append('<option value="">No Data Available</option>');
+					element.append('<option value="">No Data Available</option>');
 				}
-				  $('#item').addClass('selectpicker');
-				  $('#item').attr('data-live-search', 'true');
-				  $('#item').selectpicker('refresh');
+				  element.addClass('selectpicker');
+				  element.attr('data-live-search', 'true');
+				  element.selectpicker('refresh');
+				break;
+			}
+			case "soa_no":{
+				let element = $('select[name=trans_no]');
+				element.empty();
+				if(response !=false){
+					for(let i=0;i<response.length;i++){
+                  	  	 element.append('<option value="'+response[i].so_no+'">'+response[i].so_no+'</option>');
+      //             	  	 element.addClass('selectpicker');
+					 // element.attr('data-live-search', 'true');
+					 // element.selectpicker('refresh');
+                  	  	}	
+				}else{
+					element.append('<option value="">No Data Available</option>');
+				}
+				element.trigger('change');
 				break;
 			}
 			case "so_no_item":{
-				$('#item').empty();
+				let element = $('#item');
+				element.empty();
 				if(response !=false){
 					for(let i=0;i<response.length;i++){
-                  	  	  $('#item').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
-                  	  	  $('#item').addClass('selectpicker');
-					  $('#item').attr('data-live-search', 'true');
-					  $('#item').selectpicker('refresh');
+                  	  	  element.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
                   	  }	
 				}else{
-					$('#item').append('<option value="">No Data Available</option>');
+					element.append('<option value="">No Data Available</option>');
 				}
+					 element.addClass('selectpicker');
+					 element.attr('data-live-search', 'true');
+					 element.selectpicker('refresh');
 				break;
 			}
 			case "material_item_no":{
@@ -740,46 +779,60 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case"material_request":{
-				if(response.data.unit){var unit = response.data.unit}else{ var unit=""};
-				if(response.remarks){ var remarks='(<a href="javascript:;" type="button" id="bulk_actions_btn" data-toggle="popover" data-action="show" data-content="'+response.remarks+'">Remark</a>)';}else{ var remarks =" "};
-				if(response.type ==1){
-					var type ='FRAMING - MATERIALS';
-				}else if(response.type == 2){
-					var type ='MECHANISM';
-				}else if(response.type == 3){
-					var type ='FINISHING - MATERIALS';
-				}else if(response.type == 4){
-					var type ='SULIHIYA';
-				}else if(response.type==5){
-					var type ='UPHOLSTERY';
-				}else if(response.type==6){
-					var type ='OTHERS';
-				}	
-				$('#kt_material_table > tbody:last-child').append('<tr>\
-				<td class="type tbl-mat-1" data-type="'+response.type+'" data-id="'+response.data.id+'">'+response.data.item+' '+remarks+'</td>\
-				<td class="text-left text-success tbl-mat-2" data-qty="'+response.qty+'">'+response.qty+' '+unit+'</td>\
-				<td class="text-right text-success  tbl-mat-3" data-remarks="'+response.remarks+'">'+type+'</td>\
-				<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon  btn-danger btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
-				</tr>');
+				let unit = "";
+				let remarks ="";
+				if(response.data.unit){unit = ' - '+response.data.unit+'(s)';}
+				let name = response.data.item+unit;
+				if($('#kt_material_table tr > td:contains('+name+')').length == 0){
+					
+					if(response.remarks){remarks='(<a href="javascript:;" type="button" id="bulk_actions_btn" data-toggle="popover" data-action="show" data-content="'+response.remarks+'">Remark</a>)';}
+					if(response.type ==1){
+						var type ='FRAMING - MATERIALS';
+					}else if(response.type == 2){
+						var type ='MECHANISM';
+					}else if(response.type == 3){
+						var type ='FINISHING - MATERIALS';
+					}else if(response.type == 4){
+						var type ='SULIHIYA';
+					}else if(response.type==5){
+						var type ='UPHOLSTERY';
+					}else if(response.type==6){
+						var type ='OTHERS';
+					}	
+					$('#kt_material_table > tbody:last-child').append('<tr>\
+					<td class="type tbl-mat-1" data-type="'+response.type+'" data-id="'+response.data.id+'">'+name+' '+remarks+'</td>\
+					<td class="text-left text-success tbl-mat-2" data-qty="'+response.qty+'">'+response.qty+'</td>\
+					<td class="text-right text-success  tbl-mat-3" data-remarks="'+response.remarks+'">'+type+'</td>\
+					<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon  btn-danger btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
+					</tr>');
+				}else{
+					Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
+				}
 				_initremovetable('#kt_material_table');				
 				break;
 			}
 			case"purchase_material":{
-				if(response.type == 1){
-					var name = response.data.item;
-					var id = response.data.id;
+					let  name = response.name;
+					let id = response.name;
+					let unit="";
+					let remarks ="";
+					if(response.data.unit){unit = ' - '+response.data.unit}
+					if(response.type == 1){
+						 name = response.data.item+unit+'(s)';
+						 id = response.data.id;
+					}
+				if($('#kt_purchased_table tr > td:contains('+name+')').length == 0){
+					if(response.remarks){remarks='(<a href="javascript:;" type="button" id="bulk_actions_btn" data-toggle="popover" data-action="show" data-content="'+response.remarks+'">Remark</a>)';}
+					$('#kt_purchased_table > tbody:last-child').append('<tr>\
+					<td class="tbl-pur-1" data-type="'+response.type+'" data-id="'+id+'">'+name+'</td>\
+					<td class="text-left text-success tbl-pur-2" data-qty="'+response.qty+'">'+response.qty+'</td>\
+					<td class="text-center tbl-pur-3" data-remarks="'+response.remarks+'">'+remarks+'</td>\
+					<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon  btn-danger btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
+					</tr>');
 				}else{
-					var name = response.name;
-					var id = response.name;
+					Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
 				}
-				if(response.data.unit){var unit = response.data.unit}else{ var unit=""};
-				if(response.remarks){ var remarks='(<a href="javascript:;" type="button" id="bulk_actions_btn" data-toggle="popover" data-action="show" data-content="'+response.remarks+'">Remark</a>)';}else{ var remarks =" "};
-				$('#kt_purchased_table > tbody:last-child').append('<tr>\
-				<td class="tbl-pur-1" data-type="'+response.type+'" data-id="'+id+'">'+name+'</td>\
-				<td class="text-left text-success tbl-pur-2" data-qty="'+response.qty+'">'+response.qty+' '+unit+'</td>\
-				<td class="text-center tbl-pur-3" data-remarks="'+response.remarks+'">'+remarks+'</td>\
-				<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon  btn-danger btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
-				</tr>');
+				
 				_initremovetable('#kt_purchased_table');		
 			   break;
 			}
@@ -1546,25 +1599,52 @@ var arrows;var item_v;var price;var special_option;
 				_initNumberOnly(".qty,#discount");
 				_initCurrency_format('input[name="amount"],input[name="shipping_fee"],input[name="downpayment"]');
 				_ajaxloaderOption('option_controller/Customer_Name','POST',false,'customer_name');
+
+				if($('#kt_product_breakdown_table tbody tr').length == 0){
+	                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+	                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+	                                    </div>\
+	                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+					$('#kt_product_breakdown_table > tbody').empty();	
+				}
+
 				$(document).on('click','.btn-submit',function(e){
 					e.preventDefault();
 					let description = $('input[name=description]').val();
 					let qty  = $('input[name=qty]').val();
 					let unit = $('input[name=unit]').val();
 					let amount = $('input[name=amount]').val();
-					if(!description || !qty || !unit || !amount){
-						Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+					let validation = $('#kt_product_breakdown_table tr > td:contains('+description+')').length;
+					if(validation == 0){
+						if(!description || !qty || !unit || !amount){
+							Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+						}else{
+							let i = $('#kt_product_breakdown_table tbody tr').length;
+							if((i+1) != 0){
+								 $('.cart-empty-page').empty();
+							}
+							$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
+								<td class="td-item['+i+']">'+description+'</td>\
+								<td class="text-center td-qty['+i+']">'+qty+'</td>\
+								<td class="text-center td-unit['+i+']">'+unit+'</td>\
+								<td class="text-right td-amount['+i+']">'+amount+'</td>\
+								<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow btn-delete"><i class="far fa-trash-alt"></i></button></td>\
+										</tr>');	
+						}
 					}else{
-						let i = $('#kt_product_breakdown_table tbody tr').length;
-						$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
-							<td class="td-item['+i+']">'+description+'</td>\
-							<td class="text-center td-qty['+i+']">'+qty+'</td>\
-							<td class="text-center td-unit['+i+']">'+unit+'</td>\
-							<td class="text-right td-amount['+i+']">'+amount+'</td>\
-							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="la la-times"></i></button></td>\
-									</tr>');	
+						Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
+					}	
+				});
+				$(document).on('click','.btn-delete',function(e){
+					e.preventDefault();
+					if($('#kt_product_breakdown_table tbody tr').length == 0){
+		                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+		                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+		                                    </div>\
+		                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+						$('#kt_product_breakdown_table > tbody').empty();	
 					}
-				})
+				});
 				$('input[name=checkbox-status]').click(function() {
 					let status = $(this).attr('data-status');
 					if($(this).prop('checked') == true){
@@ -1605,6 +1685,13 @@ var arrows;var item_v;var price;var special_option;
 					let id = $(this).val();
 					_ajaxloaderOption('option_controller/pallet_color','POST',{id:id},'pallet-color');
 				});
+				if($('#kt_product_breakdown_table tbody tr').length == 0){
+	                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+	                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+	                                    </div>\
+	                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+					$('#kt_product_breakdown_table > tbody').empty();	
+				}
 				$(document).on('click','.btn-submit',function(e){
 					e.preventDefault();
 					let description = $('select[name=project_no] option:selected').text();
@@ -1613,19 +1700,37 @@ var arrows;var item_v;var price;var special_option;
 					let qty  = $('input[name=qty]').val();
 					let unit = $('input[name=unit]').val();
 					let amount = $('input[name=amount]').val();
-					if(!description|| !id || !qty || !unit || !amount){
-						Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+					let validation = $('#kt_product_breakdown_table tr > td:contains('+description+')').length;
+					if(validation == 0){
+						if(!description|| !id || !qty || !unit || !amount){
+							Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+						}else{
+							let i = $('#kt_product_breakdown_table tbody tr').length;
+							if((i+1) != 0){
+								 $('.cart-empty-page').empty();
+							}
+							$('#kt_product_breakdown_table > tbody').append('<tr>\
+								<td class="td-item['+i+']" data-id="'+id+'">'+description+' ('+color+')</td>\
+								<td class="text-center td-qty['+i+']">'+qty+'</td>\
+								<td class="text-center td-unit['+i+']">'+unit+'</td>\
+								<td class="text-right td-amount['+i+']">'+amount+'</td>\
+								<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow btn-delete"><i class="far fa-trash-alt"></i></button></td>\
+										</tr>');	
+						}
 					}else{
-						let i = $('#kt_product_breakdown_table tbody tr').length;
-						$('#kt_product_breakdown_table > tbody').append('<tr>\
-							<td class="td-item['+i+']" data-id="'+id+'">'+description+' ('+color+')</td>\
-							<td class="text-center td-qty['+i+']">'+qty+'</td>\
-							<td class="text-center td-unit['+i+']">'+unit+'</td>\
-							<td class="text-right td-amount['+i+']">'+amount+'</td>\
-							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="far fa-trash-alt"></i></button></td>\
-									</tr>');	
+						Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
 					}
 				})
+				$(document).on('click','.btn-delete',function(e){
+					e.preventDefault();
+					if($('#kt_product_breakdown_table tbody tr').length == 0){
+		                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+		                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+		                                    </div>\
+		                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+						$('#kt_product_breakdown_table > tbody').empty();	
+					}
+				});
 				$('input[name=checkbox-status]').click(function() {
 					let status = $(this).attr('data-status');
 					if($(this).prop('checked') == true){
@@ -1659,7 +1764,8 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-salesorder-stocks":{
 				$(document).ready(function() {
-					$(document).on("click","#form-request",function() {
+
+				    $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
 					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
 						_ajaxloader(thisUrl,"POST",{id:id},"Modal_SalesOrder_Stocks");
@@ -1690,6 +1796,184 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
+			case "data-sales-delivery":{
+				$(document).ready(function() {
+					_initNumberOnly(".qty");
+					$('[data-toggle="tooltip"]').tooltip();
+				    $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Delivery';
+						_ajaxloader(thisUrl,"POST",{id:id},"Modal_SalesOrder_Delivery");
+				    });
+				    $(document).on("click",".btn-print",function(e) {
+						e.preventDefault();
+						let id = $('.so_no').attr('data-id');
+						sessionStorage.setItem('dr_no', id);
+						window.open(baseURL+'gh/printview/print-salesorder-delivery');
+				    });
+				     $(document).on('change','.type-soa',function(e){
+						e.preventDefault();
+						let id = $(this).val();
+						$('.text-dr').attr('data-type',id);
+						_ajaxloaderOption('option_controller/soa_no','POST',{id:id},'soa_no');
+					});
+					$(document).on('change','.trans-no',function(e){
+						e.preventDefault();
+						let id = $(this).val();
+						$('.text-dr').text(id);
+						_ajaxloaderOption('option_controller/so_no_item','POST',{so_no:id},'so_no_item');
+					});
+					$(document).on('click','.btn-add',function(e){
+							e.preventDefault();
+							let id = $('select[name=item]').val();
+							let item = $('select[name=item] option:selected').text();
+							let qty  = $('input[name=qty]').val();
+							let validation = $('#tbl_delivery_breakdown tr > td:contains('+item+')').length;
+							if(validation == 0){
+								if(!qty){
+									Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+								}else{
+									let i = $('#tbl_delivery_breakdown tbody tr').length;
+									$('#tbl_delivery_breakdown > tbody').append('<tr>\
+										<td class="text-center td-id" data-id="'+id+'">'+item+'</td>\
+										<td class="text-center td-qty">'+qty+'</td>\
+										<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow" data-container="body" data-toggle="tooltip" data-placement="top" title="Remove"><i class="far fa-trash-alt"></i></button></td>\
+												</tr>');	
+								}
+							}else{
+								Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
+							}
+					});
+					 _initremovetable('#tbl_delivery_breakdown');
+					 $("body").delegate('.create-delivery-receipt-modal','click',function(e){
+			                  e.stopImmediatePropagation(); 
+			                  e.preventDefault();
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Create new D.R',
+			                    heightAuto: false,
+			                    html:' <div class="row">\
+									 <div class="col">\
+										 <div class="form-group">\
+										    <label>Type <span class="text-danger">*</span></label>\
+										    <select class="form-control type-soa" name="type">\
+										    	<option value="">Select Type First</option>\
+										    	<option value="1">Stocks</option>\
+										    	<option value="2">Project</option>\
+										    </select>\
+										 </div>\
+									</div></div>\
+								<div class="row">\
+									<div class="col">\
+										 <div class="form-group">\
+										    <label>Trans. # <span class="text-danger">*</span></label>\
+										    <select class="form-control trans-no" name="trans_no"></select>\
+										 </div>\
+									</div>\
+								</div>',
+			                    showCancelButton: true,
+			                    confirmButtonText: "Yes, submit!",
+			                    cancelButtonText: "No, cancel",
+			                    customClass: {
+				                      confirmButton: "btn font-weight-bold btn-primary",
+				                      cancelButton: "btn font-weight-bold btn-default"
+				                },
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your control number.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			      				  $('#create-delivery-receipt-modal').modal('show');	                 	
+			                        }else{
+			                           Swal.fire('Opss', 'Please enter your control number', 'info');
+			                        }
+			                      }
+			                  });
+			               });
+					 $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Sales_Delivery_Receipt_Superuser';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status,remarks:result.value},"Update_Sales_Delivery_Receipt_Superuser");
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+					 $('body').delegate('.btn-approved','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Do you want to move this form? Trans #: "+element.attr('data-dr'),
+			                          text: "You wont be able to revert this!",
+			                          icon: "warning",
+			                          showCancelButton: true,
+			                          confirmButtonText: "Yes, proceed!",
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      }).then(function(result) {
+			                          if (result.value){
+			                              let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Sales_Delivery_Receipt_Superuser';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status},"Update_Sales_Delivery_Receipt_Superuser");
+			                          } 
+			                      });
+			            });
+					 $('body').delegate('.btn-remarks','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Trans #: "+element.attr('data-dr')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
+				})
+				break;
+			}
 			case "data-salesorder-stocks-print":{
 					let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
 					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Stocks");
@@ -1698,6 +1982,11 @@ var arrows;var item_v;var price;var special_option;
 			case "data-salesorder-project-print":{
 					let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
 					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Project");
+				break;
+			}
+			case "data-salesorder-delivery-print":{
+					let thisUrl = 'modal_controller/Modal_SalesOrder_Delivery';
+					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('dr_no')},"Modal_SalesOrder_Delivery");
 				break;
 			}
 			case "data-joborder-stocks-list":{
@@ -3530,6 +3819,39 @@ var arrows;var item_v;var price;var special_option;
 	  		}
 	  		break;
 	  	}
+
+
+	  	case "Modal_SalesOrder_Delivery":{
+	  		let container = $('#kt_table_soa_item > tbody:last-child');
+	  		container.empty();  
+	  		let html="";  
+	  		if(response != false){
+	               $('.so_no').text(response.info.dr_no).attr('data-id',response.id);
+	               $('.sold-to').text(response.info.fullname);
+	               $('.address').text(response.info.address);
+	               $('.date-order').text(response.info.date_created);
+
+	             	for(var i=0;i<response.result.length;i++){
+	             		console.log(response.result[i].item)
+             			html += '<tr>\
+							<td class="text-center td1-border-1px">'+response.result[i].item+'</td>\
+							<td class="text-center td1-border-1px">'+response.result[i].qty+'</td>\
+						   </tr>';
+				}	
+				if(response.result.length < 5){
+				   for(var i=0;i<4;i++){
+					html += '<tr>\
+							<td class="text-center td1-border-1px">&nbsp;</td>\
+							<td class="text-right td1-border-1px">&nbsp;</td>\
+						</tr>';
+					}
+				}
+				container.append(html);
+	  		}
+	  		break;
+	  	}
+
+
 	  	case "Modal_SalesOrder_Stocks":{
 	  		let container = $('#kt_table_soa_item > tbody:last-child');
 	  		    container.empty();
@@ -5780,6 +6102,34 @@ var arrows;var item_v;var price;var special_option;
 	  		$('input[name=amount]').val(response.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	  		break;
 	  	}
+	  	case "Update_Sales_Delivery_Receipt_Superuser":{
+	  		if(response != false){
+	  			_initToast(response.type,response.message);
+	  			let TableURL1 = baseURL + 'datatable_controller/Sales_Delivery_Request_DataTable_Superuser';
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_delivery_request',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Sales_Delivery_Ship_DataTable_Superuser';
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_delivery_shipping',TableURL2,TableData2,false);
+
+				let TableURL3 = baseURL + 'datatable_controller/Sales_Delivery_Received_DataTable_Superuser';
+				let TableData3 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_delivery_received',TableURL3,TableData3,false);
+
+				let TableURL4 = baseURL + 'datatable_controller/Sales_Delivery_Completed_DataTable_Superuser';
+				let TableData4 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_delivery_completed',TableURL4,TableData4,false);
+
+				let TableURL5 = baseURL + 'datatable_controller/Sales_Delivery_Cancelled_DataTable_Superuser';
+				let TableData5 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_delivery_cancelled',TableURL5,TableData5,false);
+				_initnotificationupdate();
+	  		}else{
+
+	  		}
+	  		break;
+	  	}
 
 	  }
 	}
@@ -5787,11 +6137,11 @@ var arrows;var item_v;var price;var special_option;
 
 		//main function to initiate the module
 		init: function(){
-			 _initnotificationupdate();
 			var viewForm = $('#kt_content').attr('data-table');
 			_ViewController(viewForm);
 			_initView();
 			_initImageView();
+			_initnotificationupdate();
 		},
 
 	};

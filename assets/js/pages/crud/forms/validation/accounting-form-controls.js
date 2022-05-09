@@ -126,32 +126,7 @@ var KTFormControls = function () {
 		});
 	}
 	var _initnotificationupdate = function(){
-		 let url = window.location.pathname;
-		 let urlpost;
-		  if(url.split('/')[0] == 'genteelhome2022' || url.split('/')[0] == 'genteelhomev2'){
-		 	urlpost = url.split('/')[2];
-		 }else if(url.split('/')[1] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
-		 	urlpost = url.split('/')[3];
-		 }else if(url.split('/')[2] == 'genteelhome2022' || url.split('/')[2] == 'genteelhomev2'){
-		 	urlpost = url.split('/')[4];
-		 }else if(url.split('/')[3] == 'genteelhome2022' || url.split('/')[3] == 'genteelhomev2'){
-		 	urlpost = url.split('/')[6];
-		 }
-		 if(urlpost == 'designer'){
-		 	_ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
-		 }else if(urlpost =='production'){
-		 	_ajaxloaderOption('Dashboard_controller/production_dashboard','POST',false,'production');
-		 }else if(urlpost == 'sales'){
-		 	_ajaxloaderOption('Dashboard_controller/sales_dashboard','POST',false,'sales');
-		 }else if(urlpost =='supervisor'){
-
-		 }else if(urlpost == 'superuser'){
-		 	_ajaxloaderOption('Dashboard_controller/superuser_dashboard','POST',false,'superuser');
-		 }else if(urlpost == 'admin'){
-		 	_ajaxloaderOption('Dashboard_controller/admin_dashboard','POST',false,'admin');
-		 }else if(urlpost == 'accounting'){
-
-		 }
+		 _ajaxloaderOption('Dashboard_controller/accounting_dashboard','POST',false,'accounting');
 	}
 	var _ajaxloaderOption = async function(thisURL,type,val,sub){
 		  $.ajax({
@@ -167,144 +142,47 @@ var KTFormControls = function () {
 	}
       var _initOption = function(view,response){
 		switch(view){
-			case "designer":{
-				$('.request_stocks').text(response.request_stocks);
-				$('.approved_stocks').text(response.approved_stocks);
-				$('.rejected_stocks').text(response.rejected_stocks);
-				$('.request_project').text(response.request_project);
-				$('.approved_project').text(response.approved_project);
-				$('.rejected_project').text(response.rejected_project);
-				$('.request_stocks_project').text(response.request_stocks_project);
+			case "accounting":{
+				let purchase_stocks_pending = $('.purchase_stocks_pending');
+				(response.purchase_stocks_pending != 0)?purchase_stocks_pending.addClass('label label-rounded label-warning').text(response.purchase_stocks_pending):purchase_stocks_pending.removeClass("label label-rounded label-warning").text("");
 
-				$('.request_jo_stocks').text(response.request_jo_stocks);
-				$('.request_jo_project').text(response.request_jo_project);
-				$('.request_jo').text(response.request_jo_designer);
+				let purchase_project_pending = $('.purchase_project_pending');
+				(response.purchase_project_pending != 0)?purchase_project_pending.addClass('label label-rounded label-warning').text(response.purchase_project_pending):purchase_project_pending.removeClass("label label-rounded label-warning").text("");
 
-				$('.request_material_pending').text(response.request_material_pending);
-				$('.request_material_received').text(response.request_material_received);
-				$('.request_material_cancelled').text(response.request_material_cancelled);
+				let purchase_stocks_received = $('.purchase_stocks_received');
+				(response.purchase_stocks_received != 0)?purchase_stocks_received.addClass('label label-rounded label-warning').text(response.purchase_stocks_received):purchase_stocks_received.removeClass("label label-rounded label-warning").text("");
 
-				$('.request_pre_order_pending').text(response.request_pre_order_pending);
-				$('.request_pre_order_approved').text(response.request_pre_order_approved);
-				$('.request_pre_order_rejected').text(response.request_pre_order_rejected);
+				let purchase_project_received = $('.purchase_project_received');
+				(response.purchase_project_received != 0)?purchase_project_received.addClass('label label-rounded label-warning').text(response.purchase_project_received):purchase_project_received.removeClass("label label-rounded label-warning").text("");
 
-				$('.request_customized_pending').text(response.request_customized_pending);
-				$('.request_customized_approved').text(response.request_customized_approved);
-				$('.request_customized_rejected').text(response.request_customized_rejected);
+				let total_purchase_stocks = $('.total_purchase_stocks');
+				(response.total_purchase_stocks != 0)?total_purchase_stocks.addClass('label label-rounded label-warning').text(response.total_purchase_stocks):total_purchase_stocks.removeClass("label label-rounded label-warning").text("");
+				let total_purchase_project = $('.total_purchase_project');
+				(response.total_purchase_project != 0)?total_purchase_project.addClass('label label-rounded label-warning').text(response.total_purchase_project):total_purchase_project.removeClass("label label-rounded label-warning").text("");
 
-				$('.request_preoder_customized').text(response.request_preoder_customized);
-				break;
-			}
-			case "production":{
-				$('.request_jo_stocks_production').text(response.request_jo_stocks);
-				$('.request_jo_project_production').text(response.request_jo_project);
-				$('.request_jo_production').text(response.request_jo_production);
-				$('.sales_count').text(response.request_salesorder);
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
+				let total_purchase = $('.total_purchase');
+				(response.total_purchase != 0)?total_purchase.addClass('label label-rounded label-warning').text(response.total_purchase):total_purchase.removeClass("label label-rounded label-warning").text("");
 
-				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
-
-				$('.sales_shipping_project').text(response.sales_shipping_project);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
-
-				$('.request_material_pending').text(response.request_material_pending);
-				$('.request_material_received').text(response.request_material_received);
-				$('.request_material_cancelled').text(response.request_material_cancelled);
-				break;
-			}
-			case "sales":{
-				$('.sales_count').text(response.request_salesorder);
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
-
-				$('.sales_shipping_stocks').text(response.sales_shipping_stocks);
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
-
-				$('.sales_shipping_project').text(response.sales_shipping_project);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
-				$('.customer_count').text(response.customer_total_count);
-				$('.customer_request_count').text(response.customer_service_request);
-				$('.customer_approved_count').text(response.customer_service_approved);
-
-				$('.online_add_cart').text(response.online_add_cart);
-				$('.pre_order_count').text(response.pre_order_count);
-				$('.collection_count').text(response.collection_count);
-
-				$('.request_customized_pending').text(response.request_customized_pending);
-				$('.request_customized_approved').text(response.request_customized_approved);
-				$('.request_customized_rejected').text(response.request_customized_rejected);
-
-				$('.request_inquiry_pending').text(response.request_inquiry_pending);
-				$('.request_inquiry_approved').text(response.request_inquiry_approved);
-				break;
-			}
-			case "superuser":{
-				$('.request_count').text(response.total_request);
-				$('.customer_concern_count').text(response.customer_service_request);
-
-				$('.customer_request_count').text(response.customer_service_request);
-				$('.customer_approved_count').text(response.customer_service_approved);
+				let total_request = $('.total_request');
+				(response.total_request != 0)?total_request.addClass('label label-rounded label-warning').text(response.total_request):total_request.removeClass("label label-rounded label-warning").text("");
 				
-				$('.return_item_good').text(response.return_item_good);
-				$('.return_item_rejected').text(response.return_item_rejected);
-				$('.return_item_customer_repair').text(response.return_item_customer_repair);
-				$('.return_item_customer_good').text(response.return_item_customer_good);
-				$('.return_item_customer_rejected').text(response.return_item_customer_rejected);
+				let total_salesoder_request = $('.total_salesoder_request');
+				(response.total_salesoder_request != 0)?total_salesoder_request.addClass('label label-rounded label-warning').text(response.total_salesoder_request):total_salesoder_request.removeClass("label label-rounded label-warning").text("");
 
-				$('.request_material_pending').text(response.request_material_pending);
-				$('.request_material_received').text(response.request_material_received);
-				$('.request_material_cancelled').text(response.request_material_cancelled);
+				let sales_stocks_pending = $('.sales_stocks_pending_request');
+				(response.sales_stocks_pending != 0)?sales_stocks_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_stocks_pending.removeClass("label label-rounded label-warning").text("");
 
-				$('.sales_project').text(response.request_sales_project);
-				$('.sales_stocks').text(response.request_sales_stocks);
-
-				$('.sales_deliver_stocks').text(response.sales_deliver_stocks);
-				$('.sales_deliver_project').text(response.sales_deliver_project);
-
-				$('.material_request_complete_stocks').text(response.material_request_complete_stocks);
-				$('.material_request_complete_project').text(response.material_request_complete_project);
-
-				$('.material_request_pending_stocks').text(response.material_request_pending_stocks);
-				$('.material_request_pending_project').text(response.material_request_pending_project);
-
-				$('.purchase_stocks_pending').text(response.purchase_stocks_pending);
-				$('.purchase_stocks_approved').text(response.purchase_stocks_approved);
-				$('.purchase_project_pending').text(response.purchase_project_pending);
-				$('.purchase_project_approved').text(response.purchase_project_approved);
-				$('.purchase_stocks').text(response.purchase_stocks);
-				$('.purchase_project').text(response.purchase_project);
-
-				$('.purchase_stocks_complete').text(response.purchase_stocks_complete);
-				$('.purchase_project_complete').text(response.purchase_project_complete);
-				break;
-			}
-			case "admin":{
-				$('.request_stocks').text(response.request_stocks);
-				$('.approved_stocks').text(response.approved_stocks);
-				$('.rejected_stocks').text(response.rejected_stocks);
-				$('.request_project').text(response.request_project);
-				$('.approved_project').text(response.approved_project);
-				$('.rejected_project').text(response.rejected_project);
-
-				$('.request_sales_stocks').text(response.request_sales_stocks);
-				$('.approved_sales_stocks').text(response.approved_sales_stocks);
-				$('.rejected_sales_stocks').text(response.rejected_sales_stocks);
-
-				$('.request_sales_project').text(response.request_sales_project);
-				$('.approved_sales_project').text(response.approved_sales_project);
-				$('.rejected_sales_project').text(response.rejected_sales_project);
-
-				$('.stocks_inpection_pending').text(response.stocks_inpection_pending);
-				$('.stocks_inpection_approved').text(response.stocks_inpection_approved);
-				$('.stocks_inpection_rejected').text(response.stocks_inpection_rejected);
-
-				$('.project_inpection_pending').text(response.project_inpection_pending);
-				$('.project_inpection_approved').text(response.project_inpection_approved);
-				$('.project_inpection_rejected').text(response.project_inpection_rejected);
-
-				$('.total_request').text(response.total_request);
+				let sales_project_pending = $('.sales_project_pending_request');
+				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+				
+				$('.sales_stocks_pending').text(response.sales_stocks_pending);
+				$('.sales_project_pending').text(response.sales_project_pending);
+				$('.sales_stocks_approved').text(response.sales_stocks_approved);
+				$('.sales_project_approved').text(response.sales_project_approved);
+				$('.sales_stocks_completed').text(response.sales_stocks_completed);
+				$('.sales_project_completed').text(response.sales_project_completed);
+				$('.sales_stocks_cancelled').text(response.sales_stocks_cancelled);
+				$('.sales_project_cancelled').text(response.sales_project_cancelled);
 				break;
 			}
 			
@@ -606,9 +484,8 @@ var KTFormControls = function () {
 				   	 	});
 		 			});	    
 	 			break;
-	 			break;
 	 		   }
-	 		   	 		case"Create_Salesorder_Project":{
+	 		case"Create_Salesorder_Project":{
 	 				form = document.getElementById('Create_Salesorder_Project_Form');
 				         validation = FormValidation.formValidation(
 							form,{
@@ -625,48 +502,67 @@ var KTFormControls = function () {
 								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
-					    );
+					 );
+				      var form_terms = document.getElementById('terms_condition');
+				      var validation_terms = FormValidation.formValidation(
+							form_terms,{
+								fields: {
+									terms_start: {validators: {notEmpty: {message: 'Field is required'}}},
+									terms_end: {validators: {notEmpty: {message: 'Field is required'}}},
+								},
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					 );
 		 			$(document).on('click','.btn-create-submit',function(e){
 		 				e.preventDefault();
 		 				validation.validate().then(function(status) {
 					     if (status == 'Valid') {
-					     	var rowCount = $('#kt_product_breakdown_table tbody tr').length;
-					     	if(!rowCount){
-	 							Swal.fire("Warning!", "Product break down form is empty!", "warning")
-					     	}else{
-					     		 Swal.fire({
-								        title: "Are you sure?",
-								        text: "You won't be able to revert this",
-								        icon: "warning",
-								        confirmButtonText: "Submit!",
-								        showCancelButton: true
-								    }).then(function(result) {
-								        if (result.value) {
-                                                  let formData = new FormData();
-                                                      formData.append('project_no',$('select[name="project_no"]').val());
-                                                      formData.append('date_created',$('input[name="date_created"]').val());
-                                                      formData.append('customer',$('input[name="fullname"]').val());
-                                                      formData.append('email',$('input[name="email"]').val());
-                                                      formData.append('mobile',$('input[name="mobile"]').val());
-                                                      formData.append('tin',$('input[name="tin"]').val());
-                                                      formData.append('address',$('textarea[name="address"]').val());
-                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
-                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
-                                                      formData.append('discount',$('input[name="discount"]').val());
-                                                      formData.append('vat',$('select[name="vat"]').val());
-                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
-                                                       for(let i =0;i<rowCount;i++){
-     									  	    formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.textContent));
-     									  	    formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
-     									  	    formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
-     									  	    formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
-									         }
-                                                      thisURL = baseURL + 'create_controller/Create_Salesorder_Project';
-									  _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Project",false);
-							          }
-							   	 });
-					     	}
-					    }
+					     	validation_terms.validate().then(function(statuss) {
+					     		 if (statuss == 'Valid') {
+					     		 	var rowCount = $('#kt_product_breakdown_table tbody tr').length;
+					     		 	if(!rowCount){
+			 							Swal.fire("Warning!", "Product break down form is empty!", "warning");
+							     	}else{
+							     		 Swal.fire({
+										        title: "Are you sure?",
+										        text: "You won't be able to revert this",
+										        icon: "warning",
+										        confirmButtonText: "Submit!",
+										        showCancelButton: true
+										    }).then(function(result) {
+										        if (result.value) {
+		                                                  let formData = new FormData();
+		                                                      formData.append('project_no',$('select[name="project_no"]').val());
+		                                                      formData.append('date_created',$('input[name="date_created"]').val());
+		                                                      formData.append('customer',$('input[name="fullname"]').val());
+		                                                      formData.append('email',$('input[name="email"]').val());
+		                                                      formData.append('mobile',$('input[name="mobile"]').val());
+		                                                      formData.append('tin',$('input[name="tin"]').val());
+		                                                      formData.append('address',$('textarea[name="address"]').val());
+		                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
+		                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
+		                                                      formData.append('discount',$('input[name="discount"]').val());
+		                                                      formData.append('vat',$('select[name="vat"]').val());
+		                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+		                                                      formData.append('terms_start',$('input[name="terms_start"]').val());
+		                                                      formData.append('terms_end',$('input[name="terms_end"]').val());
+		                                                       for(let i =0;i<rowCount;i++){
+		     									  	    formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.textContent));
+		     									  	    formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+		     									  	    formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
+		     									  	    formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+											         }
+		                                                      thisURL = baseURL + 'create_controller/Create_Salesorder_Project';
+											  _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Project",false);
+									          }
+									   	 });
+							     	}
+					     		 }
+					     	});
+					     }
 				   	 });
 		 		});
 	 			break;
@@ -688,52 +584,69 @@ var KTFormControls = function () {
                                    }
                                  }
                              );
+                          var form_terms = document.getElementById('terms_condition');
+				      var validation_terms = FormValidation.formValidation(
+							form_terms,{
+								fields: {
+									terms_start: {validators: {notEmpty: {message: 'Field is required'}}},
+									terms_end: {validators: {notEmpty: {message: 'Field is required'}}},
+								},
+								plugins: { //Learn more: https://formvalidation.io/guide/plugins
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					 );
                          $(document).on('click','.btn-create-submit',function(e){
                               e.preventDefault();
                               validation.validate().then(function(status) {
-                              if (status == 'Valid') {
-                                   var rowCount = $('#kt_product_breakdown_table tbody tr').length;
-                                   if(!rowCount){
-                                        Swal.fire("Warning!", "Product break down form is empty!", "warning")
-                                   }else{
-                                         Swal.fire({
-                                                title: "Are you sure?",
-                                                text: "You won't be able to revert this",
-                                                icon: "warning",
-                                                confirmButtonText: "Submit!",
-                                                showCancelButton: true
-                                            }).then(function(result) {
-                                                if (result.value) {
-                                                	alert($('input[name="tin"]').val())
-                                                  let formData = new FormData();
-                                                      formData.append('date_created',$('input[name="date_created"]').val());
-                                                      formData.append('customer',$('input[name="fullname"]').val());
-                                                      formData.append('email',$('input[name="email"]').val());
-                                                      formData.append('mobile',$('input[name="mobile"]').val());
-                                                      formData.append('address',$('textarea[name="address"]').val());
-                                                      formData.append('tin',$('input[name="tin"]').val());
-                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
-                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
-                                                      formData.append('discount',$('input[name="discount"]').val());
-                                                      formData.append('vat',$('select[name="vat"]').val());
-                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
-                                                       for(let i =0;i<rowCount;i++){
-                                                           formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.getAttribute('data-id')));
-                                                           formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
-                                                           formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
-                                                           formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
-                                                      }
-                                                  thisURL = baseURL + 'create_controller/Create_Salesorder_Stocks';
-                                               _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Stocks",false);
-                                             }
-                                         });
-                                   }
-                             }
-                          });
+	                              if (status == 'Valid') {
+	                              	validation_terms.validate().then(function(statuss) {
+						     		 if (statuss == 'Valid') {
+						     		 	var rowCount = $('#kt_product_breakdown_table tbody tr').length;
+			                                   if(!rowCount){
+			                                        Swal.fire("Warning!", "Product break down form is empty!", "warning")
+			                                   }else{
+			                                         Swal.fire({
+			                                                title: "Are you sure?",
+			                                                text: "You won't be able to revert this",
+			                                                icon: "warning",
+			                                                confirmButtonText: "Submit!",
+			                                                showCancelButton: true
+			                                            }).then(function(result) {
+			                                                if (result.value) {
+			                                                  let formData = new FormData();
+			                                                      formData.append('date_created',$('input[name="date_created"]').val());
+			                                                      formData.append('customer',$('input[name="fullname"]').val());
+			                                                      formData.append('email',$('input[name="email"]').val());
+			                                                      formData.append('mobile',$('input[name="mobile"]').val());
+			                                                      formData.append('address',$('textarea[name="address"]').val());
+			                                                      formData.append('tin',$('input[name="tin"]').val());
+			                                                      formData.append('downpayment',$('input[name="downpayment"]').val());
+			                                                      formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
+			                                                      formData.append('discount',$('input[name="discount"]').val());
+			                                                      formData.append('vat',$('select[name="vat"]').val());
+			                                                      formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+			                                                      formData.append('terms_start',$('input[name="terms_start"]').val());
+					                                            formData.append('terms_end',$('input[name="terms_end"]').val());
+			                                                       for(let i =0;i<rowCount;i++){
+			                                                           formData.append('description[]', Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.getAttribute('data-id')));
+			                                                           formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+			                                                           formData.append('unit[]',Array.from(document.getElementsByClassName('td-unit['+i+']')).map(item => item.textContent));
+			                                                           formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+			                                                      }
+			                                                  thisURL = baseURL + 'create_controller/Create_Salesorder_Stocks';
+			                                               _ajaxForm(thisURL,"POST",formData,"Create_Salesorder_Stocks",false);
+			                                             }
+			                                         });
+			                                   }
+						     		 }
+						     	});
+	                              }
+	                         });
                     });
                     break;
-               }
-
+                 }
 
 	 		   case "Update_Project_Monitoring":{
 	 		   	$(document).on('click','.save',function(e){
@@ -1059,7 +972,7 @@ var KTFormControls = function () {
 						}
 					   }
 					);
-	 			$(document).on('click','#create_deposite_btn',function(e){
+	 			$(document).on('click','.Create_Deposit',function(e){
 	 				e.preventDefault();
 	 				validation.validate().then(function(status) {
 					     if (status == 'Valid'){ 	
@@ -1086,26 +999,19 @@ var KTFormControls = function () {
 	 		//Create
 	 		case "Create_Deposit":{
 	 			if(response.status=="success"){
-                  	_initToastSuccess();
-                  	let TableURL = baseURL + 'datatable_controller/Customer_Collected_DataTable';
-					let TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
-					_DataTableLoader('tbl_customer_collected',TableURL,TableData,false);
+                  	      _initToastSuccess();
+                  	      KTDatatablesDataSourceAjaxClient.init('tbl_collection');
 					document.getElementById("Create_Deposit").reset();
 					$('#Create_Deposit').resetForm();
                     }else if(response.status =='APPROVED'){
                     	Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-						let TableURL = baseURL + 'datatable_controller/Customer_Deposite_DataTable';
-						let TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}]; 
-						_DataTableLoader('tbl_customer_deposite',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Customer_Collected_DataTable';
-						let TableData1 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
-						_DataTableLoader('tbl_customer_collected',TableURL1,TableData1,false);
+						KTDatatablesDataSourceAjaxClient.init('tbl_collection');
                     	});
                     
                     }else{
-                    	Swal.fire("TRACKING NO IS INVALID!", "Please check your receipt", "info");
+                    	Swal.fire("Tracking number is invalid!", "Please check your receipt", "info");
                     }
+                    _initnotificationupdate();
                     break;
 	 		}
 	 		case "Update_Profile":{
@@ -1118,6 +1024,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Nothing Changes'});
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 
@@ -1128,28 +1035,29 @@ var KTFormControls = function () {
 	 			}else{
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Nothing Changes!'});
 	 			}
-	 				if(response.action == 'save-name'){
-	  					$('.btn-name').attr('data-action','edit-name').removeClass('save');
-	  					$('#edit-name').removeClass('flaticon2-check-mark').addClass('far fa-edit');
-					 	$('.text-name').attr('disabled');
-				 	}else if(response.action == 'save-address'){
-				 		$('.btn-address').attr('data-action','edit-address').removeClass('save');
-				 		$('#edit-address').removeClass('flaticon2-check-mark').addClass('far fa-edit');
-				 		$('.text-address').attr('disabled');
-				 	}else if(response.action == 'save-amount'){
-				 		$('.btn-amount').attr('data-action','edit-amount').removeClass('save');
-				 		$('#edit-amount').removeClass('flaticon2-check-mark').addClass('far fa-edit');
-				 		$('.text-amount').prop('disabled','disabled');
-				 	}else if(response.action == 'save-labor'){
-				 		$('.btn-labor').attr('data-action','edit-labor').removeClass('save');
-				 		$('#edit-labor').removeClass('flaticon2-check-mark').addClass('far fa-edit');
-				 		$('.text-labor').prop('disabled','disabled');
-				 	}else if(response.action == 'save-date'){
-				 		$('.btn-date').attr('data-action','edit-date').removeClass('save');
-				 		$('#edit-date').removeClass('flaticon2-check-mark').addClass('far fa-edit');
-				 		$('.text-start').prop('disabled','disabled');
-				 		$('.text-due').prop('disabled','disabled');
-				 	}
+ 				if(response.action == 'save-name'){
+  					$('.btn-name').attr('data-action','edit-name').removeClass('save');
+  					$('#edit-name').removeClass('flaticon2-check-mark').addClass('far fa-edit');
+				 	$('.text-name').attr('disabled');
+			 	}else if(response.action == 'save-address'){
+			 		$('.btn-address').attr('data-action','edit-address').removeClass('save');
+			 		$('#edit-address').removeClass('flaticon2-check-mark').addClass('far fa-edit');
+			 		$('.text-address').attr('disabled');
+			 	}else if(response.action == 'save-amount'){
+			 		$('.btn-amount').attr('data-action','edit-amount').removeClass('save');
+			 		$('#edit-amount').removeClass('flaticon2-check-mark').addClass('far fa-edit');
+			 		$('.text-amount').prop('disabled','disabled');
+			 	}else if(response.action == 'save-labor'){
+			 		$('.btn-labor').attr('data-action','edit-labor').removeClass('save');
+			 		$('#edit-labor').removeClass('flaticon2-check-mark').addClass('far fa-edit');
+			 		$('.text-labor').prop('disabled','disabled');
+			 	}else if(response.action == 'save-date'){
+			 		$('.btn-date').attr('data-action','edit-date').removeClass('save');
+			 		$('#edit-date').removeClass('flaticon2-check-mark').addClass('far fa-edit');
+			 		$('.text-start').prop('disabled','disabled');
+			 		$('.text-due').prop('disabled','disabled');
+			 	}
+				 _initnotificationupdate();
 	 			break;
 	 		}
 	 	
@@ -1166,61 +1074,35 @@ var KTFormControls = function () {
 	 			}else{
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'info',title: 'Nothing Changes!'});	
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Rawmats_Stocks":{
 	 			if(response == true){
 		 			Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
-		 			let TableURL = baseURL + 'datatable_controller/RawMaterial_Stocks_DataTable';
-					let TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-					_DataTableLoader('tbl_rawmats',TableURL,TableData,false);
-
-					let TableURL1 = baseURL + 'datatable_controller/RawMaterial_OutStocks_DataTable';
-					let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-					_DataTableLoader('tbl_rawmats_outofstocks',TableURL1,TableData1,false);
-
-					let TableURL2 = baseURL + 'datatable_controller/RawMaterial_New_DataTable';
-					let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
-					_DataTableLoader('tbl_rawmats_new',TableURL2,TableData2,false);
-					});}else{
-		 				_initToast('error','Nothing Changes');
+		 			KTDatatablesDataSourceAjaxClient.init('tbl_rawmats');
+					});
+		 		}else{
+		 			_initToast('error','Nothing Changes');
 				}
+				_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_SpareParts_Stocks":{
 	 			if(response == true){
 	 				Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
-			 			let TableURL = baseURL + 'datatable_controller/SpareParts_Stocks_DataTable';
-						let TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-						_DataTableLoader('tbl_spareparts',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/SpareParts_Outofstocks_DataTable';
-						let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-						_DataTableLoader('tbl_spareparts_outofstocks',TableURL1,TableData1,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/SpareParts_newstocks_DataTable';
-						let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
-						_DataTableLoader('tbl_spareparts_new',TableURL2,TableData2,false);
+	 					KTDatatablesDataSourceAjaxClient.init('tbl_spareparts');
 					});
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_OfficeSupplies_Stocks":{
 	 			if(response == true){
 			 			Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
-			 			let TableURL = baseURL + 'datatable_controller/OfficeSupplies_Stocks_DataTable';
-						let TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-						_DataTableLoader('tbl_officesupplies',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/OfficeSupplies_Outofstocks_DataTable';
-						let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-						_DataTableLoader('tbl_officesupplies_outofstocks',TableURL1,TableData1,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/OfficeSupplies_newstocks_DataTable';
-						let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
-						_DataTableLoader('tbl_officesupplies_new',TableURL2,TableData2,false);
+			 			KTDatatablesDataSourceAjaxClient.init('tbl_officesupplies');
 						});
 	 			}else{
 	 				_initToast('error','Nothing Changes');
@@ -1230,9 +1112,7 @@ var KTFormControls = function () {
 	 		case "Update_Production":{
 	 			if(response == true){
 	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
-	 				let TableURL = baseURL + 'datatable_controller/RawMat_Production_Stocks_DataTable';
-					let TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'action'}];
-					_DataTableLoader('tbl_production_stocks',TableURL,TableData,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_production_stocks');
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
@@ -1283,9 +1163,7 @@ var KTFormControls = function () {
 	 		case "Create_Supplier":{
 	 			if(response !=false){
 	 				_initToast('success','New Supplier Created Successfully');
-	 				let TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
-					let TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data: 'action'}]; 
-					_DataTableLoader('tbl_supplier',TableURL,TableData,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_supplier');
 					$('#Create_Supplier')[0].reset();
 					$('#add-supplier').modal('hide');
 	 			}else{
@@ -1301,19 +1179,14 @@ var KTFormControls = function () {
 	 			}else{
 	 				 Swal.fire("Error!", "Image upload is incorrect!", "warning");
 	 			}
+	 			_initnotificationupdate();
 	 			break;
 	 		}
-	 		case "Update_Accounting_Purchase_Stocks_Received":
+	 		case"Update_Accounting_Purchase_Stocks_Received":
 	 		case"Update_Accounting_Purchase_Stocks_Request":{
 	 			if(response.type == 'success'){
 	 				_initToast(response.type,response.message);
-	 				let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks';
-					let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}];
-					_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-					let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
-					let TableData2 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}]; 
-					_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_purchased_material_stocks');
 					if(response.type == 'success'){
 						$('#view-purchased-request').modal('hide');
 						$('#view-purchased-received').modal('hide');
@@ -1321,19 +1194,14 @@ var KTFormControls = function () {
 	 			}else{
 	 				 Swal.fire("Error!", "Something went wrong! ("+response.message+")", response.type);
 	 			}
+	 			_initnotificationupdate();
 				break;
 	 		}
 	 		case "Update_Accounting_Purchase_Project_Received":
 	 		case"Update_Accounting_Purchase_Project_Request":{
 	 			if(response.type == 'success'){
 	 				_initToast(response.type,response.message);
-	 				let TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
-					let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}];
-					_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
-
-					let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
-					let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action'}]; 
-					_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_purchased_material_project');
 					if(response.type == 'success'){
 						$('#view-purchased-request').modal('hide');
 						$('#view-purchased-received').modal('hide');
@@ -1341,7 +1209,19 @@ var KTFormControls = function () {
 	 			}else{
 	 				 Swal.fire("Error!", "Something went wrong! ("+response.message+")", response.type);
 	 			}
+	 			_initnotificationupdate();
 				break;
+	 		}
+	 		case "Create_Request_Material":
+            	case "Create_Salesorder_Stocks":
+	 		case "Create_Salesorder_Project":{
+	                if(response == true){
+	                    Swal.fire("Create Successfully!", "This form is Completed!", "success").then(function(){location.reload();}); 
+	                }else{
+	                      Swal.fire("Error!", "Something went wrong!", "error");
+	                }
+                _initnotificationupdate();
+	 		 break;
 	 		}
 	 	}
 	 }

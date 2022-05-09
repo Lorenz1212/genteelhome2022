@@ -235,32 +235,76 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Salesorder_Stocks_Request_DataTable_Production($user_id);
         echo json_encode($data);
     }
-    public function Salesorder_Stocks_Shipping_DataTable_Production(){
+    public function Salesorder_Stocks_Approved_DataTable_Production(){
         $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Shipping_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Approved_DataTable_Production($user_id);
         echo json_encode($data);
     }
-    public function Salesorder_Stocks_Delivered_DataTable_Production(){
+    public function Salesorder_Stocks_Completed_DataTable_Production(){
         $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Delivered_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Completed_DataTable_Production($user_id);
         echo json_encode($data);
     }
+    public function Salesorder_Stocks_Cancelled_DataTable_Production(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Stocks_Cancelled_DataTable_Production($user_id);
+        echo json_encode($data);
+    }
+
 
     public function Salesorder_Project_Request_DataTable_Production(){
         $user_id = $this->session->userdata('id');
         $data = $this->datatable_model->Salesorder_Project_Request_DataTable_Production($user_id);
         echo json_encode($data);
     }
-    public function Salesorder_Project_Shipping_DataTable_Production(){
+    public function Salesorder_Project_Approved_DataTable_Production(){
         $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Shipping_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Approved_DataTable_Production($user_id);
         echo json_encode($data);
     }
-    public function Salesorder_Project_Delivered_DataTable_Production(){
+    public function Salesorder_Project_Completed_DataTable_Production(){
         $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Delivered_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Completed_DataTable_Production($user_id);
         echo json_encode($data);
     }
+    public function Salesorder_Project_Cancelled_DataTable_Production(){
+        $user_id = $this->session->userdata('id');
+        $data = $this->datatable_model->Salesorder_Project_Cancelled_DataTable_Production($user_id);
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Request_DataTable_Accounting(){
+        $data = $this->datatable_model->Salesorder_Stocks_Request_DataTable_Accounting();
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Approved_DataTable_Accounting(){
+        $data = $this->datatable_model->Salesorder_Stocks_Approved_DataTable_Accounting();
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Completed_DataTable_Accounting(){
+        $data = $this->datatable_model->Salesorder_Stocks_Completed_DataTable_Accounting();
+        echo json_encode($data);
+    }
+    public function Salesorder_Stocks_Cancelled_DataTable_Accounting(){
+        $data = $this->datatable_model->Salesorder_Stocks_Cancelled_DataTable_Accounting();
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Request_DataTable_Accounting(){
+        $data = $this->datatable_model->Salesorder_Project_Request_DataTable_Accounting();
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Approved_DataTable_Accounting(){
+        $data = $this->datatable_model->Salesorder_Project_Approved_DataTable_Accounting();
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Completed_DataTable_Accounting(){
+        $data = $this->datatable_model->Salesorder_Project_Completed_DataTable_Accounting();
+        echo json_encode($data);
+    }
+    public function Salesorder_Project_Cancelled_DataTable_Accounting(){
+        $data = $this->datatable_model->Salesorder_Project_Cancelled_DataTable_Accounting();
+        echo json_encode($data);
+    }
+
     
     public function Salesorder_Stocks_Request_DataTable_Admin(){
         $user_id = $this->session->userdata('id');
@@ -292,26 +336,33 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Salesorder_Project_Rejected_DataTable_Admin($user_id);
         echo json_encode($data);
     }
-    public function Salesorder_Stocks_Shipping_DataTable_Superuser(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Shipping_DataTable_Superuser($user_id);
+
+
+
+    // DELIVER RECEIPT
+    public function Sales_Delivery_Request_DataTable_Superuser(){
+        $data = $this->datatable_model->Sales_Delivery_Request_DataTable_Superuser();
         echo json_encode($data);
     }
-    public function Salesorder_Stocks_Delivered_DataTable_Superuser(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Delivered_DataTable_Superuser($user_id);
+     public function Sales_Delivery_Ship_DataTable_Superuser(){
+        $data = $this->datatable_model->Sales_Delivery_Ship_DataTable_Superuser();
         echo json_encode($data);
     }
-    public function Salesorder_Project_Shipping_DataTable_Superuser(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Shipping_DataTable_Superuser($user_id);
+    public function Sales_Delivery_Received_DataTable_Superuser(){
+        $data = $this->datatable_model->Sales_Delivery_Received_DataTable_Superuser();
         echo json_encode($data);
     }
-    public function Salesorder_Project_Delivered_DataTable_Superuser(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Delivered_DataTable_Superuser($user_id);
+    public function Sales_Delivery_Completed_DataTable_Superuser(){
+        $data = $this->datatable_model->Sales_Delivery_Completed_DataTable_Superuser();
         echo json_encode($data);
     }
+    public function Sales_Delivery_Cancelled_DataTable_Superuser(){
+        $data = $this->datatable_model->Sales_Delivery_Cancelled_DataTable_Superuser();
+        echo json_encode($data);
+    }
+
+
+
     public function Request_Material_List_Datatable(){
         $user_id = $this->session->userdata('id');
         $data = $this->datatable_model->Request_Material_List_Datatable($user_id);
@@ -383,18 +434,31 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->FinishProduct_DataTable();
         echo json_encode($data);
     }
-    public function Customer_Collected_Request_DataTable(){
-        $data = $this->datatable_model->Customer_Collected_Request_DataTable();
+
+
+    public function Collected_Request_DataTable_Sales(){
+        $data = $this->datatable_model->Collected_Request_DataTable_Sales();
         echo json_encode($data);
     }
-    public function Customer_Collected_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Customer_Collected_Approved_DataTable($user_id);
+    public function Collected_Approved_DataTable_Sales(){
+        $data = $this->datatable_model->Collected_Approved_DataTable_Sales();
         echo json_encode($data);
     }
-     public function Customer_Collected_Approved_Accounting_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Customer_Collected_Approved_Accounting_DataTable($user_id);
+     public function Collected_Cancelled_DataTable_Sales(){
+        $data = $this->datatable_model->Collected_Cancelled_DataTable_Sales();
+        echo json_encode($data);
+    }
+
+    public function Collected_Request_DataTable_Accounting(){
+        $data = $this->datatable_model->Collected_Request_DataTable_Accounting();
+        echo json_encode($data);
+    }
+    public function Collected_Approved_DataTable_Accounting(){
+        $data = $this->datatable_model->Collected_Approved_DataTable_Accounting();
+        echo json_encode($data);
+    }
+     public function Collected_Cancelled_DataTable_Accounting(){
+        $data = $this->datatable_model->Collected_Cancelled_DataTable_Accounting();
         echo json_encode($data);
     }
 
@@ -827,11 +891,7 @@ class Datatable_controller extends CI_Controller
 
    // Repair
     public function Approval_UsersRequest_DataTable(){
-        $base64_encode = $this->input->post('status');
-        $base64_decode = base64_decode($base64_encode);
-        $status =  trim($base64_decode,"=");
-        $status = strtoupper($status);
-        $data = $this->datatable_model->Approval_UsersRequest_DataTable($status);
+        $data = $this->datatable_model->Approval_UsersRequest_DataTable();
         echo json_encode($data);
     }
 

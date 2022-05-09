@@ -241,6 +241,11 @@ class Option_Controller extends CI_Controller
         $data = $this->option_model->so_no_item($so_no);
         echo json_encode($data);
     }
+    public function soa_no(){
+        $id = $this->input->post('id');
+        $data = $this->option_model->soa_no($id);
+        echo json_encode($data);
+    }
     public function purchase_product(){
         $id = $this->input->post('id');
         $data = $this->option_model->purchase_product($id);

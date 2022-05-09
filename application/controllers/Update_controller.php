@@ -10,33 +10,6 @@ class Update_controller extends CI_Controller
     }
 
     //Update Data
-    public function Update_SalesOrder(){
-      $so_no        = $this->input->post('so_no');
-      $project_no   = $this->input->post('project_no');
-      $c_code       = $this->input->post('c_code');
-      $price        = $this->input->post('price');
-      $qty          = $this->input->post('quantity');
-      $b_address    = $this->input->post('b_address');
-      $b_city       = $this->input->post('b_city');
-      $b_province   = $this->input->post('b_province');
-      $b_zipcode    = $this->input->post('b_zipcode');
-      $s_address    = $this->input->post('s_address');
-      $s_city       = $this->input->post('s_city');
-      $s_province   = $this->input->post('s_province');
-      $s_zipcode    = $this->input->post('s_zipcode');
-
-      $b_address = strtoupper($b_address);
-      $b_city = strtoupper($b_city);
-      $b_province = strtoupper($b_province);
-
-      $s_address = strtoupper($s_address);
-      $s_city = strtoupper($s_city);
-      $s_province = strtoupper($s_province);
-      $this->update_model->Update_SalesOrder($so_no,$project_no,$c_code,$price,$qty,$b_address,$b_city,$b_province,$b_zipcode,$s_address,$s_city,$s_province,$s_zipcode);
-      $data = array('status' => 'success');
-      echo json_encode($data); 
-    }
-
      public function Update_Rawmats_Stocks(){
         $status = $this->input->post('status');
         $id = $this->input->post('id');
@@ -277,9 +250,7 @@ class Update_controller extends CI_Controller
         $status =  $this->input->post('status');
         $production_no = $this->input->post('production_no');
         $this->update_model->Update_Approval_Purchase($user_id,$production_no,$status);
-        $data = array(
-            'status' => $status
-        );
+        $data = array('status' => $status);
         echo json_encode($data);    
      }
       public function Update_Approval_Inspection(){
@@ -296,12 +267,10 @@ class Update_controller extends CI_Controller
         $status = $this->input->post('status');
         $so_no = $this->input->post('so_no');
         $this->update_model->Update_Approval_SalesOrder($user_id,$so_no,$status);
-        $data = array(
-            'status' => $status
-        );
+        $data = array('status' => $status);
         echo json_encode($data);    
      }
-     public function Update_Approval_Users(){
+    public function Update_Approval_Users(){
       $user_id = $this->session->userdata('id');
       $status = $this->input->post('status');
       $id = $this->input->post('id');
@@ -309,7 +278,7 @@ class Update_controller extends CI_Controller
       $data = array('status' => $status);
        echo json_encode($data); 
      }
-       public function Update_Approval_OnlineOrder(){
+    public function Update_Approval_OnlineOrder(){
         $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $order_no = $this->input->post('order_no');
@@ -322,6 +291,15 @@ class Update_controller extends CI_Controller
          $id = $this->input->post('id');
          $action = $this->input->post('action');
          $data = $this->update_model->Update_Approval_Concern($user_id,$id,$action);
+         echo json_encode($data); 
+     }
+
+     public function Update_Approval_SalesOrder_Accounting(){
+         $user_id = $this->session->userdata('id');
+         $id = $this->input->post('id');
+         $status = $this->input->post('status');
+         $table = $this->input->post('table');
+         $data = $this->update_model->Update_Approval_SalesOrder_Accounting($user_id,$id,$status,$table);
          echo json_encode($data); 
      }
 
@@ -807,6 +785,31 @@ class Update_controller extends CI_Controller
         $joborder = $this->input->post('joborder');
         $type = $this->input->post('type');
         $data = $this->update_model->Update_Purchase_Complete($user_id,$fund_no,$joborder,$type);
+        echo json_encode($data);
+     }
+
+     public function Update_Sales_Delivery_Receipt_Superuser(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $remarks = $this->input->post('remarks')??" ";
+        $data = $this->update_model->Update_Sales_Delivery_Receipt_Superuser($user_id,$id,$status,$remarks);
+        echo json_encode($data);
+     }
+      public function Update_Salesorder_Stocks_Accounting(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $remarks = $this->input->post('remarks')??" ";
+        $data = $this->update_model->Update_Salesorder_Stocks_Accounting($user_id,$id,$status,$remarks);
+        echo json_encode($data);
+     }
+     public function Update_Salesorder_Project_Accounting(){
+        $user_id = $this->session->userdata('id');
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $remarks = $this->input->post('remarks')??" ";
+        $data = $this->update_model->Update_Salesorder_Project_Accounting($user_id,$id,$status,$remarks);
         echo json_encode($data);
      }
 
