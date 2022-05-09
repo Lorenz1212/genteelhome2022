@@ -92,7 +92,7 @@
 	<div class="d-flex flex-column-fluid">
 	<div class="container">
 		<div class="row">
-								<div class="col-md-9 col-xl-8 col-xxl-8">
+								<div class="col-md-8 col-xl-8 col-xxl-8">
 									<span class="text-dark text-right d-flex flex-column pad-r">
 										<span>124 FIL-AM HIGHWAY TRINIDAD VILLAGE</span>
 										<span>CALIBUTBUT BACOLOR PAMPANGA</span>
@@ -100,7 +100,7 @@
 										<span>finance@genteelhome.co</span>
 									</span>
 								</div>
-								<div class="col-md-3 col-xl-4 col-xxl-4">
+								<div class="col-md-3 col-xl-3 col-xxl-3">
 									<img src="<?php echo base_url()?>assets/images/logo/logo-so.jpg" class="image1-size-r" alt="">
 								</div>
 							</div>
@@ -177,11 +177,11 @@ var baseURL = "<?php echo base_url();?>";
 <script src="<?php echo base_url(); ?>assets/js/scripts.bundle.js"  type='text/javascript'></script>
 <script src="<?php echo base_url(); ?>assets/js/pages/my-script.js"  type='text/javascript'></script>
 <script type="text/javascript">
-$(document).ready(function(){
-      setTimeout(function(){
-          window.print();
-      }, 1000);
-       window.onafterprint = window.close;
- })	
+// $(document).ready(function(){
+//       setTimeout(function(){
+//           window.print();
+//       }, 1000);
+//        window.onafterprint = window.close;
+//  })	
 </script> 
 </html>
