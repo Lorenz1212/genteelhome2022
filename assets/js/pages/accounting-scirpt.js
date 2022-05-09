@@ -665,29 +665,56 @@ const month = ["January","February","March","April","May","June","July","August"
 				    });
 				})
 			}
-				case "data-salesorder-create-project":{
+			case "data-salesorder-create-project":{
 				_initNumberOnly(".qty,#discount");
 				_initCurrency_format('input[name="amount"],input[name="shipping_fee"],input[name="downpayment"]');
 				_ajaxloaderOption('option_controller/Customer_Name','POST',false,'customer_name');
+
+				if($('#kt_product_breakdown_table tbody tr').length == 0){
+	                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+	                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+	                                    </div>\
+	                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+					$('#kt_product_breakdown_table > tbody').empty();	
+				}
+
 				$(document).on('click','.btn-submit',function(e){
 					e.preventDefault();
 					let description = $('input[name=description]').val();
 					let qty  = $('input[name=qty]').val();
 					let unit = $('input[name=unit]').val();
 					let amount = $('input[name=amount]').val();
-					if(!description || !qty || !unit || !amount){
-						Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+					let validation = $('#kt_product_breakdown_table tr > td:contains('+description+')').length;
+					if(validation == 0){
+						if(!description || !qty || !unit || !amount){
+							Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+						}else{
+							let i = $('#kt_product_breakdown_table tbody tr').length;
+							if((i+1) != 0){
+								 $('.cart-empty-page').empty();
+							}
+							$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
+								<td class="td-item['+i+']">'+description+'</td>\
+								<td class="text-center td-qty['+i+']">'+qty+'</td>\
+								<td class="text-center td-unit['+i+']">'+unit+'</td>\
+								<td class="text-right td-amount['+i+']">'+amount+'</td>\
+								<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow btn-delete"><i class="far fa-trash-alt"></i></button></td>\
+										</tr>');	
+						}
 					}else{
-						let i = $('#kt_product_breakdown_table tbody tr').length;
-						$('#kt_product_breakdown_table > tbody:last-child').append('<tr>\
-							<td class="td-item['+i+']">'+description+'</td>\
-							<td class="text-center td-qty['+i+']">'+qty+'</td>\
-							<td class="text-center td-unit['+i+']">'+unit+'</td>\
-							<td class="text-right td-amount['+i+']">'+amount+'</td>\
-							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="la la-times"></i></button></td>\
-									</tr>');	
+						Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
+					}	
+				});
+				$(document).on('click','.btn-delete',function(e){
+					e.preventDefault();
+					if($('#kt_product_breakdown_table tbody tr').length == 0){
+		                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+		                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+		                                    </div>\
+		                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+						$('#kt_product_breakdown_table > tbody').empty();	
 					}
-				})
+				});
 				$('input[name=checkbox-status]').click(function() {
 					let status = $(this).attr('data-status');
 					if($(this).prop('checked') == true){
@@ -728,6 +755,13 @@ const month = ["January","February","March","April","May","June","July","August"
 					let id = $(this).val();
 					_ajaxloaderOption('option_controller/pallet_color','POST',{id:id},'pallet-color');
 				});
+				if($('#kt_product_breakdown_table tbody tr').length == 0){
+	                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+	                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+	                                    </div>\
+	                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+					$('#kt_product_breakdown_table > tbody').empty();	
+				}
 				$(document).on('click','.btn-submit',function(e){
 					e.preventDefault();
 					let description = $('select[name=project_no] option:selected').text();
@@ -736,19 +770,37 @@ const month = ["January","February","March","April","May","June","July","August"
 					let qty  = $('input[name=qty]').val();
 					let unit = $('input[name=unit]').val();
 					let amount = $('input[name=amount]').val();
-					if(!description|| !id || !qty || !unit || !amount){
-						Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+					let validation = $('#kt_product_breakdown_table tr > td:contains('+description+')').length;
+					if(validation == 0){
+						if(!description|| !id || !qty || !unit || !amount){
+							Swal.fire("Warning!", "Please fillup the form before you click!", "warning");
+						}else{
+							let i = $('#kt_product_breakdown_table tbody tr').length;
+							if((i+1) != 0){
+								 $('.cart-empty-page').empty();
+							}
+							$('#kt_product_breakdown_table > tbody').append('<tr>\
+								<td class="td-item['+i+']" data-id="'+id+'">'+description+' ('+color+')</td>\
+								<td class="text-center td-qty['+i+']">'+qty+'</td>\
+								<td class="text-center td-unit['+i+']">'+unit+'</td>\
+								<td class="text-right td-amount['+i+']">'+amount+'</td>\
+								<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow btn-delete"><i class="far fa-trash-alt"></i></button></td>\
+										</tr>');	
+						}
 					}else{
-						let i = $('#kt_product_breakdown_table tbody tr').length;
-						$('#kt_product_breakdown_table > tbody').append('<tr>\
-							<td class="td-item['+i+']" data-id="'+id+'">'+description+' ('+color+')</td>\
-							<td class="text-center td-qty['+i+']">'+qty+'</td>\
-							<td class="text-center td-unit['+i+']">'+unit+'</td>\
-							<td class="text-right td-amount['+i+']">'+amount+'</td>\
-							<td class="text-center"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="far fa-trash-alt"></i></button></td>\
-									</tr>');	
+						Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
 					}
 				})
+				$(document).on('click','.btn-delete',function(e){
+					e.preventDefault();
+					if($('#kt_product_breakdown_table tbody tr').length == 0){
+		                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+		                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+		                                    </div>\
+		                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+						$('#kt_product_breakdown_table > tbody').empty();	
+					}
+				});
 				$('input[name=checkbox-status]').click(function() {
 					let status = $(this).attr('data-status');
 					if($(this).prop('checked') == true){
