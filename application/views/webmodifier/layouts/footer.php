@@ -36,7 +36,7 @@
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
 						<?php 
-						 echo($this->appinfo->webmodifier('_WEBMODIFIER_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->webmodifier('_WEBMODIFIER_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->webmodifier('_WEBMODIFIER_PROFILE').')"></div>';
+						 echo($this->appinfo->webmodifier('_WEBMODIFIER_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->webmodifier('_WEBMODIFIER_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->webmodifier('_WEBMODIFIER_PROFILE').')"></div>';
 						?>
 						<i class="symbol-badge bg-success"></i>
 					</div>

@@ -35,9 +35,9 @@
 				<!--begin::Header-->
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
-					<?php 
-												 echo($this->appinfo->sales('_SALES_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->sales('_SALES_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->sales('_SALES_PROFILE').')"></div>';
-												?>
+								<?php 
+										 echo($this->appinfo->sales('_SALES_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->sales('_SALES_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->sales('_SALES_PROFILE').')"></div>';
+										?>
 						<i class="symbol-badge bg-success"></i>
 					</div>
 					<div class="d-flex flex-column">
