@@ -135,12 +135,14 @@
 				<!--begin::Header-->
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
-						<div class="symbol-label" style="background-image:url(<?php echo base_url(); ?>/assets/images/avatar/<?php echo $this->session->userdata('image') ?>)"></div>
+						<?php 
+						 echo($this->appinfo->supervisor('_SUPERVISOR_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->supervisor('_SUPERVISOR_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->supervisor('_SUPERVISOR_PROFILE').')"></div>';
+						?>
 						<i class="symbol-badge bg-success"></i>
 					</div>
 					<div class="d-flex flex-column">
-						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?php echo $this->session->userdata('fullname') ?></a>
-						<div class="text-muted mt-1"><?php echo $this->session->userdata('role') ?></div>
+						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?php echo $this->appinfo->supervisor('_SUPERVISOR_FNAME') ?> <?php echo $this->appinfo->supervisor('_SUPERVISOR_LNAME') ?></a>
+						<div class="text-muted mt-1"><?php echo $this->appinfo->supervisor('_SUPERVISOR_ROLE') ?></div>
 						<div class="navi mt-2">
 							<a href="#" class="navi-item">
 								<span class="navi-link p-0 pb-2">

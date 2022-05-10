@@ -319,13 +319,6 @@
 													</ul>
 												</div>
 											</li>
-											<?php if($this->session->userdata('voucher') == 2) {
-												echo '<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-														<a href="'.base_url().'gh/reviewer/voucher" class="menu-link">
-															<span class="menu-text">Voucher</span>
-														</a>
-													</li>';}
-											?>
 										</ul>
 										<!--end::Header Nav-->
 									</div>
@@ -342,9 +335,11 @@
 									<div class="topbar-item">
 										<div class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto" id="kt_quick_user_toggle">
 											<span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->session->userdata('fullname'); ?></span>
+											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->appinfo->superuser('_SUPERUSER_FNAME') ?></span>
 											<span class="symbol symbol-35">
-												<span class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"><?php echo $this->session->userdata('letter'); ?></span>
+												<?php 
+												 echo($this->appinfo->superuser('_SUPERUSER_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->superuser('_SUPERUSER_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->superuser('_SUPERUSER_PROFILE').')"></div>';
+												?>
 											</span>
 										</div>
 									</div>
