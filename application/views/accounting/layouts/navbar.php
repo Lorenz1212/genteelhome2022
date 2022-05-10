@@ -215,11 +215,11 @@
 																 </a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/report-collection-stocks";?>" class="menu-link "><span class="menu-text">Sales Collection </span>
+																<a href="<?php echo base_url()."gh/accounting/report-collection";?>" class="menu-link "><span class="menu-text">Sales Collection </span>
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/cashfund";?>" class="menu-link "><span class="menu-text">Cash Fund</span>
+																<a href="<?php echo base_url()."gh/accounting/report-cashfund";?>" class="menu-link "><span class="menu-text">Cash Fund</span>
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
@@ -227,7 +227,7 @@
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/cash-position";?>" class="menu-link "><span class="menu-text">Cash Position</span>
+																<a href="<?php echo base_url()."gh/accounting/report-cash-position";?>" class="menu-link "><span class="menu-text">Cash Position</span>
 																</a>
 															</li>
 														</li>
@@ -660,9 +660,11 @@
 									<div class="topbar-item">
 										<div class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto" id="kt_quick_user_toggle">
 											<span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->session->userdata('fullname'); ?></span>
+											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->appinfo->accounting('_ACCOUNTING_FNAME') ?></span>
 											<span class="symbol symbol-35">
-												<span class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"><?php echo $this->session->userdata('letter'); ?></span>
+												<?php 
+												 echo($this->appinfo->accounting('_ACCOUNTING_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->accounting('_ACCOUNTING_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->accounting('_ACCOUNTING_PROFILE').')"></div>';
+												?>
 											</span>
 										</div>
 									</div>

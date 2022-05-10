@@ -61,11 +61,7 @@
 									<span class="navi-text text-muted text-hover-primary"><?php echo $this->session->userdata('email') ?></span>
 								</span>
 							</a>
-							<?php if($this->session->userdata('login') == 1){
-								echo'<a href="'.base_url().'gh/logout"  class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>';
-							}else{
-								echo'<a href="'.base_url().'gh/superuser_logout"  class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>';
-							}?>
+							<a href="<?php echo base_url('gh/logout/superuser') ?>"  class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
 						</div>
 					</div>
 				</div>

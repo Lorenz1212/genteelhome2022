@@ -48,6 +48,18 @@
 							</div>
 							<form class="form" id="kt_login_signin_form">
 								<div class="form-group">
+									<select class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8 mb-5" name="type">
+										<option value="1">Creatives</option>
+										<option value="2">Production</option>
+										<option value="3">Supervisor</option>
+										<option value="4">Sales</option>
+										<option value="5">Inventory</option>
+										<option value="6">Accounting</option>
+										<option value="7">Administrator</option>
+										<option value="8">Web Modifier</option>
+									</select>
+								</div>
+								<div class="form-group">
 									<input class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8 mb-5" type="text" placeholder="Email/Username" name="username" autocomplete="off" />
 								</div>
 								<div class="form-group">
@@ -137,7 +149,7 @@
 		<script type="text/javascript" src="<?php echo base_url('assets/plugins/custom/prismjs/prismjs.bundle.js') ?>"></script>
 		<script type="text/javascript" src="<?php echo base_url('assets/js/scripts.bundle.js')?>"></script>
 		<script type="text/javascript" src="<?php echo base_url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') ?>"></script>
-		<script type="text/javascript" src="<?php echo base_url('assets/admin-js/login.js') ?>"></script>
+		<script src="<?php echo base_url(); ?>assets/js/pages/custom/login/login.js"></script>
 		<!--end::Page Scripts-->
 	</body>
 	<!--end::Body-->

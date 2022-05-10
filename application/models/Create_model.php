@@ -1,5 +1,25 @@
 <?php
-class Create_model extends CI_Model{  
+class Create_model extends CI_Model{
+	public function __construct(){
+      parent::__construct();
+	      if($this->appinfo->creative('_DESIGNER_ID') != false){
+	        $this->user_id = $this->appinfo->creative('_DESIGNER_ID');
+	      }else if($this->appinfo->production('_PRODUCTION_ID') != false){
+	        $this->user_id = $this->appinfo->production('_PRODUCTION_ID');
+	      }else if($this->appinfo->supervisor('_SUPERVISOR_ID') != false){
+	        $this->user_id = $this->appinfo->supervisor('_SUPERVISOR_ID');
+	      }else if($this->appinfo->sales('_SALES_ID') != false){
+	        $this->user_id = $this->appinfo->sales('_SALES_ID');
+	      }else if($this->appinfo->superuser('_SUPERUSER_ID') != false){
+	        $this->user_id = $this->appinfo->superuser('_SUPERUSER_ID');
+	      }else if($this->appinfo->accounting('_ACCOUNTING_ID') != false){
+	       $this->user_id = $this->appinfo->accounting('_ACCOUNTING_ID');
+	      }else if($this->appinfo->webmodifier('_WEBMODIFIER_ID') != false){
+	        $this->user_id = $this->appinfo->webmodifier('_WEBMODIFIER_ID');
+	      }else if($this->appinfo->admin('_ADMIN_ID') != false){
+	        $this->user_id = $this->appinfo->admin('_ADMIN_ID');
+	      }
+    }
 	private function move_to_folder_docs($image,$tmp,$path){
          $newfilename=  'DOCS'.date('YmdHis').'-'.preg_replace('/[@\;\" "\()]+/', '', $image);
          $path_folder = $path.$newfilename;
@@ -88,7 +108,7 @@ class Create_model extends CI_Model{
   					'date_created'=>date('Y-m-d H:i:s'));
   	   $this->db->insert('tbl_logs',$data);
   	}
-	function Create_Design_Stocks($user_id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){  
+	function Create_Design_Stocks($title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){  
 		 if($image){$files1 = $this->move_to_folder1('PRODUCT',$image,$tmp,$path_image);
 		 	if($files1 == false){$images = false;}else{$images = $files1;}
 		 }else{$images="default.jpg";}
@@ -113,7 +133,7 @@ class Create_model extends CI_Model{
 						  'date_created'=> date('Y-m-d H:i:s'));
 	   		$this->db->insert('tbl_project_design',$data);
 	   		$last_id = $this->db->insert_id();
-	   		$data = array('designer' => $user_id,
+	   		$data = array('designer' => $this->user_id,
 	   			'project_no' => $last_id,
 	   			'c_code'  => $value,
 	   			'c_name'=> $c_name,
@@ -123,7 +143,7 @@ class Create_model extends CI_Model{
 	   			'status'=> 1,
 	   			'type'=> 1,
 	   			'date_created'=>date('Y-m-d H:i:s'),
-	   			'created_by'=> $user_id);
+	   			'created_by'=> $this->user_id);
 	   		$this->db->insert('tbl_project_color',$data);
 	   		$this->logs('design-stocks','Create Design For Stock','tbl_project_design & tbl_project_color','ITEM:'.$title.'<b>PALLET COLOR: '.$c_name);
    			$message = 'ok';
@@ -132,7 +152,7 @@ class Create_model extends CI_Model{
    		$data_response = array('status' => $status, 'message' => $message);
    		return $data_response;
    }
-   function Create_Design_Existing($user_id,$project_no,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){    
+   function Create_Design_Existing($project_no,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){    
    	  	$id = $this->encryption->decrypt($project_no);
    		if($image){$files1 = $this->move_to_folder1('PRODUCT',$image,$tmp,$path_image);
 		 	if($files1 == false){$images = false;}else{$images = $files1;}
@@ -150,7 +170,7 @@ class Create_model extends CI_Model{
 	   		}else{
 	   			if($docs){$docs_file = $this->move_to_folder_docs('STOCKS'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
 	   			$value = $this->get_code('tbl_project_color','CCODE');
-		   		$data = array('designer' => $user_id,
+		   		$data = array('designer' => $this->user_id,
 		   					  'project_no' => $id,
 		   					  'c_code' => $value,
 		   					  'c_name'=> $c_name,
@@ -160,7 +180,7 @@ class Create_model extends CI_Model{
 		                      'status'  => 1,
 		                      'type' => 1,
 		   					  'date_created'=> date('Y-m-d H:i:s'),
-		   					  'created_by'=> $user_id);
+		   					  'created_by'=> $this->user_id);
 	   			$this->db->insert('tbl_project_color',$data);
 	   			$message = 'ok';
 	   			$status ='create';
@@ -169,7 +189,7 @@ class Create_model extends CI_Model{
    		$data_response = array('status' => $status, 'message' => $message);
    		return $data_response;
    }
-   function Create_Design_Project($user_id,$title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs){  
+   function Create_Design_Project($title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs){  
 		if($image){$files = $this->move_to_folder4('PROJECT',$image,$tmp,$path_image,500,500);
 			if($files == false){$images = false;
 			}else{$images = $files;}
@@ -186,14 +206,14 @@ class Create_model extends CI_Model{
 		   					'date_created' => date('Y-m-d H:i:s'));
 	   		$this->db->insert('tbl_project_design',$data);
 	   		$last_id = $this->db->insert_id();
-	   		$data = array('designer'=> $user_id,
+	   		$data = array('designer'=> $this->user_id,
 	   					  'project_no'=> $last_id,
 	   					  'image' => $images,
 	   					  'docs' => $docs_file,   					  			
 	                      'status' => 1,
 	                      'type' => 2,
 	   					  'date_created'=>  date('Y-m-d H:i:s'),
-	   					  'created_by'=> $user_id);
+	   					  'created_by'=> $this->user_id);
 	   		$this->db->insert('tbl_project_color',$data);
 	   		$this->logs('design-project','Create Design For Project','tbl_project_design','ITEM: '.$title);
 	   		$message = 'ok';
@@ -202,20 +222,20 @@ class Create_model extends CI_Model{
    		$data_response = array('status'=> $status,'message'=>$message);
    		return $data_response;
    }
-   	 function Create_Joborder_Stocks($user_id,$project_no,$c_code,$qty,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
+   	 function Create_Joborder_Stocks($project_no,$c_code,$qty,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
 	 		 $value = $this->get_code('tbl_project','JO'.date('Ymd').'-');
 	 		 	$pur_items = explode(',', $pur_item);
 	 		 	$pur_quantitys = explode(',', $pur_quantity);
 	 		 	$pur_remarkss = explode(',', $pur_remarks);
 	 		 	$pur_types = explode(',', $pur_type);
-	    		if($pur_items){
+	    		if($pur_item){
 	    			for($i=0; $i<count($pur_items);$i++){
     				     $query = $this->db->select('*')->from('tbl_materials')->where('id',$pur_items[$i])->get();
     				     $row = $query->row();
     				     if(!$row){
     				     	    if($pur_types[$i] == 2){
 	    				     	    $new_no = $this->get_code('tbl_materials','RMCODE-');
-									$data = array('user_id'=> $user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
+									$data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
 									$this->db->insert('tbl_materials',$data);
 									$item_no = $this->db->insert_id();
     				     	    }
@@ -225,17 +245,16 @@ class Create_model extends CI_Model{
 	                 	$purchase_data = array('production_no'=>$value,
 				                'item_no'		   =>  $item_no,
 				                'quantity'         =>  $pur_quantitys[$i],
-				                'balance' =>  $pur_quantitys[$i],
+				                'balance' 		   =>  $pur_quantitys[$i],
 				                'status'           =>  1,
 				                'remarks'          =>  $pur_remarkss[$i],
 				                'material_type'    =>  $pur_types[$i],
 				                'date_created'     =>  date('Y-m-d H:i:s'));
 	        			$this->db->insert('tbl_purchasing_project',$purchase_data);
 				    }
-				    $this->logs('purchase-request-stocks','Create Purchase Request','tbl_purchasing_project','JOB ORDER: '.$value);
 			    }
-					$data = array('production'=>$user_id,
-				                  'assigned'=>$user_id,
+					$data = array('production'=>$this->user_id,
+				                  'assigned'=>$this->user_id,
 				                  'project_no'=>$this->encryption->decrypt($project_no),
 				                  'c_code' => $this->encryption->decrypt($c_code),
 					 			  'production_no'=>$value,
@@ -250,7 +269,7 @@ class Create_model extends CI_Model{
 	 		 	$mat_types = explode(',', $mat_type);	
 				for($i=0; $i<count($mat_itemnos);$i++){
 				   	$material_data = array('production_no' =>  $value,
-						                'production'       =>  $user_id,
+						                'production'       =>  $this->user_id,
 						                'item_no'		   =>  $mat_itemnos[$i],
 						                'total_qty'        =>  $mat_quantitys[$i],
 						                'status'           =>  1,
@@ -260,20 +279,20 @@ class Create_model extends CI_Model{
        				 $this->db->insert('tbl_material_project',$material_data);
 		       	}
 	 }
-	 function Create_Joborder_Project($user_id,$project_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
+	 function Create_Joborder_Project($project_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
 	 		   $value = $this->get_code('tbl_project','JO'.date('Ymd').'-');
 	 		 	$pur_items = explode(',', $pur_item);
 	 		 	$pur_quantitys = explode(',', $pur_quantity);
 	 		 	$pur_remarkss = explode(',', $pur_remarks);
 	 		 	$pur_types = explode(',', $pur_type);
-	    		if($pur_items){
+	    		if($pur_item){
 	    			for($i=0; $i<count($pur_items);$i++){
     				     $query = $this->db->select('*')->from('tbl_materials')->where('id',$pur_items[$i])->get();
     				     $row = $query->row();
     				     if(!$row){
     				     	    if($pur_types[$i] == 2){
 	    				     	    $new_no = $this->get_code('tbl_materials','RMCODE-');
-									$data = array('user_id'=> $user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
+									$data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
 									$this->db->insert('tbl_materials',$data);
 									$item_no = $this->db->insert_id();
     				     	    }
@@ -292,8 +311,8 @@ class Create_model extends CI_Model{
 				    }
 			    }
 				$data = array('production_no'=>$value,
-							  'production'=>$user_id,
-			                  'assigned'=>$user_id,
+							  'production'=>$this->user_id,
+			                  'assigned'=>$this->user_id,
 			                  'project_no'=>$this->encryption->decrypt($project_no),
 				 			  'status'=>1,
 				 			  'type'=>2,
@@ -305,7 +324,7 @@ class Create_model extends CI_Model{
 	 		 	$mat_types = explode(',', $mat_type);	
 				for($i=0; $i<count($mat_itemnos);$i++){
 				   	$material_data = array('production_no' =>  $value,
-						                'production'       =>  $user_id,
+						                'production'       =>  $this->user_id,
 						                'item_no'		   =>  $mat_itemnos[$i],
 						                'total_qty'        =>  $mat_quantitys[$i],
 						                'status'           =>  1,
@@ -315,13 +334,13 @@ class Create_model extends CI_Model{
        				 $this->db->insert('tbl_material_project',$material_data);
 		       	}
 	 }
-	 function Create_Joborder_Request($user_id,$project_no,$c_code,$unit,$type){        
+	 function Create_Joborder_Request($project_no,$c_code,$unit,$type){        
 	    	$value = $this->get_code('tbl_project','JO'.date('Ymd').'-');
 	    		$data = array('production_no'=>$value,
 	    					  'project_no'=>$this->encryption->decrypt($project_no),
 	    					  'c_code'=>$this->encryption->decrypt($c_code),
-	    					  'production'=>$user_id,
-	    					  'assigned'=>$user_id,
+	    					  'production'=>$this->user_id,
+	    					  'assigned'=>$this->user_id,
 	    					  'unit'=> $unit,
 	    					  'status'=>2,
 	    					  'type'=>$type,
@@ -354,7 +373,7 @@ class Create_model extends CI_Model{
                   	  'date_created' 	=> date('Y-m-d H:i:s'));
         $this->db->insert('tbl_users',$data);
      }
-      function Create_Purchase_Request($user_id,$production_no,$item,$quantity,$remarks){
+      function Create_Purchase_Request($production_no,$item,$quantity,$remarks){
 	 			  for($i=0; $i<count($item);$i++){
                  $items = strtoupper($item[$i]);
 	               $query = $this->db->select('*')->from('tbl_materials')->where('item',$items)->get();
@@ -364,7 +383,7 @@ class Create_model extends CI_Model{
                  	  $this->db->insert('tbl_materials',$data);
                  }
                  $data = array(
-                  'supervisor'    		=>  $user_id,
+                  'supervisor'    		=>  $this->user_id,
                   'production_no' 		=>  $production_no,
                   'request_id'    		=>  'PR'.date('YmdHis'),
                   'item'          		=>  $items,
@@ -376,12 +395,12 @@ class Create_model extends CI_Model{
                 $this->db->insert('tbl_purchasing_project',$data);
           }
 	 }
-	 function Create_MaterialUsed($user_id,$item_no,$production_no,$item,$qty,$unit){
+	 function Create_MaterialUsed($item_no,$production_no,$item,$qty,$unit){
 		    $query1 = $this->db->select('*')->from('tbl_materials')->where('item_no',$item_no)->get();
 		    foreach($query1->result() as $row)  
         	{
         	  $amount = floatval($qty) * floatval($row->price);
-        	  $data = array('supervisor'=>  $user_id,
+        	  $data = array('supervisor'=>  $this->user_id,
 	                      'production_no' =>  $production_no,
 	                      'item'=>  $item,
 	                      'qty' =>  $qty,
@@ -404,9 +423,9 @@ class Create_model extends CI_Model{
             $this->db->update('tbl_material_production',$update);
        		}  
 	 }
-	 function Create_RawMaterial($user_id,$item,$unit,$price){
+	 function Create_RawMaterial($item,$unit,$price){
 	  $value = $this->get_code('tbl_materials','RMCODE-');
-      $data = array('user_id' 			=> $user_id,
+      $data = array('user_id' 			=> $this->user_id,
       	 		    'item_no' 			=> $value,
                     'item'    			=> $item,
                     'unit'				=> $unit,
@@ -423,8 +442,8 @@ class Create_model extends CI_Model{
       $this->db->insert('tbl_material_production',$data);
     }
 
-     function Create_Other_Materials($user_id,$item,$type){
-      $data = array('item' =>$item,'status'=> 1,'type'=>$type,'date_created'=> date('Y-m-d H:i:s'),'created_by'=>$user_id);
+     function Create_Other_Materials($item,$type){
+      $data = array('item' =>$item,'status'=> 1,'type'=>$type,'date_created'=> date('Y-m-d H:i:s'),'created_by'=>$this->user_id);
       $result = $this->db->insert('tbl_other_materials',$data);
       if($result){
       	return true;
@@ -432,8 +451,8 @@ class Create_model extends CI_Model{
       	return false;
       }
     }
-    function Create_OfficeSupplies($user_id,$item){
-   	  $data = array('item' =>$item,'status'=> 1,'type'=>2,'date_created'=> date('Y-m-d H:i:s'),'created_by'=>$user_id);
+    function Create_OfficeSupplies($item){
+   	  $data = array('item' =>$item,'status'=> 1,'type'=>2,'date_created'=> date('Y-m-d H:i:s'),'created_by'=>$this->user_id);
       $result = $this->db->insert('tbl_other_materials',$data);
       if($result){
       	return true;
@@ -441,7 +460,7 @@ class Create_model extends CI_Model{
       	return false;
       }
     }
-    function Create_Other_Matrials_Request($user_id,$item,$quantity,$remarks,$type){
+    function Create_Other_Matrials_Request($item,$quantity,$remarks,$type){
     	 $mr_no = date('YmdHis');
     	 $items = explode(',', $item);
 		 $quantities = explode(',', $quantity);
@@ -455,16 +474,16 @@ class Create_model extends CI_Model{
 	    	 				 'status' => 1,
 	    	 				 'type'=>$type,
 	    	 				 'date_created'=> date('Y-m-d H:i:s'),
-	    	 				 'created_by'=>$user_id);
+	    	 				 'created_by'=>$this->user_id);
     	 		$this->db->insert('tbl_other_material_m_request',$data);
     	 }
     	 return true;
     }
 
-    function Create_Purchase_Request_Stocks($user_id,$item,$quantity,$remarks,$amount,$unit){
+    function Create_Purchase_Request_Stocks($item,$quantity,$remarks,$amount,$unit){
 		        $value = $this->get_code('tbl_request_id','RMPR-'.date('Ymd'));
 	    		$insert = array('request_id' => $value,
-								'purchaser'  => $user_id,
+								'purchaser'  => $this->user_id,
 								'status'	  => 'PENDING',
 								'date_created'=>date('Y-m-d H:i:s'));
 	    		$this->db->insert('tbl_request_id',$insert);
@@ -478,7 +497,7 @@ class Create_model extends CI_Model{
 					}
 					$amounts = floatval(preg_replace('/[^\d.]/', '', $amount[$i]));
     	 			$data = array('request_id'=> $value,
-								'purchaser' => $user_id,
+								'purchaser' => $this->user_id,
 								'item' => $item[$i],
 								'qty'=> $quantity[$i],
 								'balance'=> $quantity[$i],
@@ -493,7 +512,7 @@ class Create_model extends CI_Model{
 
 
     //WebModifier
-    function Create_Web_Banner($user_id,$type,$image,$tmp,$path_image){
+    function Create_Web_Banner($type,$image,$tmp,$path_image){
     		if($image){$files1 = $this->move_to_folder4('WEBBANNER',$image,$tmp,$path_image,1600,1200);
 			 	if($files1 == false){$images = false;}else{$images = $files1;}
 			 }else{$images="default.png";}
@@ -682,7 +701,7 @@ class Create_model extends CI_Model{
     	$data_response = array('status' => 'success');
     	return $data_response;
     }
-     function Create_Web_Finishproduct($user_id,$title,$c_name,$amount,$cat_id,$sub_id,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){    
+     function Create_Web_Finishproduct($title,$c_name,$amount,$cat_id,$sub_id,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){    
    		if($image){$files1 = $this->move_to_folder4('PRODUCT',$image,$tmp,$path_image,500,500);
 		 	if($files1 == false){$images = false;}else{$images = $files1;}
 		}else{$images="default.jpg";}
@@ -714,7 +733,7 @@ class Create_model extends CI_Model{
 			   				  'date_created'  =>  date('Y-m-d H:i:s'));
 		   		$this->db->insert('tbl_project_design',$data);
 		   		$last_id = $this->db->insert_id();
-		   		$data = array('designer'      => $user_id,
+		   		$data = array('designer'      => $this->user_id,
 		   					  'project_no'    => $last_id,
 		   					  'c_code'    	  => $value,
 		   					  'c_name'        => $c_name,
@@ -724,7 +743,7 @@ class Create_model extends CI_Model{
 		                      'status'        => 2,
 		                      'type'       	  => 1,
 		   					  'date_created'  =>  date('Y-m-d H:i:s'),
-		   					  'created_by'	  => $user_id);
+		   					  'created_by'	  => $this->user_id);
 		   		$this->db->insert('tbl_project_color',$data);
 	   			$message = 'ok';
 	   			$status ='success';
@@ -732,7 +751,7 @@ class Create_model extends CI_Model{
 	   		$data_response = array('status' => $status, 'message' => $message);
 	   		return $data_response;
    }
-   function Create_Web_Finishproduct_Pallet($user_id,$project_no,$c_name,$amount,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color){
+   function Create_Web_Finishproduct_Pallet($project_no,$c_name,$amount,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color){
    		if($image){$files1 = $this->move_to_folder4('PRODUCT',$image,$tmp,$path_image,500,500);
 		 	if($files1 == false){$images = false;}else{$images = $files1;}
 		   }else{$images="default.jpg";}
@@ -752,7 +771,7 @@ class Create_model extends CI_Model{
    		}else{
    			$id = $this->encryption->decrypt($project_no);
    			$value = $this->get_code('tbl_project_color','CCODE');
-	   		$data = array('designer'      => $user_id,
+	   		$data = array('designer'      => $this->user_id,
 	   					  'project_no'    => $this->encryption->decrypt($project_no),
 	   					  'c_code'    	  => $value,
 	   					  'c_name'        => $c_name,
@@ -762,7 +781,7 @@ class Create_model extends CI_Model{
 	                      'status'        => 2,
 	                      'type'       	  => 1,
 	   					  'date_created'  =>  date('Y-m-d H:i:s'),
-	   					  'created_by'	  => $user_id);
+	   					  'created_by'	  => $this->user_id);
 	   		$this->db->insert('tbl_project_color',$data);
    			$message = 'ok';
    			$status ='success';
@@ -781,7 +800,7 @@ class Create_model extends CI_Model{
     				'date_to'    => date('Y-m-d',strtotime($date_to)));
     	$this->db->insert('tbl_code_promo',$data);
     }
-     function Create_Web_Interior($user_id,$title,$cat_id,$description,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image){
+     function Create_Web_Interior($title,$cat_id,$description,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image){
      	if($banner_image){$files1 = $this->move_to_folder4('INTERIORBANNER',$banner_image,$banner_tmp,$path_image,1140,653);
      		if($files1 == false){$banner = false;}else{$banner = $files1;}
      	}else{$banner="default.png";}
@@ -813,7 +832,7 @@ class Create_model extends CI_Model{
      	$data_response = array('status'=>$status,'message'=>$message);
     	return $data_response;
     }
-     function Create_Web_Events($user_id,$title,$status,$description,$id,$date_event,$time_event,$location,$image,$tmp,$path){
+     function Create_Web_Events($title,$status,$description,$id,$date_event,$time_event,$location,$image,$tmp,$path){
      	if($image){$images = $this->move_to_folder1($image,$tmp,$path);}else{$images="default.jpg";}
     	$data = array('title'           => $title,
                       'description'     => $description,
@@ -850,7 +869,7 @@ class Create_model extends CI_Model{
 	        $json = array('status'=>$status,'image' => $images,'id'=> $last_id);
   			return $json;
     }
-    function Create_Deposite($user_id,$firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image){
+    function Create_Deposite($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image){
           if($image){$images = $this->move_to_folder1($image,$tmp,$path_image);}else{$images='default.jpg';}
 	         $type ="";
 	        $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$order_no)->get()->row();
@@ -873,11 +892,11 @@ class Create_model extends CI_Model{
                          'image'=> $images,
                          'type'=>$type,
                      	 'date_created'=> date('Y-m-d H:i:s'),
-                     	 'created_by'=>$user_id);
+                     	 'created_by'=>$this->user_id);
             	$this->db->insert('tbl_customer_deposite',$data);
             	return array('status'=>'success');
   	}
-  	function Create_Customer($user_id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region){
+  	function Create_Customer($firstname,$lastname,$mobile,$email,$address,$city,$province,$region){
 				$data = array('firstname' => $firstname,
 							'lastname' => $lastname,
 							'mobile' => $mobile,
@@ -888,23 +907,23 @@ class Create_model extends CI_Model{
 							'region'  => $region,
 							'date_created'=> date('Y-m-d H:i:s'),
 							'latest_update'=> date('Y-m-d H:i:s'),
-							'update_by'=> $user_id);
+							'update_by'=> $this->user_id);
 				$this->db->insert('tbl_customer_online',$data);
 				return 'create';
   	}
-  	function Create_Cash_Position($user_id,$name,$amount,$date_position,$type,$cat_id){
+  	function Create_Cash_Position($name,$amount,$date_position,$type,$cat_id){
 		 	 $data = array('name'=> $name,
 		  					'amount'=> $amount,
 		  					'cat_id'=> $cat_id,
 		  					'type'=> $type,
 		  					'date_position' => date('Y-m-d',strtotime($date_position)),
 		  					'date_created'=> date('Y-m-d H:i:s'),
-		  					'created_by'=> $user_id);
+		  					'created_by'=> $this->user_id);
 		 	$this->db->insert('tbl_cash_position',$data);
 	  		$data_response = array('status' => 'create');
 	  		return $data_response;
   	 }
-  	 function Create_Web_Testimony($user_id,$name,$description,$image,$tmp,$path_image){
+  	 function Create_Web_Testimony($name,$description,$image,$tmp,$path_image){
   	 	 if($image){$files = $this->move_to_folder4('TESTIMONY',$image,$tmp,$path_image,250,250);
   	  	  	 if($files == false){$images = false;}else{$images = $files;}
   	  	  }else{ $images = 'default.jpg';}
@@ -916,7 +935,7 @@ class Create_model extends CI_Model{
 						'description'=> $description,
 						'image'=> $files,
 						'date_created'=> date('Y-m-d H:i:s'),
-						'created_by'=> $user_id);
+						'created_by'=> $this->user_id);
 		 		 $this->db->insert('tbl_customer_testimony',$data);
 		 		 $status = 'create';
 	  	  	 }
@@ -1004,7 +1023,7 @@ class Create_model extends CI_Model{
     	return $json;
     }
    
-     function Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end){
+     function Create_Salesorder_Stocks($date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end){
     	$so_no = $this->get_code('tbl_salesorder_stocks','SO-FS'.date('Ymd'));
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
     	if(!$row){
@@ -1016,7 +1035,7 @@ class Create_model extends CI_Model{
     														 'address'=>$address,
     														 'tin'=>$tin,
     														 'date_created'=>date('Y-m-d H:i:s'),
-    														 'created_by'=>$user_id));
+    														 'created_by'=>$this->user_id));
     		$last_id = $this->db->insert_id();
     	}else{
     		$last_id = $row->id;
@@ -1036,7 +1055,7 @@ class Create_model extends CI_Model{
     				  'date_order'=>date('Y-m-d',strtotime($date_created)),
     				  'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
     				  'date_created'=>date('Y-m-d H:i:s'),
-    				  'created_by'=>$user_id));
+    				  'created_by'=>$this->user_id));
     	$last_id_so = $this->db->insert_id();
     	foreach($description as $key => $value){
     	$this->db->insert('tbl_salesorder_stocks_item',array('so_no'=>$last_id_so,
@@ -1052,7 +1071,7 @@ class Create_model extends CI_Model{
     		return false;	
     	}
     }
-    function Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end){
+    function Create_Salesorder_Project($project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end){
     	$so_no = $this->get_code('tbl_salesorder_project','SO-FP'.date('Ymd'));
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
     	if(!$row){
@@ -1064,7 +1083,7 @@ class Create_model extends CI_Model{
     														 'address'=>$address,
     														 'tin'=>$tin,
     														 'date_created'=>date('Y-m-d H:i:s'),
-    														 'created_by'=>$user_id));
+    														 'created_by'=>$this->user_id));
     		$last_id = $this->db->insert_id();
     	}else{
     		$last_id = $row->id;
@@ -1095,7 +1114,7 @@ class Create_model extends CI_Model{
     				  'date_order'=>date('Y-m-d',strtotime($date_created)),
     				  'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
     				  'date_created'=>date('Y-m-d H:i:s'),
-    				  'created_by'=>$user_id));
+    				  'created_by'=>$this->user_id));
     	if($result){
     		return true;
     	}else{
@@ -1103,7 +1122,7 @@ class Create_model extends CI_Model{
     	}
     	
     }
-    function Create_Return_Item_Warehouse($user_id,$type,$item_no,$qty,$status,$remarks){
+    function Create_Return_Item_Warehouse($type,$item_no,$qty,$status,$remarks){
     	if($type == 1){
     		$row = $this->db->select('*')->from('tbl_materials')->where('id',$item_no)->get()->row();
     		$table = 'tbl_materials';
@@ -1116,27 +1135,27 @@ class Create_model extends CI_Model{
 			$this->db->where('id',$item_no);
 			$this->db->update($table,array('stocks'=>$stocks));
 		}
-    	$this->db->insert('tbl_return_item_warehouse',array('item'=>$row->item,'qty'=>$qty,'type'=>$type,'status'=>$status,'remarks'=>$remarks,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+    	$this->db->insert('tbl_return_item_warehouse',array('item'=>$row->item,'qty'=>$qty,'type'=>$type,'status'=>$status,'remarks'=>$remarks,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
     	return $status;
     }
-    function Create_Return_Item_Customer($user_id,$so_no,$item_no,$item,$qty,$status,$remarks){
-    	$this->db->insert('tbl_return_item_customer',array('so_no'=>$so_no,'item_no'=>$item_no,'item'=>$item,'qty'=>$qty,'status'=>$status,'remarks'=>$remarks,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+    function Create_Return_Item_Customer($so_no,$item_no,$item,$qty,$status,$remarks){
+    	$this->db->insert('tbl_return_item_customer',array('so_no'=>$so_no,'item_no'=>$item_no,'item'=>$item,'qty'=>$qty,'status'=>$status,'remarks'=>$remarks,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
     	return $status;
     }
-    function Create_Request_Material($user_id,$item_no,$item,$qty,$type){
+    function Create_Request_Material($item_no,$item,$qty,$type){
     	$mat_itemno = explode(',', $item_no);
     	$mat_item = explode(',', $item);
 		$mat_quantity = explode(',', $qty);
 		$mat_type = explode(',', $type);	
 		for($i=0; $i<count($mat_itemno);$i++){
-		 $this->db->insert('tbl_other_material_m_request',array('item_no'=>$mat_itemno[$i],'item'=>$mat_item[$i],'qty'=>$mat_quantity[$i],'type'=>$mat_type[$i],'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+		 $this->db->insert('tbl_other_material_m_request',array('item_no'=>$mat_itemno[$i],'item'=>$mat_item[$i],'qty'=>$mat_quantity[$i],'type'=>$mat_type[$i],'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
        	}
     	return true;
     }
-    function Create_Request_Pre_Order($user_id,$id){
+    function Create_Request_Pre_Order($id){
     	$row = $this->db->select('*')->from('tbl_cart_add')->where('id',$id)->get()->row();
     	if($row){
-    		$this->db->insert('tbl_cart_pre_order',array('order_no'=>$row->order_no,'c_code'=>$row->c_code,'qty'=>$row->qty,'status'=>1,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+    		$this->db->insert('tbl_cart_pre_order',array('order_no'=>$row->order_no,'c_code'=>$row->c_code,'qty'=>$row->qty,'status'=>1,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
     		$this->db->where('id',$id);
     		$this->db->update('tbl_cart_add',array('type'=>'Request'));
     		return 'success';
@@ -1144,8 +1163,8 @@ class Create_model extends CI_Model{
     		return 'error';
     	}
     }
-    function Create_Customized_Request($user_id,$subject,$description){
-    	$result = $this->db->insert('tbl_customized_request',$data = array('subject'=>$subject,'description'=>$description,'status'=>'P','date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+    function Create_Customized_Request($subject,$description){
+    	$result = $this->db->insert('tbl_customized_request',$data = array('subject'=>$subject,'description'=>$description,'status'=>'P','date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
     	if($result){
     		return array('status'=>true,'type'=>'success','message'=>'Created Successfully');
     	}else{
@@ -1153,24 +1172,24 @@ class Create_model extends CI_Model{
     	}
     	
     }
-    function Create_Material_request_Supervisor($user_id,$id,$item,$qty,$type){
+    function Create_Material_request_Supervisor($id,$item,$qty,$type){
     	$row = $this->db->select('*')->from('tbl_material_project')->where('production_no',$id)->where('item_no',$item)->get()->row();
     	if($row){
     		return false;
     	}else{
 			$material_data = array('production_no' 	  =>  $id,
-					               'production'       =>  $user_id,
+					               'production'       =>  $this->user_id,
 					               'item_no'		  =>  $item,
 					               'total_qty'        =>  $qty,
 					               'status'           =>  1,
 					               'mat_type'		  =>  $type,
 					               'date_created'     =>  date('Y-m-d H:i:s'),
-					               'created_by'		  =>  $user_id);
+					               'created_by'		  =>  $this->user_id);
     		$this->db->insert('tbl_material_project',$material_data);
     		return $id;
     	}
     }
-    function Create_Purchase_request_Supervisor($user_id,$id,$item,$qty,$remarks,$type,$status,$special,$unit){
+    function Create_Purchase_request_Supervisor($id,$item,$qty,$remarks,$type,$status,$special,$unit){
     	if($status == 1){
     		$row = $this->db->select('*')->from('tbl_purchasing_project')->where('production_no',$id)->where('item_no',$item)->get()->row();
 	    	if($row){
@@ -1192,7 +1211,7 @@ class Create_model extends CI_Model{
 				 $row_m = $this->db->select('*')->from('tbl_materials')->where('item',$special)->get()->row();
 			     if(!$row_m){
 			     	$new_no = $this->get_code('tbl_materials','RMCODE-');
-					$data = array('user_id'=> $user_id,'item_no'=> $new_no,'item'=> $special,'unit'=>$unit,'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
+					$data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $special,'unit'=>$unit,'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
 					$this->db->insert('tbl_materials',$data);
 					$purchase_data = array('production_no'		  =>  $id,
 							                'item_no'		   	  =>  $this->db->insert_id(),
@@ -1223,7 +1242,7 @@ class Create_model extends CI_Model{
 			    }
     		}
        }
-     function Create_Supplier($user_id,$name,$mobile,$email,$address){
+     function Create_Supplier($name,$mobile,$email,$address){
      	$row = $this->db->select('*')->from('tbl_supplier')->where('name',$name)->get()->row();
      	if(!$row){
      		$data = array('name'          =>  $name,
@@ -1231,14 +1250,14 @@ class Create_model extends CI_Model{
 		                  'email'         =>  $email,
 		                  'address'       =>  $address,
 		                  'date_created'  =>date('Y-m-d H:i:s'),
-		              	  'created_by'=>$user_id);
+		              	  'created_by'=>$this->user_id);
 	       $this->db->insert('tbl_supplier',$data);
 	       return true;
 	     }else{
 	     	return false;
 	     }
     }
-    function Create_Supplier_Item($user_id,$id,$item,$amount){
+    function Create_Supplier_Item($id,$item,$amount){
     	$row = $this->db->select('*')->from('tbl_supplier_item')->where('item_no',$item)->where('supplier',$id)->get()->row();
 		if($row){
 			return false;
@@ -1248,12 +1267,12 @@ class Create_model extends CI_Model{
 		                  'amount'         => $amount,
 		                  'status'         => 1,
 		                  'date_created'   => date('Y-m-d H:i:s'),
-		                  'created_by'	   => $user_id);        
+		                  'created_by'	   => $this->user_id);        
 	    	$this->db->insert('tbl_supplier_item',$data);
 	    	return $id;
 		}
     }
-    function Create_Delivery_Receipt($user_id,$id,$item,$qty,$so_no,$type){
+    function Create_Delivery_Receipt($id,$item,$qty,$so_no,$type){
     	$dr_no = $this->get_code('tbl_sales_delivery_item','DRN'.date('Ymd'));
 		if($type ==1){
 			$row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$so_no)->get()->row();
@@ -1268,7 +1287,7 @@ class Create_model extends CI_Model{
 			 		  'type'=>1,
 			 		  'date_order'=>$row->date_order,
 			 		  'date_created'=>date('Y-m-d H:i:s'),
-			 		  'created_by'=>$user_id
+			 		  'created_by'=>$this->user_id
 			 		)
 			 );
 				$last_id = $this->db->insert_id();
@@ -1301,7 +1320,7 @@ class Create_model extends CI_Model{
 				 		  'type'=>2,
 				 		  'date_order'=>$row_p->date_order,
 				 		  'date_created'=>date('Y-m-d H:i:s'),
-				 		  'created_by'=>$user_id));
+				 		  'created_by'=>$this->user_id));
 				$last_id = $this->db->insert_id();
 				$id = explode(',', $id);
 		    	$item = explode(',', $item);

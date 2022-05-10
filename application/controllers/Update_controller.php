@@ -3,12 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Update_controller extends CI_Controller 
 { 
-    public function __construct()
-    {
+    public function __construct(){
       parent::__construct();
       $this->load->model('update_model');
     }
-
     //Update Data
      public function Update_Rawmats_Stocks(){
         $status = $this->input->post('status');
@@ -19,19 +17,17 @@ class Update_controller extends CI_Controller
         echo json_encode($data); 
      }
      public function Update_Other_Materials_Stocks(){
-        $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $id = $this->input->post('id');
         $stocks = $this->input->post('stocks');
         $stocks_alert = $this->input->post('stocks_alert');
-        $data = $this->update_model->Update_Other_Materials_Stocks($user_id,$id,$stocks,$status,$stocks_alert);
+        $data = $this->update_model->Update_Other_Materials_Stocks($id,$stocks,$status,$stocks_alert);
         echo json_encode($data); 
      }
      public function Update_Release_SalesOrder(){
-        $user_id = $this->session->userdata('id');
         $so_no = $this->input->post('so_no');
         $si_no = $this->input->post('si_no');
-        $this->update_model->Update_Release_SalesOrder($user_id,$so_no,$si_no);
+        $this->update_model->Update_Release_SalesOrder($so_no,$si_no);
         $data = array('status' => 'success');
         echo json_encode($data); 
      }
@@ -69,15 +65,13 @@ class Update_controller extends CI_Controller
         $this->update_model->Update_ChangePassword($id,$password);
      }
      public function Update_Approval_Design(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
-        $this->update_model->Update_Approval_Design($user_id,$id,$status);
+        $this->update_model->Update_Approval_Design($id,$status);
         $data = array('status' => $status);
         echo json_encode($data); 
      }
     public function Update_Design_Stocks(){
-       $user_id = $this->session->userdata('id');
        $id = isset($_POST['id'])? $this->input->post('id'): false;
        $title = isset($_POST['title'])? $this->input->post('title'): false;
        $c_name = isset($_POST['c_name'])? $this->input->post('c_name'): false;
@@ -97,11 +91,10 @@ class Update_controller extends CI_Controller
        $color_previous = isset($_POST['color_previous'])? $this->input->post('color_previous'): false;
        $docs_previous = isset($_POST['docs_previous'])? $this->input->post('docs_previous'): false;
 
-       $data = $this->update_model->Update_Design_Stocks($user_id,$id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs,$image_previous,$color_previous,$docs_previous);
+       $data = $this->update_model->Update_Design_Stocks($id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs,$image_previous,$color_previous,$docs_previous);
         echo json_encode($data);
      }
      public function Update_Design_Project(){
-       $user_id = $this->session->userdata('id');
        $id = isset($_POST['id'])? $this->input->post('id'): false;
        $title = isset($_POST['title'])? $this->input->post('title'): false;
        $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
@@ -116,11 +109,10 @@ class Update_controller extends CI_Controller
        $image_previous = isset($_POST['image_previous'])? $this->input->post('image_previous'): false;
        $docs_previous = isset($_POST['docs_previous'])? $this->input->post('docs_previous'): false;
 
-       $data = $this->update_model->Update_Design_Project($user_id,$id,$title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs,$image_previous,$docs_previous);
+       $data = $this->update_model->Update_Design_Project($id,$title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs,$image_previous,$docs_previous);
         echo json_encode($data);
      }
     public function Update_Joborder_Pending(){
-        $user_id = $this->session->userdata('id');
         $production_no = $this->input->post('production_no');
         $production = $this->input->post('production');
         $mat_item = $this->input->post('mat_item');            
@@ -134,16 +126,16 @@ class Update_controller extends CI_Controller
         $pur_unit = $this->input->post('pur_unit');
         $pur_remarks = $this->input->post('pur_remarks');
         $pur_type = $this->input->post('pur_type');
-        $this->update_model->Update_Joborder_Pending($user_id,$production_no,$production,$mat_type,$mat_itemno,$mat_item,$mat_quantity,$mat_unit,$mat_remarks,$pur_item,$pur_quantity,$pur_unit,$pur_remarks,$pur_type);
+        $this->update_model->Update_Joborder_Pending($production_no,$production,$mat_type,$mat_itemno,$mat_item,$mat_quantity,$mat_unit,$mat_remarks,$pur_item,$pur_quantity,$pur_unit,$pur_remarks,$pur_type);
         $data = array(
             'status' => 'success'
         );
         echo json_encode($data);
     }
     public function Update_Return_Item(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
-         $this->update_model->Update_Return_Item($user_id,$id);
+         $this->update_model->Update_Return_Item($id);
          $data = array('id' => $id,'status' => 'success');
          echo json_encode($data);
     }
@@ -155,183 +147,169 @@ class Update_controller extends CI_Controller
         echo json_encode($data);
      }
      public function Update_RawMaterial(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $item = $this->input->post('item');
         $unit = $this->input->post('unit');
         $status = $this->input->post('status');
         $price = floatval(preg_replace('/[^\d.]/', '',  $this->input->post('price')));
-        $this->update_model->Update_RawMaterial($user_id,$id,$item,$status,$price,$unit);
+        $this->update_model->Update_RawMaterial($id,$item,$status,$price,$unit);
         $data = array('status' => 'success');
         echo json_encode($data);
      }
      public function Update_Other_Materials(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $item = $this->input->post('item_update');
         $status = $this->input->post('status');
-        $data = $this->update_model->Update_Other_Materials($user_id,$id,$item,$status);
+        $data = $this->update_model->Update_Other_Materials($id,$item,$status);
         echo json_encode($data);
      }
   
      public function Update_OfficeSupplies_Request(){
-        $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $request_id = $this->input->post('request_id');
         $item = $this->input->post('item');
         $balance = $this->input->post('balance');
         $id = $this->input->post('id');
-        $this->update_model->Update_OfficeSupplies_Request($user_id,$request_id,$item,$balance,$status,$id);
+        $this->update_model->Update_OfficeSupplies_Request($request_id,$item,$balance,$status,$id);
         $data = array('status' => 'success');
         echo json_encode($data);    
      }
      public function Update_SpareParts_Request(){
-        $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $request_id = $this->input->post('request_id');
         $item = $this->input->post('item');
         $balance = $this->input->post('balance');
         $id = $this->input->post('id');
-        $this->update_model->Update_SpareParts_Request($user_id,$request_id,$item,$balance,$status,$id);
+        $this->update_model->Update_SpareParts_Request($request_id,$item,$balance,$status,$id);
         $data = array('status' => 'success');
         echo json_encode($data);    
      }
     public function Update_Purchase_Delivery(){
-          $user_id = $this->session->userdata('id');
+
           $id = $this->input->post('id');
           $deliver_no = $this->input->post('deliver_no');
           $status = $this->input->post('status');
           $item = $this->input->post('item');
           $balance_quanity = $this->input->post('balance_quanity');
           $received = $this->input->post('received');
-          $this->update_model->Update_Purchase_Delivery_Material($user_id,$id,$deliver_no,$status,$item,$balance_quanity,$received);
+          $this->update_model->Update_Purchase_Delivery_Material($id,$deliver_no,$status,$item,$balance_quanity,$received);
           $data = array('status' => 'success');
           echo json_encode($data);  
      }
 
     public function Update_Material_Request_Process(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $total = $this->input->post('total');
         $request = $this->input->post('request');
         $type = $this->input->post('type');
-        $data = $this->update_model->Update_Material_Request_Process($user_id,$id,$total,$request,$type);
+        $data = $this->update_model->Update_Material_Request_Process($id,$total,$request,$type);
         echo json_encode($data);    
      }
      public function Update_Material_Request_Process_Status(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
-        $data = $this->update_model->Update_Material_Request_Process_Status($user_id,$id,$status);
+        $data = $this->update_model->Update_Material_Request_Process_Status($id,$status);
         echo json_encode($data);    
      }
 
      //APPROVAL
     public function Update_Approval_Customization(){
-        $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $id = $this->input->post('id');
-        $this->update_model->Update_Approval_Customization($user_id,$id,$status);
+        $this->update_model->Update_Approval_Customization($id,$status);
         $data = array(
             'status' => 'success'
         );
         echo json_encode($data);
     }
     public function Update_Material_Request_Approval(){
-        $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $production_no = $this->input->post('production_no');
-        $this->update_model->Update_Material_Request_Approval($user_id,$production_no,$status);
+        $this->update_model->Update_Material_Request_Approval($production_no,$status);
         $data = array('status' => $status);
         echo json_encode($data);    
      }
      public function Update_Approval_Purchase(){
-        $user_id = $this->session->userdata('id');
         $status =  $this->input->post('status');
         $production_no = $this->input->post('production_no');
-        $this->update_model->Update_Approval_Purchase($user_id,$production_no,$status);
+        $this->update_model->Update_Approval_Purchase($production_no,$status);
         $data = array('status' => $status);
         echo json_encode($data);    
      }
       public function Update_Approval_Inspection(){
-        $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $production_no = $this->input->post('production_no');
         $remarks = $this->input->post('remarks');
-        $return = $this->update_model->Update_Approval_Inspection($user_id,$production_no,$status,$remarks);
+        $return = $this->update_model->Update_Approval_Inspection($production_no,$status,$remarks);
         $data = array('status' => $return);
         echo json_encode($data);    
      }
      public function Update_Approval_SalesOrder(){
-        $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $so_no = $this->input->post('so_no');
-        $this->update_model->Update_Approval_SalesOrder($user_id,$so_no,$status);
+        $this->update_model->Update_Approval_SalesOrder($so_no,$status);
         $data = array('status' => $status);
         echo json_encode($data);    
      }
     public function Update_Approval_Users(){
-      $user_id = $this->session->userdata('id');
       $status = $this->input->post('status');
       $id = $this->input->post('id');
-      $this->update_model->Update_Approval_Users($user_id,$status,$id);
+      $this->update_model->Update_Approval_Users($status,$id);
       $data = array('status' => $status);
        echo json_encode($data); 
      }
     public function Update_Approval_OnlineOrder(){
-        $user_id = $this->session->userdata('id');
         $status = $this->input->post('status');
         $order_no = $this->input->post('order_no');
-        $this->update_model->Update_Approval_OnlineOrder($user_id,$order_no,$status);
+        $this->update_model->Update_Approval_OnlineOrder($order_no,$status);
         $data = array('status' => $status);
         echo json_encode($data);    
      }
      public function Update_Approval_Concern(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
          $action = $this->input->post('action');
-         $data = $this->update_model->Update_Approval_Concern($user_id,$id,$action);
+         $data = $this->update_model->Update_Approval_Concern($id,$action);
          echo json_encode($data); 
      }
 
      public function Update_Approval_SalesOrder_Accounting(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
          $status = $this->input->post('status');
          $table = $this->input->post('table');
-         $data = $this->update_model->Update_Approval_SalesOrder_Accounting($user_id,$id,$status,$table);
+         $data = $this->update_model->Update_Approval_SalesOrder_Accounting($id,$status,$table);
          echo json_encode($data); 
      }
 
      //ACCOUNTING
      public function Update_Accounting_Purchase_Request(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
          $cash = floatval(str_replace(',', '', $this->input->post('cash_fund')));
          $action =$this->input->post('action');
-         $data = $this->update_model->Update_Accounting_Purchase_Request($user_id,$id,$cash,$action);
+         $data = $this->update_model->Update_Accounting_Purchase_Request($id,$cash,$action);
          echo json_encode($data); 
      }
      public function Update_Accounting_Purchase_Received(){
-         $user_id = $this->session->userdata('id');
+
          $fund_no = $this->input->post('id');
          $change  = floatval(str_replace(',', '', $this->input->post('actual_change')));
          $refund  = floatval(str_replace(',', '', $this->input->post('refund')));
-         $data  = $this->update_model->Update_Accounting_Purchase_Received($user_id,$fund_no,$change,$refund);
+         $data  = $this->update_model->Update_Accounting_Purchase_Received($fund_no,$change,$refund);
          echo json_encode($data); 
      }
 
 
      //Web Modifier
     public function Update_Web_Banner(){
-        $user_id = $this->session->userdata('id');
         $id = isset($_POST['id']) ? $this->input->post('id'):false; 
         $image =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp   = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
         $path_image =  "assets/images/banner/";
         $previous =  isset($_POST['previous_image']) ? $this->input->post('previous_image'):false;
         $type = isset($_POST['type']) ? $this->input->post('type'):false;
-        $data = $this->update_model->Update_Web_Banner($user_id,$id,$type,$image,$tmp,$path_image,$previous);
+        $data = $this->update_model->Update_Web_Banner($id,$type,$image,$tmp,$path_image,$previous);
         echo json_encode($data);
      }
      public function Update_Web_Category(){
@@ -373,19 +351,17 @@ class Update_controller extends CI_Controller
         $path_image = "assets_website/images/";
         $previous_banner = $this->input->post('previous_image');
         $previous_bg = $this->input->post('previous_bg');
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $title = $this->input->post('title');
         $titles = str_replace(' ','',$title);
         $cat_id = $this->input->post('cat_id');
         $description = $this->input->post('description');
         $status = $this->input->post('status');
-        $data = $this->update_model->Update_Web_Interior($user_id,$title,$cat_id,$description,$id,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image,$previous_banner,$previous_bg);
+        $data = $this->update_model->Update_Web_Interior($title,$cat_id,$description,$id,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image,$previous_banner,$previous_bg);
         echo json_encode($data);
      }
      public function Update_Web_Events(){
         error_reporting(0);
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $title = $this->input->post('title');
         $titles = str_replace(' ','',$title);
@@ -406,7 +382,7 @@ class Update_controller extends CI_Controller
         }else{
           $image=$this->input->post('previous_image');
         }
-        $this->update_model->Update_Web_Events($user_id,$title,$status,$description,$image,$id,$date_event,$time_event,$location);
+        $this->update_model->Update_Web_Events($title,$status,$description,$image,$id,$date_event,$time_event,$location);
         $data = array('status' => 'success');
         echo json_encode($data);
      }
@@ -454,15 +430,9 @@ class Update_controller extends CI_Controller
         echo json_encode($data);
      }
      public function Update_Vouncher_Customer(){
-         $user_id = $this->session->userdata('id');
          $voucher = $this->input->post('voucher');
          $id = $this->input->post('id');
-         $this->update_model->Update_Vouncher_Customer($voucher,$id,$user_id);
-         $query_user = $this->db->select('*,CONCAT(firstname, " ",lastname) AS user')->from('tbl_users')->where('id',$user_id)->get();
-         $row_user = $query_user->row();
-         $data = array('status'=>'success',
-                       'id' => $id,
-                       'username'=> $row_user->user);
+         $data = $this->update_model->Update_Vouncher_Customer($voucher,$id);
          echo json_encode($data);
      }
      public function Update_Deposit_Approved(){
@@ -471,7 +441,6 @@ class Update_controller extends CI_Controller
         echo json_encode($data);
      }
     public function Update_Customer(){
-       $user_id      = $this->session->userdata('id');
        $id    = isset($_POST['id'])    ? $this->input->post('id'): false;
        $firstname    = isset($_POST['firstname'])    ? $this->input->post('firstname'): false;
        $lastname     = isset($_POST['lastname'])    ? $this->input->post('lastname'): false;
@@ -481,78 +450,70 @@ class Update_controller extends CI_Controller
        $city         = isset($_POST['city'])    ? $this->input->post('city'): false;
        $province     = isset($_POST['province'])    ? $this->input->post('province'): false;
        $region       = isset($_POST['region'])    ? $this->input->post('region'): false;
-       $data         = $this->update_model->Update_Customer($user_id,$id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region);
+       $data         = $this->update_model->Update_Customer($id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region);
        $status       = array('status' => $data);
        echo json_encode($status);
     }
     public function Update_Purchase_Status_Request_Supervisor(){
-        $user_id  = $this->session->userdata('id');
         $id = $this->input->post('id');
-        $data = $this->update_model->Update_Purchase_Status_Request_Supervisor($user_id,$id);
+        $data = $this->update_model->Update_Purchase_Status_Request_Supervisor($id);
         echo json_encode($data);
     }
     public function Update_Material_Status_Request_Supervisor(){
-        $user_id  = $this->session->userdata('id');
         $id = $this->input->post('id');
         $qty = $this->input->post('qty');
-        $data = $this->update_model->Update_Material_Status_Request_Supervisor($user_id,$id,$qty);
+        $data = $this->update_model->Update_Material_Status_Request_Supervisor($id,$qty);
         echo json_encode($data);
     }
     public function Update_Material_Used_Lock_Request_Supervisor(){
-        $user_id  = $this->session->userdata('id');
         $id = $this->input->post('id');
-        $data = $this->update_model->Update_Material_Used_Lock_Request_Supervisor($user_id,$id);
+        $data = $this->update_model->Update_Material_Used_Lock_Request_Supervisor($id);
         echo json_encode($data);
     }
     public function Update_Material_Used_Status_Request_Supervisor(){
-        $user_id  = $this->session->userdata('id');
         $id = $this->input->post('id');
         $qty = $this->input->post('qty');
         $type = $this->input->post('type');
-        $data = $this->update_model->Update_Material_Used_Status_Request_Supervisor($user_id,$id,$qty,$type);
+        $data = $this->update_model->Update_Material_Used_Status_Request_Supervisor($id,$qty,$type);
         echo json_encode($data);
     }
     public function Update_Material_Request_Supervisor(){
-        $user_id  = $this->session->userdata('id');
         $id = $this->input->post('id');
         $qty = $this->input->post('qty');
         $type = $this->input->post('type');
-        $data = $this->update_model->Update_Material_Request_Supervisor($user_id,$id,$qty,$type);
+        $data = $this->update_model->Update_Material_Request_Supervisor($id,$qty,$type);
         echo json_encode($data);
     }
     public function Update_Purchase_Request_Supervisor(){
-        $user_id  = $this->session->userdata('id');
         $id = $this->input->post('id');
         $qty = $this->input->post('qty');
         $remarks = $this->input->post('remarks');
-        $data = $this->update_model->Update_Purchase_Request_Supervisor($user_id,$id,$qty,$remarks);
+        $data = $this->update_model->Update_Purchase_Request_Supervisor($id,$qty,$remarks);
         echo json_encode($data);
     }
 
 
 
     public function Update_Project_Monitoring(){
-        $user_id  = $this->session->userdata('id');
         $id = isset($_POST['id'])  ? $this->input->post('id'): false;
         $data = isset($_POST['data'])  ? $this->input->post('data'): false;
         $action = isset($_POST['action'])  ? $this->input->post('action'): false;
         $start = isset($_POST['start'])  ? $this->input->post('start'): false;
         $due = isset($_POST['due'])  ? $this->input->post('due'): false;
-        $data = $this->update_model->Update_Project_Monitoring($user_id,$id,$data,$action,$start,$due);
+        $data = $this->update_model->Update_Project_Monitoring($id,$data,$action,$start,$due);
         echo json_encode($data);
     }
     public function Update_Cash_Position(){
-       $user_id = $this->session->userdata('id');
        $id = isset($_POST['id'])? $this->input->post('id'): false;
        $data = isset($_POST['data'])?$this->input->post('data'): false;
        $action = isset($_POST['action'])? $this->input->post('action'): false;
        if($action == 'category' || $action == 'type'){
-            $data_response = $this->update_model->Update_Cash_Position($user_id,$id,$action,$data);
+            $data_response = $this->update_model->Update_Cash_Position($id,$action,$data);
             echo json_encode($data_response);
        }else{
            $row = isset($_POST['row'])? $this->input->post('row'): false;
            $col = isset($_POST['col'])? $this->input->post('col'): false;
-           $data_response = $this->update_model->Update_Cash_Position($user_id,$id,$action,$data);
+           $data_response = $this->update_model->Update_Cash_Position($id,$action,$data);
            if($action == 'date_position'){
               $message = date('M - j',strtotime($data));
               $date = date('m/d/Y',strtotime($data));
@@ -573,7 +534,6 @@ class Update_controller extends CI_Controller
       
     }
      public function Update_Web_Testimony(){
-       $user_id = $this->session->userdata('id');
        $id = isset($_POST['id'])? $this->input->post('id'): false;
        $name = isset($_POST['name'])? $this->input->post('name'): false;
        $description = isset($_POST['description'])? $this->input->post('description'): false;
@@ -581,7 +541,7 @@ class Update_controller extends CI_Controller
        $tmp        =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
        $path_image =  "assets/images/testimony/";
        $previous = isset($_POST['previous'])? $this->input->post('previous'): false;
-       $data = $this->update_model->Update_Web_Testimony($user_id,$name,$description,$image,$tmp,$path_image,$previous,$id);
+       $data = $this->update_model->Update_Web_Testimony($name,$description,$image,$tmp,$path_image,$previous,$id);
        echo json_encode($data);
     }
       public function Update_Web_Company_Profile(){
@@ -612,24 +572,21 @@ class Update_controller extends CI_Controller
         echo json_encode($data);
      }
      public function Update_Joborder_Status(){
-        $user_id = $this->session->userdata('id');
         $production_no = $this->input->post('production_no');
         $qty = $this->input->post('qty');
         $status = $this->input->post('status');
         $type = $this->input->post('type');
-        $data = $this->update_model->Update_Joborder_Status($user_id,$production_no,$qty,$status,$type);
+        $data = $this->update_model->Update_Joborder_Status($production_no,$qty,$status,$type);
         echo json_encode($data);
      }
      public function Update_Purchase_Estimate(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $amount = $this->input->post('amount');
         $type = $this->input->post('type');
-        $data = $this->update_model->Update_Purchase_Estimate($user_id,$id,$amount,$type);
+        $data = $this->update_model->Update_Purchase_Estimate($id,$amount,$type);
         echo json_encode($data);
      }
     public function Update_Purchase_Stocks_Process(){
-        $user_id = $this->session->userdata('id');
         $joborder = $this->input->post('joborder');
         $pr_id = $this->input->post('pr_id');
         $item_id = $this->input->post('item_id');
@@ -638,11 +595,10 @@ class Update_controller extends CI_Controller
         $supplier = $this->input->post('supplier');  
         $terms = $this->input->post('terms');   
         $type = $this->input->post('type');   
-        $data = $this->update_model->Update_Purchase_Stocks_Process($user_id,$joborder,$pr_id,$item_id,$quantity,$amount,$supplier,$terms,$type);
+        $data = $this->update_model->Update_Purchase_Stocks_Process($joborder,$pr_id,$item_id,$quantity,$amount,$supplier,$terms,$type);
         echo json_encode($data);  
      }
      public function Update_Joborder_Stocks(){
-        $user_id = $this->session->userdata('id');
         $production_no = $this->input->post('production_no');
         $mat_itemno = $this->input->post('mat_itemno');            
         $mat_quantity = $this->input->post('mat_quantity');
@@ -654,117 +610,108 @@ class Update_controller extends CI_Controller
         $pur_unit = $this->input->post('pur_unit');
         $pur_remarks = $this->input->post('pur_remarks');
         $pur_type = $this->input->post('pur_type');
-        $this->update_model->Update_Joborder_Stocks($user_id,$production_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type);
+        $this->update_model->Update_Joborder_Stocks($production_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type);
         $data = array('status' =>  'success');
         echo json_encode($data);
      }
      public function Update_Salesorder_Stock_Request(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
          $status = $this->input->post('status');
-         $data = $this->update_model->Update_Salesorder_Stock_Request($user_id,$id,$status);
+         $data = $this->update_model->Update_Salesorder_Stock_Request($id,$status);
          echo json_encode($data);
      }
      public function Update_Salesorder_Project_Request(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
          $status = $this->input->post('status');
-         $data = $this->update_model->Update_Salesorder_Project_Request($user_id,$id,$status);
+         $data = $this->update_model->Update_Salesorder_Project_Request($id,$status);
          echo json_encode($data);
      }
      public function Update_Salesorder_Stock_Delivery(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
          $si_no = $this->input->post('si_no');
-         $data = $this->update_model->Update_Salesorder_Stock_Delivery($user_id,$id,$si_no);
+         $data = $this->update_model->Update_Salesorder_Stock_Delivery($id,$si_no);
          echo json_encode($data);
      }
      public function Update_Salesorder_Project_Delivery(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
          $si_no = $this->input->post('si_no');
-         $data = $this->update_model->Update_Salesorder_Project_Delivery($user_id,$id,$si_no);
+         $data = $this->update_model->Update_Salesorder_Project_Delivery($id,$si_no);
          echo json_encode($data);
      }
      public function Update_Request_Materials(){
-         $user_id = $this->session->userdata('id');
+
          $id = $this->input->post('id');
          $qty = $this->input->post('qty');
          $balance = $this->input->post('balance');
-         $data = $this->update_model->Update_Request_Materials($user_id,$id,$qty,$balance);
+         $data = $this->update_model->Update_Request_Materials($id,$qty,$balance);
          echo json_encode($data);
      }
      public function Update_Request_Materials_Cancelled(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
-        $data = $this->update_model->Update_Request_Materials_Cancelled($user_id,$id);
+        $data = $this->update_model->Update_Request_Materials_Cancelled($id);
         echo json_encode($data);
      }
      public function Update_Pre_Order_Request(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
-        $data = $this->update_model->Update_Pre_Order_Request($user_id,$id,$status);
+        $data = $this->update_model->Update_Pre_Order_Request($id,$status);
         echo json_encode($data);
      }
      public function Update_Customized_Request(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $subject = $this->input->post('subject');
         $description = $this->input->post('description');
-        $data = $this->update_model->Update_Customized_Request($user_id,$id,$subject,$description);        
+        $data = $this->update_model->Update_Customized_Request($id,$subject,$description);        
         echo json_encode($data); 
     }
     public function Update_Customized_Approval_Request(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
-        $data = $this->update_model->Update_Customized_Approval_Request($user_id,$id,$status);
+        $data = $this->update_model->Update_Customized_Approval_Request($id,$status);
         echo json_encode($data);
      }
      public function Update_Approval_Inquiry(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
-        $data = $this->update_model->Update_Approval_Inquiry($user_id,$id,$status);
+        $data = $this->update_model->Update_Approval_Inquiry($id,$status);
         echo json_encode($data);
      }
      public function Update_Salesorder_Stocks(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $downpayment = floatval(str_replace(',', '', $this->input->post('downpayment')));
         $date_downpayment = $this->input->post('date_downpayment');
         $discount =  $this->input->post('discount');
         $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
         $vat =  $this->input->post('vat');
-        $data = $this->update_model->Update_Salesorder_Stocks($user_id,$id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat);
+        $data = $this->update_model->Update_Salesorder_Stocks($id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat);
         echo json_encode($data);
      }
      public function Update_Supplier_Item(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $supplier = $this->input->post('supplier');
         $amount = floatval(str_replace(',', '', $this->input->post('amount')));
-        $data = $this->update_model->Update_Supplier_Item($user_id,$id,$supplier,$amount);
+        $data = $this->update_model->Update_Supplier_Item($id,$supplier,$amount);
         echo json_encode($data);
      }
      public function Update_Supplier_Edit(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $name = $this->input->post('name');
         $mobile = $this->input->post('mobile');
         $email = $this->input->post('email');
         $address = $this->input->post('address');
-        $data = $this->update_model->Update_Supplier_Edit($user_id,$id,$name,$mobile,$email,$address);
+        $data = $this->update_model->Update_Supplier_Edit($id,$name,$mobile,$email,$address);
         echo json_encode($data);
      }
      public function Update_Supplier_Image(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $image      =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp        =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
         $path_image =  "assets/images/supplier/";  
-        $data = $this->update_model->Update_Supplier_Image($user_id,$id,$image,$tmp,$path_image);
+        $data = $this->update_model->Update_Supplier_Image($id,$image,$tmp,$path_image);
         echo json_encode($data);
      }
      public function Update_Purchased_Transaction(){
@@ -780,36 +727,32 @@ class Update_controller extends CI_Controller
         echo json_encode($data);
      }
      public function Update_Purchase_Complete(){
-        $user_id = $this->session->userdata('id');
         $fund_no = $this->input->post('fund_no');
         $joborder = $this->input->post('joborder');
         $type = $this->input->post('type');
-        $data = $this->update_model->Update_Purchase_Complete($user_id,$fund_no,$joborder,$type);
+        $data = $this->update_model->Update_Purchase_Complete($fund_no,$joborder,$type);
         echo json_encode($data);
      }
 
      public function Update_Sales_Delivery_Receipt_Superuser(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
         $remarks = $this->input->post('remarks')??" ";
-        $data = $this->update_model->Update_Sales_Delivery_Receipt_Superuser($user_id,$id,$status,$remarks);
+        $data = $this->update_model->Update_Sales_Delivery_Receipt_Superuser($id,$status,$remarks);
         echo json_encode($data);
      }
       public function Update_Salesorder_Stocks_Accounting(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
         $remarks = $this->input->post('remarks')??" ";
-        $data = $this->update_model->Update_Salesorder_Stocks_Accounting($user_id,$id,$status,$remarks);
+        $data = $this->update_model->Update_Salesorder_Stocks_Accounting($id,$status,$remarks);
         echo json_encode($data);
      }
      public function Update_Salesorder_Project_Accounting(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
         $remarks = $this->input->post('remarks')??" ";
-        $data = $this->update_model->Update_Salesorder_Project_Accounting($user_id,$id,$status,$remarks);
+        $data = $this->update_model->Update_Salesorder_Project_Accounting($id,$status,$remarks);
         echo json_encode($data);
      }
 

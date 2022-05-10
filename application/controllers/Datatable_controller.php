@@ -6,39 +6,30 @@ class Datatable_controller extends CI_Controller
     public function __construct()
     {
       parent::__construct();
-      $this->load->helper('url'); 
       $this->load->model('datatable_model');
-      $this->load->library('session');
-       
     } 
     public function Design_Stocks_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Design_Stocks_Request_DataTable($user_id);
+        $data = $this->datatable_model->Design_Stocks_Request_DataTable();
         echo json_encode($data);
     } 
     public function Design_Stocks_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Design_Stocks_Approved_DataTable($user_id);
+        $data = $this->datatable_model->Design_Stocks_Approved_DataTable();
         echo json_encode($data);
     }
     public function Design_Stocks_Rejected_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Design_Stocks_Rejected_DataTable($user_id);
+        $data = $this->datatable_model->Design_Stocks_Rejected_DataTable();
         echo json_encode($data);
     }  
     public function Design_Project_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Design_Project_Request_DataTable($user_id);
+        $data = $this->datatable_model->Design_Project_Request_DataTable();
         echo json_encode($data);
     } 
     public function Design_Project_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Design_Project_Approved_DataTable($user_id);
+        $data = $this->datatable_model->Design_Project_Approved_DataTable();
         echo json_encode($data);
     }
     public function Design_Project_Rejected_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Design_Project_Rejected_DataTable($user_id);
+        $data = $this->datatable_model->Design_Project_Rejected_DataTable();
         echo json_encode($data);
     }  
     public function RawMaterial_DataTable(){
@@ -98,88 +89,71 @@ class Datatable_controller extends CI_Controller
         echo json_encode($data);
     }
     public function Purchase_Material_Stocks_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Purchase_Material_Stocks_Request_DataTable($user_id);
+        $data = $this->datatable_model->Purchase_Material_Stocks_Request_DataTable();
         echo json_encode($data);
     }
     public function Purchase_Material_Stocks_Inprogress_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Purchase_Material_Stocks_Inprogress_DataTable($user_id);
+        $data = $this->datatable_model->Purchase_Material_Stocks_Inprogress_DataTable();
         echo json_encode($data);
     } 
     public function Purchase_Material_Stocks_Complete_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Purchase_Material_Stocks_Complete_DataTable($user_id);
+        $data = $this->datatable_model->Purchase_Material_Stocks_Complete_DataTable();
         echo json_encode($data);
     }
     public function Purchase_Material_Project_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Purchase_Material_Project_Request_DataTable($user_id);
+        $data = $this->datatable_model->Purchase_Material_Project_Request_DataTable();
         echo json_encode($data);
     }
-      public function Purchase_Material_Project_Inprogress_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Purchase_Material_Project_Inprogress_DataTable($user_id);
+    public function Purchase_Material_Project_Inprogress_DataTable(){
+        $data = $this->datatable_model->Purchase_Material_Project_Inprogress_DataTable();
         echo json_encode($data);
     } 
     public function Purchase_Material_Project_Complete_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Purchase_Material_Project_Complete_DataTable($user_id);
+        $data = $this->datatable_model->Purchase_Material_Project_Complete_DataTable();
         echo json_encode($data);
     }
     public function Material_Request_Stocks_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Material_Request_Stocks_DataTable($user_id);
+        $data = $this->datatable_model->Material_Request_Stocks_DataTable();
         echo json_encode($data);
     }
     public function Material_Complete_Stocks_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Material_Complete_Stocks_DataTable($user_id);
+        $data = $this->datatable_model->Material_Complete_Stocks_DataTable();
         echo json_encode($data);
     }
     public function Material_Request_Project_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Material_Request_Project_DataTable($user_id);
+        $data = $this->datatable_model->Material_Request_Project_DataTable();
         echo json_encode($data);
     }
     public function Material_Complete_Project_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Material_Complete_Project_DataTable($user_id);
+        $data = $this->datatable_model->Material_Complete_Project_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Stocks_Material_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Stocks_Material_Request_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Stocks_Material_Request_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Stocks_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Stocks_Request_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Stocks_Request_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Stocks_Pending_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Stocks_Pending_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Stocks_Pending_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Stocks_Cancelled_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Stocks_Cancelled_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Stocks_Cancelled_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Stocks_Complete_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Stocks_Complete_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Stocks_Complete_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Stocks_Production_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Stocks_Production_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Stocks_Production_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Project_Production_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Project_Production_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Project_Production_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Masterlist_Stocks_DataTable(){
@@ -196,28 +170,23 @@ class Datatable_controller extends CI_Controller
     }
 
     public function Joborder_Project_Material_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Project_Material_Request_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Project_Material_Request_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Project_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Project_Request_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Project_Request_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Project_Pending_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Project_Pending_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Project_Pending_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Project_Cancelled_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Project_Cancelled_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Project_Cancelled_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Project_Complete_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Joborder_Project_Complete_DataTable($user_id);
+        $data = $this->datatable_model->Joborder_Project_Complete_DataTable();
         echo json_encode($data);
     }
     public function Joborder_Project_Masterlist_DataTable(){
@@ -231,45 +200,37 @@ class Datatable_controller extends CI_Controller
 
 
     public function Salesorder_Stocks_Request_DataTable_Production(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Request_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Request_DataTable_Production();
         echo json_encode($data);
     }
     public function Salesorder_Stocks_Approved_DataTable_Production(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Approved_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Approved_DataTable_Production();
         echo json_encode($data);
     }
     public function Salesorder_Stocks_Completed_DataTable_Production(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Completed_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Completed_DataTable_Production();
         echo json_encode($data);
     }
     public function Salesorder_Stocks_Cancelled_DataTable_Production(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Cancelled_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Cancelled_DataTable_Production();
         echo json_encode($data);
     }
 
 
     public function Salesorder_Project_Request_DataTable_Production(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Request_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Request_DataTable_Production();
         echo json_encode($data);
     }
     public function Salesorder_Project_Approved_DataTable_Production(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Approved_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Approved_DataTable_Production();
         echo json_encode($data);
     }
     public function Salesorder_Project_Completed_DataTable_Production(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Completed_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Completed_DataTable_Production();
         echo json_encode($data);
     }
     public function Salesorder_Project_Cancelled_DataTable_Production(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Cancelled_DataTable_Production($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Cancelled_DataTable_Production();
         echo json_encode($data);
     }
     public function Salesorder_Stocks_Request_DataTable_Accounting(){
@@ -307,33 +268,27 @@ class Datatable_controller extends CI_Controller
 
     
     public function Salesorder_Stocks_Request_DataTable_Admin(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Request_DataTable_Admin($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Request_DataTable_Admin();
         echo json_encode($data);
     }
     public function Salesorder_Stocks_Approved_DataTable_Admin(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Approved_DataTable_Admin($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Approved_DataTable_Admin();
         echo json_encode($data);
     }
     public function Salesorder_Stocks_Rejected_DataTable_Admin(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Stocks_Rejected_DataTable_Admin($user_id);
+        $data = $this->datatable_model->Salesorder_Stocks_Rejected_DataTable_Admin();
         echo json_encode($data);
     }
     public function Salesorder_Project_Request_DataTable_Admin(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Request_DataTable_Admin($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Request_DataTable_Admin();
         echo json_encode($data);
     }
     public function Salesorder_Project_Approved_DataTable_Admin(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Approved_DataTable_Admin($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Approved_DataTable_Admin();
         echo json_encode($data);
     }
     public function Salesorder_Project_Rejected_DataTable_Admin(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Salesorder_Project_Rejected_DataTable_Admin($user_id);
+        $data = $this->datatable_model->Salesorder_Project_Rejected_DataTable_Admin();
         echo json_encode($data);
     }
 
@@ -364,33 +319,27 @@ class Datatable_controller extends CI_Controller
 
 
     public function Request_Material_List_Datatable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Request_Material_List_Datatable($user_id);
+        $data = $this->datatable_model->Request_Material_List_Datatable();
         echo json_encode($data);
     }
     public function Request_Material_Received_Datatable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Request_Material_Received_Datatable($user_id);
+        $data = $this->datatable_model->Request_Material_Received_Datatable();
         echo json_encode($data);
     }
     public function Request_Material_Cancalled_Datatable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Request_Material_Cancalled_Datatable($user_id);
+        $data = $this->datatable_model->Request_Material_Cancalled_Datatable();
         echo json_encode($data);
     }
 
     public function Request_Material_List_Superuser_Datatable(){
-        $user_id = $this->session->userdata('id');
         $data = $this->datatable_model->Request_Material_List_Superuser_Datatable();
         echo json_encode($data);
     }
     public function Request_Material_Received_Superuser_Datatable(){
-        $user_id = $this->session->userdata('id');
         $data = $this->datatable_model->Request_Material_Received_Superuser_Datatable();
         echo json_encode($data);
     }
     public function Request_Material_Cancelled_Superuser_Datatable(){
-        $user_id = $this->session->userdata('id');
         $data = $this->datatable_model->Request_Material_Cancelled_Superuser_Datatable();
         echo json_encode($data);
     }
@@ -465,48 +414,39 @@ class Datatable_controller extends CI_Controller
     
     //APPROVAL
     public function Approval_Design_Stocks_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Design_Stocks_Request_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Design_Stocks_Request_DataTable();
         echo json_encode($data);
     }
     public function Approval_Design_Stocks_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Design_Stocks_Approved_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Design_Stocks_Approved_DataTable();
         echo json_encode($data);
     }
     public function Approval_Design_Stocks_Rejected_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Design_Stocks_Rejected_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Design_Stocks_Rejected_DataTable();
         echo json_encode($data);
     }
-      public function Approval_Design_Project_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Design_Project_Request_DataTable($user_id);
+    public function Approval_Design_Project_Request_DataTable(){
+        $data = $this->datatable_model->Approval_Design_Project_Request_DataTable();
         echo json_encode($data);
     }
     public function Approval_Design_Project_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Design_Project_Approved_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Design_Project_Approved_DataTable();
         echo json_encode($data);
     }
     public function Approval_Design_Project_Rejected_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Design_Project_Rejected_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Design_Project_Rejected_DataTable();
         echo json_encode($data);
     }
     public function Approval_Purchase_Request_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data   = $this->datatable_model->Approval_Purchase_Request_DataTable($user_id);
+        $data   = $this->datatable_model->Approval_Purchase_Request_DataTable();
         echo json_encode($data);
     } 
     public function Approval_Purchase_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data   = $this->datatable_model->Approval_Purchase_Approved_DataTable($user_id);
+        $data   = $this->datatable_model->Approval_Purchase_Approved_DataTable();
         echo json_encode($data);
     }
     public function Approval_Purchase_Rejected_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data   = $this->datatable_model->Approval_Purchase_Rejected_DataTable($user_id);
+        $data   = $this->datatable_model->Approval_Purchase_Rejected_DataTable();
         echo json_encode($data);
     }  
 
@@ -515,13 +455,11 @@ class Datatable_controller extends CI_Controller
         echo json_encode($data);
     }
     public function Approval_Inspection_Stocks_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Inspection_Stocks_Approved_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Inspection_Stocks_Approved_DataTable();
         echo json_encode($data);
     }
     public function Approval_Inspection_Stocks_Rejected_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Inspection_Stocks_Rejected_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Inspection_Stocks_Rejected_DataTable();
         echo json_encode($data);
     }
 
@@ -530,13 +468,11 @@ class Datatable_controller extends CI_Controller
         echo json_encode($data);
     }
      public function Approval_Inspection_Project_Approved_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Inspection_Project_Approved_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Inspection_Project_Approved_DataTable();
         echo json_encode($data);
     }
      public function Approval_Inspection_Project_Rejected_DataTable(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Approval_Inspection_Project_Rejected_DataTable($user_id);
+        $data = $this->datatable_model->Approval_Inspection_Project_Rejected_DataTable();
         echo json_encode($data);
     }
 
@@ -560,8 +496,7 @@ class Datatable_controller extends CI_Controller
         echo json_encode($data);
     }
     public function Accounting_Purchase_Material_Stocks_Received(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Accounting_Purchase_Material_Stocks_Received($user_id);
+        $data = $this->datatable_model->Accounting_Purchase_Material_Stocks_Received();
         echo json_encode($data);
     }
 
@@ -570,8 +505,7 @@ class Datatable_controller extends CI_Controller
         echo json_encode($data);
     }
     public function Accounting_Purchase_Material_Project_Received(){
-        $user_id = $this->session->userdata('id');
-        $data = $this->datatable_model->Accounting_Purchase_Material_Project_Received($user_id);
+        $data = $this->datatable_model->Accounting_Purchase_Material_Project_Received();
         echo json_encode($data);
     }
     public function Account_Report_Collection_Stocks_Daily(){

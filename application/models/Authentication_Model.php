@@ -24,9 +24,9 @@ class Authentication_Model extends CI_Model {
           $type.'_'.$role.'_EMAIL'=>$result->email, 
           $type.'_'.$role.'_PROFILE' =>$result->profile_img, 
           $type.'_'.$role.'_AdSTATUS'=>md5("active"), 
-          $type.'_'.$role.'_TYPE'=>md5("admin"),
+          $type.'_'.$role.'_TYPE'=>md5($role),
           $type.'_'.$role.'_COUNTRY'=>$result->country, 
-          $type.'_'.$role.'_ROLE'=>$result->role  
+          $type.'_'.$role.'_ROLE'=>$role  
         );
         $this->session->set_userdata($data);
         return $data;
@@ -50,7 +50,6 @@ class Authentication_Model extends CI_Model {
               }else if($admin->status=='2'){
                 return 'Sorry, your account is temporary on-hold. Please try again later.';
               }
-              
               $email=$admin->email;
               $token="";
               $data = array();
@@ -58,29 +57,38 @@ class Authentication_Model extends CI_Model {
               $arr = explode(".",$admin->ipadd_prev);
               unset($arr[3]);
               $ip_address_prev = implode(".",$arr);
-
-              //CHECK IF IP ADDRESS WAS CHANGE
-              if($ip_address_prev == $ip_address || $row->ipadd_prev === null){
-                $this->db->where('email',$email);
-                $this->db->update('tbl_administrator',array('ipadd_prev'=>$ip_address_main));
-                $token = md5($admin->username.''.$this->TODAY().''.$ip_address_main);
-                $device = "setupbrowsecap";
-                $admin_id=$admin->id;
-                $data = $this->_set_data($this->appinfo->sess_name(),'ADMIN',$admin);
-                $result = $this->db->query("INSERT INTO tbl_administrator_login_details (admin_id, expiration, device, ip_add, token, token_status, role) VALUES ('".$admin->id."', DATE_ADD(NOW(), INTERVAL ".$remember." DAY), '$device', '$ip_address_main', '$token', '1','".$admin->role."') ON DUPLICATE KEY UPDATE login_date= VALUES(login_date), expiration= VALUES(expiration), device= VALUES(device), ip_add= VALUES(ip_add), token= VALUES(token), token_status= VALUES(token_status), role= VALUES(role)");
-                if($result){
-                  $this->session->set_userdata('admin_days_to_remember',$remember);
-                  $this->session->set_userdata('adminview','dashboard');
-                  $this->setCookies($token, $data, $remember,$this->appinfo->sess_name(),'admin');
-                  return array('url'=>'view/'.$type.'/index');
-                }else{
-                   return 'Opsss, Something went wrong, Please try again later.';
-                }
+              $role = $this->db->query("SELECT * FROM tbl_administrator_details WHERE role_id='$type' AND permission_id='".$admin->id."'")->row();
+              if(!$role){
+                return $admin->id;
               }else{
-                $pin = random_int(100000, 999999);
-                $this->db->query("UPDATE tbl_administrator SET ipadd_pin='$pin', expiry= DATE_ADD(NOW(), INTERVAL 10 MINUTE) WHERE email='".$email."'");
-                 return 'ip_check';
-              }
+                 $role_id = $role->role_id;
+                 $role_name = $role->role_name;
+              
+                  //CHECK IF IP ADDRESS WAS CHANGE
+                  if($ip_address_prev == $ip_address || $row->ipadd_prev === null){
+                          $this->db->where('email',$email);
+                          $this->db->update('tbl_administrator',array('ipadd_prev'=>$ip_address_main));
+                          $token = md5($admin->username.''.$this->TODAY().''.$ip_address_main);
+                          $device = "setupbrowsecap";
+                          $admin_id=$admin->id;
+                          $data = $this->_set_data($this->appinfo->sess_name(),strtoupper($role_name),$admin);
+                          $result = $this->db->query("INSERT INTO tbl_administrator_login_details (admin_id, expiration, device, ip_add, token, token_status, role) VALUES ('".$admin->id."', DATE_ADD(NOW(), INTERVAL ".$remember." DAY), '$device', '$ip_address_main', '$token', '1','".$role_id."') ON DUPLICATE KEY UPDATE login_date= VALUES(login_date), expiration= VALUES(expiration), device= VALUES(device), ip_add= VALUES(ip_add), token= VALUES(token), token_status= VALUES(token_status), role= VALUES(role)");
+                          if($result){
+                            $this->session->set_userdata($role_name.'_days_to_remember',$remember);
+                            $this->session->set_userdata($role_name,'index');
+                            $this->setCookies($token, $data, $remember,$this->appinfo->sess_name(),$role_name);
+                            return array('url'=>'gh/'.$role_name.'/index');
+                          }else{
+                             return 'Opsss, Something went wrong, Please try again later.';
+                          }
+                    }else{
+                      $pin = random_int(100000, 999999);
+                      $this->db->query("UPDATE tbl_administrator SET ipadd_pin='$pin', expiry= DATE_ADD(NOW(), INTERVAL 10 MINUTE) WHERE email='".$email."'");
+                       return 'ip_check';
+                    }
+               }
+
+
             }
           }
 

@@ -1,7 +1,25 @@
 <?php
 class Datatable_model extends CI_Model{  
-    //Fetch Data
-    
+        public function __construct(){
+          parent::__construct();
+          if($this->appinfo->creative('_DESIGNER_ID') != false){
+            $this->user_id = $this->appinfo->creative('_DESIGNER_ID');
+          }else if($this->appinfo->production('_PRODUCTION_ID') != false){
+            $this->user_id = $this->appinfo->production('_PRODUCTION_ID');
+          }else if($this->appinfo->supervisor('_SUPERVISOR_ID') != false){
+            $this->user_id = $this->appinfo->supervisor('_SUPERVISOR_ID');
+          }else if($this->appinfo->sales('_SALES_ID') != false){
+            $this->user_id = $this->appinfo->sales('_SALES_ID');
+          }else if($this->appinfo->superuser('_SUPERUSER_ID') != false){
+            $this->user_id = $this->appinfo->superuser('_SUPERUSER_ID');
+          }else if($this->appinfo->accounting('_ACCOUNTING_ID') != false){
+           $this->user_id = $this->appinfo->accounting('_ACCOUNTING_ID');
+          }else if($this->appinfo->webmodifier('_WEBMODIFIER_ID') != false){
+            $this->user_id = $this->appinfo->webmodifier('_WEBMODIFIER_ID');
+          }else if($this->appinfo->admin('_ADMIN_ID') != false){
+            $this->user_id = $this->appinfo->admin('_ADMIN_ID');
+          }
+        }
        function supplier_DataTable(){
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_supplier')->order_by('id','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
@@ -43,8 +61,8 @@ class Datatable_model extends CI_Model{
          return $data;
     }
 
-    function Design_Stocks_Request_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=1 AND c.type=1 AND c.designer ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
+    function Design_Stocks_Request_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=1 AND c.type=1 AND c.designer='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
@@ -64,8 +82,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;   
     }
-    function Design_Stocks_Approved_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status = 2 AND c.type =1 AND c.designer ='.$user_id.'')->order_by('c.date_created','ASC')->get();
+    function Design_Stocks_Approved_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status = 2 AND c.type =1 AND c.designer ='.$this->user_id.'')->order_by('c.date_created','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
@@ -85,8 +103,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;   
     }
-    function Design_Stocks_Rejected_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status =3 AND c.type=1 AND c.designer ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
+    function Design_Stocks_Rejected_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status =3 AND c.type=1 AND c.designer ='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
@@ -106,8 +124,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;   
     }
-    function Design_Project_Request_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=1 AND c.type=2 AND c.designer ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
+    function Design_Project_Request_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=1 AND c.type=2 AND c.designer ='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
@@ -125,8 +143,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;   
     }
-    function Design_Project_Approved_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status =2 AND c.type=2 AND c.designer ='.$user_id.'')->order_by('c.date_created','ASC')->get();
+    function Design_Project_Approved_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status =2 AND c.type=2 AND c.designer ='.$this->user_id.'')->order_by('c.date_created','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
@@ -144,8 +162,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;   
     }
-    function Design_Project_Rejected_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=3 AND c.type=2 AND c.designer ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
+    function Design_Project_Rejected_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=3 AND c.type=2 AND c.designer ='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
@@ -265,10 +283,10 @@ class Datatable_model extends CI_Model{
       function RawMaterial_New_DataTable(){
          $query = $this->db->select('*,m.item as item,
             DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS receiver')
+            CONCAT(u.fname, " ",u.lname) AS receiver')
          ->from('tbl_purchasing_received as n')
          ->join('tbl_materials as m','m.id=n.item_no','LEFT')
-         ->join('tbl_users as u','u.id=n.purchaser','LEFT')
+         ->join('tbl_administrator as u','u.id=n.purchaser','LEFT')
          ->order_by('n.date_created','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
@@ -364,7 +382,7 @@ class Datatable_model extends CI_Model{
 
      }
       function SpareParts_newstocks_DataTable(){
-         $query = $this->db->select('*,DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS receiver')->from('tbl_other_material_p_received as n')->join('tbl_materials as m','m.id=n.item_no','LEFT')->join('tbl_users as u','u.id=n.created_by','LEFT')->where('n.type',1)
+         $query = $this->db->select('*,DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS receiver')->from('tbl_other_material_p_received as n')->join('tbl_materials as m','m.id=n.item_no','LEFT')->join('tbl_administrator as u','u.id=n.created_by','LEFT')->where('n.type',1)
          ->order_by('n.date_created','DESC')->get();
           $data=array();
         if($query !== FALSE && $query->num_rows() > 0){
@@ -423,9 +441,9 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data);
          return $json_data;
      }
-     function Purchase_Material_Stocks_Request_DataTable($user_id){
+     function Purchase_Material_Stocks_Request_DataTable(){
            $query = $this->db->select('d.*,c.*,p.*,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor,
+            CONCAT(u.fname, " ",u.lname) AS requestor,
              DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,
             (SELECT count(id) FROM tbl_purchasing_project WHERE status=2 AND production_no=p.production_no GROUP BY production_no) as status,
             c.image as image,c.c_image as c_image,d.title as title,c.c_name,p.production_no as production_no')
@@ -433,7 +451,7 @@ class Datatable_model extends CI_Model{
             ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
             ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
             ->join('tbl_purchasing_project as pr','pr.production_no=p.production_no','LEFT')
-            ->join('tbl_users as u','u.id=p.assigned','LEFT')
+            ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
             ->where('pr.status',2)
             ->where('p.type',1)
             ->group_by('pr.production_no')
@@ -463,10 +481,10 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;    
     }
-     function Purchase_Material_Stocks_Inprogress_DataTable($user_id){
+     function Purchase_Material_Stocks_Inprogress_DataTable(){
             $array = array(3,4,5);
-            $query = $this->db->select('pr.*,p.*,d.*,c.*,pr.status as status,DATE_FORMAT(pr.latest_update, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
-            ->from('tbl_purchasing_project as pr')->join('tbl_project as p','p.production_no=pr.production_no','LEFT')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where_in('pr.status',$array)->where('pr.type',1)->group_by('pr.fund_no')->order_by('pr.latest_update','DESC')->get(); 
+            $query = $this->db->select('pr.*,p.*,d.*,c.*,pr.status as status,DATE_FORMAT(pr.latest_update, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
+            ->from('tbl_purchasing_project as pr')->join('tbl_project as p','p.production_no=pr.production_no','LEFT')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.production','LEFT')->where_in('pr.status',$array)->where('pr.type',1)->group_by('pr.fund_no')->order_by('pr.latest_update','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
                $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
@@ -492,20 +510,20 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;    
     }
-     function Purchase_Material_Stocks_Complete_DataTable($user_id){
+     function Purchase_Material_Stocks_Complete_DataTable(){
             $query =  $this->db->select('mp.*,p.*,
                 m.item ,s.name,mp.amount,m.unit,
                 DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
                  DATE_FORMAT(mp.terms_start, "%M %d %Y") as terms_start,
                 DATE_FORMAT(mp.terms_end, "%M %d %Y") as terms_end,
-                CONCAT(u.firstname, " ",u.lastname) AS requestor')
+                CONCAT(u.fname, " ",u.lname) AS requestor')
             ->from('tbl_purchase_received as mp')
             ->join('tbl_materials as m','m.id=mp.item_no','LEFT')
             ->join('tbl_supplier as s','s.id=mp.supplier','LEFT')
             ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-            ->join('tbl_users as u','u.id=p.production','LEFT')
+            ->join('tbl_administrator as u','u.id=p.production','LEFT')
             ->where('mp.type=1')
-            ->where('mp.created_by',$user_id)
+            ->where('mp.created_by',$this->user_id)
             ->order_by('mp.date_created','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  { 
@@ -532,9 +550,9 @@ class Datatable_model extends CI_Model{
          return $json_data;    
     }
 
-     function Purchase_Material_Project_Request_DataTable($user_id){
+     function Purchase_Material_Project_Request_DataTable(){
          $query = $this->db->select('d.*,c.*,p.*,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor,
+            CONCAT(u.fname, " ",u.lname) AS requestor,
              DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,
             (SELECT count(id) FROM tbl_purchasing_project WHERE status=2 AND production_no=p.production_no GROUP BY production_no) as status,
             c.image as image,c.c_image as c_image,d.title as title,c.c_name,p.production_no as production_no')
@@ -542,7 +560,7 @@ class Datatable_model extends CI_Model{
              ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
             ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
             ->join('tbl_purchasing_project as pr','pr.production_no=p.production_no','LEFT')
-            ->join('tbl_users as u','u.id=p.assigned','LEFT')
+            ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
             ->where('pr.status',2)
             ->where('p.type',2)
             ->group_by('pr.production_no')
@@ -569,14 +587,14 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;    
     }
-    function Purchase_Material_Project_Inprogress_DataTable($user_id){
+    function Purchase_Material_Project_Inprogress_DataTable(){
             $array = 'pr.type=2 AND pr.status=3 OR pr.status=4 AND pr.type=2';
-            $query = $this->db->select('pr.*,p.*,d.*,c.*,c.image as image,d.title as title,pr.status as status,DATE_FORMAT(pr.latest_update, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+            $query = $this->db->select('pr.*,p.*,d.*,c.*,c.image as image,d.title as title,pr.status as status,DATE_FORMAT(pr.latest_update, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
             ->from('tbl_purchasing_project as pr')
             ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
             ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
             ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
-            ->join('tbl_users as u','u.id=p.production','LEFT')
+            ->join('tbl_administrator as u','u.id=p.production','LEFT')
             ->where($array)->group_by('pr.fund_no')->order_by('pr.latest_update','DESC')
             ->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
@@ -600,20 +618,20 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;    
     }
-    function Purchase_Material_Project_Complete_DataTable($user_id){
+    function Purchase_Material_Project_Complete_DataTable(){
              $query =  $this->db->select('mp.*,p.*,
                 m.item ,s.name,mp.amount,m.unit,
                 DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
                  DATE_FORMAT(mp.terms_start, "%M %d %Y") as terms_start,
                 DATE_FORMAT(mp.terms_end, "%M %d %Y") as terms_end,
-                CONCAT(u.firstname, " ",u.lastname) AS requestor')
+                CONCAT(u.fname, " ",u.lname) AS requestor')
             ->from('tbl_purchase_received as mp')
             ->join('tbl_materials as m','m.id=mp.item_no','LEFT')
             ->join('tbl_supplier as s','s.id=mp.supplier','LEFT')
             ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-            ->join('tbl_users as u','u.id=p.production','LEFT')
+            ->join('tbl_administrator as u','u.id=p.production','LEFT')
             ->where('mp.type',2)
-            ->where('mp.created_by',$user_id)
+            ->where('mp.created_by',$this->user_id)
             ->order_by('mp.date_created','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  { 
@@ -640,16 +658,16 @@ class Datatable_model extends CI_Model{
          return $json_data;    
     }
     
-      function Material_Request_Stocks_DataTable($user_id){       
+      function Material_Request_Stocks_DataTable(){       
             $query =  $this->db->select('mp.*,p.*,d.*,c.*,m.*,mp.status as status,
                 DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
-                CONCAT(u.firstname, " ",u.lastname) AS requestor')
+                CONCAT(u.fname, " ",u.lname) AS requestor')
                ->from('tbl_material_project as mp')
                ->join('tbl_materials as m','mp.item_no=m.id','LEFT')
                ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
                ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
                ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-               ->join('tbl_users as u','u.id=p.production','LEFT')
+               ->join('tbl_administrator as u','u.id=p.production','LEFT')
                ->where('mp.balance_quantity >', 0)->where('p.type',1)->group_by('mp.production_no')->order_by('mp.latest_update','DESC')->get(); 
          if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  
@@ -673,15 +691,15 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data; 
      } 
-    function Material_Complete_Stocks_DataTable($user_id){
+    function Material_Complete_Stocks_DataTable(){
          $query =  $this->db->select('*,mp.production_no,
               mp.quantity as quantity,m.item,m.unit,
             DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')
+            CONCAT(u.fname, " ",u.lname) AS requestor')
         ->from('tbl_material_release as mp')
         ->join('tbl_materials as m','mp.item_no=m.id','LEFT')
         ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-        ->join('tbl_users as u','u.id=p.production','LEFT')->where('mp.type',1)
+        ->join('tbl_administrator as u','u.id=p.production','LEFT')->where('mp.type',1)
         ->order_by('mp.date_created','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
@@ -698,16 +716,16 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;    
     }
-    function Material_Request_Project_DataTable($user_id){       
+    function Material_Request_Project_DataTable(){       
             $query =  $this->db->select('mp.*,p.*,d.*,c.*,m.*,mp.status as status,
                 DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,c.image,
-                CONCAT(u.firstname, " ",u.lastname) AS requestor')
+                CONCAT(u.fname, " ",u.lname) AS requestor')
                ->from('tbl_material_project as mp')
                ->join('tbl_materials as m','mp.item_no=m.id','LEFT')
                ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
                ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
                ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
-               ->join('tbl_users as u','u.id=p.production','LEFT')
+               ->join('tbl_administrator as u','u.id=p.production','LEFT')
                ->where('mp.balance_quantity >', 0)->where('p.type',2)->group_by('mp.production_no')->order_by('mp.latest_update','DESC')->get(); 
          if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  {
@@ -728,15 +746,15 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data; 
      } 
-    function Material_Complete_Project_DataTable($user_id){
+    function Material_Complete_Project_DataTable(){
         $query =  $this->db->select('*,
             mp.quantity,m.item,m.unit,
             DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')
+            CONCAT(u.fname, " ",u.lname) AS requestor')
         ->from('tbl_material_release as mp')
         ->join('tbl_materials as m','mp.item_no=m.id','LEFT')
         ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-        ->join('tbl_users as u','u.id=p.production','LEFT')->where('mp.type',2)
+        ->join('tbl_administrator as u','u.id=p.production','LEFT')->where('mp.type',2)
         ->order_by('mp.date_created','DESC')->get(); 
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
@@ -753,11 +771,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;    
     }
-    function Joborder_Stocks_Request_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_color as c','p.c_code=c.id','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',1)->where('p.status',2)->order_by('p.date_created','DESC')->get();
+    function Joborder_Stocks_Request_DataTable(){        
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_color as c','p.c_code=c.id','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',1)->where('p.status',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
-                $action = '<a  href="'.base_url().'gh/'.$this->session->userdata('page').'/joborder-update-stocks?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
+                $action = '<a  href="'.base_url().'gh/designer/joborder-update-stocks?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
               $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                  $data[] = array(
@@ -775,13 +793,13 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      } 
-     function Joborder_Stocks_Pending_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+     function Joborder_Stocks_Pending_DataTable(){        
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
           ->from('tbl_project as p')
           ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
           ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-          ->join('tbl_users as u','u.id=p.assigned','LEFT')
-          ->where('p.type',1)->where('p.status',1)->where('p.assigned',$user_id)->order_by('p.date_created','DESC')->get();
+          ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
+          ->where('p.type',1)->where('p.status',1)->where('p.assigned',$this->user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
              $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
@@ -802,13 +820,13 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
         } 
-        function Joborder_Stocks_Complete_DataTable($user_id){  
-         $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_finished as p')
+        function Joborder_Stocks_Complete_DataTable(){  
+         $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_finished as p')
           ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
           ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-          ->join('tbl_users as u','u.id=p.assigned','LEFT')
+          ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
           ->where('p.type',1)->where('p.status',1)
-          ->where('p.assigned',$user_id)
+          ->where('p.assigned',$this->user_id)
           ->order_by('p.date_created','DESC')->get();      
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
@@ -828,13 +846,13 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
         } 
-         function Joborder_Stocks_Cancelled_DataTable($user_id){        
-         $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_finished as p')
+         function Joborder_Stocks_Cancelled_DataTable(){        
+         $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_finished as p')
           ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
           ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-          ->join('tbl_users as u','u.id=p.assigned','LEFT')
+          ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
           ->where('p.type',1)->where('p.status',2)
-          ->where('p.assigned',$user_id)
+          ->where('p.assigned',$this->user_id)
           ->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
@@ -854,8 +872,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
         } 
-        function Joborder_Stocks_Production_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',1)->where('p.status',2)->where('p.assigned',$user_id)->order_by('p.date_created','DESC')->get();
+        function Joborder_Stocks_Production_DataTable(){        
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',1)->where('p.status',2)->where('p.assigned',$this->user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
@@ -876,11 +894,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      } 
-        function Joborder_Project_Request_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->order_by('p.date_created','DESC')->get();
+        function Joborder_Project_Request_DataTable(){        
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
-                 $action = '<a  href="'.base_url().'gh/'.$this->session->userdata('page').'/joborder-update-project?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-light-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
+                 $action = '<a  href="'.base_url().'gh/designer/joborder-update-project?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-light-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
                  $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
@@ -895,9 +913,9 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      } 
-     function Joborder_Project_Pending_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
-          ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',1)->where('p.production',$user_id)->order_by('p.date_created','DESC')->get();
+     function Joborder_Project_Pending_DataTable(){        
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
+          ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',1)->where('p.production',$this->user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
@@ -916,12 +934,12 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
       } 
-      function Joborder_Project_Complete_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+      function Joborder_Project_Complete_DataTable(){        
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
           ->from('tbl_project_finished as p')
           ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
           ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',1)->where('p.assigned',$user_id)->order_by('p.date_created','DESC')->get();
+          ->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',1)->where('p.assigned',$this->user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
@@ -937,8 +955,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
         } 
-      function Joborder_Project_Cancelled_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->where('c.designer',$user_id)->order_by('p.date_created','DESC')->get();
+      function Joborder_Project_Cancelled_DataTable(){        
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->where('c.designer',$this->user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
@@ -956,8 +974,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
       } 
-      function Joborder_Project_Production_DataTable($user_id){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->where('p.assigned',$user_id)->order_by('p.date_created','DESC')->get();
+      function Joborder_Project_Production_DataTable(){        
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->where('p.assigned',$this->user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
@@ -976,7 +994,7 @@ class Datatable_model extends CI_Model{
          return $json_data;
      } 
        function Joborder_Masterlist_Stocks_DataTable(){        
-          $query = $this->db->select('p.*,c.*,d.*,p.status,c.image as image,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_finished as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',1)->order_by('p.date_created','DESC')->get();
+          $query = $this->db->select('p.*,c.*,d.*,p.status,c.image as image,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_finished as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',1)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
@@ -999,7 +1017,7 @@ class Datatable_model extends CI_Model{
          return $json_data;
      } 
       function Joborder_Masterlist_Project_DataTable(){        
-          $query = $this->db->select('p.*,c.*,d.*,p.status,c.image,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_finished as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.type',2)->order_by('p.date_created','DESC')->get();
+          $query = $this->db->select('p.*,c.*,d.*,p.status,c.image,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_finished as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
@@ -1020,7 +1038,7 @@ class Datatable_model extends CI_Model{
          return $json_data;
      } 
      function Joborder_Stocks_Supervisor_DataTable(){
-         $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',1)->order_by('p.date_created','DESC')->get();
+         $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',1)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
               $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
@@ -1043,7 +1061,7 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
      function Joborder_Project_Supervisor_DataTable(){
-         $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',2)->order_by('p.date_created','DESC')->get();
+         $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',2)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
               $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="flaticon2-pen"></i></button></div>';
@@ -1064,10 +1082,10 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
 
-     function Salesorder_Stocks_Request_DataTable_Production($user_id){
+     function Salesorder_Stocks_Request_DataTable_Production(){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $user_id)->where('s.status','PENDING')->order_by('s.date_created','ASC')->get();
+       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.created_by', $this->user_id)->where('s.status','PENDING')->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $status='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
@@ -1085,11 +1103,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Stocks_Approved_DataTable_Production($user_id){
+     function Salesorder_Stocks_Approved_DataTable_Production(){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.status','APPROVED')->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
+       ->where('s.status','APPROVED')->where('s.created_by', $this->user_id)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $status='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';
@@ -1107,11 +1125,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Stocks_Completed_DataTable_Production($user_id){
+     function Salesorder_Stocks_Completed_DataTable_Production(){
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.status','COMPLETED')->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
+       ->where('s.status','COMPLETED')->where('s.created_by', $this->user_id)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
              $status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Completed</span></span>';
@@ -1129,11 +1147,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Stocks_Cancelled_DataTable_Production($user_id){
+     function Salesorder_Stocks_Cancelled_DataTable_Production(){
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.status','CANCELLED')->where('s.created_by', $user_id)->order_by('s.latest_update','DESC')->get();
+       ->where('s.status','CANCELLED')->where('s.created_by', $this->user_id)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';
@@ -1152,10 +1170,10 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
 
-     function Salesorder_Project_Request_DataTable_Production($user_id){
+     function Salesorder_Project_Request_DataTable_Production(){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.status','PENDING')->where('s.created_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->where('s.status','PENDING')->where('s.created_by', $this->user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
@@ -1173,12 +1191,12 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Project_Approved_DataTable_Production($user_id){
+     function Salesorder_Project_Approved_DataTable_Production(){
         $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
        ->where('s.status','APPROVED')
-       ->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
+       ->where('s.created_by', $this->user_id)->order_by('s.latest_update','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>';
@@ -1196,11 +1214,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Project_Completed_DataTable_Production($user_id){
+     function Salesorder_Project_Completed_DataTable_Production(){
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.status','COMPLETED')->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
+       ->where('s.status','COMPLETED')->where('s.created_by', $this->user_id)->order_by('s.latest_update','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button></div>'; 
@@ -1219,11 +1237,11 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
 
-     function Salesorder_Project_Cancelled_DataTable_Production($user_id){
+     function Salesorder_Project_Cancelled_DataTable_Production(){
        $data=false;
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.status','CANCELLED')->where('s.created_by', $user_id)->order_by('s.latest_update','ASC')->get();
+       ->where('s.status','CANCELLED')->where('s.created_by', $this->user_id)->order_by('s.latest_update','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
              $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button><button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'"  data-trans="'.$row->so_no.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button></div>';  
@@ -1440,11 +1458,11 @@ class Datatable_model extends CI_Model{
 
 
       
-    function Salesorder_Stocks_Request_DataTable_Admin($user_id){
+    function Salesorder_Stocks_Request_DataTable_Admin(){
        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->join('tbl_users as u','u.id=s.created_by','LEFT')
+       ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
        ->where('s.status','P')->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
@@ -1460,12 +1478,12 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Stocks_Approved_DataTable_Admin($user_id){
+     function Salesorder_Stocks_Approved_DataTable_Admin(){
        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->join('tbl_users as u','u.id=s.created_by','LEFT')
-       ->where('s.status','A')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
+       ->where('s.status','A')->where('s.update_by', $this->user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1480,12 +1498,12 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Stocks_Rejected_DataTable_Admin($user_id){
+     function Salesorder_Stocks_Rejected_DataTable_Admin(){
        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
        ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->join('tbl_users as u','u.id=s.created_by','LEFT')
-       ->where('s.status','C')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
+       ->where('s.status','C')->where('s.update_by', $this->user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1500,11 +1518,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-    function Salesorder_Project_Request_DataTable_Admin($user_id){
+    function Salesorder_Project_Request_DataTable_Admin(){
        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->join('tbl_users as u','u.id=s.created_by','LEFT')
+       ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
        ->where('s.status','P')->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
@@ -1520,12 +1538,12 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Project_Approved_DataTable_Admin($user_id){
+     function Salesorder_Project_Approved_DataTable_Admin(){
        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->join('tbl_users as u','u.id=s.created_by','LEFT')
-       ->where('s.status','A')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
+       ->where('s.status','A')->where('s.update_by', $this->user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1540,12 +1558,12 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
-     function Salesorder_Project_Rejected_DataTable_Admin($user_id){
+     function Salesorder_Project_Rejected_DataTable_Admin(){
        $data=false;
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
        ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->join('tbl_users as u','u.id=s.created_by','LEFT')
-       ->where('s.status','CANCELLED')->where('s.update_by', $user_id)->order_by('s.date_created','ASC')->get();
+       ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
+       ->where('s.status','CANCELLED')->where('s.update_by', $this->user_id)->order_by('s.date_created','ASC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="la la-eye"></i></button>';  
@@ -1700,9 +1718,9 @@ class Datatable_model extends CI_Model{
 
 
 
-     function Request_Material_List_Datatable($user_id){
+     function Request_Material_List_Datatable(){
            $data=false;
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',1)->where('created_by',$user_id)->order_by('id','DESC')->get();
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',1)->where('created_by',$this->user_id)->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
@@ -1720,9 +1738,9 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data; 
      }
-     function Request_Material_Received_Datatable($user_id){
+     function Request_Material_Received_Datatable(){
         $data=false;
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_received')->where('created_by',$user_id)->order_by('id','DESC')->get();
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_received')->where('created_by',$this->user_id)->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
@@ -1740,9 +1758,9 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data; 
      }
-     function Request_Material_Cancalled_Datatable($user_id){
+     function Request_Material_Cancalled_Datatable(){
         $data=false;
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',3)->where('created_by',$user_id)->order_by('id','DESC')->get();
+           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_other_material_m_request')->where('status',3)->where('created_by',$this->user_id)->order_by('id','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
             $no = 1;
             foreach($query->result() as $row){
@@ -1914,7 +1932,7 @@ class Datatable_model extends CI_Model{
 
        function Users_DataTable(){
         $where = "status='ACTIVE' OR status='INACTIVE'";
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_users')->where($where)->order_by('date_created','DESC')->get();
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_administrator')->where($where)->order_by('date_created','DESC')->get();
 
             if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row)  
@@ -1958,15 +1976,16 @@ class Datatable_model extends CI_Model{
 
 
     //APPROVAL
-   function Approval_Purchase_Request_DataTable($user_id){       
+   function Approval_Purchase_Request_DataTable(){       
              $array = array();
              $query =  $this->db->select('d.*,c.*,mp.*,p.*,mp.status as status,
-                CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(mp.date_approved1, "%M %d %Y %r") as date_created')
+                CONCAT(u.fname, " ",u.lname) AS requestor,
+                DATE_FORMAT(mp.date_approved1, "%M %d %Y %r") as date_created')
                ->from('tbl_purchasing_project as mp')
                ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
                ->join('tbl_project_design as d','d.project_no=p.project_no','LEFT')
                ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-               ->join('tbl_users as u', 'u.id=p.production','LEFT')
+               ->join('tbl_administrator as u', 'u.id=p.production','LEFT')
                ->where('mp.admin_status', 'REQUEST')->group_by('mp.production_no')
                ->order_by('mp.date_approved1','DESC')->get();  
             if($query !== FALSE && $query->num_rows() > 0){
@@ -1995,15 +2014,16 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;    
      } 
-     function Approval_Purchase_Approved_DataTable($user_id){       
-             $array = array('mp.admin_status =' => 'APPROVED','mp.approver2' => $user_id);
+     function Approval_Purchase_Approved_DataTable(){       
+             $array = array('mp.admin_status =' => 'APPROVED','mp.approver2' => $this->user_id);
              $query =  $this->db->select('d.*,c.*,mp.*,p.*,mp.status as status,
-                CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(mp.date_inprogress, "%M %d %Y %r") as date_created')
+                CONCAT(u.fname, " ",u.lname) AS requestor,
+                DATE_FORMAT(mp.date_inprogress, "%M %d %Y %r") as date_created')
                ->from('tbl_purchasing_project as mp')
                ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
                ->join('tbl_project_design as d','d.project_no=p.project_no','LEFT')
                ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-               ->join('tbl_users as u', 'u.id=p.production','LEFT')
+               ->join('tbl_administrator as u', 'u.id=p.production','LEFT')
                ->where($array)->group_by('mp.production_no')
                ->order_by('mp.date_inprogress','DESC')->get();  
             if($query !== FALSE && $query->num_rows() > 0){
@@ -2034,17 +2054,17 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;    
      } 
-     function Approval_Purchase_Rejected_DataTable($user_id){       
-              $array = array('mp.status' => 'REJECTED', 'mp.approver2' => $user_id);  
+     function Approval_Purchase_Rejected_DataTable(){       
+              $array = array('mp.status' => 'REJECTED', 'mp.approver2' => $this->user_id);  
               $date  = 'DATE_FORMAT(mp.date_rejected, "%M %d %Y %r") as date_created';
               $date_ = 'mp.date_rejected';
              $query =  $this->db->select('d.*,c.*,mp.*,p.*,mp.status as status,
-                CONCAT(u.firstname, " ",u.lastname) AS requestor,DATE_FORMAT(mp.date_rejected, "%M %d %Y %r") as date_created')
+                CONCAT(u.fname, " ",u.lname) AS requestor,DATE_FORMAT(mp.date_rejected, "%M %d %Y %r") as date_created')
                ->from('tbl_purchasing_project as mp')
                ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
                ->join('tbl_project_design as d','d.project_no=p.project_no','LEFT')
                ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-               ->join('tbl_users as u', 'u.id=p.production','LEFT')
+               ->join('tbl_administrator as u', 'u.id=p.production','LEFT')
                ->where($array)->group_by('mp.production_no')
                ->order_by('date_rejected','DESC')->get();  
             if($query !== FALSE && $query->num_rows() > 0){
@@ -2076,11 +2096,11 @@ class Datatable_model extends CI_Model{
          return $json_data;    
      } 
    function Approval_Inspection_Stocks_Request_DataTable(){
-    $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+    $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
     ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
     ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
     ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-    ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+    ->join('tbl_administrator as u', 'u.id=i.created_by','LEFT')
     ->where('i.status',1)
     ->where('i.type',1)
     ->group_by('i.production_no')
@@ -2104,12 +2124,12 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data; 
       }
-      function Approval_Inspection_Stocks_Approved_DataTable($user_id){
-        $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+      function Approval_Inspection_Stocks_Approved_DataTable(){
+        $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
         ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
         ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-        ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+        ->join('tbl_administrator as u', 'u.id=i.created_by','LEFT')
         ->where('i.status',2)
         ->where('i.type',1)
         ->group_by('i.ins_no')
@@ -2133,12 +2153,12 @@ class Datatable_model extends CI_Model{
              $json_data  = array("data" =>$data); 
              return $json_data; 
           }
-       function Approval_Inspection_Stocks_Rejected_DataTable($user_id){
-         $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+       function Approval_Inspection_Stocks_Rejected_DataTable(){
+         $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
             ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
             ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
             ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-            ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+            ->join('tbl_administrator as u', 'u.id=i.created_by','LEFT')
             ->where('i.status',3)
             ->where('i.type',1)
             ->group_by('i.ins_no')->order_by('i.date_created','DESC')->get();
@@ -2162,11 +2182,11 @@ class Datatable_model extends CI_Model{
                  return $json_data; 
     }
    function Approval_Inspection_Project_Request_DataTable(){
-    $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+    $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
     ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
     ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
     ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-    ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+    ->join('tbl_administrator as u', 'u.id=i.created_by','LEFT')
     ->where('i.status',1)
     ->where('i.type',1)
     ->group_by('i.production_no')
@@ -2187,12 +2207,12 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data; 
       }
-      function Approval_Inspection_Project_Approved_DataTable($user_id){
-        $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+      function Approval_Inspection_Project_Approved_DataTable(){
+        $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
         ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
         ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-        ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+        ->join('tbl_administrator as u', 'u.id=i.created_by','LEFT')
         ->where('i.status',2)
         ->where('i.type',2)
         ->group_by('i.ins_no')
@@ -2213,12 +2233,12 @@ class Datatable_model extends CI_Model{
              $json_data  = array("data" =>$data); 
              return $json_data; 
           }
-       function Approval_Inspection_Project_Rejected_DataTable($user_id){
-         $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+       function Approval_Inspection_Project_Rejected_DataTable(){
+         $query = $this->db->select('*,c.image as image,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
             ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
             ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
             ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-            ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+            ->join('tbl_administrator as u', 'u.id=i.created_by','LEFT')
             ->where('i.status',3)
             ->where('i.type',2)
             ->group_by('i.ins_no')->order_by('i.date_created','DESC')->get();
@@ -2241,9 +2261,9 @@ class Datatable_model extends CI_Model{
       function Approval_Request_Salesorder_DataTable(){
         $data =false;   
         $query=$this->db->select('*,s.status,DATE_FORMAT(s.date_order, "%M %d %Y %r") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS sales_person')
+            CONCAT(u.fname, " ",u.lname) AS sales_person')
             ->from('tbl_salesorder as s')
-            ->join('tbl_users as u','u.id=s.created_by','LEFT')
+            ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
             ->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
             ->where('s.status', 1)->order_by('s.date_created','DESC')->get();
            if($query !== FALSE && $query->num_rows() > 0){
@@ -2265,9 +2285,9 @@ class Datatable_model extends CI_Model{
      function Approval_Approved_Salesorder_DataTable(){
        $data =false;   
        $query=$this->db->select('*,s.status,DATE_FORMAT(s.date_order, "%M %d %Y %r") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS sales_person')
+            CONCAT(u.fname, " ",u.lname) AS sales_person')
             ->from('tbl_salesorder as s')
-            ->join('tbl_users as u','u.id=s.created_by','LEFT')
+            ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
             ->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
             ->where('s.status', 2)->order_by('s.date_created','DESC')->get();
            if($query !== FALSE && $query->num_rows() > 0){
@@ -2289,9 +2309,9 @@ class Datatable_model extends CI_Model{
      function Approval_Rejected_Salesorder_DataTable(){
         $data =false;
         $query=$this->db->select('*,s.status,DATE_FORMAT(s.date_order, "%M %d %Y %r") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS sales_person')
+            CONCAT(u.fname, " ",u.lname) AS sales_person')
             ->from('tbl_salesorder as s')
-            ->join('tbl_users as u','u.id=s.created_by','LEFT')
+            ->join('tbl_administrator as u','u.id=s.created_by','LEFT')
             ->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
             ->where('s.status', 1)->order_by('s.date_created','DESC')->get();
            if($query !== FALSE && $query->num_rows() > 0){
@@ -2309,9 +2329,9 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data; 
      }
-     function Approval_Design_Stocks_Request_DataTable($user_id){
+     function Approval_Design_Stocks_Request_DataTable(){
         $array = array('c.p_status' => 'REQUEST');
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=1 AND c.type=1')->order_by('c.date_created','ASC')->get();
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=1 AND c.type=1')->order_by('c.date_created','ASC')->get();
         $data= array();
            if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row)  
@@ -2333,8 +2353,8 @@ class Datatable_model extends CI_Model{
          return $json_data; 
 
      }
-      function Approval_Design_Stocks_Approved_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,DATE_FORMAT(c.date_approved, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=2 AND c.type=1 AND c.approver='.$user_id.'')->order_by('c.date_approved','ASC')->get();
+      function Approval_Design_Stocks_Approved_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,DATE_FORMAT(c.date_approved, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=2 AND c.type=1 AND c.approver='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
             $data= array();
            if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
@@ -2356,8 +2376,8 @@ class Datatable_model extends CI_Model{
          return $json_data; 
 
      }
-     function Approval_Design_Stocks_Rejected_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,DATE_FORMAT(c.date_approved, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=3 AND c.type=1 AND c.approver='.$user_id.'')->order_by('c.date_approved','ASC')->get();
+     function Approval_Design_Stocks_Rejected_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,DATE_FORMAT(c.date_approved, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=3 AND c.type=1 AND c.approver='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
             $data= array();
            if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row) {
@@ -2379,8 +2399,8 @@ class Datatable_model extends CI_Model{
          return $json_data; 
 
      }
-       function Approval_Design_Project_Request_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=1 AND c.type=2')->order_by('c.date_created','ASC')->get();
+       function Approval_Design_Project_Request_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=1 AND c.type=2')->order_by('c.date_created','ASC')->get();
         $data= array();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
@@ -2397,8 +2417,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;   
     }
-    function Approval_Design_Project_Approved_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status =2 AND c.type=2 AND c.approver ='.$user_id.'')->order_by('c.date_created','ASC')->get();
+    function Approval_Design_Project_Approved_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status =2 AND c.type=2 AND c.approver ='.$this->user_id.'')->order_by('c.date_created','ASC')->get();
         $data= array();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
@@ -2415,8 +2435,8 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;   
     }
-    function Approval_Design_Project_Rejected_DataTable($user_id){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer')->where('c.status=3 AND c.type=2 AND c.approver ='.$user_id.'')->order_by('c.date_approved','ASC')->get();
+    function Approval_Design_Project_Rejected_DataTable(){
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=3 AND c.type=2 AND c.approver ='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
         $data= array();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
@@ -2435,7 +2455,7 @@ class Datatable_model extends CI_Model{
     }
 
     function Approval_UsersRequest_DataTable(){
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_users')->order_by('date_created','DESC')->get();
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_administrator')->order_by('date_created','DESC')->get();
         $data=array();
          if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row)  
@@ -2460,8 +2480,8 @@ class Datatable_model extends CI_Model{
      //ACCOUNTING
      function Accounting_Purchase_Material_Stocks(){
         $query =  $this->db->select('d.*,c.*,m.*,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,m.status,
-                     CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_purchasing_project as m')
-        ->join('tbl_project as p','p.production_no=m.production_no','LEFT')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=m.purchaser','LEFT')->where_in('m.status',array(3,4,5))->where('p.type',1)->group_by('m.fund_no')->get();  
+                     CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_purchasing_project as m')
+        ->join('tbl_project as p','p.production_no=m.production_no','LEFT')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=m.purchaser','LEFT')->where_in('m.status',array(3,4,5))->where('p.type',1)->group_by('m.fund_no')->get();  
          $data=array();
         if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row){
@@ -2483,15 +2503,15 @@ class Datatable_model extends CI_Model{
          return $json_data;   
      }
     
-          function Accounting_Purchase_Material_Stocks_Received($user_id){
+          function Accounting_Purchase_Material_Stocks_Received(){
            $query = $this->db->select('d.*,c.*,m.*,m.status,
             DATE_FORMAT(m.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')
+            CONCAT(u.fname, " ",u.lname) AS requestor')
            ->from('tbl_purchase_received as m')
            ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
            ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
            ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-           ->join('tbl_users as u','u.id=m.purchaser','LEFT')
+           ->join('tbl_administrator as u','u.id=m.purchaser','LEFT')
            ->where('p.type',1)->group_by('m.fund_no')->order_by('m.date_created')->get();  
              $data=array();
             if($query !== FALSE && $query->num_rows() > 0){
@@ -2519,12 +2539,12 @@ class Datatable_model extends CI_Model{
      }
       function Accounting_Purchase_Material_Project_Request(){
       $query =  $this->db->select('d.*,c.*,m.*,m.status,DATE_FORMAT(m.latest_update, "%M %d %Y") as date_created,
-                     CONCAT(u.firstname, " ",u.lastname) AS requestor')
+                     CONCAT(u.fname, " ",u.lname) AS requestor')
         ->from('tbl_purchasing_project as m')
         ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
         ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
-        ->join('tbl_users as u','u.id=m.purchaser','LEFT')
+        ->join('tbl_administrator as u','u.id=m.purchaser','LEFT')
         ->where_in('m.status',array(3,4,5))->where('p.type',2)->group_by('m.fund_no')->get();  
          $data=array();
         if($query !== FALSE && $query->num_rows() > 0){
@@ -2546,15 +2566,15 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;  
      }
-     function Accounting_Purchase_Material_Project_Received($user_id){
+     function Accounting_Purchase_Material_Project_Received(){
       $query = $this->db->select('d.*,c.*,m.*,m.status,
             DATE_FORMAT(m.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')
+            CONCAT(u.fname, " ",u.lname) AS requestor')
            ->from('tbl_purchase_received as m')
            ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
            ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
            ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
-           ->join('tbl_users as u','u.id=m.purchaser','LEFT')
+           ->join('tbl_administrator as u','u.id=m.purchaser','LEFT')
            ->where('p.type',2)->group_by('m.fund_no')->order_by('m.date_created')->get();  
              $data=array();
             if($query !== FALSE && $query->num_rows() > 0){
@@ -2787,7 +2807,7 @@ class Datatable_model extends CI_Model{
              $total_vat = 0;
              $total_shippingfee = 0;
              $total_amount = 0;
-             $query = $this->db->select('s.*,c.*,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->join('tbl_users as u','u.id=s.created_by','LEFT')->where('s.status','A')->where($date)->order_by('s.date_order','ASC')->get();
+             $query = $this->db->select('s.*,c.*,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')->join('tbl_administrator as u','u.id=s.created_by','LEFT')->where('s.status','A')->where($date)->order_by('s.date_order','ASC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                     $total =  $this->db->select('sum(amount) as subtotal')->from('tbl_salesorder_stocks_item')->where('so_no',$row->id)->get()->row();
@@ -4182,7 +4202,7 @@ class Datatable_model extends CI_Model{
      //sales
      function OnlineOrder_DataTable(){
          $data =false;   
-       $query = $this->db->select('s.*,u.*,s.id,s.type,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS customer')->from('tbl_cart_address as s')->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.status','REQUEST')->order_by('date_order','DESC')->get();
+       $query = $this->db->select('s.*,u.*,s.id,s.type,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS customer')->from('tbl_cart_address as s')->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.status','REQUEST')->order_by('date_order','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';  
@@ -4202,7 +4222,7 @@ class Datatable_model extends CI_Model{
         $data =false;   
         $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
             DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',1)->get();
+            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',1)->get();
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                  if($row->status == 1){
@@ -4227,7 +4247,7 @@ class Datatable_model extends CI_Model{
         $data =false;   
         $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
             DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',1)->get();
+            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',1)->get();
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';  
@@ -4246,7 +4266,7 @@ class Datatable_model extends CI_Model{
         $data =false;   
         $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
             DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',2)->get();
+            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',2)->get();
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                    $data[] = array(
@@ -4263,7 +4283,7 @@ class Datatable_model extends CI_Model{
         $data =false;   
         $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
             DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',3)->get();
+            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',3)->get();
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                    $data[] = array(
@@ -4555,7 +4575,7 @@ class Datatable_model extends CI_Model{
     }
     function Pre_Order_Request_Datatable(){
         $data =false;   
-        $query =  $this->db->select('*,i.id,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',1)->order_by('i.date_created','DESC')->get();
+        $query =  $this->db->select('*,i.id,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',1)->order_by('i.date_created','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                   $action = '<button type="button" class="btn btn-sm btn-light-success btn-icon  btn-request" mr-2" data-status="2" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-check-mark"></i></button>
@@ -4572,9 +4592,9 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
     }
-     function Pre_Order_Approved_Datatable($user_id){
+     function Pre_Order_Approved_Datatable(){
        $data =false;   
-        $query =  $this->db->select('*,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',2)->where('i.update_by',$user_id)->order_by('i.latest_update','DESC')->get();
+        $query =  $this->db->select('*,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',2)->where('i.update_by',$this->user_id)->order_by('i.latest_update','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){ 
                    $data[] = array(
@@ -4588,9 +4608,9 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
     }
-    function Pre_Order_Rejected_Datatable($user_id){
+    function Pre_Order_Rejected_Datatable(){
         $data =false;   
-        $query =  $this->db->select('*,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=i.created_by','LEFT')->where('i.status',3)->where('i.update_by',$user_id)->order_by('i.latest_update','DESC')->get();
+        $query =  $this->db->select('*,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',3)->where('i.update_by',$this->user_id)->order_by('i.latest_update','DESC')->get();
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){ 
                    $data[] = array(
@@ -4609,9 +4629,9 @@ class Datatable_model extends CI_Model{
     function Customized_Request_Datatable(){
         $data =false;$no = 1;  
         $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, 
-            CONCAT(u.firstname, " ",u.lastname) AS requestor')
+            CONCAT(u.fname, " ",u.lname) AS requestor')
         ->from('tbl_customized_request as p')
-        ->join('tbl_users as u','u.id=p.created_by','LEFT')
+        ->join('tbl_administrator as u','u.id=p.created_by','LEFT')
         ->where('p.status','P')
         ->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
@@ -4629,9 +4649,9 @@ class Datatable_model extends CI_Model{
         $json_data  = array("data" =>$data); 
          return $json_data;
     }
-     function Customized_Approved_Datatable($user_id){
+     function Customized_Approved_Datatable(){
         $data =false;$no = 1; 
-        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_customized_request as p')->join('tbl_users as u','u.id=p.created_by','LEFT')->where('p.status','A')->where('p.update_by',$user_id)->order_by('p.latest_update','DESC')->get();
+        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_customized_request as p')->join('tbl_administrator as u','u.id=p.created_by','LEFT')->where('p.status','A')->where('p.update_by',$this->user_id)->order_by('p.latest_update','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
@@ -4647,9 +4667,9 @@ class Datatable_model extends CI_Model{
         $json_data  = array("data" =>$data); 
          return $json_data;
     }
-    function Customized_Rejected_Datatable($user_id){
+    function Customized_Rejected_Datatable(){
         $data =false;$no = 1;  
-        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_customized_request as p')->join('tbl_users as u','u.id=p.created_by','LEFT')->where('p.status','R')->where('p.update_by',$user_id)->order_by('p.latest_update','DESC')->get();
+        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_customized_request as p')->join('tbl_administrator as u','u.id=p.created_by','LEFT')->where('p.status','R')->where('p.update_by',$this->user_id)->order_by('p.latest_update','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';
@@ -4684,9 +4704,9 @@ class Datatable_model extends CI_Model{
         $json_data  = array("data" =>$data); 
          return $json_data;
     }
-     function Inquiry_Approved_Sales_Datatable($user_id){
+     function Inquiry_Approved_Sales_Datatable(){
         $data =false;$no = 1;  
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customer_inquiry')->where('status','A')->where('update_by',$user_id)->order_by('latest_update','DESC')->get();
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customer_inquiry')->where('status','A')->where('update_by',$this->user_id)->order_by('latest_update','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    

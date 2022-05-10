@@ -4,7 +4,7 @@ class Authentication extends CI_Controller {
        parent::__construct();      
        $this->load->model('Authentication_Model');    
     }
-    public function AdminLogin(){
+    public function Login(){
         $this->load->view('auth/admin/login');
     }
     public function forgot_password(){

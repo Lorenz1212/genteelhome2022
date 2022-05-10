@@ -5,12 +5,9 @@ class Create_controller extends CI_Controller
 { 
     public function __construct(){
       parent::__construct();
-      $this->load->helper('url'); 
       $this->load->model('create_model');
-      $this->load->library('session');
     }
     public function Create_Design_Stocks(){
-        $user_id = $this->session->userdata('id');
         $title  = strtoupper( $this->input->post('title'));
         $c_name = strtoupper($this->input->post('c_name'));
         $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
@@ -22,11 +19,10 @@ class Create_controller extends CI_Controller
         $docs  =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
         $docs_tmp  =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
         $path_docs =  "assets/images/design/project_request/docx/";
-        $data = $this->create_model->Create_Design_Stocks($user_id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs);
+        $data = $this->create_model->Create_Design_Stocks($title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs);
         echo json_encode($data);
      }
      public function Create_Design_Existing(){
-        $user_id = $this->session->userdata('id');
         $project_no = $this->input->post('project_no');
         $c_name = strtoupper($this->input->post('c_name'));
         $image =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
@@ -38,11 +34,10 @@ class Create_controller extends CI_Controller
         $docs   =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]: false;
         $docs_tmp =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]: false;
         $path_docs =  "assets/images/design/project_request/docx/";
-        $data = $this->create_model->Create_Design_Existing($user_id,$project_no,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs);
+        $data = $this->create_model->Create_Design_Existing($project_no,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs);
         echo json_encode($data);
      }
      public function Create_Design_Project(){
-        $user_id = $this->session->userdata('id');
         $title  = strtoupper( $this->input->post('title'));
         $image      =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp        =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
@@ -50,11 +45,10 @@ class Create_controller extends CI_Controller
         $docs       =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
         $docs_tmp   =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
         $path_docs  =  "assets/images/design/project_request/docx/";
-        $data =$this->create_model->Create_Design_Project($user_id,$title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs);
+        $data =$this->create_model->Create_Design_Project($title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs);
         echo json_encode($data);
      }
     public function Create_Joborder_Stocks(){
-        $user_id = $this->session->userdata('id');
         $project_no = $this->input->post('project_no');
         $c_code = $this->input->post('c_code');
         $qty = $this->input->post('unit');
@@ -68,12 +62,11 @@ class Create_controller extends CI_Controller
         $pur_unit = $this->input->post('pur_unit');
         $pur_remarks = $this->input->post('pur_remarks');
         $pur_type = $this->input->post('pur_type');
-        $this->create_model->Create_Joborder_Stocks($user_id,$project_no,$c_code,$qty,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type);
+        $this->create_model->Create_Joborder_Stocks($project_no,$c_code,$qty,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type);
         $data = array('status' =>  'success');
         echo json_encode($data);
     }
     public function Create_Joborder_Project(){
-        $user_id = $this->session->userdata('id');
         $project_no = $this->input->post('project_no');
         $mat_itemno = $this->input->post('mat_itemno');            
         $mat_quantity = $this->input->post('mat_quantity');
@@ -85,18 +78,17 @@ class Create_controller extends CI_Controller
         $pur_unit = $this->input->post('pur_unit');
         $pur_remarks = $this->input->post('pur_remarks');
         $pur_type = $this->input->post('pur_type');
-        $this->create_model->Create_Joborder_Project($user_id,$project_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type);
+        $this->create_model->Create_Joborder_Project($project_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type);
         $data = array('status' =>  'success');
         echo json_encode($data);
     }
      public function Create_Joborder_Request(){
-        $user_id = $this->session->userdata('id');
         $project_no = $this->input->post('project_no');
         $assigned = $this->input->post('assigned');
         $c_code = $this->input->post('c_code');
         $unit = $this->input->post('unit')??0;
         $type = $this->input->post('type');
-        $data = $this->create_model->Create_Joborder_Request($user_id,$project_no,$c_code,$unit,$type);        
+        $data = $this->create_model->Create_Joborder_Request($project_no,$c_code,$unit,$type);        
         echo json_encode($data); 
     }
     public function Create_Users(){
@@ -123,32 +115,29 @@ class Create_controller extends CI_Controller
         echo json_encode($data); 
      }
        public function Create_Purchase_Request(){
-        $user_id = $this->session->userdata('id');
         $production_no = $this->input->post('production_no');
         $item = $this->input->post('item');
         $quantity = $this->input->post('quantity');
         $remarks = $this->input->post('remarks');
-        $this->create_model->Create_Purchase_Request($user_id,$production_no,$item,$quantity,$remarks);
+        $this->create_model->Create_Purchase_Request($production_no,$item,$quantity,$remarks);
         $data = array('status' => 'success');
         echo json_encode($data);
     }
     public function Create_MaterialUsed(){
-         $user_id = $this->session->userdata('id');
          $production_no = $this->input->post('production_no');
          $item = $this->input->post('item');
          $item_no = $this->input->post('item_no');
          $qty = $this->input->post('qty');
          $unit = $this->input->post('unit');
-         $this->create_model->Create_MaterialUsed($user_id,$item_no,$production_no,$item,$qty,$unit);
+         $this->create_model->Create_MaterialUsed($item_no,$production_no,$item,$qty,$unit);
          $data = array('status' => 'success');
          echo json_encode($data);
     }
     public function Create_RawMaterial(){
-        $user_id = $this->session->userdata('id');
         $item = strtoupper($this->input->post('item'));
         $unit = $this->input->post('unit');
         $price = floatval(preg_replace('/[^\d.]/', '', $this->input->post('price')));
-        $this->create_model->Create_RawMaterial($user_id,$item,$unit,$price);
+        $this->create_model->Create_RawMaterial($item,$unit,$price);
         $data = array('status' => 'success');
         echo json_encode($data);
      }
@@ -163,45 +152,40 @@ class Create_controller extends CI_Controller
         echo json_encode($data);
      }
      public function Create_Other_Materials(){
-        $user_id = $this->session->userdata('id');
         $item = strtoupper($this->input->post('item'));
         $type = $this->input->post('type');
-        $data = $this->create_model->Create_Other_Materials($user_id,$item,$type);
+        $data = $this->create_model->Create_Other_Materials($item,$type);
         echo json_encode($data);
      }
      public function Create_Other_Matrials_Request(){
-        $user_id = $this->session->userdata('id');
         $item = $this->input->post('item');
         $quantity = $this->input->post('quantity');
         $remarks = $this->input->post('remarks');
         $type = $this->input->post('type');
-        $data = $this->create_model->Create_Other_Matrials_Request($user_id,$item,$quantity,$remarks,$type);
+        $data = $this->create_model->Create_Other_Matrials_Request($item,$quantity,$remarks,$type);
         echo json_encode($data);
      }
       
     
      public function Create_Purchase_Request_Stocks(){
-        $user_id = $this->session->userdata('id');
         $item = $this->input->post('item');
         $quantity = $this->input->post('quantity');
         $remarks = $this->input->post('remarks');
         $amount = $this->input->post('amount');
         $unit = $this->input->post('unit');
-        $this->create_model->Create_Purchase_Request_Stocks($user_id,$item,$quantity,$remarks,$amount,$unit);
+        $this->create_model->Create_Purchase_Request_Stocks($item,$quantity,$remarks,$amount,$unit);
         $data = array('status' => 'success');
         echo json_encode($data);
      }
        public function Create_Web_Banner(){
-        $user_id = $this->session->userdata('id');
         $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp    =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
         $path_image =  "assets/images/banner/";
         $type = $this->input->post('type');
-        $data = $this->create_model->Create_Web_Banner($user_id,$type,$image,$tmp,$path_image);
+        $data = $this->create_model->Create_Web_Banner($type,$image,$tmp,$path_image);
         echo json_encode($data);
      }
      public function Create_Web_Interior(){
-        $user_id = $this->session->userdata('id');
         $banner_image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $banner_tmp  =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
         $bg_image =  isset($_FILES["bg_image"]["name"]) ? $_FILES["bg_image"]["name"]: false;
@@ -211,7 +195,7 @@ class Create_controller extends CI_Controller
         $cat_id = $this->input->post('cat_id');
         $status = $this->input->post('status');
         $description = $this->input->post('description');
-        $data =$this->create_model->Create_Web_Interior($user_id,$title,$cat_id,$description,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image);
+        $data =$this->create_model->Create_Web_Interior($title,$cat_id,$description,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image);
         echo json_encode($data);
      }
       public function Create_Web_Events(){
@@ -224,7 +208,7 @@ class Create_controller extends CI_Controller
         $image  = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp    = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]: false;
         $path   = "assets_website/images/";
-        $this->create_model->Create_Web_Events($user_id,$title,$status,$description,$id,$date_event,$time_event,$location,$image,$tmp,$path);
+        $this->create_model->Create_Web_Events($title,$status,$description,$id,$date_event,$time_event,$location,$image,$tmp,$path);
         $data = array('status' => 'success');
         echo json_encode($data);
      }
@@ -302,7 +286,6 @@ class Create_controller extends CI_Controller
         echo json_encode($data);
      }
      public function Create_Web_Finishproduct(){
-        $user_id = $this->session->userdata('id');
         $title = strtoupper($this->input->post('title'));
         $c_name = strtoupper($this->input->post('c_name'));
         $amount = floatval(str_replace(',', '', $this->input->post('amount')));
@@ -317,12 +300,11 @@ class Create_controller extends CI_Controller
         $docs       =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
         $docs_tmp   =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
         $path_docs  =  "assets/images/tearsheet/";
-        $this->create_model->Create_Web_Finishproduct($user_id,$title,$c_name,$amount,$cat_id,$sub_id,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs);
+        $this->create_model->Create_Web_Finishproduct($title,$c_name,$amount,$cat_id,$sub_id,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs);
         $data = array('status' => 'success');
         echo json_encode($data);
      }
      public function Create_Web_Finishproduct_Pallet(){
-        $user_id = $this->session->userdata('id');
         $project_no = $this->input->post('project_no');
         $c_name = strtoupper($this->input->post('c_name'));
         $amount = floatval(str_replace(',', '', $this->input->post('amount')));
@@ -332,7 +314,7 @@ class Create_controller extends CI_Controller
         $color_image =  isset($_FILES["color"]["name"]) ? $_FILES["color"]["name"]: false;
         $color_tmp   =  isset($_FILES["color"]["tmp_name"]) ? $_FILES["color"]["tmp_name"]:false;
         $path_color  =  "assets/images/palettecolor/";
-        $this->create_model->Create_Web_Finishproduct_Pallet($user_id,$project_no,$c_name,$amount,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color);
+        $this->create_model->Create_Web_Finishproduct_Pallet($project_no,$c_name,$amount,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color);
         $data = array('status' => 'success');
         echo json_encode($data);
      }
@@ -362,7 +344,6 @@ class Create_controller extends CI_Controller
         echo json_encode($data);
      }
       public function Create_Deposit(){
-        $user_id = $this->session->userdata('id');
         $order_no  = $this->input->post('order_no');
         $firstname = strtoupper($this->input->post('firstname'));
         $lastname = strtoupper($this->input->post('lastname'));
@@ -374,11 +355,10 @@ class Create_controller extends CI_Controller
         $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp    =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
         $path_image =  "assets/images/deposit/";
-        $data = $this->create_model->Create_Deposite($user_id,$firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image);
+        $data = $this->create_model->Create_Deposite($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image);
         echo json_encode($data);
     }
     public function Create_Customer(){
-       $user_id      = $this->session->userdata('id');
        $firstname    = isset($_POST['firstname'])? $this->input->post('firstname'): false;
        $lastname     = isset($_POST['lastname']) ? $this->input->post('lastname'): false;
        $mobile       = isset($_POST['mobile'])   ? $this->input->post('mobile'): false;
@@ -387,28 +367,26 @@ class Create_controller extends CI_Controller
        $city         = isset($_POST['city'])     ? $this->input->post('city'): false;
        $province     = isset($_POST['province']) ? $this->input->post('province'): false;
        $region       = isset($_POST['region'])   ? $this->input->post('region'): false;
-       $data         = $this->create_model->Create_Customer($user_id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region);
+       $data         = $this->create_model->Create_Customer($firstname,$lastname,$mobile,$email,$address,$city,$province,$region);
        $status       = array('status' => $data);
        echo json_encode($status);
     }
     public function Create_Cash_Position(){
-       $user_id = $this->session->userdata('id');
        $name = isset($_POST['name'])? $this->input->post('name'): false;
        $amount = isset($_POST['amount'])? floatval(str_replace(',', '', $this->input->post('amount'))): false;
        $date_position = isset($_POST['date_position'])? date('Y-m-d',strtotime($this->input->post('date_position'))) : false;
        $type = isset($_POST['type'])? $this->input->post('type'): false;
        $cat_id = isset($_POST['cat_id'])? $this->input->post('cat_id'): false;
-       $data = $this->create_model->Create_Cash_Position($user_id,$name,$amount,$date_position,$type,$cat_id);
+       $data = $this->create_model->Create_Cash_Position($name,$amount,$date_position,$type,$cat_id);
        echo json_encode($data);
     }
     public function Create_Web_Testimony(){
-       $user_id = $this->session->userdata('id');
        $name = isset($_POST['name'])? $this->input->post('name'): false;
        $description = isset($_POST['description'])? $this->input->post('description'): false;
        $image      =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
        $tmp        =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
        $path_image =  "assets/images/testimony/";
-       $data = $this->create_model->Create_Web_Testimony($user_id,$name,$description,$image,$tmp,$path_image);
+       $data = $this->create_model->Create_Web_Testimony($name,$description,$image,$tmp,$path_image);
        echo json_encode($data);
     }
     public function Create_Joborder_Inpection_Project_Image(){
@@ -431,7 +409,6 @@ class Create_controller extends CI_Controller
     }
 
     public function Create_Salesorder_Stocks(){
-         $user_id = $this->session->userdata('id');
          $customer = $this->input->post('customer');
          $date_created = $this->input->post('date_created');
          $email = $this->input->post('email');
@@ -449,11 +426,10 @@ class Create_controller extends CI_Controller
          $amount = $this->input->post('amount');
          $terms_start = $this->input->post('terms_start');
          $terms_end = $this->input->post('terms_end');
-         $data = $this->create_model->Create_Salesorder_Stocks($user_id,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end);        
+         $data = $this->create_model->Create_Salesorder_Stocks($date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end);        
          echo json_encode($data); 
     }
     public function Create_Salesorder_Project(){
-         $user_id = $this->session->userdata('id');
          $project_no = $this->input->post('project_no');
          $customer = $this->input->post('customer');
          $date_created = $this->input->post('date_created');
@@ -472,64 +448,57 @@ class Create_controller extends CI_Controller
          $amount = $this->input->post('amount');
          $terms_start = $this->input->post('terms_start');
          $terms_end = $this->input->post('terms_end');
-         $data = $this->create_model->Create_Salesorder_Project($user_id,$project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end);        
+         $data = $this->create_model->Create_Salesorder_Project($project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end);        
          echo json_encode($data); 
     }
     public function Create_Return_Item_Warehouse(){
-         $user_id = $this->session->userdata('id');
          $type = $this->input->post('type');
          $item_no = $this->input->post('item_no');
          $qty = $this->input->post('qty');
          $status = $this->input->post('status');
          $remarks = $this->input->post('remarks');
-         $data = $this->create_model->Create_Return_Item_Warehouse($user_id,$type,$item_no,$qty,$status,$remarks);        
+         $data = $this->create_model->Create_Return_Item_Warehouse($type,$item_no,$qty,$status,$remarks);        
          echo json_encode($data); 
     }
     public function Create_Return_Item_Customer(){
-         $user_id = $this->session->userdata('id');
          $so_no = $this->input->post('so_no');
          $item_no = $this->input->post('item_no');
          $item = $this->input->post('item');
          $qty = $this->input->post('qty');
          $status = $this->input->post('status');
          $remarks = $this->input->post('remarks');
-         $data = $this->create_model->Create_Return_Item_Customer($user_id,$so_no,$item_no,$item,$qty,$status,$remarks);        
+         $data = $this->create_model->Create_Return_Item_Customer($so_no,$item_no,$item,$qty,$status,$remarks);        
          echo json_encode($data); 
     }
     public function Create_Request_Material(){
-         $user_id = $this->session->userdata('id');
          $type = $this->input->post('type');
          $item_no = $this->input->post('item_no');
          $item = $this->input->post('item');
          $qty = $this->input->post('qty');
-         $data = $this->create_model->Create_Request_Material($user_id,$item_no,$item,$qty,$type);        
+         $data = $this->create_model->Create_Request_Material($item_no,$item,$qty,$type);        
          echo json_encode($data); 
     }
     public function Create_Request_Pre_Order(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
-        $data = $this->create_model->Create_Request_Pre_Order($user_id,$id);        
+        $data = $this->create_model->Create_Request_Pre_Order($id);        
         echo json_encode($data); 
     }
     public function Create_Customized_Request(){
-        $user_id = $this->session->userdata('id');
         $subject = $this->input->post('subject');
         $description = $this->input->post('description');
-        $data = $this->create_model->Create_Customized_Request($user_id,$subject,$description);        
+        $data = $this->create_model->Create_Customized_Request($subject,$description);        
         echo json_encode($data); 
     }
     public function Create_Material_request_Supervisor(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $item = $this->input->post('item');
         $qty = $this->input->post('qty');
         $type = $this->input->post('type');
-        $data = $this->create_model->Create_Material_request_Supervisor($user_id,$id,$item,$qty,$type);        
+        $data = $this->create_model->Create_Material_request_Supervisor($id,$item,$qty,$type);        
         echo json_encode($data); 
     
     }
     public function Create_Purchase_request_Supervisor(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $item = $this->input->post('item');
         $qty = $this->input->post('qty');
@@ -538,35 +507,32 @@ class Create_controller extends CI_Controller
         $status = $this->input->post('status');
         $special = $this->input->post('special');
         $unit = $this->input->post('unit');
-        $data = $this->create_model->Create_Purchase_request_Supervisor($user_id,$id,$item,$qty,$remarks,$type,$status,$special,$unit);        
+        $data = $this->create_model->Create_Purchase_request_Supervisor($id,$item,$qty,$remarks,$type,$status,$special,$unit);        
         echo json_encode($data); 
     
     }
     public function Create_Supplier(){
-       $user_id = $this->session->userdata('id');
        $name = $this->input->post('name_add');
        $mobile = $this->input->post('mobile_add');
        $email = $this->input->post('email_add');
        $address = $this->input->post('address_add');
-       $data =  $this->create_model->Create_Supplier($user_id,$name,$mobile,$email,$address);
+       $data =  $this->create_model->Create_Supplier($name,$mobile,$email,$address);
         echo json_encode($data);
      }
     public function Create_Supplier_Item(){
-        $user_id = $this->session->userdata('id');
         $id = $this->input->post('id');
         $item = $this->input->post('item');
         $amount = floatval(str_replace(',', '', $this->input->post('amount')));
-        $data = $this->create_model->Create_Supplier_Item($user_id,$id,$item,$amount);        
+        $data = $this->create_model->Create_Supplier_Item($id,$item,$amount);        
         echo json_encode($data); 
     }
     public function Create_Delivery_Receipt(){
-        $user_id = $this->session->userdata('id');
         $so_no = $this->input->post('so_no');
         $id = $this->input->post('id');
         $item = $this->input->post('item');
         $qty = $this->input->post('qty');
         $type = $this->input->post('type');
-        $data = $this->create_model->Create_Delivery_Receipt($user_id,$id,$item,$qty,$so_no,$type);        
+        $data = $this->create_model->Create_Delivery_Receipt($id,$item,$qty,$so_no,$type);        
         echo json_encode($data); 
 
     }

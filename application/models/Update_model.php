@@ -1,6 +1,27 @@
 <?php
 class Update_model extends CI_Model
 {  
+    public function __construct(){
+          parent::__construct();
+          if($this->appinfo->creative('_DESIGNER_ID') != false){
+            $this->user_id = $this->appinfo->creative('_DESIGNER_ID');
+          }else if($this->appinfo->production('_PRODUCTION_ID') != false){
+            $this->user_id = $this->appinfo->production('_PRODUCTION_ID');
+          }else if($this->appinfo->supervisor('_SUPERVISOR_ID') != false){
+            $this->user_id = $this->appinfo->supervisor('_SUPERVISOR_ID');
+          }else if($this->appinfo->sales('_SALES_ID') != false){
+            $this->user_id = $this->appinfo->sales('_SALES_ID');
+          }else if($this->appinfo->superuser('_SUPERUSER_ID') != false){
+            $this->user_id = $this->appinfo->superuser('_SUPERUSER_ID');
+          }else if($this->appinfo->accounting('_ACCOUNTING_ID') != false){
+           $this->user_id = $this->appinfo->accounting('_ACCOUNTING_ID');
+          }else if($this->appinfo->webmodifier('_WEBMODIFIER_ID') != false){
+            $this->user_id = $this->appinfo->webmodifier('_WEBMODIFIER_ID');
+          }else if($this->appinfo->admin('_ADMIN_ID') != false){
+            $this->user_id = $this->appinfo->admin('_ADMIN_ID');
+          }
+    }
+
     private function get_code($tbl,$code){
         $query = $this->db->select('id')->from($tbl)->order_by('id','DESC')->limit(1)->get();
         $row_num = $query->num_rows();
@@ -94,12 +115,12 @@ class Update_model extends CI_Model
         $result = $this->db->update('tbl_materials',$data);
         if($result){return true;}else{return false;};
      }
-     function Update_Other_Materials_Stocks($user_id,$id,$stocks,$status,$stocks_alert){
+     function Update_Other_Materials_Stocks($id,$stocks,$status,$stocks_alert){
         $data = array('stocks' => $stocks,
                       'alert'=>$stocks_alert,
                       'status' => $status,
                       'latest_update' => date('Y-m-d H:i:s'),
-                      'update_by'=>$user_id);
+                      'update_by'=>$this->user_id);
         $this->db->where('id',$id);
         $result = $this->db->update('tbl_other_materials',$data);
         if($result){return true;}else{return false;};
@@ -110,9 +131,9 @@ class Update_model extends CI_Model
       $result = $this->db->update('tbl_materials',$data);
       if($result){return true;}else{return false;}
     }
-     function Update_Release_SalesOrder($user_id,$so_no,$si_no){
+     function Update_Release_SalesOrder($so_no,$si_no){
         $data = array('si_no'    => $si_no,
-                      'receiver' => $user_id,
+                      'receiver' => $this->user_id,
                       'status'   => 'DELIVERED',
                       'date_delivered' => date('Y-m-d H:i:s'));
         $this->db->where('so_no',$so_no);
@@ -145,8 +166,8 @@ class Update_model extends CI_Model
         $this->db->where('id',$id);
         $this->db->update('tbl_users',$data);
      }
-     function Update_Approval_Users($user_id,$status,$id){
-          $data = array('approver'        => $user_id,
+     function Update_Approval_Users($status,$id){
+          $data = array('approver'        => $this->user_id,
                         'status'          => $status,
                         'date_lastupdate' =>date('Y-m-d H:i:s'));
         $this->db->where('id',$id);
@@ -211,7 +232,7 @@ class Update_model extends CI_Model
         $this->db->where('id',$id);
         $this->db->update('tbl_users',$data);
      }
-     function Update_Return_FinishProduct($user_id,$id,$so_no,$c_code,$qty,$status,$balance,$totalqty,$total_amount,$balance_price,$add_quantity,$project_no){
+     function Update_Return_FinishProduct($id,$so_no,$c_code,$qty,$status,$balance,$totalqty,$total_amount,$balance_price,$add_quantity,$project_no){
             if($status =='GOOD'){
                 $update_material = array('stocks' =>$add_quantity);
                 $this->db->where('c_code',$c_code);
@@ -222,7 +243,7 @@ class Update_model extends CI_Model
                 $this->db->where('id',$id);
                 $this->db->update('tbl_salesorder_item',$update);
             }
-           $data = array('returner'    => $user_id,
+           $data = array('returner'    => $this->user_id,
                          'so_no'       => $so_no,
                          'project_no'  => $project_no,
                          'c_code'      => $c_code,
@@ -233,14 +254,14 @@ class Update_model extends CI_Model
            $this->db->insert('tbl_salesorder_item_return',$data);
      }
         
-      function Update_Material_Request_Process($user_id,$id,$total,$request,$type){
+      function Update_Material_Request_Process($id,$total,$request,$type){
             $row = $this->db->select('*')->from('tbl_material_project')->where('id',$this->encryption->decrypt($id))->get()->row();
             if($row){
-                $material = array('receiver'=> $user_id,
+                $material = array('receiver'=> $this->user_id,
                               'balance_quantity'=>$total,
                               'project_lock'=>1,
                               'latest_update'=> date('Y-m-d H:i:s'),
-                              'update_by'=>$user_id);
+                              'update_by'=>$this->user_id);
                 $this->db->where('id',$this->encryption->decrypt($id));
                $result = $this->db->update('tbl_material_project',$material);
                if($result){
@@ -249,7 +270,7 @@ class Update_model extends CI_Model
                                      'quantity' => $request,
                                      'type'=>$type,
                                      'date_created' =>  date('Y-m-d H:i:s'),
-                                     'created_by'=>$user_id);
+                                     'created_by'=>$this->user_id);
                    $this->db->insert('tbl_material_release',$release);
                    $row_m = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
                    if($row_m){
@@ -274,7 +295,7 @@ class Update_model extends CI_Model
             }
           
         }
-        function Update_Material_Request_Process_Status($user_id,$id,$status){
+        function Update_Material_Request_Process_Status($id,$status){
             $this->db->where('id',$this->encryption->decrypt($id));
             $result = $this->db->update('tbl_material_project',array('status'=>$status,'project_lock'=>1,'date_cancelled'=>date('Y-m-d H:i:s')));
             if($result){
@@ -291,7 +312,7 @@ class Update_model extends CI_Model
             }
         }
    
-      function Update_Approval_SalesOrder($user_id,$so_no,$status){
+      function Update_Approval_SalesOrder($so_no,$status){
                 if($status == 'APPROVED'){
                      $query = $this->db->select('*')->from('tbl_salesorder_item')->where('so_no',$so_no)->get();
                      foreach($query->result() as $row){
@@ -316,27 +337,27 @@ class Update_model extends CI_Model
                     $approval_status = 2;
                 }
                 $data1 = array(
-                           'approver'       =>  $user_id,
+                           'approver'       =>  $this->user_id,
                            'status'         =>  $admin_status,
                            'approval_status'=>  $approval_status);
                 $this->db->where('so_no',$so_no);
                 $this->db->update('tbl_salesorder',$data1);
      }
-    function Update_Approval_OnlineOrder($user_id,$order_no,$status){
+    function Update_Approval_OnlineOrder($order_no,$status){
         if($status == 'APPROVED'){
-            $data1 = array('sales'=>$user_id,
+            $data1 = array('sales'=>$this->user_id,
                            'sales_status'=>'PENDING');
             $this->db->where('order_no',$order_no);
             $this->db->update('tbl_cart_add',$data1);
 
-            $data = array( 'sales'=>$user_id,
+            $data = array( 'sales'=>$this->user_id,
                            'status'=>'PENDING');
             $this->db->where('order_no',$order_no);
             $this->db->update('tbl_cart_address',$data);
         }     
      }
-     function Update_Approval_Design($user_id,$id,$status){
-        $data = array('approver'     =>$user_id,
+     function Update_Approval_Design($id,$status){
+        $data = array('approver'     =>$this->user_id,
                       'status'       =>$status,
                       'date_approved'=>date('Y-m-d H:i:s'));
         $this->db->where('id',$this->encryption->decrypt($id));
@@ -349,7 +370,7 @@ class Update_model extends CI_Model
             $this->db->update('tbl_project_design',array('project_status'=>'APPROVED'));
         }
      }
-     function Update_Approval_Concern($user_id,$id,$action){
+     function Update_Approval_Concern($id,$action){
         if($action == 'P'){
            $date = 'date_created';
            $user = 'created_by';
@@ -359,12 +380,12 @@ class Update_model extends CI_Model
         }
         $data = array('status' => $action,
                       $date=>date('Y-m-d H:i:s'),
-                      $user=>$user_id);
+                      $user=>$this->user_id);
         $this->db->where('id',$id);
         $this->db->update('tbl_service_request',$data);
         return $action;
      }
-     function Update_Design_Stocks($user_id,$id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs,$image_previous,$color_previous,$docs_previous){
+     function Update_Design_Stocks($id,$title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs,$image_previous,$color_previous,$docs_previous){
         if($image){$images = $this->move_to_folder1('STOCKS',$image,$tmp,$path_image);
             if($files1 == false){$images = false;
             }else{
@@ -394,7 +415,7 @@ class Update_model extends CI_Model
                            'docs'          => $docs_file,
                            'c_image'       => $color_images,
                            'latest_update' => date('Y-m-d H:i:s'),
-                           'update_by'     => $user_id);
+                           'update_by'     => $this->user_id);
             $this->db->where('id',$this->encryption->decrypt($id));
             $this->db->update('tbl_project_color',$color);
 
@@ -410,7 +431,7 @@ class Update_model extends CI_Model
         }
         return $data_response;
     }
-     function Update_Design_Project($user_id,$id,$title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs,$image_previous,$docs_previous){
+     function Update_Design_Project($id,$title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs,$image_previous,$docs_previous){
        if($image){$images = $this->move_to_folder1('PROJECT',$image,$tmp,$path_image);
             if($files1 == false){$images = false;
             }else{
@@ -431,7 +452,7 @@ class Update_model extends CI_Model
              $color = array('image'         => $images,
                        'docs'          => $docs_file,
                        'latest_update' => date('Y-m-d H:i:s'),
-                       'update_by'     => $user_id);
+                       'update_by'     => $this->user_id);
             $this->db->where('id',$this->encryption->decrypt($id));
             $this->db->update('tbl_project_color',$color);
 
@@ -445,18 +466,18 @@ class Update_model extends CI_Model
         }
         return $data_response;
     }
-    function Update_Return_Item($user_id,$id){
+    function Update_Return_Item($id){
         $query = $this->db->select('*')->from('tbl_material_return_item')->where('id',$id)->get();
         $row = $query->row();
 
-        $data = array('receiver' => $user_id,
+        $data = array('receiver' => $this->user_id,
                       'status'   => 'RECEIVED',
                       'date_received' => date('Y-m-d H:i:s'));
         
         $this->db->where('id',$id);
         $this->db->update('tbl_material_return_item',$data);
     }
-    function Update_RawMaterial($user_id,$id,$item,$status,$price,$unit){
+    function Update_RawMaterial($id,$item,$status,$price,$unit){
       $data = array('item'     => $item,
                     'unit'     => $unit,
                     'price'    => $price,
@@ -466,11 +487,11 @@ class Update_model extends CI_Model
       $this->db->update('tbl_materials',$data);
 
     }
-    function Update_Other_Materials($user_id,$id,$item,$status){
+    function Update_Other_Materials($id,$item,$status){
          $data = array('item'     => $item,
                     'status'   => $status,
                     'latest_update' => date('Y-m-d H:i:s'),
-                    'update_by'=>$user_id);
+                    'update_by'=>$this->user_id);
          $this->db->where('id',$id);
          $result = $this->db->update('tbl_other_materials',$data);
          if($result){
@@ -479,18 +500,18 @@ class Update_model extends CI_Model
             return false;
          }
     }
-   function Update_OfficeSupplies_Request($user_id,$request_id,$item,$balance,$status,$id){
+   function Update_OfficeSupplies_Request($request_id,$item,$balance,$status,$id){
                 $query1 = $this->db->select('*')->from('tbl_office_janitorial_request')->where('id',$id)->get();
                 $row1 = $query1->row();
                 $quantity_balance =   $row1->balance - $balance;
                 $material = array(
-                           'approver'         =>  $user_id,
+                           'approver'         =>  $this->user_id,
                            'balance'          =>  $quantity_balance,
                            'status'           =>  $status,
                            'date_approved'     =>  date('Y-m-d H:i:s'));
 
                 $release = array(
-                           'receiver'       =>  $user_id,
+                           'receiver'       =>  $this->user_id,
                            'request_id'     =>  $request_id,
                            'item'           =>  $item,
                            'qty'            =>  $balance,
@@ -511,18 +532,18 @@ class Update_model extends CI_Model
                $this->db->update('tbl_office_janitorial_request',$material);
                $this->db->insert('tbl_office_janitorial_release',$release);
      }
-     function Update_SpareParts_Request($user_id,$request_id,$item,$balance,$status,$id){
+     function Update_SpareParts_Request($request_id,$item,$balance,$status,$id){
                 $query1 = $this->db->select('*')->from('tbl_spares_request')->where('id',$id)->get();
                 $row1 = $query1->row();
                 $quantity_balance =   $row1->balance - $balance;
                 $material = array(
-                           'approver'         =>  $user_id,
+                           'approver'         =>  $this->user_id,
                            'balance'          =>  $quantity_balance,
                            'status'           =>  $status,
                            'date_approved'    =>  date('Y-m-d H:i:s'));
 
                 $release = array(
-                           'receiver'       =>  $user_id,
+                           'receiver'       =>  $this->user_id,
                            'request_id'     =>  $request_id,
                            'item'           =>  $item,
                            'qty'            =>  $balance,
@@ -543,27 +564,27 @@ class Update_model extends CI_Model
                $this->db->update('tbl_spares_request',$material);
                $this->db->insert('tbl_spares_release',$release);
      }
-     function Update_Approval_Customization($user_id,$id,$status){
-        $data = array('designer'=> $user_id,
+     function Update_Approval_Customization($id,$status){
+        $data = array('designer'=> $this->user_id,
                       'status'  =>  $status);
         $this->db->where('so_no',$id);
         $this->db->update('tbl_salesorder',$data);
      }
-     function Update_Material_Request_Approval($user_id,$production_no,$status){
+     function Update_Material_Request_Approval($production_no,$status){
                 if($status == 'IN PROGRESS'){
                     $date = 'date_approved1';
                 }else if($status == 'REJECTED'){
                     $date = 'date_rejected';
                 }
                 $data = array(
-                           'approver1'      =>  $user_id,
+                           'approver1'      =>  $this->user_id,
                            'status'         =>  $status,
                             $date           =>  date('Y-m-d H:i:s'));
                $this->db->where('production_no',$production_no);
                $this->db->update('tbl_material_project',$data);
     }
 
-     function Update_Approval_Purchase($user_id,$production_no,$status){
+     function Update_Approval_Purchase($production_no,$status){
             if($status == 'IN PROGRESS'){
                 $date = 'date_inprogress';
                 $status1 = 'APPROVED';
@@ -572,7 +593,7 @@ class Update_model extends CI_Model
                 $status1 = 'REJECTED';
             }
             $data = array(
-                       'approver2'      =>  $user_id,
+                       'approver2'      =>  $this->user_id,
                        'status'         =>  $status,
                        'admin_status'   =>  $status1,
                         $date           =>  date('Y-m-d H:i:s'),
@@ -584,13 +605,13 @@ class Update_model extends CI_Model
            $this->db->where('production_no',$production_no);
            $this->db->where('tbl_project',$data_r);
     }
-    function Update_Approval_Inspection($user_id,$production_no,$status,$remarks){
+    function Update_Approval_Inspection($production_no,$status,$remarks){
         $value = $this->get_code('tbl_project_inspection','INSNO','-');
         $data = array('ins_no'=>$value,
                       'status'=>$status,
                       'remarks'=> $remarks,
                       'latest_update' => date('Y-m-d H:i:s'),
-                      'update_by'=>$user_id);
+                      'update_by'=>$this->user_id);
        $this->db->where('production_no',$production_no);
        $this->db->where('ins_no',0);
        $result = $this->db->update('tbl_project_inspection',$data);
@@ -604,24 +625,24 @@ class Update_model extends CI_Model
       
     }
 
-    function Update_Accounting_Purchase_Request($user_id,$id,$cash,$action){
+    function Update_Accounting_Purchase_Request($id,$cash,$action){
         $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$id)->get()->row();
         if(!$query){
             if($action == 1){
                   $value = $this->get_code('tbl_pettycash','CNXID'.date('Ymd'));
-                    $this->db->insert('tbl_pettycash',array('accounting'=> $user_id,
+                    $this->db->insert('tbl_pettycash',array('accounting'=> $this->user_id,
                                 'fund_no'       => $value,
                                 'pettycash'     => $cash,
                                 'status'        => 1,
                                 'type'          => 1,
                                 'date_created'  => date('Y-m-d H:i:s'),
-                                'created_by'    => $user_id));
+                                'created_by'    => $this->user_id));
                     $this->db->where('fund_no',$id);
                     $result = $this->db->update('tbl_purchasing_project',array('fund_no' => $value,
-                                         'accounting'=> $user_id,
+                                         'accounting'=> $this->user_id,
                                          'status'=> 4,
                                          'latest_update'=>date('Y-m-d H:i:s'),
-                                         'update_by'=>$user_id));
+                                         'update_by'=>$this->user_id));
                     if($result){
                         return array('type'=>'success','message'=>'Save Changes');
                     }else{
@@ -647,7 +668,7 @@ class Update_model extends CI_Model
             //return array('type'=>'info','message'=>'error(001)');
         }
     }
-    function Update_Accounting_Purchase_Received($user_id,$id,$change,$refund){
+    function Update_Accounting_Purchase_Received($id,$change,$refund){
         $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$id)->get()->row();
         if($query){
             $row = $this->db->select('sum(amount) as amount')->from('tbl_purchase_received')->where('fund_no',$id)->get()->row();
@@ -668,7 +689,7 @@ class Update_model extends CI_Model
    
 
     //Web Modifier
-      function Update_Web_Banner($user_id,$id,$type,$image,$tmp,$path_image,$previous){
+      function Update_Web_Banner($id,$type,$image,$tmp,$path_image,$previous){
         if($image){
             $files = $this->move_to_folder5('BANNER',$image,$tmp,$path_image,1600,1200);
             if($files == false){
@@ -886,15 +907,22 @@ class Update_model extends CI_Model
         $this->db->where('promo_code',$voucher);
         $this->db->update('tbl_code_promo',$data);
     }
-    function Update_Vouncher_Customer($voucher,$id,$user_id){
-        $data = array('user_id'     =>  $user_id,
+    function Update_Vouncher_Customer($voucher,$id){
+        $data = array('user_id'     =>  $this->user_id,
                       'customer'    =>  $id,
                       'promo_code'  =>  $voucher,
                       'status'      => 'not use',
                       'date_created' => date('Y-m-d H:i:s'));
-        $this->db->insert('tbl_customer_promo',$data);
+        $result = $this->db->insert('tbl_customer_promo',$data);
+        if($result){
+             $query_user = $this->db->select('*,CONCAT(firstname, " ",lastname) AS user')->from('tbl_users')->where('id',$this->user_id)->get();
+         $row_user = $query_user->row();
+         return array('status'=>'success',
+                       'id' => $id,
+                       'username'=> $row_user->user);
+        }
     }
-    function Update_Web_Interior($user_id,$title,$cat_id,$description,$id,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image,$previous_banner,$previous_bg){
+    function Update_Web_Interior($title,$cat_id,$description,$id,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image,$previous_banner,$previous_bg){
         if($banner_image){
             $files1 = $this->move_to_folder4('INTERIORBANNER',$banner_image,$banner_tmp,$path_image,1140,653);
             if($files1 == false){$banner = false;}else{$banner = $files1;unlink($path_image.$previous_banner);}
@@ -925,7 +953,7 @@ class Update_model extends CI_Model
         $data_response = array('status'=>$status,'message'=>$message);
         return $data_response;
     }
-    function Update_Web_Events($user_id,$title,$status,$description,$image,$id,$date_event,$time_event,$location){
+    function Update_Web_Events($title,$status,$description,$image,$id,$date_event,$time_event,$location){
         $data = array('title'           => $title,
                       'description'     => $description,
                       'location'        => $location,
@@ -943,7 +971,7 @@ class Update_model extends CI_Model
         $data = array('status'=>'APPROVED');
         return $data;
     }
-    function Update_Customer($user_id,$id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region){
+    function Update_Customer($id,$firstname,$lastname,$mobile,$email,$address,$city,$province,$region){
         $data = array('firstname' => $firstname,
                       'lastname'  => $lastname,
                       'mobile'    => $mobile,
@@ -953,23 +981,23 @@ class Update_model extends CI_Model
                       'province'  => $province,
                       'region'    => $region,
                       'latest_update' => date('Y-m-d H:i:s'),
-                      'update_by'   => $user_id);
+                      'update_by'   => $this->user_id);
         $this->db->where('id',$id);
         $this->db->update('tbl_customer_online',$data);
         return 'update';
     }
-    function Update_Material_Status_Request_Supervisor($user_id,$id,$qty){
+    function Update_Material_Status_Request_Supervisor($id,$qty){
         $row = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
         $balance = $row->quantity + $qty;
         $data = array('quantity'          => $balance,
                       'balance_quantity'  => $balance,
                       'status'            => 2,
-                      'update_by'         => $user_id);
+                      'update_by'         => $this->user_id);
         $this->db->where('id',$id);
         $this->db->update('tbl_material_project',$data); 
         return $row->production_no;
     }
-    function Update_Material_Used_Status_Request_Supervisor($user_id,$id,$qty,$type){
+    function Update_Material_Used_Status_Request_Supervisor($id,$qty,$type){
          $row = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
          $row_m = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
             if($type == 1){
@@ -996,7 +1024,7 @@ class Update_model extends CI_Model
             }
            return $row->production_no;
     }
-    function Update_Material_Used_Lock_Request_Supervisor($user_id,$id){
+    function Update_Material_Used_Lock_Request_Supervisor($id){
         $row = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
         if($row->lock_status == 0){
             $status = 1;
@@ -1007,7 +1035,7 @@ class Update_model extends CI_Model
         $result = $this->db->update('tbl_material_project',array('lock_status' => $status));
         if($result){return array('id'=>$row->production_no,'status'=>$status);}else{return false;}
     }
-    function Update_Purchase_Status_Request_Supervisor($user_id,$id){
+    function Update_Purchase_Status_Request_Supervisor($id){
         $this->db->where('id',$id);
         $result = $this->db->update('tbl_purchasing_project',array('status'=>2));
         if($result){
@@ -1017,14 +1045,14 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Material_Request_Supervisor($user_id,$id,$qty,$type){
+    function Update_Material_Request_Supervisor($id,$qty,$type){
         $row = $this->db->select('*')->from('tbl_material_project')->where('id',$id)->get()->row();
         $data = array('total_qty'=> $qty,'mat_type'=>$type);
         $this->db->where('id',$id);
         $this->db->update('tbl_material_project',$data); 
         return $row->production_no;
     }
-    function Update_Purchase_Request_Supervisor($user_id,$id,$qty,$remarks){
+    function Update_Purchase_Request_Supervisor($id,$qty,$remarks){
        $row = $this->db->select('*')->from('tbl_purchasing_project')->where('id',$id)->get()->row();
        $purchase_data = array('quantity'            =>  $qty,
                               'balance'             =>  $qty,
@@ -1033,18 +1061,18 @@ class Update_model extends CI_Model
         $this->db->update('tbl_purchasing_project',$purchase_data); 
         return $row->production_no;
     }
-    function Update_Project_Monitoring($user_id,$id,$data,$action,$start,$due){
+    function Update_Project_Monitoring($id,$data,$action,$start,$due){
         $query = $this->db->select('*')->from('tbl_project')->where('id',$id)->get();
         $row = $query->row();
         $status ='nothing';
         if($action == 'save-name'){
-            if($row->customer != $data){$status='success';$update = array('customer'=>$data,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id);}
+            if($row->customer != $data){$status='success';$update = array('customer'=>$data,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id);}
         }else if($action == 'save-address'){
-            if($row->address != $data){$status='success';$update = array('address'=>$data,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id);}
+            if($row->address != $data){$status='success';$update = array('address'=>$data,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id);}
         }else if($action == 'save-amount'){
-            if($row->amount != str_replace(',', '',$data)){$status='success';$update = array('amount'=>str_replace(',', '',$data),'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id);}
+            if($row->amount != str_replace(',', '',$data)){$status='success';$update = array('amount'=>str_replace(',', '',$data),'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id);}
         }else if($action == 'save-labor'){
-            if($row->labor != str_replace(',', '',$data)){$status='success';$update = array('labor'=>str_replace(',', '',$data),'latest_update'=>date('Y-m-d H:i:s'),'update_by' => $user_id);}
+            if($row->labor != str_replace(',', '',$data)){$status='success';$update = array('labor'=>str_replace(',', '',$data),'latest_update'=>date('Y-m-d H:i:s'),'update_by' => $this->user_id);}
         }else if($action == 'save-date'){
             $status='success';
             $start_date =date('Y-m-d',strtotime($start));
@@ -1055,7 +1083,7 @@ class Update_model extends CI_Model
             if(!$due){
                  $due_date = date('Y-m-d H:i:s');
             }
-            $update = array('start_date'=>$start_date,'due_date'=> $due_date,'latest_update'=>date('Y-m-d H:i:s'),'update_by' => $user_id);
+            $update = array('start_date'=>$start_date,'due_date'=> $due_date,'latest_update'=>date('Y-m-d H:i:s'),'update_by' => $this->user_id);
         }
         if($status == 'success'){
             $this->db->where('id',$id);
@@ -1065,7 +1093,7 @@ class Update_model extends CI_Model
                                'action' => $action);
         return $data_response;
     }
-    function Update_Cash_Position($user_id,$id,$action,$data){
+    function Update_Cash_Position($id,$action,$data){
         $decrypt_id = $this->encryption->decrypt($id);
         $status = 'already';
         $query = $this->db->select('*')->from('tbl_cash_position')->where('id',$decrypt_id)->get();
@@ -1102,7 +1130,7 @@ class Update_model extends CI_Model
         }
         return $status;
     }
-    function Update_Web_Testimony($user_id,$name,$description,$image,$tmp,$path_image,$previous,$id){
+    function Update_Web_Testimony($name,$description,$image,$tmp,$path_image,$previous,$id){
          if($image){$files = $this->move_to_folder4('TESTIMONY',$image,$tmp,$path_image,500,500);
             if($files == false){$images = false;}else{$images = $files;unlink('./'.$path_image.$previous);}
         }else{$images = $previous;}
@@ -1111,7 +1139,7 @@ class Update_model extends CI_Model
                               'description'    => $description,
                               'image'          => $images,
                               'latest_update'  => date('Y-m-d H:i:s'),
-                              'update_by'      => $user_id);
+                              'update_by'      => $this->user_id);
                 $this->db->where('id',$this->encryption->decrypt($id));
                 $this->db->update('tbl_customer_testimony',$data);
                 $status = 'update';
@@ -1201,7 +1229,7 @@ class Update_model extends CI_Model
         }
         return $status;
     }
-    function Update_Joborder_Status($user_id,$production_no,$qty,$status,$type){
+    function Update_Joborder_Status($production_no,$qty,$status,$type){
         $row = $this->db->select('*')->from('tbl_project')->where('production_no',$production_no)->get()->row();
         $insert = array('production_no'=>$production_no,
                         'assigned'=>$row->assigned,
@@ -1214,7 +1242,7 @@ class Update_model extends CI_Model
         $this->db->insert('tbl_project_finished',$insert);
         if($type == 1){
             $total = $row->unit - $qty;
-            $data = array('unit' => $total,'latest_update'=> date('Y-m-d H:i:s'),'update_by' => $user_id);
+            $data = array('unit' => $total,'latest_update'=> date('Y-m-d H:i:s'),'update_by' => $this->user_id);
             $this->db->where('production_no',$production_no);
             $result = $this->db->update('tbl_project',$data);
             if($result){
@@ -1242,7 +1270,7 @@ class Update_model extends CI_Model
         }
         return $data_response;
     }
-    function Update_Joborder_Stocks($user_id,$production_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
+    function Update_Joborder_Stocks($production_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
                 $pur_items = explode(',', $pur_item);
                 $pur_quantitys = explode(',', $pur_quantity);
                 $pur_remarkss = explode(',', $pur_remarks);
@@ -1254,7 +1282,7 @@ class Update_model extends CI_Model
                          if(!$row){
                                 if($pur_types[$i] == 2){
                                     $new_no = $this->get_code('tbl_materials','RMCODE-');
-                                    $data = array('user_id'=> $user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
+                                    $data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
                                     $this->db->insert('tbl_materials',$data);
                                     $item_no = $this->db->insert_id();
                                 }
@@ -1272,7 +1300,7 @@ class Update_model extends CI_Model
                         $this->db->insert('tbl_purchasing_project',$purchase_data);
                     }
                 }
-                $data = array('status'=>1,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id);
+                $data = array('status'=>1,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id);
                 $this->db->where('production_no',$production_no);
                 $this->db->update('tbl_project',$data);
                 $mat_itemnos = explode(',', $mat_itemno);
@@ -1281,7 +1309,7 @@ class Update_model extends CI_Model
                 $mat_types = explode(',', $mat_type);   
                 for($i=0; $i<count($mat_itemnos);$i++){
                     $material_data = array('production_no' =>  $production_no,
-                                        'production'       =>  $user_id,
+                                        'production'       =>  $this->user_id,
                                         'item_no'          =>  $mat_itemnos[$i],
                                         'total_qty'        =>  $mat_quantitys[$i],
                                         'status'           =>  1,
@@ -1292,28 +1320,28 @@ class Update_model extends CI_Model
                 }
 
      }
-    function Update_Salesorder_Stock_Request($user_id,$id,$status){
+    function Update_Salesorder_Stock_Request($id,$status){
         $delivery = 0;if($status == 'A'){$delivery = 1;}
         $this->db->where('id',$this->encryption->decrypt($id));
         $result = $this->db->update('tbl_salesorder_stocks',array('status'=>$status,'delivery'=>$delivery,'latest_update'=> date('Y-m-d H:i:s'),
-                          'update_by'=>$user_id));
+                          'update_by'=>$this->user_id));
         if($result){
             return $status;
         }else{
             return false;
         }
     }
-    function Update_Salesorder_Project_Request($user_id,$id,$status){
+    function Update_Salesorder_Project_Request($id,$status){
         $delivery = 0;if($status == 'A'){$delivery = 1;}
         $this->db->where('id',$this->encryption->decrypt($id));
-        $result = $this->db->update('tbl_salesorder_project',array('status'=>$status,'delivery'=>$delivery,'latest_update'=> date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        $result = $this->db->update('tbl_salesorder_project',array('status'=>$status,'delivery'=>$delivery,'latest_update'=> date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
         if($result){
             return $status;
         }else{
             return false;
         }
     }
-    function Update_Salesorder_Stock_Delivery($user_id,$id,$si_no){
+    function Update_Salesorder_Stock_Delivery($id,$si_no){
         $this->db->where('id',$this->encryption->decrypt($id));
         $result = $this->db->update('tbl_salesorder_stocks',array('si_no'=>$si_no,'delivery'=>2));
         if($result){
@@ -1322,7 +1350,7 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Salesorder_Project_Delivery($user_id,$id,$si_no){
+    function Update_Salesorder_Project_Delivery($id,$si_no){
         $this->db->where('id',$this->encryption->decrypt($id));
         $result = $this->db->update('tbl_salesorder_project',array('si_no'=>$si_no,'delivery'=>2));
         if($result){
@@ -1331,7 +1359,7 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Request_Materials($user_id,$id,$qty,$balance){
+    function Update_Request_Materials($id,$qty,$balance){
         $row = $this->db->select('*')->from('tbl_other_material_m_request')->where('id',$this->encryption->decrypt($id))->get()->row();
         if($row->type == 1){
             $table ='tbl_materials';         
@@ -1344,9 +1372,9 @@ class Update_model extends CI_Model
                 return array('item'=>$row->item,'qty'=>$row->qty);
             }else{
                 $this->db->where('id',$this->encryption->decrypt($id));
-                $result = $this->db->update('tbl_other_material_m_request',array('qty'=>$balance,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+                $result = $this->db->update('tbl_other_material_m_request',array('qty'=>$balance,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
                 if($result){
-                    $this->db->insert('tbl_other_material_m_received',array('item_no'=>$row->item_no,'item'=>$row->item,'qty'=>$qty,'type'=>$row->type,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$user_id));
+                    $this->db->insert('tbl_other_material_m_received',array('item_no'=>$row->item_no,'item'=>$row->item,'qty'=>$qty,'type'=>$row->type,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
                     $stocks = floatval($row_mats->stocks - $qty);
                     $this->db->where('id',$row_mats->id);
                     $this->db->update($table,array('stocks'=>$stocks));
@@ -1363,18 +1391,18 @@ class Update_model extends CI_Model
             return false;
          }
     }
-    function Update_Request_Materials_Cancelled($user_id,$id){
+    function Update_Request_Materials_Cancelled($id){
         $this->db->where('id',$this->encryption->decrypt($id));
-        $result =$this->db->update('tbl_other_material_m_request',array('status'=>3,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        $result =$this->db->update('tbl_other_material_m_request',array('status'=>3,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
         if($result){
             return true;
         }else{
             return false;
         }
     }
-    function Update_Pre_Order_Request($user_id,$id,$status){
+    function Update_Pre_Order_Request($id,$status){
         $this->db->where('id',$this->encryption->decrypt($id));
-        $result =$this->db->update('tbl_cart_pre_order',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        $result =$this->db->update('tbl_cart_pre_order',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
         if($result){
             $row = $this->db->select('*')->from('tbl_cart_pre_order')->where('id',$this->encryption->decrypt($id))->get()->row();
             ($status == 2)?$type ='In Stocks' : $type ='Cancelled';
@@ -1386,7 +1414,7 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Customized_Request($user_id,$id,$subject,$description){
+    function Update_Customized_Request($id,$subject,$description){
         $this->db->where('id',$this->encryption->decrypt($id));
         $result = $this->db->update('tbl_customized_request',$data = array('subject'=>$subject,'description'=>$description));
         if($result){
@@ -1395,25 +1423,25 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Customized_Approval_Request($user_id,$id,$status){
+    function Update_Customized_Approval_Request($id,$status){
         $this->db->where('id',$this->encryption->decrypt($id));
-        $result =$this->db->update('tbl_customized_request',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        $result =$this->db->update('tbl_customized_request',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
         if($result){
             return $status;
         }else{
             return false;
         }
     }
-    function Update_Approval_Inquiry($user_id,$id,$status){
+    function Update_Approval_Inquiry($id,$status){
         $this->db->where('id',$this->encryption->decrypt($id));
-        $result =$this->db->update('tbl_customer_inquiry',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        $result =$this->db->update('tbl_customer_inquiry',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
         if($result){
             return $status;
         }else{
             return false;
         }
     }
-    function Update_Salesorder_Stocks($user_id,$id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat){
+    function Update_Salesorder_Stocks($id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat){
         $rows = $this->db->select('u.*,s.*,s.id,CONCAT(u.firstname, " ",u.lastname) AS name,CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address')->from('tbl_cart_address as s')
         ->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.id',$this->encryption->decrypt($id))->get()->row();
         $so_no = $this->get_code('tbl_salesorder_stocks','SO-FS'.date('Ymd'));
@@ -1426,7 +1454,7 @@ class Update_model extends CI_Model
                                                              'mobile'=>$rows->mobile,
                                                              'address'=>$rows->billing_address,
                                                              'date_created'=>date('Y-m-d H:i:s'),
-                                                             'created_by'=>$user_id));
+                                                             'created_by'=>$this->user_id));
             $last_id = $this->db->insert_id();
         }else{
             $last_id = $row->id;
@@ -1443,7 +1471,7 @@ class Update_model extends CI_Model
                       'date_order'=>date('Y-m-d',strtotime($rows->date_order)),
                       'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
                       'date_created'=>date('Y-m-d H:i:s'),
-                      'created_by'=>$user_id));
+                      'created_by'=>$this->user_id));
         $last_id_so = $this->db->insert_id();
         $query =  $this->db->select('*')
           ->from('tbl_cart_add')->where('type','In Stocks')->where('order_no',$rows->order_no)->get();
@@ -1464,10 +1492,10 @@ class Update_model extends CI_Model
             return false;   
         }
     }
-    function Update_Supplier_Item($user_id,$id,$supplier,$amount){
+    function Update_Supplier_Item($id,$supplier,$amount){
         $data = array('amount'         => $amount,
                       'latest_update'   => date('Y-m-d H:i:s'),
-                      'update_by'     => $user_id);
+                      'update_by'     => $this->user_id);
         $this->db->where('id',$id);        
         $result = $this->db->update('tbl_supplier_item',$data);
         if($result){
@@ -1477,13 +1505,13 @@ class Update_model extends CI_Model
         }
        
     }
-     function Update_Supplier_Edit($user_id,$id,$name,$mobile,$email,$address){
+     function Update_Supplier_Edit($id,$name,$mobile,$email,$address){
         $data = array('name'  => $name,
                      'mobile' =>$mobile,
                      'email'  =>$email,
                      'address'=>$address,
                      'latest_update' => date('Y-m-d H:i:s'),
-                     'update_by'  => $user_id);
+                     'update_by'  => $this->user_id);
         $this->db->where('id',$id);        
         $result = $this->db->update('tbl_supplier',$data);
 
@@ -1494,7 +1522,7 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Supplier_Image($user_id,$id,$image,$tmp,$path_image){
+    function Update_Supplier_Image($id,$image,$tmp,$path_image){
         $row = $this->db->select('*')->from('tbl_supplier')->where('id',$id)->get()->row();
         if($image){
             $files = $this->move_to_folder4('SUPPLIER',$image,$tmp,$path_image,300,300);
@@ -1518,18 +1546,18 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Purchase_Estimate($user_id,$id,$amount,$type){
+    function Update_Purchase_Estimate($id,$amount,$type){
         $pr_id = array_map('intval', explode(',', $id));
         $amounts = explode(',',$amount);
         $value = 'TN'.date('YmdHis');
         for($i=0;$i<count($pr_id);$i++){
             $data = array('fund_no'=> $value,
-                          'purchaser'=>$user_id,
+                          'purchaser'=>$this->user_id,
                           'amount' => $amounts[$i],
                           'status' => 3,
                           'type'=> $type,
                           'latest_update'=> date('Y-m-d H:i:s'),
-                          'update_by'=> $user_id);
+                          'update_by'=> $this->user_id);
             $this->db->where('id',$pr_id[$i]);
             $this->db->update('tbl_purchasing_project',$data);
         }
@@ -1597,7 +1625,7 @@ class Update_model extends CI_Model
         }
        
     }
-    function Update_Purchase_Complete($user_id,$fund_no,$joborder,$type){
+    function Update_Purchase_Complete($fund_no,$joborder,$type){
         $query = $this->db->select('*')->from('tbl_purchase_transactions')->where('fund_no',$fund_no)->get();
         if($query){
            $this->db->where('fund_no',$fund_no);
@@ -1617,7 +1645,7 @@ class Update_model extends CI_Model
                                       'amount'=>$row->amount,
                                       'type'=>$type,
                                       'date_created'=>date('Y-m-d H:i:s'),
-                                      'created_by'=>$user_id));
+                                      'created_by'=>$this->user_id));
                 }
                 $this->db->where('fund_no',$fund_no);
                 $result = $this->db->delete('tbl_purchase_transactions');
@@ -1641,7 +1669,7 @@ class Update_model extends CI_Model
         }
     }
 
-    function Update_Approval_SalesOrder_Accounting($user_id,$id,$status,$table){
+    function Update_Approval_SalesOrder_Accounting($id,$status,$table){
         if($status == 'approve'){
             $status_update = 'A';
             $delivery=1;
@@ -1649,7 +1677,7 @@ class Update_model extends CI_Model
             $status_update ='C';
             $delivery = 0;
         }
-        $result = $this->db->where('id',$this->encryption->decrypt($id))->update($table,array('status'=>$status_update,'delivery'=>$delivery,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+        $result = $this->db->where('id',$this->encryption->decrypt($id))->update($table,array('status'=>$status_update,'delivery'=>$delivery,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
         if($result){
             if($status == 'approve'){
                  return array('type'=>'success','message'=>'SOA form approved');
@@ -1660,11 +1688,11 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Sales_Delivery_Receipt_Superuser($user_id,$id,$status,$remarks){
+    function Update_Sales_Delivery_Receipt_Superuser($id,$status,$remarks){
         $id = $this->encryption->decrypt($id);
         $row = $this->db->select('*')->from('tbl_sales_delivery_header')->where('id',$id)->get()->row();
         if($row){
-            $result = $this->db->where('id',$id)->update('tbl_sales_delivery_header',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+            $result = $this->db->where('id',$id)->update('tbl_sales_delivery_header',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
             if($result){
                 if($status == 'TO-SHIP'){
                      return array('type'=>'success','message'=>'Move to ship','status'=>$status);
@@ -1696,11 +1724,11 @@ class Update_model extends CI_Model
         }
     }
 
-     function Update_Salesorder_Stocks_Accounting($user_id,$id,$status,$remarks){
+     function Update_Salesorder_Stocks_Accounting($id,$status,$remarks){
         $id = $this->encryption->decrypt($id);
         $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('id',$id)->get()->row();
         if($row){
-            $result = $this->db->where('id',$id)->update('tbl_salesorder_stocks',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+            $result = $this->db->where('id',$id)->update('tbl_salesorder_stocks',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
             if($result){
                 if($status == 'APPROVED'){
                      return array('type'=>'success','message'=>'Move to approved','status'=>$status);
@@ -1735,11 +1763,11 @@ class Update_model extends CI_Model
            return false; 
         }
     }
-     function Update_Salesorder_Project_Accounting($user_id,$id,$status,$remarks){
+     function Update_Salesorder_Project_Accounting($id,$status,$remarks){
         $id = $this->encryption->decrypt($id);
         $row = $this->db->select('*')->from('tbl_salesorder_project')->where('id',$id)->get()->row();
         if($row){
-            $result = $this->db->where('id',$id)->update('tbl_salesorder_project',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$user_id));
+            $result = $this->db->where('id',$id)->update('tbl_salesorder_project',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
             if($result){
                 if($status == 'APPROVED'){
                      return array('type'=>'success','message'=>'Move to approved','status'=>$status);

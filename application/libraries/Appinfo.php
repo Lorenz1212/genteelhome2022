@@ -31,10 +31,10 @@ class Appinfo {
             $this->creator_fb = 'https://www.facebook.com/lorenz1212';
             
             //SESSION
-            $this->sess_name = "HRISMASTER2022";
+            $this->sess_name = "GENTEELHOMES";
 
             //Company
-            $this->app_company = 'HR Service Management';
+            $this->app_company = 'Genteel Homes';
             $this->app_year = '2022';
             $this->app_location ='Sta. Rosa, Laguna';
 
@@ -58,23 +58,42 @@ class Appinfo {
                  $this->admin_role = element($this->sess_name.'_ADMIN_ROLE', $admincookie);
                  $this->admin_profile = element($this->sess_name.'_ADMIN_PROFILE', $admincookie); 
             }
-            $usercookie = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_member_user', TRUE)),TRUE);
-             if($usercookie){
-                 $this->member_id = element($this->sess_name.'_MEMBER_ID', $usercookie);
-                 $this->member_fname = element($this->sess_name.'_MEMBER_FNAME', $usercookie);
-                 $this->member_lname = element($this->sess_name.'_MEMBER_LNAME', $usercookie);
-                 $this->member_letter = element($this->sess_name.'_MEMBER_FNAME', $usercookie)[0];
-                 $this->member_username = element($this->sess_name.'_MEMBER_UNAME',$usercookie);
-                 $this->member_email = element($this->sess_name.'_MEMBER_EMAIL', $usercookie);
-                 $this->member_status = element($this->sess_name.'_MEMBER_AdSTATUS',$usercookie);
-                 $this->member_type = element($this->sess_name.'_MEMBER_TYPE',$usercookie);
-                 $this->member_country = element($this->sess_name.'_MEMBER_COUNTRY',$usercookie);
-                 $this->member_position = element($this->sess_name.'_MEMBER_POSITION', $usercookie);
-                 $this->member_role = element($this->sess_name.'_MEMBER_ROLE', $usercookie);
-                 $this->member_profile = element($this->sess_name.'_MEMBER_PROFILE', $usercookie); 
-            }
+           
         }
         public function sess_name(){return $this->sess_name;}
+
+        public function creative($role=false){
+             $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_designer_user', TRUE)),TRUE);
+            if($data){return element($this->sess_name.$role, $data);}else{return false;}
+        }
+        public function production($role=false){
+             $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_production_user', TRUE)),TRUE);
+             if($data){return element($this->sess_name.$role, $data);}else{return false;}
+        }
+        public function supervisor($role=false){
+             $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_supervisor_user', TRUE)),TRUE);
+             if($data){return element($this->sess_name.$role, $data);}else{return false;}
+        }
+        public function sales($role=false){
+             $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_sales_user', TRUE)),TRUE);
+             if($data){return element($this->sess_name.$role, $data);}else{return false;}
+        }
+        public function superuser($role=false){
+             $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_superuser_user', TRUE)),TRUE);
+             if($data){return element($this->sess_name.$role, $data);}else{return false;}
+        }
+        public function accounting($role=false){
+             $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_accounting_user', TRUE)),TRUE);
+             if($data){return element($this->sess_name.$role, $data);}else{return false;}
+        }
+        public function webmodifier($role=false){
+             $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_webmodifier_user', TRUE)),TRUE);
+             if($data){return element($this->sess_name.$role, $data);}else{return false;}
+        }
+        public function admin($role=false){
+             $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_admin_user', TRUE)),TRUE);
+             if($data){return element($this->sess_name.$role, $data);}else{return false;}
+        }
 
         //EMAIL SET UP
         public function smtp_host(){return $this->smtp_host;}

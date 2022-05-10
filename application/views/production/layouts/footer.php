@@ -37,12 +37,14 @@
 				<!--begin::Header-->
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
-						<div class="symbol-label" style="background-image:url(<?php echo base_url(); ?>/assets/images/avatar/<?php echo $this->session->userdata('image') ?>)"></div>
+						<?php 
+							 echo($this->appinfo->production('_PRODUCTION_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->production('_PRODUCTION_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->production('_PRODUCTION_PROFILE').')"></div>';
+							?>
 						<i class="symbol-badge bg-success"></i>
 					</div>
 					<div class="d-flex flex-column">
-						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?php echo $this->session->userdata('fullname') ?></a>
-						<div class="text-muted mt-1"><?php echo $this->session->userdata('role') ?></div>
+						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?php echo $this->appinfo->production('_PRODUCTION_FNAME') ?> <?php echo $this->appinfo->production('_PRODUCTION_FNAME') ?></a>
+						<div class="text-muted mt-1"><?php echo $this->appinfo->production('_PRODUCTION_ROLE') ?></div>
 						<div class="navi mt-2">
 							<a href="#" class="navi-item">
 								<span class="navi-link p-0 pb-2">
@@ -62,11 +64,7 @@
 									<span class="navi-text text-muted text-hover-primary"><?php echo $this->session->userdata('email') ?></span>
 								</span>
 							</a>
-								<?php if($this->session->userdata('login') == 1){
-								echo'<a href="'.base_url().'gh/logout"  class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>';
-							}else{
-								echo'<a href="'.base_url().'gh/production_logout"  class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>';
-							}?>
+								<a href="<?php echo base_url('gh/logout/production') ?>"  class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
 						</div>
 					</div>
 				</div>
