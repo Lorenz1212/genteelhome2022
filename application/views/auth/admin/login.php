@@ -3,7 +3,7 @@
 	<!--begin::Head-->
 	<head><base href="../../../../">
 		<meta charset="utf-8" />
-		<title>Login | Miracle Tree</title>
+		<title>Login | Genteel Home</title>
 		<meta name="description" content="Login page example" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -35,9 +35,9 @@
 					<div class="login-form text-center text-white p-7 position-relative overflow-hidden">
 						<!--begin::Login Header-->
 						<div class="d-flex flex-center mb-15">
-							<a href="#">
-								<img src="<?php echo $this->appinfo->app_logo();?>" class="max-h-100px" alt="" />
-							</a>
+<!-- 							<a href="#">
+								<img src="" class="max-h-100px" alt="" />
+							</a> -->
 						</div>
 						<!--end::Login Header-->
 						<!--begin::Login Sign in form-->
