@@ -125,7 +125,7 @@
 																				<span></span>
 																			</i>
 																			<span class="menu-text">For Project</span>
-																			<span class="sales_project_pending"></span>
+																			<span class="sales_project_pending_request"></span>
 																		</a>
 																	</li>
 																</ul>
