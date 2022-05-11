@@ -127,7 +127,7 @@ var KTFormControls = function () {
 				(response.sales_stocks_pending != 0)?sales_stocks_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_stocks_pending.removeClass("label label-rounded label-warning").text("");
 
 				let sales_project_pending = $('.sales_project_pending_request');
-				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_project_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
 
 				$('.sales_stocks_pending').text(response.sales_stocks_pending);
 				$('.sales_project_pending').text(response.sales_project_pending);
@@ -151,7 +151,7 @@ var KTFormControls = function () {
 				(response.sales_stocks_pending != 0)?sales_stocks_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_stocks_pending.removeClass("label label-rounded label-warning").text("");
 
 				let sales_project_pending = $('.sales_project_pending_request');
-				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_stocks_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_project_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
 
 				$('.sales_stocks_pending').text(response.sales_stocks_pending);
 				$('.sales_project_pending').text(response.sales_project_pending);
