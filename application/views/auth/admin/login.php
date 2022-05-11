@@ -21,7 +21,7 @@
 		<link href="<?php echo base_url('assets/css/themes/layout/header/menu/light.css') ?>" rel="stylesheet" type="text/css" />
 		<link href="<?php echo base_url('assets/css/themes/layout/brand/dark.css') ?>" rel="stylesheet" type="text/css" />
 		<link href="<?php echo base_url('assets/css/themes/layout/aside/dark.css') ?>" rel="stylesheet" type="text/css" />
-		<link href="<?php echo base_url('assets/media/logos/favicon.ico') ?>" rel="shortcut icon"/>
+		<link href="<?php echo base_url(); ?>assets/images/logo/logo.jpg" rel="shortcut icon"/>
 		<!--end::Layout Themes-->
 	</head>
 	<!--end::Head-->
