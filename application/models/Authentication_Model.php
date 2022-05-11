@@ -59,7 +59,7 @@ class Authentication_Model extends CI_Model {
               $ip_address_prev = implode(".",$arr);
               $role = $this->db->query("SELECT * FROM tbl_administrator_details WHERE role_id='$type' AND permission_id='".$admin->id."'")->row();
               if(!$role){
-                return $admin->id;
+                 return 'Sorry, you dont have access right now. Please try again later.';
               }else{
                  $role_id = $role->role_id;
                  $role_name = $role->role_name;
