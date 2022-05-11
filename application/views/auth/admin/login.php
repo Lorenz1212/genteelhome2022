@@ -43,7 +43,7 @@
 						<!--begin::Login Sign in form-->
 						<div class="login-signin">
 							<div class="mb-20">
-								<h3>Sign In To Admin</h3>
+								<h3>Sign In</h3>
 								<p class="opacity-60 font-weight-bold">Enter your details to login to your account:</p>
 							</div>
 							<form class="form" id="kt_login_signin_form">
