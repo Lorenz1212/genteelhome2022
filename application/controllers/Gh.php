@@ -233,7 +233,7 @@ class Gh extends CI_Controller {
             case "user_update":{$this->load->view('admin/user_update.php');break;}
             case "voucher":{$this->load->view('admin/coupon_list.php');break;}
             case 'production-supplies':{$this->load->view('admin/report_production.php');break;}
-            case 'report-cashfund':{$this->load->view('admin/report_cashfund.php');break;}
+            case 'report-cashfund':{$this->load->view('admin/report-cashfund.php');break;}
             case 'report-cash-position':{$this->load->view('admin/report_cashposition.php');break;}
             case 'report-sales-order':{$this->load->view('admin/report_salesorder.php');break;}
             case 'report-collection':{$this->load->view('admin/report_collection.php');break;}
@@ -257,19 +257,19 @@ class Gh extends CI_Controller {
             case "salesorder-project":{$this->load->view('accounting/salesorder_project.php');break;}
             case "salesorder-create-stocks":{$this->load->view('accounting/salesorder_create_stocks.php');break;}
             case "salesorder-create-project":{$this->load->view('accounting/salesorder_create_project.php');break;}
-
-            case 'report-sales-order':{$this->load->view('accounting/report_salesorder.php');break;}
-            case 'report-collection':{$this->load->view('accounting/report_collection.php');break;}
-
             case 'production-supplies':{$this->load->view('accounting/report_production.php');break;}
-            case 'cashfund':{$this->load->view('accounting/report_cashfund.php');break;}
-            case 'cash-position':{$this->load->view('accounting/report_cashposition.php');break;}
+
             case "spareparts":{$this->load->view('accounting/spareparts_list.php');break;}
             case "officesupplies":{$this->load->view('accounting/officesupplies_list.php');break;}
             case "rawmaterials":{$this->load->view('accounting/rawmaterial_list.php');break;}
             case "rawmaterials":{$this->load->view('accounting/rawmaterial_list.php'); break;}
             case "production-stocks":{$this->load->view('accounting/production_stocks.php'); break;}
             case "supplier":{$this->load->view('accounting/supplier_list.php'); break;}
+
+            case 'report-cash-position':{$this->load->view('accounting/report_cashposition.php');break;}
+            case 'report-cashfund':{$this->load->view('accounting/report_cashfund.php');break;}
+            case 'report-sales-order':{$this->load->view('accounting/report_salesorder.php');break;}
+            case 'report-collection':{$this->load->view('accounting/report_collection.php');break;}
             default: {redirect(base_url().'gh/accounting/index');break;}
           }
           $this->load->view('accounting/layouts/footer.php');
