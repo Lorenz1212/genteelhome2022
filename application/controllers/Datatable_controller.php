@@ -370,11 +370,6 @@ class Datatable_controller extends CI_Controller
     }
 
     
-    
-    public function Users_DataTable(){
-        $data = $this->datatable_model->Users_DataTable();
-        echo json_encode($data);
-    }
     public function Material_Received_DataTable(){
         $data = $this->datatable_model->Material_Received_DataTable();
         echo json_encode($data);
@@ -508,100 +503,53 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Accounting_Purchase_Material_Project_Received();
         echo json_encode($data);
     }
-    public function Account_Report_Collection_Stocks_Daily(){
-        $month = isset($_POST['month']) ? $this->input->post('month'): false;
-        $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Collection_Stocks_Daily($month,$year);
-        echo json_encode($data);
-    }
-    public function Account_Report_Collection_Stocks_Weekly(){
-        $month = isset($_POST['month']) ? $this->input->post('month'): false;
-        $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Collection_Stocks_Weekly($month,$year);
-        echo json_encode($data);
-    }
-    public function Account_Report_Collection_Stocks_Monthly(){
-        $month = isset($_POST['month']) ? $this->input->post('month'): false;
-        $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Collection_Stocks_Monthly($month,$year);
-        echo json_encode($data);
-    }
-    public function Account_Report_Collection_Stocks_Yearly(){
-        $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Collection_Stocks_Yearly($year);
-        echo json_encode($data);
-    }
 
-    public function Account_Report_Collection_Project_Daily(){
+    public function Account_Report_Collection_Daily(){
         $month = isset($_POST['month']) ? $this->input->post('month'): false;
         $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Collection_Project_Daily($month,$year);
+        $data = $this->datatable_model->Account_Report_Collection_Daily($month,$year);
         echo json_encode($data);
     }
-    public function Account_Report_Collection_Project_Weekly(){
+    public function Account_Report_Collection_Weekly(){
         $month = isset($_POST['month']) ? $this->input->post('month'): false;
         $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Collection_Project_Weekly($month,$year);
+        $data = $this->datatable_model->Account_Report_Collection_Weekly($month,$year);
         echo json_encode($data);
     }
-    public function Account_Report_Collection_Project_Monthly(){
+    public function Account_Report_Collection_Monthly(){
         $month = isset($_POST['month']) ? $this->input->post('month'): false;
         $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Collection_Project_Monthly($month,$year);
+        $data = $this->datatable_model->Account_Report_Collection_Monthly($month,$year);
         echo json_encode($data);
     }
-    public function Account_Report_Collection_Project_Yearly(){
+    public function Account_Report_Collection_Yearly(){
         $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Collection_Project_Yearly($year);
+        $data = $this->datatable_model->Account_Report_Collection_Yearly($year);
         echo json_encode($data);
     }
 
 
-    public function Account_Report_Salesorder_Stocks_Daily(){
+    public function Account_Report_Salesorder_Daily(){
         $month = isset($_POST['month']) ? $this->input->post('month'): date('m');
         $year = isset($_POST['year']) ? $this->input->post('year'): date('Y');
-        $data = $this->datatable_model->Account_Report_Salesorder_Stocks_Daily($month,$year);
-        echo json_encode($data);
-    }
-    public function Account_Report_Salesorder_Stocks_Weekly(){
-        $month = isset($_POST['month']) ? $this->input->post('month'): false;
-        $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Salesorder_Stocks_Weekly($month,$year);
-        echo json_encode($data);
-    }
-    public function Account_Report_Salesorder_Stocks_Monthly(){
-        $month = isset($_POST['month']) ? $this->input->post('month'): false;
-        $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Salesorder_Stocks_Monthly($month,$year);
-        echo json_encode($data);
-    }
-    public function Account_Report_Salesorder_Stocks_Yearly(){
-        $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Salesorder_Stocks_Yearly($year);
-        echo json_encode($data);
-    }
-
-    public function Account_Report_Salesorder_Project_Daily(){
-        $month = isset($_POST['month']) ? $this->input->post('month'): date('m');
-        $year = isset($_POST['year']) ? $this->input->post('year'): date('Y');
-        $data = $this->datatable_model->Account_Report_Salesorder_Project_Daily($month,$year);
+        $data = $this->datatable_model->Account_Report_Salesorder_Daily($month,$year);
         echo json_encode($data);
     }
     public function Account_Report_Salesorder_Project_Weekly(){
         $month = isset($_POST['month']) ? $this->input->post('month'): false;
         $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Salesorder_Project_Weekly($month,$year);
+        $data = $this->datatable_model->Account_Report_Salesorder_Weekly($month,$year);
         echo json_encode($data);
     }
-    public function Account_Report_Salesorder_Project_Monthly(){
+    public function Account_Report_Salesorder_Monthly(){
         $month = isset($_POST['month']) ? $this->input->post('month'): false;
         $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Salesorder_Project_Monthly($month,$year);
+        $data = $this->datatable_model->Account_Report_Salesorder_Monthly($month,$year);
         echo json_encode($data);
     }
-    public function Account_Report_Salesorder_Project_Yearly(){
+    public function Account_Report_Salesorder_Yearly(){
         $year = isset($_POST['year']) ? $this->input->post('year'): false;
-        $data = $this->datatable_model->Account_Report_Salesorder_Project_Yearly($year);
+        $data = $this->datatable_model->Account_Report_Salesorder_Yearly($year);
         echo json_encode($data);
     }
 
@@ -826,6 +774,10 @@ class Datatable_controller extends CI_Controller
    // Repair
     public function Approval_UsersRequest_DataTable(){
         $data = $this->datatable_model->Approval_UsersRequest_DataTable();
+        echo json_encode($data);
+    }
+    public function Users_DataTable(){
+        $data = $this->datatable_model->Users_DataTable();
         echo json_encode($data);
     }
 

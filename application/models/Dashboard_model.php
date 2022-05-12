@@ -81,7 +81,7 @@ class Dashboard_model extends CI_Model
     $sales_project_pending = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','PENDING')->get()->num_rows();
 
     $sales_stocks_approved = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$this->user_id)->where('status','APPROVED')->get()->num_rows();
-    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','AAPROVED')->get()->num_rows();
+    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','APROVED')->get()->num_rows();
 
     $sales_stocks_completed = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$this->user_id)->where('status','COMPLETED')->get()->num_rows();
     $sales_project_completed = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','COMPLETED')->get()->num_rows();
@@ -320,7 +320,7 @@ class Dashboard_model extends CI_Model
     $sales_project_pending = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','PENDING')->get()->num_rows();
 
     $sales_stocks_approved = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$this->user_id)->where('status','APPROVED')->get()->num_rows();
-    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','AAPROVED')->get()->num_rows();
+    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','APROVED')->get()->num_rows();
 
     $sales_stocks_completed = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$this->user_id)->where('status','COMPLETED')->get()->num_rows();
     $sales_project_completed = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','COMPLETED')->get()->num_rows();
@@ -390,7 +390,7 @@ class Dashboard_model extends CI_Model
     $sales_project_pending = $this->db->select('*')->from('tbl_salesorder_project')->where('status','PENDING')->get()->num_rows();
 
     $sales_stocks_approved = $this->db->select('*')->from('tbl_salesorder_stocks')->where('status','APPROVED')->get()->num_rows();
-    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('status','AAPROVED')->get()->num_rows();
+    $sales_project_approved = $this->db->select('*')->from('tbl_salesorder_project')->where('status','APROVED')->get()->num_rows();
 
     $sales_stocks_completed = $this->db->select('*')->from('tbl_salesorder_stocks')->where('status','COMPLETED')->get()->num_rows();
     $sales_project_completed = $this->db->select('*')->from('tbl_salesorder_project')->where('status','COMPLETED')->get()->num_rows();

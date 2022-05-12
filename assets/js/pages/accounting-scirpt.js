@@ -1030,7 +1030,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				_ajaxloader(thisUrl,"POST",false,"View_Profile");
 				break;
 			}
-			case "data-report-collection-stocks":{
+			case "data-report-collection":{
 					$(document).on('click','#search_collection',function(e){
 				   		var action = $(this).attr('data-status');
 						let month = $('select[name=month]').val();
@@ -1038,20 +1038,20 @@ const month = ["January","February","March","April","May","June","July","August"
 						let val = {month:month,year:year};
 						switch(action){
 							case"daily":{
-								let thisUrl = 'datatable_controller/Account_Report_Collection_Stocks_Daily';
-								_ajaxloader(thisUrl,"POST",val,"Account_Report_Collection_Stocks_Daily");
+								let thisUrl = 'datatable_controller/Account_Report_Collection_Daily';
+								_ajaxloader(thisUrl,"POST",val,"Account_Report_Collection_Daily");
 								break;}
 							case "weekly":{
-								let thisUrl1 = 'datatable_controller/Account_Report_Collection_Stocks_Weekly';
-								_ajaxloader(thisUrl1,"POST",val,"Account_Report_Collection_Stocks_Weekly");
+								let thisUrl1 = 'datatable_controller/Account_Report_Collection_Weekly';
+								_ajaxloader(thisUrl1,"POST",val,"Account_Report_Collection_Weekly");
 								break;}
 							case "monthly":{
-								let thisUrl2 = 'datatable_controller/Account_Report_Collection_Stocks_Monthly';
-								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Collection_Stocks_Monthly");
+								let thisUrl2 = 'datatable_controller/Account_Report_Collection_Monthly';
+								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Collection_Monthly");
 								break;}
 							case "yearly":{
-								let thisUrl3 = 'datatable_controller/Account_Report_Collection_Stocks_Yearly';
-								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Collection_Stocks_Yearly");		
+								let thisUrl3 = 'datatable_controller/Account_Report_Collection_Yearly';
+								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Collection_Yearly");		
 								break;}
 						}		
 					});
@@ -1063,40 +1063,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#action').trigger('click');  
 				break;
 			}
-			case "data-report-collection-project":{
-					$(document).on('click','#search_collection',function(e){
-				   		var action = $(this).attr('data-status');
-						let month = $('select[name=month]').val();
-						let year  = $('select[name=year]').val();
-						let val = {month:month,year:year};
-						switch(action){
-							case"daily":{
-								let thisUrl = 'datatable_controller/Account_Report_Collection_Project_Daily';
-								_ajaxloader(thisUrl,"POST",val,"Account_Report_Collection_Project_Daily");
-								break;}
-							case "weekly":{
-								let thisUrl1 = 'datatable_controller/Account_Report_Collection_Project_Weekly';
-								_ajaxloader(thisUrl1,"POST",val,"Account_Report_Collection_Project_Weekly");
-								break;}
-							case "monthly":{
-								let thisUrl2 = 'datatable_controller/Account_Report_Collection_Project_Monthly';
-								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Collection_Project_Monthly");
-								break;}
-							case "yearly":{
-								let thisUrl3 = 'datatable_controller/Account_Report_Collection_Project_Yearly';
-								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Collection_Project_Yearly");		
-								break;}
-						}		
-					});
- 					 $(document).on('click','#action',function(e){
- 						var action = $(this).attr('data-action');
- 						$('#search_collection').attr('data-status',action);
- 						$('#search_collection').trigger('click');
- 					  }); 
-					$('#action').trigger('click');  
-				break;
-			}
-			case "data-saleorder-stocks-report":{
+			case "data-saleorder-report":{
 				   $(document).on('click','#search_collection',function(e){
 				   		var action = $(this).attr('data-status');
 						let month = $('select[name=month]').val();
@@ -1104,54 +1071,20 @@ const month = ["January","February","March","April","May","June","July","August"
 						let val = {month:month,year:year};
 						switch(action){
 							case"daily":{
-								let thisUrl = 'datatable_controller/Account_Report_Salesorder_Stocks_Daily';
-								_ajaxloader(thisUrl,"POST",val,"Account_Report_Salesorder_Stocks_Daily");
+								let thisUrl = 'datatable_controller/Account_Report_Salesorder_Daily';
+								_ajaxloader(thisUrl,"POST",val,"Account_Report_Salesorder_Daily");
 								break;}
 							case "weekly":{
-								let thisUrl1 = 'datatable_controller/Account_Report_Salesorder_Stocks_Weekly';
-								_ajaxloader(thisUrl1,"POST",val,"Account_Report_Salesorder_Stocks_Weekly");
+								let thisUrl1 = 'datatable_controller/Account_Report_Salesorder_Weekly';
+								_ajaxloader(thisUrl1,"POST",val,"Account_Report_Salesorder_Weekly");
 								break;}
 							case "monthly":{
-								let thisUrl2 = 'datatable_controller/Account_Report_Salesorder_Stocks_Monthly';
-								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Salesorder_Stocks_Monthly");
+								let thisUrl2 = 'datatable_controller/Account_Report_Salesorder_Monthly';
+								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Salesorder_Monthly");
 								break;}
 							case "yearly":{
-								let thisUrl3 = 'datatable_controller/Account_Report_Salesorder_Stocks_Yearly';
-								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Salesorder_Stocks_Yearly");		
-								break;}
-						}		
-					});
- 					
- 					 $(document).on('click','#action',function(e){
- 						var action = $(this).attr('data-action');
- 						$('#search_collection').attr('data-status',action);
- 						$('#search_collection').trigger('click');
- 					 }); 
-					$('#action').trigger('click');  
-				break;
-			}
-			case "data-saleorder-project-report":{
-				   $(document).on('click','#search_collection',function(e){
-				   		var action = $(this).attr('data-status');
-						let month = $('select[name=month]').val();
-						let year  = $('select[name=year]').val();
-						let val = {month:month,year:year};
-						switch(action){
-							case"daily":{
-								let thisUrl = 'datatable_controller/Account_Report_Salesorder_Project_Daily';
-								_ajaxloader(thisUrl,"POST",val,"Account_Report_Salesorder_Project_Daily");
-								break;}
-							case "weekly":{
-								let thisUrl1 = 'datatable_controller/Account_Report_Salesorder_Project_Weekly';
-								_ajaxloader(thisUrl1,"POST",val,"Account_Report_Salesorder_Project_Weekly");
-								break;}
-							case "monthly":{
-								let thisUrl2 = 'datatable_controller/Account_Report_Salesorder_Project_Monthly';
-								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Salesorder_Project_Monthly");
-								break;}
-							case "yearly":{
-								let thisUrl3 = 'datatable_controller/Account_Report_Salesorder_Project_Yearly';
-								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Salesorder_Project_Yearly");		
+								let thisUrl3 = 'datatable_controller/Account_Report_Salesorder_Yearly';
+								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Salesorder_Yearly");		
 								break;}
 						}		
 					});
@@ -1681,15 +1614,14 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		 break;
 	  		}
 	  	
-
-	  		case "Account_Report_Collection_Stocks_Daily":{
+	  		case "Account_Report_Collection_Daily":{
 	  			let container = $('#tbl_collection_daily > tbody:last-child');
 	  			container.empty();
 	             	for(var i=0;i<response.row.length;i++){
 	             			container.append('<tr>'
 	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
 	             				+'<td class=""><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.row[i].customer+'</span><span class="text-muted font-weight-bold" id="bank">'+response.row[i].bank+'</span></td>'
-	             				+'<td class="">'+response.row[i].si_no+'</td>'
+	             				+'<td class="">'+response.row[i].so_no+'</td>'
 	             				+'<td class="text-right">'+response.row[i].gross+'</td>'
 	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
 	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
@@ -1700,7 +1632,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				$('#total_amount').text(response.total_amount);
 	  			break;
 	  		}
-	  		case "Account_Report_Collection_Stocks_Weekly":{
+	  		case "Account_Report_Collection_Weekly":{
 	  			let container = $('#tbl_collection_weekly > tbody:last-child');
 	  			container.empty();
 		             	for(var i=0;i<response.length;i++){
@@ -1713,7 +1645,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				}
 	  			break;
 	  		}
-	  		case "Account_Report_Collection_Stocks_Monthly":{
+	  		case "Account_Report_Collection_Monthly":{
 	  			let container = $('#tbl_collection_monthly > tbody:last-child');
 	  			    container.empty();
 		             	for(var i=0;i<response.row.length;i++){
@@ -1729,7 +1661,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				$('#total_amount').text(response.total_amount);
 	  			break;
 	  		}
-	  		case "Account_Report_Collection_Stocks_Yearly":{
+	  		case "Account_Report_Collection_Yearly":{
 	  			let container = $('#tbl_collection_yearly > tbody:last-child');
 	  			    container.empty();
 		             	for(var i=0;i<response.row.length;i++){
@@ -1745,83 +1677,21 @@ const month = ["January","February","March","April","May","June","July","August"
 				$('#total_amount').text(response.total_amount);
 	  			break;
 	  		}
-
-
-	  		case "Account_Report_Collection_Project_Daily":{
-	  			let container = $('#tbl_collection_daily > tbody:last-child');
-	  			container.empty();
-	             	for(var i=0;i<response.row.length;i++){
-	             			container.append('<tr>'
-	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
-	             				+'<td class=""><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.row[i].customer+'</span><span class="text-muted font-weight-bold" id="bank">'+response.row[i].bank+'</span></td>'
-	             				+'<td class="">'+response.row[i].si_no+'</td>'
-	             				+'<td class="text-right">'+response.row[i].gross+'</td>'
-	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
-	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
-						+'</tr>');
-				}
-				$('#total_gross').text(response.total_gross);
-				$('#total_vat').text(response.total_vat);
-				$('#total_amount').text(response.total_amount);
-	  			break;
-	  		}
-	  		case "Account_Report_Collection_Project_Weekly":{
-	  			let container = $('#tbl_collection_weekly > tbody:last-child');
-	  			container.empty();
-		             	for(var i=0;i<response.length;i++){
-	             			container.append('<tr>'
-	             				+'<td class="text-success">'+response[i].date_created+'</td>'
-	             				+'<td class="text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response[i].gross+'</span></td>'
-	             				+'<td class="text-right">'+response[i].vat+'</td>'
-	             				+'<td class="text-right">'+response[i].amount+'</td>'
-						+'</tr>');
-				}
-	  			break;
-	  		}
-	  		case "Account_Report_Collection_Project_Monthly":{
-	  			let container = $('#tbl_collection_monthly > tbody:last-child');
-	  			    container.empty();
-		             	for(var i=0;i<response.row.length;i++){
-	             			container.append('<tr>'
-	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
-	             				+'<td><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.row[i].gross+'</span></td>'
-	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
-	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
-						+'</tr>');
-					}
-				$('#total_gross').text(response.total_gross);
-				$('#total_vat').text(response.total_vat);
-				$('#total_amount').text(response.total_amount);
-	  			break;
-	  		}
-	  		case "Account_Report_Collection_Project_Yearly":{
-	  			let container = $('#tbl_collection_yearly > tbody:last-child');
-	  			    container.empty();
-		             	for(var i=0;i<response.row.length;i++){
-	             			container.append('<tr>'
-	             				+'<td class="text-success">'+response.row[i].date_created+'</td>'
-	             				+'<td><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.row[i].gross+'</span></td>'
-	             				+'<td class="text-right">'+response.row[i].vat+'</td>'
-	             				+'<td class="text-right">'+response.row[i].amount+'</td>'
-						+'</tr>');
-					}
-				$('#total_gross').text(response.total_gross);
-				$('#total_vat').text(response.total_vat);
-				$('#total_amount').text(response.total_amount);
-	  			break;
-	  		}
-	  		case "Account_Report_Salesorder_Stocks_Daily":{
+	  		
+	  		case "Account_Report_Salesorder_Daily":{
 	  			let container = $('#tbl_salesorder_daily > tbody:last-child');
 	  			container.empty();
 		             	for(var i=0;i<response.result.length;i++){
              			container.append('<tr>'
              				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
              				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.result[i].customer+'</span></td>'
-             				+'<td class="pl-0">'+response.result[i].si_no+'</td>'
-             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].subtotal+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].vat+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].shipping_fee+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].amount_due+'</span></td>'
+             				+'<td class="pl-0">'+response.result[i].so_no+'</td>'
+             				+'<td class="pl-0 text-right">'+response.result[i].downpayment+'</td>'
+             				+'<td class="pl-0 text-right">'+response.result[i].subtotal+'</td>'
+             				+'<td class="pl-0 text-right">'+response.result[i].discount+'</td>'
+             				+'<td class="pl-0 text-right">'+response.result[i].vat+'</td>'
+             				+'<td class="pl-0 text-right">'+response.result[i].shipping_fee+'</td>'
+             				+'<td class="pl-0 text-right">'+response.result[i].amount_due+'</td>'
 					+'</tr>');
 				}
 				$('#total_subtotal').text(response.total_subtotal);
@@ -1830,7 +1700,7 @@ const month = ["January","February","March","April","May","June","July","August"
   				$('#total_grand').text(response.total_amount);
 	  			break;
 	  		}
-	  		case "Account_Report_Salesorder_Stocks_Weekly":{
+	  		case "Account_Report_Salesorder_Weekly":{
 	  			let container = $('#tbl_salesorder_weekly > tbody:last-child');
 	  			container.empty();
 		          for(var i=0;i<response.result.length;i++){
@@ -1844,8 +1714,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				}
 	  			break;
 	  		}
-	  		case "Account_Report_Salesorder_Stocks_Monthly":{
-	  			console.log(response)
+	  		case "Account_Report_Salesorder_Monthly":{
 	  			let container = $('#tbl_salesorder_monthly > tbody:last-child');
 	  			container.empty();
 		             	for(var i=0;i<response.result.length;i++){
@@ -1863,79 +1732,7 @@ const month = ["January","February","March","April","May","June","July","August"
   				$('#total_grand').text(response.total_amount);
 	  			break;
 	  		}
-	  		case "Account_Report_Salesorder_Stocks_Yearly":{
-	  			let container = $('#tbl_salesorder_yearly > tbody:last-child');
-	  			container.empty();
-	             	for(var i=0;i<response.result.length;i++){
-             			container.append('<tr>'
-             				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
-             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].subtotal+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].vat+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].shipping_fee+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].amount_due+'</span></td>'
-					+'</tr>');
-				}
-				$('#total_subtotal').text(response.total_subtotal);
-  				$('#total_vats').text(response.total_vat);
-  				$('#total_shippingfee').text(response.total_shippingfee);
-  				$('#total_grand').text(response.total_amount);
-	  			break;
-	  		}
-
-	  		case "Account_Report_Salesorder_Project_Daily":{
-	  			let container = $('#tbl_salesorder_daily > tbody:last-child');
-	  			container.empty();
-		             	for(var i=0;i<response.result.length;i++){
-             			container.append('<tr>'
-             				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
-             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.result[i].customer+'</span></td>'
-             				+'<td class="pl-0">'+response.result[i].si_no+'</td>'
-             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].subtotal+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].vat+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].shipping_fee+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].amount_due+'</span></td>'
-					+'</tr>');
-				}
-				$('#total_subtotal').text(response.total_subtotal);
-  				$('#total_vats').text(response.total_vat);
-  				$('#total_shippingfee').text(response.total_shippingfee);
-  				$('#total_grand').text(response.total_amount);
-	  			break;
-	  		}
-	  		case "Account_Report_Salesorder_Project_Weekly":{
-	  			let container = $('#tbl_salesorder_weekly > tbody:last-child');
-	  			container.empty();
-		          for(var i=0;i<response.result.length;i++){
-             			container.append('<tr>'
-             				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
-             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].subtotal+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].vat+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].shipping_fee+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].amount_due+'</span></td>'
-					+'</tr>');
-				}
-	  			break;
-	  		}
-	  		case "Account_Report_Salesorder_Project_Monthly":{
-	  			console.log(response)
-	  			let container = $('#tbl_salesorder_monthly > tbody:last-child');
-	  			container.empty();
-		             	for(var i=0;i<response.result.length;i++){
-	             			container.append('<tr>'
-	             				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
-	             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].subtotal+'</span></td>'
-	             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].vat+'</span></td>'
-	             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].shipping_fee+'</span></td>'
-	             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].amount_due+'</span></td>'
-						+'</tr>');
-					}
-				$('#total_subtotal').text(response.total_subtotal);
-  				$('#total_vats').text(response.total_vat);
-  				$('#total_shippingfee').text(response.total_shippingfee);
-  				$('#total_grand').text(response.total_amount);
-	  			break;
-	  		}
-	  		case "Account_Report_Salesorder_Project_Yearly":{
+	  		case "Account_Report_Salesorder_Yearly":{
 	  			let container = $('#tbl_salesorder_yearly > tbody:last-child');
 	  			container.empty();
 	             	for(var i=0;i<response.result.length;i++){

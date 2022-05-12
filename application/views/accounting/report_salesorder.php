@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-saleorder-project-report">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-saleorder-report">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -133,7 +133,9 @@
 												<th>DATE</th>
 												<th>NAME</th>
 												<th>SALES INVOICE</th>
-												<th class="text-right">AMOUNT</th>
+												<th class="text-right">DOWNPAYMENT</th>
+												<th class="text-right">SUBTOTAL</th>
+												<th class="text-right">DISCOUNT</th>
 												<th class="text-right">VAT(Output Tax)</th>
 												<th class="text-right">SHIPPING FEE</th>
 												<th class="text-right">TOTAL</th>

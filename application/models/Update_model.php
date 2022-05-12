@@ -1751,8 +1751,11 @@ class Update_model extends CI_Model
                         $total_amount = floatval($subtotals - $row->downpayment + $row->shipping_fee); 
                     }
 
-                    $this->db->insert('tbl_salesorder_completed',array('so_no'=>$row->so_no,'discount'=>$row->discount,'downpayment'=>$row->downpayment,'shipping_fee'=>$row->shipping_fee,'vat'=>$vat,'subtotal'=>$subtotal->amount,'total_amount'=>$total_amount,'date_order'=>$row->date_order,'date_downpayment'=>$row->date_downpayment));
-                     return array('type'=>'success','message'=>'Move to completed','status'=>$status);
+                    $this->db->insert('tbl_salesorder_completed',array('so_no'=>$row->so_no,'customer'=>$row->customer,'discount'=>$row->discount,'downpayment'=>$row->downpayment,'shipping_fee'=>$row->shipping_fee,'vat'=>$vat,'subtotal'=>$subtotal->amount,'total_amount'=>$total_amount,'date_order'=>$row->date_order,'date_downpayment'=>$row->date_downpayment));
+                    if($row->downpayment !=0){
+                        $this->db->insert('tbl_sales_collection',array('so_no'=>$row->so_no,'customer'=>$row->customer,'amount'=>$row->downpayment,'date_collect'=>$row->date_downpayment));
+                    }
+                    return array('type'=>'success','message'=>'Move to completed','status'=>$status);
                 }else{
                     return false;
                 }
@@ -1774,6 +1777,7 @@ class Update_model extends CI_Model
                 }else if($status == 'CANCELLED'){
                      return array('type'=>'error','message'=>'S.O form canclled','status'=>$status);
                 }else if($status == 'COMPLETED'){
+                    $dis=0;
                     $lineup = json_decode($row->item,true);
                     $data_array['item'] = $lineup;
                     $subtotal = array_sum(array_column($lineup,'amount'));
@@ -1790,7 +1794,10 @@ class Update_model extends CI_Model
                         $total_amount = floatval($subtotal_grand - $row->downpayment + $row->shipping_fee); 
                     }
 
-                     $this->db->insert('tbl_salesorder_completed',array('so_no'=>$row->so_no,'discount'=>$discount,'downpayment'=>$row->downpayment,'shipping_fee'=>$row->shipping_fee,'vat'=>$vat,'subtotal'=>$subtotal,'total_amount'=>$total_amount,'date_order'=>$row->date_order,'date_downpayment'=>$row->date_downpayment));
+                     $this->db->insert('tbl_salesorder_completed',array('so_no'=>$row->so_no,'customer'=>$row->customer,'discount'=>$discount,'downpayment'=>$row->downpayment,'shipping_fee'=>$row->shipping_fee,'vat'=>$vat,'subtotal'=>$subtotal,'total_amount'=>$total_amount,'date_order'=>$row->date_order,'date_downpayment'=>$row->date_downpayment));
+                     if($row->downpayment !=0){
+                        $this->db->insert('tbl_sales_collection',array('so_no'=>$row->so_no,'customer'=>$row->customer,'amount'=>$row->downpayment,'date_collect'=>$row->date_downpayment));
+                    }
                      return array('type'=>'success','message'=>'Move to completed','status'=>$status);
                 }else{
                     return false;
