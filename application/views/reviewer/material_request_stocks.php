@@ -45,9 +45,9 @@
 									<!--begin::Body-->
 									<div class="card-body">
 										<!--begin::Nav Content-->
-										<div class="tab-content m-0 p-10">
+										<div class="tab-content">
 											<div class="tab-pane active" id="request" role="tabpanel">
-												<table class="table table-bordered table-hover table-checkable link" id="tbl_material_request" data-link="tbl_material_request_stocks" style="width: 100%;">
+												<table class="table table-bordered table-hover table-checkable link" id="tbl_material_request" data-link="tbl_material_request_stocks">
 													<thead>
 														<tr>
 															<th style="width: 15%;">Trans #</th>
@@ -61,7 +61,7 @@
 												</table>
 											</div>
 											<div class="tab-pane" id="complete" role="tabpanel">
-												<table class="table table-bordered table-hover table-checkable" id="tbl_material_request_complete" style="margin-top: 13px !important">
+												<table class="table table-bordered table-hover table-checkable" id="tbl_material_request_complete">
 													<thead>
 														<tr>
 															<th>Trans #</th>

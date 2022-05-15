@@ -41,7 +41,7 @@
 			    <div class="card-body link" data-link="tbl_request_material_superuser">
 			        <div class="tab-content">
 			        	<div class="tab-pane fade show active" id="repair" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_list" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_list">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -55,7 +55,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_received" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_received">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -68,7 +68,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_cancelled" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_cancelled">
 								<thead>
 									<tr>
 										<th>NO</th>

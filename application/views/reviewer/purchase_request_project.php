@@ -54,7 +54,7 @@
 								<div class="card-body">
 									<!--end::Nav Tabs-->
 									<!--begin::Nav Content-->
-									<div class="tab-content m-0 p-10">
+									<div class="tab-content">
 										<div class="tab-pane active" id="request" role="tabpanel">
 											<table class="table table-bordered table-hover table-checkable link" id="tbl_purchase_request" data-link="tbl_purchase_request_project" style="margin-top: 13px !important">
 												<thead>
