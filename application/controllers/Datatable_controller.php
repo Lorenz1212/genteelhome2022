@@ -549,7 +549,7 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Account_Report_Salesorder_Daily($month,$year);
         echo json_encode($data);
     }
-    public function Account_Report_Salesorder_Project_Weekly(){
+    public function Account_Report_Salesorder_Weekly(){
         $month = isset($_POST['month']) ? $this->input->post('month'): false;
         $year = isset($_POST['year']) ? $this->input->post('year'): false;
         $data = $this->datatable_model->Account_Report_Salesorder_Weekly($month,$year);
