@@ -201,6 +201,8 @@ class Gh extends CI_Controller {
             case "return-item-customer":{$this->load->view('reviewer/return_item_customer.php');break;}
             case "request-material-stocks":{$this->load->view('reviewer/request_material_stocks.php');break;}
             case "delivery-receipt-list":{$this->load->view('reviewer/delivery_receipt_list.php');break;}
+            case "purchase-inventory-create":{$this->load->view('reviewer/purchase_inventory_create.php');break;}
+            case "purchase-inventory-list":{$this->load->view('reviewer/purchase_inventory_list.php');break;}
             case "users":{$this->load->view('reviewer/user_list.php');break;}
             case "user_create":{$this->load->view('reviewer/user_create.php');break;}
             case "user_update":{$this->load->view('reviewer/user_update.php');break;}
@@ -252,6 +254,7 @@ class Gh extends CI_Controller {
             case 'index':{$this->load->view('accounting/index.php');break;}
             case 'purchased-stocks':{$this->load->view('accounting/purchased_stocks.php');break;}
             case 'purchased-project':{$this->load->view('accounting/purchased_project.php');break;}
+            case 'purchased-inventory':{$this->load->view('accounting/purchased_inventory.php');break;}
             case 'collection':{$this->load->view('accounting/collection.php');break;}
             case "salesorder-stocks":{$this->load->view('accounting/salesorder_stocks.php');break;}
             case "salesorder-project":{$this->load->view('accounting/salesorder_project.php');break;}

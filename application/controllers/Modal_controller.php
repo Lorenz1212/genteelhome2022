@@ -430,6 +430,20 @@ class Modal_controller extends CI_Controller
        $data = $this->modal_model->Modal_Customized_View($id);
        echo json_encode($data); 
     }    
-        
-}
+    public function Modal_Other_Purchase_View(){
+       $id = $this->input->post('id');
+       $data = $this->modal_model->Modal_Other_Purchase_View($id);
+       echo json_encode($data); 
+    }
+    public function Modal_Other_Purchase_View_Received(){
+       $id = $this->input->post('id');
+       $data = $this->modal_model->Modal_Other_Purchase_View_Received($id);
+       echo json_encode($data); 
+    }
+    public function Modal_Other_Purchase_View_Received_Accounting(){
+       $id = $this->input->post('id');
+       $data = $this->modal_model->Modal_Other_Purchase_View_Received_Accounting($id);
+       echo json_encode($data); 
+    }        
+}   
 ?>

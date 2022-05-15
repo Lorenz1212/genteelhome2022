@@ -1,4 +1,4 @@
-`	<body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
+	<body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
 		<!--begin::Main-->
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile">
@@ -90,6 +90,12 @@
 																	</li>
 																</ul>
 															</div>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/accounting/purchased-inventory";?>" class="menu-link">
+																<span class="menu-text mr-2">Inventory Stocks</span>
+																<span class="total_purchase"></span>
+															</a>
 														</li>
 													</ul>
 												</div>

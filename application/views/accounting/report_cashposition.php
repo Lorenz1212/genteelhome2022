@@ -6,6 +6,11 @@
 					<h2 class="text-white font-weight-bold my-2 mr-5">Cash Position</h2>
 				</div>
 			</div>
+			<div class="d-flex align-items-center">
+					<button class="btn btn-light-success font-weight-bolder btn-sm mr-2" data-toggle="modal" id="form-income" data-action="create" data-target="#formIncome"><i class="flaticon-add-circular-button"></i> Create Cash position</button>
+					<button class="btn btn-light-primary font-weight-bolder btn-sm mr-2" data-toggle="modal" data-target="#category-list"><i class="la la-scroll"></i> List Of category</button>
+					<button class="btn btn-light-info font-weight-bolder btn-sm btn-add-category"><i class="flaticon-add-circular-button"></i> Create category</button>
+			</div>
 		</div>
 	</div>
 <!--end::Subheader-->
@@ -36,18 +41,18 @@
 										     <div class="input-group-append">
 										     	<span class="input-group-text" id="year_alert">YEAR</span></div>
 										     <select class="form-control" name="year" style="width:10%;"></select>
-										     <div class="input-group-append">
-										     	<button type="button" class="btn btn-success" id="search" data-action="weekly">SEARCH</button></div>
-										     <div class="input-group-append">
+										     <div class="input-group-append ml-2">
+										     	<button type="button" class="btn btn-success" id="search" data-action="weekly"><i class="la la-search"></i> SEARCH</button></div>
+										     <!-- <div class="input-group-append">
 										     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">EXPORT</button>
 										     <div class="dropdown-menu">
 											     <div role="separator" class="dropdown-divider" style="background-color:blue;"></div>
 											    	<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-excel-o"></i></span><span class="navi-text">Excel</span></a>
 													<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-pdf-o"></i></span><span class="navi-text"> PDF</span></a>
 												</div>
-											</div>
+											</div> -->
 											  <div class="input-group-append">
-										     	<button type="button" class="btn btn-dark" data-toggle="modal" id="form-income" data-action="create" data-target="#formIncome">ADD NEW</button>
+										     	
 									     </div>
 								     </div>
 								</li>
@@ -137,7 +142,7 @@
 						    <label class="text-white">Categories</label>
 						    <select class="form-control form-control-lg" name="cat_id" >
 						    	<?php 
-							       $query = $this->db->select('*')->from('tbl_category_income')->get();
+							       $query = $this->db->select('*')->from('tbl_category_income')->where('status !=',3)->get();
 						    		foreach($query->result() as $row){
 						    			echo '<option value="'.$row->id.'">'.$row->name.'</option>';
 						    		}
@@ -150,6 +155,33 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success font-weight-bold save" data-action="create">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="category-list" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Categories</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+            	<table class="table table-bordered table-hover table-sm" id="tbl_cashposition_category">
+            		<thead>
+            			<tr>
+            				<th>Name</th>
+            				<th>Action</th>
+            			</tr>
+            		</thead>
+            		<tbody></tbody>
+            	</table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

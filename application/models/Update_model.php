@@ -665,7 +665,6 @@ class Update_model extends CI_Model
             }else{
                 return array('type'=>'error','message'=>'Nothing Changes');
             }
-            //return array('type'=>'info','message'=>'error(001)');
         }
     }
     function Update_Accounting_Purchase_Received($id,$change,$refund){
@@ -678,6 +677,65 @@ class Update_model extends CI_Model
             if($result){
                 $this->db->where('fund_no',$id);
                 $this->db->update('tbl_purchase_received',array('status'=> 2));
+                return array('type'=>'success','message'=>'Save Changes');
+            }else{
+                return array('type'=>'error','message'=>'Nothing Changes');
+            }                
+        }else{
+           return array('type'=>'info','message'=>'error(001)');
+        }
+    }
+
+     function Update_Accounting_Purchase_Inventory_Request($id,$cash,$action){
+        $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$id)->get()->row();
+        if(!$query){
+            if($action == 1){
+                  $value = $this->get_code('tbl_pettycash','CNXID'.date('Ymd'));
+                    $this->db->insert('tbl_pettycash',array('accounting'=> $this->user_id,
+                                'fund_no'       => $value,
+                                'pettycash'     => $cash,
+                                'status'        => 1,
+                                'type'          => 3,
+                                'date_created'  => date('Y-m-d H:i:s'),
+                                'created_by'    => $this->user_id));
+                    $this->db->where('request_no',$id);
+                    $result = $this->db->update('tbl_other_material_p_header',array('fund_no' => $value,
+                                         'accounting'=> $this->user_id,
+                                         'status'=> 'APPROVED',
+                                         'a_status'=>'PENDING',
+                                         'latest_update'=>date('Y-m-d H:i:s')
+                                     ));
+                    if($result){
+                        return array('type'=>'success','message'=>'Save Changes');
+                    }else{
+                        return array('type'=>'info','message'=>'error(002)');
+                    }
+            }else{
+                $this->db->where('fund_no',$id);
+                $result = $this->db->update('tbl_pettycash',array('pettycash'=> $cash));
+                if($result){
+                    return array('type'=>'success','message'=>'Save Changes');
+                }else{
+                    return array('type'=>'error','message'=>'Nothing Changes');
+                }
+            }                   
+        }else{
+            $this->db->where('fund_no',$id);
+            $result = $this->db->update('tbl_pettycash',array('pettycash'=> $cash));
+            if($result){
+                return array('type'=>'success','message'=>'Save Changes');
+            }else{
+                return array('type'=>'error','message'=>'Nothing Changes');
+            }
+        }
+    }
+    function Update_Accounting_Purchase_Inventory_Received($id,$change,$refund){
+        $query = $this->db->select('*')->from('tbl_other_material_p_header')->where('fund_no',$id)->get()->row();
+        if($query){
+            $row = $this->db->select('sum(amount) as amount')->from('tbl_other_material_p_received')->where('fund_no',$id)->get()->row();
+            $result = $this->db->where('fund_no',$id)->update('tbl_pettycash',array('actual_change'=> $change,'refund'=>$refund,'total_amount'=>$row->amount,'status'=>2,'date_received'=>date('Y-m-d H:i:s')));
+            if($result){
+                $this->db->where('fund_no',$id)->update('tbl_other_material_p_header',array('a_status'=> 'COMPLETED'));
                 return array('type'=>'success','message'=>'Save Changes');
             }else{
                 return array('type'=>'error','message'=>'Nothing Changes');
@@ -1375,6 +1433,9 @@ class Update_model extends CI_Model
                 $result = $this->db->update('tbl_other_material_m_request',array('qty'=>$balance,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
                 if($result){
                     $this->db->insert('tbl_other_material_m_received',array('item_no'=>$row->item_no,'item'=>$row->item,'qty'=>$qty,'type'=>$row->type,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
+
+                    $this->db->insert('tbl_material_release',array('production_no'=>'MRXID'.date('YmdHis'),'item_no'=>$row->item_no,'quantity'=>$qty,'type'=>$row->type,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
+
                     $stocks = floatval($row_mats->stocks - $qty);
                     $this->db->where('id',$row_mats->id);
                     $this->db->update($table,array('stocks'=>$stocks));
@@ -1602,8 +1663,6 @@ class Update_model extends CI_Model
                               $data_item[] = array('id'=> $row->id,'item'=> $row->item.' '.$unit.' - '.$row->balance);
                        } 
                    }
-
-
                
                 $query = $this->db->select('*,s.name,m.item,m.unit,t.payment,t.quantity,t.id')->from('tbl_purchase_transactions as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->join('tbl_materials as m','m.id=t.item_no')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
                 if($query){
@@ -1646,6 +1705,8 @@ class Update_model extends CI_Model
                                       'type'=>$type,
                                       'date_created'=>date('Y-m-d H:i:s'),
                                       'created_by'=>$this->user_id));
+
+                    $this->db->insert('tbl_material_new',array('fund_no'=>$fund_no,'supplier'=>$row->supplier,'item_no'=>$row->item_no,'qty'=>$row->quantity,'amount'=>$row->amount,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$rows->purchaser));
                 }
                 $this->db->where('fund_no',$fund_no);
                 $result = $this->db->delete('tbl_purchase_transactions');
@@ -1668,7 +1729,113 @@ class Update_model extends CI_Model
             return false;
         }
     }
+     function Update_Purchased_Other_Transaction($fund_no,$item,$supplier,$terms,$quantity,$amount,$terms_start,$terms_end,$type){
+        $data_item = false;
+        $data = false;
+        $row_b =  $this->db->select('*')->from('tbl_other_material_p_header')->where('fund_no',$fund_no)->get()->row();
+        if($row_b){
+            $row_m =  $this->db->select('*')->from('tbl_other_material_p_request')->where('pr_id',$row_b->id)->where('item_no',$item)->where('type',$type)->get()->row();
+            if($quantity > $row_m->balance){
+               if($row_m->balance == 0){
+                  return array('type'=>'info','status'=>''.$row_m->item.'</br> You exceeded the required quantity ('.$row_m->balance.')');
+               }else{
+                  return array('type'=>'info','status'=>''.$row_m->item.'</br>Make sure the input quantity is less than or equal to request quantity ('.$row_m->balance.')');
+               }
+             
+            }else{
+                $balance = $row_m->balance - $quantity; 
+                $this->db->where('id',$row_m->id);
+                $this->db->update('tbl_other_material_p_request',array('balance'=>$balance));
 
+                $row = $this->db->select('*')->from('tbl_other_material_p_transaction')->where('fund_no',$fund_no)->where('item_no',$item)->where('supplier',$supplier)->where('type',$type)->get()->row();
+                if($row){
+                    $balance_quantity = $row->quantity+$quantity;
+                    $this->db->where('id',$row->id);
+                    $this->db->update('tbl_other_material_p_transaction',array('payment'=>$terms,'quantity'=>$balance_quantity,'amount'=>$amount,'terms_start'=>$terms_start,'terms_end'=>$terms_end,'latest_update'=>date('Y-m-d H:i:s')));
+                    $status = 'Save changes';
+                }else{
+                    $this->db->insert('tbl_other_material_p_transaction',array('fund_no'=>$fund_no,'item_no'=>$item,'item'=>$row_m->item,'supplier'=>$supplier,'payment'=>$terms,'quantity'=>$quantity,'amount'=>$amount,'terms_start'=>$terms_start,'terms_end'=>$terms_end,'type'=>$type,'latest_update'=>date('Y-m-d H:i:s')));
+                    $status = 'Create Successfully';
+                }
+                
+                 $query = $this->db->select('*')->from('tbl_other_material_p_request')->where('pr_id',$row_b->id)->get();
+                   if($query){  
+                       foreach($query->result() as $row){
+                              $data_item[] = array('id'=> $row->item_no,'item'=> $row->item.' - '.$row->balance);
+                       } 
+                   }
+               
+                $query = $this->db->select('*,s.name,t.item,t.payment,t.quantity,t.id')->from('tbl_other_material_p_transaction as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
+                if($query){
+                     foreach($query->result() as $row){
+                         ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
+                             $data[] = array('id'=>$row->id,
+                                             'item'=> $row->item,
+                                             'supplier'=>$row->name,
+                                             'payment'=>$terms,
+                                             'quantity'=>$row->quantity,
+                                             'amount'=>number_format($row->amount,2));
+                       } 
+                }
+                return array('type'=>'success','status'=>$status,'row'=>$data,'material'=>$data_item);           
+            }
+        }else{
+           return false;
+        }
+       
+    }
+      function Update_Purchase_Other_Complete($fund_no){
+        $query = $this->db->select('*')->from('tbl_other_material_p_transaction')->where('fund_no',$fund_no)->get();
+        if($query){
+                 foreach($query->result() as $row){
+                    $this->db->insert('tbl_other_material_p_received',array(
+                                      'fund_no'=>$fund_no,
+                                      'supplier'=>$row->supplier,
+                                      'item_no'=>$row->item_no,
+                                      'item'=>$row->item,
+                                      'payment'=>$row->payment,
+                                      'terms_start'=>$row->terms_start,
+                                      'terms_end'=>$row->terms_end,
+                                      'quantity'=>$row->quantity,
+                                      'amount'=>$row->amount,
+                                      'type'=>$row->type,
+                                      'date_created'=>date('Y-m-d H:i:s'),
+                                      'created_by'=>$this->user_id));
+                    if($row->type){
+                          $this->db->insert('tbl_material_new',array('fund_no'=>$fund_no,'supplier'=>$row->supplier,'item_no'=>$row->item_no,'qty'=>$row->quantity,'amount'=>$row->amount,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
+                    }
+                  
+                }
+                $this->db->where('fund_no',$fund_no);
+                $result = $this->db->delete('tbl_other_material_p_transaction');
+                if($result){
+                    $this->db->where('fund_no',$fund_no)->update('tbl_other_material_p_header',array('status'=>'COMPLETED','a_status'=>'APPROVED'));
+                    $q = $this->db->select('type,item_no,sum(quantity) as qty')->from('tbl_other_material_p_received')->where('fund_no',$fund_no)->group_by('item_no,type')->get();
+                     foreach($q->result() as $row){
+                        if($row->type == 1){
+                            $row_mats = $this->db->select('*')->from('tbl_materials')->where('id',$row->item_no)->get()->row();
+                             $stocks = $row_mats->stocks + $row->qty;
+                             $this->db->where('id',$row_mats->id);
+                             $this->db->update('tbl_materials',array('stocks'=>$stocks));
+
+                        }else{
+                            $row_mats = $this->db->select('*')->from('tbl_other_materials')->where('id',$row->item_no)->get()->row();
+                             $stocks = $row_mats->stocks + $row->qty;
+                             $this->db->where('id',$row_mats->id);
+                             $this->db->update('tbl_other_materials',array('stocks'=>$stocks));
+
+                        }
+                        
+                     }
+                    return 'Purchased item completed';
+                }else{
+                    return false;
+                }
+        }else{
+             return false;
+        }
+
+    }
     function Update_Approval_SalesOrder_Accounting($id,$status,$table){
         if($status == 'approve'){
             $status_update = 'A';
@@ -1807,6 +1974,15 @@ class Update_model extends CI_Model
             }
         }else{
            return false; 
+        }
+    }
+    function Update_Cashposition_Category($id,$name){
+        $id = $this->encryption->decrypt($id);
+        $result = $this->db->where('id',$id)->update('tbl_category_income',array('name'=>$name));
+        if($result){
+            return array('type'=>'success','message'=>"Save Changes");
+        }else{
+            return array('type'=>'info','message'=>"Nothing Changes");
         }
     }
 }

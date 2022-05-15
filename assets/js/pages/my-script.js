@@ -851,6 +851,21 @@ var arrows;var item_v;var price;var special_option;
 				}
 				break;
 			}
+			case "purchase_inventory":{
+				 $('#item').empty();
+				 $('#item').append('<option value="" disabled selected>SELECT MATERIAL</option>');
+				if(response !=false){
+					for(let i=0;i<response.length;i++){
+                  	  	  $('#item').append('<option value="'+response[i].id+'" data-type="'+response[i].type+'">'+response[i].item+'</option>');
+                  	  	  $('#item').addClass('selectpicker');
+					  $('#item').attr('data-live-search', 'true');
+					  $('#item').selectpicker('refresh');
+                  	  }	
+				}else{
+					$('#item').append('<option value="">No Data Available</option>');
+				}
+				break;
+			}
 			case "supplier_list":{
 				$('#supplier').empty();
 				$('#supplier').append('<option value="" disabled selected>SELECT SUPPLIER</option>');
@@ -867,6 +882,24 @@ var arrows;var item_v;var price;var special_option;
 				 break;
 			}
 			case "purchase_transaction":{
+				let container = $('#tbl_purchasing_process > tbody');
+				container.empty();
+				if(response != false){
+					for(let i =0;i<response.length;i++){
+						container.append('<tr>\
+							<td>'+response[i].item+'</td>\
+							<td>'+response[i].supplier+'</td>\
+							<td>'+response[i].payment+'</td>\
+							<td class="text-center">'+response[i].quantity+'</td>\
+							<td class="text-right">'+response[i].amount+'</td>\
+							<td class="text-center"><button type="button" class="btn btn-icon btn-light-danger btn-xs btn-delete" data-id="'+response[i].id+'"><i class="flaticon2-trash"></i></button></td>\
+						</tr>');
+					}
+					
+				}
+				break;
+			}
+			case "other_material_p_transaction":{
 				let container = $('#tbl_purchasing_process > tbody');
 				container.empty();
 				if(response != false){
@@ -927,6 +960,13 @@ var arrows;var item_v;var price;var special_option;
 				$('select[name=type]').on('change',function(e){
 					_ajaxloaderOption('option_controller/item_list','POST',{type:$(this).val()},'item_list');
 				});
+				if($('#kt_material_table tbody tr').length == 0){
+	                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+	                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+	                                    </div>\
+	                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+					$('#kt_material_table > tbody').empty();	
+				}
 				$(document).on('click','.add_item',function(e){
 					e.preventDefault();
 					let id  = $('select[name=item_no]').val();
@@ -941,18 +981,95 @@ var arrows;var item_v;var price;var special_option;
 					}else{
 					   status = 'Spare Parts';
 					}
-					if(!qty){
-						Swal.fire("Warning!", "Please Input Quantity!", "info");
+					let validation = $('#kt_material_table tr > td:contains('+item+')').length;
+					if(validation == 0){
+						if(!qty){
+							Swal.fire("Warning!", "Please Input Quantity!", "info");
+						}else{
+							$('#kt_material_table > tbody:last-child').append('<tr>\
+										<td class="td-item" data-id="'+id+'">'+item+'</td>\
+										<td class="text-right td-qty">'+qty+'</td>\
+										<td class="text-right td-type" data-type="'+type+'">'+status+'</td>\
+										<td class="text-right"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow btn-delete"><i class="la la-times"></i></button></td>\
+												</tr>');	
+							$('.cart-empty-page').empty();
+							_initremovetable('#kt_material_table');	
+							}
 					}else{
-					$('#kt_material_table > tbody:last-child').append('<tr>\
-								<td class="td-item" data-id="'+id+'">'+item+'</td>\
-								<td class="text-right td-qty">'+qty+'</td>\
-								<td class="text-right td-type" data-type="'+type+'">'+status+'</td>\
-								<td class="text-right"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow"><i class="la la-times"></i></button></td>\
-										</tr>');	
-					_initremovetable('#kt_material_table');	
+						Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
 					}
 				})
+				$(document).on('click','.btn-delete',function(e){
+					e.preventDefault();
+					if($('#kt_material_table tbody tr').length == 0){
+		                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+		                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+		                                    </div>\
+		                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+						$('#kt_material_table > tbody').empty();	
+					}
+				});
+				break;
+			}
+			case "data-request-purchase-create":{
+				_initCurrency_format('.amount')
+				$('select[name=type]').on('change',function(e){
+					_ajaxloaderOption('option_controller/item_list','POST',{type:$(this).val()},'item_list');
+				});
+				if($('#kt_material_table tbody tr').length == 0){
+	                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+	                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+	                                    </div>\
+	                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+					$('#kt_material_table > tbody').empty();	
+				}
+				$(document).on('click','.add_item',function(e){
+					e.preventDefault();
+					let id  = $('select[name=item_no]').val();
+					let item = $('select[name="item_no"] option:selected').text();
+					let type  = $('select[name=type]').val();
+					let qty  = $('input[name=qty]').val();
+					let amount  = $('input[name=amount]').val();
+					let status;
+					if(type == 1){
+					    status = 'Raw Materials';
+					}else if(type ==2){
+					    status = 'Office & Janitorial Supplies';
+					}else{
+					   status = 'Spare Parts';
+					}
+					let validation = $('#kt_material_table tr > td:contains('+item+')').length;
+					if(validation == 0){
+						if(!qty){
+							Swal.fire("Warning!", "Please Input Quantity!", "info");
+						}else{
+						let i = $('#kt_material_table tbody tr').length;
+						if((i+1) != 0){
+							 $('.cart-empty-page').empty();
+						}
+						$('#kt_material_table > tbody:last-child').append('<tr>\
+									<td class="td-item['+i+']" data-id="'+id+'">'+item+'</td>\
+									<td class="text-right td-qty['+i+']">'+qty+'</td>\
+									<td class="text-right td-amount['+i+']">'+amount+'</td>\
+									<td class="text-right td-type['+i+']" data-type="'+type+'">'+status+'</td>\
+									<td class="text-right"><button type="button" id="DeleteButton" class="btn btn-icon btn-danger btn-xs btn-shadow btn-delete"><i class="la la-times"></i></button></td>\
+											</tr>');	
+						_initremovetable('#kt_material_table');	
+						}
+					}else{
+						Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
+					}
+				})
+				$(document).on('click','.btn-delete',function(e){
+					e.preventDefault();
+					if($('#kt_material_table tbody tr').length == 0){
+		                    $('.cart-empty-page').empty().append('<div class="empty-icon mt-2">\
+		                                    <img src="'+baseURL+'assets/media/svg/empty-cart.svg"/>\
+		                                    </div>\
+		                                    <p class=""><a class="font-weight-bolder font-size-h3">Empty Cart</a></p>');
+						$('#kt_material_table > tbody').empty();	
+					}
+				});
 				break;
 			}
 			case "data-collection":{
@@ -974,12 +1091,46 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-customer-concern-list":{
 				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
+					$(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
 					 	let thisUrl = 'modal_controller/Modal_Customer_Concern';
 						_ajaxloader(thisUrl,"POST",{id:id},"Modal_Customer_Concern");
 				    });
 				})
+				break;
+			}
+			case "data-purchase-inventory":{
+				$(document).ready(function() {
+				    $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let thisUrl = 'modal_controller/Modal_Other_Purchase_View';
+						_ajaxloader(thisUrl,"POST",{id:id},"Modal_Other_Purchase_View");
+				    });
+				    $(document).on("click","#view-inprogress",function() {
+					 	let id = $(this).attr('data-id');
+					 	let thisUrl = 'modal_controller/Modal_Other_Purchase_View';
+						_ajaxloader(thisUrl,"POST",{id:id},"Modal_Other_Purchase_View_Received");
+				    });
+				     $(document).on('click','.btn-change-process',function(e){
+					 	e.preventDefault();
+					 	e.stopPropagation();
+					 	let action = $(this).attr('data-action');
+					 	if(action == 'view'){
+						 	$(this).attr('data-action','back');
+						 	$(this).html('<i class="flaticon2-fast-back blink_me"></i> Back');
+						 	$('.btn-submit-process').removeClass('d-none').attr('id','btn-save-process');
+						 	$('#view-details').addClass('d-none');
+						 	$('#view-purchased').removeClass('d-none');
+					 	}else{
+						 	$(this).attr('data-action','view');
+						 	$(this).html('Inbound Item <i class="flaticon2-fast-next blink_me"></i>');
+						 	$('.btn-submit-process').addClass('d-none').removeAttr('id');
+						 	$('#view-details').removeClass('d-none');
+						 	$('#view-purchased').addClass('d-none');	
+					 	}
+					 }); 
+				})
+
 				break;
 			}
 			case "data-purchase-stocks-create":{
@@ -2490,8 +2641,10 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-supplier":{
 				 $(document).ready(function() {
-				 	_initItem_option();
 					_initCurrency_format("#price");
+					$('select[name=type]').on('change',function(e){
+						_ajaxloaderOption('option_controller/item_list','POST',{type:$(this).val()},'item_list');
+					});
 					$(document).on("click","#form-request",function() {
 						let thisUrl = 'modal_controller/Modal_Supplier_View';
 						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_View");
@@ -3416,7 +3569,7 @@ var arrows;var item_v;var price;var special_option;
 	             	_ajaxloaderOption('option_controller/purchase_product','POST',{id:response.fund_no},'purchase_product');
 	             	 $(document).on('change','select[name=item]',function(e){
 	             	 	e.preventDefault();
-	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val()},'supplier_list');
+	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val(),type:1},'supplier_list');
 	             	 });
 	             	 _ajaxloaderOption('option_controller/purchase_transaction','POST',{id:response.fund_no},'purchase_transaction');
 				$('[data-toggle="tooltip"]').tooltip();
@@ -3478,9 +3631,9 @@ var arrows;var item_v;var price;var special_option;
 	             	_ajaxloaderOption('option_controller/purchase_product','POST',{id:response.fund_no},'purchase_product');
 	             	 $(document).on('change','select[name=item]',function(e){
 	             	 	e.preventDefault();
-	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val()},'supplier_list');
+	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val(),type:1},'supplier_list');
 	             	 });
-	             	 _ajaxloaderOption('option_controller/purchase_transaction','POST',{id:response.fund_no},'purchase_transaction');
+	             	 _ajaxloaderOption('option_controller/other_material_p_transaction','POST',{id:response.fund_no},'other_material_p_transaction');
 				$('[data-toggle="tooltip"]').tooltip();
 				_initCurrency_format('.amount');
 
@@ -6127,6 +6280,66 @@ var arrows;var item_v;var price;var special_option;
 				_initnotificationupdate();
 	  		}else{
 
+	  		}
+	  		break;
+	  	}
+	  	case "Modal_Other_Purchase_View":{
+	  		if(!response == false){
+  			    $('.cash_fund').text(response.info.request_no);
+	  		    $('.requestor').text(response.info.requestor);
+	  		    $('.date_created').text(response.info.date_created);
+	  		    let container = $('#tbl_purchased_estimate > tbody:last-child');
+	  		    container.empty();
+	  		    for(let i=0;i<response.material.length;i++){
+	  		    		container.append('<tr>\
+	  		    					  	 <td>'+response.material[i].item+'</td>\
+	  		    					  	 <td class="text-center">'+response.material[i].qty+'</td>\
+	  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+	  		    					  </tr>');
+	  		    }
+		 	 }
+		 	  $('#view-purchased-request').modal('show');
+	  		break;
+	  	}
+	  	case "Modal_Other_Purchase_View_Received":{
+	  		if(!response == false){
+	               $('.cf_no').text('CF #: '+response.info.fund_no).attr('data-id',response.info.fund_no);
+	               $('.trans_no').text('Trans #: '+response.info.request_no);
+	  		     $('.requestor').text(response.info.requestor);
+	               $('.date_created').text(response.info.date_created);
+	               $('.btn-change-process').attr('data-action','view');
+	             	$('.btn-change-process').html('Inbound Item <i class="flaticon2-fast-next blink_me"></i>');
+	             	$('.btn-submit-process').addClass('d-none').removeAttr('id');
+	             	$('#view-details').removeClass('d-none');
+				$('#view-purchased').addClass('d-none');
+				$('[data-toggle="tooltip"]').tooltip();
+				 $('.btn-hide').hide();
+				 if(response.info.status == 'APPROVED'){
+				 	$('.btn-hide').show();
+				 }
+
+			    let container = $('#tbl_purchasing_inprogress_modal > tbody:last-child');
+	  		    container.empty();
+	  		    for(let i=0;i<response.material.length;i++){
+	  		    		container.append('<tr>\
+	  		    					  	 <td>'+response.material[i].item+'</td>\
+	  		    					  	 <td class="text-center">'+response.material[i].qty+'</td>\
+	  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+	  		    					  </tr>');
+	  		    }	
+	             	_ajaxloaderOption('option_controller/purchase_inventory','POST',{id:response.info.fund_no},'purchase_inventory');
+	             	 $(document).on('change','select[name=item]',function(e){
+	             	 	e.preventDefault();
+	             	 	let type = $('select[name=item] option:selected').attr('data-type');
+	             	 	_ajaxloaderOption('option_controller/supplier_list','POST',{id:$(this).val(),type:type},'supplier_list');
+	             	 });
+	             	 _ajaxloaderOption('option_controller/other_material_p_transaction','POST',{id:response.info.fund_no},'other_material_p_transaction');
+				
+				$('[data-toggle="tooltip"]').tooltip();
+				_initCurrency_format('.amount');
+				KTBootstrapDatepicker.init();
+				$(".datepicker").css('width', '360px'); 
+				$('#processModal').modal('show');
 	  		}
 	  		break;
 	  	}

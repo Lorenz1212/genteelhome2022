@@ -284,7 +284,6 @@ class Update_controller extends CI_Controller
 
      //ACCOUNTING
      public function Update_Accounting_Purchase_Request(){
-
          $id = $this->input->post('id');
          $cash = floatval(str_replace(',', '', $this->input->post('cash_fund')));
          $action =$this->input->post('action');
@@ -292,14 +291,26 @@ class Update_controller extends CI_Controller
          echo json_encode($data); 
      }
      public function Update_Accounting_Purchase_Received(){
-
          $fund_no = $this->input->post('id');
          $change  = floatval(str_replace(',', '', $this->input->post('actual_change')));
          $refund  = floatval(str_replace(',', '', $this->input->post('refund')));
          $data  = $this->update_model->Update_Accounting_Purchase_Received($fund_no,$change,$refund);
          echo json_encode($data); 
      }
-
+     public function Update_Accounting_Purchase_Inventory_Request(){
+         $id = $this->input->post('id');
+         $cash = floatval(str_replace(',', '', $this->input->post('cash_fund')));
+         $action =$this->input->post('action');
+         $data = $this->update_model->Update_Accounting_Purchase_Inventory_Request($id,$cash,$action);
+         echo json_encode($data); 
+     }
+     public function Update_Accounting_Purchase_Inventory_Received(){
+         $fund_no = $this->input->post('id');
+         $change  = floatval(str_replace(',', '', $this->input->post('actual_change')));
+         $refund  = floatval(str_replace(',', '', $this->input->post('refund')));
+         $data  = $this->update_model->Update_Accounting_Purchase_Inventory_Received($fund_no,$change,$refund);
+         echo json_encode($data); 
+     }
 
      //Web Modifier
     public function Update_Web_Banner(){
@@ -733,7 +744,24 @@ class Update_controller extends CI_Controller
         $data = $this->update_model->Update_Purchase_Complete($fund_no,$joborder,$type);
         echo json_encode($data);
      }
-
+     public function Update_Purchased_Other_Transaction(){
+        $fund_no = $this->input->post('fund_no');
+        $item = $this->input->post('item');
+        $supplier = $this->input->post('supplier');
+        $terms = $this->input->post('terms');
+        $quantity = $this->input->post('quantity');
+        $type = $this->input->post('type');
+        $amount = floatval(str_replace(',', '', $this->input->post('amount_process')));
+        $terms_start  = isset($_POST["terms_start"]) ? date('Y-m-d',strtotime($this->input->post('terms_start'))): false;
+        $terms_end  = isset($_POST["terms_end"]) ? date('Y-m-d',strtotime($this->input->post('terms_end'))): false;
+        $data = $this->update_model->Update_Purchased_Other_Transaction($fund_no,$item,$supplier,$terms,$quantity,$amount,$terms_start,$terms_end,$type);
+        echo json_encode($data);
+     }
+     public function Update_Purchase_Other_Complete(){
+        $fund_no = $this->input->post('fund_no');
+        $data = $this->update_model->Update_Purchase_Other_Complete($fund_no);
+        echo json_encode($data);
+     }
      public function Update_Sales_Delivery_Receipt_Superuser(){
         $id = $this->input->post('id');
         $status = $this->input->post('status');
@@ -753,6 +781,12 @@ class Update_controller extends CI_Controller
         $status = $this->input->post('status');
         $remarks = $this->input->post('remarks')??" ";
         $data = $this->update_model->Update_Salesorder_Project_Accounting($id,$status,$remarks);
+        echo json_encode($data);
+     }
+     public function Update_Cashposition_Category(){
+        $id = $this->input->post('id');
+        $name = $this->input->post('name');
+        $data = $this->update_model->Update_Cashposition_Category($id,$name);
         echo json_encode($data);
      }
 

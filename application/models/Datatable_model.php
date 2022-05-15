@@ -281,21 +281,15 @@ class Datatable_model extends CI_Model{
          return $json_data;     
      }
       function RawMaterial_New_DataTable(){
-         $query = $this->db->select('*,m.item as item,
-            DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created,
-            CONCAT(u.fname, " ",u.lname) AS receiver')
-         ->from('tbl_purchasing_received as n')
-         ->join('tbl_materials as m','m.id=n.item_no','LEFT')
-         ->join('tbl_administrator as u','u.id=n.purchaser','LEFT')
-         ->order_by('n.date_created','DESC')->get();
+         $query = $this->db->select('*,m.item,
+            DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created')->from('tbl_material_new as n')->join('tbl_materials as m','m.id=n.item_no','LEFT')->order_by('n.date_created','DESC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
              ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
                $data[] = array(
-                      'receiver'     => $row->receiver,
                       'no'           => $row->item_no,
                       'item'         => $row->item.$unit,
-                      'stocks'       => $row->stocks,
+                      'stocks'       => $row->qty,
                       'date_created' => $row->date_created);
             }      
          }else{   
@@ -304,6 +298,24 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;     
      }
+     function RawMaterial_Release_DataTable(){
+         $query = $this->db->select('*,m.item,DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created')->from('tbl_material_release as n')->join('tbl_materials as m','m.id=n.item_no','LEFT')->order_by('n.date_created','DESC')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+           foreach($query->result() as $row){
+             ($row->unit)?$unit = ' '.$row->unit.'(s)':$unit = "";
+               $data[] = array(
+                      'no'           => $row->item_no,
+                      'item'         => $row->item.$unit,
+                      'stocks'       => $row->quantity,
+                      'date_created' => $row->date_created);
+            }      
+         }else{   
+             $data =false;   
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;     
+     }
+
      function RawMat_Production_Stocks_DataTable(){
          $query = $this->db->select('*')->from('tbl_materials')->order_by('id','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
@@ -381,26 +393,40 @@ class Datatable_model extends CI_Model{
          return $json_data;
 
      }
-      function SpareParts_newstocks_DataTable(){
-         $query = $this->db->select('*,DATE_FORMAT(n.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS receiver')->from('tbl_other_material_p_received as n')->join('tbl_materials as m','m.id=n.item_no','LEFT')->join('tbl_administrator as u','u.id=n.created_by','LEFT')->where('n.type',1)
-         ->order_by('n.date_created','DESC')->get();
-          $data=array();
-        if($query !== FALSE && $query->num_rows() > 0){
+    function SpareParts_newstocks_DataTable(){
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_other_material_p_received')->where('type =',3)->order_by('id','DESC')->get();
+        $data=array();
+       if($query !== FALSE && $query->num_rows() > 0){
             $i=1;
            foreach($query->result() as $row){
-                $data[] = array(
+                   $data[] = array(
                       'no'           => $i,
-                      'receiver'     => $row->receiver,
                       'item'         => $row->item,
                       'stocks'       => $row->quantity,
                       'date_created' => $row->date_created);
-                $i++;
+                   $i++;
             }      
          }
-         $json_data  = array("data" =>$data); 
+         $json_data  = array("data" =>$data);
          return $json_data;
      }
-   
+     function SpareParts_release_DataTable(){
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_other_material_m_received')->where('type =',3)->order_by('id','DESC')->get();
+        $data=array();
+       if($query !== FALSE && $query->num_rows() > 0){
+            $i=1;
+           foreach($query->result() as $row){
+                   $data[] = array(
+                      'no'           => $i,
+                      'item'         => $row->item,
+                      'stocks'       => $row->quantity,
+                      'date_created' => $row->date_created);
+                   $i++;
+            }      
+         }
+         $json_data  = array("data" =>$data);
+         return $json_data;
+     }
      function OfficeSupplies_Stocks_DataTable(){
         $query = $this->db->select('*')->from('tbl_other_materials')->where('type',2)->order_by('id','DESC')->get();
         $data=array();
@@ -441,6 +467,41 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data);
          return $json_data;
      }
+     function OfficeSupplies_newstocks_DataTable(){
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_other_material_p_received')->where('type =',2)->order_by('id','DESC')->get();
+        $data=array();
+       if($query !== FALSE && $query->num_rows() > 0){
+            $i=1;
+           foreach($query->result() as $row){
+                   $data[] = array(
+                      'no'           => $i,
+                      'item'         => $row->item,
+                      'stocks'       => $row->quantity,
+                      'date_created' => $row->date_created);
+                   $i++;
+            }      
+         }
+         $json_data  = array("data" =>$data);
+         return $json_data;
+     }
+     function OfficeSupplies_release_DataTable(){
+        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_other_material_m_received')->where('type =',2)->order_by('id','DESC')->get();
+        $data=array();
+       if($query !== FALSE && $query->num_rows() > 0){
+            $i=1;
+           foreach($query->result() as $row){
+                   $data[] = array(
+                      'no'           => $i,
+                      'item'         => $row->item,
+                      'stocks'       => $row->quantity,
+                      'date_created' => $row->date_created);
+                   $i++;
+            }      
+         }
+         $json_data  = array("data" =>$data);
+         return $json_data;
+     }
+
      function Purchase_Material_Stocks_Request_DataTable(){
            $query = $this->db->select('d.*,c.*,p.*,
             CONCAT(u.fname, " ",u.lname) AS requestor,
@@ -2681,8 +2742,8 @@ class Datatable_model extends CI_Model{
      }
       function Account_Report_Collection_Yearly($year){
             $data =false;  $total_gross =0;$total_vat = 0;$total_amount = 0;
-           if($year == false){$date = "YEAR(date_deposite)<=".date('Y')."";}else{$date = "YEAR(date_deposite)<=".$year."";}   
-            $query = $this->db->select('*,sum(amount) as amount,DATE_FORMAT(date_deposite, "%Y") as date_created, 
+           if($year == false){$date = "YEAR(date_collect)<=".date('Y')."";}else{$date = "YEAR(date_collect)<=".$year."";}   
+            $query = $this->db->select('*,sum(amount) as amount,DATE_FORMAT(date_collect, "%Y") as date_created, 
                 sum(amount) as amount,
                 (SELECT SUM(amount) FROM tbl_sales_collection WHERE '.$date.') as total_amount')->from('tbl_sales_collection')->where($date)->group_by('YEAR(date_collect)')->order_by('YEAR(date_collect)','DESC')->get();
              if($query !== FALSE && $query->num_rows() > 0){
@@ -4549,6 +4610,136 @@ class Datatable_model extends CI_Model{
         $json_data  = array("data" =>$data); 
         return $json_data;
     }
+
+    function Other_purchase_inventory_Request(){
+        $data =array();
+        $query = $this->db->select('*,o.id,DATE_FORMAT(o.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_other_material_p_header as o')
+        ->join('tbl_administrator as u','u.id=o.purchaser','LEFT')
+        ->where('o.status','PENDING')->order_by('o.date_created','DESC')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row){
+                $status = '<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">REQUEST</span></span>';
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'""><i class="flaticon2-pen"></i></button>';
+                $data[] = array('trans_no'=>$row->request_no,
+                              'requestor'=>$row->requestor,
+                              'date_created'=>$row->date_created,
+                              'status'=>$status,
+                              'action'=>$action);
+            }
+        }
+        $json_data  = array("data" =>$data); 
+        return $json_data;
+    }
+    function Other_purchase_inventory_Inprogress(){
+        $data =array();
+        $query = $this->db->select('*,o.id,o.status,DATE_FORMAT(o.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_other_material_p_header as o')
+        ->join('tbl_administrator as u','u.id=o.purchaser','LEFT')
+        ->where_in('o.status',['APPROVED','COMPLETED'])->order_by('o.date_created','DESC')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row){
+                if($row->status=='APPROVED'){$status ='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';
+                }else if($row->status == 'COMPLETED'){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Complete</span></span>';}
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" id="view-inprogress" data-id="'.$this->encryption->encrypt($row->id).'""><i class="flaticon2-pen"></i></button>';
+                $trans_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->request_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
+                $data[] = array('trans_no'=>$trans_no,
+                              'requestor'=>$row->requestor,
+                              'date_created'=>$row->date_created,
+                              'status'=>$status,
+                              'action'=>$action);
+            }
+        }
+        $json_data  = array("data" =>$data); 
+        return $json_data;
+    }
+    function Purchase_Material_Inventory_Complete_DataTable(){
+            $query =  $this->db->select('mp.*,mp.item ,s.name,mp.amount,DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(mp.terms_start, "%M %d %Y") as terms_start,DATE_FORMAT(mp.terms_end, "%M %d %Y") as terms_end')
+            ->from('tbl_other_material_p_received as mp')
+            ->join('tbl_supplier as s','s.id=mp.supplier','LEFT')
+            ->where('mp.created_by',$this->user_id)
+            ->order_by('mp.date_created','DESC')->get(); 
+          if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row)  { 
+                if($row->payment==1){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Cash</span></span>';
+                }else if($row->payment == 2){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Terms</span></span>
+                    <span class="font-weight-bold d-block">From: '.$row->terms_start.'</span>
+                    <span class="font-weight-bold">To: '.$row->terms_end.'</span>';}
+                     $data[] = array(
+                          'trans_no'      => $row->fund_no,
+                          'item'          => $row->item,
+                          'quantity'      => $row->quantity,
+                          'amount'        => number_format($row->amount,2),
+                          'supplier'      => $row->name,
+                          'terms'         => $terms,
+                          'date_created'  => $row->date_created);
+            }      
+         }else{   
+             $data =false;   
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;    
+    }
+
+    function Other_purchase_inventory_Request_Accounting(){
+        $data =array();
+        $query = $this->db->select('*,o.id,o.status,DATE_FORMAT(o.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_other_material_p_header as o')
+        ->join('tbl_administrator as u','u.id=o.purchaser','LEFT')
+        ->where_in('o.status',['PENDING','APPROVED','COMPLETED'])->order_by('o.date_created')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row){
+                if($row->status=='PENDING'){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';
+                }else if($row->status == 'APPROVED'){$status ='<span style="width: 112px;"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Approved</span></span>';}else if($row->status == 'COMPLETED'){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Complete</span></span>';}
+               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-toggle="modal" id="view-request-form" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+               $trans_no = $row->request_no;
+               if($row->fund_no){
+                 $trans_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->request_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
+               }
+                $data[] = array('trans_no'=>$trans_no,
+                              'requestor'=>$row->requestor,
+                              'date_created'=>$row->date_created,
+                              'status'=>$status,
+                              'action'=>$action);
+            }
+        }
+        $json_data  = array("data" =>$data); 
+        return $json_data;
+    }
+    function Other_purchase_inventory_received_Accounting(){
+        $data =array();
+        $query = $this->db->select('*,o.id,o.status,DATE_FORMAT(o.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_other_material_p_header as o')
+        ->join('tbl_administrator as u','u.id=o.purchaser','LEFT')
+        ->where_in('o.a_status',['APPROVED','COMPLETED'])->order_by('o.date_created')->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row){
+                if($row->a_status=='APPROVED'){$status ='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Pending</span></span>';
+                }else if($row->a_status == 'COMPLETED'){$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Complete</span></span>';}
+
+                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" id="view-received-form" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-pen"></i></button>';
+                $trans_no = '<span class="text-dark-75 font-weight-bolder d-block font-size-lg">'.$row->request_no.'</span><span class="text-primary font-weight-bold">'.$row->fund_no.'</span>';
+                $data[] = array('trans_no'=>$trans_no,
+                                'requestor'=>$row->requestor,
+                                'date_created'=>$row->date_created,
+                                'status'=>$status,
+                                 'action'=>$action);
+            }
+        }
+        $json_data  = array("data" =>$data); 
+        return $json_data;
+    }
+    function Cashpostion_Category_Accounting(){
+        $data = false;
+        $query = $this->db->select('*')->from('tbl_category_income')->where('status',0)->order_by('id','DESC')->get();
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" id="view-update-form" data-name="'.$row->name.'" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-pen"></i></button>';
+                $data[] = array('name'=>$row->name,
+                                'action'=>$action);
+             }
+         }
+        $json_data  = array("data" =>$data); 
+        return $json_data;
+    }
+
+
     
 }
 ?>

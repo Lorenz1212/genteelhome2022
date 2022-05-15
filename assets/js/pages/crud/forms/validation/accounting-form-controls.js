@@ -1,11 +1,7 @@
 'use strict';
 // Class definition
 var KTFormControls = function () {
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const url_Params_Status = urlParams.get('urlstatus');
 	var validation;var form;var url;var thisURL;var val;
-	var idArr = [];var idArrs = [];var idItemArr = [];var keys = [];var myData = {};
 	var id;var production_no;var status;var item;var quantity;var remarks;var status;
 	var supplier;var payment;var received;var balance;var amount;var warehouse_status;
 	var unit;var designer;var production;var supervisor;var superuser;var admin;var role;
@@ -33,67 +29,6 @@ var KTFormControls = function () {
 	}
 	var _initToast = function(type,message){
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
-	}
-	var _initgetvaluetable = function(){
-
-			 $("table thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("table tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-				 item = myData.items;
-				 quantity = myData.qty;
-				 unit = myData.unit; 	 	
-				 remarks = myData.remarks;
-	}
-	var _initgetvaluetable2 = function(){
-			 $("#myTable thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("#myTable tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-				 item = myData.items;
-				 status = myData.status;
-				 supplier = myData.supplier;
-				 payment  = myData.payment;
-				 received = myData.received;
-				 amount = myData.amount;
-	}
-	var _initgetvaluetable3 = function(){
-
-			 $("table thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("table tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-			      no = myData.no;
-				 item = myData.items;
-				 quantity = myData.qty; 	
-				 unit = myData.unit;
-	}
-	var _initgetvalueArray = function(){
-		     $("input[name='id[]']").each(function(){
-		            idArr.push($(this).val());
-
-		     });
-		     $('.supplier_in option:selected').each(function(){
-		            idArrs.push($(this).val());
-		     });
 	}
 	var _ajaxForm = async function(thisURL,type,val,view,url){
 		$.ajax({
@@ -478,6 +413,77 @@ var KTFormControls = function () {
 	                                            formData.append('id',$('.cash_fund_r').text());
                                                  thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Received';
 									  _ajaxForm(thisURL,"POST",formData,"Update_Accounting_Purchase_Project_Received",false);
+						          	}
+					     		});
+					   	 }
+				   	 	});
+		 			});	    
+	 			break;
+	 		   }
+	 		 case "Update_Purchase_Inventory_Request":{
+	 		   		form = document.getElementById('Update_Accounting_Purchase_Request_Inventory');
+				         validation = FormValidation.formValidation(
+							form,{
+								fields: {
+									cash_fund: {validators: {notEmpty: {message: 'Cash Fund is required'}}}
+								},
+								plugins: {
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					    );
+					    $(document).on('click','.btn-request-submit',function(e){
+		 				e.preventDefault();
+		 				let action = $(this).attr('data-status');
+		 				validation.validate().then(function(status) {
+					     if (status == 'Valid') {
+				     		 Swal.fire({
+							        title: "Are you sure?",
+							        text: "You won't be able to revert this",
+							        icon: "warning",
+							        confirmButtonText: "Submit!",
+							        showCancelButton: true
+							    }).then(function(result) {
+							        if (result.value) {
+	                                           let formData = new FormData(form);
+	                                            formData.append('id',$('.cash_fund').text());
+	                                            formData.append('action',action);
+                                                 thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Inventory_Request';
+									  _ajaxForm(thisURL,"POST",formData,"Update_Accounting_Purchase_Inventory_Request",false);
+						          	}
+					     		});
+					   	 }
+				   	 	});
+		 			});	
+					var form_received = document.getElementById('Update_Accounting_Purchase_Request_Received');
+				     var validation_received = FormValidation.formValidation(
+							form_received,{
+								fields: {
+									actual_change: {validators: {notEmpty: {message: 'Change is required'}}}
+								},
+								plugins: {
+								trigger: new FormValidation.plugins.Trigger(),
+								bootstrap: new FormValidation.plugins.Bootstrap()
+							}
+						   }
+					    );
+					    $(document).on('click','.btn-received-submit',function(e){
+		 				e.preventDefault();
+		 				validation_received.validate().then(function(status) {
+					     if (status == 'Valid') {
+				     		 Swal.fire({
+							        title: "Are you sure?",
+							        text: "You won't be able to revert this",
+							        icon: "warning",
+							        confirmButtonText: "Submit!",
+							        showCancelButton: true
+							    }).then(function(result) {
+							        if (result.value) {
+	                                           let formData = new FormData(form_received);
+	                                            formData.append('id',$('.cf_no').text());
+                                                 thisURL = baseURL + 'update_controller/Update_Accounting_Purchase_Inventory_Received';
+									  _ajaxForm(thisURL,"POST",formData,"Update_Accounting_Purchase_Inventory_Received",false);
 						          	}
 					     		});
 					   	 }
@@ -1211,6 +1217,21 @@ var KTFormControls = function () {
 	 			}
 	 			_initnotificationupdate();
 				break;
+	 		}
+	 		case "Update_Accounting_Purchase_Inventory_Received":
+	 		case "Update_Accounting_Purchase_Inventory_Request":{
+	 			if(response.type == 'success'){
+	 				_initToast(response.type,response.message);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_other_purchase_invetory');
+					if(response.type == 'success'){
+						$('#view-purchased-request').modal('hide');
+						$('#view-purchased-received').modal('hide');
+					}
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong! ("+response.message+")", response.type);
+	 			}
+	 			_initnotificationupdate();
+	 			break;
 	 		}
 	 		case "Create_Request_Material":
             	case "Create_Salesorder_Stocks":

@@ -1,11 +1,11 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-purchased-material-project-request">
-	<div class="form" data-link="Update_Purchase_Material_Project_Request">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-purchased-inventory-request">
+	<div class="form" data-link="Update_Purchase_Inventory_Request">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Purchase Request For Project</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Purchase Material For Inventory</h2>
 				</div>
 			</div>
 		</div>
@@ -22,27 +22,26 @@
 			                    <a class="nav-link active" data-toggle="tab" href="#request">
 			                        <span class="nav-icon"><i class="flaticon-exclamation-1"></i></span>
 			                        <span class="nav-text mr-2">Request</span>
-			                        <span class="label label-rounded label-warning purchase_project_pending">0</span>
+			                        <span class="label label-rounded label-warning purchase_stocks_pending">0</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#delivered">
 			                        <span class="nav-icon"><i class="flaticon-truck"></i></span>
 			                        <span class="nav-text mr-2">Delivered</span>
-			                        <span class="label label-rounded label-success purchase_project_received">0</span>
+			                        <span class="label label-rounded label-success purchase_stocks_received">0</span>
 			                    </a>
 			                </li>
 			            </ul>
 			        </div>
 			    </div>
 			    <div class="card-body">
-			        <div class="tab-content link" data-link="tbl_purchased_material_project">
+			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
-			                <table class="table table-bordered table-hover table-checkable " id="tbl_purchased_request"  style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover table-sm " id="tbl_request">
 								<thead>
 									<tr>
-										<th>NO</th>
-										<th>TITLE</th>
+										<th>Trans #</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
 										<th>STATUS</th>
@@ -52,11 +51,10 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="delivered">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_purchased_received" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover table-sm" id="tbl_received">
 								<thead>
 									<tr>
-										<th>NO</th>
-										<th>TITLE</th>
+										<th>Trans #</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
 										<th>STATUS</th>
@@ -103,20 +101,12 @@
 											<span class="font-weight-bold text-primary cash_fund"></span>
 										</div>
 										<div class="d-flex justify-content-between align-items-center">
-											<span class="text-dark-75 font-weight-bolder mr-2">Job Order # :</span>
-											<span class="font-weight-bold text-primary joborder"></span>
-										</div>
-										<div class="d-flex justify-content-between align-items-center">
 											<span class="text-dark-75 font-weight-bolder mr-2">Purchaser :</span>
 											<span class="font-weight-bold text-primary requestor"></span>
 										</div>
 										<div class="d-flex justify-content-between align-items-center">
 											<span class="text-dark-75 font-weight-bolder mr-2">Date Request :</span>
 											<span class="font-weight-bold text-primary date_created"></span>
-										</div>
-										<div class="d-flex justify-content-between align-items-center">
-											<span class="text-dark-75 font-weight-bolder mr-2">Title :</span>
-											<span class="font-weight-bold text-primary title"></span>
 										</div>
 									</div>
       		  					</div>	
@@ -169,7 +159,7 @@
 							</div>
 								<div class="row pt-3 purchase-button">
 	      		  					<div class="col-xl-12 col-md-12">
-	      		  						<form id="Update_Accounting_Purchase_Request_Stocks">
+	      		  						<form id="Update_Accounting_Purchase_Request_Inventory">
 											 <div class="form-group text-center">
 											    <label class="font-weight-bold">Cash Fund</label>
 											    <input type="text" class="form-control form-control-solid text-center amount" name="cash_fund"  placeholder="0.00" />
@@ -217,8 +207,8 @@
 											<span class="font-weight-bold text-primary cash_fund_r"></span>
 										</div>
 										<div class="d-flex justify-content-between align-items-center">
-											<span class="text-dark-75 font-weight-bolder mr-2">Job Order # :</span>
-											<span class="font-weight-bold text-primary joborder_r"></span>
+											<span class="text-dark-75 font-weight-bolder mr-2">CF # :</span>
+											<span class="font-weight-bold text-primary cf_no"></span>
 										</div>
 										<div class="d-flex justify-content-between align-items-center">
 											<span class="text-dark-75 font-weight-bolder mr-2">Purchaser :</span>
@@ -227,10 +217,6 @@
 										<div class="d-flex justify-content-between align-items-center">
 											<span class="text-dark-75 font-weight-bolder mr-2">Date Request :</span>
 											<span class="font-weight-bold text-primary date_created_r"></span>
-										</div>
-										<div class="d-flex justify-content-between align-items-center">
-											<span class="text-dark-75 font-weight-bolder mr-2">Title :</span>
-											<span class="font-weight-bold text-primary title_r"></span>
 										</div>
 									</div>
       		  					</div>	
@@ -287,6 +273,7 @@
 								</div>
 								</form>
 							</div>
+							
 							<div class="row purchased-received-input">
       		  					<div class="col-xl-12 col-md-12">
 									<button type="button" class="btn btn btn-outline-success btn-lg btn-block btn-received-submit">Submit</button>
@@ -295,24 +282,24 @@
 							<div class="row pt-2">
 								<div class="col-xl-12 col-md-12">
 									<div class="mb-7">
-										<div class="d-flex justify-content-between align-items-center">
+										<div class="d-flex justify-content-between align-items-center purchased-received-hide">
 											<span class="text-dark-75 font-weight-bolder mr-2">Cash Fund :</span>
 											<span class="font-weight-bold text-primary total_petty"></span>
 										</div>
-										<div class="d-flex justify-content-between align-items-center">
+										<div class="d-flex justify-content-between align-items-center purchased-received-hide">
 											<span class="text-dark-75 font-weight-bolder mr-2">Actual Change :</span>
 											<span class="font-weight-bold text-primary actual_change"></span>
 										</div>
-										<div class="d-flex justify-content-between align-items-center">
+										<div class="d-flex justify-content-between align-items-center purchased-received-hide">
 											<span class="text-dark-75 font-weight-bolder mr-2">Refund :</span>
 											<span class="font-weight-bold text-primary total_refund"></span>
 										</div>
 									</div>
 								</div>
 							</div>
-							
       		  			</div>
       		  		</div>
 	            </div>
 	        </div>
 	    </div>
+

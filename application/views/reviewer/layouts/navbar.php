@@ -134,27 +134,6 @@
 													</ul>
 												</div>
 											</li>
-											<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Purchase For Stocks</span>
-													<span class="menu-desc"></span>
-													<i class="menu-arrow"></i>
-												</a>
-												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/superuser/purchase-stocks";?>" class="menu-link">
-																<span class="menu-text">List of Stocks Request</span>
-															</a>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/superuser/purchase-stocks-create";?>" class="menu-link">
-																<span class="menu-text">Create Purchase Request</span>
-															</a>
-														</li>
-													</ul>
-												</div>
-											</li> -->
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 												<a href="<?php echo base_url()."gh/superuser/delivery-receipt-list";?>" class="menu-link">
 														<span class="menu-text">Delivery Receipt</span>
@@ -294,6 +273,32 @@
 															<a  href="<?php echo base_url()."gh/superuser/supplier";?>" class="menu-link">
 																<span class="menu-text">Supplier</span>
 															</a>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="javascript:;" class="menu-link menu-toggle">
+																<span class="menu-text">Purchase for inventory stocks</span>
+																<i class="menu-arrow"></i>
+															</a>
+															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+																<ul class="menu-subnav">
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/superuser/purchase-inventory-list";?>" class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">LIST</span>
+																		</a>
+																	</li>
+																	<li class="menu-item" aria-haspopup="true">
+																		<a href="<?php echo base_url()."gh/superuser/purchase-inventory-create";?>" class="menu-link">
+																			<i class="menu-bullet menu-bullet-dot">
+																				<span></span>
+																			</i>
+																			<span class="menu-text">CREATE</span>
+																		</a>
+																	</li>
+																</ul>
+															</div>
 														</li>
 													</ul>
 												</div>

@@ -390,8 +390,14 @@ class Option_model extends CI_Model
 		 $data = false;
 	     if($query !== FALSE && $query->num_rows() > 0){
 	          foreach($query->result() as $row){
+	          	 if($type == 1){
+	          	 	($row->unit)?$unit = $row->unit.'(s)':$unit = "";
+	          	 	$item = $row->item.' '.$unit;
+	          	 }else{
+	          	 	$item = $row->item;
+	          	 }
 	             $data[] = array('id'=> $row->id,
-	             				 'name'=> $row->item);
+	             				 'name'=> $item);
 	           }  
 	    }
 		return $data;
@@ -441,9 +447,20 @@ class Option_model extends CI_Model
            }
            return $data;   
 	}
-	function supplier_list($id){
+	function purchase_inventory($id){
 		$data = false;
-		 $query =  $this->db->select('*,s.id')->from('tbl_supplier as s')->join('tbl_supplier_item as m','s.id=m.supplier','LEFT')->where('m.item_no',$id)->group_by('m.supplier')->get();
+		$row = $this->db->select('*')->from('tbl_other_material_p_header')->where('fund_no',$id)->get()->row();
+        $query =  $this->db->select('*')->from('tbl_other_material_p_request')->where('pr_id',$row->id)->get();
+           if($query){  
+               foreach($query->result() as $row){
+	                $data[] = array('id'=> $row->item_no,'item'=> $row->item.' - '.$row->balance,'type'=>$row->type);
+               } 
+           }
+           return $data;   
+	}
+	function supplier_list($id,$type){
+		$data = false;
+		 $query =  $this->db->select('*,s.id')->from('tbl_supplier as s')->join('tbl_supplier_item as m','s.id=m.supplier','LEFT')->where('m.item_no',$id)->where('m.type',$type)->group_by('m.supplier')->get();
 	       if($query){
 	       	 foreach($query->result() as $row){
 	             $data[] = array('id'=> $row->id,'name'=> $row->name);
@@ -466,6 +483,22 @@ class Option_model extends CI_Model
                                      'amount'=>number_format($row->amount,2));
                } 
            }
+        return $data;
+	}
+	function other_material_p_transaction($id){
+		$data = false;
+          $query = $this->db->select('*,s.name,t.payment,t.quantity,t.id')->from('tbl_other_material_p_transaction as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->where('t.fund_no',$id)->order_by('t.latest_update','DESC')->get();
+        if($query){
+             foreach($query->result() as $row){
+                 ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
+                     $data[] = array('id'=>$row->id,
+                                     'item'=> $row->item,
+                                     'supplier'=>$row->name,
+                                     'payment'=>$terms,
+                                     'quantity'=>$row->quantity,
+                                     'amount'=>number_format($row->amount,2));
+               } 
+        }
         return $data;
 	}
 }

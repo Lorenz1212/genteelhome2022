@@ -100,8 +100,8 @@
 										     <div class="input-group-append">
 										     	<span class="input-group-text" id="year_alert">YEAR</span></div>
 										     <select class="form-control" name="year" style="width:10%;"></select>
-										     <div class="input-group-append">
-										     	<button type="button" class="btn btn-success" id="search_collection" data-action="daily">SEARCH</button></div>
+										     <div class="input-group-append ml-2">
+										     	<button type="button" class="btn btn-success" id="search_collection" data-action="daily"><i class="la la-search"></i> SEARCH</button></div>
 										     <!-- <div class="input-group-append">
 										     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">EXPORT</button>
 										     <div class="dropdown-menu">

@@ -253,12 +253,23 @@ class Option_Controller extends CI_Controller
     }
     public function supplier_list(){
         $id = $this->input->post('id');
-        $data = $this->option_model->supplier_list($id);
+        $type = $this->input->post('type');
+        $data = $this->option_model->supplier_list($id,$type);
         echo json_encode($data);
     }
     public function purchase_transaction(){
         $id = $this->input->post('id');
         $data = $this->option_model->purchase_transaction($id);
+        echo json_encode($data);
+    }
+    public function purchase_inventory(){
+        $id = $this->input->post('id');
+        $data = $this->option_model->purchase_inventory($id);
+        echo json_encode($data);
+    }
+    public function other_material_p_transaction(){
+        $id = $this->input->post('id');
+        $data = $this->option_model->other_material_p_transaction($id);
         echo json_encode($data);
     }
 }

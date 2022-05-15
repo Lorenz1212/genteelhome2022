@@ -142,19 +142,19 @@
         <div class="modal-content bg-dark">
             <div class="modal-body">
             	<form id="Create_Supplier_Item">
+            			<div class="form-group">
+						    <label class="text-white">Type</label>
+						    <select class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" name="type"/>
+							     <option value="1">Raw Materials</option>
+							     <option value="2">Office & Janitorial Supplies</option>
+							     <option value="3">Spare Parts</option>
+							  </select>
+					   </div>
         			   <div class="form-group">
 						    <label class="text-white">Material</label>
-						    <select class="form-control form-control-lg" name="item_add">
-						    	<?php 
-									$query = $this->db->select('*')->from('tbl_materials')->order_by('id','ASC')->get();
-									    if(!$query){return false;}else{ 
-									        foreach($query->result() as $row){  
-									        	if(!$row->unit){$unit = "";}else{$unit = $row->unit.'(s)';}
-									        	echo '<option value="'.$row->id.'">'.$row->item.' - '.$unit.'</option>'; 
-									        }  
-									    }
-								?>
-						    </select>
+						    <select class="form-control form-control-lg"  id="item" name="item_add"/>
+						     <option value="">Select Item</option>
+						  </select>
 					   </div>
 						   <div class="form-group">
 							    <label class="text-white">Amount</label>

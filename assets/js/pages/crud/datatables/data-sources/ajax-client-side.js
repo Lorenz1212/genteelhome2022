@@ -57,26 +57,6 @@ var _DataTableLoader = async function(link,TableURL,TableData,url_link){
 				_DataTableLoader('tbl_design_project_rejected',TableURL2,TableData2,false);
 				break;
 			}
-			case "tbl_rawmaterials_add":{
-				TableURL = baseURL + 'datatable_controller/RawMaterial_DataTable';
-				TableData = [{data:'no'},{data: 'item'},{data:'price'},{data: 'date_created'},{data: 'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,false);
-				break;
-			}
-			case "tbl_rawmats":{
-				TableURL = baseURL + 'datatable_controller/RawMaterial_Stocks_DataTable';
-				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-				_DataTableLoader('tbl_rawmats',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/RawMaterial_OutStocks_DataTable';
-				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-				_DataTableLoader('tbl_rawmats_outofstocks',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/RawMaterial_New_DataTable';
-				let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
-				_DataTableLoader('tbl_rawmats_new',TableURL2,TableData2,false);
-				break;
-			}
 			case "tbl_joborder_stocks":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Stocks_Request_DataTable';
 				TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
@@ -196,7 +176,12 @@ var _DataTableLoader = async function(link,TableURL,TableData,url_link){
 				_DataTableLoader('tbl_material_request_complete',TableURL3,TableData3,false);
 				break;
 			}
-
+			case "tbl_rawmaterials_add":{
+				TableURL = baseURL + 'datatable_controller/RawMaterial_DataTable';
+				TableData = [{data:'no'},{data: 'item'},{data:'price'},{data: 'date_created'},{data: 'action'}]; 
+				_DataTableLoader(view,TableURL,TableData,false);
+				break;
+			}
 			case "tbl_rawmats":{
 				TableURL = baseURL + 'datatable_controller/RawMaterial_Stocks_DataTable';
 				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data:'action',orderable:false,width:20,className:"text-center"}];
@@ -209,6 +194,10 @@ var _DataTableLoader = async function(link,TableURL,TableData,url_link){
 				let TableURL2 = baseURL + 'datatable_controller/RawMaterial_New_DataTable';
 				let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
 				_DataTableLoader('tbl_rawmats_new',TableURL2,TableData2,false);
+
+				let TableURL3 = baseURL + 'datatable_controller/RawMaterial_Release_DataTable';
+				let TableData3 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
+				_DataTableLoader('tbl_rawmats_release',TableURL3,TableData3,false);
 				break;
 			}
 			case "tbl_officesupplies":{
@@ -223,6 +212,10 @@ var _DataTableLoader = async function(link,TableURL,TableData,url_link){
 				let TableURL2 = baseURL + 'datatable_controller/OfficeSupplies_newstocks_DataTable';
 				let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
 				_DataTableLoader('tbl_officesupplies_new',TableURL2,TableData2,false);
+
+				let TableURL3 = baseURL + 'datatable_controller/OfficeSupplies_release_DataTable';
+				let TableData3 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
+				_DataTableLoader('tbl_officesupplies_release',TableURL3,TableData3,false);
 				break;
 			}
 
@@ -238,6 +231,10 @@ var _DataTableLoader = async function(link,TableURL,TableData,url_link){
 				let TableURL2 = baseURL + 'datatable_controller/SpareParts_newstocks_DataTable';
 				let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
 				_DataTableLoader('tbl_spareparts_new',TableURL2,TableData2,false);
+
+				let TableURL3 = baseURL + 'datatable_controller/SpareParts_release_DataTable';
+				let TableData3 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
+				_DataTableLoader('tbl_spareparts_release',TableURL3,TableData3,false);
 				break;
 			}
 			case "tbl_spareparts_add":{
@@ -566,6 +563,19 @@ var _DataTableLoader = async function(link,TableURL,TableData,url_link){
 				let TableData2 = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_approval_design_project_rejected',TableURL2,TableData2,false);
 				break;
+			}
+			case "tbl_other_purchase_invetory":{
+				TableURL = baseURL + 'datatable_controller/Other_purchase_inventory_Request';
+				TableData = [{data:'trans_no'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_request',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Other_purchase_inventory_Inprogress';
+				let TableData1 = [{data:'trans_no'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_inprogress',TableURL1,TableData1,false);
+
+				let TableURL2 = baseURL + 'datatable_controller/Purchase_Material_Inventory_Complete_DataTable';
+				let TableData2 = [{data:'trans_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'date_created'},{data:'terms'}]; 
+				_DataTableLoader('tbl_complete',TableURL2,TableData2,false);
 			}
 
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

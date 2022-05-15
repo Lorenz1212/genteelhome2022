@@ -105,5 +105,52 @@ class Delete_model extends CI_Model
          return array('status'=>false);
       }
    }
+   function Delete_Purchased_Transaction_Inventory($fund_no,$id){
+      $data_item = false;
+      $data = false;
+      $row_m = $this->db->select('*')->from('tbl_other_material_p_transaction')->where('id',$id)->get()->row();
+      if($row_m){
+         $row_p = $this->db->select('*')->from('tbl_other_material_p_request as t')
+         ->join('tbl_other_material_p_header as o','t.id=o.pr_id','LEFT')
+         ->where('o.fund_no',$fund_no)->where('t.item_no',$row_m->item_no)->where('t.type',$row_m->type)->get()->row();
+         $balanced = $row_p->balance + $row_m->quantity;
+         $this->db->where('id',$row_p->id);
+         $result = $this->db->update('tbl_other_material_p_request',array('balance'=>$balanced));
+         if($result){
+            $this->db->where('id',$id);
+            $result = $this->db->delete('tbl_other_material_p_transaction');
+            if($result){
+
+               $query = $this->db->select('*,s.name,t.item,t.payment,t.quantity,t.id')->from('tbl_other_material_p_transaction as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
+                if($query){
+                     foreach($query->result() as $row){
+                         ($row->payment == 1)?$terms = 'Cash':$terms ='Terms';
+                             $data[] = array('id'=>$row->id,
+                                             'item'=> $row->item,
+                                             'supplier'=>$row->name,
+                                             'payment'=>$terms,
+                                             'quantity'=>$row->quantity,
+                                             'amount'=>number_format($row->amount,2));
+                       } 
+                }
+               $query = $this->db->select('*')->from('tbl_other_material_p_request')->where('pr_id',$row_b->id)->get();
+                if($query){  
+                    foreach($query->result() as $row){
+                           $data_item[] = array('id'=> $row->item_no,'item'=> $row->item.' - '.$row->balance);
+                    } 
+                }
+               
+               return array('type'=>'error','status'=>'Remove Item','row'=>$data,'material'=>$data_item);
+            }else{
+               return array('status'=>false);
+            }
+         }else{
+            return array('status'=>false);
+         }
+         
+      }else{
+         return array('status'=>false);
+      }
+   }
 }
 ?>

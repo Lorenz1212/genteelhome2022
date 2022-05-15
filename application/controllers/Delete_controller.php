@@ -78,5 +78,11 @@ class Delete_controller extends CI_Controller
         $data = $this->delete_model->Delete_Purchased_Transaction($fund_no,$id);
         echo json_encode($data);
     }
+    public function Delete_Purchased_Transaction_Inventory(){
+        $fund_no =  $this->input->post('fund_no');
+        $id =  $this->input->post('id');
+        $data = $this->delete_model->Delete_Purchased_Transaction_Inventory($fund_no,$id);
+        echo json_encode($data);
+    }
 }
 ?>

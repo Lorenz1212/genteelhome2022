@@ -478,6 +478,15 @@ class Create_controller extends CI_Controller
          $data = $this->create_model->Create_Request_Material($item_no,$item,$qty,$type);        
          echo json_encode($data); 
     }
+    public function Create_Request_Purchase(){
+         $type = $this->input->post('type');
+         $item_no = $this->input->post('item_no');
+         $item = $this->input->post('item');
+         $qty = $this->input->post('qty');
+         $amount = $this->input->post('amount');
+         $data = $this->create_model->Create_Request_Purchase($item_no,$item,$qty,$type,$amount);        
+         echo json_encode($data); 
+    }
     public function Create_Request_Pre_Order(){
         $id = $this->input->post('id');
         $data = $this->create_model->Create_Request_Pre_Order($id);        
@@ -522,8 +531,10 @@ class Create_controller extends CI_Controller
     public function Create_Supplier_Item(){
         $id = $this->input->post('id');
         $item = $this->input->post('item');
+        $item_no = $this->input->post('item_no');
+        $type = $this->input->post('type');
         $amount = floatval(str_replace(',', '', $this->input->post('amount')));
-        $data = $this->create_model->Create_Supplier_Item($id,$item,$amount);        
+        $data = $this->create_model->Create_Supplier_Item($id,$item_no,$item,$amount,$type);        
         echo json_encode($data); 
     }
     public function Create_Delivery_Receipt(){
@@ -534,7 +545,11 @@ class Create_controller extends CI_Controller
         $type = $this->input->post('type');
         $data = $this->create_model->Create_Delivery_Receipt($id,$item,$qty,$so_no,$type);        
         echo json_encode($data); 
-
+    }
+    public function Create_Cashposition_Category(){
+        $name = $this->input->post('name');
+        $data = $this->create_model->Create_Cashposition_Category($name);        
+        echo json_encode($data); 
     }
 }
 ?>

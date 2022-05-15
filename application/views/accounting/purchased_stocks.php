@@ -287,7 +287,12 @@
 								</div>
 								</form>
 							</div>
-							<div class="row pt-2 purchased-received-hide">
+							<div class="row purchased-received-input">
+      		  					<div class="col-xl-12 col-md-12">
+									<button type="button" class="btn btn btn-outline-success btn-lg btn-block btn-received-submit">Submit</button>
+								</div>
+							</div>
+							<div class="row pt-2">
 								<div class="col-xl-12 col-md-12">
 									<div class="mb-7">
 										<div class="d-flex justify-content-between align-items-center">
@@ -305,11 +310,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="row purchased-received-input">
-      		  					<div class="col-xl-12 col-md-12">
-									<button type="button" class="btn btn btn-outline-success btn-lg btn-block btn-received-submit">Submit</button>
-								</div>
-							</div>
+							
       		  			</div>
       		  		</div>
 	            </div>

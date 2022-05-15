@@ -1969,7 +1969,92 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
-	 		
+	 		case "Update_Purchase_Request_Inventory":{
+	 			var form = document.getElementById('Update_Purchase_Process');
+			         validation = FormValidation.formValidation(
+						form,
+						{
+							fields: {item: {validators: {notEmpty: {message: 'Item is required'}}},
+								supplier: {validators: {notEmpty: {message: 'Supplier is required'}}},
+								terms: {validators: {notEmpty: {message: 'Payment terms is required'}}},
+								quantity: {validators: {notEmpty: {message: 'quantity is required'}}},
+								amount_process: {validators: {notEmpty: {message: 'amount is required'}}},
+							
+			                },
+							plugins: {
+							trigger: new FormValidation.plugins.Trigger(),
+							bootstrap: new FormValidation.plugins.Bootstrap(),
+						}
+					   }
+					);
+	 			$(document).on('click','.btn-add',function(e){
+				 	e.preventDefault();
+				 	e.stopPropagation();
+				 	validation.validate().then(function(status) {
+					  if (status == 'Valid'){ 
+					  	if($('select[name=terms]').val() == 2){
+					  		$('#view-terms').modal('show');
+					  	}else{
+					  		let type = $('select[name=item] option:selected').attr('data-type');
+					  		let formdata = new FormData(form);
+						 	formdata.append('fund_no',$('.cf_no').attr('data-id'));
+						 	formdata.append('type',type);
+			 				thisURL = baseURL + 'update_controller/Update_Purchased_Other_Transaction';
+			 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchased_Other_Transaction",false);
+					  	}
+
+					   }
+				 	});
+				 });
+	 			$(document).on('click','.btn-submit-terms',function(e){
+				 	e.preventDefault();
+				 	e.stopPropagation();
+				 	validation.validate().then(function(status) {
+					  if (status == 'Valid'){ 
+					  	let type = $('select[name=item] option:selected').attr('data-type');
+				  		let formdata = new FormData(form);
+					 	formdata.append('fund_no',$('.cf_no').attr('data-id'));
+					 	formdata.append('terms_start',$('input[name=start]').val());
+					 	formdata.append('terms_end',$('input[name=end]').val());
+					 	formdata.append('type',type);
+		 				thisURL = baseURL + 'update_controller/Update_Purchased_Other_Transaction';
+		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchased_Other_Transaction",false);
+					   }
+				 	});
+				 });
+	 			$(document).on('click','.btn-delete',function(e){
+	 				e.preventDefault();
+	 				let id = $(this).attr('data-id');
+	 				 Swal.fire({
+				        title: "Are you sure?",
+				        text: "You won't be able to revert this",
+				        icon: "warning",
+				        confirmButtonText: "Submit!",
+				        showCancelButton: true
+				    }).then(function(result) {
+				        if (result.value) {
+	                             let formdata = new FormData();
+	                             formdata.append('fund_no',$('.cf_no').attr('data-id'));
+	                             formdata.append('id',id);
+	                             thisURL = baseURL + 'delete_controller/Delete_Purchased_Transaction';
+						   _ajaxForm(thisURL,"POST",formdata,"Delete_Purchased_Transaction",false);
+			             }
+			   	   });
+	 			});
+	 			$(document).on('click','#btn-save-process',function(e){
+	 				e.preventDefault();
+	 				var rowCount = $('#tbl_purchasing_process tr').length-1;
+	 				if(!rowCount){
+	 					Swal.fire("Warning!", "Please Complete This Form!", "warning");
+	 				}else{
+	 					let formdata = new FormData();
+	 					formdata.append('fund_no',$('.cf_no').attr('data-id'));
+		 				thisURL = baseURL + 'update_controller/Update_Purchase_Other_Complete';
+		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Other_Complete",false);
+	 				}
+	 			});
+	 			break;
+	 		}	
 
 	 		case "Update_Supplier":{
 				var form = document.getElementById('Create_Supplier_Item');
@@ -1978,6 +2063,7 @@ var KTFormControls = function () {
 						{
 							fields: {item_add: {validators: {notEmpty: {message: 'Item is required'}}},
 								amount_add: {validators: {notEmpty: {message: 'Amount is required'}}},
+								type: {validators: {notEmpty: {message: 'Type is required'}}},
 			                },
 							plugins: {
 							trigger: new FormValidation.plugins.Trigger(),
@@ -1996,7 +2082,8 @@ var KTFormControls = function () {
 					     if (status == 'Valid'){ 	
 						 	let fd = new FormData(form);
 		   					fd.append('id',$('.name').attr('data-id'));
-		   					fd.append('item',$('select[name=item_add]').val());
+		   					fd.append('item_no',$('select[name=item_add]').val());
+		   					fd.append('item',$('select[name=item_add] option:selected').text());
 		   					fd.append('amount',$('input[name=amount_add]').val());
 						 	thisURL = baseURL + 'create_controller/Create_Supplier_Item';
 					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Supplier_Item",false);
@@ -3571,6 +3658,27 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
+	 		case "Create_Request_Purchase":{
+	 			$('.Create_Request_Purchase').on('click',function(e){
+	 				e.preventDefault();
+	 				var rowCount = $('#kt_material_table tbody tr').length;
+	 				if(!rowCount){
+	 					_initSwalWarning();
+	 				}else{
+					   	let formData = new FormData();
+					   	for(let i =0;i<rowCount;i++){
+                                  formData.append('item_no[]',Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.getAttribute('data-id')));
+                                  formData.append('item[]',Array.from(document.getElementsByClassName('td-item['+i+']')).map(item => item.textContent));
+                                  formData.append('qty[]',Array.from(document.getElementsByClassName('td-qty['+i+']')).map(item => item.textContent));
+                                  formData.append('amount[]',Array.from(document.getElementsByClassName('td-amount['+i+']')).map(item => item.textContent));
+                                  formData.append('type[]', Array.from(document.getElementsByClassName('td-type['+i+']')).map(item => item.getAttribute('data-type')));
+                             }
+					   	thisURL = baseURL + 'create_controller/Create_Request_Purchase';
+	 					_ajaxForm(thisURL,"POST",formData,"Create_Request_Purchase",false);
+	 				}
+	 			});
+	 			break;
+	 		}
 	 		case "Create_Delivery_Receipt":{
 	 			$('.Create_Delivery_Receipt').on('click',function(e){
 	 				e.preventDefault();
@@ -4491,6 +4599,7 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		
+	 		case "Create_Request_Purchase":
 	 		case "Create_Request_Material":
             	case "Create_Salesorder_Stocks":
 	 		case "Create_Salesorder_Project":{
@@ -5051,6 +5160,75 @@ var KTFormControls = function () {
 					let TableURL4 = baseURL + 'datatable_controller/Purchase_Material_Project_Complete_DataTable';
 					let TableData4 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
 					_DataTableLoader('tbl_purchase_request_complete',TableURL4,TableData4,false);
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+	 			_initnotificationupdate();
+	 		   break;
+	 		}
+	 		case "Delete_Purchased_Other_Transaction":
+	 		case "Update_Purchased_Other_Transaction":{
+	 			console.log(response)
+	 			if(response != false){
+	 				if(response.type == 'info'){
+	 					Swal.fire("Oops!",response.status, response.type);
+	 				}else{
+	 					_initToast(response.type,response.status);
+	 					 $('#item').empty();
+						 $('#item').append('<option value="" disabled selected>SELECT MATERIAL</option>');
+						if(response !=false){
+							for(let i=0;i<response.material.length;i++){
+		                  	  	  $('#item').append('<option value="'+response.material[i].id+'" data-type="'+response.material[i].type+'">'+response.material[i].item+'</option>');
+		                  	  	  $('#item').addClass('selectpicker');
+							  $('#item').attr('data-live-search', 'true');
+							  $('#item').selectpicker('refresh');
+		                  	  }	
+						}else{
+							$('#item').append('<option value="">No Data Available</option>');
+						}
+						$('#supplier').empty();
+
+			 			let container = $('#tbl_purchasing_process > tbody');
+						container.empty();
+						if(response.row != false){
+							for(let i =0;i<response.row.length;i++){
+								container.append('<tr>\
+									<td>'+response.row[i].item+'</td>\
+									<td>'+response.row[i].supplier+'</td>\
+									<td>'+response.row[i].payment+'</td>\
+									<td class="text-center">'+response.row[i].quantity+'</td>\
+									<td class="text-right">'+response.row[i].amount+'</td>\
+									<td class="text-center"><button type="button" class="btn btn-icon btn-light-danger btn-xs btn-delete" data-id="'+response.row[i].id+'"><i class="flaticon2-trash"></i></button></td>\
+								</tr>');
+							}
+							
+						}
+						document.getElementById("Update_Purchase_Process").reset();
+	 				}
+	 				
+	 			}else{
+	 				 Swal.fire("Error!", "Something went wrong!", "error");
+	 			}
+	 			_initnotificationupdate();
+	 			break;
+	 		}
+	 		case "Update_Purchase_Other_Complete":{
+	 			if(response != false){
+	 				_initToast('success',response);
+		 			$('#tbl_purchasing_process > tbody').empty();
+		 			$('#processModal').modal('hide');
+
+	 				let TableURL = baseURL + 'datatable_controller/Other_purchase_inventory_Request';
+					let TableData = [{data:'trans_no'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
+					_DataTableLoader('tbl_request',TableURL,TableData,false);
+
+					let TableURL1 = baseURL + 'datatable_controller/Other_purchase_inventory_Inprogress';
+					let TableData1 = [{data:'trans_no'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
+					_DataTableLoader('tbl_inprogress',TableURL1,TableData1,false);
+
+					let TableURL2 = baseURL + 'datatable_controller/Purchase_Material_Inventory_Complete_DataTable';
+					let TableData2 = [{data:'trans_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'date_created'},{data:'terms'}]; 
+					_DataTableLoader('tbl_complete',TableURL2,TableData2,false);
 	 			}else{
 	 				 Swal.fire("Error!", "Something went wrong!", "error");
 	 			}

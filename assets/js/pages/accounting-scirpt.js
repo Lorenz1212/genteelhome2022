@@ -565,6 +565,22 @@ const month = ["January","February","March","April","May","June","July","August"
 				})
 			   break;
 			}
+			case "data-purchased-inventory-request":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_other_purchase_invetory');
+				$(document).ready(function() {
+					$(document).on("click","#view-request-form",function() {
+					 	let val = {id:$(this).attr('data-id')};
+					 	let thisUrl = 'modal_controller/Modal_Other_Purchase_View';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Other_Purchase_View");
+				    });
+					$(document).on("click","#view-received-form",function() {
+					 	let val = {id:$(this).attr('data-id')};
+					 	let thisUrl = 'modal_controller/Modal_Other_Purchase_View_Received_Accounting';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Other_Purchase_View_Received_Accounting");
+				    });
+				})
+				break;
+			}
 			case "data-production-supplies":{
 				$(document).ready(function(){
 					_initCurrency_format('.text-amount,.text-labor');
@@ -1133,6 +1149,71 @@ const month = ["January","February","March","April","May","June","July","August"
 
 			case "data-cashposition":{
 				$(document).ready(function(){
+					KTDatatablesDataSourceAjaxClient.init('tbl_cashposition_category');
+					$(".btn-add-category").on('click',function(e){
+					 	   e.preventDefault();
+			                  Swal.fire({
+			                    title:'Name of category',
+			                    input: 'text',
+			                    heightAuto: true,
+			                    inputPlaceholder: 'Enter your name',
+			                    confirmButtonText: 'Submit',
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please Enter Name of Category')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+								 	let thisUrl = 'create_controller/Create_Cashposition_Category';
+									_ajaxloader(thisUrl,"POST",{name:result.value},"Create_Cashposition_Category");
+			                        }else{
+			                           swal.fire('Opss', 'Please Enter Name of Category', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+					$('body').delegate("#view-update-form",'click',function(e){
+					 	   e.preventDefault();
+					 	   e.stopImmediatePropagation();
+					 	   let element=$(this);
+			                  Swal.fire({
+			                    title:'<span id="cat_id" data-id="'+element.attr('data-id')+'">Name of category</span>',
+			                    input: 'text',
+			                    inputValue: element.attr('data-name'),
+			                    heightAuto: true,
+			                    inputPlaceholder: 'Enter your name',
+			                    confirmButtonText: 'Submit',
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please Enter Name of Category')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+								 	let thisUrl = 'update_controller/Update_Cashposition_Category';
+									_ajaxloader(thisUrl,"POST",{id:$('#cat_id').attr('data-id'),name:result.value},"Update_Cashposition_Category");
+			                        }else{
+			                           swal.fire('Opss', 'Please Enter Name of Category', 'info');
+			                        }
+			                      }else{
+			                      	 $('#category-list').modal('show');
+			                      }
+			                  });
+			                  $('#category-list').modal('hide');
+			              })
 					_initDatepicker('#date_position');
 					_initCurrency_format('#amount');
 					$(document).on('click','#search',function(e){
@@ -1458,16 +1539,18 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    $('.requestor').text(response.info.requestor);
 		  		    $('.date_created').text(response.info.date_created);
 		  		    $('.title').text(response.info.title+' ('+response.info.c_name+')');
-		  		    $('.total').text(response.total);
 		  		    let container = $('#tbl_purchased_estimate > tbody:last-child');
 		  		    container.empty();
+		  		    let total=0;
 		  		    for(let i=0;i<response.material.length;i++){
 		  		    		container.append('<tr>\
 		  		    					  	 <td>'+response.material[i].item+'</td>\
 		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
-		  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+		  		    					  	 <td class="text-right">₱ '+response.material[i].amount+'</td>\
 		  		    					  </tr>');
+		  		    		total+=parseFloat(response.material[i].amount);
 		  		    }
+		  		     $('.total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	  		    		$('.purchase-button').show();
 	  		    		$('.purchase-cash-fund').hide();
 	  		    		$('.total_fund').text(response.fund);
@@ -1499,22 +1582,23 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    $('.requestor_r').text(response.info.requestor);
 		  		    $('.date_created_r').text(response.info.date_created);
 		  		    $('.title_r').text(response.info.title+' ('+response.info.c_name+')');
-		  		    $('.total-received').text(response.total);
 		  		    $('.total_petty').text(response.total_petty);
 		  		    $('.actual_change').text(response.total_change);
 		  		    $('.total_refund').text(response.total_refund);
 		  		    let container = $('#tbl_purchased_received_modal > tbody:last-child');
 		  		    container.empty();
+		  		    let total =0;
 		  		    for(let i=0;i<response.material.length;i++){
 		  		    		container.append('<tr>\
 		  		    					  	 <td>'+response.material[i].item+'</td>\
 		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
-		  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+		  		    					  	 <td class="text-right">₱ '+response.material[i].amount+'</td>\
 		  		    					  	 <td class="text-right">'+response.material[i].supplier+'</td>\
 		  		    					  	 <td class="text-center">'+response.material[i].payment+'</td>\
 		  		    					  </tr>');
-
+						total+=parseFloat(response.material[i].amount);
 		  		    }
+		  		    $('.total-received').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 		  		     $('.purchased-received-input').show();
 	  		    		$('.purchased-received-hide').hide();
 		  		    	if(response.info.status == 2){
@@ -1539,16 +1623,18 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    $('.requestor').text(response.info.requestor);
 		  		    $('.date_created').text(response.info.date_created);
 		  		    $('.title').text(response.info.title);
-		  		    $('.total').text(response.total);
+		  		    let total = 0;
 		  		    let container = $('#tbl_purchased_estimate > tbody:last-child');
 		  		    container.empty();
 		  		    for(let i=0;i<response.material.length;i++){
 		  		    		container.append('<tr>\
 		  		    					  	 <td>'+response.material[i].item+'</td>\
 		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
-		  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+		  		    					  	 <td class="text-right">₱ '+response.material[i].amount+'</td>\
 		  		    					  </tr>');
+		  		    		total+=parseFloat(response.material[i].amount);
 		  		    }
+		  		     $('.total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	  		    		$('.purchase-button').show();
 	  		    		$('.purchase-cash-fund').hide();
 	  		    		$('.total_fund').text(response.fund);
@@ -1581,22 +1667,23 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    $('.requestor_r').text(response.info.requestor);
 		  		    $('.date_created_r').text(response.info.date_created);
 		  		    $('.title_r').text(response.info.title);
-		  		    $('.total-received').text(response.total);
 		  		    $('.total_petty').text(response.total_petty);
 		  		    $('.actual_change').text(response.total_change);
 		  		    $('.total_refund').text(response.total_refund);
 		  		    let container = $('#tbl_purchased_received_modal > tbody:last-child');
 		  		    container.empty();
+		  		    let total = 0;
 		  		    for(let i=0;i<response.material.length;i++){
 		  		    		container.append('<tr>\
 		  		    					  	 <td>'+response.material[i].item+'</td>\
 		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
-		  		    					  	 <td class="text-right">'+response.material[i].amount+'</td>\
+		  		    					  	 <td class="text-right">₱ '+response.material[i].amount+'</td>\
 		  		    					  	 <td class="text-right">'+response.material[i].supplier+'</td>\
 		  		    					  	 <td class="text-center">'+response.material[i].payment+'</td>\
 		  		    					  </tr>');
-
+		  		    		total+=parseFloat(response.material[i].amount);
 		  		    }
+		  		    $('.total-received').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 		  		     $('.purchased-received-input').show();
 	  		    		$('.purchased-received-hide').hide();
 		  		    	if(response.info.status == 2){
@@ -3659,7 +3746,103 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		_initnotificationupdate();
 	  		break;
 	  	}
+	  	case "Modal_Other_Purchase_View":{
+	  		if(!response == false){
+	  				let total =0;
+	  				_initCurrency_format(".amount");
+	  			    $('.cash_fund').text(response.info.request_no);
+		  		    $('.requestor').text(response.info.requestor);
+		  		    $('.date_created').text(response.info.date_created);
+		  		    $('input[name=cash_fund]').val("");
+		  		    let container = $('#tbl_purchased_estimate > tbody:last-child');
+		  		    container.empty();
+		  		    for(let i=0;i<response.material.length;i++){
+		  		    		total +=parseFloat(response.material[i].total);
+		  		    		container.append('<tr>\
+		  		    					  	 <td>'+response.material[i].item+'</td>\
+		  		    					  	 <td class="text-center">'+response.material[i].qty+'</td>\
+		  		    					  	 <td class="text-right">₱ '+response.material[i].amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>\
+		  		    					  </tr>');
+		  		    		
+		  		    }
+		  		    $('.total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	  		    		$('.purchase-button').show();
+	  		    		$('.purchase-cash-fund').hide();
+	  		    		$('.total_fund').text(response.fund.pettycash.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	  		    		$('.btn-request-submit').text('Submit').attr('data-status',1);
+		  		    	if(response.info.status == 'COMPLETED'){
+		  		    		$('.purchase-button').hide();
+		  		    		$('.purchase-cash-fund').show();
+		  		    		$('.status').text('Complete').removeClass('text-primary text-warning').addClass('text-success');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-warning separator-primary').addClass('separator-success');
+		  		    	}else if(response.info.status == 'APPROVED'){
+		  		    		$('.status').text('Approved').removeClass('text-warning text-success').addClass('text-primary');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-warning separator-success').addClass('separator-primary');
+		  		    		$('input[name=cash_fund]').val(response.fund.pettycash.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		  		    		$('.btn-request-submit').text('Update').attr('data-status',2);
+		  		    	}else{
+		  		    		$('.status').text('Request').removeClass('text-primary text-success').addClass('text-warning');
+		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-success separator-primary').addClass('separator-warning');
+		  		    	}
+		  		    $('#view-purchased-request').modal('show');
 
+		  		}
+	  		break;
+	  	}
+	  	case "Modal_Other_Purchase_View_Received_Accounting":{
+	  		if(!response == false){
+	  				_initCurrency_format(".amount");
+	  			    $('.cash_fund_r').text(response.info.request_no);
+		  		    $('.requestor_r').text(response.info.requestor);
+		  		    $('.date_created_r').text(response.info.date_created);
+		  		    $('.cf_no').text(response.info.fund_no);
+		  		    $('.total_petty').text(response.fund.pettycash);
+		  		    $('.actual_change').text(response.fund.actual_change);
+		  		    $('.total_refund').text(response.fund.refund);
+		  		    let container = $('#tbl_purchased_received_modal > tbody:last-child');
+		  		    container.empty();
+		  		    let total=0;
+		  		    let terms="";
+		  		    for(let i=0;i<response.material.length;i++){
+		  		    	if(response.material[i].payment ==1){terms ='<span style="width: 112px;"><span class="label label-primary label-dot"></span><span class="font-weight-bold text-primary"> Cash</span></span>';
+                    	}else if(response.material[i].payment == 2){terms ='<span style="width: 112px;"><span class="label label-warning label-dot"></span><span class="font-weight-bold text-warning"> Terms</span>';} 
+		  		    		container.append('<tr>\
+		  		    					  	 <td>'+response.material[i].item+'</td>\
+		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
+		  		    					  	 <td class="text-right">₱ '+response.material[i].amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>\
+		  		    					  	 <td class="text-right">'+response.material[i].name+'</td>\
+		  		    					  	 <td class="text-center">'+terms+'</td>\
+		  		    					  </tr>');
+		  		    		total +=parseFloat(response.material[i].amount);
+
+		  		    }
+		  		    $('.total-received').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		  		     $('.purchased-received-input').show();
+	  		    		$('.purchased-received-hide').hide();
+		  		    	if(response.info.a_status == 'COMPLETED'){
+		  		    		$('.purchased-received-hide').show();
+		  		    		$('.purchased-received-input').hide();
+		  		    		$('.status-received').text('Complete').removeClass('text-primary text-warning').addClass('text-success');
+		  		    		$('#separator-status-received-1,#separator-status-received-2').removeClass('separator-warning separator-primary').addClass('separator-success');
+		  		    	}else{
+		  		    		$('.status-received').text('Request').removeClass('text-primary text-success').addClass('text-warning');
+		  		    		$('#separator-status-received-1,#separator-status-received-2').removeClass('separator-success separator-primary').addClass('separator-warning');
+		  		    	}
+		  		    $('#view-purchased-received').modal('show');
+
+		  		}
+	  		break;
+	  	}
+	  	case "Update_Cashposition_Category":
+	  	case "Create_Cashposition_Category":{
+	  		_initToast(response.type,response.message);
+	  		if(response.type == 'success'){
+	  			KTDatatablesDataSourceAjaxClient.init('tbl_cashposition_category');
+	  			$('#category-list').modal('show');
+	  		}
+	  		break;
+	  	}
+	 
 	  }
 	}
 	return {

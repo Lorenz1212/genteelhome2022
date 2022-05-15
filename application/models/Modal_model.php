@@ -12,27 +12,27 @@ class Modal_model extends CI_Model{
     }
 
      function Modal_Joborder_Stocks_View($id){
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
           ->from('tbl_project as p')
            ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
           ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-          ->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get();
+          ->join('tbl_administrator as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get();
           return $query->row();
     } 
     function Modal_Joborder_Project_View($id){
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
           ->from('tbl_project as p')
           ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
           ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get();
+          ->join('tbl_administrator as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get();
           return $query->row();
     } 
      function Modal_JobOrder_Finished($id){
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
           ->from('tbl_project_finished as p')
           ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
           ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_users as u','u.id=p.assigned','LEFT')->where('p.production_no', $id)->get();
+          ->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.production_no', $id)->get();
           return $query->row();
     } 
     function Modal_Stocks_Rawmats_View($id){
@@ -77,13 +77,13 @@ class Modal_model extends CI_Model{
           $id = $this->encryption->decrypt($id);
           $data=array();
           $dis = 0; 
-          $query =  $this->db->select('s.*,i.*,c.*,d.*,s.id,s.status,s.so_no,sc.*,s.tin,CONCAT(u.firstname, " ",u.lastname) AS sales_person,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order,(SELECT sum(amount) FROM tbl_salesorder_stocks_item WHERE so_no=s.id) as subtotal')
+          $query =  $this->db->select('s.*,i.*,c.*,d.*,s.id,s.status,s.so_no,sc.*,s.tin,CONCAT(u.fname, " ",u.lname) AS sales_person,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order,(SELECT sum(amount) FROM tbl_salesorder_stocks_item WHERE so_no=s.id) as subtotal')
           ->from('tbl_salesorder_stocks_item as i')
           ->join('tbl_salesorder_stocks as s','i.so_no=s.id','LEFT')
           ->join('tbl_project_color as c','c.id=i.c_code','LEFT')
           ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
           ->join('tbl_salesorder_customer as sc','sc.id=s.customer','LEFT')
-          ->join('tbl_users as u','u.id=s.created_by','LEFT')->where('s.id',$id)->get();
+          ->join('tbl_administrator as u','u.id=s.created_by','LEFT')->where('s.id',$id)->get();
            if(!$query){return false;}else{  
                foreach($query->result() as $row){
                     if($row->discount !=0){
@@ -132,7 +132,7 @@ class Modal_model extends CI_Model{
       $dis = 0; 
       $row =  $this->db->select('s.*,s.tin,sc.*,s.id,DATE_FORMAT(s.date_order, "%M %d %Y") as date_order')
       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as sc','sc.id=s.customer','LEFT')
-      ->join('tbl_users as u','u.id=s.created_by','LEFT')->WHERE('s.id',$id)->get()->row();
+      ->join('tbl_administrator as u','u.id=s.created_by','LEFT')->WHERE('s.id',$id)->get()->row();
             $lineup = json_decode($row->item,true);
             $data_array['item'] = $lineup;
             $subtotal = array_sum(array_column($lineup,'amount'));
@@ -181,11 +181,10 @@ class Modal_model extends CI_Model{
     }
     function Modal_Supplier_Item_View($id){
           $data = false;
-          $query = $this->db->select('*,mp.id,mp.amount')->from('tbl_supplier_item as mp')->join('tbl_materials as m','mp.item_no=m.id','LEFT')->where('mp.supplier',$id)->order_by('mp.id','ASC')->get();
+          $query = $this->db->select('*')->from('tbl_supplier_item as mp')->where('supplier',$id)->order_by('id','ASC')->get();
                foreach($query->result() as $row){
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="edit-item-view" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#edit-item"><i class="flaticon2-pen"></i></button>';    
-                  ($row->unit)?$unit = $row->unit.'(s)':$unit = "";
-                $data[] = array('item'   => $row->item.' - '.$unit,
+                $data[] = array('item'   => $row->item,
                                 'amount' => number_format($row->amount,2),
                                 'action' => $action);
            }
@@ -197,7 +196,7 @@ class Modal_model extends CI_Model{
         return $row;
     }
     function Modal_Users($id){
-        $row = $this->db->select('*')->from('tbl_users')->WHERE('id',$id)->get()->row();
+        $row = $this->db->select('*')->from('tbl_administrator')->WHERE('id',$id)->get()->row();
         return $row;
     }
     function Modal_RawMaterial_view($id){
@@ -210,11 +209,11 @@ class Modal_model extends CI_Model{
       }
      
     function Modal_Approval_Inspection_Project_View($id,$status){
-        $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+        $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
         ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
         ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-        ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+        ->join('tbl_administrator as u', 'u.id=i.created_by','LEFT')
         ->where('i.status',$status)
         ->where('i.production_no',$this->encryption->decrypt($id))->get();
          if(!$query){return false;}else{  
@@ -236,11 +235,11 @@ class Modal_model extends CI_Model{
          return  $query->row();
     }
     function Modal_Approval_Inspection_Stocks_View($id,$status){
-        $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_inspection as i')
+        $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
         ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
         ->join('tbl_project_color as c','c.id=j.project_no','LEFT')
         ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-        ->join('tbl_users as u', 'u.id=i.created_by','LEFT')
+        ->join('tbl_administrator as u', 'u.id=i.created_by','LEFT')
         ->where('i.status',$status)
         ->where('i.production_no',$this->encryption->decrypt($id))->get();
          if(!$query){return false;}else{  
@@ -265,8 +264,8 @@ class Modal_model extends CI_Model{
     function Modal_Approval_Purchase_View($id,$status){
           $array = array('pp.admin_status =' => $status, 'pp.request_id' => $id);
           $status1 = 'request_id = "'.$id.'" AND admin_status = "'.$status.'"';
-          $query = $this->db->select('d.*,c.*,pp.*,pp.unit as units,pp.remarks as remakrs,pp.id as id,p.production_no as production_no,p.unit as unit,pp.item as item,pp.quantity as quantity,pp.balance_quantity as balance,pp.status as status,pp.remarks as remarks,CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(pp.latest_update, "%M %d %Y %r") as date_created,(SELECT sum(amount ) FROM tbl_purchasing_project WHERE '.$status1.') as total')
-            ->from('tbl_purchasing_project as pp')->join('tbl_project as p','p.production_no=pp.production_no','LEFT')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=pp.supervisor','LEFT')->WHERE($array)->get();
+          $query = $this->db->select('d.*,c.*,pp.*,pp.unit as units,pp.remarks as remakrs,pp.id as id,p.production_no as production_no,p.unit as unit,pp.item as item,pp.quantity as quantity,pp.balance_quantity as balance,pp.status as status,pp.remarks as remarks,CONCAT(u.fname, " ",u.lname) AS production,DATE_FORMAT(pp.latest_update, "%M %d %Y %r") as date_created,(SELECT sum(amount ) FROM tbl_purchasing_project WHERE '.$status1.') as total')
+            ->from('tbl_purchasing_project as pp')->join('tbl_project as p','p.production_no=pp.production_no','LEFT')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=pp.supervisor','LEFT')->WHERE($array)->get();
            if(!$query){return false;}else{  
                foreach($query->result() as $row){
                 $data[] = array(
@@ -291,10 +290,10 @@ class Modal_model extends CI_Model{
     }
      function Modal_Purchase_Stocks_View($id){
           $query = $this->db->select('p.*,r.status as status,DATE_FORMAT(r.date_created, "%M %d %Y %r") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS purchaser')
+            CONCAT(u.fname, " ",u.lname) AS purchaser')
           ->from('tbl_purchase_stocks as p')
           ->join('tbl_request_id as r','r.request_id=p.request_id','LEFT')
-          ->join('tbl_users as u','u.id=r.purchaser','LEFT')
+          ->join('tbl_administrator as u','u.id=r.purchaser','LEFT')
           ->where('p.request_id', $id)->get();  
            if(!$query){return false;}else{  
                foreach($query->result() as $row)  
@@ -323,10 +322,10 @@ class Modal_model extends CI_Model{
     }
       function Modal_Purchase_Stocks_Complete_View($id){
           $query = $this->db->select('p.*,r.status as status,DATE_FORMAT(r.date_created, "%M %d %Y %r") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS purchaser')
+            CONCAT(u.fname, " ",u.lname) AS purchaser')
           ->from('tbl_purchase_stocks_received as p')
           ->join('tbl_request_id as r','r.request_id=p.request_id','LEFT')
-          ->join('tbl_users as u','u.id=r.purchaser','LEFT')
+          ->join('tbl_administrator as u','u.id=r.purchaser','LEFT')
           ->where('p.fund_no', $id)->get();  
            if(!$query){return false;}else{  
                foreach($query->result() as $row)  
@@ -348,8 +347,8 @@ class Modal_model extends CI_Model{
 
      function Modal_Purchase_Stocks_Request_View($id){
          $row =  $this->db->select('d.*,c.*,p.production_no,
-            CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
-         ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->WHERE('p.production_no',$id)->get()->row(); 
+            CONCAT(u.fname, " ",u.lname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
+         ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->WHERE('p.production_no',$id)->get()->row(); 
         return $row;
      }
      function Modal_Purchase_Request_List_View($id){
@@ -388,9 +387,9 @@ class Modal_model extends CI_Model{
 
      function Modal_Purchase_Stocks_Inprogress_View($id){
         $row =  $this->db->select('d.*,c.*,p.production_no,pr.fund_no,pr.status,
-            CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
+            CONCAT(u.fname, " ",u.lname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
          ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-         ->join('tbl_users as u','u.id=p.assigned','LEFT')
+         ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
          ->join('tbl_purchasing_project as pr','p.production_no=pr.production_no','LEFT')
          ->where('pr.fund_no',$id)->get()->row(); 
          return $row;
@@ -417,15 +416,15 @@ class Modal_model extends CI_Model{
 
       function Modal_Purchase_Project_Request_View($id){
           $row =  $this->db->select('d.*,c.*,p.production_no,
-            CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
-         ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.assigned','LEFT')->WHERE('p.production_no',$id)->get()->row(); 
+            CONCAT(u.fname, " ",u.lname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
+         ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->WHERE('p.production_no',$id)->get()->row(); 
         return $row;
     }
      function Modal_Purchase_Project_Inprogress_View($id){
         $row =  $this->db->select('d.*,c.*,p.production_no,pr.fund_no,pr.status,
-            CONCAT(u.firstname, " ",u.lastname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
+            CONCAT(u.fname, " ",u.lname) AS production,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
          ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-         ->join('tbl_users as u','u.id=p.assigned','LEFT')
+         ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
          ->join('tbl_purchasing_project as pr','p.production_no=pr.production_no','LEFT')
          ->where('pr.fund_no',$id)->get()->row(); 
          return $row;
@@ -435,13 +434,13 @@ class Modal_model extends CI_Model{
 
       function Modal_Material_Request_Complete_View($id){
          $query =  $this->db->select('d.*,c.*,pp.*,pp.production_no as production_no,
-            p.unit as unit,pp.item as item,pp.quantity as quantity,CONCAT(u.firstname, " ",u.lastname) AS production,
+            p.unit as unit,pp.item as item,pp.quantity as quantity,CONCAT(u.fname, " ",u.lname) AS production,
             DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created')
          ->from('tbl_material_release as pp')
          ->join('tbl_project as p','p.production_no=pp.production_no','LEFT')
          ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
          ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-         ->join('tbl_users as u','u.id=p.production','LEFT')
+         ->join('tbl_administrator as u','u.id=p.production','LEFT')
          ->WHERE('pp.production_no',$id)->get(); 
            if(!$query){return false;}else{  
                foreach($query->result() as $row)  
@@ -461,7 +460,7 @@ class Modal_model extends CI_Model{
            }
          }
     function Modal_Purchase_Approval_View($id,$status){
-         $query = $this->db->select('pp.unit as units,pp.id as id,pp.amount as amount,p.production_no as production_no,p.title as title,p.unit as unit,pp.item as item,pp.quantity as quantity,pp.balance as balance,pp.status as status,pp.delivery as delivery,pp.type as type,pp.remarks as remarks, CONCAT(u.firstname, " ",u.lastname) AS approver1, CONCAT(uu.firstname, " ",uu.lastname) AS approver2,CONCAT(uuu.firstname, " ",uuu.lastname) AS receiver,CONCAT(uuuu.firstname, " ",uuuu.lastname) AS production,DATE_FORMAT(pp.date_pending, "%M %d %Y %r") as date_pending,DATE_FORMAT(pp.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(pp.date_complete, "%M %d %Y %r") as date_complete,DATE_FORMAT(pp.date_rejected, "%M %d %Y %r") as date_rejected,DATE_FORMAT(pp.date_inprogress, "%M %d %Y %r") as date_inprogress,DATE_FORMAT(pp.date_approved1, "%M %d %Y %r") as date_approved1,(SELECT sum(amount ) FROM tbl_purchasing_project WHERE production_no = "'.$id.'" AND status = "'.$status.'") as total')->from('tbl_purchasing_project as pp')->join('tbl_project as p','p.production_no=pp.production_no','LEFT')->join('tbl_users as u','u.id=pp.approver1','LEFT')->join('tbl_users as uu','uu.id=pp.approver2','LEFT')->join('tbl_users as uuu','uuu.id=pp.receiver','LEFT')->join('tbl_users as uuuu','uuuu.id=p.production','LEFT')->WHERE('pp.production_no',$id)->WHERE('pp.status',$status)->get(); 
+         $query = $this->db->select('pp.unit as units,pp.id as id,pp.amount as amount,p.production_no as production_no,p.title as title,p.unit as unit,pp.item as item,pp.quantity as quantity,pp.balance as balance,pp.status as status,pp.delivery as delivery,pp.type as type,pp.remarks as remarks, CONCAT(u.fname, " ",u.lname) AS approver1, CONCAT(uu.firstname, " ",uu.lastname) AS approver2,CONCAT(uuu.firstname, " ",uuu.lastname) AS receiver,CONCAT(uuuu.firstname, " ",uuuu.lastname) AS production,DATE_FORMAT(pp.date_pending, "%M %d %Y %r") as date_pending,DATE_FORMAT(pp.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(pp.date_complete, "%M %d %Y %r") as date_complete,DATE_FORMAT(pp.date_rejected, "%M %d %Y %r") as date_rejected,DATE_FORMAT(pp.date_inprogress, "%M %d %Y %r") as date_inprogress,DATE_FORMAT(pp.date_approved1, "%M %d %Y %r") as date_approved1,(SELECT sum(amount ) FROM tbl_purchasing_project WHERE production_no = "'.$id.'" AND status = "'.$status.'") as total')->from('tbl_purchasing_project as pp')->join('tbl_project as p','p.production_no=pp.production_no','LEFT')->join('tbl_administrator as u','u.id=pp.approver1','LEFT')->join('tbl_administrator as uu','uu.id=pp.approver2','LEFT')->join('tbl_administrator as uuu','uuu.id=pp.receiver','LEFT')->join('tbl_administrator as uuuu','uuuu.id=p.production','LEFT')->WHERE('pp.production_no',$id)->WHERE('pp.status',$status)->get(); 
                if(!$query){return false;}else{  
                foreach($query->result() as $row)  
                {
@@ -501,11 +500,11 @@ class Modal_model extends CI_Model{
                 $data=false;
                 $total=0;
                 $total_fund=0;
-             $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
+             $row_data = $this->db->select('*,CONCAT(u.fname, " ",u.lname) AS requestor,pr.status,
                         DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
                         ->from('tbl_purchasing_project as pr')
                         ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
-                        ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
+                        ->join('tbl_administrator as u','u.id=pr.purchaser','LEFT')
                         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
                         ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
                         ->join('tbl_project_design as d','p.project_no=d.id','LEFT')
@@ -520,7 +519,7 @@ class Modal_model extends CI_Model{
                     if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";}
                     $data[] = array('id' => $row->id,
                                     'item'=> $row->item.$unit,
-                                    'amount'=> '₱ '.number_format($row->amount,2),
+                                    'amount'=> number_format($row->amount,2),
                                     'quantity'=> $row->quantity);
                     $total +=$row->amount;
               } 
@@ -533,11 +532,11 @@ class Modal_model extends CI_Model{
             $total_petty=0;
             $total_change=0;
             $total_refund=0;
-             $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
+             $row_data = $this->db->select('*,CONCAT(u.fname, " ",u.lname) AS requestor,pr.status,
                         DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
                         ->from('tbl_purchase_received as pr')
                         ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
-                        ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
+                        ->join('tbl_administrator as u','u.id=pr.purchaser','LEFT')
                         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
                         ->join('tbl_project_color as c','p.c_code=c.id','LEFT')
                         ->join('tbl_project_design as d','p.project_no=d.id','LEFT')
@@ -562,7 +561,7 @@ class Modal_model extends CI_Model{
                     }else if($row->payment == 2){$terms ='<span style="width: 112px;"><span class="label label-warning label-dot"></span><span class="font-weight-bold text-warning"> Terms</span>';} 
                     $data[] = array('id' => $row->id,
                                     'item'=> $row->item.$unit,
-                                    'amount'=> '₱ '.number_format($row->amount,2),
+                                    'amount'=> number_format($row->amount,2),
                                     'supplier'=>$row->name,
                                     'payment'=>$terms,
                                     'quantity'=> $row->quantity);
@@ -576,11 +575,11 @@ class Modal_model extends CI_Model{
              $data=false;
                 $total=0;
                 $total_fund=0;
-             $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
+             $row_data = $this->db->select('*,CONCAT(u.fname, " ",u.lname) AS requestor,pr.status,
                         DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
                         ->from('tbl_purchasing_project as pr')
                         ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
-                        ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
+                        ->join('tbl_administrator as u','u.id=pr.purchaser','LEFT')
                         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
                         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
                         ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
@@ -595,7 +594,7 @@ class Modal_model extends CI_Model{
                     if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";}
                     $data[] = array('id' => $row->id,
                                     'item'=> $row->item.$unit,
-                                    'amount'=> '₱ '.number_format($row->amount,2),
+                                    'amount'=> number_format($row->amount,2),
                                     'quantity'=> $row->quantity);
                     $total +=$row->amount;
               } 
@@ -608,11 +607,11 @@ class Modal_model extends CI_Model{
             $total_petty=0;
             $total_change=0;
             $total_refund=0;
-             $row_data = $this->db->select('*,CONCAT(u.firstname, " ",u.lastname) AS requestor,pr.status,
+             $row_data = $this->db->select('*,CONCAT(u.fname, " ",u.lname) AS requestor,pr.status,
                         DATE_FORMAT(pr.date_created, "%M %d %Y %r") as date_created')
                         ->from('tbl_purchase_received as pr')
                         ->join('tbl_materials as m','pr.item_no=m.id','LEFT')
-                        ->join('tbl_users as u','u.id=pr.purchaser','LEFT')
+                        ->join('tbl_administrator as u','u.id=pr.purchaser','LEFT')
                         ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
                         ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
                         ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
@@ -637,7 +636,7 @@ class Modal_model extends CI_Model{
                     }else if($row->payment == 2){$terms ='<span style="width: 112px;"><span class="label label-warning label-dot"></span><span class="font-weight-bold text-warning"> Terms</span>';} 
                     $data[] = array('id' => $row->id,
                                     'item'=> $row->item.$unit,
-                                    'amount'=> '₱ '.number_format($row->amount,2),
+                                    'amount'=> number_format($row->amount,2),
                                     'supplier'=>$row->name,
                                     'payment'=>$terms,
                                     'quantity'=> $row->quantity);
@@ -671,11 +670,11 @@ class Modal_model extends CI_Model{
 
      function Modal_Accounting_Purchase_Stocks_Request($id){
                $array = array('pp.status' => 'PENDING','pp.fund_no' => NULL,'pp.request_id'=>$id);
-               $query = $this->db->select('pp.*,CONCAT(u.firstname, " ",u.lastname) AS requestor,
+               $query = $this->db->select('pp.*,CONCAT(u.fname, " ",u.lname) AS requestor,
                        DATE_FORMAT(pp.date_created, "%M %d %Y %r") as date_created,
                        (SELECT sum(amount) FROM tbl_purchase_stocks WHERE request_id = "'.$id.'" AND status = "PENDING" AND fund_no IS NULL) as total')
                     ->from('tbl_purchase_stocks as pp')
-                    ->join('tbl_users as u','u.id=pp.purchaser','LEFT')->WHERE($array)->get(); 
+                    ->join('tbl_administrator as u','u.id=pp.purchaser','LEFT')->WHERE($array)->get(); 
                if(!$query){return false;}else{  
                foreach($query->result() as $row)  
                {
@@ -699,12 +698,12 @@ class Modal_model extends CI_Model{
     }
       function Modal_Accounting_Purchase_Stocks_Approved($id){
                $array = array('pp.fund_no' => $id);
-               $query = $this->db->select('pp.*,c.*,pp.id as id,pp.status as status,CONCAT(u.firstname, " ",u.lastname) AS requestor,
+               $query = $this->db->select('pp.*,c.*,pp.id as id,pp.status as status,CONCAT(u.fname, " ",u.lname) AS requestor,
                        DATE_FORMAT(pp.date_received, "%M %d %Y %r") as date_received,
                        (SELECT sum(amount) FROM tbl_purchase_stocks WHERE fund_no= "'.$id.'") as total')
                     ->from('tbl_purchase_stocks as pp')
                     ->join('tbl_pettycash as c','c.fund_no=pp.fund_no','LEFT')
-                    ->join('tbl_users as u','u.id=pp.purchaser','LEFT')->WHERE($array)->get(); 
+                    ->join('tbl_administrator as u','u.id=pp.purchaser','LEFT')->WHERE($array)->get(); 
                if(!$query){return false;}else{  
                foreach($query->result() as $row)  
                {
@@ -729,12 +728,12 @@ class Modal_model extends CI_Model{
     function Modal_Accounting_Purchase_Stocks_Received($id){
                $array = array('c.fund_no' => $id);
                $query = $this->db->select('pp.*,c.*,
-                    CONCAT(u.firstname, " ",u.lastname) AS requestor,
+                    CONCAT(u.fname, " ",u.lname) AS requestor,
                     DATE_FORMAT(c.date_created, "%M %d %Y") as date_created,
                        (SELECT sum(amount) FROM tbl_purchase_stocks_received WHERE fund_no= "'.$id.'") as total')
                     ->from('tbl_purchase_stocks_received as pp')
                     ->join('tbl_pettycash as c','c.fund_no=pp.fund_no','LEFT')
-                    ->join('tbl_users as u','u.id=pp.purchaser','LEFT')->where($array)->get(); 
+                    ->join('tbl_administrator as u','u.id=pp.purchaser','LEFT')->where($array)->get(); 
                if(!$query){return false;}else{  
                foreach($query->result() as $row)  
                {        
@@ -881,7 +880,7 @@ class Modal_model extends CI_Model{
         if(!$query){return false;}else{return $query->row();}
     }
     function Modal_Web_Design_View($id){
-        $query1 = $this->db->select('c.*,d.*,d.cat_id as cat_id,d.sub_id as sub_id,c.project_no as project_no,c.status as status,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(c.date_approved, "%M %d %Y %r") as date_approved,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=c.designer') ->where('c.c_code', $id)->get();
+        $query1 = $this->db->select('c.*,d.*,d.cat_id as cat_id,d.sub_id as sub_id,c.project_no as project_no,c.status as status,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(c.date_approved, "%M %d %Y %r") as date_approved,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer') ->where('c.c_code', $id)->get();
         $row1 = $query1->row();
         $query = $this->db->select('*')->from('tbl_project_image')->where('c_code', $id)->get();
            if($query !== FALSE && $query->num_rows() > 0){
@@ -949,7 +948,7 @@ class Modal_model extends CI_Model{
         $data = array();
          $rows = $this->db->select('u.*,s.*,r.*,s.id, 
             DATE_FORMAT(s.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.firstname, " ",u.lastname) AS name, 
+            CONCAT(u.fname, " ",u.lname) AS name, 
             CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address,
             CONCAT(s.s_address, " ",s.s_city, " ",s.s_province) AS shipping_address')
          ->from('tbl_cart_address as s')
@@ -989,7 +988,7 @@ class Modal_model extends CI_Model{
                     $username = 'N/A';
                     $action = 'none';
                  }else{
-                    $query_user = $this->db->select('*,CONCAT(firstname, " ",lastname) AS user')->from('tbl_users')->where('id',$row1->user_id)->get();
+                    $query_user = $this->db->select('*,CONCAT(firstname, " ",lastname) AS user')->from('tbl_administrator')->where('id',$row1->user_id)->get();
                     $row_user = $query_user->row();
                     $username = $row_user->user;
                     $action = 'ok';
@@ -1020,11 +1019,11 @@ class Modal_model extends CI_Model{
          if(!$query){return false;}else{return $query->row();}
     }
     function Modal_Joborder_Stocks_Supervisor($id){
-    $query = $this->db->select('p.*,c.*,d.*,c.image,p.status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get()->row();
+    $query = $this->db->select('p.*,c.*,d.*,c.image,p.status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get()->row();
         return $query;
     }
     function Modal_Joborder_Project_Supervisor($id){
-    $query = $this->db->select('p.*,c.*,d.*,c.image,p.status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get()->row();
+    $query = $this->db->select('p.*,c.*,d.*,c.image,p.status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.production','LEFT')->where('p.production_no', $id)->get()->row();
         return $query;
     }
      function Modal_Material_Request_Supervisor($id){
@@ -1082,14 +1081,14 @@ class Modal_model extends CI_Model{
         return $data_array;
     }
     function Modal_Material_Request_Stocks_View($id){
-       $rows = $this->db->select('*,c.image,d.title,c.c_name,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
-           ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no',$id)->get()->row();
+       $rows = $this->db->select('*,c.image,d.title,c.c_name,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
+           ->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.production','LEFT')->where('p.production_no',$id)->get()->row();
         $count = $this->db->select('*')->from('tbl_material_project ')->where('production_no',$id)->where('status',4)->get()->num_rows();
         return array('row'=>$rows,'count'=>$count);
     }
     function Modal_Material_Request_Project_View($id){
-       $rows = $this->db->select('*,c.image,d.title,c.c_name,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.firstname, " ",u.lastname) AS requestor')
-           ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_users as u','u.id=p.production','LEFT')->where('p.production_no',$id)->get()->row();
+       $rows = $this->db->select('*,c.image,d.title,c.c_name,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
+           ->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.production','LEFT')->where('p.production_no',$id)->get()->row();
         $count = $this->db->select('*')->from('tbl_material_project ')->where('production_no',$id)->where('status',4)->get()->num_rows();
         return array('row'=>$rows,'count'=>$count);
     }
@@ -1166,6 +1165,61 @@ class Modal_model extends CI_Model{
     function Modal_Inquiry_View($id){
          $row = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_customer_inquiry')->where('id',$this->encryption->decrypt($id))->get()->row();
           return array('row'=>$row,'id'=>$this->encryption->encrypt($row->id));
+    }
+    function Modal_Other_Purchase_View($id){
+        $data_info = array();
+        $data_material = array();
+        $data_fund = array();
+        $id = $this->encryption->decrypt($id);
+
+        $row = $this->db->query("SELECT *,o.status,DATE_FORMAT(o.date_created, '%M %d %Y %r') as date_created,CONCAT(u.fname, ' ',u.lname) AS requestor FROM tbl_other_material_p_header as o LEFT JOIN tbl_administrator as u ON u.id=o.purchaser WHERE o.id='$id'")->row();
+
+
+        $data_info['info']=$row;
+        $query = $this->db->query("SELECT *,FORMAT(amount, 2) as amount,amount as total FROM tbl_other_material_p_request WHERE pr_id='$id'");
+        $data_material['material']=$query->result();
+
+        if($row->fund_no){
+            $fund_no = $row->fund_no;
+            $row = $this->db->query("SELECT *,FORMAT(pettycash, 2)FROM tbl_pettycash WHERE fund_no='$fund_no'")->row();
+            $data_fund['fund']=$row;
+        }
+        return array_merge($data_info,$data_material,$data_fund);
+    }
+     function Modal_Other_Purchase_View_Received($id){
+        $data_info = array();
+        $data_material = array();
+        $data_fund = array();
+        $id = $this->encryption->decrypt($id);
+        $row = $this->db->query("SELECT *,o.status,DATE_FORMAT(o.date_created, '%M %d %Y %r') as date_created,CONCAT(u.fname, ' ',u.lname) AS requestor FROM tbl_other_material_p_header as o LEFT JOIN tbl_administrator as u ON u.id=o.purchaser WHERE o.id='$id'")->row();
+        $data_info['info']=$row;
+        $query = $this->db->query("SELECT *,amount FROM tbl_other_material_p_request WHERE pr_id='$id'");
+        $data_material['material']=$query->result();
+
+        if($row->fund_no){
+            $fund_no = $row->fund_no;
+            $row = $this->db->query("SELECT *,FORMAT(pettycash, 2)FROM tbl_pettycash WHERE fund_no='$fund_no'")->row();
+            $data_fund['fund']=$row;
+        }
+        return array_merge($data_info,$data_material,$data_fund);
+    }
+    function Modal_Other_Purchase_View_Received_Accounting($id){
+        $data_info = array();
+        $data_material = array();
+        $data_fund = array();
+        $id = $this->encryption->decrypt($id);
+        $row = $this->db->query("SELECT *,o.status,DATE_FORMAT(o.date_created, '%M %d %Y %r') as date_created,CONCAT(u.fname, ' ',u.lname) AS requestor FROM tbl_other_material_p_header as o LEFT JOIN tbl_administrator as u ON u.id=o.purchaser WHERE o.id='$id'")->row();
+        $data_info['info']=$row;
+        $fund_no_od = $row->fund_no;
+        $query = $this->db->query("SELECT *,s.name,t.amount FROM tbl_other_material_p_received as t LEFT JOIN tbl_supplier as s ON s.id=t.supplier WHERE t.fund_no='$fund_no_od'");
+        $data_material['material']=$query->result();
+
+        if($row->fund_no){
+            $fund_no = $row->fund_no;
+            $row = $this->db->query("SELECT *,FORMAT(pettycash, 2) as pettycash,FORMAT(actual_change, 2) as actual_change,FORMAT(refund, 2) as refund FROM tbl_pettycash WHERE fund_no='$fund_no'")->row();
+            $data_fund['fund']=$row;
+        }
+        return array_merge($data_info,$data_material,$data_fund);
     }
 }
 ?>

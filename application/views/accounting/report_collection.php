@@ -4,7 +4,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Sales Collection For Project</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Sales Collection</h2>
 				</div>
 			</div>
 		</div>
@@ -87,9 +87,9 @@
 										     <div class="input-group-append">
 										     	<span class="input-group-text" id="year_alert">YEAR</span></div>
 										     <select class="form-control" name="year" style="width:10%;"></select>
-										     <div class="input-group-append">
-										     	<button type="button" class="btn btn-success" id="search_collection" data-action="daily">SEARCH</button></div>
-										     <div class="input-group-append">
+										     <div class="input-group-append ml-2">
+										     	<button type="button" class="btn btn-success" id="search_collection" data-action="daily"><i class="la la-search"></i> SEARCH</button></div>
+										     <!-- <div class="input-group-append">
 										     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">IMPORT</button>
 										     <div class="dropdown-menu">
 											     <div role="separator" class="dropdown-divider" style="background-color:blue;"></div>
@@ -98,7 +98,7 @@
 												</div>
 											</div>
 									     </div>
-								     </div>
+								     </div> -->
 								</li>
 							</ul>
 						</div>

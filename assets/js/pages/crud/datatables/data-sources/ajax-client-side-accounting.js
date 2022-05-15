@@ -105,16 +105,20 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			}
 			case "tbl_rawmats":{
 				TableURL = baseURL + 'datatable_controller/RawMaterial_Stocks_DataTable';
-				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action',orderable:false}];
+				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
 				_DataTableLoader('tbl_rawmats',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/RawMaterial_OutStocks_DataTable';
-				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action',orderable:false}];
+				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
 				_DataTableLoader('tbl_rawmats_outofstocks',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/RawMaterial_New_DataTable';
 				let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
 				_DataTableLoader('tbl_rawmats_new',TableURL2,TableData2,false);
+
+				let TableURL3 = baseURL + 'datatable_controller/RawMaterial_Release_DataTable';
+				let TableData3 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
+				_DataTableLoader('tbl_rawmats_release',TableURL3,TableData3,false);
 				break;
 			}
 			case "tbl_officesupplies":{
@@ -129,6 +133,10 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				let TableURL2 = baseURL + 'datatable_controller/OfficeSupplies_newstocks_DataTable';
 				let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
 				_DataTableLoader('tbl_officesupplies_new',TableURL2,TableData2,false);
+
+				let TableURL3 = baseURL + 'datatable_controller/OfficeSupplies_release_DataTable';
+				let TableData3 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
+				_DataTableLoader('tbl_officesupplies_release',TableURL3,TableData3,false);
 				break;
 			}
 
@@ -144,6 +152,10 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				let TableURL2 = baseURL + 'datatable_controller/SpareParts_newstocks_DataTable';
 				let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
 				_DataTableLoader('tbl_spareparts_new',TableURL2,TableData2,false);
+
+				let TableURL3 = baseURL + 'datatable_controller/SpareParts_release_DataTable';
+				let TableData3 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
+				_DataTableLoader('tbl_spareparts_release',TableURL3,TableData3,false);
 				break;
 			}
 			case "tbl_production_stocks":{
@@ -176,6 +188,22 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				let TableURL2 = baseURL + 'datatable_controller/Collected_Cancelled_DataTable_Accounting';
 				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,width:20,className:"text-center"}];
 				_DataTableLoader('tbl_collection_cancelled',TableURL2,TableData2,false);
+				break;
+			}
+			case "tbl_other_purchase_invetory":{
+				TableURL = baseURL + 'datatable_controller/Other_purchase_inventory_Request_Accounting';
+				TableData = [{data:'trans_no'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_request',TableURL,TableData,false);
+
+				let TableURL1 = baseURL + 'datatable_controller/Other_purchase_inventory_received_Accounting';
+				let TableData1 = [{data:'trans_no'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_received',TableURL1,TableData1,false);
+				break;
+			}
+			case "tbl_cashposition_category":{
+				TableURL = baseURL + 'datatable_controller/Cashpostion_Category_Accounting';
+				TableData = [{data:'name'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_cashposition_category',TableURL,TableData,false);
 				break;
 			}
 		}	 

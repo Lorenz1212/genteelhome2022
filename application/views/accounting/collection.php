@@ -75,23 +75,22 @@
 									</thead>
 								</table>
 							</div>
-							<div class="tab-pane" id="cancelled" role="tabpanel">
-								<table class="table table-bordered table-hover table-checkable" id="tbl_collection_cancelled">
-									<thead>
-										<tr>
-											<th>TRACKING NO</th>
-											<th>CUSTOMER</th>
-											<th>BANK</th>
-											<th>AMOUNT</th>
-											<th>DATE</th>
-											<th>STATUS</th>
-											<th>ACTION</th>
-										</tr>
-									</thead>
-								</table>
-							</div>
-										
+										<div class="tab-pane" id="cancelled" role="tabpanel">
+											<table class="table table-bordered table-hover table-checkable" id="tbl_collection_cancelled">
+												<thead>
+													<tr>
+														<th>TRACKING NO</th>
+														<th>CUSTOMER</th>
+														<th>BANK</th>
+														<th>AMOUNT</th>
+														<th>DATE</th>
+														<th>STATUS</th>
+														<th>ACTION</th>
+													</tr>
+												</thead>
+											</table>
 										</div>
+										
 									</div>
 								</div>
 							</div>
@@ -234,5 +233,6 @@
 	 		<button type="button" class="btn btn-success Create_Deposit">Submit Form</button>
 	 	</div>
     </div>
+</div>
 </div>
 

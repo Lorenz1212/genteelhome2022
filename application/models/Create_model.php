@@ -1058,12 +1058,12 @@ class Create_model extends CI_Model{
     				  'created_by'=>$this->user_id));
     	$last_id_so = $this->db->insert_id();
     	foreach($description as $key => $value){
-    	$this->db->insert('tbl_salesorder_stocks_item',array('so_no'=>$last_id_so,
-    				  'c_code'=>$this->encryption->decrypt($description[$key]),
-    				  'qty'=>$qty[$key],
-    				  'unit'=>$unit[$key],
-    				  'amount'=>floatval(str_replace(',', '', $amount[$key]))
-    				));
+    		$this->db->insert('tbl_salesorder_stocks_item',array('so_no'=>$last_id_so,
+		    				  'c_code'=>$this->encryption->decrypt($description[$key]),
+		    				  'qty'=>$qty[$key],
+		    				  'unit'=>$unit[$key],
+		    				  'amount'=>floatval(str_replace(',', '', $amount[$key]))
+    		));
     	}
     	if($result){
     		return true;
@@ -1149,6 +1149,22 @@ class Create_model extends CI_Model{
 		$mat_type = explode(',', $type);	
 		for($i=0; $i<count($mat_itemno);$i++){
 		 $this->db->insert('tbl_other_material_m_request',array('item_no'=>$mat_itemno[$i],'item'=>$mat_item[$i],'qty'=>$mat_quantity[$i],'type'=>$mat_type[$i],'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$this->user_id));
+       	}
+    	return true;
+    }
+     function Create_Request_Purchase($item_no,$item,$qty,$type,$amount){
+     	$trans_no = $this->get_code('tbl_other_material_p_header','TNXPR'.date('Ymd'));
+     	$this->db->insert('tbl_other_material_p_header',array('request_no'=>$trans_no,'purchaser'=>$this->user_id,'date_created'=>date('Y-m-d H:i:s')));
+     	$last_id =$this->db->insert_id();	
+		foreach($item_no as $key => $value){
+		 $this->db->insert('tbl_other_material_p_request',
+		 	array('pr_id'=>$last_id,
+		 	'item_no'=>$item_no[$key],
+		 	'item'=>$item[$key],
+		 	'qty'=>$qty[$key],
+		 	'balance'=>$qty[$key],
+		 	'amount'=>floatval(str_replace(',', '', $amount[$key])),
+		 	'type'=>$type[$key]));
        	}
     	return true;
     }
@@ -1257,15 +1273,17 @@ class Create_model extends CI_Model{
 	     	return false;
 	     }
     }
-    function Create_Supplier_Item($id,$item,$amount){
-    	$row = $this->db->select('*')->from('tbl_supplier_item')->where('item_no',$item)->where('supplier',$id)->get()->row();
+    function Create_Supplier_Item($id,$item_no,$item,$amount,$type){
+    	$row = $this->db->select('*')->from('tbl_supplier_item')->where('item',$item)->where('supplier',$id)->get()->row();
 		if($row){
 			return false;
 		}else{
-			$data = array('item_no'  => $item,
-		                  'supplier'       => $id,
-		                  'amount'         => $amount,
+			$data = array('item_no'  => $item_no,
+						  'item'	 => $item,
+		                  'supplier' => $id,
+		                  'amount'   => $amount,
 		                  'status'         => 1,
+		                  'type'         => $type,
 		                  'date_created'   => date('Y-m-d H:i:s'),
 		                  'created_by'	   => $this->user_id);        
 	    	$this->db->insert('tbl_supplier_item',$data);
@@ -1338,6 +1356,15 @@ class Create_model extends CI_Model{
 			}	
 			
 		}
+    }
+    function Create_Cashposition_Category($name){
+    	$row = $this->db->select('*')->from('tbl_category_income')->where('name',$name)->get()->row();
+    	if(!$row){
+    		$this->db->insert('tbl_category_income',array('name'=>$name,'status'=>0));
+    		return array('type'=>'success','message'=>"Create Successfully!");
+    	}else{
+    		return array('type'=>'info','message'=>"Category Name is already exists");
+    	}
     }
 
 

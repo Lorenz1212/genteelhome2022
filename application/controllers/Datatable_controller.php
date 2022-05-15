@@ -56,6 +56,11 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->RawMaterial_New_DataTable();
         echo json_encode($data);
     }
+    public function RawMaterial_Release_DataTable(){
+        $data = $this->datatable_model->RawMaterial_Release_DataTable();
+        echo json_encode($data);
+    }
+
     public function OfficeSupplies_Stocks_DataTable(){
         $data = $this->datatable_model->OfficeSupplies_Stocks_DataTable();
         echo json_encode($data);
@@ -68,6 +73,11 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->OfficeSupplies_newstocks_DataTable();
         echo json_encode($data);
     }
+    public function OfficeSupplies_release_DataTable(){
+        $data = $this->datatable_model->OfficeSupplies_release_DataTable();
+        echo json_encode($data);
+    }
+
     public function SpareParts_Stocks_DataTable(){
         $data = $this->datatable_model->SpareParts_Stocks_DataTable();
         echo json_encode($data);
@@ -78,6 +88,10 @@ class Datatable_controller extends CI_Controller
     }
     public function SpareParts_newstocks_DataTable(){
         $data = $this->datatable_model->SpareParts_newstocks_DataTable();
+        echo json_encode($data);
+    }
+    public function SpareParts_release_DataTable(){
+        $data = $this->datatable_model->SpareParts_release_DataTable();
         echo json_encode($data);
     }
     public function Production_Stocks_DataTable(){
@@ -768,6 +782,31 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Material_Used_List_Supervisor($val);
         echo json_encode($data);
    } 
+
+   public function Other_purchase_inventory_Request(){
+        $data = $this->datatable_model->Other_purchase_inventory_Request();
+        echo json_encode($data);
+   }
+   public function Other_purchase_inventory_Inprogress(){
+        $data = $this->datatable_model->Other_purchase_inventory_Inprogress();
+        echo json_encode($data);
+   }
+   public function Purchase_Material_Inventory_Complete_DataTable(){
+        $data = $this->datatable_model->Purchase_Material_Inventory_Complete_DataTable();
+        echo json_encode($data);
+   }
+   public function Other_purchase_inventory_Request_Accounting(){
+        $data = $this->datatable_model->Other_purchase_inventory_Request_Accounting();
+        echo json_encode($data);
+   }
+   public function Other_purchase_inventory_received_Accounting(){
+        $data = $this->datatable_model->Other_purchase_inventory_received_Accounting();
+        echo json_encode($data);
+   }
+   public function Cashpostion_Category_Accounting(){
+        $data = $this->datatable_model->Cashpostion_Category_Accounting();
+        echo json_encode($data);
+   }
 
 
 
