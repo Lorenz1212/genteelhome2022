@@ -2866,7 +2866,7 @@ class Datatable_model extends CI_Model{
              return $data_response;
 
      }
-      function Account_Report_Salesorde_Yearly($year){
+      function Account_Report_Salesorder_Yearly($year){
         if($year == false){$date = "YEAR(date_order)=".date('Y')."";}else{$date = "YEAR(date_order)=".$year."";}
         $data =false;  $total_subtotal = 0;$total_vat = 0;$total_shippingfee = 0;$total_amount = 0;
         $query = $this->db->select('*,DATE_FORMAT(date_order, "%Y") as date_order')->from('tbl_salesorder_completed')->where($date)->group_by('YEAR(date_order)')->order_by('YEAR(date_order)','ASC')->get();
