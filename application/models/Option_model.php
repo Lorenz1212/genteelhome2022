@@ -189,25 +189,10 @@ class Option_model extends CI_Model
 	        return $data;   
 	    }
 	}
-	function UserJobOrder_option()
-   {        
-     $this->db->select('*')->from('tbl_users')->where('status', 'ACTIVE')->order_by('date_created','DESC');
-     $query = $this->db->get();
-	    if(!$query){return false;}else{ 
-	        foreach($query->result() as $row)  
-	        {  
-	        	$fullname = $row->lastname.' '.$row->firstname;
-	          $data[] = array('id'=> $row->id,'name' => $fullname);
-	          
-	        }  
-	        return $data;   
-	    }
-	}
-	   function Category_option(){
+	function Category_option(){
         $query = $this->db->select('*')->from('tbl_category')->get();
         if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row)  
-            {
+            foreach($query->result() as $row){
              $data[] = array(
                       'id'           => $row->id,
                       'name'         => $row->cat_name);
@@ -300,19 +285,7 @@ class Option_model extends CI_Model
      	 return $query->row();
      }
      function Joborder_Option(){
-     	$names = array('REQUEST', 'COMPLETE', 'PARTIAL');
-     	 $query = $this->db->select('*')->from('tbl_project')->where_in('status',$names)->order_by('production_no','DESC')->get();
-     	 if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row)  
-            {
-             $data[] = array(
-                      'id'           					=> $row->id,
-                      'production_no'         => $row->production_no);
-            }  
-        }else{
-            $data = false;
-        }
-         return $data; 
+     	
      }
      function Joborder1_Option(){
      	$names = array('REQUEST', 'COMPLETE', 'PARTIAL','PENDING');

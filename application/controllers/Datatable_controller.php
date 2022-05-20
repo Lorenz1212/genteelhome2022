@@ -592,11 +592,6 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Account_Report_Project_Yearly($year);
         echo json_encode($data);
     }
-    public function Account_Report_Production_Supplies(){
-        $id = $this->input->post('id');
-        $data = $this->datatable_model->Account_Report_Production_Supplies($id);
-        echo json_encode($data);
-    }
     public function Account_Report_Income_Monthly(){
         $month = isset($_POST['month']) ? $this->input->post('month'): false;
         $year = isset($_POST['year']) ? $this->input->post('year'): false;

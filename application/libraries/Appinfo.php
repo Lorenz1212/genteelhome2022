@@ -107,6 +107,7 @@ class Appinfo {
              $data = json_decode($this->CI->encryption->decrypt($this->CI->input->cookie($this->sess_name.'_admin_user', TRUE)),TRUE);
              if($data){return element($this->sess_name.$role, $data);}else{return false;}
         }
+        
 
 }
 ?>

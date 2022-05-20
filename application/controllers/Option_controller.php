@@ -145,10 +145,7 @@ class Option_Controller extends CI_Controller
         $data = $this->option_model->Office_Option();
         echo json_encode($data);
     }
-    public function UserJobOrder_option(){
-        $data = $this->option_model->UserJobOrder_option();
-        echo json_encode($data);
-    }
+
     public function PurchaseStocks_option()  
     {  
         $status = $this->input->post('status');

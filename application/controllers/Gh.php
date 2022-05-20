@@ -260,7 +260,7 @@ class Gh extends CI_Controller {
             case "salesorder-project":{$this->load->view('accounting/salesorder_project.php');break;}
             case "salesorder-create-stocks":{$this->load->view('accounting/salesorder_create_stocks.php');break;}
             case "salesorder-create-project":{$this->load->view('accounting/salesorder_create_project.php');break;}
-            case 'production-supplies':{$this->load->view('accounting/report_production.php');break;}
+           
 
             case "spareparts":{$this->load->view('accounting/spareparts_list.php');break;}
             case "officesupplies":{$this->load->view('accounting/officesupplies_list.php');break;}
@@ -269,6 +269,8 @@ class Gh extends CI_Controller {
             case "production-stocks":{$this->load->view('accounting/production_stocks.php'); break;}
             case "supplier":{$this->load->view('accounting/supplier_list.php'); break;}
 
+
+            case 'report-project-monitoring':{$this->load->view('accounting/report_production.php');break;}
             case 'report-cash-position':{$this->load->view('accounting/report_cashposition.php');break;}
             case 'report-cashfund':{$this->load->view('accounting/report_cashfund.php');break;}
             case 'report-sales-order':{$this->load->view('accounting/report_salesorder.php');break;}

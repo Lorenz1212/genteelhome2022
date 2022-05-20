@@ -229,7 +229,7 @@
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/accounting/production-supplies";?>" class="menu-link "><span class="menu-text">Project Monitoring</span>
+																<a href="<?php echo base_url()."gh/accounting/report-project-monitoring";?>" class="menu-link "><span class="menu-text">Project Monitoring</span>
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">

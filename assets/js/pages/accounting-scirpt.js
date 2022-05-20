@@ -7,24 +7,28 @@ const month = ["January","February","March","April","May","June","July","August"
 	var _initToast = function(type,message){
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
 	}
-	var _initToastSuccess = function(type,message)
-	{
-		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
+	var _month_year = function(){
+		 $(function() {
+		  var monthNameList = ["January", "February", "March", "April", "May", "June", "July", "August", "September","October", "November", "December"];
+	       var start_year = new Date().getFullYear(); 
+	           $('select[name=month]').append('<option value="" disabled selected>SELECT MONTH</option>');
+	           $.each( monthNameList, function( key, value ) {
+	                var no = key+1;
+	           	 $('select[name=month]').append('<option value="' + no + '">' + value + '</option>');
+		       });
+			  $('select[name=year]').append('<option value="" disabled selected>SELECT YEAR</option>');
+			  for (var i = start_year; i > 2020; i--) {
+			    $('select[name=year]').append('<option value="' + i + '">' + i + '</option>');
+			  }
+	      });
 	}
-	var _initToastWarning = function()
-	{
-		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'warning',title: 'Nothing to change'});
+	var _formatnumbercommat = function(value){
+		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 	var _initremovetable = function(action){
 		$(""+action+"").on("click", "#DeleteButton", function() {
 			   $(this).closest("tr").remove();
 		});
-	}
-	var _initDecimal_format = function(action){
-		 $(""+action+"").inputmask('decimal', {
-		   numericInput: true,
-		   rightAlignNumerics: true
-		 });
 	}
 	var _initCurrency_format = function(action){
 		$( document ).ready(function() {
@@ -66,258 +70,6 @@ const month = ["January","February","March","April","May","June","July","August"
 	  }
 	  return pieces.join('')
 	}
-
-	var _initAvatar = function (action) {
-		_avatar = new KTImageInput(''+action+'');
-	}
-
-	var _initsupplier_option = async function(select_no,action){
-		 $.ajax({
-	             url: baseURL + 'option_controller/supplier_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	  let option1 = '<option value="'+response[i].name+'">'+response[i].name+'</option>';
-                  	  	  $('#supplier_'+select_no).append(option1);  
-                  	  	  $('#supplier_'+select_no).addClass('selectpicker');
-					  $('#supplier_'+select_no).attr('data-live-search', 'true');
-					  $('#supplier_'+select_no).selectpicker('refresh');
-                  	  	
-                  	  }
-                  }                                    
-		});	
-	}
-	var _initSO_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/SO_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	   for(let i=0;i<response.length;i++){
-                  	  	  let option = '<option value="'+response[i].so_no+'">'+response[i].so_no+'</option>';
-                  	  	  $('#so').append(option); 
-                  	  	  $('#so').addClass('selectpicker');
-					  $('#so').attr('data-live-search', 'true');
-					  $('#so').selectpicker('refresh');
-				
-                  	   }
-                  }                                    
-		});	
-	}
-	var _initUser = async function(username){
-		 $.ajax({
-	             url: baseURL + 'option_controller/User_option',
-	             type: "POST",
-	             data:{username:username},
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	   
-                  	if(response.username == username){
-                  		Swal.fire("Warning!", "Username is already exists!", "warning");
-                  		$('input[name=username]').val('');
-                  	}
-                 }                                    
-		});	
-	}
-	var _initUsers_option = function(action){
-		$.ajax({
-	             url: baseURL + 'option_controller/UserJobOrder_option',
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	   
-                  	 for(let i=0;i<response.length;i++){
-                  	  	  let option = '<option value="'+response[i].id+'">'+response[i].name+'</option>';
-                  	  	  $('#users_data').append(option);  
-                  	  	  $('#users_data').addClass('selectpicker');
-					  $('#users_data').attr('data-live-search', 'true');
-					  $('#users_data').selectpicker('refresh');
-                  	  	
-                  	  }
-                 }                                    
-		});
-	}
-	var _initUserUpdate = function(username,id){
-		var val = {username:username,id:id};
-		 $.ajax({
-	             url: baseURL + 'option_controller/UserUpdate_option',
-	             type: "POST",
-	             data:val,
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	   
-                  	if(response== 'warning'){
-                  		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'info',title: "Nothing changes"});
-                  	}else if(response == 'error'){
-                  		Swal.fire("Warning!", "Username is already exists!", "warning");
-                  	}else{
-
-                  	}
-                 } 
-		});	
-	}
-	var _initSalesOrder_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/SalesOrder_Option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	  let option = '<option value="'+response[i].id+'-'+response[i].name+'">('+response[i].qty+') '+response[i].name+'</option>';
-                  	  	 $('#officesupplies').append(option);
-                  	  	 $('#officesupplies').addClass('selectpicker');
-					 $('#officesupplies').attr('data-live-search', 'true');
-					 $('#officesupplies').selectpicker('refresh');
-                  	  }
-                  }                                  
-		});	
-	}
-	var _initItem_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/Item_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	 $('select[name=purchase_item]').selectpicker('refresh');
-                  	  	  let option = '<option value="'+response[i].id+'-'+response[i].name+'">('+response[i].qty+') '+response[i].name+'</option>';
-                  	  	  $('#item').append(option);
-                  	  	  $('#item').addClass('selectpicker');
-					  $('#item').attr('data-live-search', 'true');
-					  $('#item').selectpicker('refresh');
-					   let option1 = '<option value="'+response[i].id+'-'+response[i].name+'">('+response[i].qty+') '+response[i].name+'</option>';
-                  	  	  $('select[name=purchase_item]').append(option1);
-                  	  	  $('select[name=purchase_item]').addClass('selectpicker');
-					  $('select[name=purchase_item]').attr('data-live-search', 'true');
-					  $('select[name=purchase_item]').selectpicker('refresh');
-                  	  }
-                  }                                  
-		});	
-	}
-	var _initItemQTY_option = async function(id){
-		 $.ajax({
-	             url: baseURL + 'option_controller/ItemQty_option',
-	             type: "POST",
-	             data:{id:id},
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	 if(response.stocks <= response.stocks_alert && response.stocks_alert <= response.stocks){
-                  	 	Swal.fire("Warning!", "Running Out of Stocks!", "warning");
-                  	 }else if(response.stocks == 0){
-                  	 	Swal.fire("Warning!", "Out of Stocks!", "warning");
-                  	 }
-                  }                                  
-		});	
-	}
-
-	var _initProject_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/Project_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	// $('#project_no').selectpicker('refresh');
-                  	  	  let option = '<option value="'+response[i].production_no+'-'+response[i].title+'-'+response[i].unit+'">'+response[i].production_no+'</option>';
-                  	  	$('#production').append(option);
-                  	  }
-                  }                                   
-		});	
-	}
-	var _initDesigner_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/Designer_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                       for(let i=0;i<response.length;i++){
-                  	  	let option = '<option value="'+response[i].project_no+'-'+response[i].title+'-'+response[i].image+'-'+response[i].docs+'-'+response[i].designer+'">'+response[i].title+'</option>';
-                  	  	$('#project_no').append(option);
-                  	  	$('#project_no').addClass('selectpicker');
-				     $('#project_no').attr('data-live-search', 'true');
-					$('#project_no').selectpicker('refresh');
-                  	  }
-                  }                                   
-		});	
-	}
-
 	var _ajaxloader = async function(thisURL,type,val,sub){
 		  $.ajax({
 	             url: baseURL + thisURL,
@@ -344,21 +96,7 @@ const month = ["January","February","March","April","May","June","July","August"
                  }                                      
 		});	
 	}
-	var _month_year = function(){
-		 $(function() {
-		  var monthNameList = ["January", "February", "March", "April", "May", "June", "July", "August", "September","October", "November", "December"];
-	       var start_year = new Date().getFullYear(); 
-	           $('select[name=month]').append('<option value="" disabled selected>SELECT MONTH</option>');
-	           $.each( monthNameList, function( key, value ) {
-	                var no = key+1;
-	           	 $('select[name=month]').append('<option value="' + no + '">' + value + '</option>');
-		       });
-			  $('select[name=year]').append('<option value="" disabled selected>SELECT YEAR</option>');
-			  for (var i = start_year; i > 2020; i--) {
-			    $('select[name=year]').append('<option value="' + i + '">' + i + '</option>');
-			  }
-	      });
-	}
+	
 	var _DataTableLoader1 = async function(link,TableURL,TableData,val){
 		var table = $('#'+link);
 		table.DataTable().clear().destroy();
@@ -459,10 +197,11 @@ const month = ["January","February","March","April","May","June","July","August"
 				break;
 			}
 			case "job_order":{
-				if(!response == false){
-					 $('#joborder').empty();
+				let container = $('#joborder');
+				container.empty();
+				if(response != false){
 					 for(let i=0;i<response.length;i++){
-	                  	  	  $('#joborder').append('<option value="'+response[i].production_no+'">'+response[i].production_no+'</option>').addClass('selectpicker').attr('data-live-search', 'true').selectpicker('refresh');
+	                  	  	  container.append('<option value="'+response[i].id+'">'+response[i].production_no+'</option>').addClass('selectpicker').attr('data-live-search', 'true').selectpicker('refresh');
 	                  	  }	
 				}
 				break;
@@ -581,16 +320,34 @@ const month = ["January","February","March","April","May","June","July","August"
 				})
 				break;
 			}
-			case "data-production-supplies":{
+			case "report-project-monitoring":{
+				KTFormControlsAccounting.init('report_project_monitoring');
+				$('.btn-edit-materials').attr('disabled',true);
 				$(document).ready(function(){
-					_initCurrency_format('.text-amount,.text-labor');
-					_initDatepicker('#start-date,#end-date');
-					_ajaxloaderOption('option_controller/Joborder_Option','POST',false,'job_order');
-					 $(document).on('click','.btn-search',function(e){
+					_initCurrency_format('.amount');
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Joborder...'),_constructForm(['project-monitoring', 'fetch_project_monitoring_joborder',false]));
+					$(document).on('click','.btn-search',function(e){
 					 	e.preventDefault();
-					 	let val = {id:$('select[name=joborder]').val()};
-						let thisUrl = 'datatable_controller/Account_Report_Production_Supplies';
-						_ajaxloader(thisUrl,"POST",val,"Account_Report_Production_Supplies");
+					 	let element = $('select[name=joborder]');
+					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['project-monitoring', 'fetch_project_monitoring',element.val()]));
+					});
+					$(document).on('click','.view-details',function(e){
+					 	e.preventDefault();
+						$('#view-details').modal('show');
+					});
+					$(document).on('click','.btn-edit-materials',function(e){
+					 	e.preventDefault();
+					 	let element = $(this);
+					 	let id = element.attr('data-id');
+					 	let type =element.attr('data-type');
+					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['project-monitoring', 'fetch_project_monitoring_type',id,type]));
+					});
+					$(document).on('change','.item',function(e){
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let element = $(this);
+					 	let id =element.val();
+					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Materials...'),_constructForm(['project-monitoring','fetch_project_monitoring_material',id]));
 					});
 				})
 				break;
@@ -645,9 +402,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			}
 			case "data-supplier":{
 				KTDatatablesDataSourceAjaxClient.init('tbl_supplier');
-
 				 $(document).ready(function() {
-				 	_initItem_option();
 					_initCurrency_format("#price");
 					$(document).on("click","#form-request",function() {
 						let thisUrl = 'modal_controller/Modal_Supplier_View';
@@ -1277,12 +1032,12 @@ const month = ["January","February","March","April","May","June","July","August"
 						    	  	 let data = $(tbl_id+' > div.form-group > div > input').val();
 								 let val = {id:id,data:data,action:action,row:row,col:col};
 								 _ajaxloaderOption('update_controller/Update_Cash_Position',"POST",val,"Update_Cash_Position");
-								 _initToastSuccess('success','Save Changes');
+								 _initToast('success','Save Changes');
 								 $('#search').trigger('click');
 							  });
 							  $(document).on('click',tbl_id+' div.form-group > div > div > .btn-cancelled', function(e){
 							  		e.preventDefault(); 
-								 	_initToastSuccess('info','Nothing Changes');
+								 	_initToast('info','Nothing Changes');
 								 	$(tbl_id+' > div.form-group').css('display','none');
 								 	$(tbl_id+' > #input-dateposition').show();
 							  });
@@ -1293,7 +1048,7 @@ const month = ["January","February","March","April","May","June","July","August"
 								    let data =  $(tbl_id).text();
 								    let val = {id:id,data:data,action:action,row:row,col:col};
 								    _ajaxloaderOption('update_controller/Update_Cash_Position',"POST",val,false);
-								    _initToastSuccess('success','Save Changes');
+								    _initToast('success','Save Changes');
 								  	$('#search').trigger('click');
 								 });
 						    }
@@ -1310,7 +1065,7 @@ const month = ["January","February","March","April","May","June","July","August"
 						        if (result.value) {
 						        	let val = {id:id};
 						         _ajaxloaderOption('delete_controller/Delete_Cash_Position',"POST",val,false);
-						         _initToastSuccess('error','Remove Item');
+						         _initToast('error','Remove Item');
 						          $('#search').trigger('click');
 						        }else{
 						        	$('#search').trigger('click');
@@ -1322,7 +1077,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				        	let data = $(this).val();
 				        	let val = {id:id,data:data,action:'type'};
 				         _ajaxloaderOption('update_controller/Update_Cash_Position',"POST",val,false);
-				         _initToastSuccess('success','Saved Changes');
+				         _initToast('success','Saved Changes');
 				          $('#search').trigger('click');
 				       });
 				       $(document).on('change','.select-category', function(e){
@@ -1330,7 +1085,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				       	let data = $(this).val();
 				        	let val = {id:id,data:data,action:'category'};
 				         _ajaxloaderOption('update_controller/Update_Cash_Position',"POST",val,false);
-				         _initToastSuccess('success','Saved Changes');
+				         _initToast('success','Saved Changes');
 				       });
 
 				})
@@ -1917,148 +1672,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  			}
 	  			break;
 	  		}
-	  		case "Account_Report_Production_Supplies":{
-	  			$('.text-name').val(response.project.customer);
-	  			$('.text-address').val(response.project.address);
-	  			$('.text-amount').val(response.amount);
-	  			$('.text-labor').val(response.labor);
-	  			$('.text-start').val(response.start);
-	  			$('.text-due').val(response.due);
-	  			$('.btn-edit').removeAttr('disabled');
-	  			$('.btn-search').attr('data-id',response.project.id);
-	  			$(document).on('click','.btn-edit',function(e){
-	  				e.preventDefault();
-	  				let element = $(this);
-	  				let action = element.attr('data-action');
-	  				$('#'+action).removeClass('far fa-edit').addClass('flaticon2-check-mark');
-	  				if(action == 'edit-name'){
-	  					element.attr('data-action','save-name').addClass('save');
-					 	$('.text-name').removeAttr('disabled');
-				 	}else if(action == 'edit-address'){
-				 		element.attr('data-action','save-address').addClass('save');
-				 		$('.text-address').removeAttr('disabled');
-				 	}else if(action == 'edit-amount'){
-				 		element.attr('data-action','save-amount').addClass('save');
-				 		$('.text-amount').removeAttr('disabled');
-				 	}else if(action == 'edit-labor'){
-				 		element.attr('data-action','save-labor').addClass('save');
-				 		$('.text-labor').removeAttr('disabled');
-				 	}else if(action == 'edit-date'){
-				 		element.attr('data-action','save-date').addClass('save');
-				 		$('.text-start').removeAttr('disabled');
-				 		$('.text-due').removeAttr('disabled');
-				 	}
-	  			});
-	  			if(!response.framing == false){
-		  			for(var i=0;i<response.framing.length;i++){
-		             			$('#tbl_framing > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.framing[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_framing > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" rows="4" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.mechanism == false){
-		  			for(var i=0;i<response.mechanism.length;i++){
-		             			$('#tbl_mechanism > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.mechanism[i].item+'</td>'
-		             				+'<td class="text-right"><span  class="text-dark-75   d-block">'+response.mechanism[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_mechanism > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.finishing == false){
-		  			for(var i=0;i<response.finishing.length;i++){
-		             			$('#tbl_finishing > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.finishing[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_finishing > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.sulihiya == false){
-		  			for(var i=0;i<response.sulihiya.length;i++){
-		             			$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.sulihiya[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.upholstery == false){
-		  			for(var i=0;i<response.upholstery.length;i++){
-		             			$('#tbl_upholstery > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.upholstery[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_upholstery > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.others == false){
-		  			for(var i=0;i<response.others.length;i++){
-		             			$('#tbl_others > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.others[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_others > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" rows="4"  class="text-center">NO DATA</td>\
-							</tr>');
-				}
-	  			break;
-	  		}
+	  		
 	  		case "Modal_Accounting_Income_Statement":{
 	  			$('.save_income').attr('data-action','update');
 	  			$('.save_income').attr('data-status','income');
@@ -3845,6 +3459,314 @@ const month = ["January","February","March","April","May","June","July","August"
 	 
 	  }
 	}
+	var _construct = async function(response, type, element, object){
+		switch(type){
+		 case "fetch_project_monitoring_joborder":{
+		 	let container = $('#joborder');
+			container.empty();
+			if(response != false){
+			   for(let i=0;i<response.length;i++){
+                  	  	  container.append('<option value="'+response[i].id+'">'+response[i].production_no+'</option>').addClass('selectpicker').attr('data-live-search', 'true').selectpicker('refresh');
+                  }	
+			}
+		 	break;
+		 }
+		 case "fetch_project_monitoring_type":{
+		 	$('#view-materials').on('show.bs.modal', function () {
+			   	let container = $('.item');
+				container.empty();
+				if(response != false){
+				   container.append('<option value="">SELECT MATERIAL</option>');
+				   for(let i=0;i<response.length;i++){
+	                  	  	  container.append('<option value="'+response[i].id+'">'+response[i].item+'</option>');
+	                  }	
+				}
+				container.select2({
+				   placeholder: "SELECT MATERIAL",
+				   width: '100%'
+				});
+				let trans = $('.text-trans').text();
+				$('.text-trans-material').text(trans);
+			})
+			$('#view-materials').modal('show');
+		 	break;
+		 }
+		 case "fetch_project_monitoring_material":{
+		 	let cost = (response.cost !=0)?response.cost:" ";
+		 	let total_qty = (response.total_qty !=0)?response.total_qty:" ";
+		 	$('.text-material-id').val(response.id);
+		 	$('.text-quantity-costing').val(total_qty);
+		 	$('.text-amount-costing').val(cost);
+		 	break;
+		 }
+           case "fetch_project_monitoring":{
+           	$('.btn-edit-materials').attr('disabled',false);
+           	let cost=0;
+           	let amount_costing=0;
+           	let amount_actual=0;
+           	let total_cost_framing = 0;
+           	let total_amount_costing_framing =0;
+           	let total_amount_actual_framing=0;
+           	let total_cost_mechanism = 0;
+           	let total_amount_costing_mechanism =0;
+           	let total_amount_actual_mechanism=0;
+           	let total_cost_finishing = 0;
+           	let total_amount_costing_finishing =0;
+           	let total_amount_actual_finishing=0;
+           	let total_cost_sulihiya= 0;
+           	let total_amount_costing_sulihiya=0;
+           	let total_amount_actual_sulihiya=0;
+           	let total_cost_upholstery= 0;
+           	let total_amount_costing_upholstery=0;
+           	let total_amount_actual_upholstery=0;
+           	let total_cost_others= 0;
+           	let total_amount_costing_others=0;
+           	let total_amount_actual_others=0;
+           	let amount = (response.info.amount != 0)?_formatnumbercommat(response.info.amount):"";
+           	let labor = (response.info.labor!= 0)?_formatnumbercommat(response.info.labor):"";
+           		$('.btn-edit-materials').attr('data-id',response.id);
+           		$('.text-trans').text(response.info.production_no).attr('data-id',response.id);
+	  			$('.text-name').val(response.info.customer);
+	  			$('.text-address').val(response.info.address);
+	  			$('.text-amount').val(amount);
+	  			$('.text-labor').val(labor);
+	  			$('.text-start').val(response.info.start_date);
+	  			$('.text-end').val(response.info.due_date);
+	  			$('.text-start-name').val(response.info.start_date_name);
+	  			$('.text-end-name').val(response.info.due_date_name);
+	  			$('.btn-edit').removeAttr('disabled');
+	  			$('.btn-search').attr('data-id',response.info.id);
+	  			if(!response.framing == false){
+		  			for(var i=0;i<response.framing.length;i++){
+		  			cost = _formatnumbercommat(response.framing[i].cost);
+		  			amount_costing = _formatnumbercommat(response.framing[i].amount_costing);
+		  			amount_actual = _formatnumbercommat(response.framing[i].amount_actual);
+		  			total_cost_framing +=response.framing[i].cost;
+		  			total_amount_costing_framing +=response.framing[i].amount_costing;
+		  			total_amount_actual_framing +=response.framing[i].amount_actual;
+		             			$('#tbl_framing > tbody:last-child').empty().append('<tr>'
+		             				+'<td class="text-success">'+response.framing[i].item_name+'</td>'
+		             				+'<td class="text-right">'+response.framing[i].total_qty+'</td>'
+		             				+'<td class="text-right">'+response.framing[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+response.framing[i].production_quantity+'</td>'
+		             				+'<td class="text-right">'+response.framing[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+cost+'</td>'
+		             				+'<td class="text-right">'+amount_costing+'</td>'
+		             				+'<td class="text-right">'+amount_actual+'</td>'
+							+'</tr>');
+					}
+				}else{
+					$('#tbl_framing > tbody:last-child').empty().append('<tr>\<td colspan="8" rows="4" class="text-center">NO DATA</td></tr>');
+				}
+				if(!response.mechanism == false){
+		  			for(var i=0;i<response.mechanism.length;i++){
+		  			cost = _formatnumbercommat(response.mechanism[i].cost);
+		  			amount_costing = _formatnumbercommat(response.mechanism[i].amount_costing);
+		  			amount_actual = _formatnumbercommat(response.mechanism[i].amount_actual);
+		  			total_cost_mechanism +=response.mechanism[i].cost;
+		  			total_amount_costing_mechanism +=response.mechanism[i].amount_costing;
+		  			total_amount_actual_mechanism +=response.mechanism[i].amount_actual;
+		             			$('#tbl_mechanism > tbody:last-child').empty().append('<tr>'
+		             				+'<td class="text-success">'+response.mechanism[i].item_name+'</td>'
+		             				+'<td class="text-right">'+response.mechanism[i].total_qty+'</td>'
+		             				+'<td class="text-right">'+response.mechanism[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+response.mechanism[i].production_quantity+'</td>'
+		             				+'<td class="text-right">'+response.mechanism[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+cost+'</td>'
+		             				+'<td class="text-right">'+amount_costing+'</td>'
+		             				+'<td class="text-right">'+amount_actual+'</td>'
+							+'</tr>');
+					}
+				}else{
+					$('#tbl_mechanism > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
+				}
+				if(!response.finishing == false){
+		  			for(var i=0;i<response.finishing.length;i++){
+		  			cost = _formatnumbercommat(response.finishing[i].cost);
+		  			amount_costing = _formatnumbercommat(response.finishing[i].amount_costing);
+		  			amount_actual = _formatnumbercommat(response.finishing[i].amount_actual);
+		  			total_cost_finishing +=response.finishing[i].cost;
+		  			total_amount_costing_finishing +=response.finishing[i].amount_costing;
+		  			total_amount_actual_finishing +=response.finishing[i].amount_actual;
+		             			$('#tbl_finishing > tbody:last-child').empty().append('<tr>'
+		             				+'<td class="text-success">'+response.finishing[i].item_name+'</td>'
+		             				+'<td class="text-right">'+response.finishing[i].total_qty+'</td>'
+		             				+'<td class="text-right">'+response.finishing[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+response.finishing[i].production_quantity+'</td>'
+		             				+'<td class="text-right">'+response.finishing[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+cost+'</td>'
+		             				+'<td class="text-right">'+amount_costing+'</td>'
+		             				+'<td class="text-right">'+amount_actual+'</td>'
+							+'</tr>');
+					}
+				}else{
+					$('#tbl_finishing > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
+				}
+				if(!response.sulihiya == false){
+		  			for(var i=0;i<response.sulihiya.length;i++){
+			  			cost = _formatnumbercommat(response.sulihiya[i].cost);
+			  			amount_costing = _formatnumbercommat(response.sulihiya[i].amount_costing);
+			  			amount_actual = _formatnumbercommat(response.sulihiya[i].amount_actual);
+			  			total_cost_sulihiya +=response.sulihiya[i].cost;
+		  				total_amount_costing_sulihiya +=response.sulihiya[i].amount_costing;
+		  				total_amount_actual_sulihiya +=response.sulihiya[i].amount_actual;
+		             			$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>'
+		             				+'<td class="text-success">'+response.sulihiya[i].item_name+'</td>'
+		             				+'<td class="text-right">'+response.sulihiya[i].total_qty+'</td>'
+		             				+'<td class="text-right">'+response.sulihiya[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+response.sulihiya[i].production_quantity+'</td>'
+		             				+'<td class="text-right">'+response.sulihiya[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+cost+'</td>'
+		             				+'<td class="text-right">'+amount_costing+'</td>'
+		             				+'<td class="text-right">'+amount_actual+'</td>'
+							+'</tr>');
+					}
+				}else{
+					$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>\<td colspan="8" class="text-center">NO DATA</td>\</tr>');
+				}
+				if(!response.upholstery == false){
+		  			for(var i=0;i<response.upholstery.length;i++){
+		  				cost = _formatnumbercommat(response.upholstery[i].cost);
+			  			amount_costing = _formatnumbercommat(response.upholstery[i].amount_costing);
+			  			amount_actual = _formatnumbercommat(response.upholstery[i].amount_actual);
+			  			total_cost_upholstery +=response.upholstery[i].cost;
+		  				total_amount_costing_upholstery +=response.upholstery[i].amount_costing;
+		  				total_amount_actual_upholstery +=response.upholstery[i].amount_actual;
+		             			$('#tbl_upholstery > tbody:last-child').empty().append('<tr>'
+		             				+'<td class="text-success">'+response.upholstery[i].item_name+'</td>'
+		             				+'<td class="text-right">'+response.upholstery[i].total_qty+'</td>'
+		             				+'<td class="text-right">'+response.upholstery[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+response.upholstery[i].production_quantity+'</td>'
+		             				+'<td class="text-right">'+response.upholstery[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+cost+'</td>'
+		             				+'<td class="text-right">'+amount_costing+'</td>'
+		             				+'<td class="text-right">'+amount_actual+'</td>'
+							+'</tr>');
+					}
+				}else{
+					$('#tbl_upholstery > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
+				}
+				if(!response.others == false){
+		  			for(var i=0;i<response.others.length;i++){
+		  				cost = _formatnumbercommat(response.others[i].cost);
+			  			amount_costing = _formatnumbercommat(response.others[i].amount_costing);
+			  			amount_actual = _formatnumbercommat(response.others[i].amount_actual);
+			  			total_cost_others +=response.others[i].cost;
+		  				total_amount_costing_others +=response.others[i].amount_costing;
+		  				total_amount_actual_others+=response.others[i].amount_actual;
+		             			$('#tbl_others > tbody:last-child').empty().append('<tr>'
+		             				+'<td class="text-success">'+response.others[i].item_name+'</td>'
+		             				+'<td class="text-right">'+response.others[i].total_qty+'</td>'
+		             				+'<td class="text-right">'+response.others[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+response.others[i].production_quantity+'</td>'
+		             				+'<td class="text-right">'+response.others[i].item_unit+'</td>'
+		             				+'<td class="text-right">'+cost+'</td>'
+		             				+'<td class="text-right">'+amount_costing+'</td>'
+		             				+'<td class="text-right">'+amount_actual+'</td>'
+							+'</tr>');
+					}
+				}else{
+					$('#tbl_others > tbody:last-child').empty().append('<tr><td colspan="8" rows="4"  class="text-center">NO DATA</td></tr>');
+				}
+	  			break;
+	  		}
+
+      	}
+	}
+	 // start making formdata
+    var _constructForm = function(args){
+          let formData = new FormData();
+          for (var i = 1; (args.length+1) > i; i++){
+             formData.append('data'+ i, args[i-1]);
+           }  
+          return formData;
+    };
+    var _constructBlockUi = function(type, element, message){
+          let formData = new FormData();
+           formData.append('type', type);
+           formData.append('element', element);
+           formData.append('message', message);
+           if(formData){
+             return formData;
+           }
+    };
+    var _ajaxrequest = async function(blockUi, formData){
+      return new Promise((resolve, reject) => {
+             let y = true;
+             $.ajax({
+              url: baseURL+'Accounting_Controller/Controller',
+              type: 'POST',
+              data: formData,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              beforeSend: function(){
+                if(blockUi.get("type") == "blockPage"){
+                   if(blockUi.get("message") != "false"){
+                      KTApp.blockPage({
+                      overlayColor: '#000000',
+                      state: 'primary',
+                      message: blockUi.get("message")
+                     });
+                   }else{
+                      KTApp.blockPage();
+                   }
+                }else if(blockUi.get("type") == "blockContent"){
+                      KTApp.block(blockUi.get("element"));
+                }else{
+                }
+              },
+              complete: function(){
+                if(blockUi.get("type") == "blockPage"){
+                  KTApp.unblockPage();
+                }else if(blockUi.get("type") == "blockContent"){
+                  KTApp.unblock(blockUi.get("element"));
+                }else{
+                }
+                 resolve(y)
+              },
+              success: function(res){
+                 if(res.status == 'success'){
+                    if(window.atob(res.payload) != false){
+                      _construct(JSON.parse(window.atob(res.payload)), formData.get("data2"));
+                    }else{
+                      _construct(res.message, formData.get("data2"));
+                    }
+                 }else if(res.status == 'not_found'){
+                    Swal.fire("Ops!", res.message, "info");
+                 }else{
+                    Swal.fire("Ops!", res.message, "info");
+                 } 
+              },
+              error: function(xhr,status,error){
+                // if(xhr.status == 200){
+                //   if(xhr.responseText.trim()=="signed-out"){
+                //     Swal.fire({
+                //     title:"Oopps!",
+                //     text: "Your account was signed-out.",
+                //     icon: "info",
+                //     showCancelButton: false,
+                //     confirmButtonText: "Ok, Got it",
+                //         reverseButtons: true
+                //     }).then(function(result) {
+                //       window.location.replace("login");
+                //     });
+                //   }else{
+                //     Swal.fire("Ops!", "Check your internet connection.", "error");
+                //   }
+                // }else 
+                if(xhr.status == 500){
+                  Swal.fire("Ops!", 'Internal error: ' + xhr.responseText, "error");
+                }else{
+                  console.log(xhr);
+                  console.log(status);
+                  Swal.fire("Ops!", 'Something went wrong..', "error");
+                }
+              }       
+        });      
+       })
+    };
+ 
 	return {
 
 		//main function to initiate the module
