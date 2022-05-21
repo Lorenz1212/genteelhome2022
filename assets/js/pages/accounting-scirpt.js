@@ -3,6 +3,7 @@ var KTAjaxClient = function() {
 var arrows;
 var html;
 var option;
+
 const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 	var _initToast = function(type,message){
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
@@ -238,6 +239,16 @@ const month = ["January","February","March","April","May","June","July","August"
 				$('textarea[name=address]').val(response.address);
 				break;
 			}
+			case "cashpostion_category":{
+				let cash_id = $('.cat_id');
+				cash_id.empty();
+				if(response != false){
+					for(let i=0;i<response.length;i++){
+						cash_id.append('<option value="'+response[i].id+'">'+response[i].name+'</option>')
+					}
+				}
+				break;
+			}
 
 		}
 	}
@@ -317,38 +328,6 @@ const month = ["January","February","March","April","May","June","July","August"
 					 	let thisUrl = 'modal_controller/Modal_Other_Purchase_View_Received_Accounting';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Other_Purchase_View_Received_Accounting");
 				    });
-				})
-				break;
-			}
-			case "report-project-monitoring":{
-				KTFormControlsAccounting.init('report_project_monitoring');
-				$('.btn-edit-materials').attr('disabled',true);
-				$(document).ready(function(){
-					_initCurrency_format('.amount');
-					_ajaxrequest(_constructBlockUi('blockPage', false, 'Joborder...'),_constructForm(['project-monitoring', 'fetch_project_monitoring_joborder',false]));
-					$(document).on('click','.btn-search',function(e){
-					 	e.preventDefault();
-					 	let element = $('select[name=joborder]');
-					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['project-monitoring', 'fetch_project_monitoring',element.val()]));
-					});
-					$(document).on('click','.view-details',function(e){
-					 	e.preventDefault();
-						$('#view-details').modal('show');
-					});
-					$(document).on('click','.btn-edit-materials',function(e){
-					 	e.preventDefault();
-					 	let element = $(this);
-					 	let id = element.attr('data-id');
-					 	let type =element.attr('data-type');
-					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['project-monitoring', 'fetch_project_monitoring_type',id,type]));
-					});
-					$(document).on('change','.item',function(e){
-					 	e.preventDefault();
-					 	e.stopImmediatePropagation();
-					 	let element = $(this);
-					 	let id =element.val();
-					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Materials...'),_constructForm(['project-monitoring','fetch_project_monitoring_material',id]));
-					});
 				})
 				break;
 			}
@@ -834,7 +813,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#action').trigger('click');  
 				break;
 			}
-			case "data-saleorder-report":{
+			case "reports-saleorder":{
 				   $(document).on('click','#search_collection',function(e){
 				   		var action = $(this).attr('data-status');
 						let month = $('select[name=month]').val();
@@ -901,10 +880,50 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#action').trigger('click');
 				break;
 			}
-
-			case "data-cashposition":{
+			case "report-project-monitoring":{
+				KTFormControlsAccounting.init('report_project_monitoring');
+				$('.btn-edit-materials').attr('disabled',true);
 				$(document).ready(function(){
-					KTDatatablesDataSourceAjaxClient.init('tbl_cashposition_category');
+					_initCurrency_format('.amount');
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Joborder...'),_constructForm(['project-monitoring', 'fetch_project_monitoring_joborder',false]));
+					$(document).on('click','.btn-search',function(e){
+					 	e.preventDefault();
+					 	let element = $('select[name=joborder]');
+					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['project-monitoring', 'fetch_project_monitoring',element.val()]));
+					});
+					$(document).on('click','.view-details',function(e){
+					 	e.preventDefault();
+						$('#view-details').modal('show');
+					});
+					$(document).on('click','.btn-edit-materials',function(e){
+					 	e.preventDefault();
+					 	let element = $(this);
+					 	let id = element.attr('data-id');
+					 	let type =element.attr('data-type');
+					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['project-monitoring', 'fetch_project_monitoring_type',id,type]));
+					});
+					$(document).on('change','.item',function(e){
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let element = $(this);
+					 	let id =element.val();
+					 	_ajaxrequest(_constructBlockUi('blockPage', false, 'Materials...'),_constructForm(['project-monitoring','fetch_project_monitoring_material',id]));
+					});
+				})
+				break;
+			}
+			case "reports-cashposition":{
+				$(document).ready(function(){
+					$('.btn-add-cashposition').on('click',function(e) {
+						e.preventDefault();
+						$('#formIncome').modal('show');
+						_ajaxloaderOption('option_controller/cashpostion_category','POST',false,'cashpostion_category');
+					});
+					$('.btn-list-category').on('click',function(e) {
+						e.preventDefault();
+						KTDatatablesDataSourceAjaxClient.init('tbl_cashposition_category');
+						$('#category-list').modal('show');
+					});
 					$(".btn-add-category").on('click',function(e){
 					 	   e.preventDefault();
 			                  Swal.fire({
@@ -997,23 +1016,7 @@ const month = ["January","February","March","April","May","June","July","August"
  						$('#search').trigger('click');
  					 }); 
 					$('#action').trigger('click');  
-				     $(document).on("click","#form-income",function(e) {
-				     	e.preventDefault();
-				     	let action = $(this).attr('data-action');
-				     	if(action == 'create'){
-				     		$('.save').attr('data-action','create');
-							$('input[name=name]').val("");
-			  				$('input[name=amount]').val('');
-			  				$('input[name=date_position]').val('');
-			  				$('select[name=type]').val('');
-			  				// $('textarea[name=description]').val('');
-						}else{
-						 	let val = {id:$(this).attr('data-id')};
-						 	let thisUrl = 'modal_controller/Modal_Accounting_Cash_Position';
-							_ajaxloader(thisUrl,"POST",val,"Modal_Accounting_Cash_Position");
-						}
-				     });
-				       $(document).on('dblclick','#tbl_cashposition_weekly > table > tbody > tr > #td-input', function(e){
+				      $(document).on('dblclick','#tbl_cashposition_weekly > table > tbody > tr > #td-input', function(e){
 					  	    e.preventDefault(); 
 					  	    var col = $(this).index(),
 						    row = $(this).parent().index();
@@ -1521,146 +1524,224 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		}
 	  		
 	  		case "Account_Report_Salesorder_Daily":{
-	  			let container = $('#tbl_salesorder_daily > tbody:last-child');
+	  			let container = $('#tbl_salesorder_daily > tbody');
 	  			container.empty();
-		             	for(var i=0;i<response.result.length;i++){
+	  			var total_downpayment= 0; 
+				var total_subtotal = 0; 
+				var total_discount = 0; 
+				var total_vat= 0; 
+				var total_shipping_fee= 0; 
+				var total_amount_due = 0; 
+		             	for(var i=0;i<response.length;i++){
              			container.append('<tr>'
-             				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
-             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.result[i].customer+'</span></td>'
-             				+'<td class="pl-0">'+response.result[i].so_no+'</td>'
-             				+'<td class="pl-0 text-right">'+response.result[i].downpayment+'</td>'
-             				+'<td class="pl-0 text-right">'+response.result[i].subtotal+'</td>'
-             				+'<td class="pl-0 text-right">'+response.result[i].discount+'</td>'
-             				+'<td class="pl-0 text-right">'+response.result[i].vat+'</td>'
-             				+'<td class="pl-0 text-right">'+response.result[i].shipping_fee+'</td>'
-             				+'<td class="pl-0 text-right">'+response.result[i].amount_due+'</td>'
+             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+             				+'<td><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response[i].customer+'</span></td>'
+             				+'<td>'+response[i].so_no+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount_due)+'</td>'
 					+'</tr>');
+             			total_downpayment += parseFloat(response[i].downpayment);
+	             		total_subtotal += parseFloat(response[i].subtotal);
+	             		total_discount += parseFloat(response[i].discount);
+	             		total_vat += parseFloat(response[i].vat);
+	             		total_shipping_fee += parseFloat(response[i].shipping_fee);
+	             		total_amount_due += parseFloat(response[i].amount_due);	
 				}
-				$('#total_subtotal').text(response.total_subtotal);
-  				$('#total_vats').text(response.total_vat);
-  				$('#total_shippingfee').text(response.total_shippingfee);
-  				$('#total_grand').text(response.total_amount);
+				$('#tbl_salesorder_daily > tfoot').empty().append('<tr class="table-success">'
+             				+'<td class="text-center" colspan="3">TOTAL</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_amount_due)+'</td>'
+					+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Salesorder_Weekly":{
-	  			let container = $('#tbl_salesorder_weekly > tbody:last-child');
+	  			let container = $('#tbl_salesorder_weekly > tbody');
 	  			container.empty();
-		          for(var i=0;i<response.result.length;i++){
+	  			let total_downpayment_weekly=0;
+	  			let total_subtotal_weekly=0;
+	  			let total_discount_weekly=0;
+	  			let total_vat_weekly=0;
+	  			let total_shipping_fee_weekly=0;
+	  			let total_amount_due_weekly=0;
+		          for(var i=0;i<response.length;i++){
              			container.append('<tr>'
-             				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
-             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].subtotal+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].vat+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].shipping_fee+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].amount_due+'</span></td>'
+             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount_due)+'</td>'
 					+'</tr>');
+             			total_downpayment_weekly += parseFloat(response[i].downpayment);
+	             		total_subtotal_weekly += parseFloat(response[i].subtotal);
+	             		total_discount_weekly += parseFloat(response[i].discount);
+	             		total_vat_weekly += parseFloat(response[i].vat);
+	             		total_shipping_fee_weekly += parseFloat(response[i].shipping_fee);
+	             		total_amount_due_weekly += parseFloat(response[i].amount_due);
 				}
+				$('#tbl_salesorder_weekly > tfoot').empty().append('<tr class="table-success">'
+             				+'<td class="text-center">TOTAL</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_downpayment_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_subtotal_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_discount_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_vat_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_shipping_fee_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_amount_due_weekly)+'</td>'
+					+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Salesorder_Monthly":{
-	  			let container = $('#tbl_salesorder_monthly > tbody:last-child');
+	  			let container = $('#tbl_salesorder_monthly > tbody');
 	  			container.empty();
-		             	for(var i=0;i<response.result.length;i++){
-	             			container.append('<tr>'
-	             				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
-	             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].subtotal+'</span></td>'
-	             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].vat+'</span></td>'
-	             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].shipping_fee+'</span></td>'
-	             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].amount_due+'</span></td>'
+	  			let total_downpayment_monthly=0;
+	  			let total_subtotal_monthly=0;
+	  			let total_discount_monthly=0;
+	  			let total_vat_monthly=0;
+	  			let total_shipping_fee_monthly=0;
+	  			let total_amount_due_monthly=0;
+		           for(var i=0;i<response.length;i++){
+	             		container.append('<tr>'
+	             			+'<td class="font-weight-bolder text-success ml-3">'+response[i].date_created+'</td>'
+	             			+'<td class="text-right">'+_formatnumbercommat(response[i].downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount_due)+'</td>'
 						+'</tr>');
+						total_downpayment_monthly += parseFloat(response[i].downpayment);
+	             		total_subtotal_monthly += parseFloat(response[i].subtotal);
+	             		total_discount_monthly += parseFloat(response[i].discount);
+	             		total_vat_monthly += parseFloat(response[i].vat);
+	             		total_shipping_fee_monthly += parseFloat(response[i].shipping_fee);
+	             		total_amount_due_monthly += parseFloat(response[i].amount_due);
 					}
-				$('#total_subtotal').text(response.total_subtotal);
-  				$('#total_vats').text(response.total_vat);
-  				$('#total_shippingfee').text(response.total_shippingfee);
-  				$('#total_grand').text(response.total_amount);
+					$('#tbl_salesorder_monthly > tfoot').empty().append('<tr class="table-success">'
+             				+'<td class="text-center">TOTAL</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_downpayment_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_subtotal_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_discount_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_vat_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_shipping_fee_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_amount_due_monthly)+'</td>'
+					+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Salesorder_Yearly":{
-	  			let container = $('#tbl_salesorder_yearly > tbody:last-child');
+	  			let container = $('#tbl_salesorder_yearly > tbody');
 	  			container.empty();
-	             	for(var i=0;i<response.result.length;i++){
+	  			let total_downpayment_yearly=0;
+	  			let total_subtotal_yearly=0;
+	  			let total_discount_yearly=0;
+	  			let total_vat_yearly=0;
+	  			let total_shipping_fee_yearly=0;
+	  			let total_amount_due_yearly=0;
+	             	for(var i=0;i<response.length;i++){
              			container.append('<tr>'
-             				+'<td class="pl-0 font-weight-bolder text-success">'+response.result[i].date_created+'</td>'
-             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].subtotal+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].vat+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].shipping_fee+'</span></td>'
-             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.result[i].amount_due+'</span></td>'
+             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount_due)+'</td>'
 					+'</tr>');
+             			total_downpayment_yearly += parseFloat(response[i].downpayment);
+	             		total_subtotal_yearly += parseFloat(response[i].subtotal);
+	             		total_discount_yearly += parseFloat(response[i].discount);
+	             		total_vat_yearly += parseFloat(response[i].vat);
+	             		total_shipping_fee_yearly += parseFloat(response[i].shipping_fee);
+	             		total_amount_due_yearly += parseFloat(response[i].amount_due);
 				}
-				$('#total_subtotal').text(response.total_subtotal);
-  				$('#total_vats').text(response.total_vat);
-  				$('#total_shippingfee').text(response.total_shippingfee);
-  				$('#total_grand').text(response.total_amount);
+				$('#tbl_salesorder_yearly > tfoot').empty().append('<tr class="table-success">'
+             				+'<td class="text-center">TOTAL</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_downpayment_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_subtotal_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_discount_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_vat_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_shipping_fee_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_amount_due_yearly)+'</td>'
+					+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Daily":{
-	  				let container = $('#tbl_cashfund_daily > tbody:last-child');
+	  				let container = $('#tbl_cashfund_daily > tbody');
 	  				container.empty();
-		             	for(var i=0;i<response.data.length;i++){
+		             	for(var i=0;i<response.length;i++){
 		             			container.append('<tr>'
-		             				+'<td class="font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td><span class="text-dark-75 font-weight-bolder font-size-lg">'+response.data[i].fund_no+'</span></td>'
-		             				+'<td>'+response.data[i].pettycash+'</td>'
-		             				+'<td class="text-right">'+response.data[i].change+'</td>'
-		             				+'<td class="text-right">'+response.data[i].refund+'</td>'
-		             				+'<td class="text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="text-right">'+response.data[i].vat+'</td>'
-		             				+'<td class="text-right">'+response.data[i].amount+'</td>'
+		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+		             				+'<td><span class="text-dark-75 font-weight-bolder font-size-lg">'+response[i].fund_no+'</span></td>'
+		             				+'<td>'+_formatnumbercommat(response[i].pettycash)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</span></td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
 							+'</tr>');
 					}
+					$('#tbl_cashfund_daily > tfoot').append('<tr>'
+	             				+'<td class="text-center">TOTAL</td>'
+	             				+'<td class="text-right">'+total_downpayment+'</td>'
+	             				+'<td class="text-right">'+total_subtotal+'</td>'
+	             				+'<td class="text-right">'+total_discount+'</td>'
+	             				+'<td class="text-right">'+total_vat+'</td>'
+	             				+'<td class="text-right">'+total_shipping_fee+'</td>'
+	             				+'<td class="text-right">'+total_amount_due+'</td>'
+						+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Weekly":{
 	  				$('#tbl_cashfund_weekly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
+		             	for(var i=0;i<response.length;i++){
 		             			$('#tbl_cashfund_weekly > tbody:last-child').append('<tr>'
-		             				+'<td class="font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td>'+response.data[i].pettycash+'</td>'
-		             				+'<td class="text-right">'+response.data[i].change+'</td>'
-		             				+'<td class="text-right">'+response.data[i].refund+'</td>'
-		             				+'<td class="text-right">'+response.data[i].gross+'</td>'
-		             				+'<td class="text-right">'+response.data[i].vat+'</td>'
-		             				+'<td class="text-right">'+response.data[i].amount+'</td>'
+		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+		             				+'<td>'+_formatnumbercommat(response[i].pettycash)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
 							+'</tr>');
 					}
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Monthly":{
 	  				$('#tbl_cashfund_monthly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
+		             	for(var i=0;i<response.length;i++){
 		             			$('#tbl_cashfund_monthly > tbody:last-child').append('<tr>'
-		             				+'<td class="font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td >'+response.data[i].pettycash+'</td>'
-		             				+'<td class="text-right">'+response.data[i].change+'</td>'
-		             				+'<td class="text-right">'+response.data[i].refund+'</td>'
-		             				+'<td class="text-right">'+response.data[i].gross+'</td>'
-		             				+'<td class="text-right">'+response.data[i].vat+'</td>'
-		             				+'<td class="text-right">'+response.data[i].amount+'</td>'
+		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+		             				+'<td >'+_formatnumbercommat(response[i].pettycash)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
 							+'</tr>');
 					}
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Yearly":{
 	  				$('#tbl_cashfund_yearly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
+		             	for(var i=0;i<response.length;i++){
 		             			$('#tbl_cashfund_yearly > tbody:last-child').append('<tr>'
-		             				+'<td class="font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td>'+response.data[i].pettycash+'</td>'
-		             				+'<td class="text-right">'+response.data[i].change+'</td>'
-		             				+'<td class="text-right">'+response.data[i].refund+'</td>'
-		             				+'<td class="text-right">'+response.data[i].gross+'</td>'
-		             				+'<td class="text-right">'+response.data[i].vat+'</td>'
-		             				+'<td class="text-right">'+response.data[i].amount+'</td>'
+		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+		             				+'<td>'+_formatnumbercommat(response[i].pettycash)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
 							+'</tr>');
 					}
-	  			break;
-	  		}
-	  		case "other_expenses_categories":{
-	  			if(!response==false){
-	  				$('select[name="cat_id"]').empty().append('<option value="">SELECT OPTION</option>');
-	  				for(var i=0;i<response.length;i++){
-	  					$('select[name="cat_id"]').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
-	  				}
-	  			}
 	  			break;
 	  		}
 	  		case "income_statement_categories":{
@@ -1738,6 +1819,16 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		  			</thead>\
   		  			<tbody>';
 	  		if(response){
+	  		$(document).ready( function(){
+	  		   let categories = $('.categories');
+	  		   let html_cat ="";
+	  		   if(response.categories){
+	  		   	for(let i=0;i<response.categories.length;i++){
+	  		   		html_cat += '<option value="'+response.categories[i].id+'">'+response.categories[i].name+'</option>';
+	  		   	}
+	  		   	categories.append(html_cat);
+	  		   }	
+	  		});
 	  		  if(response.week1_type2 || response.week1_type1){
 	  			 html +='<tr class="bg-dark text-white">\
 	  			 		  <td colspan="6" class="text-center">'+response.month+' - 1st Week</td>\
@@ -1779,22 +1870,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td id="td-input" data-action="name">'+response.week1_type2[i].name+'</td>\
 			  		    		   <td id="td-input" data-action="amount">'+response.week1_type2[i].amount+'</td>\
 			  		    		  <td width="160">\
-				  		    		   <select class="form-control form-control-sm select-category" data-count="'+count+'" name="cat_id_update" data-id="'+response.week1_type2[i].id+'">\
-				  		    		   		<option value="1">Sales</option>\
-									    	<option value="2">La Maison Fund</option>\
-									    	<option value="3">Company Events</option>\
-									    	<option value="4">Raw Materials</option>\
-									    	<option value="5">Outsource</option>\
-									    	<option value="6">Fixtures</option>\
-									    	<option value="7">Direct Labor</option>\
-									    	<option value="8">La Maison Payment</option>\
-									    	<option value="9">Withdrawals</option>\
-									    	<option value="10">Indirect Labor</option>\
-									    	<option value="11">Utilities Expense</option>\
-									    	<option value="12">Inventory</option>\
-									    	<option value="13">Selling Expense</option>\
-									    	<option value="14">Office Supplies</option>\
-									    	<option value="15">Beginning Balanced</option>\
+				  		    		   <select class="form-control form-control-sm categories select-category" data-count="'+count+'" name="cat_id_update" data-id="'+response.week1_type2[i].id+'">\
 				  		    		   </select>\
 			  		    		   </td>\
 			  		    		   <td width="100">\
@@ -1854,22 +1930,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td id="td-input" data-action="name">'+response.week1_type1[i].name+'</td>\
 			  		    		   <td id="td-input" data-action="amount">'+response.week1_type1[i].amount+'</td>\
 			  		    		<td width="160">\
-				  		    		   <select class="form-control form-control-sm cat select-category"data-count="'+count+'" name="cat_id_update" data-id="'+response.week1_type1[i].id+'">\
-				  		    		   		<option value="1">Sales</option>\
-									    	<option value="2">La Maison Fund</option>\
-									    	<option value="3">Company Events</option>\
-									    	<option value="4">Raw Materials</option>\
-									    	<option value="5">Outsource</option>\
-									    	<option value="6">Fixtures</option>\
-									    	<option value="7">Direct Labor</option>\
-									    	<option value="8">La Maison Payment</option>\
-									    	<option value="9">Withdrawals</option>\
-									    	<option value="10">Indirect Labor</option>\
-									    	<option value="11">Utilities Expense</option>\
-									    	<option value="12">Inventory</option>\
-									    	<option value="13">Selling Expense</option>\
-									    	<option value="14">Office Supplies</option>\
-									    	<option value="15">Beginning Balanced</option>\
+				  		    		   <select class="form-control form-control-sm select-category categories" data-count="'+count+'" name="cat_id_update" data-id="'+response.week1_type1[i].id+'">\
 				  		    		   </select>\
 			  		    		   </td>\
 			  		    		   <td width="100">\
@@ -1948,22 +2009,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td id="td-input" data-action="name">'+response.week2_type2[i].name+'</td>\
 			  		    		   <td id="td-input" data-action="amount">'+response.week2_type2[i].amount+'</td>\
 			  		    		   <td width="160">\
-				  		    		   <select class="form-control form-control-sm select-category" data-count="'+count+'" name="cat_id_update" data-id="'+response.week2_type2[i].id+'">\
-				  		    		   		<option value="1">Sales</option>\
-									    	<option value="2">La Maison Fund</option>\
-									    	<option value="3">Company Events</option>\
-									    	<option value="4">Raw Materials</option>\
-									    	<option value="5">Outsource</option>\
-									    	<option value="6">Fixtures</option>\
-									    	<option value="7">Direct Labor</option>\
-									    	<option value="8">La Maison Payment</option>\
-									    	<option value="9">Withdrawals</option>\
-									    	<option value="10">Indirect Labor</option>\
-									    	<option value="11">Utilities Expense</option>\
-									    	<option value="12">Inventory</option>\
-									    	<option value="13">Selling Expense</option>\
-									    	<option value="14">Office Supplies</option>\
-									    	<option value="15">Beginning Balanced</option>\
+				  		    		   <select class="form-control form-control-sm select-category categories" data-count="'+count+'" name="cat_id_update" data-id="'+response.week2_type2[i].id+'">\
 				  		    		   </select>\
 			  		    		   </td>\
 			  		    		   <td width="100">\
@@ -2021,22 +2067,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td id="td-input" data-action="name">'+response.week2_type1[i].name+'</td>\
 			  		    		   <td id="td-input" data-action="amount">'+response.week2_type1[i].amount+'</td>\
 			  		    		   <td width="160">\
-				  		    		   <select class="form-control form-control-sm select-category" data-count="'+count+'" name="cat_id_update" data-id="'+response.week2_type1[i].id+'">\
-				  		    		   		<option value="1">Sales</option>\
-									    	<option value="2">La Maison Fund</option>\
-									    	<option value="3">Company Events</option>\
-									    	<option value="4">Raw Materials</option>\
-									    	<option value="5">Outsource</option>\
-									    	<option value="6">Fixtures</option>\
-									    	<option value="7">Direct Labor</option>\
-									    	<option value="8">La Maison Payment</option>\
-									    	<option value="9">Withdrawals</option>\
-									    	<option value="10">Indirect Labor</option>\
-									    	<option value="11">Utilities Expense</option>\
-									    	<option value="12">Inventory</option>\
-									    	<option value="13">Selling Expense</option>\
-									    	<option value="14">Office Supplies</option>\
-									    	<option value="15">Beginning Balanced</option>\
+				  		    		   <select class="form-control form-control-sm select-category categories" data-count="'+count+'" name="cat_id_update" data-id="'+response.week2_type1[i].id+'">\
 				  		    		   </select>\
 			  		    		   </td>\
 			  		    		   <td width="100">\
@@ -2116,22 +2147,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td id="td-input" data-action="name">'+response.week3_type2[i].name+'</td>\
 			  		    		   <td id="td-input" data-action="amount">'+response.week3_type2[i].amount+'</td>\
 			  		    		   <td width="160">\
-				  		    		   <select class="form-control form-control-sm select-category" data-count="'+count+'" name="cat_id_update" data-id="'+response.week3_type2[i].id+'">\
-				  		    		   		<option value="1">Sales</option>\
-									    	<option value="2">La Maison Fund</option>\
-									    	<option value="3">Company Events</option>\
-									    	<option value="4">Raw Materials</option>\
-									    	<option value="5">Outsource</option>\
-									    	<option value="6">Fixtures</option>\
-									    	<option value="7">Direct Labor</option>\
-									    	<option value="8">La Maison Payment</option>\
-									    	<option value="9">Withdrawals</option>\
-									    	<option value="10">Indirect Labor</option>\
-									    	<option value="11">Utilities Expense</option>\
-									    	<option value="12">Inventory</option>\
-									    	<option value="13">Selling Expense</option>\
-									    	<option value="14">Office Supplies</option>\
-									    	<option value="15">Beginning Balanced</option>\
+				  		    		   <select class="form-control form-control-sm select-category categories" data-count="'+count+'" name="cat_id_update" data-id="'+response.week3_type2[i].id+'">\
 				  		    		   </select>\
 			  		    		   </td>\
 			  		    		   <td width="100">\
@@ -2187,22 +2203,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td id="td-input" data-action="name">'+response.week3_type1[i].name+'</td>\
 			  		    		   <td id="td-input" data-action="amount">'+response.week3_type1[i].amount+'</td>\
 			  		    		  <td width="160">\
-				  		    		   <select class="form-control form-control-sm select-category" data-count="'+count+'" name="cat_id_update" data-id="'+response.week3_type1[i].id+'">\
-				  		    		   		<option value="1">Sales</option>\
-									    	<option value="2">La Maison Fund</option>\
-									    	<option value="3">Company Events</option>\
-									    	<option value="4">Raw Materials</option>\
-									    	<option value="5">Outsource</option>\
-									    	<option value="6">Fixtures</option>\
-									    	<option value="7">Direct Labor</option>\
-									    	<option value="8">La Maison Payment</option>\
-									    	<option value="9">Withdrawals</option>\
-									    	<option value="10">Indirect Labor</option>\
-									    	<option value="11">Utilities Expense</option>\
-									    	<option value="12">Inventory</option>\
-									    	<option value="13">Selling Expense</option>\
-									    	<option value="14">Office Supplies</option>\
-									    	<option value="15">Beginning Balanced</option>\
+				  		    		   <select class="form-control form-control-sm select-category categories" data-count="'+count+'" name="cat_id_update" data-id="'+response.week3_type1[i].id+'">\
 				  		    		   </select>\
 			  		    		   </td>\
 			  		    		   <td width="100">\
@@ -2281,22 +2282,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td id="td-input" data-action="name">'+response.week4_type2[i].name+'</td>\
 			  		    		   <td id="td-input" data-action="amount">'+response.week4_type2[i].amount+'</td>\
 			  		    		<td width="160">\
-				  		    		   <select class="form-control form-control-sm select-category" data-count="'+count+'" name="cat_id_update" data-id="'+response.week4_type2[i].id+'">\
-				  		    		   		<option value="1">Sales</option>\
-									    	<option value="2">La Maison Fund</option>\
-									    	<option value="3">Company Events</option>\
-									    	<option value="4">Raw Materials</option>\
-									    	<option value="5">Outsource</option>\
-									    	<option value="6">Fixtures</option>\
-									    	<option value="7">Direct Labor</option>\
-									    	<option value="8">La Maison Payment</option>\
-									    	<option value="9">Withdrawals</option>\
-									    	<option value="10">Indirect Labor</option>\
-									    	<option value="11">Utilities Expense</option>\
-									    	<option value="12">Inventory</option>\
-									    	<option value="13">Selling Expense</option>\
-									    	<option value="14">Office Supplies</option>\
-									    	<option value="15">Beginning Balanced</option>\
+				  		    		   <select class="form-control form-control-sm select-category categories" data-count="'+count+'" name="cat_id_update" data-id="'+response.week4_type2[i].id+'">\
 				  		    		   </select>\
 			  		    		   </td>\
 			  		    		   <td width="100">\
@@ -2352,22 +2338,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			  		    		   <td id="td-input" data-action="name">'+response.week4_type1[i].name+'</td>\
 			  		    		   <td id="td-input" data-action="amount">'+response.week4_type1[i].amount+'</td>\
 			  		    		  <td width="160">\
-				  		    		   <select class="form-control form-control-sm select-category" data-count="'+count+'" name="cat_id_update" data-id="'+response.week4_type1[i].id+'">\
-				  		    		   		<option value="1">Sales</option>\
-									    	<option value="2">La Maison Fund</option>\
-									    	<option value="3">Company Events</option>\
-									    	<option value="4">Raw Materials</option>\
-									    	<option value="5">Outsource</option>\
-									    	<option value="6">Fixtures</option>\
-									    	<option value="7">Direct Labor</option>\
-									    	<option value="8">La Maison Payment</option>\
-									    	<option value="9">Withdrawals</option>\
-									    	<option value="10">Indirect Labor</option>\
-									    	<option value="11">Utilities Expense</option>\
-									    	<option value="12">Inventory</option>\
-									    	<option value="13">Selling Expense</option>\
-									    	<option value="14">Office Supplies</option>\
-									    	<option value="15">Beginning Balanced</option>\
+				  		    		   <select class="form-control form-control-sm select-category categories" data-count="'+count+'" name="cat_id_update" data-id="'+response.week4_type1[i].id+'">\
 				  		    		   </select>\
 			  		    		   </td>\
 			  		    		   <td width="100">\
@@ -3254,18 +3225,18 @@ const month = ["January","February","March","April","May","June","July","August"
 	  			    html +='<tbody>';
 	  			    html +='<tr class="bg-success text-white">\
 	  			    			 <td>SALES</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-01-01">'+response.sales.jan+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-02-01">'+response.sales.feb+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-03-01">'+response.sales.march+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-04-01">'+response.sales.apr+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-05-01">'+response.sales.may+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-06-01">'+response.sales.june+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-07-01">'+response.sales.july+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-08-01">'+response.sales.aug+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-09-01">'+response.sales.sept+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-10-01">'+response.sales.oct+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-11-01">'+response.sales.nov+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-12-01">'+response.sales.dec+'</td>\
+		             			 <td>'+response.sales.jan+'</td>\
+		             			 <td>'+response.sales.feb+'</td>\
+		             			 <td>'+response.sales.march+'</td>\
+		             			 <td>'+response.sales.apr+'</td>\
+		             			 <td>'+response.sales.may+'</td>\
+		             			 <td>'+response.sales.june+'</td>\
+		             			 <td>'+response.sales.july+'</td>\
+		             			 <td>'+response.sales.aug+'</td>\
+		             			 <td>'+response.sales.sept+'</td>\
+		             			 <td>'+response.sales.oct+'</td>\
+		             			 <td>'+response.sales.nov+'</td>\
+		             			 <td>'+response.sales.dec+'</td>\
 		             			 <td>'+response.sales.year+'</td>\
 	  			    		 </tr>';
 	  			    	html +='<tr><td colspan="15" class="text-center">-</td></tr>';
@@ -3323,9 +3294,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		$('input[name=mobile]').val(response.mobile);
 	  		$('input[name=email]').val(response.email);
 	  		$('input[name=address]').val(response.address);
-
 	  		$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response.image+')');
-
 	  		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
 			let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
 			_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response.id);
@@ -3485,6 +3454,8 @@ const month = ["January","February","March","April","May","June","July","August"
 				   placeholder: "SELECT MATERIAL",
 				   width: '100%'
 				});
+				$('.text-quantity-costing').val("");
+				$('.text-amount-costing').val("");
 				let trans = $('.text-trans').text();
 				$('.text-trans-material').text(trans);
 			})
@@ -3500,7 +3471,6 @@ const month = ["January","February","March","April","May","June","July","August"
 		 	break;
 		 }
            case "fetch_project_monitoring":{
-           	$('.btn-edit-materials').attr('disabled',false);
            	let cost=0;
            	let amount_costing=0;
            	let amount_actual=0;
@@ -3536,60 +3506,78 @@ const month = ["January","February","March","April","May","June","July","August"
 	  			$('.text-end-name').val(response.info.due_date_name);
 	  			$('.btn-edit').removeAttr('disabled');
 	  			$('.btn-search').attr('data-id',response.info.id);
-	  			if(!response.framing == false){
+	  			let framing = $('#tbl_framing > tbody').empty();
+	  			if(response.framing != false){
+	  				$('.btn-edit-materials[data-type=1]').attr('disabled',false);
 		  			for(var i=0;i<response.framing.length;i++){
 		  			cost = _formatnumbercommat(response.framing[i].cost);
 		  			amount_costing = _formatnumbercommat(response.framing[i].amount_costing);
 		  			amount_actual = _formatnumbercommat(response.framing[i].amount_actual);
-		  			total_cost_framing +=response.framing[i].cost;
-		  			total_amount_costing_framing +=response.framing[i].amount_costing;
-		  			total_amount_actual_framing +=response.framing[i].amount_actual;
-		             			$('#tbl_framing > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.framing[i].item_name+'</td>'
-		             				+'<td class="text-right">'+response.framing[i].total_qty+'</td>'
-		             				+'<td class="text-right">'+response.framing[i].item_unit+'</td>'
-		             				+'<td class="text-right">'+response.framing[i].production_quantity+'</td>'
-		             				+'<td class="text-right">'+response.framing[i].item_unit+'</td>'
-		             				+'<td class="text-right">'+cost+'</td>'
-		             				+'<td class="text-right">'+amount_costing+'</td>'
-		             				+'<td class="text-right">'+amount_actual+'</td>'
-							+'</tr>');
+		  			total_cost_framing +=parseFloat(response.framing[i].cost);
+		  			total_amount_costing_framing +=parseFloat(response.framing[i].amount_costing);
+		  			total_amount_actual_framing +=parseFloat(response.framing[i].amount_actual);
+						framing.append('<tr>\
+		             				<td class="font-size-lg">'+response.framing[i].item_name+'</td>\
+		             				<td class="text-right">'+response.framing[i].total_qty+'</td>\
+		             				<td class="text-right">'+response.framing[i].item_unit+'</td>\
+		             				<td class="text-right">'+response.framing[i].production_quantity+'</td>\
+		             				<td class="text-right">'+response.framing[i].item_unit+'</td>\
+		             				<td class="text-right">'+cost+'</td>\
+		             				<td class="text-right">'+amount_costing+'</td>\
+		             				<td class="text-right">'+amount_actual+'</td>\
+							</tr>');
 					}
+					framing.append('<tr>\
+			             		<td colspan="5" class="text-center">TOTAL</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_cost_framing)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_costing_framing)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_actual_framing)+'</td>\
+						</tr>');
 				}else{
 					$('#tbl_framing > tbody:last-child').empty().append('<tr>\<td colspan="8" rows="4" class="text-center">NO DATA</td></tr>');
 				}
+				let mechanism = $('#tbl_mechanism > tbody').empty();
 				if(!response.mechanism == false){
+					$('.btn-edit-materials[data-type=2]').attr('disabled',false);
 		  			for(var i=0;i<response.mechanism.length;i++){
 		  			cost = _formatnumbercommat(response.mechanism[i].cost);
 		  			amount_costing = _formatnumbercommat(response.mechanism[i].amount_costing);
 		  			amount_actual = _formatnumbercommat(response.mechanism[i].amount_actual);
-		  			total_cost_mechanism +=response.mechanism[i].cost;
-		  			total_amount_costing_mechanism +=response.mechanism[i].amount_costing;
-		  			total_amount_actual_mechanism +=response.mechanism[i].amount_actual;
-		             			$('#tbl_mechanism > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.mechanism[i].item_name+'</td>'
-		             				+'<td class="text-right">'+response.mechanism[i].total_qty+'</td>'
-		             				+'<td class="text-right">'+response.mechanism[i].item_unit+'</td>'
-		             				+'<td class="text-right">'+response.mechanism[i].production_quantity+'</td>'
-		             				+'<td class="text-right">'+response.mechanism[i].item_unit+'</td>'
-		             				+'<td class="text-right">'+cost+'</td>'
-		             				+'<td class="text-right">'+amount_costing+'</td>'
-		             				+'<td class="text-right">'+amount_actual+'</td>'
-							+'</tr>');
+		  			total_cost_mechanism +=parseFloat(response.mechanism[i].cost);
+		  			total_amount_costing_mechanism +=parseFloat(response.mechanism[i].amount_costing);
+		  			total_amount_actual_mechanism +=parseFloat(response.mechanism[i].amount_actual);
+	             			mechanism.append('<tr>'
+	             				+'<td class="font-size-lg">'+response.mechanism[i].item_name+'</td>'
+	             				+'<td class="text-right">'+response.mechanism[i].total_qty+'</td>'
+	             				+'<td class="text-right">'+response.mechanism[i].item_unit+'</td>'
+	             				+'<td class="text-right">'+response.mechanism[i].production_quantity+'</td>'
+	             				+'<td class="text-right">'+response.mechanism[i].item_unit+'</td>'
+	             				+'<td class="text-right">'+cost+'</td>'
+	             				+'<td class="text-right">'+amount_costing+'</td>'
+	             				+'<td class="text-right">'+amount_actual+'</td>'
+						+'</tr>');
 					}
+					mechanism.append('<tr>\
+			             		<td colspan="5" class="text-center">TOTAL</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_cost_mechanism)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_costing_mechanism)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_actual_mechanism)+'</td>\
+							</tr>');
 				}else{
 					$('#tbl_mechanism > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
+				let finishing = $('#tbl_finishing > tbody').empty();
 				if(!response.finishing == false){
+					$('.btn-edit-materials[data-type=3]').attr('disabled',false);
 		  			for(var i=0;i<response.finishing.length;i++){
 		  			cost = _formatnumbercommat(response.finishing[i].cost);
 		  			amount_costing = _formatnumbercommat(response.finishing[i].amount_costing);
 		  			amount_actual = _formatnumbercommat(response.finishing[i].amount_actual);
-		  			total_cost_finishing +=response.finishing[i].cost;
-		  			total_amount_costing_finishing +=response.finishing[i].amount_costing;
-		  			total_amount_actual_finishing +=response.finishing[i].amount_actual;
-		             			$('#tbl_finishing > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.finishing[i].item_name+'</td>'
+		  			total_cost_finishing +=parseFloat(response.finishing[i].cost);
+		  			total_amount_costing_finishing +=parseFloat(response.finishing[i].amount_costing);
+		  			total_amount_actual_finishing +=parseFloat(response.finishing[i].amount_actual);
+		             			finishing.append('<tr>'
+		             				+'<td class="font-size-lg">'+response.finishing[i].item_name+'</td>'
 		             				+'<td class="text-right">'+response.finishing[i].total_qty+'</td>'
 		             				+'<td class="text-right">'+response.finishing[i].item_unit+'</td>'
 		             				+'<td class="text-right">'+response.finishing[i].production_quantity+'</td>'
@@ -3599,19 +3587,27 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				+'<td class="text-right">'+amount_actual+'</td>'
 							+'</tr>');
 					}
+					finishing.append('<tr>\
+			             		<td colspan="5" class="text-center">TOTAL</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_cost_finishing)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_costing_finishing)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_actual_finishing)+'</td>\
+							</tr>');
 				}else{
 					$('#tbl_finishing > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
+				let sulihiya = $('#tbl_sulihiya > tbody').empty();
 				if(!response.sulihiya == false){
+					$('.btn-edit-materials[data-type=4]').attr('disabled',false);
 		  			for(var i=0;i<response.sulihiya.length;i++){
 			  			cost = _formatnumbercommat(response.sulihiya[i].cost);
 			  			amount_costing = _formatnumbercommat(response.sulihiya[i].amount_costing);
 			  			amount_actual = _formatnumbercommat(response.sulihiya[i].amount_actual);
-			  			total_cost_sulihiya +=response.sulihiya[i].cost;
-		  				total_amount_costing_sulihiya +=response.sulihiya[i].amount_costing;
-		  				total_amount_actual_sulihiya +=response.sulihiya[i].amount_actual;
-		             			$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.sulihiya[i].item_name+'</td>'
+			  			total_cost_sulihiya +=parseFloat(response.sulihiya[i].cost);
+		  				total_amount_costing_sulihiya +=parseFloat(response.sulihiya[i].amount_costing);
+		  				total_amount_actual_sulihiya +=parseFloat(response.sulihiya[i].amount_actual);
+		             			sulihiya.append('<tr>'
+		             				+'<td class="font-size-lg">'+response.sulihiya[i].item_name+'</td>'
 		             				+'<td class="text-right">'+response.sulihiya[i].total_qty+'</td>'
 		             				+'<td class="text-right">'+response.sulihiya[i].item_unit+'</td>'
 		             				+'<td class="text-right">'+response.sulihiya[i].production_quantity+'</td>'
@@ -3621,19 +3617,27 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				+'<td class="text-right">'+amount_actual+'</td>'
 							+'</tr>');
 					}
+					sulihiya.append('<tr>\
+			             		<td colspan="5" class="text-center">TOTAL</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_cost_sulihiya)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_costing_sulihiya)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_actual_sulihiya)+'</td>\
+							</tr>');
 				}else{
 					$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>\<td colspan="8" class="text-center">NO DATA</td>\</tr>');
 				}
+				let upholstery = $('#tbl_upholstery > tbody').empty();
 				if(!response.upholstery == false){
+					$('.btn-edit-materials[data-type=5]').attr('disabled',false);
 		  			for(var i=0;i<response.upholstery.length;i++){
 		  				cost = _formatnumbercommat(response.upholstery[i].cost);
 			  			amount_costing = _formatnumbercommat(response.upholstery[i].amount_costing);
 			  			amount_actual = _formatnumbercommat(response.upholstery[i].amount_actual);
-			  			total_cost_upholstery +=response.upholstery[i].cost;
-		  				total_amount_costing_upholstery +=response.upholstery[i].amount_costing;
-		  				total_amount_actual_upholstery +=response.upholstery[i].amount_actual;
-		             			$('#tbl_upholstery > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.upholstery[i].item_name+'</td>'
+			  			total_cost_upholstery +=parseFloat(response.upholstery[i].cost);
+		  				total_amount_costing_upholstery +=parseFloat(response.upholstery[i].amount_costing);
+		  				total_amount_actual_upholstery +=parseFloat(response.upholstery[i].amount_actual);
+		             			upholstery.append('<tr>'
+		             				+'<td class="font-size-lg">'+response.upholstery[i].item_name+'</td>'
 		             				+'<td class="text-right">'+response.upholstery[i].total_qty+'</td>'
 		             				+'<td class="text-right">'+response.upholstery[i].item_unit+'</td>'
 		             				+'<td class="text-right">'+response.upholstery[i].production_quantity+'</td>'
@@ -3643,19 +3647,27 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				+'<td class="text-right">'+amount_actual+'</td>'
 							+'</tr>');
 					}
+					upholstery.append('<tr>\
+			             		<td colspan="5" class="text-center">TOTAL</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_cost_upholstery)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_costing_upholstery)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_actual_upholstery)+'</td>\
+							</tr>');
 				}else{
 					$('#tbl_upholstery > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
+				let other = $('#tbl_others > tbody').empty();
 				if(!response.others == false){
+					$('.btn-edit-materials[data-type=6]').attr('disabled',false);
 		  			for(var i=0;i<response.others.length;i++){
 		  				cost = _formatnumbercommat(response.others[i].cost);
 			  			amount_costing = _formatnumbercommat(response.others[i].amount_costing);
 			  			amount_actual = _formatnumbercommat(response.others[i].amount_actual);
-			  			total_cost_others +=response.others[i].cost;
-		  				total_amount_costing_others +=response.others[i].amount_costing;
-		  				total_amount_actual_others+=response.others[i].amount_actual;
-		             			$('#tbl_others > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.others[i].item_name+'</td>'
+			  			total_cost_others +=parseFloat(response.others[i].cost);
+		  				total_amount_costing_others +=parseFloat(response.others[i].amount_costing);
+		  				total_amount_actual_others+=parseFloat(response.others[i].amount_actual);
+		             			other.append('<tr>'
+		             				+'<td class="font-size-lg">'+response.others[i].item_name+'</td>'
 		             				+'<td class="text-right">'+response.others[i].total_qty+'</td>'
 		             				+'<td class="text-right">'+response.others[i].item_unit+'</td>'
 		             				+'<td class="text-right">'+response.others[i].production_quantity+'</td>'
@@ -3665,6 +3677,12 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				+'<td class="text-right">'+amount_actual+'</td>'
 							+'</tr>');
 					}
+					other.append('<tr>\
+			             		<td colspan="5" class="text-center">TOTAL</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_cost_others)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_costing_others)+'</td>\
+			             		<td class="text-right">'+_formatnumbercommat(total_amount_actual_others)+'</td>\
+							</tr>');
 				}else{
 					$('#tbl_others > tbody:last-child').empty().append('<tr><td colspan="8" rows="4"  class="text-center">NO DATA</td></tr>');
 				}

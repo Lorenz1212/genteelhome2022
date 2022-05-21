@@ -267,16 +267,16 @@
 					   </div>
 					    <div class="form-group mb-4">
 					        <label class="font-weight-bolder">Quantity Costing</label>
-						     <input type="text" class="form-control text-quantity-costing" name="quantity"  placeholder="0"/>
+						     <input type="text" class="form-control text-quantity-costing" name="quantity_costing"  placeholder="0"/>
 					   </div>
 					   <div class="form-group mb-4">
-					       <label class="font-weight-bolder">Amount Costing</label>
-						    <input type="text" class="form-control  text-amount-costing amount" name="amount" placeholder="0.00"/>
+					       <label class="font-weight-bolder">Unit Price</label>
+						    <input type="text" class="form-control  text-amount-costing amount" name="cost" placeholder="0.00"/>
 					  </div>
                  </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success font-weight-bold btn-edit-detials">Save</button>
+                <button type="button" class="btn btn-success font-weight-bold btn-edit-details-materials">Save</button>
             </div>
         </div>
     </div>

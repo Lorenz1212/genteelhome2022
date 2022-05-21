@@ -1,4 +1,4 @@
-<div class="content d-flex flex-column flex-column-fluid form" id="kt_content" data-table="data-cashposition" data-link="Cash_Position">
+<div class="content d-flex flex-column flex-column-fluid form" id="kt_content" data-table="reports-cashposition" data-link="Cash_Position">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -7,8 +7,8 @@
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
-					<button class="btn btn-light-success font-weight-bolder btn-sm mr-2" data-toggle="modal" id="form-income" data-action="create" data-target="#formIncome"><i class="flaticon-add-circular-button"></i> Create Cash position</button>
-					<button class="btn btn-light-primary font-weight-bolder btn-sm mr-2" data-toggle="modal" data-target="#category-list"><i class="la la-scroll"></i> List Of category</button>
+					<button class="btn btn-light-success font-weight-bolder btn-sm mr-2 btn-add-cashposition"><i class="flaticon-add-circular-button"></i> Create Cash position</button>
+					<button class="btn btn-light-primary font-weight-bolder btn-sm mr-2 btn-list-category"><i class="la la-scroll"></i> List Of category</button>
 					<button class="btn btn-light-info font-weight-bolder btn-sm btn-add-category"><i class="flaticon-add-circular-button"></i> Create category</button>
 			</div>
 		</div>
@@ -32,29 +32,20 @@
 								<li class="nav-item">
 									<a class="nav-link py-2 px-4" id="action" data-action="income-statement" data-toggle="tab" href="#income-statement">Income Statement</a>
 								</li>
-								<li class="nav-item">	
-									<div class="form-group mb-2">
-									     <div class="input-group">
-										     <div class="input-group-prepend">
-										     	<span class="input-group-text" id="month_alert">MONTH</span></div>
-										    	<select class="form-control" name="month" style="width:10%;"></select>
-										     <div class="input-group-append">
-										     	<span class="input-group-text" id="year_alert">YEAR</span></div>
-										     <select class="form-control" name="year" style="width:10%;"></select>
-										     <div class="input-group-append ml-2">
-										     	<button type="button" class="btn btn-success" id="search" data-action="weekly"><i class="la la-search"></i> SEARCH</button></div>
-										     <!-- <div class="input-group-append">
-										     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">EXPORT</button>
-										     <div class="dropdown-menu">
-											     <div role="separator" class="dropdown-divider" style="background-color:blue;"></div>
-											    	<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-excel-o"></i></span><span class="navi-text">Excel</span></a>
-													<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-pdf-o"></i></span><span class="navi-text"> PDF</span></a>
-												</div>
-											</div> -->
-											  <div class="input-group-append">
-										     	
-									     </div>
-								     </div>
+								<li class="nav-item mr-2">
+									<div class="form-group">
+										<select class="form-control" name="month"></select>
+									</div>
+								</li>
+								<li class="nav-item mr-2">
+									<div class="form-group">
+										<select class="form-control" name="year"></select>
+									</div>
+								</li>
+								<li class="nav-item">
+									<div class="form-group">
+										<button type="button" class="btn btn-success" id="search" data-action="daily"><i class="la la-search"></i> SEARCH</button>
+									</div>
 								</li>
 							</ul>
 						</div>
@@ -121,7 +112,7 @@
 				    <div class="col-xl-6">
 		                <div class="form-group">
 						    <label class="text-white">Date</label>
-						    <input type="text" class="form-control form-control-lg" id="date_position" name="date_position"  placeholder="mm/dd/YYYY" readonly="" autocomplete="off"/>
+						    <input type="date" class="form-control form-control-lg" name="date_position"  placeholder="mm/dd/YYYY" autocomplete="off"/>
 					    </div>
 				    </div>
 			    </div>
@@ -140,13 +131,7 @@
             		<div class="col-xl-12">
 		                <div class="form-group">
 						    <label class="text-white">Categories</label>
-						    <select class="form-control form-control-lg" name="cat_id" >
-						    	<?php 
-							       $query = $this->db->select('*')->from('tbl_category_income')->where('status !=',3)->get();
-						    		foreach($query->result() as $row){
-						    			echo '<option value="'.$row->id.'">'.$row->name.'</option>';
-						    		}
-						    	?>
+						    <select class="form-control form-control-lg cat_id" name="cat_id" >
 						    </select>
 					    </div>
 				    </div>

@@ -325,6 +325,53 @@ var KTFormControlsAccounting = function () {
 		                }	
 	                });                
 	            });
+	             var form_mat = KTUtil.getById('edit_materials');
+		       	 validation_mat = FormValidation.formValidation(
+		            form_mat,{
+		                fields: {
+							item: {
+								validators: {
+									notEmpty: {
+										message: 'Material is required'
+									},
+								}
+							},
+							quantity_costing: {
+								validators: {
+									notEmpty: {
+										message: 'Quantity costing is required'
+									},
+								}
+							},
+
+							cost: {
+								validators: {
+									notEmpty: {
+										message: 'Unit Price is required'
+									},
+								}
+							},
+		                },
+		                plugins: {
+		                    trigger: new FormValidation.plugins.Trigger(),
+		                    bootstrap: new FormValidation.plugins.Bootstrap(),
+		                }
+		            }
+		        );
+		       	$('#view-materials').on('hidden.bs.modal', function () {
+				    validation_mat.resetForm();
+				});
+				$('.btn-edit-details-materials').on('click',function(e){
+		            e.preventDefault();
+		            validation_mat.validate().then(function(status) {
+		                if (status == 'Valid') {
+		                		let formData = new FormData(form_mat);
+		                        formData.append("action", "project-monitoring-materials");
+		                        formData.append("type", 'edit_project_monitoring_materials');
+		                        _ajaxForm(formData,'edit_project_monitoring_materials',false);
+		                }	
+	                });                
+	            });
 				break;	
 			}
 		}
@@ -338,6 +385,16 @@ var KTFormControlsAccounting = function () {
 					$('.btn-search').trigger('click');
 				}else{
 					$('#view-details').modal('hide');
+				}
+				break;
+			}
+			case "edit_project_monitoring_materials":{
+				_showToast(response.type,response.message);
+				if(response.type == 'success'){
+					$('#view-materials').modal('hide');
+					$('.btn-search').trigger('click');
+				}else{
+					$('#view-materials').modal('hide');
 				}
 				break;
 			}

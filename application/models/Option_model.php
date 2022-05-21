@@ -285,7 +285,15 @@ class Option_model extends CI_Model
      	 return $query->row();
      }
      function Joborder_Option(){
-     	
+     	$data = false;
+     	 $query = $this->db->select('*')->from('tbl_project')->order_by('production_no','DESC')->get();
+     	 if($query !== FALSE && $query->num_rows() > 0){
+              foreach($query->result() as $row)  {
+		             $data[] = array('id'=> $row->id,
+		                      		  'production_no'=> $row->production_no);
+               }  
+        }
+        return $data; 
      }
      function Joborder1_Option(){
      	$names = array('REQUEST', 'COMPLETE', 'PARTIAL','PENDING');
@@ -473,6 +481,18 @@ class Option_model extends CI_Model
                } 
         }
         return $data;
+	}
+	function cashpostion_category(){
+		$query = $this->db->select('*')->from('tbl_category_income')->where('status !=',3)->get();
+		if($query){
+			foreach($query->result() as $row){
+				$data[]=array('id'=>$row->id,'name'=>$row->name);
+			}
+			return $data;
+		}else{
+			return false;
+		}
+		
 	}
 }
 ?>

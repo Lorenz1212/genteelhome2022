@@ -269,5 +269,9 @@ class Option_Controller extends CI_Controller
         $data = $this->option_model->other_material_p_transaction($id);
         echo json_encode($data);
     }
+    public function cashpostion_category(){
+        $data = $this->option_model->cashpostion_category();
+        echo json_encode($data);
+    }
 }
 ?>

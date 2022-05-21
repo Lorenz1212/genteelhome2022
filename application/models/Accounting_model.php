@@ -133,5 +133,24 @@ class Accounting_model extends CI_Model{
        	}
        }
     }
+     function Submit_Report_Projectmontoring_Material($type,$id,$quantity_costing,$cost){
+       switch($type){
+       	case "edit_project_monitoring_materials":{
+       		$cost = floatval(str_replace(',', '', $cost));
+       		$data = array(
+			        'total_qty' => $quantity_costing,
+			        'cost' => $cost);
+			$result = $this->db->where('id', $id)->update('tbl_material_project', $data);
+			if($result){
+				return array('type'=>'success','message'=>'Save Changes');
+			}else{
+				return array('type'=>'info','message'=>'Nothing Changes');
+			}
+       		break;
+       	}
+
+       }
+    }
+
 
 }

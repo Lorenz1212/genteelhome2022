@@ -34,27 +34,20 @@
 								<li class="nav-item">
 									<a class="nav-link py-2 px-4" id="action" data-action="yearly" data-toggle="tab" href="#yearly">Yearly</a>
 								</li>
-								<li class="nav-item">	
-									<div class="form-group mb-2">
-									     <div class="input-group">
-										     <div class="input-group-prepend">
-										     	<span class="input-group-text" id="month_alert">MONTH</span></div>
-										    	<select class="form-control" name="month" style="width:10%;"></select>
-										     <div class="input-group-append">
-										     	<span class="input-group-text" id="year_alert">YEAR</span></div>
-										     <select class="form-control" name="year" style="width:10%;"></select>
-										     <div class="input-group-append ml-2">
-										     	<button type="button" class="btn btn-success" id="search_collection" data-action="daily"><i class="la la-search"></i> SEARCH</button></div>
-										    <!--  <div class="input-group-append">
-										     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">EXPORT</button>
-										     <div class="dropdown-menu">
-											     <div role="separator" class="dropdown-divider" style="background-color:blue;"></div>
-											    	<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-excel-o"></i></span><span class="navi-text">Excel</span></a>
-													<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-pdf-o"></i></span><span class="navi-text"> PDF</span></a>
-												</div>
-											</div> -->
-									     </div>
-								     </div>
+								<li class="nav-item mr-2">
+									<div class="form-group">
+										<select class="form-control" name="month"></select>
+									</div>
+								</li>
+								<li class="nav-item mr-2">
+									<div class="form-group">
+										<select class="form-control" name="year"></select>
+									</div>
+								</li>
+								<li class="nav-item">
+									<div class="form-group">
+										<button type="button" class="btn btn-success" id="search_collection" data-action="daily"><i class="la la-search"></i> SEARCH</button>
+									</div>
 								</li>
 							</ul>
 
@@ -70,7 +63,7 @@
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table  table-vertical-center"  id="tbl_cashfund_daily">
 										<thead>
-											<tr>
+											<tr class="table-success">
 												<th>DATE</th>
 												<th>Trans #</th>
 												<th>Cash Fund</th>
@@ -92,9 +85,9 @@
 							<div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table  table-vertical-center"  id="tbl_cashfund_weekly">
+									<table class="table table-vertical-center"  id="tbl_cashfund_weekly">
 										<thead>
-											<tr>
+											<tr class="table-success">
 												<th>WEEKLY</th>
 												<th>Cash Fund</th>
 												<th class="text-right">Change</th>
@@ -117,7 +110,7 @@
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table  table-vertical-center"  id="tbl_cashfund_monthly">
 										<thead>
-											<tr>
+											<tr class="table-success">
 												<th>MONTH</th>
 												<th>Cash Fund</th>
 												<th class="text-right">Change</th>
@@ -140,7 +133,7 @@
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
 									<table class="table  table-vertical-center"  id="tbl_cashfund_yearly">
 										<thead>
-											<tr>
+											<tr class="table-success">
 												<th>YEAR</th>
 												<th>Cash Fund</th>
 												<th class="text-right">Change</th>
