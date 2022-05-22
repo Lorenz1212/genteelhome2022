@@ -235,8 +235,9 @@ class Gh extends CI_Controller {
             case "user_update":{$this->load->view('admin/user_update.php');break;}
             case "voucher":{$this->load->view('admin/coupon_list.php');break;}
             case 'production-supplies':{$this->load->view('admin/report_production.php');break;}
-            case 'report-cashfund':{$this->load->view('admin/report-cashfund.php');break;}
+           
             case 'report-cash-position':{$this->load->view('admin/report_cashposition.php');break;}
+            case 'report-cashfund':{$this->load->view('admin/report_cashfund.php');break;}
             case 'report-sales-order':{$this->load->view('admin/report_salesorder.php');break;}
             case 'report-collection':{$this->load->view('admin/report_collection.php');break;}
             default: {redirect(base_url().'gh/admin/index');break;} 

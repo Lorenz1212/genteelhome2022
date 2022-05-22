@@ -20,7 +20,7 @@
 		<script type='text/javascript'>
 		var baseURL = "<?php echo base_url();?>";
 		</script>
-		<script src="<?php echo base_url(); ?>assets/js/pages/my-script.js"  type='text/javascript'></script>
+		<script src="<?php echo base_url(); ?>assets/js/pages/my-script.js" type='text/javascript'></script>
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/datatables/data-sources/ajax-client-side.js"  type='text/javascript'></script> 
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/validation/form-controls.js"  type='text/javascript'></script> 
 	 	<script src="<?php echo base_url(); ?>assets/plugins/custom/tinymce/tinymce.bundle.js"></script>

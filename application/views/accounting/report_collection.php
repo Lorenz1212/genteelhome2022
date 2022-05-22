@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-report-collection">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="report-collection">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -14,52 +14,6 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 	<div class="container">
-		<div class="row">
-			<div class="col-xl-4">
-					<!--begin::Stats Widget 30-->
-					<div class="card card-custom bg-warning card-stretch gutter-b">
-						<!--begin::Body-->
-						<div class="card-body">
-							<div class="d-flex flex-column">
-								<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_gross">0</span></div>
-								<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Gross</span>
-							</div>
-						</div>
-						<!--end::Body-->
-					</div>
-					<!--end::Stats Widget 30-->
-				</div>
-				<div class="col-xl-4">
-					<!--begin::Stats Widget 30-->
-					<div class="card card-custom bg-primary card-stretch gutter-b">
-						<!--begin::Body-->
-						<div class="card-body">
-							<div class="d-flex flex-column">
-								<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_vat">0</span></div>
-								<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Vat</span>
-							</div>
-						</div>
-						<!--end::Body-->
-					</div>
-					<!--end::Stats Widget 30-->
-				</div>
-					<div class="col-xl-4">
-					<!--begin::Stats Widget 30-->
-					<div class="card card-custom bg-success card-stretch gutter-b">
-						<!--begin::Body-->
-						<div class="card-body">
-							<div class="d-flex flex-column">
-								<div class="card-title font-weight-bolder text-white display5 mb-0 mt-6 d-block"><sup class="font-size-h5 font-weight-normal pr-2">PHP</sup><span id="total_amount">0</span></div>
-								<span href="#" class="font-weight-bold text-white font-weight-bold font-size-lg mt-1">Total Amount</span>
-							</div>
-						</div>
-						<!--end::Body-->
-					</div>
-					<!--end::Stats Widget 30-->
-				</div>
-
-		</div>
-
 	<!--begin::Advance Table: Widget 7-->
 				<div class="card card-custom gutter-b">
 					<!--begin::Header-->
@@ -75,36 +29,26 @@
 								<li class="nav-item">
 									<a class="nav-link py-2 px-4" id="action" data-action="monthly" data-toggle="tab" href="#monthly">Month</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mr-2">
 									<a class="nav-link py-2 px-4" id="action" data-action="yearly" data-toggle="tab" href="#yearly">Yearly</a>
 								</li>
-								<li class="nav-item">	
-									<div class="form-group mb-2">
-									     <div class="input-group">
-										     <div class="input-group-prepend">
-										     	<span class="input-group-text" id="month_alert">MONTH</span></div>
-										    	<select class="form-control" name="month" style="width:10%;"></select>
-										     <div class="input-group-append">
-										     	<span class="input-group-text" id="year_alert">YEAR</span></div>
-										     <select class="form-control" name="year" style="width:10%;"></select>
-										     <div class="input-group-append ml-2">
-										     	<button type="button" class="btn btn-success" id="search_collection" data-action="daily"><i class="la la-search"></i> SEARCH</button></div>
-										     <!-- <div class="input-group-append">
-										     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">IMPORT</button>
-										     <div class="dropdown-menu">
-											     <div role="separator" class="dropdown-divider" style="background-color:blue;"></div>
-											    	<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-excel-o"></i></span><span class="navi-text">Excel</span></a>
-													<a href="#" class="dropdown-item"><span class="navi-icon"><i class="icon-md la la-file-pdf-o"></i></span><span class="navi-text"> PDF</span></a>
-												</div>
-											</div>
-									     </div>
-								     </div> -->
+								<li class="nav-item mr-2">
+									<div class="form-group">
+										<select class="form-control" name="month"></select>
+									</div>
+								</li>
+								<li class="nav-item mr-2">
+									<div class="form-group">
+										<select class="form-control" name="year"></select>
+									</div>
+								</li>
+								<li class="nav-item">
+									<div class="form-group">
+										<button type="button" class="btn btn-success" id="search" data-action="daily"><i class="la la-search"></i> SEARCH</button>
+									</div>
 								</li>
 							</ul>
 						</div>
-						<h3 class="card-title align-items-start flex-column">
-							<span class="card-label font-weight-bolder text-dark">Summary of Sales Collection</span>
-						</h3>
 						
 					</div>
 					<!--end::Header-->
@@ -115,9 +59,9 @@
 							<div class="tab-pane fade show active" id="day" role="tabpanel" aria-labelledby="day">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table  table-vertical-center"  id="tbl_collection_daily">
+									<table class="table table-hover"  id="tbl_collection_daily">
 										<thead>
-											<tr>
+											<tr class="table-success">
 												<th>DATE</th>
 												<th>NAME</th>
 												<th>SALES INVOICE</th>
@@ -126,8 +70,8 @@
 												<th class="text-right">TOTAL</th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
+										<tbody></tbody>
+										<tfoot></tfoot>
 									</table>
 								</div>
 								<!--end::Table-->
@@ -137,20 +81,20 @@
 							<div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table table-vertical-center" id="tbl_collection_weekly">
+									<table class="table table-hover" id="tbl_collection_weekly">
 										<thead>
 											<tr>
 												<th colspan="4" class="text-center">WEEKLY REPORT</th>
 											</tr>
-											<tr>
+											<tr class="table-success">
 												<th>WEEKS</th>
 												<th class="text-right">Gross</th>
 												<th class="text-right">Vat (Output Tax)</th>
 												<th class="text-right">TOTAL</th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
+										<tbody></tbody>
+										<tfoot></tfoot>
 									</table>
 								</div>
 								<!--end::Table-->
@@ -160,20 +104,20 @@
 							<div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table table-vertical-center" id="tbl_collection_monthly">
+									<table class="table table-hover" id="tbl_collection_monthly">
 										<thead>
 											<tr>
 												<th colspan="4" class="text-center">MONTHLY REPORT</th>
 											</tr>
-											<tr>
+											<tr class="table-success">
 												<th>MONTH</th>
 												<th class="text-right">Gross</th>
 												<th class="text-right">Vat (Output Tax)</th>
 												<th class="text-right">TOTAL</th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
+										<tbody></tbody>
+										<tfoot></tfoot>
 									</table>
 								</div>
 								<!--end::Table-->
@@ -183,20 +127,20 @@
 							<div class="tab-pane fade" id="yearly" role="tabpanel" aria-labelledby="yearly">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table table-vertical-center" id="tbl_collection_yearly">
+									<table class="table table-hoverr" id="tbl_collection_yearly">
 										<thead>
 											<tr>
 												<th colspan="4" class="text-center">YEARLY REPORT</th>
 											</tr>
-											<tr>
+											<tr class="table-success">
 												<th>YEARS</th>
 												<th class="text-right">Gross</th>
 												<th class="text-right">Vat (Output Tax)</th>
 												<th class="text-right">TOTAL</th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
+										<tbody></tbody>
+										<tfoot></tfoot>
 									</table>
 								</div>
 								<!--end::Table-->

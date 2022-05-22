@@ -172,23 +172,19 @@
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																 <a href="<?php echo base_url()."gh/admin/sales-order";?>" class="menu-link"><span class="menu-text">Sales Order</span>
+																 <a href="<?php echo base_url()."gh/admin/report-sales-order";?>" class="menu-link"><span class="menu-text">Sales Order</span>
 																 </a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/admin/cashfund";?>" class="menu-link "><span class="menu-text">Cash Fund</span>
+																<a href="<?php echo base_url()."gh/admin/report-collection";?>" class="menu-link "><span class="menu-text">Sales Collection </span>
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/admin/collection";?>" class="menu-link "><span class="menu-text">Sales Collection</span>
+																<a href="<?php echo base_url()."gh/admin/report-cashfund";?>" class="menu-link "><span class="menu-text">Cash Fund</span>
 																</a>
 															</li>
 															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/admin/production-supplies";?>" class="menu-link "><span class="menu-text">Production Supplies</span>
-																</a>
-															</li>
-															<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-																<a href="<?php echo base_url()."gh/admin/cash-position";?>" class="menu-link "><span class="menu-text">Cash Position</span>
+																<a href="<?php echo base_url()."gh/admin/report-cash-position";?>" class="menu-link "><span class="menu-text">Cash Position</span>
 																</a>
 															</li>
 														</li>
@@ -204,12 +200,12 @@
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/admin/users?".base64_encode('urlstatus=pending')."";?>" class="menu-link ">
+															<a href="<?php echo base_url()."gh/admin/users"?>" class="menu-link ">
 																<span class="menu-text">List</span>
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/admin/user_create?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
+															<a href="<?php echo base_url()."gh/admin/user_create";?>" class="menu-link">
 																<span class="menu-text">Add New User</span>
 															</a>
 														</li>

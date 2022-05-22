@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-cashfund">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="reports-cashfund">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -61,12 +61,12 @@
 							<div class="tab-pane fade show active" id="day" role="tabpanel" aria-labelledby="day">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table  table-vertical-center"  id="tbl_cashfund_daily">
+									<table class="table table-hover"  id="tbl_cashfund_daily">
 										<thead>
 											<tr class="table-success">
 												<th>DATE</th>
 												<th>Trans #</th>
-												<th>Cash Fund</th>
+												<th class="text-right">Cash Fund</th>
 												<th class="text-right">Change</th>
 												<th class="text-right">Refund</th>
 												<th class="text-right">Amount</th>
@@ -74,8 +74,8 @@
 												<th class="text-right">Total</th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
+										<tbody></tbody>
+										<tfoot></tfoot>
 									</table>
 								</div>
 								<!--end::Table-->
@@ -85,11 +85,11 @@
 							<div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table table-vertical-center"  id="tbl_cashfund_weekly">
+									<table class="table table-hover"  id="tbl_cashfund_weekly">
 										<thead>
 											<tr class="table-success">
 												<th>WEEKLY</th>
-												<th>Cash Fund</th>
+												<th class="text-right">Cash Fund</th>
 												<th class="text-right">Change</th>
 												<th class="text-right">Refund</th>
 												<th class="text-right">Amount</th>
@@ -97,8 +97,8 @@
 												<th class="text-right">Total</th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
+										<tbody></tbody>
+										<tfoot></tfoot>
 									</table>
 								</div>
 								<!--end::Table-->
@@ -108,11 +108,11 @@
 							<div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table  table-vertical-center"  id="tbl_cashfund_monthly">
+									<table class="table table-hover"  id="tbl_cashfund_monthly">
 										<thead>
 											<tr class="table-success">
 												<th>MONTH</th>
-												<th>Cash Fund</th>
+												<th class="text-right">Cash Fund</th>
 												<th class="text-right">Change</th>
 												<th class="text-right">Refund</th>
 												<th class="text-right">Amount</th>
@@ -120,8 +120,8 @@
 												<th class="text-right">Total</th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
+										<tbody></tbody>
+										<tfoot></tfoot>
 									</table>
 								</div>
 								<!--end::Table-->
@@ -131,11 +131,11 @@
 							<div class="tab-pane fade" id="yearly" role="tabpanel" aria-labelledby="yearly">
 								<!--begin::Table-->
 								<div class="scroll scroll-pull" data-scroll="true" data-wheel-propagation="true" style="height: 540px">
-									<table class="table  table-vertical-center"  id="tbl_cashfund_yearly">
+									<table class="table table-hover"  id="tbl_cashfund_yearly">
 										<thead>
 											<tr class="table-success">
 												<th>YEAR</th>
-												<th>Cash Fund</th>
+												<th class="text-right">Cash Fund</th>
 												<th class="text-right">Change</th>
 												<th class="text-right">Refund</th>
 												<th class="text-right">Amount</th>
@@ -143,8 +143,8 @@
 												<th class="text-right">Total</th>
 											</tr>
 										</thead>
-										<tbody>
-										</tbody>
+										<tbody></tbody>
+										<tfoot></tfoot>
 									</table>
 								</div>
 								<!--end::Table-->

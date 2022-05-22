@@ -33,6 +33,9 @@ var arrows;var item_v;var price;var special_option;
 	    }
 	    return false;
 	};
+	var _formatnumbercommat = function(value){
+		return value.toLocaleString('en-US').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 	var _initToast = function(type,message){
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
 	}
@@ -40,13 +43,6 @@ var arrows;var item_v;var price;var special_option;
 		$(""+action+"").on("click", "#DeleteButton", function() {
 			   $(this).closest("tr").remove();
 		});
-	}
-	var _initDecimal_format = function(action){
-		 // currency format
-		 $(""+action+"").inputmask('decimal', {
-		   numericInput: true,
-		   rightAlignNumerics: true
-		 }); //123456  =>  € ___.__1.234,56
 	}
 	var _initCurrency_format = function(action){
 		$( document ).ready(function() {
@@ -63,11 +59,6 @@ var arrows;var item_v;var price;var special_option;
 			}
 		});
 	}
-	var _initPercentage = function(action){
-		$(''+action+'').mask('##0,00%', {
-            reverse: true
-          });
-	}
 	var _initDatepicker = function(action){
 		  $(action).datepicker({
 		   rtl: KTUtil.isRTL(),
@@ -75,14 +66,6 @@ var arrows;var item_v;var price;var special_option;
 		   todayHighlight: true,
 		   templates: arrows
 		  });
-	}
-	var moneyFormat = function(price) {
-	  const pieces = parseFloat(price).toFixed(2).split('')
-	  let ii = pieces.length - 3
-	  while ((ii-=3) > 0) {
-	    pieces.splice(ii, 0, ',')
-	  }
-	  return pieces.join('')
 	}
 	var _initAvatar = function (action) {
 		_avatar = new KTImageInput(''+action+'');
@@ -2716,7 +2699,6 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-user-create":{
 				_initAvatar('avatar');	
-				_initPercentage('#commission');
 				 $(document).on("blur","input[name=username]",function() {
 				 	 var username = $(this).val();
 					 _initUser(username);	
@@ -2865,9 +2847,9 @@ var arrows;var item_v;var price;var special_option;
 				_ajaxloader(thisUrl,"POST",false,"View_Profile");
 				break;
 			}
-			case "data-collection":{
-					$(document).on('click','#search_collection',function(e){
-				   		var action = $(this).attr('data-status');
+			case "report-collection":{
+					$(document).on('click','#search',function(e){
+				   		var action = $(this).attr('data-action');
 						let month = $('select[name=month]').val();
 						let year  = $('select[name=year]').val();
 						let val = {month:month,year:year};
@@ -2877,28 +2859,28 @@ var arrows;var item_v;var price;var special_option;
 								_ajaxloader(thisUrl,"POST",val,"Account_Report_Collection_Daily");
 								break;}
 							case "weekly":{
-								let thisUrl1 = 'datatable_controller/Account_Report_Collection_Weekly';
-								_ajaxloader(thisUrl1,"POST",val,"Account_Report_Collection_Weekly");
+								let thisUrl = 'datatable_controller/Account_Report_Collection_Weekly';
+								_ajaxloader(thisUrl,"POST",val,"Account_Report_Collection_Weekly");
 								break;}
 							case "monthly":{
-								let thisUrl2 = 'datatable_controller/Account_Report_Collection_Monthly';
-								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Collection_Monthly");
+								let thisUrl = 'datatable_controller/Account_Report_Collection_Monthly';
+								_ajaxloader(thisUrl,"POST",val,"Account_Report_Collection_Monthly");
 								break;}
 							case "yearly":{
-								let thisUrl3 = 'datatable_controller/Account_Report_Collection_Yearly';
-								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Collection_Yearly");		
+								let thisUrl = 'datatable_controller/Account_Report_Collection_Yearly';
+								_ajaxloader(thisUrl,"POST",val,"Account_Report_Collection_Yearly");		
 								break;}
 						}		
 					});
  					 $(document).on('click','#action',function(e){
  						var action = $(this).attr('data-action');
- 						$('#search_collection').attr('data-status',action);
- 						$('#search_collection').trigger('click');
+ 						$('#search').attr('data-action',action);
+ 						$('#search').trigger('click');
  					  }); 
 					$('#action').trigger('click');  
 				break;
 			}
-			case "data-saleorder":{
+			case "reports-sale-order":{
 				   $(document).on('click','#search_collection',function(e){
 				   		var action = $(this).attr('data-status');
 						let month = $('select[name=month]').val();
@@ -2932,7 +2914,7 @@ var arrows;var item_v;var price;var special_option;
 					$('#action').trigger('click');  
 				break;
 			}
-			case "data-cashfund":{
+			case "reports-cashfund":{
 				 $(document).on('click','#search_collection',function(e){
 				   		var action = $(this).attr('data-status');
 						let month = $('select[name=month]').val();
@@ -2965,10 +2947,8 @@ var arrows;var item_v;var price;var special_option;
 					$('#action').trigger('click');
 				break;
 			}
-			case "data-cashposition":{
+			case "reports-cashposition":{
 				$(document).ready(function(){
-					_initDatepicker('#date_position');
-					_initCurrency_format('#amount');
 					$(document).on('click','#search',function(e){
 				   		var action = $(this).attr('data-status');
 						let month = $('select[name=month]').val();
@@ -2984,8 +2964,8 @@ var arrows;var item_v;var price;var special_option;
 								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Cashposition_Monthly");
 								break;}
 							case "income-statement":{
-								let thisUrl3 = 'datatable_controller/Account_Report_Income_Monthly';
-								_ajaxloader(thisUrl3,"POST",val,"Account_Report_Income_Monthly");
+								let thisUrl2 = 'datatable_controller/Account_Report_Income_Monthly';
+								_ajaxloader(thisUrl2,"POST",val,"Account_Report_Income_Monthly");
 								break;}
 						}		
 					 });
@@ -3725,7 +3705,7 @@ var arrows;var item_v;var price;var special_option;
 					var tal = '';
 
 				}else{
-					var tal = moneyFormat(response.price);
+					var tal = _formatnumbercommat(response.price);
 				}
 	  			$('.price').val(tal);
 	  			$('#unit').val(response.unit);
@@ -3779,14 +3759,12 @@ var arrows;var item_v;var price;var special_option;
 	  	}
 	  	case "Modal_Users":{
 	  		if(!response == false){
-	  			_initPercentage('#commission');
 	  			let dis = parseFloat((response.commission*100)/1);
 	  			$('input[name=id]').val(response.id);
 	  			$('input[name=firstname]').val(response.firstname);
 	  			$('input[name=lastname]').val(response.lastname);
 	  			$('input[name=middlename]').val(response.middlename);
 	  			$('input[name=username]').val(response.username);
-	  			$('#commission').val(dis+'%');
 	  			$('select[name=status]').val(response.status).change();
 	  			$('#voucher').val(response.coupon_status).change();
 	  			if(response.designer == 1){
@@ -4528,374 +4506,433 @@ var arrows;var item_v;var price;var special_option;
 	  		$('#s_request').text(response.data.s);
 	  		break;
 	  		}
+	 
 	  		case "Account_Report_Collection_Daily":{
-	  			$('#total_amount').text(response.data[0].total_amount);
-	  			$('#total_vat').text(response.data[0].total_vat);
-	  			$('#total_gross').text(response.data[0].total_gross);
-	  			$('#tbl_collection_daily > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_collection_daily > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.data[i].customer+'</span><span class="text-muted font-weight-bold" id="bank">'+response.data[i].bank+'</span></td>'
-		             				+'<td class="pl-0">'+response.data[i].si_no+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_collection_daily > tbody').empty();
+	  			let total_gross = 0;
+	  			let total_vat = 0;
+	  			let total_amount = 0;
+	  			if(response){
+	             	for(var i=0;i<response.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response[i].date_created+'</td>'
+	             				+'<td class=""><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response[i].customer+'</span><span class="text-muted font-weight-bold" id="bank">'+response[i].bank+'</span></td>'
+	             				+'<td class="">'+response[i].so_no+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
+						+'</tr>');
+	             		total_gross += parseFloat(response[i].gross);
+	             		total_vat += parseFloat(response[i].vat);	
+	             		total_amount += parseFloat(response[i].amount);		
+					}
+				}else{
+					container.append('<tr><td class="text-center font-size-lg" colspan="6">No Collection Available</td></tr>');
 				}
+				$('#tbl_collection_daily > tfoot').empty().append('<tr class="table-success">'
+	             				+'<td class="text-center" colspan="3">TOTAL</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_amount)+'</td>'
+						+'</tr>');	
 	  			break;
 	  		}
 	  		case "Account_Report_Collection_Weekly":{
-	  			$('#total_amount').text(response.data[0].total_amount);
-  				$('#total_vat').text(response.data[0].total_vat);
-  				$('#total_gross').text(response.data[0].total_gross);
-	  			$('#tbl_collection_weekly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_collection_weekly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
-				}
+	  			let container = $('#tbl_collection_weekly > tbody').empty();
+	  			let total_gross = 0;
+	  			let total_vat = 0;
+	  			let total_amount = 0;
+	  			if(response){
+	  				for(var i=0;i<response.length;i++){
+	             		container.append('<tr>'
+	             				+'<td class="text-success">'+response[i].date_created+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
+						+'</tr>');
+	             		total_gross += parseFloat(response[i].gross);
+	             		total_vat += parseFloat(response[i].vat);	
+	             		total_amount += parseFloat(response[i].amount);		
+					}
+	  			}else{
+	  				container.append('<tr><td class="text-center font-size-lg" colspan="4">No Collection Available</td></tr>');
+	  			}
+				$('#tbl_collection_weekly > tfoot').empty().append('<tr class="table-success">'
+	             				+'<td class="text-center">TOTAL</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_amount)+'</td>'
+						+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Collection_Monthly":{
-	  			$('#total_amount').text(response.data[0].total_amount);
-  				$('#total_vat').text(response.data[0].total_vat);
-  				$('#total_gross').text(response.data[0].total_gross);
-	  			$('#tbl_collection_monthly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_collection_monthly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_collection_monthly > tbody').empty();
+	  			let total_gross = 0;
+	  			let total_vat = 0;
+	  			let total_amount = 0;
+	  			if(response){
+	  				for(var i=0;i<response.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response[i].date_created+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
+						+'</tr>');
+	             		total_gross += parseFloat(response[i].gross);
+	             		total_vat += parseFloat(response[i].vat);	
+	             		total_amount += parseFloat(response[i].amount);		
 					}
+	  			}else{
+	  				container.append('<tr><td class="text-center font-size-lg" colspan="4">No Collection Available</td></tr>');
+	  			}
+				$('#tbl_collection_monthly > tfoot').empty().append('<tr class="table-success">'
+	             				+'<td class="text-center">TOTAL</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_amount)+'</td>'
+						+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Collection_Yearly":{
-	  			$('#tbl_collection_yearly > tbody:last-child').empty();
-  					$('#total_amount').text(response.data[0].total_amount);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_collection_yearly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
-					}
+	  			let container = $('#tbl_collection_yearly > tbody').empty();
+	  			let total_gross = 0;
+	  			let total_vat = 0;
+	  			let total_amount = 0;
+	  			if(response){
+	  				for(var i=0;i<response.length;i++){
+	             			container.append('<tr>'
+	             				+'<td class="text-success">'+response[i].date_created+'</td>'
+	       						+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
+						+'</tr>');
+	             		total_gross += parseFloat(response[i].gross);
+	             		total_vat += parseFloat(response[i].vat);	
+	             		total_amount += parseFloat(response[i].amount);		
+					}	
+	  			}else{
+	  				container.append('<tr><td class="text-center font-size-lg" colspan="4">No Collection Available</td></tr>');
+	  			}
+				$('#tbl_collection_yearly > tfoot').empty().append('<tr class="table-success">'
+	             				+'<td class="text-center">TOTAL</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_amount)+'</td>'
+						+'</tr>');
 	  			break;
 	  		}
+	  		
 	  		case "Account_Report_Salesorder_Daily":{
-	  			$('#tbl_salesorder_daily > tbody:last-child').empty();
-	  				$('#total_grand').text(response.data[0].total_amount);
-	  				$('#total_vats').text(response.data[0].total_vat);
-	  				$('#total_subtotal').text(response.data[0].total_subtotal);
-	  				$('#total_shippingfee').text(response.data[0].total_shippingfee);
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_salesorder_daily > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.data[i].customer+'</span></td>'
-		             				+'<td class="pl-0">'+response.data[i].si_no+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].subtotal+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].shipping_fee+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_salesorder_daily > tbody');
+	  			container.empty();
+	  			var total_downpayment= 0; 
+				var total_subtotal = 0; 
+				var total_discount = 0; 
+				var total_vat= 0; 
+				var total_shipping_fee= 0; 
+				var total_amount_due = 0; 
+				if(response){
+					for(var i=0;i<response.length;i++){
+             			container.append('<tr>'
+             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+             				+'<td><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response[i].customer+'</span></td>'
+             				+'<td>'+response[i].so_no+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount_due)+'</td>'
+					+'</tr>');
+             			total_downpayment += parseFloat(response[i].downpayment);
+	             		total_subtotal += parseFloat(response[i].subtotal);
+	             		total_discount += parseFloat(response[i].discount);
+	             		total_vat += parseFloat(response[i].vat);
+	             		total_shipping_fee += parseFloat(response[i].shipping_fee);
+	             		total_amount_due += parseFloat(response[i].amount_due);	
+					}
+				}else{
+					container.append('<tr><td class="text-center font-size-lg" colspan="9">No Collection Available</td></tr>');
 				}
+				$('#tbl_salesorder_daily > tfoot').empty().append('<tr class="table-success">'
+             				+'<td class="text-center" colspan="3">TOTAL</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_amount_due)+'</td>'
+					+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Salesorder_Weekly":{
-	  			$('#total_grand').text(response.data[0].total_amount);
-  				$('#total_vats').text(response.data[0].total_vat);
-  				$('#total_subtotal').text(response.data[0].total_subtotal);
-  				$('#total_shippingfee').text(response.data[0].total_shippingfee);
-	  			$('#tbl_salesorder_weekly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_salesorder_weekly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].subtotal+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].shipping_fee+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_salesorder_weekly > tbody');
+	  			container.empty();
+	  			let total_downpayment_weekly=0;
+	  			let total_subtotal_weekly=0;
+	  			let total_discount_weekly=0;
+	  			let total_vat_weekly=0;
+	  			let total_shipping_fee_weekly=0;
+	  			let total_amount_due_weekly=0;
+	  			if(response){
+		          for(var i=0;i<response.length;i++){
+             			container.append('<tr>'
+             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount_due)+'</td>'
+					+'</tr>');
+             			total_downpayment_weekly += parseFloat(response[i].downpayment);
+	             		total_subtotal_weekly += parseFloat(response[i].subtotal);
+	             		total_discount_weekly += parseFloat(response[i].discount);
+	             		total_vat_weekly += parseFloat(response[i].vat);
+	             		total_shipping_fee_weekly += parseFloat(response[i].shipping_fee);
+	             		total_amount_due_weekly += parseFloat(response[i].amount_due);
+					}
+				}else{
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
 				}
+				$('#tbl_salesorder_weekly > tfoot').empty().append('<tr class="table-success">'
+             				+'<td class="text-center">TOTAL</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_downpayment_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_subtotal_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_discount_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_vat_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_shipping_fee_weekly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_amount_due_weekly)+'</td>'
+					+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Salesorder_Monthly":{
-	  			$('#total_grand').text(response.data[0].total_amount);
-  				$('#total_vats').text(response.data[0].total_vat);
-  				$('#total_subtotal').text(response.data[0].total_subtotal);
-  				$('#total_shippingfee').text(response.data[0].total_shippingfee);
-	  			$('#tbl_salesorder_monthly > tbody:last-child').empty();
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_salesorder_monthly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].subtotal+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].shipping_fee+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_salesorder_monthly > tbody');
+	  			container.empty();
+	  			let total_downpayment_monthly=0;
+	  			let total_subtotal_monthly=0;
+	  			let total_discount_monthly=0;
+	  			let total_vat_monthly=0;
+	  			let total_shipping_fee_monthly=0;
+	  			let total_amount_due_monthly=0;
+	  			if(response){
+		           for(var i=0;i<response.length;i++){
+	             		container.append('<tr>'
+	             			+'<td class="font-weight-bolder text-success ml-3">'+response[i].date_created+'</td>'
+	             			+'<td class="text-right">'+_formatnumbercommat(response[i].downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount_due)+'</td>'
+						+'</tr>');
+						total_downpayment_monthly += parseFloat(response[i].downpayment);
+	             		total_subtotal_monthly += parseFloat(response[i].subtotal);
+	             		total_discount_monthly += parseFloat(response[i].discount);
+	             		total_vat_monthly += parseFloat(response[i].vat);
+	             		total_shipping_fee_monthly += parseFloat(response[i].shipping_fee);
+	             		total_amount_due_monthly += parseFloat(response[i].amount_due);
 					}
+				}else{
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
+				}
+					$('#tbl_salesorder_monthly > tfoot').empty().append('<tr class="table-success">'
+             				+'<td class="text-center">TOTAL</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_downpayment_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_subtotal_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_discount_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_vat_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_shipping_fee_monthly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_amount_due_monthly)+'</td>'
+					+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Salesorder_Yearly":{
-	  			$('#tbl_salesorder_yearly > tbody:last-child').empty();
-	  				$('#total_grand').text(response.data[0].total_amount);
-	  				$('#total_vats').text(response.data[0].total_vat);
-	  				$('#total_subtotal').text(response.data[0].total_subtotal);
-	  				$('#total_shippingfee').text(response.data[0].total_shippingfee);
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_salesorder_yearly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].subtotal+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].shipping_fee+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
-							+'</tr>');
+	  			let container = $('#tbl_salesorder_yearly > tbody');
+	  			container.empty();
+	  			let total_downpayment_yearly=0;
+	  			let total_subtotal_yearly=0;
+	  			let total_discount_yearly=0;
+	  			let total_vat_yearly=0;
+	  			let total_shipping_fee_yearly=0;
+	  			let total_amount_due_yearly=0;
+	  			if(response){
+	             	for(var i=0;i<response.length;i++){
+             			container.append('<tr>'
+             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].downpayment)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].subtotal)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].discount)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].shipping_fee)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount_due)+'</td>'
+					+'</tr>');
+             			total_downpayment_yearly += parseFloat(response[i].downpayment);
+	             		total_subtotal_yearly += parseFloat(response[i].subtotal);
+	             		total_discount_yearly += parseFloat(response[i].discount);
+	             		total_vat_yearly += parseFloat(response[i].vat);
+	             		total_shipping_fee_yearly += parseFloat(response[i].shipping_fee);
+	             		total_amount_due_yearly += parseFloat(response[i].amount_due);
 					}
+				}else{
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
+				}	
+				$('#tbl_salesorder_yearly > tfoot').empty().append('<tr class="table-success">'
+             				+'<td class="text-center">TOTAL</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_downpayment_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_subtotal_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_discount_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_vat_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_shipping_fee_yearly)+'</td>'
+             				+'<td class="text-right">'+_formatnumbercommat(total_amount_due_yearly)+'</td>'
+					+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Daily":{
-	  				$('#tbl_cashfund_daily > tbody:last-child').empty();
-	  				$('#total_pettycash').text(response.data[0].total_pettycash);
-	  				$('#total_change').text(response.data[0].total_change);
-	  				$('#total_refund').text(response.data[0].total_refund);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-	  				$('#total_amount').text(response.data[0].total_amount);
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_cashfund_daily > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg">'+response.data[i].production_no+'</span></td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].pettycash+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].change+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].refund+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
+	  				let container = $('#tbl_cashfund_daily > tbody').empty();
+	  				let total_pettycash = 0;
+	  				let total_change = 0;
+	  				let total_refund = 0;
+	  				let total_gross = 0;
+	  				let total_vat = 0;
+	  				let total_amount = 0;
+		             	for(var i=0;i<response.length;i++){
+		             			container.append('<tr>'
+		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+		             				+'<td><span class="text-dark-75 font-weight-bolder font-size-lg">'+response[i].fund_no+'</span></td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].pettycash)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</span></td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
 							+'</tr>');
+		             		total_pettycash += parseFloat(response[i].pettycash);
+		             		total_change += parseFloat(response[i].change);
+		             		total_refund += parseFloat(response[i].refund);
+		             		total_gross += parseFloat(response[i].gross);
+		             		total_vat += parseFloat(response[i].vat);
+		             		total_amount += parseFloat(response[i].amount);
 					}
+					$('#tbl_cashfund_daily > tfoot').empty().append('<tr class="table-success">'
+	             				+'<td class="text-center" colspan="2">TOTAL</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_pettycash)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_change)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_refund)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_amount)+'</td>'
+						+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Weekly":{
-	  				$('#tbl_cashfund_weekly > tbody:last-child').empty();
-	  				$('#total_pettycash').text(response.data[0].total_pettycash);
-	  				$('#total_change').text(response.data[0].total_change);
-	  				$('#total_refund').text(response.data[0].total_refund);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-	  				$('#total_amount').text(response.data[0].total_amount);
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_cashfund_weekly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].pettycash+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].change+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].refund+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
+	  				let container = $('#tbl_cashfund_weekly > tbody').empty();
+	  				let total_pettycash = 0;
+	  				let total_change = 0;
+	  				let total_refund = 0;
+	  				let total_gross = 0;
+	  				let total_vat = 0;
+	  				let total_amount = 0;
+		             for(var i=0;i<response.length;i++){
+		             			container.append('<tr>'
+		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].pettycash)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
 							+'</tr>');
+		             		total_pettycash += parseFloat(response[i].pettycash);
+		             		total_change += parseFloat(response[i].change);
+		             		total_refund += parseFloat(response[i].refund);
+		             		total_gross += parseFloat(response[i].gross);
+		             		total_vat += parseFloat(response[i].vat);
+		             		total_amount += parseFloat(response[i].amount);
 					}
+					$('#tbl_cashfund_weekly > tfoot').empty().append('<tr class="table-success">'
+	             				+'<td class="text-center">TOTAL</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_pettycash)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_change)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_refund)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_amount)+'</td>'
+						+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Monthly":{
-	  				$('#tbl_cashfund_monthly > tbody:last-child').empty();
-	  				$('#total_pettycash').text(response.data[0].total_pettycash);
-	  				$('#total_change').text(response.data[0].total_change);
-	  				$('#total_refund').text(response.data[0].total_refund);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-	  				$('#total_amount').text(response.data[0].total_amount);
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_cashfund_monthly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].pettycash+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].change+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].refund+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
+	  				let container = $('#tbl_cashfund_monthly > tbody').empty();
+	  				let total_pettycash = 0;
+	  				let total_change = 0;
+	  				let total_refund = 0;
+	  				let total_gross = 0;
+	  				let total_vat = 0;
+	  				let total_amount = 0;
+		            for(var i=0;i<response.length;i++){
+		             			container.append('<tr >'
+		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].pettycash)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
 							+'</tr>');
+		             		total_pettycash += parseFloat(response[i].pettycash);
+		             		total_change += parseFloat(response[i].change);
+		             		total_refund += parseFloat(response[i].refund);
+		             		total_gross += parseFloat(response[i].gross);
+		             		total_vat += parseFloat(response[i].vat);
+		             		total_amount += parseFloat(response[i].amount);
 					}
+					$('#tbl_cashfund_monthly > tfoot').empty().append('<tr class="table-success">'
+	             				+'<td class="text-center">TOTAL</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_pettycash)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_change)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_refund)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_amount)+'</td>'
+						+'</tr>');
 	  			break;
 	  		}
 	  		case "Account_Report_Project_Yearly":{
-	  				$('#tbl_cashfund_yearly > tbody:last-child').empty();
-	  				$('#total_pettycash').text(response.data[0].total_pettycash);
-	  				$('#total_change').text(response.data[0].total_change);
-	  				$('#total_refund').text(response.data[0].total_refund);
-	  				$('#total_vat').text(response.data[0].total_vat);
-	  				$('#total_gross').text(response.data[0].total_gross);
-	  				$('#total_amount').text(response.data[0].total_amount);
-		             	for(var i=0;i<response.data.length;i++){
-		             			$('#tbl_cashfund_yearly > tbody:last-child').append('<tr>'
-		             				+'<td class="pl-0 font-weight-bolder text-success">'+response.data[i].date_created+'</td>'
-		             				+'<td class="pl-0"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].pettycash+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].change+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].refund+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].gross+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].vat+'</span></td>'
-		             				+'<td class="pl-0 text-right"><span class="text-dark-75 font-weight-bolder d-block font-size-lg text-right">'+response.data[i].amount+'</span></td>'
+	  				let container = $('#tbl_cashfund_yearly > tbody').empty();
+	  				let total_pettycash =0;
+	  				let total_change = 0;
+	  				let total_refund = 0;
+	  				let total_gross = 0;
+	  				let total_vat = 0;
+	  				let total_amount = 0;
+		             for(var i=0;i<response.length;i++){
+		             	container.append('<tr>'
+		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].pettycash)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
 							+'</tr>');
+		             		total_pettycash += parseFloat(response[i].pettycash);
+		             		total_change += parseFloat(response[i].change);
+		             		total_refund += parseFloat(response[i].refund);
+		             		total_gross += parseFloat(response[i].gross);
+		             		total_vat += parseFloat(response[i].vat);
+		             		total_amount += parseFloat(response[i].amount);
 					}
+					$('#tbl_cashfund_yearly > tfoot').empty().append('<tr class="table-success">'
+	             				+'<td class="text-center">TOTAL</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_pettycash)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_change)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_refund)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_gross)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_vat)+'</td>'
+	             				+'<td class="text-right">'+_formatnumbercommat(total_amount)+'</td>'
+						+'</tr>');
 	  			break;
 	  		}
-
-
-	  		case "Account_Report_Production_Supplies":{
-	  			$('.text-name').val(response.project.customer);
-	  			$('.text-address').val(response.project.address);
-	  			$('.text-amount').val(response.amount);
-	  			$('.text-labor').val(response.labor);
-	  			$('.text-start').val(response.start);
-	  			$('.text-due').val(response.due);
-	  			$('.btn-edit').removeAttr('disabled');
-	  			$('.btn-search').attr('data-id',response.project.id);
-	  			$(document).on('click','.btn-edit',function(e){
-	  				e.preventDefault();
-	  				let element = $(this);
-	  				let action = element.attr('data-action');
-	  				$('#'+action).removeClass('far fa-edit').addClass('flaticon2-check-mark');
-	  				if(action == 'edit-name'){
-	  					element.attr('data-action','save-name').addClass('save');
-					 	$('.text-name').removeAttr('disabled');
-				 	}else if(action == 'edit-address'){
-				 		element.attr('data-action','save-address').addClass('save');
-				 		$('.text-address').removeAttr('disabled');
-				 	}else if(action == 'edit-amount'){
-				 		element.attr('data-action','save-amount').addClass('save');
-				 		$('.text-amount').removeAttr('disabled');
-				 	}else if(action == 'edit-labor'){
-				 		element.attr('data-action','save-labor').addClass('save');
-				 		$('.text-labor').removeAttr('disabled');
-				 	}else if(action == 'edit-date'){
-				 		element.attr('data-action','save-date').addClass('save');
-				 		$('.text-start').removeAttr('disabled');
-				 		$('.text-due').removeAttr('disabled');
-				 	}
-	  			});
-	  			if(!response.framing == false){
-		  			for(var i=0;i<response.framing.length;i++){
-		             			$('#tbl_framing > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.framing[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75 d-block">'+response.framing[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_framing > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" rows="4" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.mechanism == false){
-		  			for(var i=0;i<response.mechanism.length;i++){
-		             			$('#tbl_mechanism > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.mechanism[i].item+'</td>'
-		             				+'<td class="text-right"><span  class="text-dark-75   d-block">'+response.mechanism[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.mechanism[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_mechanism > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.finishing == false){
-		  			for(var i=0;i<response.finishing.length;i++){
-		             			$('#tbl_finishing > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.finishing[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.finishing[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_finishing > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.sulihiya == false){
-		  			for(var i=0;i<response.sulihiya.length;i++){
-		             			$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.sulihiya[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.sulihiya[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.upholstery == false){
-		  			for(var i=0;i<response.upholstery.length;i++){
-		             			$('#tbl_upholstery > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.upholstery[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75   d-block">'+response.upholstery[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_upholstery > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" class="text-center">NO DATA</td>\
-							</tr>');
-				}
-				if(!response.others == false){
-		  			for(var i=0;i<response.others.length;i++){
-		             			$('#tbl_others > tbody:last-child').empty().append('<tr>'
-		             				+'<td class="text-success">'+response.others[i].item+'</td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].qty+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].production_quantity+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].unit+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].cost+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].amount_costing+'</span></td>'
-		             				+'<td class="text-right"><span class="text-dark-75  d-block">'+response.others[i].amount_actual+'</span></td>'
-							+'</tr>');
-					}
-				}else{
-					$('#tbl_others > tbody:last-child').empty().append('<tr>\
-		             				<td colspan="8" rows="4"  class="text-center">NO DATA</td>\
-							</tr>');
-				}
-	  			break;
-	  		}
-
-
-	  		case "Account_Report_Income_Daily":{
-				$('#tbl_income_daily').empty().append(response.html);
-		  		break;
-	  		}
-	  		
 	  		case "Account_Report_Income_Monthly":{
 	  			if(!response == false){
 	  			let html = '';
@@ -4919,18 +4956,18 @@ var arrows;var item_v;var price;var special_option;
 	  			    html +='<tbody>';
 	  			    html +='<tr class="table-success text-dark">\
 	  			    			 <td>SALES</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-01-01">'+response.sales.jan+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-02-01">'+response.sales.feb+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-03-01">'+response.sales.march+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-04-01">'+response.sales.apr+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-05-01">'+response.sales.may+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-06-01">'+response.sales.june+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-07-01">'+response.sales.july+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-08-01">'+response.sales.aug+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-09-01">'+response.sales.sept+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-10-01">'+response.sales.oct+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-11-01">'+response.sales.nov+'</td>\
-		             			 <td id="td-input" data-date="'+response.year+'-12-01">'+response.sales.dec+'</td>\
+		             			 <td>'+response.sales.jan+'</td>\
+		             			 <td>'+response.sales.feb+'</td>\
+		             			 <td>'+response.sales.march+'</td>\
+		             			 <td>'+response.sales.apr+'</td>\
+		             			 <td>'+response.sales.may+'</td>\
+		             			 <td>'+response.sales.june+'</td>\
+		             			 <td>'+response.sales.july+'</td>\
+		             			 <td>'+response.sales.aug+'</td>\
+		             			 <td>'+response.sales.sept+'</td>\
+		             			 <td>'+response.sales.oct+'</td>\
+		             			 <td>'+response.sales.nov+'</td>\
+		             			 <td>'+response.sales.dec+'</td>\
 		             			 <td>'+response.sales.year+'</td>\
 	  			    		 </tr>';
 	  			    	html +='<tr><td colspan="15" class="text-center">-</td></tr>';
@@ -4975,9 +5012,8 @@ var arrows;var item_v;var price;var special_option;
 					html +='</table>';
 					$('#tbl_income_monthly').empty().append(html);
 				}
-				
 		  		break;
-	  		}
+	  	}
 	  	case "Account_Report_Cashposition_Weekly":{
 	  		  let html = "";
 	  		  html +='<table class="table table-hover font-size-lg">\
