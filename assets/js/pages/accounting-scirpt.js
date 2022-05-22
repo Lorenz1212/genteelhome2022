@@ -3604,8 +3604,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		 	break;
 		 }
            case "fetch_project_monitoring":{
-	           	if(response.info){
-	           		let cost=0;
+           			let cost=0;
 		           	let amount_costing=0;
 		           	let amount_actual=0;
 		           	let total_cost_framing = 0;
@@ -3626,6 +3625,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		           	let total_cost_others= 0;
 		           	let total_amount_costing_others=0;
 		           	let total_amount_actual_others=0;
+	           	if(response.info){
 		           	let amount = (response.info.amount != 0)?_formatnumbercommat(response.info.amount):"";
 		           	let labor = (response.info.labor!= 0)?_formatnumbercommat(response.info.labor):"";
 	           		$('.btn-edit-materials').attr('data-id',response.id);
@@ -3648,9 +3648,6 @@ const month = ["January","February","March","April","May","June","July","August"
 		  			cost = _formatnumbercommat(response.framing[i].cost);
 		  			amount_costing = _formatnumbercommat(response.framing[i].amount_costing);
 		  			amount_actual = _formatnumbercommat(response.framing[i].amount_actual);
-		  			total_cost_framing +=parseFloat(response.framing[i].cost);
-		  			total_amount_costing_framing +=parseFloat(response.framing[i].amount_costing);
-		  			total_amount_actual_framing +=parseFloat(response.framing[i].amount_actual);
 						framing.append('<tr>\
 		             				<td class="font-size-lg">'+response.framing[i].item_name+'</td>\
 		             				<td class="text-right">'+response.framing[i].total_qty+'</td>\
@@ -3661,6 +3658,9 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				<td class="text-right">'+amount_costing+'</td>\
 		             				<td class="text-right">'+amount_actual+'</td>\
 							</tr>');
+					total_cost_framing +=parseFloat(response.framing[i].cost);
+		  			total_amount_costing_framing +=parseFloat(response.framing[i].amount_costing);
+		  			total_amount_actual_framing +=parseFloat(response.framing[i].amount_actual);
 					}
 					framing.append('<tr>\
 			             		<td colspan="5" class="text-center">TOTAL</td>\
@@ -3669,7 +3669,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			             		<td class="text-right">'+_formatnumbercommat(total_amount_actual_framing)+'</td>\
 						</tr>');
 				}else{
-					$('#tbl_framing > tbody:last-child').empty().append('<tr>\<td colspan="8" rows="4" class="text-center">NO DATA</td></tr>');
+					$('#tbl_framing > tbody').empty().append('<tr>\<td colspan="8" rows="4" class="text-center">NO DATA</td></tr>');
 				}
 				let mechanism = $('#tbl_mechanism > tbody').empty();
 				if(response.mechanism){
@@ -3678,9 +3678,6 @@ const month = ["January","February","March","April","May","June","July","August"
 		  			cost = _formatnumbercommat(response.mechanism[i].cost);
 		  			amount_costing = _formatnumbercommat(response.mechanism[i].amount_costing);
 		  			amount_actual = _formatnumbercommat(response.mechanism[i].amount_actual);
-		  			total_cost_mechanism +=parseFloat(response.mechanism[i].cost);
-		  			total_amount_costing_mechanism +=parseFloat(response.mechanism[i].amount_costing);
-		  			total_amount_actual_mechanism +=parseFloat(response.mechanism[i].amount_actual);
 	             			mechanism.append('<tr>'
 	             				+'<td class="font-size-lg">'+response.mechanism[i].item_name+'</td>'
 	             				+'<td class="text-right">'+response.mechanism[i].total_qty+'</td>'
@@ -3691,6 +3688,9 @@ const month = ["January","February","March","April","May","June","July","August"
 	             				+'<td class="text-right">'+amount_costing+'</td>'
 	             				+'<td class="text-right">'+amount_actual+'</td>'
 						+'</tr>');
+	             	total_cost_mechanism +=parseFloat(response.mechanism[i].cost);
+		  			total_amount_costing_mechanism +=parseFloat(response.mechanism[i].amount_costing);
+		  			total_amount_actual_mechanism +=parseFloat(response.mechanism[i].amount_actual);
 					}
 					mechanism.append('<tr>\
 			             		<td colspan="5" class="text-center">TOTAL</td>\
@@ -3708,9 +3708,6 @@ const month = ["January","February","March","April","May","June","July","August"
 		  			cost = _formatnumbercommat(response.finishing[i].cost);
 		  			amount_costing = _formatnumbercommat(response.finishing[i].amount_costing);
 		  			amount_actual = _formatnumbercommat(response.finishing[i].amount_actual);
-		  			total_cost_finishing +=parseFloat(response.finishing[i].cost);
-		  			total_amount_costing_finishing +=parseFloat(response.finishing[i].amount_costing);
-		  			total_amount_actual_finishing +=parseFloat(response.finishing[i].amount_actual);
 		             			finishing.append('<tr>'
 		             				+'<td class="font-size-lg">'+response.finishing[i].item_name+'</td>'
 		             				+'<td class="text-right">'+response.finishing[i].total_qty+'</td>'
@@ -3721,6 +3718,9 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				+'<td class="text-right">'+amount_costing+'</td>'
 		             				+'<td class="text-right">'+amount_actual+'</td>'
 							+'</tr>');
+		             total_cost_finishing +=parseFloat(response.finishing[i].cost);
+		  			 total_amount_costing_finishing +=parseFloat(response.finishing[i].amount_costing);
+		  			 total_amount_actual_finishing +=parseFloat(response.finishing[i].amount_actual);
 					}
 					finishing.append('<tr>\
 			             		<td colspan="5" class="text-center">TOTAL</td>\
@@ -3738,9 +3738,6 @@ const month = ["January","February","March","April","May","June","July","August"
 			  			cost = _formatnumbercommat(response.sulihiya[i].cost);
 			  			amount_costing = _formatnumbercommat(response.sulihiya[i].amount_costing);
 			  			amount_actual = _formatnumbercommat(response.sulihiya[i].amount_actual);
-			  			total_cost_sulihiya +=parseFloat(response.sulihiya[i].cost);
-		  				total_amount_costing_sulihiya +=parseFloat(response.sulihiya[i].amount_costing);
-		  				total_amount_actual_sulihiya +=parseFloat(response.sulihiya[i].amount_actual);
 		             			sulihiya.append('<tr>'
 		             				+'<td class="font-size-lg">'+response.sulihiya[i].item_name+'</td>'
 		             				+'<td class="text-right">'+response.sulihiya[i].total_qty+'</td>'
@@ -3751,6 +3748,9 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				+'<td class="text-right">'+amount_costing+'</td>'
 		             				+'<td class="text-right">'+amount_actual+'</td>'
 							+'</tr>');
+		             	total_cost_sulihiya +=parseFloat(response.sulihiya[i].cost);
+		  				total_amount_costing_sulihiya +=parseFloat(response.sulihiya[i].amount_costing);
+		  				total_amount_actual_sulihiya +=parseFloat(response.sulihiya[i].amount_actual);
 					}
 					sulihiya.append('<tr>\
 			             		<td colspan="5" class="text-center">TOTAL</td>\
@@ -3768,9 +3768,6 @@ const month = ["January","February","March","April","May","June","July","August"
 		  				cost = _formatnumbercommat(response.upholstery[i].cost);
 			  			amount_costing = _formatnumbercommat(response.upholstery[i].amount_costing);
 			  			amount_actual = _formatnumbercommat(response.upholstery[i].amount_actual);
-			  			total_cost_upholstery +=parseFloat(response.upholstery[i].cost);
-		  				total_amount_costing_upholstery +=parseFloat(response.upholstery[i].amount_costing);
-		  				total_amount_actual_upholstery +=parseFloat(response.upholstery[i].amount_actual);
 		             			upholstery.append('<tr>'
 		             				+'<td class="font-size-lg">'+response.upholstery[i].item_name+'</td>'
 		             				+'<td class="text-right">'+response.upholstery[i].total_qty+'</td>'
@@ -3781,6 +3778,9 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				+'<td class="text-right">'+amount_costing+'</td>'
 		             				+'<td class="text-right">'+amount_actual+'</td>'
 							+'</tr>');
+		             	total_cost_upholstery +=parseFloat(response.upholstery[i].cost);
+		  				total_amount_costing_upholstery +=parseFloat(response.upholstery[i].amount_costing);
+		  				total_amount_actual_upholstery +=parseFloat(response.upholstery[i].amount_actual);
 					}
 					upholstery.append('<tr>\
 			             		<td colspan="5" class="text-center">TOTAL</td>\
@@ -3798,9 +3798,6 @@ const month = ["January","February","March","April","May","June","July","August"
 		  				cost = _formatnumbercommat(response.others[i].cost);
 			  			amount_costing = _formatnumbercommat(response.others[i].amount_costing);
 			  			amount_actual = _formatnumbercommat(response.others[i].amount_actual);
-			  			total_cost_others +=parseFloat(response.others[i].cost);
-		  				total_amount_costing_others +=parseFloat(response.others[i].amount_costing);
-		  				total_amount_actual_others+=parseFloat(response.others[i].amount_actual);
 		             			other.append('<tr>'
 		             				+'<td class="font-size-lg">'+response.others[i].item_name+'</td>'
 		             				+'<td class="text-right">'+response.others[i].total_qty+'</td>'
@@ -3811,6 +3808,9 @@ const month = ["January","February","March","April","May","June","July","August"
 		             				+'<td class="text-right">'+amount_costing+'</td>'
 		             				+'<td class="text-right">'+amount_actual+'</td>'
 							+'</tr>');
+		             	total_cost_others +=parseFloat(response.others[i].cost);
+		  				total_amount_costing_others +=parseFloat(response.others[i].amount_costing);
+		  				total_amount_actual_others+=parseFloat(response.others[i].amount_actual);
 					}
 					other.append('<tr>\
 			             		<td colspan="5" class="text-center">TOTAL</td>\
