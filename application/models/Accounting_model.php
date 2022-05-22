@@ -56,51 +56,53 @@ class Accounting_model extends CI_Model{
              $data_upholstery =array();
              $data_others=array();
              $row = $this->db->query("SELECT *,DATE_FORMAT(start_date, '%M %d %Y') as start_date_name,DATE_FORMAT(due_date, '%M %d %Y') as due_date_name FROM tbl_project WHERE id='$val'")->row();
-             $data_info['id']=$this->encryption->encrypt($row->id);
-             $data_info['info']=$row;
-             $production_no = $row->production_no;
-             $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
-             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=1");
-                 if($query){
-                     foreach($query->result() as $row){
-                        $data_framing['framing'][] = $row;
-                     }
-                 }
-            $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
-             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=2");
-                 if($query){
-                     foreach($query->result() as $row){
-                        $data_mechanism['mechanism'][] = $row;
-                     }
-                 }
-            $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
-             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=3");
-                 if($query){
-                     foreach($query->result() as $row){
-                        $data_finishing['finishing'][] = $row;
-                     }
-                 }
-             $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
-             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=4");
-                 if($query){
-                     foreach($query->result() as $row){
-                        $data_sulihiya['sulihiya'][] = $row;
-                     }
-                 }
-            $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
-             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=5");
-                 if($query){
-                     foreach($query->result() as $row){
-                        $data_upholstery['upholstery'][] = $row;
-                     }
-                 }
-            $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
-             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=6");
-                 if($query){
-                     foreach($query->result() as $row){
-                        $data_others['others'][] = $row;
-                     }
-                 }                  
+             if($row){
+             	 $data_info['id']=$this->encryption->encrypt($row->id);
+	             $data_info['info']=$row;
+	             $production_no = $row->production_no;
+	             $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
+	             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=1");
+	                 if($query){
+	                     foreach($query->result() as $row){
+	                        $data_framing['framing'][] = $row;
+	                     }
+	                 }
+	            $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
+	             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=2");
+	                 if($query){
+	                     foreach($query->result() as $row){
+	                        $data_mechanism['mechanism'][] = $row;
+	                     }
+	                 }
+	            $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
+	             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=3");
+	                 if($query){
+	                     foreach($query->result() as $row){
+	                        $data_finishing['finishing'][] = $row;
+	                     }
+	                 }
+	             $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
+	             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=4");
+	                 if($query){
+	                     foreach($query->result() as $row){
+	                        $data_sulihiya['sulihiya'][] = $row;
+	                     }
+	                 }
+	            $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
+	             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=5");
+	                 if($query){
+	                     foreach($query->result() as $row){
+	                        $data_upholstery['upholstery'][] = $row;
+	                     }
+	                 }
+	            $query = $this->db->query("SELECT *,(total_qty*cost) as amount_costing,(production_quantity*cost) as amount_actual,(SELECT item FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_name,
+	             	(SELECT unit FROM tbl_materials WHERE id=tbl_material_project.item_no) as item_unit FROM tbl_material_project WHERE production_no='$production_no' AND mat_type=6");
+	                 if($query){
+	                     foreach($query->result() as $row){
+	                        $data_others['others'][] = $row;
+	                     }
+	                 }  
+             }
             return array_merge($data_info,$data_framing,$data_mechanism,$data_finishing,$data_sulihiya,$data_upholstery,$data_others);
 			break;
 			}
