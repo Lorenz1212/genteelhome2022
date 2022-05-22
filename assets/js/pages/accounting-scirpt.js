@@ -3642,7 +3642,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  			$('.btn-search').attr('data-id',response.info.id);
 	           	}
 	  			let framing = $('#tbl_framing > tbody').empty();
-	  			if(response.framing != false){
+	  			if(response.framing){
 	  				$('.btn-edit-materials[data-type=1]').attr('disabled',false);
 		  			for(var i=0;i<response.framing.length;i++){
 		  			cost = _formatnumbercommat(response.framing[i].cost);
@@ -3672,7 +3672,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_framing > tbody:last-child').empty().append('<tr>\<td colspan="8" rows="4" class="text-center">NO DATA</td></tr>');
 				}
 				let mechanism = $('#tbl_mechanism > tbody').empty();
-				if(!response.mechanism == false){
+				if(!response.mechanism){
 					$('.btn-edit-materials[data-type=2]').attr('disabled',false);
 		  			for(var i=0;i<response.mechanism.length;i++){
 		  			cost = _formatnumbercommat(response.mechanism[i].cost);
@@ -3702,7 +3702,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_mechanism > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
 				let finishing = $('#tbl_finishing > tbody').empty();
-				if(!response.finishing == false){
+				if(!response.finishing){
 					$('.btn-edit-materials[data-type=3]').attr('disabled',false);
 		  			for(var i=0;i<response.finishing.length;i++){
 		  			cost = _formatnumbercommat(response.finishing[i].cost);
@@ -3732,7 +3732,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_finishing > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
 				let sulihiya = $('#tbl_sulihiya > tbody').empty();
-				if(!response.sulihiya == false){
+				if(!response.sulihiya){
 					$('.btn-edit-materials[data-type=4]').attr('disabled',false);
 		  			for(var i=0;i<response.sulihiya.length;i++){
 			  			cost = _formatnumbercommat(response.sulihiya[i].cost);
@@ -3762,7 +3762,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>\<td colspan="8" class="text-center">NO DATA</td>\</tr>');
 				}
 				let upholstery = $('#tbl_upholstery > tbody').empty();
-				if(!response.upholstery == false){
+				if(!response.upholstery){
 					$('.btn-edit-materials[data-type=5]').attr('disabled',false);
 		  			for(var i=0;i<response.upholstery.length;i++){
 		  				cost = _formatnumbercommat(response.upholstery[i].cost);
@@ -3792,7 +3792,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_upholstery > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
 				let other = $('#tbl_others > tbody').empty();
-				if(!response.others == false){
+				if(!response.others){
 					$('.btn-edit-materials[data-type=6]').attr('disabled',false);
 		  			for(var i=0;i<response.others.length;i++){
 		  				cost = _formatnumbercommat(response.others[i].cost);
