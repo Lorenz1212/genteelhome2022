@@ -6,6 +6,7 @@ class Accounting_model extends CI_Model{
 			case "fetch_project_monitoring_joborder":{
 				$query = $this->db->query("SELECT * FROM tbl_project ORDER BY production_no DESC"); 
 		     	if($query){
+		     		 $data=array();
 		              foreach($query->result() as $row)  {
 				             $data[] = array('id'=> $row->id,
 				                      		 'production_no'=> $row->production_no);
