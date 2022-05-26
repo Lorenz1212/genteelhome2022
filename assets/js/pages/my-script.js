@@ -1233,14 +1233,82 @@ var arrows;var item_v;var price;var special_option;
 				 });
 				break;
 			}
-			case "data-design-project-approval":{
-				$(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	$('input[name=title]').attr('data-id',id);
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Design_Project_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Design_Project_Approval_View");
-				 });
+			case "design-project-approval":{
+				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_project_request');
+				$(document).on('click','.view-project',function(e){
+				 	e.preventDefault();
+				 	e.stopImmediatePropagation();
+				 	let id = $(this).attr('data-id');
+				 	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project',id]));
+			    });
+			    $('body').delegate('.btn-approved','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Do you want to move this form? Project Title #: "+element.attr('data-name'),
+			                          text: "You wont be able to revert this!",
+			                          icon: "warning",
+			                          showCancelButton: true,
+			                          confirmButtonText: "Yes, proceed!",
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      }).then(function(result) {
+			                          if (result.value){
+			                             _ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project_status',element.attr('data-id'),element.attr('data-status')]));
+			                          } 
+			                      });
+			            });
+			     $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project_status',element.attr('data-id'),element.attr('data-status'),result.value]));
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+	              $('body').delegate('.remarks-project','click',function(e){
+		                    e.preventDefault();
+		                    e.stopImmediatePropagation();
+		                    let element = $(this);
+		                        Swal.fire({
+		                          title: "Project Title #: "+element.attr('data-name')+"</br>Remarks",
+		                          text: element.attr('data-remarks'),
+		                          showConfirmButton:false,
+		                          showCancelButton: false,
+		                          cancelButtonText: "close!",
+		                          reverseButtons: true
+		                      })
+		          });
 				break;
 			}
 			case "data-jobeorder-update-stocks":{
@@ -1611,10 +1679,13 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-design-project":{
+			case "design-project":{
 				$(document).ready(function() {
+					KTFormControlsCreatives.init('form-design-project');
+					_initAvatar('design_image');
+					_initAvatar('design_image_add');
 					$('input[name=image]').on('change',function(e){
-						var file, img;
+					    var file, img;
 					    if ((file = this.files[0])) {
 					        img = new Image();
 					        var objectUrl =window.URL.createObjectURL(file);
@@ -1622,62 +1693,43 @@ var arrows;var item_v;var price;var special_option;
 					        	if(this.width > 1000 && this.height > 1000){
 					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
 					        			});
-					        	
 					        	}
-					        };
-					        img.src = objectUrl;
+					        };img.src = objectUrl;
 					    }
 					});
-					 $(document).on("click","#form-request",function(e) {
+				    $(document).on('click','.view-project',function(e){
 					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
 					 	let id = $(this).attr('data-id');
-					 	$('input[name=title]').attr('data-id',id);
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Design_Project_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Design_Project_View");
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project',id]));
 				    });
-					 $(".upfile1").click(function () {
-					    $("#image").trigger('click');
-					});
-					$(document).on("click","#modal-form > div > div > div.modal-body > form > div.row.justify-content-center > div > div:nth-child(1) > div:nth-child(1) > div.form-group.row > div > div > span",function(e) {
-		  				e.preventDefault();
-		  				let  image = $('input[name=title]').attr('data-image');
-		  				$(".image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+image+")");
-	  				});
-	  				_initAvatar('design_image');
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	$('input[name=title]').attr('data-id',id);
-					 	$('.specifications-edit').css('display','none');
-					 	$('.image-view').css('display','block');
-					 	$('.image-update').css('display','none');
-					 	$("input[name=title]").attr('readonly');
-					 	$('.btn-save').css('display','none');
-					 	$('.btn-edit').css('display','block');
-					 	$("#text-edit").text('Edit Details');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Design_Project_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Design_Project_View");
-				     });
-					$(document).on("click",".btn-edit",function(e) {
+				    $(document).on('click','.edit-project',function(e){
 					 	e.preventDefault();
-					 	let action = $(this).attr('data-action');
-					 	$(this).css('display','none');
-					 	$('.btn-save').css('display','block');
-				 		$('.specifications-edit').css('display','block');
-					 	$('.image-view').css('display','none');
-					 	$('.image-update').css('display','block');
-					 	$("#text-edit").text('Save Changes');
-					 	$("input[name=title]").removeAttr('readonly');
-				     });
-					$(".upfile1").click(function () {
-					    $("#c-image").trigger('click');
-					});
-					$(document).on("click","#modal-form > div > div > div.modal-body > form > div.row.justify-content-center > div > div:nth-child(1) > div:nth-child(1) > div.form-group.image-update > div > div > span",function(e) {
-		  				e.preventDefault();
-		  				let  image = $('input[name=title]').attr('data-image');
-		  				$(".image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+image+")");
-	  				});
+					 	e.stopImmediatePropagation();
+					 	let id = $(this).attr('data-id');
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project_edit',id]));
+				    });
+				     $(document).on('click','.add-project',function(e){
+					 	e.preventDefault();
+					 	$('#add-project-modal').modal('show');
+				    });
+				     $('#add-project-modal input[name=docs]').on('change',function(e){
+		                    e.preventDefault();
+		                    $('#add-project-modal .valid-upload').val(this.files[0].name);
+		               });
+		               $('body').delegate('.remarks-project','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Project Title #: "+element.attr('data-name')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
 				})
 				break;
 			}
@@ -3122,6 +3174,9 @@ var arrows;var item_v;var price;var special_option;
 	  	}
 	  	case "Modal_Design_Project_View":{
 	  		if(!response == false){
+	  			$('.project_name').text(response.title);
+	  			$('.creator').text(response.title);
+
 	  			$('input[name=title]').val(response.title);
 	  			$('input[name=title]').attr('data-image',response.image);
 	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
@@ -3130,6 +3185,7 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.image+")");
 	  			$('input[name="image_previous"]').val(response.image);
 	  			$('input[name="docs_previous"]').val(response.docs);
+	  			$('#view-project').modal('show');
 	  		}
 	  		break;
 	  	}
@@ -6382,6 +6438,140 @@ var arrows;var item_v;var price;var special_option;
 
 	  }
 	}
+
+	var _construct = async function(response, type, element, object){
+		switch(type){
+			case "fetch_design_project":{
+				if(response !=false){
+					$('.project_name').text(response.info.title);
+		  			$('.creator').text(response.info.creator);
+		  			$('.date_created').text(response.info.date_created);
+		  			$('.view-form-image').empty().append('<div class="col-lg-6"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/design/project_request/images/'+response.info.image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
+		                  <div class="col-lg-6"><a href="'+baseURL+'assets/images/design/project_request/docx/'+response.info.docs+'" target="_blank"><div class="bgi-no-repeat bgi-size-cover rounded min-h-100px tba_image  payment_slip" style="background-image: url('+baseURL+'assets/media/svg/files/pdf.svg);width: 100%;height: 150px;background-size: contain;background-position: center;"></div></a></div>\
+		                  ');
+		  			$('#view-project').modal('show');
+				}
+				break;
+			} 
+			case "fetch_design_project_edit":{
+				if(!response == false){
+					$('#edit-project-modal input[name=title]').attr('data-id',response.id);
+		  			$('#edit-project-modal input[name=title]').val(response.info.title);
+		  			$("#edit-project-modal .image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+		  			$('#edit-project-modal .valid-upload').val(response.info.docs);
+		  			$('#edit-project-modal input[name=docs]').on('change',function(e){
+		                    e.preventDefault();
+		                    $('.valid-upload').val(this.files[0].name);
+		               });
+		               $('#edit-project-modal #design_image > span').on('click',function(e){
+		               	$("#edit-project-modal .image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+		               });
+		  			$('#edit-project-modal').modal('show');
+	  			}
+				break;
+			}
+			case "fetch_design_project_status":{
+				_initToast(response.type,response.message);
+				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_project_request');
+				break;
+			}
+		}
+	}
+
+	 // start making formdata
+    var _constructForm = function(args){
+          let formData = new FormData();
+          for (var i = 1; (args.length+1) > i; i++){
+             formData.append('data'+ i, args[i-1]);
+           }  
+          return formData;
+    };
+    var _constructBlockUi = function(type, element, message){
+          let formData = new FormData();
+           formData.append('type', type);
+           formData.append('element', element);
+           formData.append('message', message);
+           if(formData){
+             return formData;
+           }
+    };
+    var _ajaxrequest = async function(url,blockUi, formData){
+      return new Promise((resolve, reject) => {
+             let y = true;
+             $.ajax({
+              url: baseURL+url,
+              type: 'POST',
+              data: formData,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              beforeSend: function(){
+                if(blockUi.get("type") == "blockPage"){
+                   if(blockUi.get("message") != "false"){
+                      KTApp.blockPage({
+                      overlayColor: '#000000',
+                      state: 'primary',
+                      message: blockUi.get("message")
+                     });
+                   }else{
+                      KTApp.blockPage();
+                   }
+                }else if(blockUi.get("type") == "blockContent"){
+                      KTApp.block(blockUi.get("element"));
+                }else{
+                }
+              },
+              complete: function(){
+                if(blockUi.get("type") == "blockPage"){
+                  KTApp.unblockPage();
+                }else if(blockUi.get("type") == "blockContent"){
+                  KTApp.unblock(blockUi.get("element"));
+                }else{
+                }
+                 resolve(y)
+              },
+              success: function(res){
+                 if(res.status == 'success'){
+                    if(window.atob(res.payload) != false){
+                      _construct(JSON.parse(window.atob(res.payload)), formData.get("data2"));
+                    }else{
+                      _construct(res.message, formData.get("data2"));
+                    }
+                 }else if(res.status == 'not_found'){
+                    Swal.fire("Ops!", res.message, "info");
+                 }else{
+                    Swal.fire("Ops!", res.message, "info");
+                 } 
+              },
+              error: function(xhr,status,error){
+                // if(xhr.status == 200){
+                //   if(xhr.responseText.trim()=="signed-out"){
+                //     Swal.fire({
+                //     title:"Oopps!",
+                //     text: "Your account was signed-out.",
+                //     icon: "info",
+                //     showCancelButton: false,
+                //     confirmButtonText: "Ok, Got it",
+                //         reverseButtons: true
+                //     }).then(function(result) {
+                //       window.location.replace("login");
+                //     });
+                //   }else{
+                //     Swal.fire("Ops!", "Check your internet connection.", "error");
+                //   }
+                // }else 
+                if(xhr.status == 500){
+                  Swal.fire("Ops!", 'Internal error: ' + xhr.responseText, "error");
+                }else{
+                  console.log(xhr);
+                  console.log(status);
+                  Swal.fire("Ops!", 'Something went wrong..', "error");
+                }
+              }       
+        });      
+       })
+    };
+ 
 	return {
 
 		//main function to initiate the module

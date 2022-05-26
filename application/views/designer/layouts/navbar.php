@@ -104,14 +104,6 @@
 															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
 																<ul class="menu-subnav">
 																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/create-design-project";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CREATE DESIGN FOR PROJECT</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
 																		<a href="<?php echo base_url()."gh/designer/create-design-stocks";?>" class="menu-link">
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>

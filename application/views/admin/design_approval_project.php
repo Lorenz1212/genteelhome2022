@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-design-project-approval">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="design-project-approval">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -42,7 +42,7 @@
 			    <div class="card-body">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
-			                <table class="table table-bordered table-hover table-checkable link" id="tbl_approval_design_project_request" data-link="tbl_approval_design_project_request" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_approval_design_project_request">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -55,7 +55,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_approval_design_project_approved" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_approval_design_project_approved">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -68,7 +68,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_approval_design_project_rejected" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_approval_design_project_rejected">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -87,55 +87,44 @@
 	</div>
 </div>
 <!-- Modal-->
-<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+<div class="modal fade p-0" id="view-project" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-			 <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header border-0" >
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                
+                <button type="button" class="close d-flex align-self-start" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <div class="modal-body">
-            	<form class="form" data-link="Update_Approval_Designed_Project">
-            	<div class="row justify-content-center">
-					<div class="col-xl-6 col-xxl-6 col-md-6">
-			        	<div class="row">
-							<div class="col-lg-6 col-xl-6">
-								<div class="form-group image-view" style="display: block;">
-									<label class="col-xl-3 col-lg-3 col-form-label text-left">Image</label>
-									<div class="col-lg-3 col-xl-3">
-										<div class="image-input image-input-outline">
-											<a id="image_href" target="_blank">
-											  <img class="image-input-wrapper" src="" id="image"/>
-										    </a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-6 col-xl-6">
-								<div class="form-group">
-									<label class="col-xl-3 col-lg-3 col-form-label text-left">Specifications</label>
-									<div class="col-lg-3 col-xl-3">
-										<div class="image-input image-input-outline" id="docs">
-											<a id="docs_href" target="_blank">
-											<img class="image-input-wrapper" src="<?php echo base_url();?>assets/images/design/project_request/docx/default.png" />
-										    </a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						 <div class="form-group">
-							   <label>ITEM</label>
-							   <input class="form-control" name="title" readonly/>
-					  	 </div>
-					</div>
-				</div>
-				<div class="modal-footer button_status">
-	            </div>
-            </div>
-        </form>
-        </div>
-    </div>
+            <div class="modal-body p-0" >
+                <!-- <div class="card card-custom gutter-b card-stretch" > -->
+                <div class="card-body py-0">
+                    <span class="d-block font-weight-bolder mr-3 my-3 text-primary">Project Info</span>
+                    <span class=" log-message"></span>
+                    <div class="d-flex flex-wrap">
+                        <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Project Name</span>
+                             <span class="d-block font-weight-bolder mb-4 project_name">---</span>
+                        </div>
+                        <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Creator</span>
+                            <span class="d-block font-weight-bolder mb-4 creator">---</span>
+                        </div>
+                         <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Date Created</span>
+                            <span class="d-block font-weight-bolder mb-4 date_created">---</span>
+                        </div>
+                    </div>
+                    <div class="separator separator-solid mb-5"></div>
+                    <span class="d-block font-weight-bolder mb-4 text-primary">Image & Specification</span>
+                    <div class="row gutter-b view-form-image">
+                    </div>
+                    <div class="separator separator-solid mb-5"></div>
+            	</div>
+       		 </div>
+    	</div>
+	</div>
 </div>
+

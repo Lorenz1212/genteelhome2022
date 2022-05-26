@@ -28,6 +28,7 @@
 		<!--end::Page Vendors-->
 		<!--begin::Page Scripts(used by this page)-->
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/editors/tinymce.js"></script>
+		<script src="<?php echo base_url(); ?>assets/admin/datatable.js"  type='text/javascript'></script>  
 		<!--end::Page Scripts-->
 
 		<!--END URL Controller-->

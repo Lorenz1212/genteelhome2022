@@ -128,7 +128,8 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=1 AND c.type=2 AND c.designer ='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-               $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+               $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-project" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>
+                        <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm edit-project" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-pencil-square-o"></i></button>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'project_no'   => $row->project_no,
@@ -147,7 +148,8 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status =2 AND c.type=2 AND c.designer ='.$this->user_id.'')->order_by('c.date_created','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-              $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+             $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-project" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>
+                        <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm edit-project" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-pencil-square-o"></i></button>';     
              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
              $data[] = array(
                       'project_no'   => $row->project_no,
@@ -166,7 +168,8 @@ class Datatable_model extends CI_Model{
         $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=3 AND c.type=2 AND c.designer ='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-              $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+              $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-project" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>
+                        <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm remarks-project" data-name="'.$row->title.'" data-id="'.$row->remark.'"><i class="flaticon2 flaticon2-document"></i></button>';    
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'project_no'   => $row->project_no,
@@ -182,27 +185,24 @@ class Datatable_model extends CI_Model{
          return $json_data;   
     }
 
-
-   
-
-        function RawMaterial_DataTable(){
-           $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('id','DESC')->get();  
-            if($query !== FALSE && $query->num_rows() > 0){
-               foreach($query->result() as $row){
-                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
-                    $data[] = array(
-                             'no'           => $row->item_no,
-                             'item'         => $row->item.' ('.$row->unit.')',
-                             'price'        => number_format($row->price,2),
-                             'date_created' => $row->date_created,
-                             'action'       => $action);
-                }      
-             }else{   
-                 $data =false;   
-             }
-             $json_data  = array("data" =>$data); 
-             return $json_data;       
-        }
+    function RawMaterial_DataTable(){
+       $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('id','DESC')->get();  
+        if($query !== FALSE && $query->num_rows() > 0){
+           foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
+                $data[] = array(
+                         'no'           => $row->item_no,
+                         'item'         => $row->item.' ('.$row->unit.')',
+                         'price'        => number_format($row->price,2),
+                         'date_created' => $row->date_created,
+                         'action'       => $action);
+            }      
+         }else{   
+             $data =false;   
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;       
+    }
        function SpareParts_DataTable(){
           $query =  $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_other_materials')->where('type',1)->order_by('id','DESC')->get();
           $data=array();
@@ -2465,7 +2465,10 @@ class Datatable_model extends CI_Model{
         $data= array();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-               $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="la la-eye"></i></button>';    
+               $action = '
+               <button type="button" class="btn btn-light btn-hover-success btn-icon btn-sm mr-2 btn-approved" data-id="'.$this->encryption->encrypt($row->id).'" data-name="'.$row->title.'" data-status="2"><i class="la la-check"></i></button>
+               <button type="button" class="btn btn-light btn-hover-danger btn-icon btn-sm mr-2 btn-cancelled" data-id="'.$this->encryption->encrypt($row->id).'" data-name="'.$row->title.'" data-status="3"><i class="la la-remove"></i></button>
+                <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-project" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>';    
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'project_no'   => $row->project_no,
@@ -2479,11 +2482,11 @@ class Datatable_model extends CI_Model{
          return $json_data;   
     }
     function Approval_Design_Project_Approved_DataTable(){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status =2 AND c.type=2 AND c.approver ='.$this->user_id.'')->order_by('c.date_created','ASC')->get();
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status =2 AND c.type=2')->order_by('c.date_created','ASC')->get();
         $data= array();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-              $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="la la-eye"></i></button>';    
+              $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-project" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>';    
              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
              $data[] = array(
                       'project_no'   => $row->project_no,
@@ -2497,11 +2500,12 @@ class Datatable_model extends CI_Model{
          return $json_data;   
     }
     function Approval_Design_Project_Rejected_DataTable(){
-        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=3 AND c.type=2 AND c.approver ='.$this->user_id.'')->order_by('c.date_approved','ASC')->get();
+        $query = $this->db->select('c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer')->where('c.status=3 AND c.type=2')->order_by('c.date_approved','ASC')->get();
         $data= array();
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
-              $action = '<button type="button" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="la la-eye"></i></button>';    
+               $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-project" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>
+                        <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm remarks-project" data-name="'.$row->title.'" data-remarks="'.$row->remark.'"><i class="flaticon2 flaticon2-document"></i></button>'; 
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="'.$row->title.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div></div></div></span>';
                  $data[] = array(
                           'project_no'   => $row->project_no,
