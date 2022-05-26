@@ -66,9 +66,9 @@
                 <!--footer social-->
                 <div class="footer-social">
                     <div class="row">
-                        <div class="col-sm-6">
+                       <!--  <div class="col-sm-6">
                              <a>CREATED BY: LORENZ CABREROS & RICHARD ORENDAIN</a>
-                        </div>
+                        </div> -->
                         <div class="col-sm-6 links">
                             <ul>
                                 <li><a href="https://www.facebook.com/GenteelHomePH" target="_blank"><i class="fa fa-facebook"></i></a></li>
