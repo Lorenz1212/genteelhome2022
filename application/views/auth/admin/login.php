@@ -31,7 +31,8 @@
 		<div class="d-flex flex-column flex-root">
 			<!--begin::Login-->
 			<div class="login login-3 login-signin-on d-flex flex-row-fluid" id="kt_login">
-				<div class="d-flex flex-center bgi-size-cover bgi-no-repeat flex-row-fluid" style="background-image: url(<?php echo $this->appinfo->admin_bg();?>);">
+				<div class="d-flex flex-center bgi-size-cover bgi-no-repeat flex-row-fluid">
+				<!-- <div class="d-flex flex-center bgi-size-cover bgi-no-repeat flex-row-fluid" style="background-image: url(<?php echo $this->appinfo->admin_bg();?>);"> -->
 					<div class="login-form text-center text-white p-7 position-relative overflow-hidden">
 						<!--begin::Login Header-->
 						<div class="d-flex flex-center mb-15">
@@ -48,7 +49,7 @@
 							</div>
 							<form class="form" id="kt_login_signin_form">
 								<div class="form-group">
-									<select class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8 mb-5" name="type">
+									<select class="form-control h-auto rounded-pill border-0 py-4 px-8 mb-5" name="type">
 										<option value="1">Creatives</option>
 										<option value="2">Production</option>
 										<option value="3">Supervisor</option>
@@ -60,10 +61,10 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<input class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8 mb-5" type="text" placeholder="Email/Username" name="username" autocomplete="off" />
+									<input class="form-control h-auto rounded-pill border-0 py-4 px-8 mb-5" type="text" placeholder="Email/Username" name="username" autocomplete="off" />
 								</div>
 								<div class="form-group">
-									<input class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8 mb-5" type="password" placeholder="Password" name="password" />
+									<input class="form-control h-auto rounded-pill border-0 py-4 px-8 mb-5" type="password" placeholder="Password" name="password" />
 								</div>
 								<div class="form-group d-flex flex-wrap justify-content-between align-items-center px-8">
 									<div class="checkbox-inline">
