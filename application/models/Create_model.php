@@ -675,7 +675,7 @@ class Create_model extends CI_Model{
     		}
     }
     function Create_Web_Change_Pallet($id,$image,$tmp,$path_image,$previous){
-    	if($image){$images = $this->move_to_folder5($image,$tmp,$path_image,300,300);
+    	if($image){$images = $this->move_to_folder5('PALLET',$image,$tmp,$path_image,300,300);
     		unlink("./".$path_image.$previous);
 			 $data = array('c_image' => $images);
 		 	 $this->db->where('id',$id);
