@@ -562,7 +562,7 @@ var html;var _avatar;
 								$('.docs-text1').text("");
 								$('#changeimage1').attr('src',baseURL+'assets/images/design/project_request/images/default.jpg');
 				 			});
-							$(document).on("click","#form-request",function() {
+							$(document).on("click",".view-product",function() {
 								 	let id = $(this).attr('data-id');
 								 	let action = $(this).attr('data-action');
 								 	if(action == 'info'){
@@ -924,6 +924,7 @@ var html;var _avatar;
 				  			+'</div>');
 
 		  			}
+		  			$('#modal-form').modal('show');
 		  		}
 		  		break;
 		  	}

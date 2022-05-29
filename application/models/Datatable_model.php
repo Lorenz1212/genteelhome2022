@@ -3602,7 +3602,7 @@ class Datatable_model extends CI_Model{
           return $data;
      }
      function Web_Product_DataTable(){
-          $query = $this->db->select('*')->from('tbl_project_color as c')
+          $query = $this->db->select('*,c.id')->from('tbl_project_color as c')
           ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
           ->where('c.status',2)->where('c.type',1)
           ->order_by('c.project_no','ASC')->get();
@@ -3614,7 +3614,7 @@ class Datatable_model extends CI_Model{
                }else{
                   $status ='<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Displayed</span>';
                }
-               $action = '<button type="button" data-action="info" class="btn btn-sm btn-dark btn-shadow btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->c_code.'" data-target="#modal-form"><i class="la la-eye"></i></button>';
+               $action = '<button type="button" data-action="info" class="btn btn-sm btn-dark btn-shadow btn-icon view-product" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>';
                $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'"></div>';
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'"></div><div class="ml-3"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><span class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</span></div></div></span>';
              $data[] = array(

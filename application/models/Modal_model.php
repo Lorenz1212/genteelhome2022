@@ -880,12 +880,11 @@ class Modal_model extends CI_Model{
         if(!$query){return false;}else{return $query->row();}
     }
     function Modal_Web_Design_View($id){
-        $query1 = $this->db->select('c.*,d.*,d.cat_id as cat_id,d.sub_id as sub_id,c.project_no as project_no,c.status as status,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(c.date_approved, "%M %d %Y %r") as date_approved,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=c.designer') ->where('c.c_code', $id)->get();
+        $query1 = $this->db->select('c.*,d.*,d.cat_id,d.sub_id,c.project_no,c.status,c.c_price,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,DATE_FORMAT(c.date_approved, "%M %d %Y %r") as date_approved')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->where('c.id', $this->encryption->decrypt($id))->get();
         $row1 = $query1->row();
-        $query = $this->db->select('*')->from('tbl_project_image')->where('c_code', $id)->get();
-           if($query !== FALSE && $query->num_rows() > 0){
-            foreach($query->result() as $row)  
-            {
+        $query = $this->db->select('*')->from('tbl_project_image')->where('c_code', $this->encryption->decrypt($id))->get();
+        if($query !== FALSE && $query->num_rows() > 0){
+            foreach($query->result() as $row){
              $data[] = array('id' => $row->id,
                              'images'=> $row->images);
             }  
