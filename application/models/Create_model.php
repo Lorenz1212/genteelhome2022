@@ -557,15 +557,15 @@ class Create_model extends CI_Model{
     	 $query = $this->db->select('*')->from('tbl_category_sub')->where('id',$sub_id)->get();
 	     $row = $query->row();
 	     $data = array('cat_id'=>$row->cat_id,
-	   								 'sub_id'=>$row->id);
+	   					'sub_id'=>$row->id);
 	     $this->db->where('id',$id);
 	     $this->db->update('tbl_project_design',$data);
     }
     function Create_Project_Status($id,$status){
     	 $data = array('display_status' => $status);
-    	 $this->db->where('c_code',$id);
+    	 $this->db->where('id',$id);
 	      $this->db->update('tbl_project_color',$data);
-	      $query = $this->db->select('*')->from('tbl_project_color')->where('c_code',$id)->get();
+	      $query = $this->db->select('*')->from('tbl_project_color')->where('id',$id)->get();
 	      $row = $query->row();
 
 	      $query1 = $this->db->select('*')->from('tbl_project_design')->where('id',$row->project_no)->get();
@@ -581,7 +581,7 @@ class Create_model extends CI_Model{
     function Create_Project_Title($id,$name,$action){
     	if($action =='save_cname'){
     		 $data = array('c_name' => $name);
-	    	 $this->db->where('c_code',$id);
+	    	 $this->db->where('id',$id);
 		     $this->db->update('tbl_project_color',$data);
     	}else{
     		$data = array('title' => $name);
@@ -594,9 +594,9 @@ class Create_model extends CI_Model{
     	     $status ='no image';
     		 $last_id="";
     		 $images="";
-    		 $query = $this->db->select('*')->from('tbl_project_color')->where('c_code',$id)->get();
+    		 $query = $this->db->select('*')->from('tbl_project_color')->where('id',$id)->get();
 			 $row = $query->row();
-	    	 $query1 = $this->db->select('count(id) as count')->from('tbl_project_image')->where('c_code',$id)->get();
+	    	 $query1 = $this->db->select('count(id) as count')->from('tbl_project_image')->where('id',$id)->get();
 	    	 $row1 = $query1->row();
 	    	 if($query1 !== FALSE && $query1->num_rows() > 0){
 	    	 		if($row1->count == 15){
@@ -657,7 +657,7 @@ class Create_model extends CI_Model{
 	    	 	return $json;		
     }
     function Create_Web_Project_Price($id,$c_price){
-    		$query = $this->db->select('*')->from('tbl_project_color')->where('c_code',$id)->get();
+    		$query = $this->db->select('*')->from('tbl_project_color')->where('id',$id)->get();
     		$row = $query->row();
     		if(!$row->c_price){
     			 $data = array('c_price'=> $c_price);
@@ -669,21 +669,16 @@ class Create_model extends CI_Model{
     		}else{
     		  $data = array('c_price' => $c_price,
     						'r_price' => $row->c_price);
-    		  $this->db->where('c_code',$id);
+    		  $this->db->where('id',$id);
 	          $this->db->update('tbl_project_color',$data);
-    		  $insert = array('project_no'=> $row->project_no,
-							'c_code'=> $id,
-							'price'=> $c_price,
-							'date_created'=> date('Y-m-d H:i:s'));
-				$this->db->insert('tbl_project_price',$insert);
-				return 'success';
+			  return 'success';
     		}
     }
     function Create_Web_Change_Pallet($id,$image,$tmp,$path_image,$previous){
     	if($image){$images = $this->move_to_folder5($image,$tmp,$path_image,300,300);
     		unlink("./".$path_image.$previous);
 			 $data = array('c_image' => $images);
-		 	 $this->db->where('c_code',$id);
+		 	 $this->db->where('id',$id);
 			 $this->db->update('tbl_project_color',$data);
 			 $status = 'success';
     	}else{

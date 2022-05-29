@@ -890,7 +890,7 @@ var html;var _avatar;
 		  			_initCurrency_format('#c_price')
 		  			$('#project_no').attr('data-id',response.row.project_no);
 		  			$('#title').val(response.row.title);
-		  			$('#c_code').attr('data-id',response.row.c_code);
+		  			$('#c_code').attr('data-id',response.row.id);
 		  			$('#c_name').val(response.row.c_name);
 		  			$('#unit').val(response.row.unit);
 		  			$('#c_price').val(response.c_price);
