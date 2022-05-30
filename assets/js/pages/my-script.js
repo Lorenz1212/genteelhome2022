@@ -1540,7 +1540,7 @@ var arrows;var item_v;var price;var special_option;
 			                      }
 			                  });
 			              })
-				$('body').delegate('.remarks-project','click',function(e){
+				$('body').delegate('.remarks-stocks','click',function(e){
 	                    e.preventDefault();
 	                    e.stopImmediatePropagation();
 	                    let element = $(this);
