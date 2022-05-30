@@ -1478,31 +1478,85 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "inspection-stocks":{
-				$(document).ready(function() {
-					KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_inspection_stocks');
-					 $('.summernote').summernote({height: 100});
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let status = $(this).attr('data-status');
-					 	let val = {id:id,status:status};
-					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_Stocks_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Inspection_Stocks_View");
-				    });
-				})
+				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_inspection_stocks');
+				 $(document).on('click','.view-stocks',function(e){
+				 	e.preventDefault();
+				 	e.stopImmediatePropagation();
+				 	let id = $(this).attr('data-id');
+				 	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['inspection-stocks', 'fetch_inspection_stocks',id]));
+		    		});
+				 $('body').delegate('.btn-approved','click',function(e){
+		                    e.preventDefault();
+		                    e.stopImmediatePropagation();
+		                    let element = $(this);
+		                        Swal.fire({
+		                          title: "Do you want to move this form? Project Title: "+element.attr('data-name'),
+		                          text: "You wont be able to revert this!",
+		                          icon: "warning",
+		                          showCancelButton: true,
+		                          confirmButtonText: "Yes, proceed!",
+		                          cancelButtonText: "close!",
+		                          reverseButtons: true
+		                      }).then(function(result) {
+		                          if (result.value){
+		                             _ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['inspection-stocks', 'fetch_inspection_stocks_status',element.attr('data-id'),element.attr('data-status')]));
+		                          } 
+		                      });
+		            });
+				 $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['inspection-stocks', 'fetch_inspection_stocks_status',element.attr('data-id'),element.attr('data-status'),result.value]));
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+				$('body').delegate('.remarks-project','click',function(e){
+	                    e.preventDefault();
+	                    e.stopImmediatePropagation();
+	                    let element = $(this);
+	                        Swal.fire({
+	                          title: "Product Name: "+element.attr('data-name')+"</br>Remarks",
+	                          text: element.attr('data-remarks'),
+	                          showConfirmButton:false,
+	                          showCancelButton: false,
+	                          cancelButtonText: "close!",
+	                          reverseButtons: true
+	                      })
+		          });
 				break;
 			}
 			case "inspection-project":{
-				$(document).ready(function() {
-					KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_inspection_project');
-					 $('.summernote').summernote({height: 100});
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let status = $(this).attr('data-status');
-					 	let val = {id:id,status:status};
-					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_Project_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Inspection_Project_View");
-				    });
-				});
+				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_inspection_project');
 				$(document).on('click','.view-project',function(e){
 				 	e.preventDefault();
 				 	e.stopImmediatePropagation();
@@ -3345,6 +3399,7 @@ var arrows;var item_v;var price;var special_option;
 	  			if(response.unit == 0){
 	  				$('.status-hide').hide();
 	  			}
+	  			$('#requestModal').modal('show');
 	  		}
 	  		break;
 	  	}
@@ -3360,6 +3415,7 @@ var arrows;var item_v;var price;var special_option;
 	  			if(response.status == 2){
 	  				$('.status-hide').hide();
 	  			}
+	  			$('#requestModal').modal('show');
 	  		}
 	  		break;
 	  	}
@@ -3976,57 +4032,6 @@ var arrows;var item_v;var price;var special_option;
 	  		break;
 	  	}
 	  	
-	  	case "Modal_Approval_Inspection_Project_View":{
-	  		 if(!response == false){
-	  			$('#joborder').text(response[0].production_no);
-	  			$('#title').val(response[0].title);
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response[0].image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response[0].docs);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response[0].image);
-	  			$('.summernote').summernote('code',response[0].remarks);
-	  			if(response[0].status == 1){
-	  				$('#button_status').html('<button type="button" class="btn btn-danger btn_status" data-status="3">REJECT</button>'
-					+'<button type="button" class="btn btn-success btn_status" data-status="2">APPROVE</button>');
-	  			}else{
-	  				$('#button_status').remove();
-	  			}
-	  			$("#requestInspection").empty();
-	  			for(let i=0;i<response.length;i++){
-	  				$("#requestInspection").append('<div class="col-lg-2 col-xl-2" id="row_'+response[i].id+'">'
-		  			+'<div class="image-input image-input-empty image-input-outline"  style="background-image: url('+baseURL+'assets/images/inspection/'+response[i].i_images+')">'
-					+'<div class="image-input-wrapper"></div>'
-					+'  </div>'
-		  			+'</div>');
-	  			}
-	  		} 
-	  		break;
-	  	}
-	  	case "Modal_Approval_Inspection_Stocks_View":{
-	  		 if(!response == false){
-	  			$('#joborder').text(response[0].production_no);
-	  			$('#title').val(response[0].title);
-	  			$('#c_name').val(response[0].c_name);
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response[0].image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response[0].docs);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response[0].image);
-	  			$('.summernote').summernote('code',response[0].remarks);
-	  			if(response[0].status == 1){
-	  				$('#button_status').html('<button type="button" class="btn btn-danger btn_status" data-status="3">REJECT</button>'
-					+'<button type="button" class="btn btn-success btn_status" data-status="2">APPROVE</button>');
-	  			}else{
-	  				$('#button_status').remove();
-	  			}
-	  			$("#requestInspection").empty();
-	  			for(let i=0;i<response.length;i++){
-	  				$("#requestInspection").append('<div class="col-lg-2 col-xl-2" id="row_'+response[i].id+'">'
-		  			+'<div class="image-input image-input-empty image-input-outline"  style="background-image: url('+baseURL+'assets/images/inspection/'+response[i].i_images+')">'
-					+'<div class="image-input-wrapper"></div>'
-					+'  </div>'
-		  			+'</div>');
-	  			}
-	  		} 
-	  		break;
-	  	}
 	  	case "Modal_SalesOrder_Approval":{
 	  		let container = $('#kt_table_soa_item > tbody:last-child');
 	  		    container.empty();
@@ -6629,13 +6634,39 @@ var arrows;var item_v;var price;var special_option;
 					$('.title').text(response.info.title);
 		  			$('.creator').text(response.info.creator);
 		  			$('.date_created').text(response.info.date_created);
+		  			let container = $('.view-form-image').empty();
 		  			for(let i=0;i<response.inspection.length;i++){
-			  			$('.view-form-image').empty().append('\
-			  				<div class="col-lg-4"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/inspection/'+response.info.c_image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
+			  			container.append('<div class="col-lg-4"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/inspection/'+response.inspection[i].image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
 			                  ');	
 		  			}
 		  			$('#view-project').modal('show');
 				}
+				break;
+			}
+			case "fetch_inspection_stocks":{
+				if(response !=false){
+					$('.title').text(response.info.title);
+					$('.c_name').text(response.info.c_name);
+		  			$('.creator').text(response.info.creator);
+		  			$('.date_created').text(response.info.date_created);
+		  			let container = $('.view-form-image').empty();
+		  			for(let i=0;i<response.inspection.length;i++){
+		  				console.log(response.inspection[i].image)
+			  			container.append('<div class="col-lg-4"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/inspection/'+response.inspection[i].image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
+			                  ');	
+		  			}
+		  			$('#view-stocks').modal('show');
+				}
+				break;
+			}
+			case "fetch_inspection_stocks_status":{
+				_initToast(response.type,response.message);
+				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_inspection_stocks');
+				break;
+			}
+			case "fetch_inspection_project_status":{
+				_initToast(response.type,response.message);
+				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_inspection_project');
 				break;
 			}
 		}

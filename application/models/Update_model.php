@@ -617,7 +617,6 @@ class Update_model extends CI_Model
        $result = $this->db->update('tbl_project_inspection',$data);
        if($result){
           if($status == 2){$status_log = '<span class="label label-lg label-primary label-inline">Approved</span>';}else{$status_log = '<span class="label label-lg label-danger label-inline">Rejected</span>';}
-          $this->logs('approval-inspection-project','Admin Inspection Approval','tbl_project_inspection','JOB ORDER:'.$production_no.'<b>INSPECTION NO: '.$value.'<b> STATUS: '.$status_log);
           return $status;
         }else{
            return $this->db->_error_message(); 

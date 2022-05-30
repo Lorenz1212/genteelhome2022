@@ -111,13 +111,9 @@
                             <span class="d-block font-weight-normal mb-4">Creator</span>
                             <span class="d-block font-weight-bolder mb-4 creator">---</span>
                         </div>
-                         <div class="mr-12 d-flex flex-column ">
-                            <span class="d-block font-weight-normal mb-4">Date Created</span>
-                            <span class="d-block font-weight-bolder mb-4 date_created">---</span>
-                        </div>
                     </div>
                     <div class="separator separator-solid mb-5"></div>
-                    <span class="d-block font-weight-bolder mb-4 text-primary">Image & Specification</span>
+                    <span class="d-block font-weight-bolder mb-4 text-primary">Images</span>
                     <div class="row gutter-b view-form-image">
                     </div>
                     <div class="separator separator-solid mb-5"></div>

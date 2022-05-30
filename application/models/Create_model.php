@@ -941,39 +941,20 @@ class Create_model extends CI_Model{
 	     $status ='no image';
 		 $last_id="";
 		 $images="";
-		 $query = $this->db->select('count(id) as count')->from('tbl_project_inspection')->where('production_no',$production_no)->get();
-	     $row = $query->row();
-    	 if($query !== FALSE && $query->num_rows() > 0){
-    	 		if($row->count == 15){
-    	 			   $status = 'maximum';
-    	 		}else{
-			        if($image){$images = $this->move_to_folder4('INSPECTION',$image,$tmp,$path_image,500,500);
-			        	$data = array('production_no' => $production_no,
-			        				  'production'=>$id,
-						    		  'images'=> $images,
-						    		  'status'=> 1,
-						    		  'type'=>2,
-						    		  'date_created'=>date('Y-m-d H:i:s'),
-						    		  'created_by'=> $id);
-		 				 $this->db->insert('tbl_project_inspection',$data);
-		 				 $last_id = $this->db->insert_id();
-		 				 $status = 'success';
-		    		}
-    	 		}
-    	}else{
-			if($image){$images = $this->move_to_folder4('INSPECTION',$image,$tmp,$path_image,500,500);
-					$data = array('production_no' => $production_no,
-			        				  'production'=>$id,
-						    		  'images'=> $images,
-						    		  'status'=> 1,
-						    		  'type'=>2,
-						    		  'date_created'=>date('Y-m-d H:i:s'),
-						    		  'created_by'=> $id);
-	 				 $this->db->insert('tbl_project_inspection',$data);
-	 				 $last_id = $this->db->insert_id();
-					 $status = 'success';
-			}
-    	}	
+        if($image){
+        	$images = $this->move_to_folder4('INSPECTION',$image,$tmp,$path_image,500,500);
+        	$value = $this->get_code('tbl_request_id','INSXID'.date('Ymd'));
+        	$data = array('production_no' =>$production_no,
+        				  'production'=>$this->user_id,
+			    		  'images'=> $images,
+			    		  'status'=> 1,
+			    		  'type'=>2,
+			    		  'date_created'=>date('Y-m-d H:i:s'),
+			    		  'created_by'=> $id);
+				 $this->db->insert('tbl_project_inspection',$data);
+				 $last_id = $this->db->insert_id();
+				 $status = 'success';
+		}
 		$json = array('status'=>'success','image' => $images,'id' => $last_id);
     	return $json;
     }
@@ -981,39 +962,19 @@ class Create_model extends CI_Model{
 	     $status ='no image';
 		 $last_id="";
 		 $images="";
-		 $query = $this->db->select('count(id) as count')->from('tbl_project_inspection')->where('production_no',$production_no)->get();
-	     $row = $query->row();
-    	 if($query !== FALSE && $query->num_rows() > 0){
-    	 		if($row->count == 15){
-    	 			   $status = 'maximum';
-    	 		}else{
-			        if($image){$images = $this->move_to_folder4('INSPECTION',$image,$tmp,$path_image,500,500);
-			        	$data = array('production_no' => $production_no,
-			        				  'production'=>$id,
-						    		  'images'=> $images,
-						    		  'status'=> 1,
-						    		  'type'=>1,
-						    		  'date_created'=>date('Y-m-d H:i:s'),
-						    		  'created_by'=> $id);
-		 				 $this->db->insert('tbl_project_inspection',$data);
-		 				 $last_id = $this->db->insert_id();
-		 				 $status = 'success';
-		    		}
-    	 		}
-    	}else{
-			if($image){$images = $this->move_to_folder4('INSPECTION',$image,$tmp,$path_image,500,500);
-					$data = array('production_no' => $production_no,
-		        				  'production'=>$id,
-					    		  'images'=> $images,
-					    		  'status'=> 1,
-					    		  'type'=>1,
-					    		  'date_created'=>date('Y-m-d H:i:s'),
-					    		  'created_by'=> $id);
-	 				 $this->db->insert('tbl_project_inspection',$data);
-	 				 $last_id = $this->db->insert_id();
-					 $status = 'success';
-			}
-    	}	
+		 if($image){
+        	$images = $this->move_to_folder4('INSPECTION',$image,$tmp,$path_image,500,500);
+        	$data = array('production_no' =>$production_no,
+        				  'production'=>$this->user_id,
+			    		  'images'=> $images,
+			    		  'status'=> 1,
+			    		  'type'=>1,
+			    		  'date_created'=>date('Y-m-d H:i:s'),
+			    		  'created_by'=> $id);
+				 $this->db->insert('tbl_project_inspection',$data);
+				 $last_id = $this->db->insert_id();
+				 $status = 'success';
+		}
 		$json = array('status'=>'success','image' => $images,'id' => $last_id);
     	return $json;
     }

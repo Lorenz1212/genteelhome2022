@@ -209,7 +209,7 @@ class Modal_model extends CI_Model{
       }
      
     function Modal_Approval_Inspection_Project_View($id,$status){
-        $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
+        $query = $this->db->select('*,c.image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
         ->join('tbl_project as j','i.production_no=j.production_no','LEFT')
         ->join('tbl_project_design as d','d.id=j.project_no','LEFT')
         ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
@@ -222,17 +222,14 @@ class Modal_model extends CI_Model{
                          'id'           => $row->id,
                          'production_no'=> $row->production_no,
                          'title'        => $row->title,
-                         'qty'          => $row->qty,
-                         'c_name'       => $row->c_name,
-                         'c_image'      => $row->c_image,
                          'image'        => $row->image,
                          'i_images'     => $row->i_images,
                          'remarks'      => $row->remarks,
                          'status'       => $row->status,
                          'date_created' => $row->date_created);
                } 
-               return $data;}
-         return  $query->row();
+               return $data;
+         }
     }
     function Modal_Approval_Inspection_Stocks_View($id,$status){
         $query = $this->db->select('*,c.image as image,i.images as i_images,i.remarks as remarks,i.status as status,DATE_FORMAT(i.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project_inspection as i')
@@ -258,8 +255,8 @@ class Modal_model extends CI_Model{
                          'status'       => $row->status,
                          'date_created' => $row->date_created);
                } 
-               return $data;}
-         return  $query->row();
+               return $data;
+           }
     }
     function Modal_Approval_Purchase_View($id,$status){
           $array = array('pp.admin_status =' => $status, 'pp.request_id' => $id);

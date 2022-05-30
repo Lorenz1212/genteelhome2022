@@ -44,7 +44,7 @@
 			    <div class="card-body">
 			        <div class="tab-content">
 			            <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
-			               	<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_request" data-link="tbl_joborder_stocks" style="margin-top: 13px !important">
+			               	<table class="table table-bordered table-hover link" id="tbl_joborder_request" data-link="tbl_joborder_stocks">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -58,7 +58,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="kt_tab_pane_2_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_joborder_pending" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_joborder_pending">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -72,7 +72,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="complete" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			               <table class="table table-bordered table-hover table-checkable" id="tbl_joborder_complete" style="margin-top: 13px !important">
+			               <table class="table table-bordered table-hover" id="tbl_joborder_complete">
 								<thead>
 									<tr>
 										<th>NO</th>
