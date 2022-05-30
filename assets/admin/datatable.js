@@ -32,15 +32,15 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 			//APPROVAL
 			case "tbl_approval_inspection_stocks":{
 				TableURL = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
+				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_stocks_request',TableURL,TableData,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Approved_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
+				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_stocks_approved',TableURL1,TableData1,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Rejected_DataTable';
-				let TableData2 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
+				let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
 				_DataTableLoader('tbl_approval_inspection_stocks_rejected',TableURL2,TableData2,false);
 				break;
 			}

@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-approval-inspection-project">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="inspection-project">
   <div class="form" data-link="Update_Approval_Inspection_Project"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
@@ -42,7 +42,7 @@
 			    <div class="card-body">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
-			                <table class="table table-bordered table-hover table-checkable link" id="tbl_approval_inspection_project_request" data-link="tbl_approval_inspection_project" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_approval_inspection_project_request" >
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -55,7 +55,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved">
-			                 <table class="table table-bordered table-hover table-checkable" id="tbl_approval_inspection_project_approved" style="margin-top: 13px !important">
+			                 <table class="table table-bordered table-hover" id="tbl_approval_inspection_project_approved">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -68,7 +68,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_approval_inspection_project_rejected" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_approval_inspection_project_rejected">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -87,78 +87,43 @@
 	</div>
 </div>
 
-<div class="modal fade" id="requestModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+<div class="modal fade p-0" id="view-project" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-			 <div class="modal-header">
-                <h5 class="modal-title" id="joborder"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header border-0" >
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                
+                <button type="button" class="close d-flex align-self-start" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
-            
             </div>
-            <div class="modal-body">
-						<div class="card-body">
-										<div class="row justify-content-center">
-											<div class="col-xl-10 col-xxl-10 col-md-10">
-												<div class="row">
-													<div class="col-lg-4 col-xl-4 col-md-4">
-														<div class="form-group">
-															<label>Image</label>
-															<div class="col-lg-3 col-xl-3">
-																<div class="image-input image-input-outline" id="design_image">
-																	<a id="image_href" target="_blank">
-																	  <img class="image-input-wrapper" id="image" style="width: 250px;height: 250px;object-fit: cover;" />
-																    </a>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-lg-8 col-xl-8 col-md-8">
-															<div class="form-group">
-																   <label>Project Name</label>
-																   <input class="form-control" id="title" disabled />
-														  	 </div>
-															<div class="form-group">
-														    <label>Specification</label>
-																 <div class="input-group">
-																    <div class="input-group-append">
-																      <a id="docs_href" target="_blank" data-toggle="tooltip" data-theme="dark" title="View Specification" class="btn  btn-light-dark btn-icon"><i class="flaticon-eye"></i></a>
-																    </div>
-																     <input type="text" class="form-control form-control-solid" id="docs" placeholder="No Specification Uploaded" style="cursor:pointer;" disabled/>
-															    </div>
-													  		</div>
-													  		<div class="form-group">
-															 <label>Input Remarks (Optional)</label>
-															<div class="summernote" id="kt_summernote_1"></div>
-														</div>
-													</div>
-												</div>
-											</div>
-												<div class="row">
-													<div class="col-xl-12 col-xxl-12 col-md-12">
-														<div class="card card-custom">
-															 <div class="card-header bg-dark">
-															  	<div class="card-title">
-														          <h3 class="text-white">Inspection </h3>
-														        </div>
-															 </div>
-															 <div class="card-body">
-																<div class="row" id="requestInspection">
-																</div>
-															 </div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								<div class="modal-footer" id="button_status">
-						
-								</div>
-						</div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-		
+            <div class="modal-body p-0" >
+                <!-- <div class="card card-custom gutter-b card-stretch" > -->
+                <div class="card-body py-0">
+                    <span class="d-block font-weight-bolder mr-3 my-3 text-primary">Project Info</span>
+                    <span class=" log-message"></span>
+                    <div class="d-flex flex-wrap">
+                        <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Project Name</span>
+                             <span class="d-block font-weight-bolder mb-4 project_name">---</span>
+                        </div>
+                        <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Creator</span>
+                            <span class="d-block font-weight-bolder mb-4 creator">---</span>
+                        </div>
+                         <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Date Created</span>
+                            <span class="d-block font-weight-bolder mb-4 date_created">---</span>
+                        </div>
+                    </div>
+                    <div class="separator separator-solid mb-5"></div>
+                    <span class="d-block font-weight-bolder mb-4 text-primary">Image & Specification</span>
+                    <div class="row gutter-b view-form-image">
+                    </div>
+                    <div class="separator separator-solid mb-5"></div>
+            	</div>
+       		 </div>
+    	</div>
+	</div>
+</div>
+

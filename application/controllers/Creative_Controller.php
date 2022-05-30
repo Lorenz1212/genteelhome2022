@@ -70,13 +70,13 @@ class Creative_Controller extends CI_Controller
 			    $docs_tmp = isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
 					$id = $this->input->post('id')??false;
 					$model_response = $this->Creative_model->Submit_Design_Project($type,$title,$image,$tmp,$docs,$docs_tmp,$id);
-		            $data = array(
-		                 'status' => 'success',
-		                 'message' => 'request accepted',
-		                 'payload' => base64_encode(json_encode($model_response))
-		            );
-           			echo json_encode($data);
-          			break;
+          $data = array(
+               'status' => 'success',
+               'message' => 'request accepted',
+               'payload' => base64_encode(json_encode($model_response))
+          );
+          echo json_encode($data);
+          break;
 				}
 			}
     }

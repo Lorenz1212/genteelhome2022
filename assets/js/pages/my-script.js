@@ -1477,6 +1477,108 @@ var arrows;var item_v;var price;var special_option;
 		          });
 				break;
 			}
+			case "inspection-stocks":{
+				$(document).ready(function() {
+					KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_inspection_stocks');
+					 $('.summernote').summernote({height: 100});
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let status = $(this).attr('data-status');
+					 	let val = {id:id,status:status};
+					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_Stocks_View';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Inspection_Stocks_View");
+				    });
+				})
+				break;
+			}
+			case "inspection-project":{
+				$(document).ready(function() {
+					KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_inspection_project');
+					 $('.summernote').summernote({height: 100});
+					 $(document).on("click","#form-request",function() {
+					 	let id = $(this).attr('data-id');
+					 	let status = $(this).attr('data-status');
+					 	let val = {id:id,status:status};
+					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_Project_View';
+						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Inspection_Project_View");
+				    });
+				});
+				$(document).on('click','.view-project',function(e){
+				 	e.preventDefault();
+				 	e.stopImmediatePropagation();
+				 	let id = $(this).attr('data-id');
+				 	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['inspection-project', 'fetch_inspection_project',id]));
+			    });
+				$('body').delegate('.btn-approved','click',function(e){
+		                    e.preventDefault();
+		                    e.stopImmediatePropagation();
+		                    let element = $(this);
+		                        Swal.fire({
+		                          title: "Do you want to move this form? Project Title: "+element.attr('data-name'),
+		                          text: "You wont be able to revert this!",
+		                          icon: "warning",
+		                          showCancelButton: true,
+		                          confirmButtonText: "Yes, proceed!",
+		                          cancelButtonText: "close!",
+		                          reverseButtons: true
+		                      }).then(function(result) {
+		                          if (result.value){
+		                             _ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['inspection-project', 'fetch_inspection_project_status',element.attr('data-id'),element.attr('data-status')]));
+		                          } 
+		                      });
+		            });
+				$("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['inspection-project', 'fetch_inspection_project_status',element.attr('data-id'),element.attr('data-status'),result.value]));
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+				$('body').delegate('.remarks-project','click',function(e){
+	                    e.preventDefault();
+	                    e.stopImmediatePropagation();
+	                    let element = $(this);
+	                        Swal.fire({
+	                          title: "Project Title: "+element.attr('data-name')+"</br>Remarks",
+	                          text: element.attr('data-remarks'),
+	                          showConfirmButton:false,
+	                          showCancelButton: false,
+	                          cancelButtonText: "close!",
+	                          reverseButtons: true
+	                      })
+		          });
+				break;
+			}
 			case "data-jobeorder-update-stocks":{
 				_sessionStorage('request','Material Request');
 				var id = getUrlParameter('URI');
@@ -2786,44 +2888,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 
 			//ADMIN
-			case "data-approval-purchased":{
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let status = $(this).attr('data-status');
-					 	let val = {id:id,status:status};
-					 	let thisUrl = 'modal_controller/Modal_Approval_Purchase_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Purchase_View");
-				    });
-				})
-			   break;
-			}
-			case "data-approval-inspection-stocks":{
-				$(document).ready(function() {
-					 $('.summernote').summernote({height: 100});
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let status = $(this).attr('data-status');
-					 	let val = {id:id,status:status};
-					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_Stocks_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Inspection_Stocks_View");
-				    });
-				})
-				break;
-			}
-			case "data-approval-inspection-project":{
-				$(document).ready(function() {
-					 $('.summernote').summernote({height: 100});
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let status = $(this).attr('data-status');
-					 	let val = {id:id,status:status};
-					 	let thisUrl = 'modal_controller/Modal_Approval_Inspection_Project_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Approval_Inspection_Project_View");
-				    });
-				})
-				break;
-			}
+			
 			case "data-approval-salesorder":{
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -4718,7 +4783,7 @@ var arrows;var item_v;var price;var special_option;
 	             		total_amount_due += parseFloat(response[i].amount_due);	
 					}
 				}else{
-					container.append('<tr><td class="text-center font-size-lg" colspan="9">No Collection Available</td></tr>');
+					container.append('<tr><td class="text-center font-size-lg" colspan="9">No Sales Order Available</td></tr>');
 				}
 				$('#tbl_salesorder_daily > tfoot').empty().append('<tr class="table-success">'
              				+'<td class="text-center" colspan="3">TOTAL</td>'
@@ -4759,7 +4824,7 @@ var arrows;var item_v;var price;var special_option;
 	             		total_amount_due_weekly += parseFloat(response[i].amount_due);
 					}
 				}else{
-					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Sales Order Available</td></tr>');
 				}
 				$('#tbl_salesorder_weekly > tfoot').empty().append('<tr class="table-success">'
              				+'<td class="text-center">TOTAL</td>'
@@ -4800,7 +4865,7 @@ var arrows;var item_v;var price;var special_option;
 	             		total_amount_due_monthly += parseFloat(response[i].amount_due);
 					}
 				}else{
-					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Sales Order Available</td></tr>');
 				}
 					$('#tbl_salesorder_monthly > tfoot').empty().append('<tr class="table-success">'
              				+'<td class="text-center">TOTAL</td>'
@@ -4841,7 +4906,7 @@ var arrows;var item_v;var price;var special_option;
 	             		total_amount_due_yearly += parseFloat(response[i].amount_due);
 					}
 				}else{
-					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Sales Order Available</td></tr>');
 				}	
 				$('#tbl_salesorder_yearly > tfoot').empty().append('<tr class="table-success">'
              				+'<td class="text-center">TOTAL</td>'
@@ -4862,6 +4927,7 @@ var arrows;var item_v;var price;var special_option;
 	  				let total_gross = 0;
 	  				let total_vat = 0;
 	  				let total_amount = 0;
+	  				if(response){
 		             	for(var i=0;i<response.length;i++){
 		             			container.append('<tr>'
 		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
@@ -4879,6 +4945,9 @@ var arrows;var item_v;var price;var special_option;
 		             		total_gross += parseFloat(response[i].gross);
 		             		total_vat += parseFloat(response[i].vat);
 		             		total_amount += parseFloat(response[i].amount);
+	  					}
+					}else{
+						container.append('<tr><td class="text-center font-size-lg" colspan="9">No Cash Fund Report Available</td></tr>');
 					}
 					$('#tbl_cashfund_daily > tfoot').empty().append('<tr class="table-success">'
 	             				+'<td class="text-center" colspan="2">TOTAL</td>'
@@ -4899,6 +4968,7 @@ var arrows;var item_v;var price;var special_option;
 	  				let total_gross = 0;
 	  				let total_vat = 0;
 	  				let total_amount = 0;
+	  				if(response){
 		             for(var i=0;i<response.length;i++){
 		             			container.append('<tr>'
 		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
@@ -4915,6 +4985,9 @@ var arrows;var item_v;var price;var special_option;
 		             		total_gross += parseFloat(response[i].gross);
 		             		total_vat += parseFloat(response[i].vat);
 		             		total_amount += parseFloat(response[i].amount);
+	  				}
+					}else{
+						container.append('<tr><td class="text-center font-size-lg" colspan="9">No Cash Fund Report Available</td></tr>');
 					}
 					$('#tbl_cashfund_weekly > tfoot').empty().append('<tr class="table-success">'
 	             				+'<td class="text-center">TOTAL</td>'
@@ -4935,6 +5008,7 @@ var arrows;var item_v;var price;var special_option;
 	  				let total_gross = 0;
 	  				let total_vat = 0;
 	  				let total_amount = 0;
+	  				if(response){
 		            for(var i=0;i<response.length;i++){
 		             			container.append('<tr >'
 		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
@@ -4951,6 +5025,9 @@ var arrows;var item_v;var price;var special_option;
 		             		total_gross += parseFloat(response[i].gross);
 		             		total_vat += parseFloat(response[i].vat);
 		             		total_amount += parseFloat(response[i].amount);
+					}
+					}else{
+						container.append('<tr><td class="text-center font-size-lg" colspan="9">No Cash Fund Report Available</td></tr>');
 					}
 					$('#tbl_cashfund_monthly > tfoot').empty().append('<tr class="table-success">'
 	             				+'<td class="text-center">TOTAL</td>'
@@ -4971,22 +5048,26 @@ var arrows;var item_v;var price;var special_option;
 	  				let total_gross = 0;
 	  				let total_vat = 0;
 	  				let total_amount = 0;
-		             for(var i=0;i<response.length;i++){
-		             	container.append('<tr>'
-		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].pettycash)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
-							+'</tr>');
-		             		total_pettycash += parseFloat(response[i].pettycash);
-		             		total_change += parseFloat(response[i].change);
-		             		total_refund += parseFloat(response[i].refund);
-		             		total_gross += parseFloat(response[i].gross);
-		             		total_vat += parseFloat(response[i].vat);
-		             		total_amount += parseFloat(response[i].amount);
+	  				if(response){
+		             	for(var i=0;i<response.length;i++){
+			             	container.append('<tr>'
+			             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].pettycash)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
+								+'</tr>');
+			             		total_pettycash += parseFloat(response[i].pettycash);
+			             		total_change += parseFloat(response[i].change);
+			             		total_refund += parseFloat(response[i].refund);
+			             		total_gross += parseFloat(response[i].gross);
+			             		total_vat += parseFloat(response[i].vat);
+			             		total_amount += parseFloat(response[i].amount);
+						}
+					}else{
+						container.append('<tr><td class="text-center font-size-lg" colspan="9">No Cash Fund Report Available</td></tr>');
 					}
 					$('#tbl_cashfund_yearly > tfoot').empty().append('<tr class="table-success">'
 	             				+'<td class="text-center">TOTAL</td>'
@@ -6541,6 +6622,20 @@ var arrows;var item_v;var price;var special_option;
 			case "fetch_design_stocks_status":{
 				_initToast(response.type,response.message);
 				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_stocks_request');
+				break;
+			}
+			case "fetch_inspection_project":{
+				if(response !=false){
+					$('.title').text(response.info.title);
+		  			$('.creator').text(response.info.creator);
+		  			$('.date_created').text(response.info.date_created);
+		  			for(let i=0;i<response.inspection.length;i++){
+			  			$('.view-form-image').empty().append('\
+			  				<div class="col-lg-4"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/inspection/'+response.info.c_image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
+			                  ');	
+		  			}
+		  			$('#view-project').modal('show');
+				}
 				break;
 			}
 		}

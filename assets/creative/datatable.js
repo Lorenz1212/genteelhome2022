@@ -57,7 +57,6 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 				break;
 			}
 
-		
 		}	 
 	}
 

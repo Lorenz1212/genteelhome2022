@@ -1596,7 +1596,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	             		total_amount_due += parseFloat(response[i].amount_due);	
 					}
 				}else{
-					container.append('<tr><td class="text-center font-size-lg" colspan="9">No Collection Available</td></tr>');
+					container.append('<tr><td class="text-center font-size-lg" colspan="9">No Sales Order Available</td></tr>');
 				}
 				$('#tbl_salesorder_daily > tfoot').empty().append('<tr class="table-success">'
              				+'<td class="text-center" colspan="3">TOTAL</td>'
@@ -1637,7 +1637,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	             		total_amount_due_weekly += parseFloat(response[i].amount_due);
 					}
 				}else{
-					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Sales Order Available</td></tr>');
 				}
 				$('#tbl_salesorder_weekly > tfoot').empty().append('<tr class="table-success">'
              				+'<td class="text-center">TOTAL</td>'
@@ -1678,7 +1678,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	             		total_amount_due_monthly += parseFloat(response[i].amount_due);
 					}
 				}else{
-					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Sales Order Available</td></tr>');
 				}
 					$('#tbl_salesorder_monthly > tfoot').empty().append('<tr class="table-success">'
              				+'<td class="text-center">TOTAL</td>'
@@ -1719,7 +1719,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	             		total_amount_due_yearly += parseFloat(response[i].amount_due);
 					}
 				}else{
-					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Collection Available</td></tr>');
+					container.append('<tr><td class="text-center font-size-lg" colspan="7">No Sales Order Available</td></tr>');
 				}	
 				$('#tbl_salesorder_yearly > tfoot').empty().append('<tr class="table-success">'
              				+'<td class="text-center">TOTAL</td>'
@@ -1740,6 +1740,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  				let total_gross = 0;
 	  				let total_vat = 0;
 	  				let total_amount = 0;
+	  				if(response){
 		             	for(var i=0;i<response.length;i++){
 		             			container.append('<tr>'
 		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
@@ -1757,6 +1758,9 @@ const month = ["January","February","March","April","May","June","July","August"
 		             		total_gross += parseFloat(response[i].gross);
 		             		total_vat += parseFloat(response[i].vat);
 		             		total_amount += parseFloat(response[i].amount);
+	  					}
+					}else{
+						container.append('<tr><td class="text-center font-size-lg" colspan="9">No Cash Fund Report Available</td></tr>');
 					}
 					$('#tbl_cashfund_daily > tfoot').empty().append('<tr class="table-success">'
 	             				+'<td class="text-center" colspan="2">TOTAL</td>'
@@ -1777,6 +1781,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  				let total_gross = 0;
 	  				let total_vat = 0;
 	  				let total_amount = 0;
+	  				if(response){
 		             for(var i=0;i<response.length;i++){
 		             			container.append('<tr>'
 		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
@@ -1793,6 +1798,9 @@ const month = ["January","February","March","April","May","June","July","August"
 		             		total_gross += parseFloat(response[i].gross);
 		             		total_vat += parseFloat(response[i].vat);
 		             		total_amount += parseFloat(response[i].amount);
+	  				}
+					}else{
+						container.append('<tr><td class="text-center font-size-lg" colspan="9">No Cash Fund Report Available</td></tr>');
 					}
 					$('#tbl_cashfund_weekly > tfoot').empty().append('<tr class="table-success">'
 	             				+'<td class="text-center">TOTAL</td>'
@@ -1813,6 +1821,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  				let total_gross = 0;
 	  				let total_vat = 0;
 	  				let total_amount = 0;
+	  				if(response){
 		            for(var i=0;i<response.length;i++){
 		             			container.append('<tr >'
 		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
@@ -1829,6 +1838,9 @@ const month = ["January","February","March","April","May","June","July","August"
 		             		total_gross += parseFloat(response[i].gross);
 		             		total_vat += parseFloat(response[i].vat);
 		             		total_amount += parseFloat(response[i].amount);
+					}
+					}else{
+						container.append('<tr><td class="text-center font-size-lg" colspan="9">No Cash Fund Report Available</td></tr>');
 					}
 					$('#tbl_cashfund_monthly > tfoot').empty().append('<tr class="table-success">'
 	             				+'<td class="text-center">TOTAL</td>'
@@ -1849,22 +1861,26 @@ const month = ["January","February","March","April","May","June","July","August"
 	  				let total_gross = 0;
 	  				let total_vat = 0;
 	  				let total_amount = 0;
-		             for(var i=0;i<response.length;i++){
-		             	container.append('<tr>'
-		             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].pettycash)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
-		             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
-							+'</tr>');
-		             		total_pettycash += parseFloat(response[i].pettycash);
-		             		total_change += parseFloat(response[i].change);
-		             		total_refund += parseFloat(response[i].refund);
-		             		total_gross += parseFloat(response[i].gross);
-		             		total_vat += parseFloat(response[i].vat);
-		             		total_amount += parseFloat(response[i].amount);
+	  				if(response){
+		             	for(var i=0;i<response.length;i++){
+			             	container.append('<tr>'
+			             				+'<td class="font-weight-bolder text-success">'+response[i].date_created+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].pettycash)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].change)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].refund)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].gross)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].vat)+'</td>'
+			             				+'<td class="text-right">'+_formatnumbercommat(response[i].amount)+'</td>'
+								+'</tr>');
+			             		total_pettycash += parseFloat(response[i].pettycash);
+			             		total_change += parseFloat(response[i].change);
+			             		total_refund += parseFloat(response[i].refund);
+			             		total_gross += parseFloat(response[i].gross);
+			             		total_vat += parseFloat(response[i].vat);
+			             		total_amount += parseFloat(response[i].amount);
+						}
+					}else{
+						container.append('<tr><td class="text-center font-size-lg" colspan="9">No Cash Fund Report Available</td></tr>');
 					}
 					$('#tbl_cashfund_yearly > tfoot').empty().append('<tr class="table-success">'
 	             				+'<td class="text-center">TOTAL</td>'

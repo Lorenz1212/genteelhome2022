@@ -152,7 +152,6 @@ class Admin_model extends CI_Model{
 					}else{
 
 					}
-					
 				}else{
 					return false;
 				}	
@@ -163,6 +162,102 @@ class Admin_model extends CI_Model{
 				break;
 		}
 	}
+	function Inspection_Stocks($type,$val,$val1,$val2){
+		switch ($type) {
+			case 'fetch_inspection_stocks':
+				$id = $this->encryption->decrypt($val);
+				$data_array = array();
+				$sql = "SELECT *,(SELECT CONCAT(fname,' ',lname) FROM tbl_administrator WHERE id=i.created_by) as creator,
+				(SELECT title FROM tbl_project_design WHERE id=p.project_no) as title,
+				DATE_FORMAT(c.date_created, '%M %d %Y %r') as date_created FROM tbl_project_inspection_header i 
+				LEFT JOIN tbl_project p ON  i.production_no=p.production_no WHERE i.id='$id'";	
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$sql = "SELECT * FROM tbl_project_inspection WHERE ins_no='$id'";	
+					$query = $this->db->query($sql);
+					foreach($query->result() as $row){
+						$data_array['inspection']=$row;
+					}
+					$data_array['info']=$row;
+					$data_array['id']=$this->encryption->encrypt($row->id);
+					return $data_array;
+				}else{
+					return false;
+				}
+				break;
+			case "fetch_inspection_stocks_status":
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_project_inspection_header WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$result = $this->db->where('id',$id)->update('tbl_project_inspection_header',array('status'=>$val1,'remarks'=>$val2,'latest_update'=>date('Y-m-d H:i:s'),'update_by',$this->user_id));
+					if($result){
+						if($val1 == '2'){
+							return array('type'=>'success','Approve Successfully');
+						}else{
+							return array('type'=>'success','Cancel Successfully');
+						}
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}	
+				break;
+			
+			default:
+				return false;
+				break;
+		 }
+	 }
+	function Inspection_Project($type,$val,$val1,$val2){
+		switch ($type) {
+			case 'fetch_inspection_project':
+				$id = $this->encryption->decrypt($val);
+				$data_array = array();
+				$sql = "SELECT *,(SELECT CONCAT(fname,' ',lname) FROM tbl_administrator WHERE id=i.created_by) as creator,
+				(SELECT title FROM tbl_project_design WHERE id=p.project_no) as title,
+				DATE_FORMAT(c.date_created, '%M %d %Y %r') as date_created FROM tbl_project_inspection_header i 
+				LEFT JOIN tbl_project p ON  i.production_no=p.production_no WHERE i.id='$id'";	
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$sql = "SELECT * FROM tbl_project_inspection WHERE ins_no='$id'";	
+					$query = $this->db->query($sql);
+					foreach($query->result() as $row){
+						$data_array['inspection']=$row;
+					}
+					$data_array['info']=$row;
+					$data_array['id']=$this->encryption->encrypt($row->id);
+					return $data_array;
+				}else{
+					return false;
+				}
+				break;
+			case "fetch_inspection_project_status":
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_project_inspection_header WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$result = $this->db->where('id',$id)->update('tbl_project_inspection_header',array('status'=>$val1,'remarks'=>$val2,'latest_update'=>date('Y-m-d H:i:s'),'update_by',$this->user_id));
+					if($result){
+						if($val1 == '2'){
+							return array('type'=>'success','Approve Successfully');
+						}else{
+							return array('type'=>'success','Cancel Successfully');
+						}
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}	
+				break;
+			
+			default:
+				return false;
+				break;
+		 }
+	 }
 
 
 }
