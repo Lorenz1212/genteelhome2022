@@ -4,15 +4,15 @@ class Admin_model extends CI_Model{
 	    parent::__construct();
 	    $this->user_id = $this->appinfo->admin('_ADMIN_ID');
     }
-	private function move_to_folder_docs($image,$tmp,$path){
+	 private function move_to_folder_docs($image,$tmp,$path){
          $path_folder = $path.$image;
          copy($tmp, $path_folder);
          return true;
-  	}
-	private function move_to_folder($newimage,$tmp,$path){
+ 	 }
+	 private function move_to_folder($newimage,$tmp,$path){
         $target_file = $path.basename($newimage);
         return move_uploaded_file($tmp, $target_file);
-    }
+   }
   	private function Get_Image_Code($table, $column, $key, $length, $image){
       $code = $this->get_code($key, $length);
       if($code){
@@ -94,13 +94,13 @@ class Admin_model extends CI_Model{
 				$sql = "SELECT * FROM tbl_project_color WHERE id='$id'";
 				$row = $this->db->query($sql)->row();
 				if($row){
+					$project_no = $row->project_no;
 					$result = $this->db->where('id',$id)->update('tbl_project_color',array('approver'=>$this->user_id,'status'=>$val1,'remark'=>$val2,'date_approved'=>date('Y-m-d H:i:s')));
 					if($result){
 						if($val1 == '2'){
-							$project_no = $row->project_no;
 							$sql ="SELECT * FROM tbl_project_design WHERE id='$project_no' AND project_status !='APPROVED'";
-							$row = $this->db->query($sql)->row();
-							if($row){
+							$rows = $this->db->query($sql)->row();
+							if($rows){
 								 $result = $this->db->where('id',$project_no)->update('tbl_project_design',array('project_status'=>'APPROVED'));
 							}
 							return array('type'=>'success','Approve Successfully');
@@ -149,7 +149,6 @@ class Admin_model extends CI_Model{
 						}else{
 							return array('type'=>'success','Cancel Successfully');
 						}
-						
 					}else{
 
 					}

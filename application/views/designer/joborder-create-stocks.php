@@ -43,12 +43,12 @@
 								   <div class="input-group">
 									   <select class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" id="project_no" name="project_no" required />
 									     <option value="" disabled="" selected="">Select Item</option>
-									       <?php 
-											  $query = $this->db->select('*')->from('tbl_project_design')->where('type',1)->where('project_status','APPROVED')->get();
-											  foreach($query->result() as $row){
-											  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
-											  }
-											?>
+										    <?php 
+													  $query = $this->db->select('*')->from('tbl_project_design')->where('type',1)->where('project_status','APPROVED')->get();
+													  foreach($query->result() as $row){
+													  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
+													  }
+												?>
 									  </select>
 									   <div class="input-group-append" style="padding-left: 10px;">
 									   		<a class="btn btn-light-dark font-weight-bold btn-sm btn-shadow btn-square" id="docs_href" data-toggle="tooltip" data-theme="dark" title="View Specification"><i class="flaticon2-paper"></i></a>

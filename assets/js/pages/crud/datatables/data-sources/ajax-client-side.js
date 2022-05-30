@@ -2,7 +2,7 @@
 var KTDatatablesDataSourceAjaxClient = function() {
 var TableURL;
 var TableData;
-var _DataTableLoader = async function(link,TableURL,TableData,type){
+var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 	var table = $('#'+link);
 	table.DataTable().clear().destroy();
 	$.fn.dataTable.ext.errMode = 'throw';

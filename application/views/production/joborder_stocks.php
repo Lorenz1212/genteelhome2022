@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-joborder-stocks-list">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="joborder-stocks">
 	<div class="form" data-link="Create_Joborder_Inpection_Stocks_Image"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">

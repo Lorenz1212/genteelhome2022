@@ -2202,7 +2202,7 @@ var arrows;var item_v;var price;var special_option;
 					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('dr_no')},"Modal_SalesOrder_Delivery");
 				break;
 			}
-			case "data-joborder-stocks-list":{
+			case "joborder-stocks":{
 				$(document).ready(function() {
 				    $(document).on("click","#form-request",function(e) {
 				    		e.preventDefault();
@@ -2276,7 +2276,7 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-joborder-project-list":{
+			case "joborder-project":{
 				$(document).ready(function() {
 					$(document).on('change','#project_no',function(e){
 						e.preventDefault();
