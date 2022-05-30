@@ -23,9 +23,9 @@ class Dashboard_model extends CI_Model
     }
    //Fetch Data
     function designer_dashboard(){        
-        $request_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',1)->where('status', 1)->get()->row();  
-        $approved_stocks = $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$this->user_id)->where('type',1)->where('status',2)->get()->row();
-        $rejected_stocks =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$this->user_id)->where('type',1)->where('status', 3)->get()->row();
+        $request_stocks = $this->db->select('*')->from('tbl_project_color')->where('type',1)->where('status', 1)->get()->num_rows();  
+        $approved_stocks = $this->db->select('*')->from('tbl_project_color')->where('designer',$this->user_id)->where('type',1)->where('status',2)->get()->num_rows();
+        $rejected_stocks =  $this->db->select('*')->from('tbl_project_color')->where('designer',$this->user_id)->where('type',1)->where('status', 3)->get()->num_rows();
 
         $request_project = $this->db->select('count(id) as id')->from('tbl_project_color')->where('type',2)->where('status',1)->get()->row();  
         $approved_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$this->user_id)->where('type',2)->where('status',2)->get()->row();
@@ -49,11 +49,11 @@ class Dashboard_model extends CI_Model
         $request_customized_rejected = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','R')->where('update_by',$this->user_id)->get()->row();
 
         $request_preoder_customized = intval($request_pre_order_pending->id+$request_customized_pending->id);
-        $request_stocks_project = intval($request_stocks->id+$request_project->id);
+        $request_stocks_project = intval($request_stocks+$request_project->id);
 
-        $data = array('request_stocks'  => $request_stocks->id,
-                      'approved_stocks' => $approved_stocks->id,
-                      'rejected_stocks' => $rejected_stocks->id,
+        $data = array('request_stocks'  => $request_stocks,
+                      'approved_stocks' => $approved_stocks,
+                      'rejected_stocks' => $rejected_stocks,
                       'request_project' => $request_project->id,
                       'approved_project'=> $approved_project->id,
                       'rejected_project'=> $rejected_project->id,

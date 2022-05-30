@@ -15,6 +15,53 @@ var KTFormControlsCreatives = function () {
           }
           })
     }
+    var _initnotificationupdate = function(){
+		 _ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
+	}
+	var _ajaxloaderOption = async function(thisURL,type,val,sub){
+		  $.ajax({
+	             url: baseURL + thisURL,
+	             type: type,
+	             data: val,
+	             dataType:"json",
+                  success: function(response)
+                  {
+                  	  _initOption(sub,response);
+                  }                                     
+		});	
+	}
+	 var _initOption = function(view,response){
+		switch(view){
+			case "designer":{
+				$('.request_stocks').text(response.request_stocks);
+				$('.approved_stocks').text(response.approved_stocks);
+				$('.rejected_stocks').text(response.rejected_stocks);
+				$('.request_project').text(response.request_project);
+				$('.approved_project').text(response.approved_project);
+				$('.rejected_project').text(response.rejected_project);
+				$('.request_stocks_project').text(response.request_stocks_project);
+
+				$('.request_jo_stocks').text(response.request_jo_stocks);
+				$('.request_jo_project').text(response.request_jo_project);
+				$('.request_jo').text(response.request_jo_designer);
+
+				$('.request_material_pending').text(response.request_material_pending);
+				$('.request_material_received').text(response.request_material_received);
+				$('.request_material_cancelled').text(response.request_material_cancelled);
+
+				$('.request_pre_order_pending').text(response.request_pre_order_pending);
+				$('.request_pre_order_approved').text(response.request_pre_order_approved);
+				$('.request_pre_order_rejected').text(response.request_pre_order_rejected);
+
+				$('.request_customized_pending').text(response.request_customized_pending);
+				$('.request_customized_approved').text(response.request_customized_approved);
+				$('.request_customized_rejected').text(response.request_customized_rejected);
+
+				$('.request_preoder_customized').text(response.request_preoder_customized);
+				break;
+			}
+		}
+	}
 	var _ajaxForm = function(formData,val=null,val2=null){
 		 $.ajax({
                 url: baseURL+'Creative_Controller/Action',
@@ -637,12 +684,14 @@ var KTFormControlsCreatives = function () {
 		}
 	}
 	var _initResponse = function(response,val,val2){
+		_initnotificationupdate();
 		switch(val){
 			case "add_design_stocks":{
 				_showToast(response.type,response.message);
 				if(response.type == 'success'){
 					$('#add-stocks-modal').modal('hide');
 				}
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
 				break;
 			}
 			case "add_design_stocks-existing":{
@@ -650,6 +699,7 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#add-stocks-existing-modal').modal('hide');
 				}
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
 				break;
 			}
 			case "edit_design-stocks":{
@@ -657,6 +707,7 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#edit-stocks-modal').modal('hide');
 				}
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
 				break;
 			}
 			case "add_design_project":{
@@ -664,6 +715,7 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#add-project-modal').modal('hide');
 				}
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project');
 				break;
 			}
 			case "edit_design-project":{
@@ -671,6 +723,7 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#edit-project-modal').modal('hide');
 				}
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project');
 				break;
 			}
 			

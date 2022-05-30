@@ -172,10 +172,12 @@ class Creative_model extends CI_Model{
 				}
 				if($image && $docs  && $pallet_image){
 					$project_no=$this->get_random_code('tbl_project_design', 'project_no', "STXID", 8);
+					$c_code=$this->get_random_code('tbl_project_design', 'project_no', "STXCODE", 8);
 					$this->db->insert('tbl_project_design',array('project_no'=>$project_no,'title'=>$title,'type'=>1));
 					$last_id = $this->db->insert_id();
 					$data = array('designer'=> $this->user_id,
 					   					  'project_no'=> $last_id,
+					   					  'c_code'=>$c_code,
 					   					  'c_name' => $pallet_name,
 					   					  'c_image' => $newpalletimage,
 					   					  'image' => $newimage,
@@ -203,8 +205,10 @@ class Creative_model extends CI_Model{
 				}
 				if($docs  && $pallet_image){
 					$row= $this->db->query("SELECT * FROM tbl_project_color WHERE project_no='$title' LIMIT 1")->row();
+					$c_code=$this->get_random_code('tbl_project_design', 'project_no', "STXCODE", 8);
 					$data = array('designer'=> $this->user_id,
 					   					  'project_no'=> $title,
+					   					  'c_code'=>$c_code,
 					   					  'image' => $row->image,
 					   					  'c_name' => $pallet_name,
 					   					  'c_image' => $newpalletimage,

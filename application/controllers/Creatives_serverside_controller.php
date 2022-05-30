@@ -10,11 +10,11 @@ class Creatives_serverside_controller extends CI_Controller {
         error_reporting(0);
         $table = 'tbl_user';
         $column_where = false;
-        $column_order = array(null, 'username','email','fname','lname','position','status');
+        $column_order = array(null, 'project_no','title','date_created','requestor','date_created','action');
         $column_search = array('username','email','fname','lname','position','status');
         $order = array('id' => 'asc');
         $data = $row = array();
-        $selection ="*,DATE_FORMAT(date_registration,'%m/%d/%Y') AS date_registrations, CONCAT_WS(' ', fname, mname, lname) AS fullname,IF(cast(date_registration as Date) = cast(now() as Date),'new','old') AS new_member,(SELECT position FROM tbl_position WHERE id=tbl_user.position) as position";
+        $selection ='c.*,d.*,c.id as id,c.status as status,d.title as title,DATE_FORMAT(c.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor';
         $memData = $this->Serverside_model->getRows($_POST,$table,$column_order,$column_search,$order,$column_where,$selection);
         $count = $_POST['start'];
         foreach($memData as $row){

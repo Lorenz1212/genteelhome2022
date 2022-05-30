@@ -28,4 +28,5 @@
 		<!--begin::Page Scripts(used by this page)-->
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/editors/tinymce.js"></script>
 		<script src="<?php echo base_url(); ?>assets/creative/form-controls.js"  type='text/javascript'></script>  
+		<script src="<?php echo base_url(); ?>assets/creative/datatable.js"  type='text/javascript'></script>  
 		<!--END URL Controller-->

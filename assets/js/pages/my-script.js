@@ -939,6 +939,130 @@ var arrows;var item_v;var price;var special_option;
 				_ajaxloader(thisUrl,"POST",false,"superuser_dashboard");
 				break;
 			}
+			case "design-stocks":{
+				$(document).ready(function() {
+					KTFormControlsCreatives.init('form-design-stocks');
+					KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
+					_initAvatar('design_image');
+					_initAvatar('design_image_add');
+					$('input[name=image]').on('change',function(e){
+					    var file, img;
+					    if ((file = this.files[0])) {
+					        img = new Image();
+					        var objectUrl =window.URL.createObjectURL(file);
+					        img.onload = function () {
+					        	if(this.width > 1000 && this.height > 1000){
+					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
+					        			});
+					        	}
+					        };img.src = objectUrl;
+					    }
+					});
+					$(".upfile1").click(function () {
+					    $("#image").trigger('click');
+					});
+					$(".upfile2").click(function () {
+					    $("#image2").trigger('click');
+					});
+					$(".upfile3").click(function () {
+					    $("#image3").trigger('click');
+					});
+				    $(document).on('click','.view-stocks',function(e){
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let id = $(this).attr('data-id');
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Stocks...'),_constructForm(['design-stocks', 'fetch_design_stocks',id]));
+				    });
+				    $(document).on('click','.edit-stocks',function(e){
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let id = $(this).attr('data-id');
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Stocks...'),_constructForm(['design-stocks', 'fetch_design_stocks_edit',id]));
+				    });
+				     $(document).on('click','.add-stocks',function(e){
+					 	e.preventDefault();
+					 	$('#add-stocks-modal').modal('show');
+				    });
+				      $(document).on('click','.add-stocks-existing',function(e){
+					 	e.preventDefault();
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['design-stocks', 'fetch_design_stocks_list']));
+				    });
+				     $('#add-stocks-modal input[name=docs]').on('change',function(e){
+		                    e.preventDefault();
+		                    $('#add-stocks-modal .valid-uploadx').val(this.files[0].name);
+		               });
+		            
+		               $('body').delegate('.remarks-stocks','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Item name : "+element.attr('data-name')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
+				})
+				break;
+			}
+			case "design-project":{
+				$(document).ready(function() {
+					KTFormControlsCreatives.init('form-design-project');
+					KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project');
+					_initAvatar('design_image');
+					_initAvatar('design_image_add');
+					$('input[name=image]').on('change',function(e){
+					    var file, img;
+					    if ((file = this.files[0])) {
+					        img = new Image();
+					        var objectUrl =window.URL.createObjectURL(file);
+					        img.onload = function () {
+					        	if(this.width > 1000 && this.height > 1000){
+					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
+					        			});
+					        	}
+					        };img.src = objectUrl;
+					    }
+					});
+				    $(document).on('click','.view-project',function(e){
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let id = $(this).attr('data-id');
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project',id]));
+				    });
+				    $(document).on('click','.edit-project',function(e){
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let id = $(this).attr('data-id');
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project_edit',id]));
+				    });
+				     $(document).on('click','.add-project',function(e){
+					 	e.preventDefault();
+					 	$('#add-project-modal').modal('show');
+				    });
+				     $('#add-project-modal input[name=docs]').on('change',function(e){
+		                    e.preventDefault();
+		                    $('#add-project-modal .valid-upload').val(this.files[0].name);
+		               });
+		               $('body').delegate('.remarks-project','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Project Title : "+element.attr('data-name')+"</br>Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
+				})
+				break;
+			}
 			case "data-request-material-create":{
 				$('select[name=type]').on('change',function(e){
 					_ajaxloaderOption('option_controller/item_list','POST',{type:$(this).val()},'item_list');
@@ -1195,32 +1319,6 @@ var arrows;var item_v;var price;var special_option;
 						_ajaxloader(thisUrl,"POST",val,"Modal_Designer_Customization");
 				    });
 				})
-				break;
-			}
-			case "data-design-create":{
-				$(document).ready(function() {
-					_initAvatar('design_image');
-					$('#image').hide();
-					$(".upfile1").click(function (e) {
-						e.preventDefault()
-					    $("#image").trigger('click');
-					});
-					$('input[name=image]').on('change',function(e){
-						var file, img;
-					    if ((file = this.files[0])) {
-					        img = new Image();
-					        var objectUrl =window.URL.createObjectURL(file);
-					        img.onload = function () {
-					        	if(this.width > 1000 && this.height > 1000){
-					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image >span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
-					        			});
-					        	
-					        	}
-					        };
-					        img.src = objectUrl;
-					    }
-					});
-				});
 				break;
 			}
 			case "design-stocks-approval":{
@@ -1687,151 +1785,7 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "design-stocks":{
-				$(document).ready(function() {
-					KTFormControlsCreatives.init('form-design-stocks');
-					_initAvatar('design_image');
-					_initAvatar('design_image_add');
-					$('input[name=image]').on('change',function(e){
-					    var file, img;
-					    if ((file = this.files[0])) {
-					        img = new Image();
-					        var objectUrl =window.URL.createObjectURL(file);
-					        img.onload = function () {
-					        	if(this.width > 1000 && this.height > 1000){
-					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
-					        			});
-					        	}
-					        };img.src = objectUrl;
-					    }
-					});
-					$(".upfile1").click(function () {
-					    $("#image").trigger('click');
-					});
-					$(".upfile2").click(function () {
-					    $("#image2").trigger('click');
-					});
-				    $(document).on('click','.view-stocks',function(e){
-					 	e.preventDefault();
-					 	e.stopImmediatePropagation();
-					 	let id = $(this).attr('data-id');
-					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Stocks...'),_constructForm(['design-stocks', 'fetch_design_stocks',id]));
-				    });
-				    $(document).on('click','.edit-stocks',function(e){
-					 	e.preventDefault();
-					 	e.stopImmediatePropagation();
-					 	let id = $(this).attr('data-id');
-					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Stocks...'),_constructForm(['design-stocks', 'fetch_design_stocks_edit',id]));
-				    });
-				     $(document).on('click','.add-stocks',function(e){
-					 	e.preventDefault();
-					 	$('#add-stocks-modal').modal('show');
-				    });
-				      $(document).on('click','.add-stocks-existing',function(e){
-					 	e.preventDefault();
-					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['design-stocks', 'fetch_design_stocks_list']));
-				    });
-				     $('#add-stocks-modal input[name=docs]').on('change',function(e){
-		                    e.preventDefault();
-		                    $('#add-stocks-modal .valid-uploadx').val(this.files[0].name);
-		               });
-		            
-		               $('body').delegate('.remarks-stocks','click',function(e){
-			                    e.preventDefault();
-			                    e.stopImmediatePropagation();
-			                    let element = $(this);
-			                        Swal.fire({
-			                          title: "Item name : "+element.attr('data-name')+"</br>Reason to Remarks",
-			                          text: element.attr('data-remarks'),
-			                          showConfirmButton:false,
-			                          showCancelButton: false,
-			                          cancelButtonText: "close!",
-			                          reverseButtons: true
-			                      })
-			            });
-				})
-				break;
-			}
-			case "design-project":{
-				$(document).ready(function() {
-					KTFormControlsCreatives.init('form-design-project');
-					_initAvatar('design_image');
-					_initAvatar('design_image_add');
-					$('input[name=image]').on('change',function(e){
-					    var file, img;
-					    if ((file = this.files[0])) {
-					        img = new Image();
-					        var objectUrl =window.URL.createObjectURL(file);
-					        img.onload = function () {
-					        	if(this.width > 1000 && this.height > 1000){
-					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
-					        			});
-					        	}
-					        };img.src = objectUrl;
-					    }
-					});
-				    $(document).on('click','.view-project',function(e){
-					 	e.preventDefault();
-					 	e.stopImmediatePropagation();
-					 	let id = $(this).attr('data-id');
-					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project',id]));
-				    });
-				    $(document).on('click','.edit-project',function(e){
-					 	e.preventDefault();
-					 	e.stopImmediatePropagation();
-					 	let id = $(this).attr('data-id');
-					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-project', 'fetch_design_project_edit',id]));
-				    });
-				     $(document).on('click','.add-project',function(e){
-					 	e.preventDefault();
-					 	$('#add-project-modal').modal('show');
-				    });
-				     $('#add-project-modal input[name=docs]').on('change',function(e){
-		                    e.preventDefault();
-		                    $('#add-project-modal .valid-upload').val(this.files[0].name);
-		               });
-		               $('body').delegate('.remarks-project','click',function(e){
-			                    e.preventDefault();
-			                    e.stopImmediatePropagation();
-			                    let element = $(this);
-			                        Swal.fire({
-			                          title: "Project Title : "+element.attr('data-name')+"</br>Remarks",
-			                          text: element.attr('data-remarks'),
-			                          showConfirmButton:false,
-			                          showCancelButton: false,
-			                          cancelButtonText: "close!",
-			                          reverseButtons: true
-			                      })
-			            });
-				})
-				break;
-			}
-			case "data-project-existing":{
-				$(document).ready(function() {
-					$('input[name=image]').on('change',function(e){
-						var file, img;
-					    if ((file = this.files[0])) {
-					        img = new Image();
-					        var objectUrl =window.URL.createObjectURL(file);
-					        img.onload = function () {
-					        	if(this.width > 600 && this.height > 600){
-					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
-					        			});
-					        	
-					        	}
-					        };
-					        img.src = objectUrl;
-					    }
-					});
-					_ajaxloaderOption('option_controller/Designer_option','POST',false,'design_option');
-					_initAvatar('design_image');
-					_initNumberOnly("#quantity");
-					$(".upfile1").click(function () {
-					    $("#image").trigger('click');
-					});
-				});
-				break;
-			}
+			
 			case "data-online-request":{
 				$(document).ready(function() {
 				    $(document).on("click","#form-request",function() {

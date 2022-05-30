@@ -46,7 +46,6 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>IMAGE</th>
 										<th>TITLE</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
@@ -60,7 +59,6 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>IMAGE</th>
 										<th>TITLE</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>
@@ -74,7 +72,6 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>IMAGE</th>
 										<th>TITLE</th>
 										<th>REQUESTOR</th>
 										<th>DATE</th>

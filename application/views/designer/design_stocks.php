@@ -49,7 +49,6 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>IMAGE</th>
 										<th>TITLE</th>
 										<th>DATE</th>
 										<th>ACTION</th>
@@ -62,7 +61,6 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>IMAGE</th>
 										<th>TITLE</th>
 										<th>DATE</th>
 										<th>ACTION</th>
@@ -75,7 +73,6 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th>IMAGE</th>
 										<th>TITLE</th>
 										<th>DATE</th>
 										<th>ACTION</th>
@@ -213,11 +210,11 @@
 								 <div class="input-group">
 								    <input type="text" class="form-control form-control-lg" name="pallet_name" placeholder="Input pallet name / color name" />
 								 	 <div class="input-group-append" style="padding-left: 10px;">
-									      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile1"><i class="flaticon-upload"></i></button>
-									      <input type="file" value="" accept=".png, .jpg, .jpeg" id="image" name="pallet" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
+									      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile3"><i class="flaticon-upload"></i></button>
+									      <input type="file" value="" accept=".png, .jpg, .jpeg" id="image3" name="pallet" onchange="document.getElementById('blahx').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
 								      </div>
 								       <div class="input-group-append" style="padding-left: 10px;">
-									      <img class="images mx-auto d-block img-thumbnail z-depth-3" id="blah" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
+									      <img class="images mx-auto d-block img-thumbnail z-depth-3" id="blahx" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
 								      </div>
 								</div>
 							</div>
