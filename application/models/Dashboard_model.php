@@ -125,15 +125,51 @@ class Dashboard_model extends CI_Model
       $rejected_sales_project = $this->db->select('count(id) as id')->from('tbl_salesorder_project')->where('status','R')->get()->row();
 
 
-      $stocks_inpection_pending = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',1)->get()->row();
-      $stocks_inpection_approved = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',2)->get()->row();
-      $stocks_inpection_rejected = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',3)->get()->row();
+      $stocks_inpection_pending_query = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',1)->group_by('production_no')->get();
+        $stocks_inpection_pending=0;
+        foreach($stocks_inpection_pending_query->result() as $row){
+            if($row->id >= 0){
+               $stocks_inpection_pending += 1;
+            }
+        }
+      $stocks_inpection_approved_query = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',2)->group_by('ins_no')->get();
+        $stocks_inpection_approved=0;
+        foreach($stocks_inpection_approved_query->result() as $row){
+            if($row->id >= 0){
+               $stocks_inpection_approved += 1;
+            }
+        }
+        $stocks_inpection_rejected_query = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',1)->where('status',3)->group_by('ins_no')->get();
+        $stocks_inpection_rejected=0;
+        foreach($stocks_inpection_rejected_query->result() as $row){
+            if($row->id >= 0){
+               $stocks_inpection_rejected += 1;
+            }
+        }
 
-      $project_inpection_pending = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',1)->get()->row();
-      $project_inpection_approved = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',2)->get()->row();
-      $project_inpection_rejected = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',3)->get()->row();
+        $project_inpection_pending_query = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',1)->group_by('production_no')->get();
+        $project_inpection_pending=0;
+        foreach($project_inpection_pending_query->result() as $row){
+            if($row->id >= 0){
+               $project_inpection_pending += 1;
+            }
+        }
+      $project_inpection_approved_query = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',2)->group_by('ins_no')->get();
+        $project_inpection_approved=0;
+        foreach($project_inpection_approved_query->result() as $row){
+            if($row->id >= 0){
+               $project_inpection_approved += 1;
+            }
+        }
+        $project_inpection_rejected_query = $this->db->select('count(id) as id')->from('tbl_project_inspection')->where('type',2)->where('status',3)->group_by('ins_no')->get();
+        $project_inpection_rejected=0;
+        foreach($project_inpection_rejected_query->result() as $row){
+            if($row->id >= 0){
+               $project_inpection_rejected += 1;
+            }
+        }
 
-      $total_request = intval($request_stocks->id+$request_project->id+$request_sales_stocks->id+$request_sales_project->id+$project_inpection_pending->id+$stocks_inpection_pending->id);
+      $total_request = intval($request_stocks->id+$request_project->id+$request_sales_stocks->id+$request_sales_project->id+$project_inpection_pending+$stocks_inpection_pending);
 	    $data = array('request_stocks'  => $request_stocks->id,
                     'approved_stocks' => $approved_stocks->id,
                     'rejected_stocks' => $rejected_stocks->id,
@@ -146,12 +182,12 @@ class Dashboard_model extends CI_Model
                     'request_sales_project'=>$request_sales_project->id,
                     'approved_sales_project'=>$approved_sales_project->id,
                     'rejected_sales_project'=>$rejected_sales_project->id,
-                    'stocks_inpection_pending'=>$stocks_inpection_pending->id,
-                    'stocks_inpection_approved'=>$stocks_inpection_approved->id,
-                    'stocks_inpection_rejected'=>$stocks_inpection_rejected->id,
-                    'project_inpection_pending'=>$project_inpection_pending->id,
-                    'project_inpection_approved'=>$project_inpection_approved->id,
-                    'project_inpection_rejected'=>$project_inpection_rejected->id,
+                    'stocks_inpection_pending'=>$stocks_inpection_pending,
+                    'stocks_inpection_approved'=>$stocks_inpection_approved,
+                    'stocks_inpection_rejected'=>$stocks_inpection_rejected,
+                    'project_inpection_pending'=>$project_inpection_pending,
+                    'project_inpection_approved'=>$project_inpection_approved,
+                    'project_inpection_rejected'=>$project_inpection_rejected,
                     'total_request'=>$total_request
               );
 	        return $data;   
