@@ -169,6 +169,7 @@ class Admin_model extends CI_Model{
 				$data_array = array();
 				$sql = "SELECT *,(SELECT CONCAT(fname,' ',lname) FROM tbl_administrator WHERE id=i.created_by) as creator,
 				(SELECT title FROM tbl_project_design WHERE id=p.project_no) as title,
+				(SELECT c_name FROM tbl_project_color WHERE id=p.c_code) as c_name,
 				DATE_FORMAT(c.date_created, '%M %d %Y %r') as date_created FROM tbl_project_inspection_header i 
 				LEFT JOIN tbl_project p ON  i.production_no=p.production_no WHERE i.id='$id'";	
 				$row = $this->db->query($sql)->row();

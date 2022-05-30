@@ -92,7 +92,6 @@
         <div class="modal-content">
             <div class="modal-header border-0" >
                 <h5 class="modal-title" id="exampleModalLabel"></h5>
-                
                 <button type="button" class="close d-flex align-self-start" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
