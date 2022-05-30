@@ -10,6 +10,20 @@ class Admin_Controller extends CI_Controller
 	public function Controller(){
 			$action = $this->input->post('data1');
 			switch($action){
+				case "design-stocks":{
+					$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
+					$val = $this->input->post('data3')??false;
+					$val1 = $this->input->post('data4')??false;
+					$val2 = $this->input->post('data5')??false;
+					$model_response = $this->Admin_model->Design_Stocks($type,$val,$val1,$val2);
+		            $data = array(
+		                 'status' => 'success',
+		                 'message' => 'request accepted',
+		                 'payload' => base64_encode(json_encode($model_response))
+		            );
+	           		echo json_encode($data);
+			        break;
+			  	}
 				case "design-project":{
 					$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
 					$val = $this->input->post('data3')??false;

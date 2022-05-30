@@ -1,11 +1,15 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-design-stocks">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="design-stocks">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Design For Stocks</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Design For Project</h2>
 				</div>
+			</div>
+			<div class="d-flex align-items-center">
+				<button class="btn btn-light-success font-weight-bolder btn-sm mr-2 add-stocks"><i class="flaticon-add-circular-button"></i> Create New Product</button>
+				<button class="btn btn-light-primary font-weight-bolder btn-sm mr-2 add-stocks-existing"><i class="flaticon-add-circular-button"></i> Add Pallet Color</button>
 			</div>
 		</div>
 	</div>
@@ -85,106 +89,246 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+
+<div class="modal fade" id="edit-stocks-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 			 <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title">Create New Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+	            <div class="modal-body">
+	            	<form id="Update_Design_Stocks">
+		            		<div class="row justify-content-center">
+							  <div class="col-xl-12 col-xxl-12 col-md-12">
+					        	<div class="row">
+									<div class="col-lg-12 col-xl-12">
+										<div class="form-group">
+												<label class="col-xl-12 col-lg-12 col-form-label text-left">Image</label>
+												<div class="col-lg-12 col-xl-12">
+													<div class="image-input image-input-outline" id="design_image">
+														<div class="image-input-wrapper image-stocks" style="background-image: url(<?php echo base_url()?>assets/images/design/project_request/images/default.jpg)"></div>
+														<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+															<i class="fa fa-pen icon-sm text-muted"></i>
+															<input type="file" name="image" accept=".png, .jpg, .jpeg" />
+															<input type="hidden" name="image_remove"/>
+														</label>
+														<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+															<i class="ki ki-bold-close icon-xs text-muted"></i>
+														</span>
+													</div>
+												</div>
+											</div>
+									</div>
+								</div>
+								<div class="form-group">
+								    <label>Specification</label>
+								    <div class="input-group input-group-sm">
+								     <div class="input-group-prepend"><button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-theme="success" title="Click to upload File" onclick="$('#file-validids').trigger('click');"><i class="fas fa-cloud-upload-alt"></i></button></div>
+								     <input type="text" class="form-control form-control-sm valid-upload" onclick="$('#file-validids').trigger('click');" name="docs_previous" placeholder="Click here to upload files..." readonly/>
+								     <input type="file" name="docs" accept="application/pdf" id="file-validids" style="display:none;">
+								    </div>
+						   		</div>
+								 <div class="form-group">
+									   <label>ITEM</label>
+									   <input class="form-control" name="title"/>
+							  	 </div>
+							  	  <div class="form-group">
+								<label>PALLETE COLOR</label>
+								 <div class="input-group">
+								    <input type="text" class="form-control form-control-lg" name="pallet_name" placeholder="Input pallet name / color name" />
+								 	 <div class="input-group-append" style="padding-left: 10px;">
+									      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile1"><i class="flaticon-upload"></i></button>
+									      <input type="file" value="" accept=".png, .jpg, .jpeg" id="image" name="pallet" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
+								      </div>
+								       <div class="input-group-append" style="padding-left: 10px;">
+									      <img class="images mx-auto d-block img-thumbnail z-depth-3 pallet-image" id="blah" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
+								      </div>
+								</div>
+							</div>
+						 </div>
+					</div>
+				</form>
+			</div>
+				<div class="modal-footer">
+					<button  class="btn btn-dark btn-hover-success btn-edit-save">Submit</button>
+	            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="add-stocks-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+			 <div class="modal-header">
+                <h5 class="modal-title">Create New Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+	            <div class="modal-body">
+	            	<form id="Create_Design_Stocks">
+		            		<div class="row justify-content-center">
+							  <div class="col-xl-12 col-xxl-12 col-md-12">
+					        	<div class="row">
+									<div class="col-lg-12 col-xl-12">
+										<div class="form-group">
+												<label class="col-xl-12 col-lg-12 col-form-label text-left">Image</label>
+												<div class="col-lg-12 col-xl-12">
+													<div class="image-input image-input-outline" id="design_image_add">
+														<div class="image-input-wrapper" style="background-image: url(<?php echo base_url()?>assets/images/design/project_request/images/default.jpg)"></div>
+														<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+															<i class="fa fa-pen icon-sm text-muted"></i>
+															<input type="file" name="image" accept=".png, .jpg, .jpeg" />
+															<input type="hidden" name="image_remove"/>
+														</label>
+														<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+															<i class="ki ki-bold-close icon-xs text-muted"></i>
+														</span>
+													</div>
+												</div>
+											</div>
+									</div>
+								</div>
+								<div class="form-group">
+								    <label>Specification</label>
+								    <div class="input-group input-group-sm">
+								     <div class="input-group-prepend"><button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-theme="success" title="Click to upload File" onclick="$('#file-valididsx').trigger('click');"><i class="fas fa-cloud-upload-alt"></i></button></div>
+								     <input type="text" class="form-control form-control-sm valid-uploadx" onclick="$('#file-valididsx').trigger('click');" name="docs_previous" placeholder="Click here to upload files..." readonly/>
+								     <input type="file" name="docs" accept="application/pdf" id="file-valididsx" style="display:none;">
+								    </div>
+						   		</div>
+								 <div class="form-group">
+									   <label>ITEM</label>
+									   <input class="form-control" name="title"/>
+							  	 </div>
+							  	  <div class="form-group">
+								<label>PALLETE COLOR</label>
+								 <div class="input-group">
+								    <input type="text" class="form-control form-control-lg" name="pallet_name" placeholder="Input pallet name / color name" />
+								 	 <div class="input-group-append" style="padding-left: 10px;">
+									      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile1"><i class="flaticon-upload"></i></button>
+									      <input type="file" value="" accept=".png, .jpg, .jpeg" id="image" name="pallet" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
+								      </div>
+								       <div class="input-group-append" style="padding-left: 10px;">
+									      <img class="images mx-auto d-block img-thumbnail z-depth-3" id="blah" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
+								      </div>
+								</div>
+							</div>
+						 </div>
+					</div>
+				</form>
+			</div>
+				<div class="modal-footer">
+					<button  class="btn btn-dark btn-hover-success btn-add-save">Submit</button>
+	            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="add-stocks-existing-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+			 <div class="modal-header">
+                <h5 class="modal-title">Create New Pallet Color</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
-            	<form class="form" data-link="Update_Design_Stocks">
-            	<div class="row justify-content-center">
-					<div class="col-xl-6 col-xxl-6 col-md-6">
-			        	<div class="row">
-							<div class="col-lg-6 col-xl-6">
-								<div class="form-group image-view" style="display: block;">
-									<label class="col-xl-3 col-lg-3 col-form-label text-left">Image</label>
-									<div class="col-lg-3 col-xl-3">
-										<div class="image-input image-input-outline">
-											  <img class="image-input-wrapper image" id="myImg" src="" />
-										</div>
-									</div>
-								</div>
-								<div class="form-group image-update" style="display: none;">
-										<label class="col-xl-3 col-lg-3 col-form-label text-left">Image</label>
-										<div class="col-lg-4 col-xl-4">
-											<div class="image-input image-input-outline" id="design_image">
-												<div class="image-input-wrapper image-stocks"></div>
-												<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
-													<i class="fa fa-pen icon-sm text-muted"></i>
-													<input type="file" name="image" accept=".png, .jpg, .jpeg" />
-													<input type="hidden" name="image_remove"/>
-													<input type="hidden" name="image_previous">
-												</label>
-												<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
-													<i class="ki ki-bold-close icon-xs text-muted"></i>
-												</span>
-												<span>File Size (500 X 500)</span>
-											</div>
-										</div>
-									</div>
-							</div>
-							<div class="col-lg-6 col-xl-6">
-								<div class="form-group">
-									<label class="col-xl-3 col-lg-3 col-form-label text-left">Specifications</label>
-									<div class="col-lg-3 col-xl-3">
-										<div class="image-input image-input-outline" id="docs">
-											<a id="docs_href" target="_blank">
-											<img class="image-input-wrapper" src="<?php echo base_url();?>assets/images/design/project_request/docx/default.png" />
-										    </a>
-										</div>
-									</div>
+            	<form id="Create_Design_Stocks_Existing">
+	            		<div class="row justify-content-center">
+						  <div class="col-xl-12 col-xxl-12 col-md-12">
+				        	<div class="row">
+								<div class="col-lg-12 col-xl-12">
+							<div class="form-group">
+								   <label>ITEM</label>
+								   <select class="form-control" id="title" name="title">
+								   </select>
+						  	</div>
+							  <div class="form-group">
+								<label>PALLETE COLOR</label>
+								 <div class="input-group">
+								    <input type="text" class="form-control form-control-lg" name="pallet_name" placeholder="Input pallet name / color name" />
+								 	 <div class="input-group-append" style="padding-left: 10px;">
+									      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile2"><i class="flaticon-upload"></i></button>
+									      <input type="file" value="" accept=".png, .jpg, .jpeg" id="image2" name="pallet" onchange="document.getElementById('blahh').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
+								      </div>
+								       <div class="input-group-append" style="padding-left: 10px;">
+									      <img class="images mx-auto d-block img-thumbnail z-depth-3" id="blahh" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
+								      </div>
 								</div>
 							</div>
+							<div class="form-group">
+							    <label>Specification</label>
+							    <div class="input-group input-group-sm">
+							     <div class="input-group-prepend"><button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-theme="success" title="Click to upload File" onclick="$('#file-valididss').trigger('click');"><i class="fas fa-cloud-upload-alt"></i></button></div>
+							     <input type="text" class="form-control form-control-sm valid-uploadss" onclick="$('#file-valididss').trigger('click');" name="docs_previous" placeholder="Click here to upload files..." readonly/>
+							     <input type="file" name="docs" accept="application/pdf" class="input-image" id="file-valididss" style="display:none;">
+							    </div>
+					   		</div>
 						</div>
-						 <div class="form-group row specifications-edit" style="display:none">
-						 	<div class="col-lg-10 col-xl-10 col-md-10">
-								<label>SPECIFICATIONS</label>
-								<div></div>
-								<div class="custom-file">
-								  <input type="file" name="docs" accept=".doc, .pdf"/>
-								   <input type="hidden" name="docs_previous">
-								</div>
-							</div>
-						 </div>
-						 <div class="form-group">
-							   <label>ITEM</label>
-							   <input class="form-control" name="title" readonly/>
-					  	 </div>
-					  	  <div class="row">
-						 	  <div class="col-lg-12 col-xl-12">
-								 <div class="form-group">
-									   <label>PALLETE COLOR</label>
-									    <div class="input-group">
-									     <input type="text" class="form-control form-control-solid form-control-lg" name="c_name" readonly/>
-									     <div class="input-group-append color-view" style="padding-left: 10px; display: block;">
-									     	<a id="cimage_href" target="_blank">
-										      <img class="images mx-auto d-block img-thumbnail z-depth-3 c_image" id="myImg" style="width:50;height:45px;"/>
-										    </a>
-									      </div>
-									        <div class="input-group-append color-update " style="padding-left: 10px;display: none;">
-									        <a class="upfile1" style="cursor:pointer;">
-										      <img class="images mx-auto d-block img-thumbnail z-depth-3 c-image" id="blah" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;"/>
-										     </a>
-										      <input type="file" value="" accept=".png, .jpg, .jpeg" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" id="c-image" name="color" style="display:none"/>
-										      <input type="hidden" name="color_previous">
-									       </div>
-									    </div>
-								  </div>
-							 </div>
 						</div>
 					</div>
 				</div>
+			</form>
+		</div>
 				<div class="modal-footer">
-					<button  class="btn btn-dark btn-edit" style="display:block"><i class="flaticon2-pen"></i> Edit</button>
-					<button  class="btn btn-dark btn-save" style="display:none"><i class="flaticon2-pen"></i>Save Changes</button>
+					<button  class="btn btn-dark btn-hover-success btn-add-existing-save">Submit</button>
 	            </div>
             </div>
-        </form>
         </div>
     </div>
+</div>
+
+<div class="modal fade p-0" id="view-stocks" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0" >
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                
+                <button type="button" class="close d-flex align-self-start" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0" >
+                <div class="card-body py-0">
+                    <span class="d-block font-weight-bolder mr-3 my-3 text-primary">Product Info</span>
+                    <span class=" log-message"></span>
+                    <div class="d-flex flex-wrap">
+                        <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Item Name</span>
+                             <span class="d-block font-weight-bolder mb-4 title">---</span>
+                        </div>
+                         <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Pallet Color</span>
+                            <span class="d-block font-weight-bolder mb-4 c_name">---</span>
+                        </div>
+                        <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Creator</span>
+                            <span class="d-block font-weight-bolder mb-4 creator">---</span>
+                        </div>
+                         <div class="mr-12 d-flex flex-column ">
+                            <span class="d-block font-weight-normal mb-4">Date Created</span>
+                            <span class="d-block font-weight-bolder mb-4 date_created">---</span>
+                        </div>
+                    </div>
+                    <div class="separator separator-solid mb-5"></div>
+                    <span class="d-block font-weight-bolder mb-4 text-primary">Image, Pallet Color & Specification</span>
+                    <div class="row gutter-b view-form-image">
+                    </div>
+                    <div class="separator separator-solid mb-5"></div>
+            	</div>
+       		 </div>
+    	</div>
+	</div>
 </div>
 

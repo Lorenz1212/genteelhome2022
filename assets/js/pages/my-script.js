@@ -1223,14 +1223,82 @@ var arrows;var item_v;var price;var special_option;
 				});
 				break;
 			}
-			case "data-design-stocks-approval":{
-				$(document).on("click","#form-request",function() {
+			case "design-stocks-approval":{
+				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_stocks_request');
+				$(document).on('click','.view-stocks',function(e){
+				 	e.preventDefault();
+				 	e.stopImmediatePropagation();
 				 	let id = $(this).attr('data-id');
-				 	$('input[name=title]').attr('data-id',id);
-				 	let val = {id:id};
-				 	let thisUrl = 'modal_controller/Modal_Design_Stocks_View';
-					_ajaxloader(thisUrl,"POST",val,"Modal_Design_Stocks_Approval_View");
-				 });
+				 	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-stocks', 'fetch_design_stocks',id]));
+			    });
+			    $('body').delegate('.btn-approved','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Do you want to move this form? Product name: "+element.attr('data-name'),
+			                          text: "You wont be able to revert this!",
+			                          icon: "warning",
+			                          showCancelButton: true,
+			                          confirmButtonText: "Yes, proceed!",
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      }).then(function(result) {
+			                          if (result.value){
+			                             _ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-stocks', 'fetch_design_stocks_status',element.attr('data-id'),element.attr('data-status')]));
+			                          } 
+			                      });
+			            });
+			     $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['design-stocks', 'fetch_design_stocks_status',element.attr('data-id'),element.attr('data-status'),result.value]));
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+	              $('body').delegate('.remarks-stocks','click',function(e){
+		                    e.preventDefault();
+		                    e.stopImmediatePropagation();
+		                    let element = $(this);
+		                        Swal.fire({
+		                          title: " Product name: "+element.attr('data-name')+"</br>Remarks",
+		                          text: element.attr('data-remarks'),
+		                          showConfirmButton:false,
+		                          showCancelButton: false,
+		                          cancelButtonText: "close!",
+		                          reverseButtons: true
+		                      })
+		          });
 				break;
 			}
 			case "design-project-approval":{
@@ -1246,7 +1314,7 @@ var arrows;var item_v;var price;var special_option;
 			                    e.stopImmediatePropagation();
 			                    let element = $(this);
 			                        Swal.fire({
-			                          title: "Do you want to move this form? Project Title #: "+element.attr('data-name'),
+			                          title: "Do you want to move this form? Project Title: "+element.attr('data-name'),
 			                          text: "You wont be able to revert this!",
 			                          icon: "warning",
 			                          showCancelButton: true,
@@ -1301,7 +1369,7 @@ var arrows;var item_v;var price;var special_option;
 		                    e.stopImmediatePropagation();
 		                    let element = $(this);
 		                        Swal.fire({
-		                          title: "Project Title #: "+element.attr('data-name')+"</br>Remarks",
+		                          title: "Project Title: "+element.attr('data-name')+"</br>Remarks",
 		                          text: element.attr('data-remarks'),
 		                          showConfirmButton:false,
 		                          showCancelButton: false,
@@ -1619,11 +1687,13 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-design-stocks":{
+			case "design-stocks":{
 				$(document).ready(function() {
+					KTFormControlsCreatives.init('form-design-stocks');
 					_initAvatar('design_image');
+					_initAvatar('design_image_add');
 					$('input[name=image]').on('change',function(e){
-						var file, img;
+					    var file, img;
 					    if ((file = this.files[0])) {
 					        img = new Image();
 					        var objectUrl =window.URL.createObjectURL(file);
@@ -1631,51 +1701,54 @@ var arrows;var item_v;var price;var special_option;
 					        	if(this.width > 1000 && this.height > 1000){
 					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
 					        			});
-					        	
 					        	}
-					        };
-					        img.src = objectUrl;
+					        };img.src = objectUrl;
 					    }
 					});
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	$('input[name=title]').attr('data-id',id);
-					 	$('.specifications-edit').css('display','none');
-					 	$('.image-view').css('display','block');
-					 	$('.image-update').css('display','none');
-					 	$('.color-view').css('display','block');
-					 	$('.color-update').css('display','none');
-					 	$("input[name=title]").attr('readonly');
-					 	$("input[name=c_name]").attr('readonly');
-					 	$('.btn-save').css('display','none');
-					 	$('.btn-edit').css('display','block');
-					 	$("#text-edit").text('Edit Details');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Design_Stocks_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Design_Stocks_View");
-				     });
-					$(document).on("click",".btn-edit",function(e) {
-					 	e.preventDefault();
-					 	let action = $(this).attr('data-action');
-					 	$(this).css('display','none');
-					 	$('.btn-save').css('display','block');
-				 		$('.specifications-edit').css('display','block');
-					 	$('.image-view').css('display','none');
-					 	$('.image-update').css('display','block');
-					 	$('.color-view').css('display','none');
-					 	$('.color-update').css('display','block');
-					 	$("#text-edit").text('Save Changes');
-					 	$("input[name=title]").removeAttr('readonly');
-					 	$("input[name=c_name]").removeAttr('readonly');
-				     });
 					$(".upfile1").click(function () {
-					    $("#c-image").trigger('click');
+					    $("#image").trigger('click');
 					});
-					$(document).on("click","#modal-form > div > div > div.modal-body > form > div.row.justify-content-center > div > div:nth-child(1) > div:nth-child(1) > div.form-group.image-update > div > div > span",function(e) {
-		  				e.preventDefault();
-		  				let  image = $('input[name=title]').attr('data-image');
-		  				$(".image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+image+")");
-	  				});
+					$(".upfile2").click(function () {
+					    $("#image2").trigger('click');
+					});
+				    $(document).on('click','.view-stocks',function(e){
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let id = $(this).attr('data-id');
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Stocks...'),_constructForm(['design-stocks', 'fetch_design_stocks',id]));
+				    });
+				    $(document).on('click','.edit-stocks',function(e){
+					 	e.preventDefault();
+					 	e.stopImmediatePropagation();
+					 	let id = $(this).attr('data-id');
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Stocks...'),_constructForm(['design-stocks', 'fetch_design_stocks_edit',id]));
+				    });
+				     $(document).on('click','.add-stocks',function(e){
+					 	e.preventDefault();
+					 	$('#add-stocks-modal').modal('show');
+				    });
+				      $(document).on('click','.add-stocks-existing',function(e){
+					 	e.preventDefault();
+					 	_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['design-stocks', 'fetch_design_stocks_list']));
+				    });
+				     $('#add-stocks-modal input[name=docs]').on('change',function(e){
+		                    e.preventDefault();
+		                    $('#add-stocks-modal .valid-uploadx').val(this.files[0].name);
+		               });
+		            
+		               $('body').delegate('.remarks-stocks','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Item name : "+element.attr('data-name')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
 				})
 				break;
 			}
@@ -1722,7 +1795,7 @@ var arrows;var item_v;var price;var special_option;
 			                    e.stopImmediatePropagation();
 			                    let element = $(this);
 			                        Swal.fire({
-			                          title: "Project Title #: "+element.attr('data-name')+"</br>Reason to Remarks",
+			                          title: "Project Title : "+element.attr('data-name')+"</br>Remarks",
 			                          text: element.attr('data-remarks'),
 			                          showConfirmButton:false,
 			                          showCancelButton: false,
@@ -3169,23 +3242,6 @@ var arrows;var item_v;var price;var special_option;
 	  			$('input[name="docs_previous"]').val(response.docs);
 	  			$(".image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.image+")");
 	  			$(".c-image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  		}
-	  		break;
-	  	}
-	  	case "Modal_Design_Project_View":{
-	  		if(!response == false){
-	  			$('.project_name').text(response.title);
-	  			$('.creator').text(response.title);
-
-	  			$('input[name=title]').val(response.title);
-	  			$('input[name=title]').attr('data-image',response.image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-	  			$(".image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$(".image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.image+")");
-	  			$('input[name="image_previous"]').val(response.image);
-	  			$('input[name="docs_previous"]').val(response.docs);
-	  			$('#view-project').modal('show');
 	  		}
 	  		break;
 	  	}
@@ -6440,7 +6496,60 @@ var arrows;var item_v;var price;var special_option;
 	}
 
 	var _construct = async function(response, type, element, object){
+		_initnotificationupdate();
 		switch(type){
+			case "fetch_design_stocks_list":{
+				if(!response == false){
+					$('#title').empty();
+					$('#title').append('<option value="" selected disabled>SELECT ITEM</option>');
+					for(let i=0;i<response.length;i++){
+	                  	  	$('#title').append('<option value="'+response[i].id+'">'+response[i].title+'</option>');
+	                  	  	$('#title').addClass('selectpicker');
+					     $('#title').attr('data-live-search', 'true');
+						$('#title').selectpicker('refresh');
+		                }	
+	          	}
+          	     $('.input-image').on('change',function(e){
+	                    e.preventDefault();
+	                    $('.valid-uploadss').val(this.files[0].name);
+	               });
+	          	$('#add-stocks-existing-modal').modal('show');
+				break;
+			}
+			case "fetch_design_stocks":{
+				if(response !=false){
+					$('.title').text(response.info.title);
+					$('.c_name').text(response.info.c_name);
+		  			$('.creator').text(response.info.creator);
+		  			$('.date_created').text(response.info.date_created);
+		  			$('.view-form-image').empty().append('<div class="col-lg-4"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/design/project_request/images/'+response.info.image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
+		  				<div class="col-lg-4"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/palettecolor/'+response.info.c_image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
+		                  <div class="col-lg-4"><a href="'+baseURL+'assets/images/design/project_request/docx/'+response.info.docs+'" target="_blank"><div class="bgi-no-repeat bgi-size-cover rounded min-h-100px tba_image  payment_slip" style="background-image: url('+baseURL+'assets/media/svg/files/pdf.svg);width: 100%;height: 150px;background-size: contain;background-position: center;"></div></a></div>\
+		                  ');
+		  			$('#view-stocks').modal('show');
+				}
+				break;
+			}
+			case "fetch_design_stocks_edit":{
+				if(!response == false){
+					$('#edit-stocks-modal input[name=title]').attr('data-id',response.id);
+		  			$('#edit-stocks-modal input[name=title]').val(response.info.title);
+		  			$('#edit-stocks-modal input[name=pallet_name]').val(response.info.c_name);
+
+		  			$("#edit-stocks-modal .image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+		  			$("#edit-stocks-modal .pallet-image").attr("src", ""+baseURL+"assets/images/palettecolor/"+response.info.c_image+"");
+		  			$('#edit-stocks-modal .valid-upload').val(response.info.docs);
+		  			$('#edit-stocks-modal input[name=docs]').on('change',function(e){
+		                    e.preventDefault();
+		                    $('.valid-upload').val(this.files[0].name);
+		               });
+		               $('#edit-stocks-modal #design_image > span').on('click',function(e){
+		               	$("#edit-stocks-modal .image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+		               });
+		  			$('#edit-stocks-modal').modal('show');
+	  			}
+				break;
+			} 
 			case "fetch_design_project":{
 				if(response !=false){
 					$('.project_name').text(response.info.title);
@@ -6473,6 +6582,11 @@ var arrows;var item_v;var price;var special_option;
 			case "fetch_design_project_status":{
 				_initToast(response.type,response.message);
 				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_project_request');
+				break;
+			}
+			case "fetch_design_stocks_status":{
+				_initToast(response.type,response.message);
+				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_stocks_request');
 				break;
 			}
 		}

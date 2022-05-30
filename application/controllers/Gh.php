@@ -109,12 +109,8 @@ class Gh extends CI_Controller {
         $this->load->view('designer/layouts/navbar.php');
         switch ($view) {
           case 'index':{$this->load->view('designer/index.php');break;}
-          case "project":{$this->load->view('designer/project_list.php'); break;}
           case "design-for-stocks":{$this->load->view('designer/design_stocks.php'); break;}
           case "design-for-project":{$this->load->view('designer/design_project.php'); break;}
-          case "create-design-stocks":{$this->load->view('designer/design_stocks_create.php'); break;}
-          case "create-design-pallet":{$this->load->view('designer/design_pallet_create.php'); break;}
-          case "create-design-project":{$this->load->view('designer/design_project_create.php'); break;}
           case "joborder-stocks":{$this->load->view('designer/joborder-stocks.php'); break;}
           case "joborder-project":{$this->load->view('designer/joborder-project.php'); break;}
           case "joborder-create-stocks":{$this->load->view('designer/joborder-create-stocks.php');break;}
@@ -126,7 +122,6 @@ class Gh extends CI_Controller {
           case "request-material-create":{$this->load->view('designer/request_material_create.php');break;}
           case "request-pre-order":{$this->load->view('designer/request_preorder.php');break;}
           case "request-customized":{$this->load->view('designer/request_customized.php');break;}
-          case "voucher":{$this->load->view('designer/coupon_list.php');break;}
           case "user_update":{$this->load->view('designer/user_update.php');break;}
           default: {redirect(base_url().'gh/designer/index');break;}
         }

@@ -68,59 +68,23 @@
 												</a>
 												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">LIST</span>
-																<i class="menu-arrow"></i>
+														<li class="menu-item" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/designer/design-for-stocks";?>" class="menu-link">
+																<i class="menu-bullet menu-bullet-dot">
+																	<span></span>
+																</i>
+																<span class="menu-text">For Stocks</span>
+																<span class="label label-rounded label-warning request_stocks">0</span>
 															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/design-for-stocks";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">For Stocks</span>
-																			<span class="label label-rounded label-warning request_stocks">0</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/design-for-project";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">For Project</span>
-																			<span class="label label-rounded label-warning request_project">0</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="javascript:;" class="menu-link menu-toggle">
-																<span class="menu-text">Create</span>
-																<i class="menu-arrow"></i>
+														<li class="menu-item" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/designer/design-for-project";?>" class="menu-link">
+																<i class="menu-bullet menu-bullet-dot">
+																	<span></span>
+																</i>
+																<span class="menu-text">For Project</span>
+																<span class="label label-rounded label-warning request_project">0</span>
 															</a>
-															<div class="menu-submenu menu-submenu-classic menu-submenu-right">
-																<ul class="menu-subnav">
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/create-design-stocks";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CREATE NEW DESIGN FOR STOCKS</span>
-																		</a>
-																	</li>
-																	<li class="menu-item" aria-haspopup="true">
-																		<a href="<?php echo base_url()."gh/designer/create-design-pallet";?>" class="menu-link">
-																			<i class="menu-bullet menu-bullet-dot">
-																				<span></span>
-																			</i>
-																			<span class="menu-text">CREATE NEW PALLETE COLOR FOR STOCKS</span>
-																		</a>
-																	</li>
-																</ul>
-															</div>
 														</li>
 													</ul>
 												</div>

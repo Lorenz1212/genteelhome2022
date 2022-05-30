@@ -111,7 +111,7 @@ var KTFormControlsCreatives = function () {
 	                });                
 	            });
 	            var validation_pass;
-			     var form_pass = KTUtil.getById('change_pass_form');
+			    var form_pass = KTUtil.getById('change_pass_form');
 			       validation_pass = FormValidation.formValidation(
 			      form_pass,{
 			        fields: {
@@ -311,7 +311,7 @@ var KTFormControlsCreatives = function () {
 	            });
 
 	            var form_add = KTUtil.getById('Create_Design_Project');
-		       	validation_add = FormValidation.formValidation(
+		       	var validation_add = FormValidation.formValidation(
 		            form_add,{
 		                fields: {
 							 title: {
@@ -378,10 +378,287 @@ var KTFormControlsCreatives = function () {
 	            });
 				break;	
 			}
+			case "form-design-stocks":{
+		     	var form = KTUtil.getById('Update_Design_Stocks');
+		       	validation = FormValidation.formValidation(
+		            form,{
+		                fields: {
+							 title: {
+		                        validators: {
+		                            notEmpty: {
+		                                message: 'Item name is required'
+		                            },
+		                            regexp: {
+		                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
+		                                message: 'The first name can only consist of alphabetical characters'
+		                            },
+		                            stringLength: {
+		                                max: 20,
+		                                message: 'You have reached your maximum limit of characters allowed'
+		                            },
+		                            
+		                        }
+		                    },
+		                    pallet_name: {
+		                        validators: {
+		                            notEmpty: {
+		                                message: 'Pallet name is required'
+		                            },
+		                            regexp: {
+		                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
+		                                message: 'The first name can only consist of alphabetical characters'
+		                            },
+		                            stringLength: {
+		                                max: 20,
+		                                message: 'You have reached your maximum limit of characters allowed'
+		                            },
+		                            
+		                        }
+		                    },
+		                     pallet: {
+								validators: {
+									file: {
+					                    extension: 'jpeg,jpg,png',
+					                    type: 'image/jpeg,image/png',
+					                    message: 'The selected file is not valid',
+					                },
+								}
+							},
+		                    image: {
+								validators: {
+									file: {
+					                    extension: 'jpeg,jpg,png',
+					                    type: 'image/jpeg,image/png',
+					                    message: 'The selected file is not valid',
+					                },
+								}
+							},
+							docs: {
+								validators: {
+									file: {
+					                    extension: 'pdf',
+					                    type: 'application/pdf',
+					                    message: 'The selected file is not valid',
+					                },
+								}
+							},
+		                },
+
+		                plugins: {
+		                    trigger: new FormValidation.plugins.Trigger(),
+		                    bootstrap: new FormValidation.plugins.Bootstrap(),
+		                }
+		            }
+		        );
+		        $('#edit-stocks-modal').on('hidden.bs.modal', function () {
+				    validation.resetForm();
+				});
+				$('.btn-edit-save').on('click',function(e){
+		            e.preventDefault();
+		            validation.validate().then(function(status) {
+		                if (status == 'Valid') {
+	                		let formData = new FormData(form);
+	                        formData.append("action", "design-stocks");
+	                        formData.append("type", 'edit_design-stocks');
+	                        formData.append("id", $('input[name=title]').attr('data-id'));
+	                        _ajaxForm(formData,'edit_design-stocks',false);
+		                }	
+	                });                
+	            });
+            var form_add = KTUtil.getById('Create_Design_Stocks');
+	       	var validation_add = FormValidation.formValidation(
+		            form_add,{
+		                fields: {
+							 title: {
+		                        validators: {
+		                            notEmpty: {
+		                                message: 'Item name is required'
+		                            },
+		                            regexp: {
+		                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
+		                                message: 'The first name can only consist of alphabetical characters'
+		                            },
+		                            stringLength: {
+		                                max: 20,
+		                                message: 'You have reached your maximum limit of characters allowed'
+		                            },
+		                            
+		                        }
+		                    },
+		                    pallet_name: {
+		                        validators: {
+		                            notEmpty: {
+		                                message: 'Pallet name is required'
+		                            },
+		                            regexp: {
+		                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
+		                                message: 'The first name can only consist of alphabetical characters'
+		                            },
+		                            stringLength: {
+		                                max: 20,
+		                                message: 'You have reached your maximum limit of characters allowed'
+		                            },
+		                            
+		                        }
+		                    },
+		                    pallet: {
+								validators: {
+									notEmpty: {
+										message: 'Pallet color Image is required'
+									},
+									file: {
+					                    extension: 'jpeg,jpg,png',
+					                    type: 'image/jpeg,image/png',
+					                    message: 'The selected file is not valid',
+					                },
+								}
+							},
+							image: {
+								validators: {
+									notEmpty: {
+										message: 'Project Image is required'
+									},
+									file: {
+					                    extension: 'jpeg,jpg,png',
+					                    type: 'image/jpeg,image/png',
+					                    message: 'The selected file is not valid',
+					                },
+								}
+							},
+							docs: {
+								validators: {
+									notEmpty: {
+										message: 'Item Specification is required'
+									},
+									file: {
+					                    extension: 'pdf',
+					                    type: 'application/pdf',
+					                    message: 'The selected file is not valid',
+					                },
+								}
+							},
+		                },
+
+		                plugins: {
+		                    trigger: new FormValidation.plugins.Trigger(),
+		                    bootstrap: new FormValidation.plugins.Bootstrap(),
+		                }
+		            }
+		        );
+		        $('#add-stocks-modal').on('hidden.bs.modal', function () {
+				    validation_add.resetForm();
+				});
+				$('.btn-add-save').on('click',function(e){
+		            e.preventDefault();
+		            validation_add.validate().then(function(status) {
+		                if (status == 'Valid') {
+	                		let formData = new FormData(form_add);
+	                        formData.append("action", "design-stocks");
+	                        formData.append("type", 'add_design_stocks');
+	                        _ajaxForm(formData,'add_design_stocks',false);
+		                }	
+	                });                
+	            });
+	            var form_existing = KTUtil.getById('Create_Design_Stocks_Existing');
+		       	var validation_existing = FormValidation.formValidation(
+		            form_existing,{
+		                fields: {
+							 title: {
+		                        validators: {
+		                            notEmpty: {
+		                                message: 'Item name is required'
+		                            }
+		                        }
+		                    },
+		                    pallet_name: {
+		                        validators: {
+		                            notEmpty: {
+		                                message: 'Pallet name is required'
+		                            },
+		                            regexp: {
+		                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
+		                                message: 'The first name can only consist of alphabetical characters'
+		                            },
+		                            stringLength: {
+		                                max: 20,
+		                                message: 'You have reached your maximum limit of characters allowed'
+		                            },
+		                            
+		                        }
+		                    },
+		                    pallet: {
+								validators: {
+									notEmpty: {
+										message: 'Pallet color Image is required'
+									},
+									file: {
+					                    extension: 'jpeg,jpg,png',
+					                    type: 'image/jpeg,image/png',
+					                    message: 'The selected file is not valid',
+					                },
+								}
+							},
+							docs: {
+								validators: {
+									notEmpty: {
+										message: 'Item Specification is required'
+									},
+									file: {
+					                    extension: 'pdf',
+					                    type: 'application/pdf',
+					                    message: 'The selected file is not valid',
+					                },
+								}
+							},
+		                },
+
+		                plugins: {
+		                    trigger: new FormValidation.plugins.Trigger(),
+		                    bootstrap: new FormValidation.plugins.Bootstrap(),
+		                }
+		            }
+		        );
+		        $('#add-stocks-existing-modal').on('hidden.bs.modal', function () {
+				    validation_existing.resetForm();
+				});
+				$('.btn-add-existing-save').on('click',function(e){
+		            e.preventDefault();
+		            validation_existing.validate().then(function(status) {
+		                if (status == 'Valid') {
+	                		let formData = new FormData(form_existing);
+	                        formData.append("action", "design-stocks");
+	                        formData.append("type", 'add_design_stocks-existing');
+	                        _ajaxForm(formData,'add_design_stocks-existing',false);
+		                }	
+	                });                
+	            });
+				break;	
+			}
 		}
 	}
 	var _initResponse = function(response,val,val2){
 		switch(val){
+			case "add_design_stocks":{
+				_showToast(response.type,response.message);
+				if(response.type == 'success'){
+					$('#add-stocks-modal').modal('hide');
+				}
+				break;
+			}
+			case "add_design_stocks-existing":{
+				_showToast(response.type,response.message);
+				if(response.type == 'success'){
+					$('#add-stocks-existing-modal').modal('hide');
+				}
+				break;
+			}
+			case "edit_design-stocks":{
+				_showToast(response.type,response.message);
+				if(response.type == 'success'){
+					$('#edit-stocks-modal').modal('hide');
+				}
+				break;
+			}
 			case "add_design_project":{
 				_showToast(response.type,response.message);
 				if(response.type == 'success'){

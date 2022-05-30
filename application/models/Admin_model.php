@@ -74,6 +74,54 @@ class Admin_model extends CI_Model{
         	return false;
         }
 	}
+		function Design_Stocks($type,$val,$val1,$val2){
+		switch ($type) {
+			case 'fetch_design_stocks':
+				$id = $this->encryption->decrypt($val);
+				$data_array = array();
+				$sql = "SELECT *,c.id,(SELECT CONCAT(fname,' ',lname) FROM tbl_administrator WHERE id=c.designer) as creator,DATE_FORMAT(c.date_created, '%M %d %Y %r') as date_created FROM tbl_project_color c LEFT JOIN tbl_project_design d ON c.project_no=d.id WHERE c.id='$id'";	
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$data_array['info']=$row;
+					$data_array['id']=$this->encryption->encrypt($row->id);
+					return $data_array;
+				}else{
+					return false;
+				}
+				break;
+			case "fetch_design_stocks_status":
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_project_color WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$result = $this->db->where('id',$id)->update('tbl_project_color',array('approver'=>$this->user_id,'status'=>$val1,'remark'=>$val2,'date_approved'=>date('Y-m-d H:i:s')));
+					if($result){
+						if($val1 == '2'){
+							$project_no = $row->project_no;
+							$sql ="SELECT * FROM tbl_project_design WHERE id='$project_no' AND project_status !='APPROVED'";
+							$row = $this->db->query($sql)->row();
+							if($row){
+								 $result = $this->db->where('id',$project_no)->update('tbl_project_design',array('project_status'=>'APPROVED'));
+							}
+							return array('type'=>'success','Approve Successfully');
+						}else{
+							return array('type'=>'success','Cancel Successfully');
+						}
+						
+					}else{
+
+					}
+					
+				}else{
+					return false;
+				}	
+				break;
+			
+			default:
+				return false;
+				break;
+		}
+	}
 	function Design_Project($type,$val,$val1,$val2){
 		switch ($type) {
 			case 'fetch_design_project':
