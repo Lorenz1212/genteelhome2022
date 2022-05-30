@@ -185,6 +185,28 @@ class Admin_model extends CI_Model{
 					return false;
 				}
 				break;
+			case 'fetch_inspection_stocks_approved':
+					$id = $this->encryption->decrypt($val);
+					$id1 = $this->encryption->decrypt($val1);
+					$data_array = array();
+					$sql = "SELECT *,
+					(SELECT CONCAT(fname,' ',lname) FROM tbl_administrator WHERE id=p.assigned) as creator,
+					(SELECT title FROM tbl_project_design WHERE id=p.project_no) as title,
+					(SELECT c_name FROM tbl_project_color WHERE id=p.c_code) as c_name,
+					DATE_FORMAT(p.date_created, '%M %d %Y %r') as date_created FROM tbl_project p WHERE p.production_no='$id'";	
+					$row = $this->db->query($sql)->row();
+					$data_array['info']=$row;
+					$sql = "SELECT * FROM tbl_project_inspection WHERE production_no='$id' AND ins_no='$id1'";	
+					$query = $this->db->query($sql);
+					if($query){
+						foreach($query->result() as $row){
+							$data_array['inspection'][]=array('image'=>$row->images);
+						}
+						return $data_array;
+					}else{
+						return false;
+					}
+					break;	
 			case "fetch_inspection_stocks_status":
 				$id = $this->encryption->decrypt($val);
 				$value=$this->get_random_code('tbl_project_inspection', 'ins_no', "INSPXID", 8);
@@ -193,7 +215,7 @@ class Admin_model extends CI_Model{
 	                    'remarks'=> $val2,
 	                    'latest_update' => date('Y-m-d H:i:s'),
 	                    'update_by'=>$this->user_id);
-	      $result = $this->db->where('production_no',$id)->where('ins_no',0)->update('tbl_project_inspection',$data);
+	      $result = $this->db->where('ins_no','0')->where('production_no',$id)->update('tbl_project_inspection',$data);
 				if($result){
 					if($val1 == '2'){
 						return array('type'=>'success','Approve Successfully');
@@ -227,7 +249,27 @@ class Admin_model extends CI_Model{
 					foreach($query->result() as $row){
 						$data_array['inspection'][]=array('image'=>$row->images);
 					}
-
+					return $data_array;
+				}else{
+					return false;
+				}
+				break;
+		case 'fetch_inspection_project_approved':
+				$id = $this->encryption->decrypt($val);
+				$id1 = $this->encryption->decrypt($val1);
+				$data_array = array();
+				$sql = "SELECT *,
+				(SELECT CONCAT(fname,' ',lname) FROM tbl_administrator WHERE id=p.assigned) as creator,
+				(SELECT title FROM tbl_project_design WHERE id=p.project_no) as title,
+				DATE_FORMAT(p.date_created, '%M %d %Y %r') as date_created FROM tbl_project p WHERE p.production_no='$id'";	
+				$row = $this->db->query($sql)->row();
+				$data_array['info']=$row;
+				$sql = "SELECT * FROM tbl_project_inspection WHERE production_no='$id' AND ins_no='$id1'";	
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$data_array['inspection'][]=array('image'=>$row->images);
+					}
 					return $data_array;
 				}else{
 					return false;
@@ -241,7 +283,7 @@ class Admin_model extends CI_Model{
 	                    'remarks'=> $val2,
 	                    'latest_update' => date('Y-m-d H:i:s'),
 	                    'update_by'=>$this->user_id);
-	      $result = $this->db->where('production_no',$id)->where('ins_no',0)->update('tbl_project_inspection',$data);
+	      $result = $this->db->where('production_no',$id)->where('ins_no','0')->update('tbl_project_inspection',$data);
 				if($result){
 					if($val1 == '2'){
 						return array('type'=>'success','Approve Successfully');

@@ -1485,6 +1485,13 @@ var arrows;var item_v;var price;var special_option;
 				 	let id = $(this).attr('data-id');
 				 	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['inspection-stocks', 'fetch_inspection_stocks',id]));
 		    		});
+				 $(document).on('click','.view-stocks-approved',function(e){
+				 	e.preventDefault();
+				 	e.stopImmediatePropagation();
+				 	let id = $(this).attr('data-id');
+				 	let id1 = $(this).attr('data-trans');
+				 	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['inspection-stocks', 'fetch_inspection_stocks_approved',id,id1]));
+			     });
 				 $('body').delegate('.btn-approved','click',function(e){
 		                    e.preventDefault();
 		                    e.stopImmediatePropagation();
@@ -1562,7 +1569,14 @@ var arrows;var item_v;var price;var special_option;
 				 	e.stopImmediatePropagation();
 				 	let id = $(this).attr('data-id');
 				 	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['inspection-project', 'fetch_inspection_project',id]));
-			    });
+			     });
+			     $(document).on('click','.view-project-approved',function(e){
+				 	e.preventDefault();
+				 	e.stopImmediatePropagation();
+				 	let id = $(this).attr('data-id');
+				 	let id1 = $(this).attr('data-trans');
+				 	_ajaxrequest('Admin_Controller/Controller',_constructBlockUi('blockPage', false, 'Project...'),_constructForm(['inspection-project', 'fetch_inspection_project_approved',id,id1]));
+			     });
 				$('body').delegate('.btn-approved','click',function(e){
 		                    e.preventDefault();
 		                    e.stopImmediatePropagation();
@@ -6629,6 +6643,7 @@ var arrows;var item_v;var price;var special_option;
 				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_stocks_request');
 				break;
 			}
+			case "fetch_inspection_project_approved":
 			case "fetch_inspection_project":{
 				if(response !=false){
 					$('.title').text(response.info.title);
@@ -6643,6 +6658,7 @@ var arrows;var item_v;var price;var special_option;
 				}
 				break;
 			}
+			case "fetch_inspection_stocks_approved":
 			case "fetch_inspection_stocks":{
 				if(response !=false){
 					$('.title').text(response.info.title);
