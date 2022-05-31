@@ -33,29 +33,29 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 			case "tbl_approval_inspection_stocks":{
 				TableURL = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Request_DataTable';
 				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-				_DataTableLoader('tbl_approval_inspection_stocks_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_approval_inspection_stocks_request',TableURL,TableData,[[3,"desc"]]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Approved_DataTable';
 				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-				_DataTableLoader('tbl_approval_inspection_stocks_approved',TableURL1,TableData1,false);
+				_DataTableLoader('tbl_approval_inspection_stocks_approved',TableURL1,TableData1,[[3,"desc"]]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Rejected_DataTable';
 				let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-				_DataTableLoader('tbl_approval_inspection_stocks_rejected',TableURL2,TableData2,false);
+				_DataTableLoader('tbl_approval_inspection_stocks_rejected',TableURL2,TableData2,[[3,"desc"]]);
 				break;
 			}
 			case "tbl_approval_inspection_project":{
 				TableURL = baseURL + 'datatable_controller/Approval_Inspection_Project_Request_DataTable';
 				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-				_DataTableLoader('tbl_approval_inspection_project_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_approval_inspection_project_request',TableURL,TableData,[[3,"desc"]]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Project_Approved_DataTable';
 				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-				_DataTableLoader('tbl_approval_inspection_project_approved',TableURL1,TableData1,false);
+				_DataTableLoader('tbl_approval_inspection_project_approved',TableURL1,TableData1,[[3,"desc"]]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Project_Rejected_DataTable';
 				let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-				_DataTableLoader('tbl_approval_inspection_project_rejected',TableURL2,TableData2,false);
+				_DataTableLoader('tbl_approval_inspection_project_rejected',TableURL2,TableData2,[[3,"desc"]]);
 				break;
 			}
 			case "tbl_approval_design_stocks_request":{

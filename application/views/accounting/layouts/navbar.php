@@ -94,7 +94,7 @@
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/accounting/purchased-inventory";?>" class="menu-link">
 																<span class="menu-text mr-2">Inventory Stocks</span>
-																<span class="total_purchase"></span>
+																<span class="other_purchased_total"></span>
 															</a>
 														</li>
 													</ul>

@@ -710,7 +710,9 @@ class Update_model extends CI_Model
                         return array('type'=>'info','message'=>'error(002)');
                     }
             }else{
-                $this->db->where('fund_no',$id);
+                $row = $this->db->query("SELECT * FROM tbl_other_material_p_header WHERE request_no='$id'")->row();
+
+                $this->db->where('fund_no',$row->fund_no);
                 $result = $this->db->update('tbl_pettycash',array('pettycash'=> $cash));
                 if($result){
                     return array('type'=>'success','message'=>'Save Changes');

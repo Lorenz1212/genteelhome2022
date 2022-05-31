@@ -435,11 +435,15 @@ class Dashboard_model extends CI_Model
     $sales_project_cancelled = $this->db->select('*')->from('tbl_salesorder_project')->where('status','CANCELLED')->get()->num_rows();
 
 
+    $other_purchased_request = $this->db->select('*')->from('tbl_other_material_p_header')->where('status','PENDING')->get()->num_rows();
+    $other_purchased_approved = $this->db->select('*')->from('tbl_other_material_p_header')->where('a_status','APPROVED')->get()->num_rows();
+
     $total_purchase_stocks = intval($purchase_stocks_pending+$purchase_stocks_received);
     $total_purchase_project = intval($purchase_project_pending+$purchase_project_received);
     $total_purchase = intval($purchase_stocks_pending+$purchase_project_pending+$purchase_stocks_received+$purchase_project_received);
-    $total_request = intval($purchase_stocks_pending+$purchase_project_pending+$purchase_stocks_received+$purchase_project_received);
+    $total_request = intval($purchase_stocks_pending+$purchase_project_pending+$purchase_stocks_received+$purchase_project_received+$other_purchased_request+$other_purchased_approved);
     $total_salesoder_request = intval($sales_stocks_pending+$sales_project_pending);
+    $other_purchased_total = intval($other_purchased_request+$other_purchased_approved);
 
     $data = array('purchase_stocks_pending'=>$purchase_stocks_pending,
                   'purchase_project_pending'=>$purchase_project_pending,
@@ -457,7 +461,10 @@ class Dashboard_model extends CI_Model
                   'total_purchase_project'=>$total_purchase_project,
                   'total_purchase'=>$total_purchase,
                   'total_request'=>$total_request,
-                  'total_salesoder_request'=>$total_salesoder_request);
+                  'total_salesoder_request'=>$total_salesoder_request,
+                  'other_purchased_request'=>$other_purchased_request,
+                  'other_purchased_approved'=>$other_purchased_approved,
+                  'other_purchased_total'=>$other_purchased_total);
      return $data; 
   }
 

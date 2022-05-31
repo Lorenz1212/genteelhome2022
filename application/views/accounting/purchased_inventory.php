@@ -22,7 +22,7 @@
 			                    <a class="nav-link active" data-toggle="tab" href="#request">
 			                        <span class="nav-icon"><i class="flaticon-exclamation-1"></i></span>
 			                        <span class="nav-text mr-2">Request</span>
-			                        <span class="label label-rounded label-warning purchase_stocks_pending">0</span>
+			                        <span class="label label-rounded label-warning other_purchased_request">0</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">

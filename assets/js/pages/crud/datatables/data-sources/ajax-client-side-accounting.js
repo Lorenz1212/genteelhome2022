@@ -5,7 +5,7 @@ var TableData;
 var value;
 const queryString = window.location.search;
 var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
-	var _DataTableLoader = async function(link,TableURL,TableData,val){
+	var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 		var table = $('#'+link);
 		table.DataTable().clear().destroy();
 		$.fn.dataTable.ext.errMode = 'throw';
@@ -14,6 +14,7 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			responsive: false,
 			info: true,
 			serverSide:false,
+			order:order_by,
 			"fnDrawCallback": function() {
                 $('[data-toggle="tooltip"]').tooltip();
         	},
@@ -35,71 +36,71 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			case "tbl_salesorder_stocks":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Accounting';
 				 TableData = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_salesorder_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_salesorder_request',TableURL,TableData,[[4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Approved_DataTable_Accounting';
 				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_salesorder_approved',TableURL1,TableData1,false);
+				_DataTableLoader('tbl_salesorder_approved',TableURL1,TableData1,[[4,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Completed_DataTable_Accounting';
 				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_salesorder_completed',TableURL2,TableData2,false);
+				_DataTableLoader('tbl_salesorder_completed',TableURL2,TableData2,[[4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Salesorder_Stocks_Cancelled_DataTable_Accounting';
 				let TableData3 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_salesorder_cancelled',TableURL3,TableData3,false);
+				_DataTableLoader('tbl_salesorder_cancelled',TableURL3,TableData3,[[4,'desc']]);
 				break;
 			}
 			case "tbl_salesorder_project":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Accounting';
 				 TableData = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}];
-				_DataTableLoader('tbl_salesorder_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_salesorder_request',TableURL,TableData,[[4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Approved_DataTable_Accounting';
 				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}];
-				_DataTableLoader('tbl_salesorder_approved',TableURL1,TableData1,false);
+				_DataTableLoader('tbl_salesorder_approved',TableURL1,TableData1,[[4,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Completed_DataTable_Accounting';
 				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}];
-				_DataTableLoader('tbl_salesorder_completed',TableURL2,TableData2,false);
+				_DataTableLoader('tbl_salesorder_completed',TableURL2,TableData2,[[4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Salesorder_Project_Cancelled_DataTable_Accounting';
 				let TableData3 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_salesorder_cancelled',TableURL3,TableData3,false);
+				_DataTableLoader('tbl_salesorder_cancelled',TableURL3,TableData3,[[4,'desc']]);
 				break;
 			}
 			case "tbl_purchased_material_stocks":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks';
 				TableData = [{data:'production_no'},{data:'title',width:200},{data:'requestor',width:10},{data:'date_created',width:10},{data:'status',width:10},{data:'action',orderable:false,width:10,className:"text-center"}];
-				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_purchased_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
 				let TableData2 = [{data:'production_no'},{data:'title',width:200},{data:'requestor',width:10},{data:'date_created',width:10},{data:'status',width:10},{data:'action',orderable:false,width:10,className:"text-center"}]; 
-				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
+				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
 			case "tbl_purchased_material_project":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
 				TableData = [{data:'production_no'},{data:'title',width:150},{data:'requestor',width:10},{data:'date_created',width:10},{data:'status',width:10},{data:'action',orderable:false,width:10,className:"text-center"}];
-				_DataTableLoader('tbl_purchased_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_purchased_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
 				let TableData2 = [{data:'production_no'},{data:'title',width:150},{data:'requestor',width:10},{data:'date_created',width:10},{data:'status'},{data:'action',orderable:false,width:10,className:"text-center"}]; 
-				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,false);
+				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
 			case "tbl_purchased_stocks_request":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Request';
 				TableData =  [{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action'}];
-				_DataTableLoader('tbl_purchased_stocks_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_purchased_stocks_request',TableURL,TableData,[[2,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Approval';
 				let TableData1 =  [{data:'fund_no'},{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action',orderable:false}];
-				_DataTableLoader('tbl_purchased_stocks_approved',TableURL1,TableData1,false);
+				_DataTableLoader('tbl_purchased_stocks_approved',TableURL1,TableData1,[[2,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Received';
 				let TableData2 =  [{data:'fund_no'},{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action',orderable:false}];
-				_DataTableLoader('tbl_purchased_stocks_received',TableURL2,TableData2,false);
+				_DataTableLoader('tbl_purchased_stocks_received',TableURL2,TableData2,[[2,'desc']]);
 
 				break;
 			}
@@ -193,11 +194,11 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 			case "tbl_other_purchase_invetory":{
 				TableURL = baseURL + 'datatable_controller/Other_purchase_inventory_Request_Accounting';
 				TableData = [{data:'trans_no'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_request',TableURL,TableData,[[2,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Other_purchase_inventory_received_Accounting';
 				let TableData1 = [{data:'trans_no'},{data:'requestor'},{data:'date_created'},{data:'status'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_received',TableURL1,TableData1,false);
+				_DataTableLoader('tbl_received',TableURL1,TableData1,[[2,'desc']]);
 				break;
 			}
 			case "tbl_cashposition_category":{

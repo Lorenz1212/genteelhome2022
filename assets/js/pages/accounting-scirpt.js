@@ -168,7 +168,18 @@ const month = ["January","February","March","April","May","June","July","August"
 
 				let sales_project_pending = $('.sales_project_pending_request');
 				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_project_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+
+				let other_purchased_total = $('.other_purchased_total');
+				(response.other_purchased_total != 0)?other_purchased_total.addClass('label label-rounded label-warning').text(response.other_purchased_total):other_purchased_total.removeClass("label label-rounded label-warning").text("");
+
+				let other_purchased_request = $('.other_purchased_request');
+				(response.other_purchased_request != 0)?other_purchased_request.addClass('label label-rounded label-warning').text(response.other_purchased_request):other_purchased_request.removeClass("label label-rounded label-warning").text("");
 				
+				let other_purchased_approved = $('.other_purchased_approved');
+				(response.other_purchased_approved != 0)?other_purchased_approved.addClass('label label-rounded label-warning').text(response.other_purchased_approved):other_purchased_approved.removeClass("label label-rounded label-warning").text("");
+
+
+
 				$('.sales_stocks_pending').text(response.sales_stocks_pending);
 				$('.sales_project_pending').text(response.sales_project_pending);
 				$('.sales_stocks_approved').text(response.sales_stocks_approved);
@@ -309,6 +320,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			}
 			case "data-purchased-inventory-request":{
 				KTDatatablesDataSourceAjaxClient.init('tbl_other_purchase_invetory');
+				_initCurrency_format(".amount");
 				$(document).ready(function() {
 					$(document).on("click","#view-request-form",function() {
 					 	let val = {id:$(this).attr('data-id')};
@@ -3481,7 +3493,6 @@ const month = ["January","February","March","April","May","June","July","August"
 	  	case "Modal_Other_Purchase_View":{
 	  		if(!response == false){
 	  				let total =0;
-	  				_initCurrency_format(".amount");
 	  			    $('.cash_fund').text(response.info.request_no);
 		  		    $('.requestor').text(response.info.requestor);
 		  		    $('.date_created').text(response.info.date_created);
@@ -3497,10 +3508,12 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    					  </tr>');
 		  		    		
 		  		    }
-		  		    $('.total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		  		        $('.total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	  		    		$('.purchase-button').show();
 	  		    		$('.purchase-cash-fund').hide();
-	  		    		$('.total_fund').text(response.fund.pettycash.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	  		    		if(response.fund){
+	  		    			$('.total_fund').text(response.fund.pettycash.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));	
+	  		    		}
 	  		    		$('.btn-request-submit').text('Submit').attr('data-status',1);
 		  		    	if(response.info.status == 'COMPLETED'){
 		  		    		$('.purchase-button').hide();
@@ -3516,8 +3529,8 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    		$('.status').text('Request').removeClass('text-primary text-success').addClass('text-warning');
 		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-success separator-primary').addClass('separator-warning');
 		  		    	}
+		  		    
 		  		    $('#view-purchased-request').modal('show');
-
 		  		}
 	  		break;
 	  	}
