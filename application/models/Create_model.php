@@ -571,7 +571,7 @@ class Create_model extends CI_Model{
     		$row = $query->row();
     		if(!$row->c_price){
     			 $data = array('c_price'=> $c_price);
-    			 $this->db->where('c_code',$id);
+    			 $this->db->where('id',$id);
 	     		 $this->db->update('tbl_project_color',$data);
     			 return 'success';
     		}else if($row->c_price == $c_price){
