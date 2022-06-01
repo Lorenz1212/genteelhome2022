@@ -402,6 +402,7 @@ var html;var _avatar;
 							KTDatatablesDataSourceAjaxClient.init('tbl_products');
 							_initCurrency_format('#amount-pallet')
 							_initCurrency_format('#amount');
+							_initCurrency_format('#c_price');
 							var avatar5 = new KTImageInput('kt_image_5');
 							avatar5.on('change', function(imageInput) {
 							   let action = $(this);
@@ -856,7 +857,6 @@ var html;var _avatar;
 	  		}
 	  		case "Modal_Web_Design_View":{
 		  		if(!response == false){
-		  			_initCurrency_format('#c_price')
 		  			$('#project_no').attr('data-id',response.row.project_no);
 		  			$('#title').val(response.row.title);
 		  			$('#c_code').attr('data-id',response.row.id);
