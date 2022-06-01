@@ -478,7 +478,7 @@ class Create_model extends CI_Model{
 
 	      $query1 = $this->db->select('*')->from('tbl_project_design')->where('id',$row->project_no)->get();
 	      $row1 = $query1->row();
-	      if(!$row1->d_status){
+	      if($row1->d_status == 'n/a'){
 	      	 $update = array('d_status' => 'DISPLAYED',
 	      					'date_display'=> date('Y-m-d'));
 	      	 $this->db->where('id',$row1->id);
