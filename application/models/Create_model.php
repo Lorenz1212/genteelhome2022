@@ -235,7 +235,7 @@ class Create_model extends CI_Model{
 	                 	$purchase_data = array('production_no'=>$value,
 				                'item_no'		   =>  $item_no,
 				                'quantity'         =>  $pur_quantitys[$i],
-				                'balance' 		=>  $pur_quantitys[$i],
+				                'balance' 		   =>  $pur_quantitys[$i],
 				                'status'           =>  1,
 				                'remarks'          =>  $pur_remarkss[$i],
 				                'material_type'    =>  $pur_types[$i],
@@ -268,16 +268,16 @@ class Create_model extends CI_Model{
 		       	}
 	 }
 	 function Create_Joborder_Request($project_no,$c_code,$unit,$type){
-	 		$value=$this->get_random_code('tbl_project', 'production_no', "JO", 10);        
-	    		$data = array('production_no'=>$value,
-	    					  'project_no'=>$this->encryption->decrypt($project_no),
-	    					  'c_code'=>$this->encryption->decrypt($c_code),
-	    					  'production'=>$this->user_id,
-	    					  'assigned'=>$this->user_id,
-	    					  'unit'=> $unit,
-	    					  'status'=>2,
-	    					  'type'=>$type,
-	    					  'date_created'=>date('Y-m-d H:i:s'));
+	 		$value=$this->get_random_code('tbl_project', 'production_no', "JO", 10);   
+    		$data = array('production_no'=>$value,
+    					  'project_no'=>$this->encryption->decrypt($project_no),
+    					  'c_code'=>$this->encryption->decrypt($c_code),
+    					  'production'=>$this->user_id,
+    					  'assigned'=>$this->user_id,
+    					  'unit'=> $unit,
+    					  'status'=>2,
+    					  'type'=>$type,
+    					  'date_created'=>date('Y-m-d H:i:s'));
 		 	$result = $this->db->insert('tbl_project',$data);
 		 	if($result){
 		 		return true;

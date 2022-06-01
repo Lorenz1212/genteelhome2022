@@ -25,11 +25,11 @@
 					<div class="card-header">
 					</div>
 					<div class="card-body">
-						<table class="table table-bordered table-hover table-checkable link" id="tbl_products" data-link="tbl_products" style="margin-top: 13px !important">
+						<table class="table table-bordered table-hover" id="tbl_products">
 							<thead>
 								<tr>
+									<th>ID</th>
 									<th>NO</th>
-									<th>IMAGE</th>
 									<th>TITLE</th>
 									<th>STATUS</th>
 									<th>ACTION</th>

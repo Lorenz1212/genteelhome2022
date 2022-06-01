@@ -48,6 +48,7 @@
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_design_project_approved" style="margin-top: 13px !important">
 								<thead>
 									<tr>
+										<th>ID</th>
 										<th>NO</th>
 										<th>TITLE</th>
 										<th>DATE</th>
@@ -60,6 +61,7 @@
 			               <table class="table table-bordered table-hover table-checkable link" id="tbl_design_project_request" data-link="tbl_design_project" style="margin-top: 13px !important">
 								<thead>
 									<tr>
+										<th>ID</th>
 										<th>NO</th>
 										<th>TITLE</th>
 										<th>DATE</th>
@@ -72,6 +74,7 @@
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_design_project_rejected" style="margin-top: 13px !important">
 								<thead>
 									<tr>
+										<th>ID</th>
 										<th>NO</th>
 										<th>TITLE</th>
 										<th>DATE</th>
@@ -104,7 +107,7 @@
 											<label class="col-xl-12 col-lg-12 col-form-label text-left">Image</label>
 											<div class="col-lg-12 col-xl-12">
 												<div class="image-input image-input-outline" id="design_image">
-													<div class="image-input-wrapper image-stocks"></div>
+													<div class="image-input-wrapper image-stocks-edit"></div>
 													<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 														<i class="fa fa-pen icon-sm text-muted"></i>
 														<input type="file" name="image" accept=".png, .jpg, .jpeg" />
@@ -127,7 +130,7 @@
 							    </div>
 					   		</div>
 							 <div class="form-group">
-								   <label>ITEM</label>
+								   <label>Project Title</label>
 								   <input class="form-control" name="title"/>
 						  	 </div>
 						   </div>
@@ -185,7 +188,7 @@
 							    </div>
 					   		</div>
 							 <div class="form-group">
-								   <label>ITEM</label>
+								   <label>Project Title</label>
 								   <input class="form-control" name="title"/>
 						  	 </div>
 						   </div>

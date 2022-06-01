@@ -29,14 +29,14 @@ var TableData;
 			//Accounting
 			case "tbl_products":{
 				TableURL = baseURL + 'datatable_controller/Web_Product_DataTable';
-				TableData =  [{data:'c_code'},{data:'image'},{data:'title'},{data:'status'},{data: 'action'}];
+				TableData =  [{data:'id',visible:false},{data:'c_code'},{data:'title'},{data:'status'},{data: 'action'}];
 				_DataTableLoader('tbl_products',TableURL,TableData,[[0,'desc']]);
 				break;
 			}
 			case "tbl_voucher":{
 				TableURL = baseURL + 'datatable_controller/Web_Vouncher_DataTable';
 				TableData = [{data:'no'},{data:'promo_code'},{data:'discount'},{data:'date_from'},{data:'date_to'},{data:'status'},{data:'action'}]; 
-				_DataTableLoader(view,TableURL,TableData,false);
+				_DataTableLoader(view,TableURL,TableData,[[4,'desc']]);
 				break;
 			}
 			case "tbl_shipping":{
@@ -48,7 +48,7 @@ var TableData;
 			case "tbl_testimony":{
 				TableURL = baseURL + 'datatable_controller/Web_Testimony_DataTable';
 				TableData = [{data:'no'},{data:'image'},{data:'name'},{data:'description'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_testimony',TableURL,TableData,false);
+				_DataTableLoader('tbl_testimony',TableURL,TableData,[[4,'desc']]);
 				break;
 			}
 		}	 
@@ -58,7 +58,6 @@ var TableData;
 	return {
 		//main function to initiate the module
 		init: function(link) {
-			var link = $('.link').attr('data-link');
 			_initView_Table(link)
 		},
 	};

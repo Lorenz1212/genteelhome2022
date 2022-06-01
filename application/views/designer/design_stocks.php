@@ -48,6 +48,7 @@
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_design_stocks_approved" style="margin-top: 13px !important">
 								<thead>
 									<tr>
+										<th>ID</th>
 										<th>NO</th>
 										<th>TITLE</th>
 										<th>DATE</th>
@@ -60,6 +61,7 @@
 			               <table class="table table-bordered table-hover table-checkable link" id="tbl_design_stocks_request" data-link="tbl_design_stocks" style="margin-top: 13px !important">
 								<thead>
 									<tr>
+										<th>ID</th>
 										<th>NO</th>
 										<th>TITLE</th>
 										<th>DATE</th>
@@ -72,6 +74,7 @@
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_design_stocks_rejected" style="margin-top: 13px !important">
 								<thead>
 									<tr>
+										<th>ID</th>
 										<th>NO</th>
 										<th>TITLE</th>
 										<th>DATE</th>

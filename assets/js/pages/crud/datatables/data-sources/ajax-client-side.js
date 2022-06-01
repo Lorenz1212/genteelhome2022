@@ -339,11 +339,11 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 			}
 			case "tbl_return_item_warehouse_superuser":{
 				let TableURL = baseURL + 'datatable_controller/Return_Item_Good_DataTable_Superuser';
-				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
+				let TableData = [{data:'no',visible:false},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_return_item_good',TableURL,TableData,[[ 5,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Rejected_DataTable_Superuser';
-				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
+				let TableData1 = [{data:'no',visible:false},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,[[ 5,'desc']]);
 				break;
 			}

@@ -1015,14 +1015,14 @@ var arrows;var item_v;var price;var special_option;
 					KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project');
 					_initAvatar('design_image');
 					_initAvatar('design_image_add');
-					$('input[name=image]').on('change',function(e){
+					$('#add-project-modal input[name=image]').on('change',function(e){
 					    var file, img;
 					    if ((file = this.files[0])) {
 					        img = new Image();
 					        var objectUrl =window.URL.createObjectURL(file);
 					        img.onload = function () {
 					        	if(this.width > 1000 && this.height > 1000){
-					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
+					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image_add > span').trigger('click');
 					        			});
 					        	}
 					        };img.src = objectUrl;
@@ -6627,9 +6627,10 @@ var arrows;var item_v;var price;var special_option;
 					$('.project_name').text(response.info.title);
 		  			$('.creator').text(response.info.creator);
 		  			$('.date_created').text(response.info.date_created);
-		  			$('.view-form-image').empty().append('<div class="col-lg-6"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/design/project_request/images/'+response.info.image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
-		                  <div class="col-lg-6"><a href="'+baseURL+'assets/images/design/project_request/docx/'+response.info.docs+'" target="_blank"><div class="bgi-no-repeat bgi-size-cover rounded min-h-100px tba_image  payment_slip" style="background-image: url('+baseURL+'assets/media/svg/files/pdf.svg);width: 100%;height: 150px;background-size: contain;background-position: center;"></div></a></div>\
+		  			$('.view-form-image').empty().append('<div class="col-lg-4"><div class=" tba_image "><img class="bgi-no-repeat bgi-size-cover rounded min-h-100px" id="myImg" src="'+baseURL+'assets/images/design/project_request/images/'+response.info.image+'" style="width: 100%;height: 150px;background-size: contain;background-position: center;" /></div></div>\
+		                  <div class="col-lg-4"><a href="'+baseURL+'assets/images/design/project_request/docx/'+response.info.docs+'" target="_blank"><div class="bgi-no-repeat bgi-size-cover rounded min-h-100px tba_image  payment_slip" style="background-image: url('+baseURL+'assets/media/svg/files/pdf.svg);width: 100%;height: 150px;background-size: contain;background-position: center;"></div></a></div>\
 		                  ');
+
 		  			$('#view-project').modal('show');
 				}
 				break;
@@ -6638,14 +6639,30 @@ var arrows;var item_v;var price;var special_option;
 				if(!response == false){
 					$('#edit-project-modal input[name=title]').attr('data-id',response.id);
 		  			$('#edit-project-modal input[name=title]').val(response.info.title);
-		  			$("#edit-project-modal .image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+		  			$("#edit-project-modal .image-stocks-edit").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
 		  			$('#edit-project-modal .valid-upload').val(response.info.docs);
 		  			$('#edit-project-modal input[name=docs]').on('change',function(e){
 		                    e.preventDefault();
 		                    $('.valid-upload').val(this.files[0].name);
 		               });
-		               $('#edit-project-modal #design_image > span').on('click',function(e){
-		               	$("#edit-project-modal .image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+		               $('#edit-project-modal input[name=image]').on('change',function(e){
+					    var file, img;
+					    if ((file = this.files[0])) {
+					        img = new Image();
+					        var objectUrl =window.URL.createObjectURL(file);
+					        img.onload = function () {
+					        	if(this.width > 1000 && this.height > 1000){
+					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){
+					        			$(".image-stocks-edit").attr('style',"background-image:url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+					        			$('#edit-stocks-modal input[name=image]').val(" ");
+					        			});
+					        		
+					        	}
+					        };img.src = objectUrl;
+					    }
+					});
+					$('#design_image > span').on('click',function(e){
+		               	$(".image-stocks-edit").attr('style',"background-image:url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
 		               });
 		  			$('#edit-project-modal').modal('show');
 	  			}
