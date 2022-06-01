@@ -20,6 +20,72 @@ class Create_model extends CI_Model{
 	        $this->user_id = $this->appinfo->admin('_ADMIN_ID');
 	      }
     }
+ 
+	private function move_to_folder($newimage,$tmp,$path){
+        $target_file = $path.basename($newimage);
+        return move_uploaded_file($tmp, $target_file);
+    }
+  	private function Get_Image_Code($table, $column, $key, $length, $image){
+      $code = $this->get_code($key, $length);
+      if($code){
+        $arr_image = explode('.', $image);
+        $fileActualExt = strtolower(end($arr_image));
+        $newimage = $code."-".str_replace(array( '-', '_', ' ', ',' , '(', ')'), '', $arr_image[0]).".". $fileActualExt;
+        $check = $this->Check_Code($table, $column, $newimage);
+        while ($check){
+          $code = $this->get_code($key, $length);
+          if($code){
+            $arr_image = explode('.', $image);
+            $fileActualExt = strtolower(end($arr_image));
+            $newimage = $code."-".str_replace(array( '-', '_', ' ', ',' , '(', ')'), '', $arr_image[0]).".". $fileActualExt;
+            $check = $this->Check_Code($table, $column, $newimage);
+          }else{
+            return false;
+          }
+        }
+      }else{
+        return false;
+      }
+      return $newimage;
+   }
+	  public function get_code($key, $length) {
+	    return  $key.$this->Ac_Code($length);
+	  }
+	  private function Ac_Code($codelength) { 
+	    $random="";srand((double)microtime()*1000000);
+	    $data = "ABCDEFGHJKLMNPQRSTUVWXYZ"; 
+	    $data .= "123456789"; 
+	    $data .= "54321ABCXVXV6789";
+	    for($i = 0; $i < $codelength; $i++) {
+	      $random .= substr($data, (rand()%(strlen($data))), 1);
+	    }
+	    return $random; 
+	  }
+	 private function get_random_code($table, $column, $key, $length){
+	  	   $code = $this->get_code($key, $length);
+	       if($code){
+	           $check = $this->Check_Code($table, $column, $code);
+	            while ($check){
+				    $code = $this->get_code($key, $length);
+				    if($code){
+				   	  $check = $this->Check_Code($table, $column, $code);
+				    }else{
+		              return false;
+		            }
+				}
+	        }else{
+	        	return false;
+	        }
+	        return $code;
+	}
+	private function Check_Code($table, $column, $code){
+        $sql="SELECT ".$column." FROM ".$table." WHERE ".$column."='$code'";
+		if($this->db->query($sql)->num_rows() >= 1){ 
+        	return true;
+	    }else{
+        	return false;
+        }
+	}
 	private function move_to_folder_docs($image,$tmp,$path){
          $newfilename=  'DOCS'.date('YmdHis').'-'.preg_replace('/[@\;\" "\()]+/', '', $image);
          $path_folder = $path.$newfilename;
@@ -89,141 +155,8 @@ class Create_model extends CI_Model{
 	           }
   		 }
   	}
-    private function get_code($tbl,$code){
-  		$query = $this->db->select('id')->from($tbl)->order_by('id','DESC')->limit(1)->get();
-        $row_num = $query->num_rows();
-        if($row_num > 0) {if ($row = $query->row()) {$value2 = intval($row->id) + 1;
-        	return $code.sprintf('%03s', $value2);}}else {return $code."001";}
-  	}
-  	private function logs($log_type,$log_action,$log_table,$message){
-  	   $user_type = $this->session->userdata('page');
-  	   $id = $this->session->userdata('id');
-  	   $data = array('log_type'=>$log_type,
-  					'user_type'=>$user_type,
-  					'user_id'=>$id,
-  					'log_location'=>$log_action,
-  					'log_table'=>$log_table,
-  					'message'=>$message,
-  					'show_log'=>1,
-  					'date_created'=>date('Y-m-d H:i:s'));
-  	   $this->db->insert('tbl_logs',$data);
-  	}
-	function Create_Design_Stocks($title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){  
-		 if($image){$files1 = $this->move_to_folder1('PRODUCT',$image,$tmp,$path_image);
-		 	if($files1 == false){$images = false;}else{$images = $files1;}
-		 }else{$images="default.jpg";}
-
-	   	if($color_image){$files2 = $this->move_to_folder1('PALLET',$color_image,$color_tmp,$path_color);
-	    	if($files2 == false){$color_images = false;}else{$color_images = $files2;}
-	    }else{$color_images="default.jpg";}
-   	
-   		if($images == false){
-   			$message = 'Image is incorrect format';
-   			$status = 'error';
-   		}else if($color_image == false){
-   			$message = 'Pallet Color is incorrect format';
-   			$status = 'error';
-   		}else{
-   			if($docs){$docs_file = $this->move_to_folder_docs('STOCKS'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
-   			$project_no = $this->get_code('tbl_project_design','PCODE');
-	     	$value = $this->get_code('tbl_project_color','CCODE');
-	   		$data = array('project_no'=> $project_no,
-		                  'title'=> $title,
-		                  'type'=> 1,
-						  'date_created'=> date('Y-m-d H:i:s'));
-	   		$this->db->insert('tbl_project_design',$data);
-	   		$last_id = $this->db->insert_id();
-	   		$data = array('designer' => $this->user_id,
-	   			'project_no' => $last_id,
-	   			'c_code'  => $value,
-	   			'c_name'=> $c_name,
-	   			'c_image' => $color_images,
-	   			'image'=> $images,
-	   			'docs'=> $docs_file,   					  			
-	   			'status'=> 1,
-	   			'type'=> 1,
-	   			'date_created'=>date('Y-m-d H:i:s'),
-	   			'created_by'=> $this->user_id);
-	   		$this->db->insert('tbl_project_color',$data);
-	   		$this->logs('design-stocks','Create Design For Stock','tbl_project_design & tbl_project_color','ITEM:'.$title.'<b>PALLET COLOR: '.$c_name);
-   			$message = 'ok';
-   			$status ='create';
-   		}
-   		$data_response = array('status' => $status, 'message' => $message);
-   		return $data_response;
-   }
-   function Create_Design_Existing($project_no,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs){    
-   	  	$id = $this->encryption->decrypt($project_no);
-   		if($image){$files1 = $this->move_to_folder1('PRODUCT',$image,$tmp,$path_image);
-		 	if($files1 == false){$images = false;}else{$images = $files1;}
-		 }else{$images="default.jpg";}
-
-	   	if($color_image){$files2 = $this->move_to_folder1('PALLET',$color_image,$color_tmp,$path_color);
-	    	if($files2 == false){$color_images = false;}else{$color_images = $files2;}
-	    }else{$color_images="default.jpg";}
-	   		if($images == false){
-	   			$message = 'Image is incorrect format';
-	   			$status = 'error';
-	   		}else if($color_image == false){
-	   			$message = 'Pallet Color is incorrect format';
-	   			$status = 'error';
-	   		}else{
-	   			if($docs){$docs_file = $this->move_to_folder_docs('STOCKS'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
-	   			$value = $this->get_code('tbl_project_color','CCODE');
-		   		$data = array('designer' => $this->user_id,
-		   					  'project_no' => $id,
-		   					  'c_code' => $value,
-		   					  'c_name'=> $c_name,
-		                      'c_image'  => $color_images,
-		   					  'image'  => $images,
-		   					  'docs'  => $docs_file,
-		                      'status'  => 1,
-		                      'type' => 1,
-		   					  'date_created'=> date('Y-m-d H:i:s'),
-		   					  'created_by'=> $this->user_id);
-	   			$this->db->insert('tbl_project_color',$data);
-	   			$message = 'ok';
-	   			$status ='create';
-	   			$this->logs('design-existing-stocks','Create New Pallet Color','tbl_project_color','PALLET COLOR: '.$c_name);
-	   		}
-   		$data_response = array('status' => $status, 'message' => $message);
-   		return $data_response;
-   }
-   function Create_Design_Project($title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs){  
-		if($image){$files = $this->move_to_folder4('PROJECT',$image,$tmp,$path_image,500,500);
-			if($files == false){$images = false;
-			}else{$images = $files;}
-		}else{$images="default.jpg";}
-    	if($images == false){
-   			$message = 'Image is incorrect format';
-   			$status = 'error';
-   		}else{
-   			if($docs){$docs_file = $this->move_to_folder3('PROJECT'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
-   			$project_no = $this->get_code('tbl_project_design','PCODE');
-	   		$data = array('project_no'=> $project_no,
-		                    'title'  => $title,
-		                    'type'=> 2,
-		   					'date_created' => date('Y-m-d H:i:s'));
-	   		$this->db->insert('tbl_project_design',$data);
-	   		$last_id = $this->db->insert_id();
-	   		$data = array('designer'=> $this->user_id,
-	   					  'project_no'=> $last_id,
-	   					  'image' => $images,
-	   					  'docs' => $docs_file,   					  			
-	                      'status' => 1,
-	                      'type' => 2,
-	   					  'date_created'=>  date('Y-m-d H:i:s'),
-	   					  'created_by'=> $this->user_id);
-	   		$this->db->insert('tbl_project_color',$data);
-	   		$this->logs('design-project','Create Design For Project','tbl_project_design','ITEM: '.$title);
-	   		$message = 'ok';
-   			$status = 'create';
-   		}
-   		$data_response = array('status'=> $status,'message'=>$message);
-   		return $data_response;
-   }
    	 function Create_Joborder_Stocks($project_no,$c_code,$qty,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
-	 		 $value = $this->get_code('tbl_project','JO'.date('Ymd').'-');
+   	 		    $value=$this->get_random_code('tbl_project', 'production_no', "JO", 10);
 	 		 	$pur_items = explode(',', $pur_item);
 	 		 	$pur_quantitys = explode(',', $pur_quantity);
 	 		 	$pur_remarkss = explode(',', $pur_remarks);
@@ -243,13 +176,13 @@ class Create_model extends CI_Model{
     				     		$item_no = $row->id;
     				     }
 	                 	$purchase_data = array('production_no'=>$value,
-				                'item_no'		   =>  $item_no,
-				                'quantity'         =>  $pur_quantitys[$i],
-				                'balance' 		   =>  $pur_quantitys[$i],
-				                'status'           =>  1,
-				                'remarks'          =>  $pur_remarkss[$i],
-				                'material_type'    =>  $pur_types[$i],
-				                'date_created'     =>  date('Y-m-d H:i:s'));
+								                'item_no'		   =>  $item_no,
+								                'quantity'         =>  $pur_quantitys[$i],
+								                'balance' 		   =>  $pur_quantitys[$i],
+								                'status'           =>  1,
+								                'remarks'          =>  $pur_remarkss[$i],
+								                'material_type'    =>  $pur_types[$i],
+								                'date_created'     =>  date('Y-m-d H:i:s'));
 	        			$this->db->insert('tbl_purchasing_project',$purchase_data);
 				    }
 			    }
@@ -280,7 +213,7 @@ class Create_model extends CI_Model{
 		       	}
 	 }
 	 function Create_Joborder_Project($project_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
-	 		   $value = $this->get_code('tbl_project','JO'.date('Ymd').'-');
+	 	        $value=$this->get_random_code('tbl_project', 'production_no', "JO", 10);
 	 		 	$pur_items = explode(',', $pur_item);
 	 		 	$pur_quantitys = explode(',', $pur_quantity);
 	 		 	$pur_remarkss = explode(',', $pur_remarks);
@@ -334,8 +267,8 @@ class Create_model extends CI_Model{
        				 $this->db->insert('tbl_material_project',$material_data);
 		       	}
 	 }
-	 function Create_Joborder_Request($project_no,$c_code,$unit,$type){        
-	    	$value = $this->get_code('tbl_project','JO'.date('Ymd').'-');
+	 function Create_Joborder_Request($project_no,$c_code,$unit,$type){
+	 		$value=$this->get_random_code('tbl_project', 'production_no', "JO", 10);        
 	    		$data = array('production_no'=>$value,
 	    					  'project_no'=>$this->encryption->decrypt($project_no),
 	    					  'c_code'=>$this->encryption->decrypt($c_code),
@@ -375,7 +308,7 @@ class Create_model extends CI_Model{
      }
       function Create_Purchase_Request($production_no,$item,$quantity,$remarks){
 	 			  for($i=0; $i<count($item);$i++){
-                 $items = strtoupper($item[$i]);
+                 	$items = strtoupper($item[$i]);
 	               $query = $this->db->select('*')->from('tbl_materials')->where('item',$items)->get();
                  $row = $query->row();
                  if(!$row){
@@ -424,7 +357,7 @@ class Create_model extends CI_Model{
        		}  
 	 }
 	 function Create_RawMaterial($item,$unit,$price){
-	  $value = $this->get_code('tbl_materials','RMCODE-');
+	  $value=$this->get_random_code('tbl_materials', 'item_no', "RAWMATS", 5);
       $data = array('user_id' 			=> $this->user_id,
       	 		    'item_no' 			=> $value,
                     'item'    			=> $item,
@@ -461,7 +394,7 @@ class Create_model extends CI_Model{
       }
     }
     function Create_Other_Matrials_Request($item,$quantity,$remarks,$type){
-    	 $mr_no = date('YmdHis');
+    	 $mr_no=$this->get_random_code('tbl_materials', 'item_no', "MR", 8);
     	 $items = explode(',', $item);
 		 $quantities = explode(',', $quantity);
 		 $remarkss = explode(',', $remarks);
@@ -480,48 +413,23 @@ class Create_model extends CI_Model{
     	 return true;
     }
 
-    function Create_Purchase_Request_Stocks($item,$quantity,$remarks,$amount,$unit){
-		        $value = $this->get_code('tbl_request_id','RMPR-'.date('Ymd'));
-	    		$insert = array('request_id' => $value,
-								'purchaser'  => $this->user_id,
-								'status'	  => 'PENDING',
-								'date_created'=>date('Y-m-d H:i:s'));
-	    		$this->db->insert('tbl_request_id',$insert);
-    	      for($i=0; $i<count($item);$i++){
-	 				if($remarks[$i] == 'Raw Material'){
-							$type = 'rawmats';
-					}else if($remarks[$i] == 'Office & Janitorial Supplies'){
-							$type = 'office';
-					}else if($remarks[$i] == 'Production Supplies/Spare Parts'){
-							$type = 'production';
-					}
-					$amounts = floatval(preg_replace('/[^\d.]/', '', $amount[$i]));
-    	 			$data = array('request_id'=> $value,
-								'purchaser' => $this->user_id,
-								'item' => $item[$i],
-								'qty'=> $quantity[$i],
-								'balance'=> $quantity[$i],
-								'amount'=> $amounts,
-								'unit'=> $unit[$i],
-								'remarks' => $type,
-								'status'=> 'PENDING',
-								'date_created'=> date('Y-m-d H:i:s'));
-    	 		 $this->db->insert('tbl_purchase_stocks',$data);
-    	 }
-    }
 
 
     //WebModifier
     function Create_Web_Banner($type,$image,$tmp,$path_image){
-    		if($image){$files1 = $this->move_to_folder4('WEBBANNER',$image,$tmp,$path_image,1600,1200);
-			 	if($files1 == false){$images = false;}else{$images = $files1;}
+    		if($image){
+    			$files1 = $this->move_to_folder4('WEBBANNER',$image,$tmp,$path_image,1600,1200);
+			 	if($files1 == false){
+			 		$images = false;
+			 	}else{
+			 		$images = $files1;
+			 	}
 			 }else{$images="default.png";}
-
 	    		if($images == false){
 		    		$status = 'error';
 		    		$message = 'Image is incorrect format';
 	    		}else{
-	    			 $value = $this->get_code('tbl_website_banner','WEBBANNER');
+	    			$value=$this->get_random_code('tbl_website_banner', 'web_no', "WEBBANNER", 8);
 		    		if($type == 'none'){
 			    	}else{
 			    		$update = array('type' => 'none');
@@ -541,17 +449,17 @@ class Create_model extends CI_Model{
     	
     }
     function Create_Web_SubCategory($cat_id,$sub_name){
-    	  $sub_names = strtoupper($sub_name);
-    	  $query = $this->db->select('*')->from('tbl_category_sub')->where('sub_name',$sub_names)->get();
-	    	$row = $query->row();
-	    	if($query !== FALSE && $query->num_rows() > 0){
-	    		return 'error';
-	    	}else{
-	    		$data = array('cat_id' 		=> $cat_id,
-	    							    'sub_name' 	=> $sub_names);
+    	 $sub_names = strtoupper($sub_name);
+    	 $query = $this->db->select('*')->from('tbl_category_sub')->where('sub_name',$sub_names)->get();
+    	$row = $query->row();
+    	if($query !== FALSE && $query->num_rows() > 0){
+    		return 'error';
+    	}else{
+    		$data = array('cat_id' => $cat_id,
+    					'sub_name' => $sub_names);
 	      	$this->db->insert('tbl_category_sub',$data);
 	      	return 'success';
-	    	}	
+    	}	
     }
     function Create_ProductCategory($sub_id,$id){
     	 $query = $this->db->select('*')->from('tbl_category_sub')->where('id',$sub_id)->get();
@@ -602,7 +510,8 @@ class Create_model extends CI_Model{
 	    	 		if($row1->count == 15){
 	    	 			   $statu = 'maximum';
 	    	 		}else{
-				        if($image){$images = $this->move_to_folder4('GALLERY',$image,$tmp,$path_image,800,800);
+				        if($image){
+				        	$images = $this->move_to_folder4('GALLERY',$image,$tmp,$path_image,800,800);
 				        	$data = array('project_no' => $row->project_no,
 						    	 		'c_code'=> $row->c_code,
 							    		'images'=> $images);
@@ -612,14 +521,15 @@ class Create_model extends CI_Model{
 			    		}
 	    	 		}
 		    	}else{
-		    			if($image){$images = $this->move_to_folder4('GALLERY',$image,$tmp,$path_image,800,800);
-		    					$data = array('project_no' => $row->project_no,
-					    	 				'c_code'=> $row->c_code,
-						    				'images' => $images);
-				 				 $this->db->insert('tbl_project_image',$data);
-				 				 $last_id = $this->db->insert_id();
-		    					 $status = 'success';
-		    			}
+	    			if($image){
+	    					$images = $this->move_to_folder4('GALLERY',$image,$tmp,$path_image,800,800);
+	    					$data = array('project_no' => $row->project_no,
+				    	 				  'c_code' =>$row->c_code,
+					    				  'images' =>$images);
+			 				 $this->db->insert('tbl_project_image',$data);
+			 				 $last_id = $this->db->insert_id();
+	    					 $status = 'success';
+	    			}
 		    	}	
 				$json = array('status'=>'success','image' => $images,'id' => $last_id);
 		    	return $json;
@@ -716,8 +626,8 @@ class Create_model extends CI_Model{
 	   			}
 	   		}else{
 	   			if($docs){$docs_file = $this->move_to_folder3('TEARSHEET'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
-	   			$project_no = $this->get_code('tbl_project_design','PCODE');
-		        $value = $this->get_code('tbl_project_color','CCODE');
+	   			$project_no=$this->get_random_code('tbl_project_design', 'project_no', "STXID", 8);
+				$value=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
 		   		$data = array('project_no'    => $project_no,
 			                  'title'         => $title,
 			                  'tearsheet'	  => $docs_file,
@@ -765,7 +675,7 @@ class Create_model extends CI_Model{
 	   			}
    		}else{
    			$id = $this->encryption->decrypt($project_no);
-   			$value = $this->get_code('tbl_project_color','CCODE');
+			$value=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
 	   		$data = array('designer'      => $this->user_id,
 	   					  'project_no'    => $this->encryption->decrypt($project_no),
 	   					  'c_code'    	  => $value,
@@ -943,7 +853,6 @@ class Create_model extends CI_Model{
 		 $images="";
         if($image){
         	$images = $this->move_to_folder4('INSPECTION',$image,$tmp,$path_image,500,500);
-        	$value = $this->get_code('tbl_request_id','INSXID'.date('Ymd'));
         	$data = array('production_no' =>$production_no,
         				  'production'=>$this->user_id,
 			    		  'images'=> $images,
@@ -980,7 +889,7 @@ class Create_model extends CI_Model{
     }
    
      function Create_Salesorder_Stocks($date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end){
-    	$so_no = $this->get_code('tbl_salesorder_stocks','SO-FS'.date('Ymd'));
+     	$so_no=$this->get_random_code('tbl_salesorder_stocks', 'so_no', "SOFS", 8);
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
     	if(!$row){
     		$c_no = $this->get_code('tbl_salesorder_customer','CN'.date('Ymd'));
@@ -1028,7 +937,7 @@ class Create_model extends CI_Model{
     	}
     }
     function Create_Salesorder_Project($project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end){
-    	$so_no = $this->get_code('tbl_salesorder_project','SO-FP'.date('Ymd'));
+    	$so_no=$this->get_random_code('tbl_salesorder_project', 'so_no', "SOFP", 8);
     	$row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$customer)->get()->row();
     	if(!$row){
     		$c_no = $this->get_code('tbl_salesorder_customer','CN'.date('Ymd'));
@@ -1109,7 +1018,7 @@ class Create_model extends CI_Model{
     	return true;
     }
      function Create_Request_Purchase($item_no,$item,$qty,$type,$amount){
-     	$trans_no = $this->get_code('tbl_other_material_p_header','TNXPR'.date('Ymd'));
+     	$trans_no=$this->get_random_code('tbl_other_material_p_header', 'trans_no', "TNXPR", 8);
      	$this->db->insert('tbl_other_material_p_header',array('request_no'=>$trans_no,'purchaser'=>$this->user_id,'date_created'=>date('Y-m-d H:i:s')));
      	$last_id =$this->db->insert_id();	
 		foreach($item_no as $key => $value){
@@ -1182,7 +1091,7 @@ class Create_model extends CI_Model{
     	}else{
 				 $row_m = $this->db->select('*')->from('tbl_materials')->where('item',$special)->get()->row();
 			     if(!$row_m){
-			     	$new_no = $this->get_code('tbl_materials','RMCODE-');
+			     	$new_no=$this->get_random_code('tbl_materials', 'item_no', "RAWMATS", 5);
 					$data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $special,'unit'=>$unit,'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
 					$this->db->insert('tbl_materials',$data);
 					$purchase_data = array('production_no'		  =>  $id,
@@ -1247,7 +1156,7 @@ class Create_model extends CI_Model{
 		}
     }
     function Create_Delivery_Receipt($id,$item,$qty,$so_no,$type){
-    	$dr_no = $this->get_code('tbl_sales_delivery_item','DRN'.date('Ymd'));
+    	$dr_no=$this->get_random_code('tbl_sales_delivery_item', 'dr_no', "DRN", 8);
 		if($type ==1){
 			$row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$so_no)->get()->row();
 			if($row){

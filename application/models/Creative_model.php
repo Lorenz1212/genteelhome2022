@@ -172,7 +172,7 @@ class Creative_model extends CI_Model{
 				}
 				if($image && $docs  && $pallet_image){
 					$project_no=$this->get_random_code('tbl_project_design', 'project_no', "STXID", 8);
-					$c_code=$this->get_random_code('tbl_project_design', 'project_no', "STXCODE", 8);
+					$c_code=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
 					$this->db->insert('tbl_project_design',array('project_no'=>$project_no,'title'=>$title,'type'=>1));
 					$last_id = $this->db->insert_id();
 					$data = array('designer'=> $this->user_id,

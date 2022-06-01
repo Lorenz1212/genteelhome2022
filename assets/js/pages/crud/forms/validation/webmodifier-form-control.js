@@ -148,28 +148,6 @@ var KTFormControls = function () {
                                                      
 		});
 	}	
-	var _DataTableLoader = async function(link,TableURL,TableData,url_link){
-		var table = $('#'+link);
-		table.DataTable().clear().destroy();
-		$.fn.dataTable.ext.errMode = 'throw';
-		table.DataTable({
-			destroy: true,
-			responsive: true,
-			info: true,
-			language: { 
-			 	infoEmpty: "No records available", 
-			 },
-			
-			serverSide:false,
-			ajax: {
-				url: TableURL,
-				type: 'POST',
-				datatype: "json",
-				data: {status:url_link},
-			},
-			columns:TableData,
-		});
-	}	
 
 	 var _FormSubmit = async function(action){
 	 	switch(action){
@@ -794,9 +772,7 @@ var KTFormControls = function () {
 	 		case "Create_Project_Title":
 	 		case "Create_Project_Status":{
 	 			_initToast('success','Saved Changes!');
-	 			let TableURL = baseURL + 'datatable_controller/Web_Product_DataTable';
-				let TableData =  [{data:'c_code'},{data:'image'},{data:'title'},{data:'status'},{data: 'action'}];
-				_DataTableLoader('tbl_products',TableURL,TableData,false);	
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_products');	
 	 			break;
 	 		}
 	 		case "Create_Web_Project_Gallery":{
@@ -837,9 +813,7 @@ var KTFormControls = function () {
 	 				_initToast('success','Saved Changes!');
 	 				$("#cimage_href").attr("href",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	 				$("#c_previous").val(response.c_image);
-		 			let TableURL = baseURL + 'datatable_controller/Web_Product_DataTable';
-					let TableData =  [{data:'c_code'},{data:'image'},{data:'title'},{data:'status'},{data: 'action'}];
-					_DataTableLoader('tbl_products',TableURL,TableData,false);	
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_products');
 	 			}
 	 			break;
 	 		}
@@ -887,18 +861,13 @@ var KTFormControls = function () {
 	 		case "Create_Web_Voucher":{
 	 			if(response.status == 'success'){
 	 			   _initToast('success','Created Successfully!');
-	 			   let TableURL = baseURL + 'datatable_controller/Web_Vouncher_DataTable';
-				   let TableData = [{data:'no'},{data:'promo_code'},{data:'discount'},{data:'date_from'},{data:'date_to'},{data:'status'},{data:'action'}]; 
-				   _DataTableLoader('tbl_voucher',TableURL,TableData,false);
-				   $('#requestModal').modal('hide');
+	 			   KTDatatablesDataSourceAjaxClient.init('tbl_voucher');
 	 			}
 	 			break;
 	 		}
 	 		case "Update_Shipping_Range":{
 	 			_initToast('success','Saved Changes!');
-	 			let TableURL = baseURL + 'datatable_controller/Web_Shipping_DataTable';
-				let TableData = [{data:'region'},{data:'shipping_range'},{data:'action'}]; 
-				_DataTableLoader('tbl_shipping',TableURL,TableData,false);
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_shipping');
 				 $('#requestModal').modal('hide');
 	 			break;
 	 		}
@@ -950,9 +919,7 @@ var KTFormControls = function () {
 	 			}else{
 	 				Swal.fire("Error!", 'Image is incorrect format!', "error");
 	 			}
-	 			let TableURL = baseURL + 'datatable_controller/Web_Testimony_DataTable';
-				let TableData = [{data:'no'},{data:'image'},{data:'name'},{data:'description'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_testimony',TableURL,TableData,false);
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_testimony');
 	 			break;
 	 		}
 	 		case "Create_Web_Finishproduct":{

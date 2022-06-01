@@ -4,7 +4,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Design For Project</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Design For Stocks</h2>
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
@@ -92,7 +92,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 			 <div class="modal-header">
-                <h5 class="modal-title">Create New Product</h5>
+                <h5 class="modal-title">Edit Product</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -107,7 +107,7 @@
 												<label class="col-xl-12 col-lg-12 col-form-label text-left">Image</label>
 												<div class="col-lg-12 col-xl-12">
 													<div class="image-input image-input-outline" id="design_image">
-														<div class="image-input-wrapper image-stocks" style="background-image: url(<?php echo base_url()?>assets/images/design/project_request/images/default.jpg)"></div>
+														<div class="image-input-wrapper image-stocks-edit" style=""></div>
 														<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 															<i class="fa fa-pen icon-sm text-muted"></i>
 															<input type="file" name="image" accept=".png, .jpg, .jpeg" />

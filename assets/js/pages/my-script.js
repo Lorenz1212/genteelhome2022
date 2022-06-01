@@ -945,14 +945,14 @@ var arrows;var item_v;var price;var special_option;
 					KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
 					_initAvatar('design_image');
 					_initAvatar('design_image_add');
-					$('input[name=image]').on('change',function(e){
+					$('#add-stocks-modal input[name=image]').on('change',function(e){
 					    var file, img;
 					    if ((file = this.files[0])) {
 					        img = new Image();
 					        var objectUrl =window.URL.createObjectURL(file);
 					        img.onload = function () {
 					        	if(this.width > 1000 && this.height > 1000){
-					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image > span.btn.btn-xs.btn-icon.btn-circle.btn-white.btn-hover-text-primary.btn-shadow').trigger('click');
+					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){$('#design_image_add > span').trigger('click');
 					        			});
 					        	}
 					        };img.src = objectUrl;
@@ -991,6 +991,7 @@ var arrows;var item_v;var price;var special_option;
 		                    e.preventDefault();
 		                    $('#add-stocks-modal .valid-uploadx').val(this.files[0].name);
 		               });
+
 		            
 		               $('body').delegate('.remarks-stocks','click',function(e){
 			                    e.preventDefault();
@@ -6590,15 +6591,32 @@ var arrows;var item_v;var price;var special_option;
 		  			$('#edit-stocks-modal input[name=title]').val(response.info.title);
 		  			$('#edit-stocks-modal input[name=pallet_name]').val(response.info.c_name);
 
-		  			$("#edit-stocks-modal .image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+		  			$("#edit-stocks-modal .image-stocks-edit").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
 		  			$("#edit-stocks-modal .pallet-image").attr("src", ""+baseURL+"assets/images/palettecolor/"+response.info.c_image+"");
 		  			$('#edit-stocks-modal .valid-upload').val(response.info.docs);
 		  			$('#edit-stocks-modal input[name=docs]').on('change',function(e){
 		                    e.preventDefault();
 		                    $('.valid-upload').val(this.files[0].name);
 		               });
-		               $('#edit-stocks-modal #design_image > span').on('click',function(e){
-		               	$("#edit-stocks-modal .image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+		               
+		               $('#edit-stocks-modal input[name=image]').on('change',function(e){
+					    var file, img;
+					    if ((file = this.files[0])) {
+					        img = new Image();
+					        var objectUrl =window.URL.createObjectURL(file);
+					        img.onload = function () {
+					        	if(this.width > 1000 && this.height > 1000){
+					        		Swal.fire("Warning!", "Sorry, this image doesn't look like the size we wanted. It's "+this.width+" x "+this.height+" but we require 500 x 500 size image.", "warning").then(function(){
+					        			$(".image-stocks-edit").attr('style',"background-image:url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
+					        			$('#edit-stocks-modal input[name=image]').val(" ");
+					        			});
+					        		
+					        	}
+					        };img.src = objectUrl;
+					    }
+					});
+					$('#design_image > span').on('click',function(e){
+		               	$(".image-stocks-edit").attr('style',"background-image:url("+baseURL+"assets/images/design/project_request/images/"+response.info.image+")");
 		               });
 		  			$('#edit-stocks-modal').modal('show');
 	  			}

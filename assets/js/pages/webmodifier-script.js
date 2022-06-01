@@ -196,27 +196,6 @@ var html;var _avatar;
                  }                                      
 		});	
 	}
-	var _DataTableLoader = async function(link,TableURL,TableData,val){
-		var table = $('#'+link);
-		$.fn.dataTable.ext.errMode = 'throw';
-		table.DataTable({
-			destroy: true,
-			responsive: true,
-			info: true,
-			language: { 
-			 	infoEmpty: "No records available", 
-			 },
-			
-			serverSide:false,
-			ajax: {
-				url: TableURL,
-				type: 'POST',
-				datatype: "json",
-				data: val,
-			},
-			columns:TableData,
-		});
-	}
 	var _ajaxloaderOption = async function(thisURL,type,val,sub){
 		  $.ajax({
 	             url: baseURL + thisURL,
@@ -420,6 +399,7 @@ var html;var _avatar;
 					}
 					case "data-product-list":{
 						$(document).ready(function() {
+							KTDatatablesDataSourceAjaxClient.init('tbl_products');
 							_initCurrency_format('#amount-pallet')
 							_initCurrency_format('#amount');
 							var avatar5 = new KTImageInput('kt_image_5');
@@ -433,13 +413,6 @@ var html;var _avatar;
 								   img.onload = function() {
 								      if(img.width>=360){
 								      	if(img.height >=360){
-								      		 swal.fire({
-											  title: 'Image successfully changed !',
-											  type: 'success',
-											  buttonsStyling: false,
-											  confirmButtonText: 'Awesome!',
-											  confirmButtonClass: 'btn btn-primary font-weight-bold'
-											 });
 								      		$('.image-add').css("background-image", "url(" + blob + ")");
 								      	 }else{
 								      		Swal.fire("Ops!","Please upload minimum 360x360 size", "info");
@@ -468,13 +441,6 @@ var html;var _avatar;
 								   img.onload = function() {
 								      if(img.width>=360){
 								      	if(img.height >=360){
-								      		 swal.fire({
-											  title: 'Image successfully changed !',
-											  type: 'success',
-											  buttonsStyling: false,
-											  confirmButtonText: 'Awesome!',
-											  confirmButtonClass: 'btn btn-primary font-weight-bold'
-											 });
 								      		$('.image-color').css("background-image", "url(" + blob + ")");
 								      	 }else{
 								      		Swal.fire("Ops!","Please upload minimum 300x300 size", "info");
@@ -663,6 +629,7 @@ var html;var _avatar;
 						break;
 					}
 					case "data-voucher-list":{
+						KTDatatablesDataSourceAjaxClient.init('tbl_voucher');
 						$(document).on("click","#form-request",function() {
 							var action = $(this).attr('data-action');
 							var id = $(this).attr('data-id');
@@ -685,6 +652,7 @@ var html;var _avatar;
 						break;
 					}
 					case "data-shipping":{
+						KTDatatablesDataSourceAjaxClient.init('tbl_shipping');
 						$(document).ready(function() {
 								$(document).on("click","#form-request",function() {
 								 	let id = $(this).attr('data-id');
@@ -697,6 +665,7 @@ var html;var _avatar;
 						break;
 					}
 					case "data-testimony":{
+						KTDatatablesDataSourceAjaxClient.init('tbl_testimony');
 						_initavatar_change('kt_image_5');
 						$(document).on('click','.btn-create',function(e){
 							e.preventDefault();

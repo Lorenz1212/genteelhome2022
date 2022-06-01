@@ -2,7 +2,7 @@
 var KTDatatablesDataSourceAjaxClient = function() {
 var TableURL;
 var TableData;
-	var _DataTableLoader = async function(link,TableURL,TableData,url_link){
+	var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 		var table = $('#'+link);
 		table.DataTable().clear().destroy();
 		$.fn.dataTable.ext.errMode = 'throw';
@@ -10,6 +10,7 @@ var TableData;
 			destroy: true,
 			responsive: true,
 			info: true,
+			order:order_by,
 			language: { 
 			 	infoEmpty: "No records available", 
 			 },
@@ -29,7 +30,7 @@ var TableData;
 			case "tbl_products":{
 				TableURL = baseURL + 'datatable_controller/Web_Product_DataTable';
 				TableData =  [{data:'c_code'},{data:'image'},{data:'title'},{data:'status'},{data: 'action'}];
-				_DataTableLoader('tbl_products',TableURL,TableData,false);
+				_DataTableLoader('tbl_products',TableURL,TableData,[[0,'desc']]);
 				break;
 			}
 			case "tbl_voucher":{
@@ -64,6 +65,6 @@ var TableData;
 
 }();
 
-jQuery(document).ready(function() {
-	KTDatatablesDataSourceAjaxClient.init();
-});
+// jQuery(document).ready(function() {
+// 	KTDatatablesDataSourceAjaxClient.init();
+// });

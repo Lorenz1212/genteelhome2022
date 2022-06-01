@@ -100,200 +100,6 @@ var KTFormControlsCreatives = function () {
 	}
 	var _InitView = function(form,id){
 		switch(form){
-			case "profile":{
-				 let validation_contact;
-			     let form_contact = KTUtil.getById('contact_info_form');
-			       validation_contact = FormValidation.formValidation(
-			      form_contact,{
-			        fields: {
-			           mobile: {
-			                     validators: {
-			                            notEmpty: {
-			                                message: 'Mobile number is  required'
-			                            },
-			                            digits: {
-			                                message: 'Mobile number can contain digits only'
-			                            },
-			                            stringLength: {
-			                                min: 6,
-			                                max: 10,
-			                                message: 'The mobile number must have at least 6 to 10 digits'
-			                            }
-			                        }
-			                    },
-			                    city: {
-			                        validators: {
-			                            regexp: {
-			                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
-			                                message: 'The city can only consist of alphabetical characters'
-			                            },
-			                            stringLength: {
-			                                max: 20,
-			                                message: 'You have reached your maximum limit of characters allowed'
-			                            }
-			                        }
-			                    },
-			        },
-
-			        plugins: {
-			          trigger: new FormValidation.plugins.Trigger(),
-			          bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-			        }
-			      }
-			    );
-			    $('#contact_info_form').on('submit',function(e){
-		            e.preventDefault();
-		            validation_contact.validate().then(function(status) {
-		                if (status == 'Valid') {
-		                    let formData = new FormData(form_contact);
-		                        formData.append("action", "save_user_profile");
-		                        formData.append("type", 'save_contact_info');
-		                        _ajaxForm(formData,'save_contact_info',false);
-		                }	
-	                });                
-	            });
-	            var validation_pass;
-			    var form_pass = KTUtil.getById('change_pass_form');
-			       validation_pass = FormValidation.formValidation(
-			      form_pass,{
-			        fields: {
-			          c_password: {
-			                        validators: {
-			                            notEmpty: {
-			                                message: 'The password is required'
-			                            }
-			                        }
-			                    },
-			                    n_password: {
-			                        validators: {
-			                            stringLength: {
-			                                min: 8,
-			                                message: 'The password must have at least 8 characters'
-			                            },
-			                            notEmpty: {
-			                                message: 'The password is required'
-			                            }
-			                        }
-			                    },
-			                    
-			                    v_password: {
-			                        validators: {
-			                            notEmpty: {
-			                                message: 'The password confirmation is required'
-			                            },
-			                            identical: {
-			                                compare: function() {
-			                                    return form.querySelector('[name="n_password"]').value;
-			                                },
-			                                message: 'The password and its confirm are not the same'
-			                            }
-			                        }
-			                    }
-			        },
-
-			        plugins: {
-			          trigger: new FormValidation.plugins.Trigger(),
-			          bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-			        }
-			      }
-			    );
-			    $('#change_pass_form').on('submit',function(e){
-		            e.preventDefault();
-		            validation_pass.validate().then(function(status) {
-		                if (status == 'Valid') {
-		                    let formData = new FormData(form_pass);
-		                        formData.append("action", "save_user_profile");
-		                        formData.append("type", 'save_change_pass');
-		                        _ajaxForm(formData,'save_change_pass',false);
-		                }	
-	                });                
-	            });
-	             var validation_personal;
-			     var form_personal = KTUtil.getById('personal_info_form');
-			       validation_personal = FormValidation.formValidation(
-			      form_personal,
-			      {
-			        fields: {
-			           fname: {
-			                        validators: {
-			                            notEmpty: {
-			                                message: 'First name is required'
-			                            },
-			                            regexp: {
-			                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
-			                                message: 'The first name can only consist of alphabetical characters'
-			                            },
-			                            stringLength: {
-			                                max: 20,
-			                                message: 'You have reached your maximum limit of characters allowed'
-			                            },
-			                            
-			                        }
-			                    },
-			                    lname: {
-			                        validators: {
-			                            notEmpty: {
-			                                message: 'Last name is required'
-			                            },
-			                            regexp: {
-			                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
-			                                message: 'The last name can only consist of alphabetical characters'
-			                            },
-			                            stringLength: {
-			                                max: 20,
-			                                message: 'You have reached your maximum limit of characters allowed'
-			                            }
-			                        }
-			                    },
-			                    mname: {
-			                        validators: {
-			                            regexp: {
-			                                regexp: /^[a-zA-ZÀ-ž-.\s]+$/,
-			                                message: 'The middle name can only consist of alphabetical characters'
-			                            },
-			                            stringLength: {
-			                                max: 20,
-			                                message: 'You have reached your maximum limit of characters allowed'
-			                            }
-			                        }
-			                    }
-			                },
-
-			        plugins: { //Learn more: https://formvalidation.io/guide/plugins
-			          trigger: new FormValidation.plugins.Trigger(),
-			          bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-			        }
-			      }
-			    );
-			      $('#personal_info_form').on('submit',function(e){
-		            e.preventDefault();
-		            validation_personal.validate().then(function(status) {
-		                if (status == 'Valid') {
-		                	alert(id)
-		                    let formData = new FormData(form_personal);
-		                        formData.append("action", "save_user_profile");
-		                        formData.append("type", 'save_personal_info');
-		                        _ajaxForm(formData,'save_personal_info',false);
-		                }	
-	                });                
-	            });
-				break;
-			}
 			case "form-design-project":{
 		        var form = KTUtil.getById('Update_Design_Project');
 		       	validation = FormValidation.formValidation(
@@ -411,6 +217,8 @@ var KTFormControlsCreatives = function () {
 		        );
 		        $('#add-project-modal').on('hidden.bs.modal', function () {
 				    validation_add.resetForm();
+				    $('#design_image_add').trigger('click');
+				    document.getElementById('Create_Design_Project').reset();
 				});
 				$('.btn-add-save').on('click',function(e){
 		            e.preventDefault();
@@ -499,6 +307,7 @@ var KTFormControlsCreatives = function () {
 		        );
 		        $('#edit-stocks-modal').on('hidden.bs.modal', function () {
 				    validation.resetForm();
+				    document.getElementById('Update_Design_Stocks').reset();
 				});
 				$('.btn-edit-save').on('click',function(e){
 		            e.preventDefault();
@@ -593,6 +402,9 @@ var KTFormControlsCreatives = function () {
 		            }
 		        );
 		        $('#add-stocks-modal').on('hidden.bs.modal', function () {
+		        	document.getElementById('Create_Design_Stocks').reset();
+		        	$('#design_image_add > span').trigger('click');
+		        	$('#blahx').attr('src',baseURL+'assets/images/design/project_request/images/default.jpg');
 				    validation_add.resetForm();
 				});
 				$('.btn-add-save').on('click',function(e){
@@ -667,6 +479,8 @@ var KTFormControlsCreatives = function () {
 		        );
 		        $('#add-stocks-existing-modal').on('hidden.bs.modal', function () {
 				    validation_existing.resetForm();
+				    $('#blahh').attr('src',baseURL+'assets/images/design/project_request/images/default.jpg');
+				    document.getElementById('Create_Design_Stocks_Existing').reset();
 				});
 				$('.btn-add-existing-save').on('click',function(e){
 		            e.preventDefault();

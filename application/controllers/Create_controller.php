@@ -7,47 +7,7 @@ class Create_controller extends CI_Controller
       parent::__construct();
       $this->load->model('create_model');
     }
-    public function Create_Design_Stocks(){
-        $title  = strtoupper( $this->input->post('title'));
-        $c_name = strtoupper($this->input->post('c_name'));
-        $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
-        $tmp    =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
-        $path_image = "assets/images/design/project_request/images/";
-        $color_image =  isset($_FILES["color"]["name"]) ? $_FILES["color"]["name"]: false;
-        $color_tmp   =  isset($_FILES["color"]["tmp_name"]) ? $_FILES["color"]["tmp_name"]:false;
-        $path_color  =  "assets/images/palettecolor/";
-        $docs  =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
-        $docs_tmp  =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
-        $path_docs =  "assets/images/design/project_request/docx/";
-        $data = $this->create_model->Create_Design_Stocks($title,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs);
-        echo json_encode($data);
-     }
-     public function Create_Design_Existing(){
-        $project_no = $this->input->post('project_no');
-        $c_name = strtoupper($this->input->post('c_name'));
-        $image =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
-        $tmp   =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]: false;
-        $path_image = "assets/images/design/project_request/images/";
-        $color_image =  isset($_FILES["color"]["name"]) ? $_FILES["color"]["name"]: false;
-        $color_tmp   =  isset($_FILES["color"]["tmp_name"]) ? $_FILES["color"]["tmp_name"]: false;
-        $path_color  =  "assets/images/palettecolor/";
-        $docs   =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]: false;
-        $docs_tmp =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]: false;
-        $path_docs =  "assets/images/design/project_request/docx/";
-        $data = $this->create_model->Create_Design_Existing($project_no,$c_name,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color,$docs,$docs_tmp,$path_docs);
-        echo json_encode($data);
-     }
-     public function Create_Design_Project(){
-        $title  = strtoupper( $this->input->post('title'));
-        $image      =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
-        $tmp        =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
-        $path_image = "assets/images/design/project_request/images/";
-        $docs       =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
-        $docs_tmp   =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
-        $path_docs  =  "assets/images/design/project_request/docx/";
-        $data =$this->create_model->Create_Design_Project($title,$image,$tmp,$path_image,$docs,$docs_tmp,$path_docs);
-        echo json_encode($data);
-     }
+   
     public function Create_Joborder_Stocks(){
         $project_no = $this->input->post('project_no');
         $c_code = $this->input->post('c_code');
@@ -167,16 +127,6 @@ class Create_controller extends CI_Controller
      }
       
     
-     public function Create_Purchase_Request_Stocks(){
-        $item = $this->input->post('item');
-        $quantity = $this->input->post('quantity');
-        $remarks = $this->input->post('remarks');
-        $amount = $this->input->post('amount');
-        $unit = $this->input->post('unit');
-        $this->create_model->Create_Purchase_Request_Stocks($item,$quantity,$remarks,$amount,$unit);
-        $data = array('status' => 'success');
-        echo json_encode($data);
-     }
        public function Create_Web_Banner(){
         $image  =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp    =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;

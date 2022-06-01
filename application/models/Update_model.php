@@ -21,13 +21,66 @@ class Update_model extends CI_Model
             $this->user_id = $this->appinfo->admin('_ADMIN_ID');
           }
     }
-
-    private function get_code($tbl,$code){
-        $query = $this->db->select('id')->from($tbl)->order_by('id','DESC')->limit(1)->get();
-        $row_num = $query->num_rows();
-        if($row_num > 0) {if ($row = $query->row()) {$value2 = intval($row->id) + 1;
-            return $code.sprintf('%03s', $value2);}}else {
-            return $code."001";}
+    private function Get_Image_Code($table, $column, $key, $length, $image){
+      $code = $this->get_code($key, $length);
+      if($code){
+        $arr_image = explode('.', $image);
+        $fileActualExt = strtolower(end($arr_image));
+        $newimage = $code."-".str_replace(array( '-', '_', ' ', ',' , '(', ')'), '', $arr_image[0]).".". $fileActualExt;
+        $check = $this->Check_Code($table, $column, $newimage);
+        while ($check){
+          $code = $this->get_code($key, $length);
+          if($code){
+            $arr_image = explode('.', $image);
+            $fileActualExt = strtolower(end($arr_image));
+            $newimage = $code."-".str_replace(array( '-', '_', ' ', ',' , '(', ')'), '', $arr_image[0]).".". $fileActualExt;
+            $check = $this->Check_Code($table, $column, $newimage);
+          }else{
+            return false;
+          }
+        }
+      }else{
+        return false;
+      }
+      return $newimage;
+   }
+      public function get_code($key, $length) {
+        return  $key.$this->Ac_Code($length);
+      }
+      private function Ac_Code($codelength) { 
+        $random="";srand((double)microtime()*1000000);
+        $data = "ABCDEFGHJKLMNPQRSTUVWXYZ"; 
+        $data .= "123456789"; 
+        $data .= "54321ABCXVXV6789";
+        for($i = 0; $i < $codelength; $i++) {
+          $random .= substr($data, (rand()%(strlen($data))), 1);
+        }
+        return $random; 
+      }
+     private function get_random_code($table, $column, $key, $length){
+           $code = $this->get_code($key, $length);
+           if($code){
+               $check = $this->Check_Code($table, $column, $code);
+                while ($check){
+                    $code = $this->get_code($key, $length);
+                    if($code){
+                      $check = $this->Check_Code($table, $column, $code);
+                    }else{
+                      return false;
+                    }
+                }
+            }else{
+                return false;
+            }
+            return $code;
+    }
+    private function Check_Code($table, $column, $code){
+        $sql="SELECT ".$column." FROM ".$table." WHERE ".$column."='$code'";
+        if($this->db->query($sql)->num_rows() >= 1){ 
+            return true;
+        }else{
+            return false;
+        }
     }
     private function move_to_folder1($image,$tmp,$path){
          $newfilename=  'IMG'.date('YmdHisu').'-'.preg_replace('/[@\;\" "\()]+/', '', $image);
@@ -606,7 +659,7 @@ class Update_model extends CI_Model
            $this->db->where('tbl_project',$data_r);
     }
     function Update_Approval_Inspection($production_no,$status,$remarks){
-        $value = $this->get_code('tbl_project_inspection','INSNO','-');
+        $value=$this->get_random_code('tbl_project_inspection', 'ins_no', "INSNO", 10);
         $data = array('ins_no'=>$value,
                       'status'=>$status,
                       'remarks'=> $remarks,
@@ -628,7 +681,7 @@ class Update_model extends CI_Model
         $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$id)->get()->row();
         if(!$query){
             if($action == 1){
-                  $value = $this->get_code('tbl_pettycash','CNXID'.date('Ymd'));
+                     $value=$this->get_random_code('tbl_pettycash', 'fund_no', "CNXID", 10);
                     $this->db->insert('tbl_pettycash',array('accounting'=> $this->user_id,
                                 'fund_no'       => $value,
                                 'pettycash'     => $cash,
@@ -689,7 +742,7 @@ class Update_model extends CI_Model
         $query = $this->db->select('*')->from('tbl_pettycash')->where('fund_no',$id)->get()->row();
         if(!$query){
             if($action == 1){
-                  $value = $this->get_code('tbl_pettycash','CNXID'.date('Ymd'));
+                    $value=$this->get_random_code('tbl_pettycash', 'fund_no', "CNXID", 10);
                     $this->db->insert('tbl_pettycash',array('accounting'=> $this->user_id,
                                 'fund_no'       => $value,
                                 'pettycash'     => $cash,
@@ -902,7 +955,7 @@ class Update_model extends CI_Model
             $this->db->where('id',$item_id);
             $this->db->update('tbl_cart_add',$data);
         }else if($action == 'READY'){
-            $value = $this->get_code('tbl_salesorder','SO'.date('Ymd'));
+            $value=$this->get_random_code('tbl_salesorder', 'so_no', "SOFS", 8);
             $data = array('so_no'  => $value,
                           'status' => 'COMPLETE',
                           'delivery_status' => 'READY TO DELIVER');
@@ -1340,7 +1393,7 @@ class Update_model extends CI_Model
                          $row = $query->row();
                          if(!$row){
                                 if($pur_types[$i] == 2){
-                                    $new_no = $this->get_code('tbl_materials','RMCODE-');
+                                    $new_no=$this->get_random_code('tbl_materials', 'item_no', "RAWMATS", 5);
                                     $data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
                                     $this->db->insert('tbl_materials',$data);
                                     $item_no = $this->db->insert_id();
@@ -1506,10 +1559,11 @@ class Update_model extends CI_Model
     function Update_Salesorder_Stocks($id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat){
         $rows = $this->db->select('u.*,s.*,s.id,CONCAT(u.firstname, " ",u.lastname) AS name,CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address')->from('tbl_cart_address as s')
         ->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.id',$this->encryption->decrypt($id))->get()->row();
-        $so_no = $this->get_code('tbl_salesorder_stocks','SO-FS'.date('Ymd'));
+         $so_no=$this->get_random_code('tbl_salesorder_stocks', 'so_no', "SOFS", 8);
+       
         $row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$rows->name)->get()->row();
         if(!$row){
-            $c_no = $this->get_code('tbl_salesorder_customer','CN'.date('Ymd'));
+            $c_no=$this->get_random_code('tbl_salesorder_customer', 'customer_no', "CUSTOMERXID", 5);
             $this->db->insert('tbl_salesorder_customer',array('customer_no'=>$c_no,
                                                              'fullname'=>$rows->name,
                                                              'email'=>$rows->email,
