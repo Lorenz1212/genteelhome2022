@@ -87,22 +87,20 @@
 	</div>
 </div>
 <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <h5 class="modal-title subject_update" id="exampleModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <div class="modal-body">
-            	<form id="Update_Customized_Request">
-	            	 <div class="form-group">
-					    <label>Subject <span class="text-danger">*</span></label>
-					    <input type="text" class="form-control" name="subject_update" disabled/>
-					  </div>
-	                  <div class="summernote1"></div>
-                  </form>
+            <div class="modal-body" style="height: 300px;">
+        		<div class="row">
+        			<div class="col">
+        				<div class="description"></div>
+        			</div>
+        		</div>
             </div>
             <div class="modal-footer">
                

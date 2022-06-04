@@ -459,29 +459,6 @@ var KTFormControls = function () {
 	 		      });
 	 		   	 break;
 	 		   }
-	 		   case "Update_Customized_Request_Approval":{
-	 		   $('body').delegate('.btn-request','click',function(e){
-	 					e.preventDefault();
-	 					let status = $(this).attr('data-status');
-	 					let id = $('input[name=subject_update]').attr('data-id');
-	 					Swal.fire({
-                                 title: "Are you sure you want to submit the request?",
-                                 text: "You won't be able to revert this",
-                                 icon: "warning",
-                                 confirmButtonText: "Submit!",
-                                 showCancelButton: true
-                             }).then(function(result) {
-                                 if (result.value) {
-                                   let formData = new FormData();
-                                       formData.append('id',id);
-                                       formData.append('status',status);
-                                    thisURL = baseURL + 'update_controller/Update_Customized_Approval_Request';
-                                    _ajaxForm(thisURL,"POST",formData,"Update_Customized_Approval_Request",false);
-                                 }
-                          });
-	 				});
-	 		   	break;
-	 		   }
 	 			case "Update_Pre_Order_Request":{
 	 				$('body').delegate('.btn-request','click',function(e){
 	 					e.preventDefault();
@@ -4836,28 +4813,7 @@ var KTFormControls = function () {
 	 		  	_initnotificationupdate();
 	 		 	break
 	 		 }
-	 		 case "Update_Customized_Approval_Request":{
-	 		 	if(response == 'A'){
-	 		 		_initToast('success','Request Approved');
-	 		 		let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Datatable';
-					let TableData1 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
-					$('#modal-form').modal('hide');
-	 		 	}else if(response == 'R'){
-	 		 		_initToast('error','Request Rejected');
-	 		 		let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Datatable';
-					let TableData2 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
-					$('#modal-form').modal('hide');
-	 		 	}else{
-	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
-	 		 	}
-	 		 	let TableURL = baseURL + 'datatable_controller/Customized_Request_Datatable';
-				let TableData = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
-	 		  	_initnotificationupdate();
-	 		 	break;
-	 		 }
+
 	 		 case "Update_Approval_Inquiry":{
 	 		 	if(response == 'A'){
 	 		 		_initToast('success','Request Approved');

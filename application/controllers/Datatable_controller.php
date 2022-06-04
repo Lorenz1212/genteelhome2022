@@ -703,18 +703,15 @@ class Datatable_controller extends CI_Controller
    }
 
    public function Customized_Request_Sales_Datatable(){
-      $id = $this->session->userdata('id');
-      $data = $this->datatable_model->Customized_Request_Sales_Datatable($id);
+      $data = $this->datatable_model->Customized_Request_Sales_Datatable();
       echo json_encode($data);
    }
    public function Customized_Approved_Sales_Datatable(){
-      $id = $this->session->userdata('id');
-      $data = $this->datatable_model->Customized_Approved_Sales_Datatable($id);
+      $data = $this->datatable_model->Customized_Approved_Sales_Datatable();
       echo json_encode($data);
    }
    public function Customized_Rejected_Sales_Datatable(){
-      $id = $this->session->userdata('id');
-      $data = $this->datatable_model->Customized_Rejected_Sales_Datatable($id);
+      $data = $this->datatable_model->Customized_Rejected_Sales_Datatable();
       echo json_encode($data);
    }
 
@@ -729,13 +726,11 @@ class Datatable_controller extends CI_Controller
       echo json_encode($data);
    }
    public function Pre_Order_Approved_Datatable(){
-      $id = $this->session->userdata('id');
-      $data = $this->datatable_model->Pre_Order_Approved_Datatable($id);
+      $data = $this->datatable_model->Pre_Order_Approved_Datatable();
       echo json_encode($data);
    }
    public function Pre_Order_Rejected_Datatable(){
-      $id = $this->session->userdata('id');
-      $data = $this->datatable_model->Pre_Order_Rejected_Datatable($id);
+      $data = $this->datatable_model->Pre_Order_Rejected_Datatable();
       echo json_encode($data);
    }
    public function Customized_Request_Datatable(){

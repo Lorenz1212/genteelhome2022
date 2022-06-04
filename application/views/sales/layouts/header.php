@@ -27,6 +27,6 @@
 		<!--end::Global Theme Styles-->
 		<!--begin::Layout Themes(used by all pages)-->
 		<!--end::Layout Themes-->
-		<link rel="shortcut icon" href="<?php echo base_url(); ?>assets/media/logos/favicon.ico" />
+		<link href="<?php echo base_url(); ?>assets/images/logo/logo.jpg" rel="shortcut icon"/>
 		<link href="<?php echo base_url(); ?>assets/css/pages/wizard/wizard-1.css" rel="stylesheet" type="text/css" />
 	</head>

@@ -1538,9 +1538,9 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Customized_Approval_Request($id,$status){
+    function Update_Customized_Approval_Request($id,$status,$remarks){
         $this->db->where('id',$this->encryption->decrypt($id));
-        $result =$this->db->update('tbl_customized_request',array('status'=>$status,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
+        $result =$this->db->update('tbl_customized_request',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
         if($result){
             return $status;
         }else{

@@ -3208,13 +3208,164 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-customer-customized-superuser":{
 				$(document).ready(function(){
-					  $('.summernote1').summernote({
-					     height: 300
-					  });
-					$(document).on("click","#form-request",function() {
+					KTDatatablesDataSourceAjaxClientCreative.init('tbl_customized');
+					 $('body').delegate('.view-details','click',function(e){
 					 	let thisUrl = 'modal_controller/Modal_Customized_View';
 						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Customized_View_Superuser");
-				     });
+				       });
+				      $('body').delegate('.btn-approved','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Do you want to move this form? Subject: "+element.attr('data-name'),
+			                          text: "You wont be able to revert this!",
+			                          icon: "warning",
+			                          showCancelButton: true,
+			                          confirmButtonText: "Yes, proceed!",
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      }).then(function(result) {
+			                          if (result.value){
+			                              let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Customized_Approval_Request';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status},"Update_Customized_Approval_Request");
+			                          } 
+			                      });
+			            });
+					 $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Customized_Approval_Request';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status,remarks:result.value},"Update_Customized_Approval_Request");
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+					 $('body').delegate('.btn-remarks','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Subject: "+element.attr('data-name')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
+
+				});
+				break;
+			}
+			case "data-pre-order-request":{
+				$(document).ready(function(){
+					KTDatatablesDataSourceAjaxClientCreative.init('tbl_preoder');
+				      $('body').delegate('.btn-approved','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Do you want to move this form? Subject: "+element.attr('data-name'),
+			                          text: "You wont be able to revert this!",
+			                          icon: "warning",
+			                          showCancelButton: true,
+			                          confirmButtonText: "Yes, proceed!",
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      }).then(function(result) {
+			                          if (result.value){
+			                              let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Customized_Approval_Request';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status},"Update_Customized_Approval_Request");
+			                          } 
+			                      });
+			            });
+					 $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+								 	let thisUrl = 'update_controller/Update_Customized_Approval_Request';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status,remarks:result.value},"Update_Customized_Approval_Request");
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+					 $('body').delegate('.btn-remarks','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Subject: "+element.attr('data-name')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
+
 				});
 				break;
 			}
@@ -3289,88 +3440,6 @@ var arrows;var item_v;var price;var special_option;
 	  		}
 	  		break;
 	  	}
-	  	case "Modal_Design_View":{
-	  		if(!response == false){
-	  			$('#project_no').text(response.project_no);
-	  			$('#title').val(response.title);
-	  			$('#c_code').text(response.c_code);
-	  			$('#c_name').val(response.c_name);
-	  			$('#unit').val(response.unit);
-	  			$("#projectno_href").attr("href",baseURL + 'gh/designer/project_update/'+btoa(response.c_code));
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-	  			$("#cimage_href").attr("href",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-	  			if(response.p_status == 'REQUEST'){
-	  				$('#button_status').html('<button type="button" id="REJECTED" class="btn btn-danger btn_rejected">REJECT</button>'
-	  									  +'<button type="button" id="APPROVED" class="btn btn-success btn_approved">APPROVE</button>');
-	  			}else{
-	  				$('#button_status').remove();
-	  			}
-	  			$("#update_href").click(function(){
-				  	 $(this).attr("href", baseURL+'gh/designer/project_request/'+btoa(response.c_code));
-				});
-
-	  		}
-	  		break;
-	  	}
-	  	case "Modal_Design_Stocks_View":{
-	  		if(!response == false){
-	  			$('input[name=title]').val(response.title);
-	  			$('input[name=title]').attr('data-image',response.image);
-	  			$('input[name=c_name]').val(response.c_name);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-	  			$(".image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$(".c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  			$('input[name="image_previous"]').val(response.image);
-	  			$('input[name="color_previous"]').val(response.c_image);
-	  			$('input[name="docs_previous"]').val(response.docs);
-	  			$(".image-stocks").css("background-image", "url("+baseURL+"assets/images/design/project_request/images/"+response.image+")");
-	  			$(".c-image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  		}
-	  		break;
-	  	}
-	  	case "Modal_Design_Stocks_Approval_View":{
-	  		if(!response == false){
-	  			$('input[name=title]').val(response.title);
-	  			$('input[name=c_name]').val(response.c_name);
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-	  			$("#cimage_href").attr("href",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-	  			if(response.status == 1){
-	  				$('.button_status').html('<button class="btn btn-danger btn_rejected" data-status="3">REJECT</button>\
-	  									<button class="btn btn-success btn_approved" data-status="2">APPROVE</button>');
-	  			}else{
-	  				$('.button_status').remove();
-	  			}
-
-	  		}
-	  		break;
-	  	}
-	  	case "Modal_Design_Project_Approval_View":{
-	  		if(!response == false){
-	  			$('input[name=title]').val(response.title);
-	  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-	  			if(response.status == 1){
-	  				$('.button_status').html('<button class="btn btn-danger btn_rejected" data-status="3">REJECT</button>\
-	  									<button class="btn btn-success btn_approved" data-status="2">APPROVE</button>');
-	  			}else{
-	  				$('.button_status').remove();
-	  			}
-
-	  		}
-	  		break;
-	  	}
-
 	  	//production
 	  	case "Modal_JobOrder_Request_View":{
 	  		if(!response == false){
@@ -6393,15 +6462,11 @@ var arrows;var item_v;var price;var special_option;
 	  	  break;
 	  	}
 	  	case "Modal_Customized_View_Superuser":{
-	  		$('input[name="subject_update"]').val(response.row.subject).attr('data-id',response.id);
-	  		$('.summernote1').summernote('disable');
-	  	  	$(".summernote1").summernote("code", response.row.description);
-	  	  	if(response.row.status == 'P'){
-	  	  	   $('#modal-form > div > div > div.modal-footer').html('<button type="button" class="btn btn-light-danger font-weight-bold btn-request" data-status="R">Reject</button>\
-               				 <button type="button" class="btn btn-light-success font-weight-bold btn-request"  data-status="A">Approve</button>');
-	  	  	}else{
-	  	  	   $('#modal-form > div > div > div.modal-footer').remove();
-	  	  	}
+	  		if(response !=false){
+	  			$('.subject_update').text(response.row.subject).attr('data-id',response.id);
+		  	  	$(".description").html(response.row.description);
+		  	  	$('#modal-form').modal('show');
+	  		}
 	  		break;
 	  	}
 	  	case "Modal_Inquiry_View":{
@@ -6546,6 +6611,20 @@ var arrows;var item_v;var price;var special_option;
 	  		}
 	  		break;
 	  	}
+	  	case "Update_Customized_Approval_Request":{
+ 		 	if(response == 'A'){
+ 		 		_initToast('success','Request Approved');
+				$('#modal-form').modal('hide');
+ 		 	}else if(response == 'R'){
+ 		 		_initToast('error','Request Rejected');
+				$('#modal-form').modal('hide');
+ 		 	}else{
+ 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+ 		 	}
+ 		 	KTDatatablesDataSourceAjaxClientCreative.init('tbl_customized');
+ 		  	_initnotificationupdate();
+ 		 	break;
+ 		 }
 
 	  }
 	}

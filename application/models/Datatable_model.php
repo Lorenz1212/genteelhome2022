@@ -3814,7 +3814,7 @@ class Datatable_model extends CI_Model{
      //sales
      function OnlineOrder_DataTable(){
        $data =array();   
-       $query = $this->db->select('s.*,u.*,s.id,s.type,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS customer')->from('tbl_cart_address as s')->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.status','REQUEST')->order_by('date_order','DESC')->get();
+       $query = $this->db->query("SELECT *,(SELECT CONCAT(firstname, ' ',lastname) FROM tbl_customer_online WHERE id=tbl_cart_address.customer) as customer,DATE_FORMAT(date_order, '%M %d %Y') as date_created FROM tbl_cart_address WHERE status='REQUEST'");
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-status="approved" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';  
@@ -3822,7 +3822,7 @@ class Datatable_model extends CI_Model{
                           'order_no'     => $row->order_no,
                           'customer'     => $row->customer,
                           'type'         => $row->type,
-                          'date_order'   => $row->date_created,
+                          'date_created'   => $row->date_created,
                           'action'       => $action);
 
             }  
@@ -3831,10 +3831,9 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
       function Preorder_DataTable(){
-        $data =array();    
-        $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
-            DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',1)->get();
+        $data =array();
+        $user_id = $this->user_id;
+        $query = $this->db->query("SELECT *,(SELECT CONCAT(d.title, ' (',c.c_name,')') FROM tbl_project_color c LEFT JOIN  tbl_project_design d ON d.id=c.project_no WHERE c.id=tbl_cart_pre_order.c_code) as title,DATE_FORMAT(date_created, '%M %d %Y') as date_created FROM tbl_cart_pre_order WHERE status=1 AND created_by='$user_id'");    
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                  if($row->status == 1){
@@ -3846,7 +3845,7 @@ class Datatable_model extends CI_Model{
                  }
                    $data[] = array(
                              'order_no'=>$row->order_no,
-                             'title' => $row->title.' ('.$row->c_name.')',
+                             'title' => $row->title,
                              'qty'=>$row->qty,
                              'date_created'=>$row->date_created,
                              'action'=> $status);
@@ -3856,16 +3855,16 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
      function Preorder_Request_DataTable(){
-        $data =array();    
-        $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
-            DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',1)->get();
+        $data =array();
+        $query = $this->db->query("SELECT *,
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_cart_pre_order.created_by) as requestor,
+            (SELECT CONCAT(d.title, ' (',c.c_name,')') FROM tbl_project_color c LEFT JOIN  tbl_project_design d ON d.id=c.project_no WHERE c.id=tbl_cart_pre_order.c_code) as title,DATE_FORMAT(date_created, '%M %d %Y') as date_created FROM tbl_cart_pre_order WHERE status=1");
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';  
                    $data[] = array(
                              'order_no'=>$row->order_no,
-                             'title' => $row->title.' ('.$row->c_name.')',
+                             'title' => $row->title,
                              'qty'=>$row->qty,
                              'date_created'=>$row->date_created,
                              'action'=> $action);
@@ -3875,15 +3874,16 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
      function Preorder_Approved_DataTable(){
-        $data =array();    
-        $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
-            DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',2)->get();
+        $data =array();
+        $user_id = $this->user_id;    
+        $query = $this->db->query("SELECT *,
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_cart_pre_order.created_by) as requestor,
+            (SELECT CONCAT(d.title, ' (',c.c_name,')') FROM tbl_project_color c LEFT JOIN  tbl_project_design d ON d.id=c.project_no WHERE c.id=tbl_cart_pre_order.c_code) as title,DATE_FORMAT(date_created, '%M %d %Y') as date_created FROM tbl_cart_pre_order WHERE status=2 AND update_by='$user_id'");
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                    $data[] = array(
                              'order_no'=>$row->order_no,
-                             'title' => $row->title.' ('.$row->c_name.')',
+                             'title' => $row->title,
                              'qty'=>$row->qty,
                              'date_created'=>$row->date_created);
                 }  
@@ -3892,15 +3892,16 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
      function Preorder_Cancelled_DataTable(){
-        $data =array();    
-        $query =  $this->db->select('*,i.id,i.status,i.c_code,i.qty, 
-            DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',3)->get();
+        $data =array();
+        $user_id = $this->user_id;
+        $query = $this->db->query("SELECT *,
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_cart_pre_order.created_by) as requestor,
+            (SELECT CONCAT(d.title, ' (',c.c_name,')') FROM tbl_project_color c LEFT JOIN  tbl_project_design d ON d.id=c.project_no WHERE c.id=tbl_cart_pre_order.c_code) as title,DATE_FORMAT(date_created, '%M %d %Y') as date_created FROM tbl_cart_pre_order WHERE status=3 AND update_by='$user_id'");
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                    $data[] = array(
                              'order_no'=>$row->order_no,
-                             'title' => $row->title.' ('.$row->c_name.')',
+                             'title' => $row->title,
                              'qty'=>$row->qty,
                              'date_created'=>$row->date_created);
                 }  
@@ -4039,28 +4040,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;  
      }
-       function Customized_Request_Sales_Datatable($id){
-         $data =array();    
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customized_request')->where('status','P')->where('created_by',$id)->order_by('date_created','DESC')->get();
-        if($query !== FALSE && $query->num_rows() > 0){
-           $s = 1; 
-           foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#customized-for-update"><i class="flaticon2-pen"></i></button>';  
-             $data[] = array(
-                      'no'           => $s,
-                      'subject'      => $row->subject,
-                      'date_created' => $row->date_created,
-                      'action'       => $action);
-                $s++;
-            }      
-         }
-         $json_data  = array("data" =>$data); 
-         return $json_data;  
-     }
-    function Customized_Approved_Sales_Datatable($id){
+       function Customized_Request_Sales_Datatable(){
         $data =array();    
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customized_request')->where('status','A')->where('created_by',$id)->order_by('latest_update','DESC')->get();
-        if($query !== FALSE && $query->num_rows() > 0){
+        $user_id = $this->user_id;
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created FROM tbl_customized_request WHERE status='P' AND created_by='$user_id'");
+        if($query){
            $s = 1; 
            foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#customized-for-update"><i class="flaticon2-pen"></i></button>';  
@@ -4075,10 +4059,11 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;  
      }
-       function Customized_Rejected_Sales_Datatable($id){
-         $data =array();    
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_customized_request')->where('status','R')->where('created_by',$id)->order_by('latest_update','DESC')->get();
-        if($query !== FALSE && $query->num_rows() > 0){
+    function Customized_Approved_Sales_Datatable(){
+        $data =array();    
+        $user_id = $this->user_id;
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created FROM tbl_customized_request WHERE status='A' AND created_by='$user_id'");
+        if($query){
            $s = 1; 
            foreach($query->result() as $row){
             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#customized-for-update"><i class="flaticon2-pen"></i></button>';  
@@ -4092,6 +4077,25 @@ class Datatable_model extends CI_Model{
          }
          $json_data  = array("data" =>$data); 
          return $json_data;  
+     }
+       function Customized_Rejected_Sales_Datatable(){
+        $data =array();    
+        $user_id = $this->user_id;
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created FROM tbl_customized_request WHERE status='R' AND created_by='$user_id'");
+        if($query){
+           $s = 1; 
+           foreach($query->result() as $row){
+            $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#customized-for-update"><i class="flaticon2-pen"></i></button>';  
+             $data[] = array(
+                      'no'           => $s,
+                      'subject'      => $row->subject,
+                      'date_created' => $row->date_created,
+                      'action'       => $action);
+                $s++;
+            }      
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
      }
 
 
@@ -4187,14 +4191,18 @@ class Datatable_model extends CI_Model{
     }
     function Pre_Order_Request_Datatable(){
         $data =array();    
-        $query =  $this->db->select('*,i.id,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',1)->order_by('i.date_created','DESC')->get();
+
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y') as date_created,
+         (SELECT CONCAT(d.title, ' (',c.c_name,')') FROM tbl_project_color c LEFT JOIN tbl_project_design d ON d.id=c.project_no WHERE c.id=tbl_cart_pre_order.c_code) as title,
+         (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_cart_pre_order.created_by) as requestor
+         FROM tbl_cart_pre_order WHERE status=1");
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
                   $action = '<button type="button" class="btn btn-sm btn-light-success btn-icon  btn-request" mr-2" data-status="2" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-check-mark"></i></button>
                   <button type="button" class="btn btn-sm btn-light-danger btn-icon btn-request" data-status="3" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-cancel-music"></i></button>';    
                    $data[] = array(
                              'order_no'=>$row->order_no,
-                             'title' => $row->title.' ('.$row->c_name.')',
+                             'title' => $row->title,
                              'qty'=>$row->qty,
                               'requestor'=>$row->requestor,
                              'date_created'=>$row->date_created,
@@ -4205,13 +4213,17 @@ class Datatable_model extends CI_Model{
          return $json_data;
     }
      function Pre_Order_Approved_Datatable(){
-       $data =array();    
-        $query =  $this->db->select('*,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',2)->where('i.update_by',$this->user_id)->order_by('i.latest_update','DESC')->get();
+       $data =array();
+         $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y') as date_created,
+         (SELECT CONCAT(d.title, ' (',c.c_name,')') FROM tbl_project_color c LEFT JOIN tbl_project_design d ON d.id=c.project_no WHERE c.id=tbl_cart_pre_order.c_code) as title,
+         (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_cart_pre_order.created_by) as requestor
+         FROM tbl_cart_pre_order WHERE status=2");    
+
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){ 
                    $data[] = array(
                              'order_no'=>$row->order_no,
-                             'title' => $row->title.' ('.$row->c_name.')',
+                             'title' => $row->title,
                              'qty'=>$row->qty,
                               'requestor'=>$row->requestor,
                              'date_created'=>$row->date_created);
@@ -4222,12 +4234,15 @@ class Datatable_model extends CI_Model{
     }
     function Pre_Order_Rejected_Datatable(){
         $data =array();    
-        $query =  $this->db->select('*,i.qty, DATE_FORMAT(i.date_created, "%M %d %Y") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_cart_pre_order as i')->join('tbl_project_color as c','c.id=i.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=i.created_by','LEFT')->where('i.status',3)->where('i.update_by',$this->user_id)->order_by('i.latest_update','DESC')->get();
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y') as date_created,
+         (SELECT CONCAT(d.title, ' (',c.c_name,')') FROM tbl_project_color c LEFT JOIN tbl_project_design d ON d.id=c.project_no WHERE c.id=tbl_cart_pre_order.c_code) as title,
+         (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_cart_pre_order.created_by) as requestor
+         FROM tbl_cart_pre_order WHERE status=3"); 
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){ 
                    $data[] = array(
                              'order_no'=>$row->order_no,
-                             'title' => $row->title.' ('.$row->c_name.')',
+                             'title' => $row->title,
                              'qty'=>$row->qty,
                              'requestor'=>$row->requestor,
                              'date_created'=>$row->date_created);
@@ -4240,11 +4255,13 @@ class Datatable_model extends CI_Model{
 
     function Customized_Request_Datatable(){
         $data =array(); $no = 1;  
-        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, 
-            CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_customized_request as p')->join('tbl_administrator as u','u.id=p.created_by','LEFT')->where('p.status','P')->order_by('p.date_created','DESC')->get();
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,(SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_customized_request.created_by) as requestor FROM tbl_customized_request WHERE status='P'");
          if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+                $action = '<button type="button" class="btn btn-light btn-hover-success btn-icon btn-sm mr-2 btn-approved" data-name="'.$row->subject.'" data-id="'.$this->encryption->encrypt($row->id).'" data-status="A"><i class="la la-check"></i>
+                </button><button type="button" class="btn btn-light btn-hover-danger btn-icon btn-sm mr-2 btn-cancelled" data-name="'.$row->subject.'" data-id="'.$this->encryption->encrypt($row->id).'" data-status="R"><i class="la la-remove"></i></button>
+                <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>';
+
                  $data[] = array(
                           'no'           => $no,
                           'subject'      => $row->subject,
@@ -4259,10 +4276,11 @@ class Datatable_model extends CI_Model{
     }
      function Customized_Approved_Datatable(){
         $data =array(); $no = 1; 
-        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_customized_request as p')->join('tbl_administrator as u','u.id=p.created_by','LEFT')->where('p.status','A')->where('p.update_by',$this->user_id)->order_by('p.latest_update','DESC')->get();
+        $user_id = $this->user_id;
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,(SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_customized_request.created_by) as requestor FROM tbl_customized_request WHERE status='A' AND update_by='$user_id'");
          if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
-                $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+                $action = ' <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>';    
                 $data[] = array(
                           'no'           => $no,
                           'subject'      => $row->subject,
@@ -4277,10 +4295,12 @@ class Datatable_model extends CI_Model{
     }
     function Customized_Rejected_Datatable(){
         $data =array(); $no = 1;  
-        $query = $this->db->select('*,p.id,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created, CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_customized_request as p')->join('tbl_administrator as u','u.id=p.created_by','LEFT')->where('p.status','R')->where('p.update_by',$this->user_id)->order_by('p.latest_update','DESC')->get();
+        $user_id = $this->user_id;
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,(SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_customized_request.created_by) as requestor FROM tbl_customized_request WHERE status='R' AND update_by='$user_id'");
          if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
-                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';
+                 $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>
+                 <button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'"  data-name="'.$row->subject.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button>';
                   $data[] = array(
                           'no'           => $no,
                           'subject'      => $row->subject,

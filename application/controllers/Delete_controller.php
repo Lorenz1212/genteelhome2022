@@ -6,23 +6,19 @@ class Delete_controller extends CI_Controller
     public function __construct()
     {
       parent::__construct();
-      $this->load->helper('url'); 
       $this->load->model('delete_model');
-      $this->load->library('session');
     }
      
     public function Delete_Web_Project_Image(){
         $id = $this->input->post('id');    
         $this->delete_model->Delete_Web_Project_Image($id);
-        $data = array('status' => 'success',
-    				  'id'	   => $id);
+        $data = array('status' =>'success','id' => $id);
         echo json_encode($data);
     }
     public function Delete_Web_Project_Gallery(){
         $id = $this->input->post('id');    
         $this->delete_model->Delete_Web_Project_Gallery($id);
-        $data = array('status' => 'success',
-                      'id'     => $id);
+        $data = array('status' => 'success','id' => $id);
         echo json_encode($data);
     }
      public function Delete_Web_Cart(){

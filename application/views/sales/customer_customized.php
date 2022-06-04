@@ -45,7 +45,7 @@
 			    <div class="card-body link" data-link="tbl_customized_sales">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_customized_request" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_customized_request">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -57,7 +57,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_customized_approved" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_customized_approved">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -69,7 +69,7 @@
 							</table>
 			            </div>
 			             <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_customized_rejected" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_customized_rejected">
 								<thead>
 									<tr>
 										<th>NO</th>

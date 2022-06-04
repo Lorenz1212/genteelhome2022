@@ -76,10 +76,10 @@ class Admin_Controller extends CI_Controller
 				case "design-project":{
 					$type = $this->input->post('type')??$this->invalidMissing_Input('Missing request type');
 					$title = $this->input->post('title')??$this->invalidMissing_Input('Title is required');
-					$image   =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
-			        $tmp   =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
-			        $docs   =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
-			        $docs_tmp  =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
+					$image = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+			    $tmp = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+			    $docs = isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
+			    $docs_tmp = isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
 					$id = $this->input->post('id')??false;
 					$model_response = $this->Creative_model->Submit_Design_Project($type,$title,$image,$tmp,$docs,$docs_tmp,$id);
 		            $data = array(

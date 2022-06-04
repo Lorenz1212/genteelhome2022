@@ -412,56 +412,30 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 			}
 			case "tbl_onlineorder":{
 				TableURL = baseURL + 'datatable_controller/OnlineOrder_DataTable';
-				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_order'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_onlineorder_request',TableURL,TableData,false);
+				TableData = [{data:'order_no'},{data:'customer'},{data:'type'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_onlineorder_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Preorder_DataTable';
 				let TableData1 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_preorder_request',TableURL1,TableData1,false);
+				_DataTableLoader('tbl_preorder_request',TableURL1,TableData1,[[3,'desc']]);
 				break;
 			}
-			case "tbl_preoder":{
-				TableURL = baseURL + 'datatable_controller/Pre_Order_Request_Datatable';
-				TableData = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_preoder_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Pre_Order_Approved_Datatable';
-				let TableData1 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_preoder_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Pre_Order_Rejected_Datatable';
-				let TableData2 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_preoder_rejected',TableURL2,TableData2,false);
-				break;
-			}
+			
 			case "tbl_customized_sales":{
 				TableURL = baseURL + 'datatable_controller/Customized_Request_Sales_Datatable';
 				TableData = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action',orderable:false}];
-				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
+				_DataTableLoader('tbl_customized_request',TableURL,TableData,[[1,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Sales_Datatable';
 				let TableData1 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
+				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,[[1,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Sales_Datatable';
 				let TableData2 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
+				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,[[1,'desc']]);
 				break;
 			}
-			case "tbl_customized":{
-				TableURL = baseURL + 'datatable_controller/Customized_Request_Datatable';
-				TableData = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Datatable';
-				let TableData1 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Datatable';
-				let TableData2 = [{data:'no'},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
-				break;
-			}
+			
 			case "tbl_inquiry":{
 				TableURL = baseURL + 'datatable_controller/Inquiry_Request_Sales_Datatable';
 				TableData = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action',orderable:false}];
@@ -593,8 +567,8 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 			
 			case "tbl_customer_list":{
 				TableURL = baseURL + 'datatable_controller/Customer_List_DataTable';
-				TableData =  [{data: 'no'},{data: 'name'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status'},{data: 'action',orderable:false}];
-				_DataTableLoader('tbl_customer_list',TableURL,TableData,false);
+				TableData =  [{data: 'no',visible:false},{data: 'name'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status'},{data: 'action',orderable:false}];
+				_DataTableLoader('tbl_customer_list',TableURL,TableData,[[1,'desc']]);
 				break;
 			}
 

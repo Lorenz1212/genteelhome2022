@@ -56,6 +56,34 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 				_DataTableLoader('tbl_design_project_rejected',TableURL2,TableData2,[[ 0, "desc" ]]);
 				break;
 			}
+			case "tbl_customized":{
+				TableURL = baseURL + 'datatable_controller/Customized_Request_Datatable';
+				TableData = [{data:'no',visible:false},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_customized_request',TableURL,TableData,[[0,'desc']]);
+
+				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Datatable';
+				let TableData1 = [{data:'no',visible:false},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,[[0,'desc']]);
+
+				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Datatable';
+				let TableData2 = [{data:'no',visible:false},{data:'subject'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,[[0,'desc']]);
+				break;
+			}
+			case "tbl_preoder":{
+				TableURL = baseURL + 'datatable_controller/Pre_Order_Request_Datatable';
+				TableData = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_preoder_request',TableURL,TableData,[[4,'desc']]);
+
+				let TableURL1 = baseURL + 'datatable_controller/Pre_Order_Approved_Datatable';
+				let TableData1 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_preoder_approved',TableURL1,TableData1,[[4,'desc']]);
+
+				let TableURL2 = baseURL + 'datatable_controller/Pre_Order_Rejected_Datatable';
+				let TableData2 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_preoder_rejected',TableURL2,TableData2,[[4,'desc']]);
+				break;
+			}
 
 		}	 
 	}

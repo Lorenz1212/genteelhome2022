@@ -681,8 +681,9 @@ class Update_controller extends CI_Controller
     }
     public function Update_Customized_Approval_Request(){
         $id = $this->input->post('id');
+        $remarks = $this->input->post('remarks');
         $status = $this->input->post('status');
-        $data = $this->update_model->Update_Customized_Approval_Request($id,$status);
+        $data = $this->update_model->Update_Customized_Approval_Request($id,$status,$remarks);
         echo json_encode($data);
      }
      public function Update_Approval_Inquiry(){

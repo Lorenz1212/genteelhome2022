@@ -6,16 +6,6 @@ class Modal_controller extends CI_Controller
       parent::__construct();
       $this->load->model('modal_model');
     }
-    public function Modal_Design_Stocks_View(){
-        $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_Design_Stocks_View($id);
-        echo json_encode($data);
-    }
-    public function Modal_Design_Project_View(){
-        $id = $this->input->post('id');
-        $data = $this->modal_model->Modal_Design_Project_View($id);
-        echo json_encode($data);
-    }
     public function Modal_SalesOrder_Delivery(){
         $id = $this->input->post('id');
         $data = $this->modal_model->Modal_SalesOrder_Delivery($id);

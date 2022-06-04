@@ -2,14 +2,6 @@
 error_reporting(E_ALL); ini_set('display_errors', 1);
 class Modal_model extends CI_Model{  
     //Modal View
-    function Modal_Design_Stocks_View($id){
-        $query = $this->db->select('c.*,d.*')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->where('c.id', $this->encryption->decrypt($id))->get();
-         return $query->row();
-    }
-    function Modal_Design_Project_View($id){
-        $query = $this->db->select('c.*,d.*')->from('tbl_project_color as c')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->where('c.id', $this->encryption->decrypt($id))->get();
-         return $query->row();
-    }
 
      function Modal_Joborder_Stocks_View($id){
           $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')

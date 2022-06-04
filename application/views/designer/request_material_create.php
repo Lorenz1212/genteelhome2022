@@ -65,7 +65,7 @@
 							</div>
 							<div class="col-lg-12 col-xl-12 col-md-12">
 								<div class="form-group">
-									<button type="button" class="btn btn-dark font-weight-bold btn-lg btn-square add_item">Add Item</button>
+									<button type="button" class="btn btn-dark font-weight-bold btn-lg btn-square add_item" style="float: right;">Add Item</button>
 								</div>
 							</div>
 						</div>
