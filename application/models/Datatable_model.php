@@ -4191,15 +4191,14 @@ class Datatable_model extends CI_Model{
     }
     function Pre_Order_Request_Datatable(){
         $data =array();    
-
         $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y') as date_created,
          (SELECT CONCAT(d.title, ' (',c.c_name,')') FROM tbl_project_color c LEFT JOIN tbl_project_design d ON d.id=c.project_no WHERE c.id=tbl_cart_pre_order.c_code) as title,
          (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_cart_pre_order.created_by) as requestor
          FROM tbl_cart_pre_order WHERE status=1");
           if($query !== FALSE && $query->num_rows() > 0){
              foreach($query->result() as $row){
-                  $action = '<button type="button" class="btn btn-sm btn-light-success btn-icon  btn-request" mr-2" data-status="2" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-check-mark"></i></button>
-                  <button type="button" class="btn btn-sm btn-light-danger btn-icon btn-request" data-status="3" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-cancel-music"></i></button>';    
+                  $action = '<button type="button" class="btn btn-sm btn-light-success btn-icon  btn-approved mr-2" data-name="'.$row->order_no.'" data-status="2" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-check-mark"></i></button>
+                  <button type="button" class="btn btn-sm btn-light-danger btn-icon btn-cancelled" data-status="3" data-name="'.$row->order_no.'" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-cancel-music"></i></button>';    
                    $data[] = array(
                              'order_no'=>$row->order_no,
                              'title' => $row->title,

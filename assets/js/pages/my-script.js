@@ -3294,26 +3294,26 @@ var arrows;var item_v;var price;var special_option;
 			case "data-pre-order-request":{
 				$(document).ready(function(){
 					KTDatatablesDataSourceAjaxClientCreative.init('tbl_preoder');
-				      $('body').delegate('.btn-approved','click',function(e){
-			                    e.preventDefault();
-			                    e.stopImmediatePropagation();
-			                    let element = $(this);
-			                        Swal.fire({
-			                          title: "Do you want to move this form? Subject: "+element.attr('data-name'),
-			                          text: "You wont be able to revert this!",
-			                          icon: "warning",
-			                          showCancelButton: true,
-			                          confirmButtonText: "Yes, proceed!",
-			                          cancelButtonText: "close!",
-			                          reverseButtons: true
-			                      }).then(function(result) {
-			                          if (result.value){
-			                              let id = element.attr('data-id');
-			                              let status = element.attr('data-status');
-								 	let thisUrl = 'update_controller/Update_Customized_Approval_Request';
-									_ajaxloader(thisUrl,"POST",{id:id,status:status},"Update_Customized_Approval_Request");
-			                          } 
-			                      });
+				     $('body').delegate('.btn-approved','click',function(e){
+		                    e.preventDefault();
+		                    e.stopImmediatePropagation();
+		                    let element = $(this);
+		                        Swal.fire({
+		                          title: "Do you want to move this form? Trans #: "+element.attr('data-name'),
+		                          text: "You wont be able to revert this!",
+		                          icon: "warning",
+		                          showCancelButton: true,
+		                          confirmButtonText: "Yes, proceed!",
+		                          cancelButtonText: "close!",
+		                          reverseButtons: true
+		                      }).then(function(result) {
+		                          if (result.value){
+		                              let id = element.attr('data-id');
+		                              let status = element.attr('data-status');
+							 	let thisUrl = 'update_controller/Update_Pre_Order_Request';
+								_ajaxloader(thisUrl,"POST",{id:id,status:status},"Update_Pre_Order_Request");
+		                          } 
+		                      });
 			            });
 					 $("body").delegate('.btn-cancelled','click',function(e){
 					 	   e.preventDefault();
@@ -3344,8 +3344,8 @@ var arrows;var item_v;var price;var special_option;
 			                        if(result.value){
 			                          	let id = element.attr('data-id');
 			                              let status = element.attr('data-status');
-								 	let thisUrl = 'update_controller/Update_Customized_Approval_Request';
-									_ajaxloader(thisUrl,"POST",{id:id,status:status,remarks:result.value},"Update_Customized_Approval_Request");
+								 	let thisUrl = 'update_controller/Update_Pre_Order_Request';
+									_ajaxloader(thisUrl,"POST",{id:id,status:status,remarks:result.value},"Update_Pre_Order_Request");
 			                        }else{
 			                           swal.fire('Opss', 'Please enter your remarks', 'info');
 			                        }
@@ -3357,7 +3357,7 @@ var arrows;var item_v;var price;var special_option;
 			                    e.stopImmediatePropagation();
 			                    let element = $(this);
 			                        Swal.fire({
-			                          title: "Subject: "+element.attr('data-name')+"</br>Reason to Remarks",
+			                          title: "Trans #:: "+element.attr('data-name')+"</br>Reason to Remarks",
 			                          text: element.attr('data-remarks'),
 			                          showConfirmButton:false,
 			                          showCancelButton: false,
@@ -6622,6 +6622,18 @@ var arrows;var item_v;var price;var special_option;
  		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
  		 	}
  		 	KTDatatablesDataSourceAjaxClientCreative.init('tbl_customized');
+ 		  	_initnotificationupdate();
+ 		 	break;
+ 		 }
+ 		 case "Update_Pre_Order_Request":{
+ 		 	if(response == 2){
+	 		 		_initToast('success','Request Approved');
+ 		 	}else if(response == 3){
+ 		 		_initToast('error','Request Rejected');
+ 		 	}else{
+ 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
+ 		 	}
+ 		 	KTDatatablesDataSourceAjaxClientCreative.init('tbl_preoder');
  		  	_initnotificationupdate();
  		 	break;
  		 }

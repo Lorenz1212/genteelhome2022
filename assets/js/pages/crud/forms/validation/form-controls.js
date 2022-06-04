@@ -459,29 +459,6 @@ var KTFormControls = function () {
 	 		      });
 	 		   	 break;
 	 		   }
-	 			case "Update_Pre_Order_Request":{
-	 				$('body').delegate('.btn-request','click',function(e){
-	 					e.preventDefault();
-	 					let status = $(this).attr('data-status');
-	 					let id = $(this).attr('data-id');
-	 					Swal.fire({
-                                 title: "Are you sure you want to submit the request?",
-                                 text: "You won't be able to revert this",
-                                 icon: "warning",
-                                 confirmButtonText: "Submit!",
-                                 showCancelButton: true
-                             }).then(function(result) {
-                                 if (result.value) {
-                                   let formData = new FormData();
-                                       formData.append('id',id);
-                                       formData.append('status',status);
-                                    thisURL = baseURL + 'update_controller/Update_Pre_Order_Request';
-                                    _ajaxForm(thisURL,"POST",formData,"Update_Pre_Order_Request",false);
-                                 }
-                          });
-	 				});
-	 				break;
-	 			}
 		 	   case "Update_Request_Materials":{
 		 	   		$('.Update_Request_Materials').on('click',function(e){
 		 	   			if($('input[name=quantity]').val() == 0){
@@ -4745,26 +4722,6 @@ var KTFormControls = function () {
 	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 		 	}
 	 		 	_initnotificationupdate();
-	 		 	break;
-	 		 }
-	 		 case "Update_Pre_Order_Request":{
-	 		 	if(response == 2){
-	 		 		_initToast('success','Request Approved');
-	 		 		let TableURL1 = baseURL + 'datatable_controller/Pre_Order_Approved_Datatable';
-					let TableData1 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_preoder_approved',TableURL1,TableData1,false);
-	 		 	}else if(response == 3){
-	 		 		_initToast('error','Request Rejected');
-	 		 		let TableURL2 = baseURL + 'datatable_controller/Pre_Order_Rejected_Datatable';
-					let TableData2 = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_preoder_rejected',TableURL2,TableData2,false);
-	 		 	}else{
-	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
-	 		 	}
-	 		 	let TableURL = baseURL + 'datatable_controller/Pre_Order_Request_Datatable';
-				let TableData = [{data:'order_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_preoder_request',TableURL,TableData,false);
-				_initnotificationupdate();
 	 		 	break;
 	 		 }
 	 		 case "Create_Customized_Request":{
