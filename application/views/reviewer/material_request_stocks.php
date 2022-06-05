@@ -51,7 +51,6 @@
 													<thead>
 														<tr>
 															<th style="width: 15%;">Trans #</th>
-															<th>IMAGE</th>
 															<th style="width: 30%;">TITLE</th>
 															<th style="width:10px;">REQUESTOR</th>
 															<th>DATE</th>

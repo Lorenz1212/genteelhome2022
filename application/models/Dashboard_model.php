@@ -31,8 +31,8 @@ class Dashboard_model extends CI_Model
         $approved_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$this->user_id)->where('type',2)->where('status',2)->get()->row();
         $rejected_project =  $this->db->select('count(id) as id')->from('tbl_project_color')->where('designer',$this->user_id)->where('type',2)->where('status',3)->get()->row();
 
-        $request_jo_stocks = $this->db->select('count(id) as id')->from('tbl_project')->where('type',1)->where('status',2)->get()->row();
-        $request_jo_project = $this->db->select('count(id) as id')->from('tbl_project')->where('type',2)->where('status',2)->get()->row();
+        $request_jo_stocks = $this->db->select('count(id) as id')->from('tbl_project')->where('type',1)->where('status',4)->get()->row();
+        $request_jo_project = $this->db->select('count(id) as id')->from('tbl_project')->where('type',2)->where('status',4)->get()->row();
 
         $request_material_pending = $this->db->select('count(id) as id')->from('tbl_other_material_m_request')->where('status',1)->where('created_by',$this->user_id)->get()->row();
         $request_material_received = $this->db->select('count(id) as id')->from('tbl_other_material_m_received')->where('created_by',$this->user_id)->get()->row();
@@ -74,8 +74,8 @@ class Dashboard_model extends CI_Model
         return $data;   
   }
   function production_dashboard(){        
-    $request_jo_stocks = $this->db->select('*')->from('tbl_project')->where('assigned',$this->user_id)->where('type',1)->where('status',2)->get()->num_rows();
-    $request_jo_project = $this->db->select('*')->from('tbl_project')->where('assigned',$this->user_id)->where('type',2)->where('status',2)->get()->num_rows();
+    $request_jo_stocks = $this->db->select('*')->from('tbl_project')->where('assigned',$this->user_id)->where('type',1)->where('status',4)->get()->num_rows();
+    $request_jo_project = $this->db->select('*')->from('tbl_project')->where('assigned',$this->user_id)->where('type',2)->where('status',4)->get()->num_rows();
 
     $sales_stocks_pending = $this->db->select('*')->from('tbl_salesorder_stocks')->where('created_by',$this->user_id)->where('status','PENDING')->get()->num_rows();
     $sales_project_pending = $this->db->select('*')->from('tbl_salesorder_project')->where('created_by',$this->user_id)->where('status','PENDING')->get()->num_rows();

@@ -55,7 +55,7 @@
 												<!--begin::Nav Content-->
 												<div class="tab-content">
 													<div class="tab-pane active" id="stocks" role="tabpanel">
-														<table class="table table-bordered table-hover table-checkable link" id="tbl_spareparts" data-link="tbl_spareparts" style="margin-top: 13px !important">
+														<table class="table table-bordered table-hover" id="tbl_spareparts">
 															<thead>
 																<tr>
 																	<th>No.</th>
@@ -68,7 +68,7 @@
 														</table>
 													</div>
 													<div class="tab-pane" id="out-stocks" role="tabpanel">
-														<table class="table table-bordered table-hover table-checkable" id="tbl_spareparts_outofstocks" style="margin-top: 13px !important">
+														<table class="table table-bordered table-hover" id="tbl_spareparts_outofstocks" >
 															<thead>
 																<tr>
 																	<th>No.</th>
@@ -81,7 +81,7 @@
 														</table>
 													</div>
 													<div class="tab-pane" id="new-stocks" role="tabpanel">
-														<table class="table table-bordered table-hover table-checkable" id="tbl_spareparts_new"  style="margin-top: 13px !important">
+														<table class="table table-bordered table-hover" id="tbl_spareparts_new">
 															<thead>
 																<tr>
 																	<th>No.</th>
@@ -93,7 +93,7 @@
 														</table>
 													</div>
 													<div class="tab-pane" id="release-stocks" role="tabpanel">
-														<table class="table table-bordered table-hover table-checkable" id="tbl_spareparts_release"  style="margin-top: 13px !important">
+														<table class="table table-bordered table-hover" id="tbl_spareparts_release">
 															<thead>
 																<tr>
 																	<th>No.</th>

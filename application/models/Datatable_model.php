@@ -843,7 +843,7 @@ class Datatable_model extends CI_Model{
              (SELECT c_image FROM tbl_project_color WHERE id=tbl_project.c_code) as c_image,
              (SELECT title FROM tbl_project_design WHERE id=tbl_project.project_no) as title,
              (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project.assigned) as requestor
-             FROM tbl_project WHERE type=1 AND status=2");
+             FROM tbl_project WHERE type=1 AND status=4");
 
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
@@ -946,7 +946,7 @@ class Datatable_model extends CI_Model{
              (SELECT c_image FROM tbl_project_color WHERE id=tbl_project.c_code) as c_image,
              (SELECT title FROM tbl_project_design WHERE id=tbl_project.project_no) as title,
              (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project.assigned) as requestor
-             FROM tbl_project WHERE type=1 AND status=2 AND assigned='".$this->user_id."'");       
+             FROM tbl_project WHERE type=1 AND status=4 AND assigned='".$this->user_id."'");       
 
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
@@ -971,7 +971,7 @@ class Datatable_model extends CI_Model{
              (SELECT image FROM tbl_project_color WHERE project_no=tbl_project.project_no) as image,
              (SELECT title FROM tbl_project_design WHERE id=tbl_project.project_no) as title,
              (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project.assigned) as requestor
-             FROM tbl_project WHERE type=2 AND status=2");       
+             FROM tbl_project WHERE type=2 AND status=4");       
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                  $action = '<a  href="'.base_url().'gh/designer/joborder-update-project?URI='.base64_encode($row->production_no).'" class="btn btn-sm btn-light-dark btn-icon"><i class="flaticon2-pen"></i></a>'; 
@@ -1051,7 +1051,7 @@ class Datatable_model extends CI_Model{
          return $json_data;
       } 
       function Joborder_Project_Production_DataTable(){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->where('p.assigned',$this->user_id)->order_by('p.date_created','DESC')->get();
+          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',4)->where('p.assigned',$this->user_id)->order_by('p.date_created','DESC')->get();
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
@@ -4571,7 +4571,18 @@ class Datatable_model extends CI_Model{
         $json_data  = array("data" =>$data); 
         return $json_data;
     }
-
+      function Supplier_Item_View($id){
+          $data = false;
+          $query = $this->db->select('*')->from('tbl_supplier_item as mp')->where('supplier',$id)->order_by('id','ASC')->get();
+               foreach($query->result() as $row){
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="edit-item-view" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#edit-item"><i class="flaticon2-pen"></i></button>';    
+                $data[] = array('item'   => $row->item,
+                                'amount' => number_format($row->amount,2),
+                                'action' => $action);
+           }
+         $json_data  = array("data" =>$data); 
+         return $json_data;  
+    }
 
     
 }

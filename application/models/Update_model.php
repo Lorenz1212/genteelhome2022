@@ -1387,6 +1387,7 @@ class Update_model extends CI_Model
                 $pur_quantitys = explode(',', $pur_quantity);
                 $pur_remarkss = explode(',', $pur_remarks);
                 $pur_types = explode(',', $pur_type);
+                $item_no = 0;
                 if($pur_items){
                     for($i=0; $i<count($pur_items);$i++){
                          $query = $this->db->select('*')->from('tbl_materials')->where('id',$pur_items[$i])->get();
@@ -1401,7 +1402,61 @@ class Update_model extends CI_Model
                          }else{
                                 $item_no = $row->id;
                          }
-                        $purchase_data = array('production_no'=>$production_no,
+                         if($item_no != 0 ){
+                            $purchase_data = array('production_no'=>$production_no,
+                                    'item_no'          =>  $item_no,
+                                    'quantity'         =>  $pur_quantitys[$i],
+                                    'balance'          =>  $pur_quantitys[$i],
+                                    'status'           =>  1,
+                                    'remarks'          =>  $pur_remarkss[$i],
+                                    'material_type'    =>  $pur_types[$i],
+                                    'date_created'     =>  date('Y-m-d H:i:s'));
+                            $this->db->insert('tbl_purchasing_project',$purchase_data);
+                         }
+                    }
+                }
+                $data = array('status'=>1,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id);
+                $this->db->where('production_no',$production_no);
+                $this->db->update('tbl_project',$data);
+                $mat_itemnos = explode(',', $mat_itemno);
+                $mat_quantitys = explode(',', $mat_quantity);
+                $mat_remarkss = explode(',', $mat_remarks);
+                $mat_types = explode(',', $mat_type);   
+                for($i=0; $i<count($mat_itemnos);$i++){
+                    $material_data = array('production_no' =>  $production_no,
+                                        'production'       =>  $this->user_id,
+                                        'item_no'          =>  $mat_itemnos[$i],
+                                        'total_qty'        =>  $mat_quantitys[$i],
+                                        'status'           =>  1,
+                                        'mat_type'         =>  $mat_types[$i],
+                                        'remarks'          =>  $mat_remarkss[$i],
+                                        'date_created'     =>  date('Y-m-d H:i:s'));
+                     $this->db->insert('tbl_material_project',$material_data);
+                }
+
+     }
+      function Update_Joborder_Project($production_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
+                $pur_items = explode(',', $pur_item);
+                $pur_quantitys = explode(',', $pur_quantity);
+                $pur_remarkss = explode(',', $pur_remarks);
+                $pur_types = explode(',', $pur_type);
+                $item_no = 0;
+                if($pur_items){
+                    for($i=0; $i<count($pur_items);$i++){
+                         $query = $this->db->select('*')->from('tbl_materials')->where('id',$pur_items[$i])->get();
+                         $row = $query->row();
+                         if(!$row){
+                                if($pur_types[$i] == 2){
+                                    $new_no=$this->get_random_code('tbl_materials', 'item_no', "RAWMATS", 5);
+                                    $data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
+                                    $this->db->insert('tbl_materials',$data);
+                                    $item_no = $this->db->insert_id();
+                                }
+                         }else{
+                                $item_no = $row->id;
+                         }
+                        if($item_no != 0){
+                             $purchase_data = array('production_no'=>$production_no,
                                 'item_no'          =>  $item_no,
                                 'quantity'         =>  $pur_quantitys[$i],
                                 'balance'          =>  $pur_quantitys[$i],
@@ -1409,7 +1464,9 @@ class Update_model extends CI_Model
                                 'remarks'          =>  $pur_remarkss[$i],
                                 'material_type'    =>  $pur_types[$i],
                                 'date_created'     =>  date('Y-m-d H:i:s'));
-                        $this->db->insert('tbl_purchasing_project',$purchase_data);
+                             $this->db->insert('tbl_purchasing_project',$purchase_data); 
+                        }
+                        
                     }
                 }
                 $data = array('status'=>1,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id);

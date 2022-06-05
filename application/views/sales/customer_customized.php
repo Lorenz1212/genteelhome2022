@@ -5,7 +5,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Customized List</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Customize List</h2>
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
@@ -42,7 +42,7 @@
 			            </ul>
 			   		 </div>
 			   	</div>
-			    <div class="card-body link" data-link="tbl_customized_sales">
+			    <div class="card-body">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
 			                <table class="table table-bordered table-hover" id="tbl_customized_request">

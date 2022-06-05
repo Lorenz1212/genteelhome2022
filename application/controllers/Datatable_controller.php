@@ -797,6 +797,11 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Cashpostion_Category_Accounting();
         echo json_encode($data);
    }
+    public function Supplier_Item_View(){
+        $id = $this->input->post('val');
+        $data = $this->datatable_model->Supplier_Item_View($id);
+        echo json_encode($data);
+     }
 
 
 

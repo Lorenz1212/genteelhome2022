@@ -547,46 +547,6 @@ var KTFormControls = function () {
                      });
                     break;
                }
-               case "Update_Salesorder_Stock_Delivery":{
-                    $('.btn-save').on('click', function(e){
-                          Swal.fire({
-                                 title: "Are you sure?",
-                                 text: "You won't be able to revert this",
-                                 icon: "warning",
-                                 confirmButtonText: "Submit!",
-                                 showCancelButton: true
-                             }).then(function(result) {
-                                 if (result.value) {
-                                   let formData = new FormData();
-                                       formData.append('id',$('.so_no').attr('data-id'));
-                                       formData.append('si_no',$('input[name="si_no"]').val());
-                                    thisURL = baseURL + 'update_controller/Update_Salesorder_Stock_Delivery';
-                                    _ajaxForm(thisURL,"POST",formData,"Update_Salesorder_Stock_Delivery",false);
-                             }
-                          });
-                     });
-                    break;
-               }
-               case "Update_Salesorder_Project_Delivery":{
-                    $('.btn-save').on('click', function(e){
-                          Swal.fire({
-                                 title: "Are you sure?",
-                                 text: "You won't be able to revert this",
-                                 icon: "warning",
-                                 confirmButtonText: "Submit!",
-                                 showCancelButton: true
-                             }).then(function(result) {
-                                 if (result.value) {
-                                   let formData = new FormData();
-                                       formData.append('id',$('.so_no').attr('data-id'));
-                                       formData.append('si_no',$('input[name="si_no"]').val());
-                                    thisURL = baseURL + 'update_controller/Update_Salesorder_Project_Delivery';
-                                    _ajaxForm(thisURL,"POST",formData,"Update_Salesorder_Project_Delivery",false);
-                             }
-                          });
-                     });
-                    break;
-               }
 	 		case "Update_Approval_Concern":{
 	 			$(document).ready(function() {
 					 $(document).on("click","#btn_save",function() {
@@ -948,7 +908,7 @@ var KTFormControls = function () {
 					   	formData.append('pur_quantity',p_quantity);
 					   	formData.append('pur_remarks',p_remarks);
 					   	formData.append('pur_type',p_type);
-					   	thisURL = baseURL + 'update_controller/Update_Joborder_Stocks';
+					   	thisURL = baseURL + 'update_controller/Update_Joborder_Project';
 	 					_ajaxForm(thisURL,"POST",formData,"Update_Joborder_Project",false);
 	 				}
 	 			});
@@ -2515,51 +2475,10 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
-	 		case "Update_Approval_Inspection_Stocks":{
-	 			$(document).on('click','.btn_status',function(e){
-	 				e.preventDefault();
-	 				let status = $(this).attr('data-status');
-		 			let production_no = $('#joborder').text();
-		 			let remarks = $('.summernote').summernote('code');	
-					thisURL = baseURL + 'update_controller/Update_Approval_Inspection';
-					val = {status:status,production_no:production_no,remarks:remarks};
-	 				 _ajaxForm_loaded(thisURL,"POST",val,"Update_Approval_Inspection_Stocks",false);
-	 			});
-	 			break; 
-	 		}
-	 		case "Update_Approval_Inspection_Project":{
-	 			$(document).on('click','.btn_status',function(e){
-	 				e.preventDefault();
-	 				let status = $(this).attr('data-status');
-		 			let production_no = $('#joborder').text();
-		 			let remarks = $('.summernote').summernote('code');	
-					thisURL = baseURL + 'update_controller/Update_Approval_Inspection';
-					val = {status:status,production_no:production_no,remarks:remarks};
-	 				 _ajaxForm_loaded(thisURL,"POST",val,"Update_Approval_Project_Inspection",false);
-	 			});
-	 			break; 
-	 		}
+	 	
 
 	 		
-	 		case "Update_Approval_SalesOrder":{
-	 			$(document).on('click','.btn_rejected',function(e){
-	 				var status = $(this).attr('id');
-		 			var so_no = $('#so_no').text();
-					thisURL = baseURL + 'update_controller/Update_Approval_SalesOrder';
-					val = {so_no:so_no,status:status};
-					url = baseURL + 'gh/admin/salesorder-request';
-	 				 _ajaxForm_loaded(thisURL,"POST",val,"Update_Approval_SalesOrder",url);
-	 			});
-	 			$(document).on('click','.btn_approved',function(e){
-	 				var status = $(this).attr('id');
-		 			var so_no = $('#so_no').text();
-	 				thisURL = baseURL + 'update_controller/Update_Approval_SalesOrder';
-	 				val = {so_no:so_no,status:status};
-	 				url = baseURL + 'gh/admin/salesorder-request';
-	 			   _ajaxForm_loaded(thisURL,"POST",val,"Update_Approval_SalesOrder",url);
-	 			});
-	 			break;
-	 		}
+	 		
 	 		case "Update_Approval_UsersRequest":{
 		 			$('#btn-approved').on('click',function(){	
 		 				var status = $(this).attr('data-id');
@@ -2600,57 +2519,6 @@ var KTFormControls = function () {
 	 			
 	 			break;
 	 		}
-	 		case "Update_Users":{
-	 			var form = document.getElementById('Update_Users');
-			         validation = FormValidation.formValidation(
-						form,
-						{
-							fields: {firstname: {validators: {notEmpty: {message: 'Firstname is required'}}},
-								lastname: {validators: {notEmpty: {message: 'Lastname is required'}}},
-								middlename: {validators: {notEmpty: {message: 'Middlename/Initial is required'}}},
-								username: {validators: {notEmpty: {message: 'Username is required'}}},
-			                },
-							plugins: {
-							trigger: new FormValidation.plugins.Trigger(),
-							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-						}
-					   }
-					);
-	 			$('#Update_Users').on('submit', function(e){
-	 				e.preventDefault();
-	 				validation.validate().then(function(status) {
-				     if (status == 'Valid') 
-				     { 	
-				     	if($('#designer').prop("checked") == true){designer = 1;}else if($('#designer').prop("checked") == false){designer = 0;}
-				     	if($('#production').prop("checked") == true){production = 1;}else if($('#production').prop("checked") == false){production = 0;}
-				     	if($('#supervisor').prop("checked") == true){supervisor = 1;}else if($('#supervisor').prop("checked") == false){supervisor = 0;}
-				     	if($('#superuser').prop("checked") == true){superuser = 1;}else if($('#superuser').prop("checked") == false){superuser = 0;}
-				     	if($('#admin').prop("checked") == true){admin = 1;}else if($('#admin').prop("checked") == false){admin = 0;}
-				     	if($('#accounting').prop("checked") == true){accounting = 1;}else if($('#accounting').prop("checked") == false){accounting = 0;}
-				     	if($('#webmodifier').prop("checked") == true){webmodifier = 1;}else if($('#webmodifier').prop("checked") == false){webmodifier = 0;}
-				     	if($('#sales').prop("checked") == true){sales = 1;}else if($('#sales').prop("checked") == false){sales = 0;}
-				     	let id = $('input[name=id]').val();
-				     	let firstname = $('input[name=firstname]').val();
-			  			let lastname = $('input[name=lastname]').val();
-			  			let middlename = $('input[name=middlename]').val();
-			  			let username = $('input[name=username]').val();
-			  			let status = $('select[name=status]').val();
-			  			let voucher = $('select[name=voucher]').val();
-				   		 val = {id:id,voucher:voucher,firstname:firstname,lastname:lastname,middlename:middlename,username:username,status:status,designer:designer,production:production,supervisor:supervisor,superuser:superuser,admin:admin,accounting:accounting,webmodifier:webmodifier,sales};
-					  	 thisURL = baseURL + 'update_controller/Update_Users';
-					  	 var page = $('input[name=page]').val();
-					  	 url = baseURL + 'gh/'+page+'/users?'+btoa('urlstatus=pending')
-					  	 _ajaxForm_loaded(thisURL,"POST",val,"Update_Users",url);
-				  	}
-				  });
-	 			});
-	 			break;
-	 		}
 	 		case "Update_Approval_OnlineOrder":{
 	 			$(document).on('click','.btn_approved',function(e){
 	 				var status = $(this).attr('id');
@@ -2662,74 +2530,7 @@ var KTFormControls = function () {
 	 			});
 	 			break;
 	 		}
-	 		case "Update_Profile":{
-	 			$('#save_image').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var files = $('input[name=image]')[0].files;
- 				 	var fd = new FormData();
- 				 	fd.append('action',action);
- 				 	fd.append('data',false);
-   					fd.append('file',files[0]);
- 				 	val = fd;
- 				 	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-			  	      _ajaxForm(thisURL,"POST",val,"Update_Profile",false);
-	 			});
-	 			$('#save_username').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="username"]').val();
-			   		val = {data:data,action:action};
-				  	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-
-	 			});
-	 			$('#save_firstname').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="firstname"]').val();
-			   		val = {data:data,action:action};
-				  	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-	 			});
-	 			$('#save_lastname').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="lastname"]').val();
-			   		val = {data:data,action:action};
-				  	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-	 			});
-	 			$('#save_middlename').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="middlename"]').val();
-			   		val = {data:data,action:action};
-				  	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-	 			});
-	 			$('#save_password').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="password"]').val();
-	 				var con = $('input[name="con_password"]').val();
-	 				if(data == con){
-	 					val = {data:data,action:action};
-					  	thisURL = baseURL + 'update_controller/Update_Profile';
-					  	var page = $('input[name=page]').val();
-					  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-	 				}else{
-	 					const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Password not matched'});
-	 				}
-			   		
-	 			});
-	 			break;
-	 		}
+	 		
 	 		case "Update_Design_Stocks":{
 	 			$(document).on('click','.btn-save',function(e){
 	 				e.preventDefault();
@@ -3064,7 +2865,6 @@ var KTFormControls = function () {
 					    );
 		 			$('.Update_Purchase_request').on('click', function(e){
 		 				e.preventDefault();
-		 				alert('ok')
 		 				validation_update_p.validate().then(function(status) {
 					     if (status == 'Valid') {
 		 				 Swal.fire({
@@ -3664,6 +3464,7 @@ var KTFormControls = function () {
 	 		case "Create_Deposit":{
 	 			if(response.status=="success"){
                   	_initToastSuccess();
+
                   	let TableURL = baseURL + 'datatable_controller/Customer_Collected_DataTable';
 					let TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
 					_DataTableLoader('tbl_customer_collected',TableURL,TableData,false);
@@ -3691,18 +3492,14 @@ var KTFormControls = function () {
 	 			if(response.status=="success"){ _initToastSuccess();$('input[name="item"]').val('');
 	 			$('input[name="price"]').val('');
 	 			$('input[name="unit"]').val('');
-	 			var TableURL = baseURL + 'datatable_controller/RawMaterial_DataTable';
-				var TableData = [{data:'no'},{data: 'item'},{data:'price'},{data: 'date_created'},{data: 'action'}]; 
-				_DataTableLoader('tbl_rawmaterials_add',TableURL,TableData,false);
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_rawmaterials_add');
 	 		     }
 	 		     _initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_RawMaterial":{
 	 			_initToastSuccess();
-	 			var TableURL = baseURL + 'datatable_controller/RawMaterial_DataTable';
-				var TableData = [{data:'no'},{data: 'item'},{data:'price'},{data: 'date_created'},{data: 'action'}]; 
-				_DataTableLoader('tbl_rawmaterials_add',TableURL,TableData,false);
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_rawmaterials_add');
 				_initnotificationupdate();
 	 			break
 	 		}
@@ -3723,23 +3520,6 @@ var KTFormControls = function () {
 	 		}
 
 	 		//Update
-	 		case "Update_Users":{
-	 			if(response.status=="success"){_initSwalSuccess(url);}
-	 			break;
-	 		}
-	 		case "Update_Profile":{
-	 			if(response == 'no image'){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'No Image Upload!'});
-	 			}else if(response == 'success'){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
-	 			}else if(response == 'existing'){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Username Is already Existing'});
-	 			}else{
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Nothing Changes'});
-	 			}
-	 			_initnotificationupdate();
-	 			break;
-	 		}
 	 		case "Update_Approval_Customization":{
 	 			if(response.status=="success"){
 	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){window.location = url;});
@@ -3759,107 +3539,14 @@ var KTFormControls = function () {
 	 		case "Update_Approval_Purchase":{
 	 			if(response.status == 'IN PROGRESS'){
 	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Approval_Purchase_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_approval_purchased_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Approval_Purchase_Approved_DataTable';
-						let TableData1 =[{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_approval_purchased_approved',TableURL1,TableData1,false);
 						$('#requestModal').modal('hide');
 	 				});
 	 			}else if(response.status == 'REJECTED'){
 	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Approval_Purchase_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_approval_purchased_request',TableURL,TableData,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/Approval_Purchase_Rejected_DataTable';
-						let TableData2 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_approval_purchased_rejected',TableURL2,TableData2,false);
 						$('#requestModal').modal('hide');
 	 				});
 	 			}
-	 			_initnotificationupdate();
-	 			break;
-	 		}
-	 		case "Update_Approval_Project_Inspection":{
-	 			if(response.status == 2){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Approval_Inspection_Project_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-						_DataTableLoader('tbl_approval_inspection_project_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Project_Approved_DataTable';
-						let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-						_DataTableLoader('tbl_approval_inspection_project_approved',TableURL1,TableData1,false);
-						$('#requestModal').modal('hide');
-	 				});
-	 			}else if(response.status == 3){
-	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Approval_Inspection_Project_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-						_DataTableLoader('tbl_approval_inspection_project_request',TableURL,TableData,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Project_Rejected_DataTable';
-						let TableData2 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-						_DataTableLoader('tbl_approval_inspection_project_rejected',TableURL2,TableData2,false);
-						$('#requestModal').modal('hide');
-	 				});
-	 			}
-	 			_initnotificationupdate();
-	 			break;
-	 		}
-	 		case "Update_Approval_Inspection_Stocks":{
-	 			if(response.status == 2){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-						_DataTableLoader('tbl_approval_inspection_stocks_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Approved_DataTable';
-						let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-						_DataTableLoader('tbl_approval_inspection_stocks_approved',TableURL1,TableData1,false);
-						$('#requestModal').modal('hide');
-	 				});
-	 			}else if(response.status == 3){
-	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Request_DataTable';
-						let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-						_DataTableLoader('tbl_approval_inspection_stocks_request',TableURL,TableData,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/Approval_Inspection_Stocks_Rejected_DataTable';
-						let TableData2 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}];
-						_DataTableLoader('tbl_approval_inspection_stocks_rejected',TableURL2,TableData2,false);
-						$('#requestModal').modal('hide');
-	 				});
-	 			}
-	 			_initnotificationupdate();
-	 			break;
-	 		}
-	 		case "Update_Approval_SalesOrder":{
-	 			if(response.status == 'APPROVED'){
-	 				Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-	 					$('#requestModal').modal('hide');
-	 					let TableURL = baseURL + 'datatable_controller/Approval_Request_Salesorder_DataTable';
-						let TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_approval_salesorder_request',TableURL,TableData,false);
-
-	 					let TableURL1 = baseURL + 'datatable_controller/Approval_Approved_Salesorder_DataTable';
-						let TableData1 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_approval_salesorder_approved',TableURL1,TableData1,false);
-	 				});
-	 			}else if(response.status == 'REJECTED'){
-	 				Swal.fire("REJECTED!", "Thank you!", "error").then(function(){
-	 					$('#requestModal').modal('hide');
-	 					let TableURL = baseURL + 'datatable_controller/Approval_Request_Salesorder_DataTable';
-						let TableData = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_salesorder_request',TableURL,TableData,false);
-	 					let TableURL2 = baseURL + 'datatable_controller/Approval_Rejected_Salesorder_DataTable';
-						let TableData2 = [{data:'so_no'},{data:'sales_person'},{data:'b_name'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_approval_salesorder_rejected',TableURL2,TableData2,false);
-	 				});
-	 			}
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_approval_purchased_request');
 	 			_initnotificationupdate();
 	 			break;
 	 		}
@@ -3944,34 +3631,16 @@ var KTFormControls = function () {
 	 		case "Update_Approval_Concern":{
 	 			if(response == 'P'){
 	 				Swal.fire("Approved!", "Thank you!", "success").then(function(){
-                        let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Sales_DataTable';
-						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Sales_DataTable';
-						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);
-                    });
+	 					KTDatatablesDataSourceAjaxClient.init('tbl_service_request_sales');
+                   		});
 	 			}else if(response == 'A'){
 	 				Swal.fire("Approved!", "Thank you!", "success").then(function(){
-                        let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Superuser_DataTable';
-						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
-						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);     
-                     });
+                        		KTDatatablesDataSourceAjaxClient.init('tbl_service_request_sales');
+                     	});
 	 			}else if(response == 'C'){
 	 				Swal.fire("Rejected!", "Thank you!", "error").then(function(){
-	 					let TableURL = baseURL + 'datatable_controller/Customer_Concern_Request_Superuser_DataTable';
-						let TableData = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_service_request',TableURL,TableData,false);
-
-                        let TableURL1 = baseURL + 'datatable_controller/Customer_Concern_Approved_Superuser_DataTable';
-						let TableData1 = [{data:'no'},{data:'production_no'},{data:'customer'},{data:'date_created'},{data:'action',orderable:false}]; 
-						_DataTableLoader('tbl_service_approved',TableURL1,TableData1,false);  
-                     });
+	 					KTDatatablesDataSourceAjaxClient.init('tbl_service_request_sales');
+                     	});
 	 			}
 	 			$('#modal-form').modal('hide');
 	 			_initnotificationupdate();
@@ -3987,33 +3656,20 @@ var KTFormControls = function () {
 			  		$('input[name="city"]').val('');
 			  		$('input[name="province"]').val('');
 			  		$('select[name="region"]').val('').change();
-			  		let TableURL = baseURL + 'datatable_controller/Customer_List_DataTable';
-					let TableData =  [{data: 'no'},{data: 'name'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status'},{data: 'action'}];
-					_DataTableLoader('tbl_customer_list',TableURL,TableData,false);
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
+			  		_initToast('success','Save Changes');
 	 			}else if(response.status == 'update'){
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'success',title: 'Save Changes'});
-	 				let TableURL = baseURL + 'datatable_controller/Customer_List_DataTable';
-					let TableData =  [{data: 'no'},{data: 'name'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status'},{data: 'action'}];
-					_DataTableLoader('tbl_customer_list',TableURL,TableData,false);
+	 				_initToast('success','Save Changes');
 	 			}else{
-	 				const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Nothing Changes'});
+	 				_initToast('info','Nothing Changes');
 	 			}
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_customer_list');
 	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Design_Stocks":{
 	 			if(response.status == 'update'){
 	 				_initToast('success','Save Changes');
-	 				let TableURL = baseURL + 'datatable_controller/Design_Stocks_Request_DataTable';
-					let TableData = [{data:'project_no'},{data:'image'},{data:'title'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_design_stocks_request',TableURL,TableData,false);
-					let TableURL1 = baseURL + 'datatable_controller/Design_Stocks_Approved_DataTable';
-					let TableData1 = [{data:'project_no'},{data:'image'},{data:'title'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_design_stocks_approved',TableURL1,TableData1,false);
-					let TableURL2 = baseURL + 'datatable_controller/Design_Stocks_Rejected_DataTable';
-					let TableData2 = [{data:'project_no'},{data:'image'},{data:'title'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_design_stocks_rejected',TableURL2,TableData2,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_approval_design_stocks_request');
 	 				$('.btn-edit').attr('data-action','edit');
 	 				$('.image-view').css('display','block');
 				 	$('.image-update').css('display','none');
@@ -4046,17 +3702,7 @@ var KTFormControls = function () {
 	 		case "Update_Design_Project":{
 	 			if(response.status == 'update'){
 	 				_initToast('success','Save Changes');
-	 				let TableURL = baseURL + 'datatable_controller/Design_Project_Request_DataTable';
-					let TableData = [{data:'project_no'},{data:'title'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_design_project_request',TableURL,TableData,false);
-
-					let TableURL1 = baseURL + 'datatable_controller/Design_Project_Approved_DataTable';
-					let TableData1 = [{data:'project_no'},{data:'title'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_design_project_approved',TableURL1,TableData1,false);
-
-					let TableURL2 = baseURL + 'datatable_controller/Design_Project_Rejected_DataTable';
-					let TableData2 = [{data:'project_no'},{data:'title'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_design_project_rejected',TableURL2,TableData2,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_approval_design_project_request');
 	 				$('.btn-edit').attr('data-action','edit');
 	 				$('.image-view').css('display','block');
 				 	$('.image-update').css('display','none');
@@ -4152,28 +3798,24 @@ var KTFormControls = function () {
 	 				if(response.unit == 0){
 	 					$('#requestModal').modal('hide');
 	 				}
-		 			
+		 			KTDatatablesDataSourceAjaxClientCreative.init('tbl_joborder_stocks');
 	 			}else{
 	 				if(response.status == 1){
 	 					_initToast('success','Project is Successfully Completed');
 	 				}else{
 	 					_initToast('error', 'Project is Successfully Cancelled');
 	 				}
+	 				KTDatatablesDataSourceAjaxClientCreative.init('tbl_joborder_project');
 	 				$('#requestModal').modal('hide');
 	 			}
+
 	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Purchase_Stocks_Estimate":{
 	 			if(response == true){
 	 				_initToast('success','Estimated Cost is Successfully Submited');
-	 				let TableURL = baseURL + 'datatable_controller/Purchase_Material_Stocks_Request_DataTable';
-					let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
-					_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
-
-					let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Inprogress_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
-					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks');
 					$('#requestModal').modal('hide');
 	 			}
 	 			_initnotificationupdate();
@@ -4182,17 +3824,7 @@ var KTFormControls = function () {
 	 		case "Update_Purchase_Stocks_Process":{
 	 			if(response == true){
 	 				_initToast('success','Puchased Item is Successfully Submited');
-	 				let TableURL = baseURL + 'datatable_controller/Purchase_Material_Stocks_Request_DataTable';
-					let TableData = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
-					_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
-
-					let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Inprogress_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'image',visible:false},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
-					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
-						
-					let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Complete_DataTable';
-					let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_purchase_request_complete',TableURL3,TableData3,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks');
 					$('#processModal').modal('hide');
 	 			}
 	 			_initnotificationupdate();
@@ -4201,13 +3833,7 @@ var KTFormControls = function () {
 	 		case "Update_Purchase_Project_Estimate":{
 	 			if(response == true){
 	 				_initToast('success','Estimated Cost is Successfully Submited');
-	 				let TableURL = baseURL + 'datatable_controller/Purchase_Material_Project_Request_DataTable';
-					let TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
-
-					let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Project_Inprogress_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_purchase_request_project');
 					$('#requestModal').modal('hide');
 	 			}
 	 			_initnotificationupdate();
@@ -4216,17 +3842,7 @@ var KTFormControls = function () {
 	 		case "Update_Purchase_Project_Process":{
 	 			if(response == true){
 	 				_initToast('success','Puchased Item is Successfully Submited');
-	 				let TableURL = baseURL + 'datatable_controller/Purchase_Material_Project_Request_DataTable';
-					let TableData = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_purchase_request',TableURL,TableData,false);
-
-					let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Project_Inprogress_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,false);
-						
-					let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Project_Complete_DataTable';
-					let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_purchase_request_complete',TableURL3,TableData3,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_purchase_request_project');
 					$('#processModal').modal('hide');
 	 			}
 	 			_initnotificationupdate();
@@ -4234,8 +3850,8 @@ var KTFormControls = function () {
 	 		}
 	 		case "Update_Material_Request_Stocks_Process":{
 	 			if(response.status == 'success'){
-	 					let item = url.find("td:eq(1)").text();
-	 					_initToast('success', item+' is Successfully Submited');
+	 				let item = url.find("td:eq(1)").text();
+	 				_initToast('success', item+' is Successfully Submited');
 			        	url.find("td:eq(2)").text(response.total);
 			        	url.find("td:eq(3)").text(response.stocks);
 			        	url.find("td:eq(4) input").val("");
@@ -4382,21 +3998,18 @@ var KTFormControls = function () {
 	 		}
 	 		case "Create_SpareParts":{
 	 			if(response == true){ 
-	 				_initToastSuccess();$('input[name="item"]').val('');
-	 				let TableURL = baseURL + 'datatable_controller/SpareParts_DataTable';
-					let TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action'}]; 
-					_DataTableLoader('tbl_spareparts_add',TableURL,TableData,false);
+	 				_initToast('success','Create Successfully');
+	 				$('input[name="item"]').val('');
+					KTDatatablesDataSourceAjaxClient.init('tbl_spareparts_add');
 				}
 				_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Create_OfficeSupplies":{
 	 			if(response==true){ 
-	 				_initToastSuccess();
+	 				_initToast('success','Create Successfully');
 	 				$('input[name="item"]').val('');
-	 				let TableURL = baseURL + 'datatable_controller/OfficeSupplies_DataTable';
-					let TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action'}]; 
-					_DataTableLoader('tbl_officesupplies_add',TableURL,TableData,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_officesupplies_add');
 	 			}
 	 			_initnotificationupdate();
 	 			break;
@@ -4404,9 +4017,7 @@ var KTFormControls = function () {
 	 		case "Update_SpareParts":{
 	 			if(response==true){ 
 	 				_initToast('success','Saved Changes');
-	 				let TableURL = baseURL + 'datatable_controller/SpareParts_DataTable';
-					let TableData = [{data:'no'},{data: 'item'},{data: 'date_created'},{data: 'action'}]; 
-					_DataTableLoader('tbl_spareparts_add',TableURL,TableData,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_spareparts_add');
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
@@ -4428,17 +4039,7 @@ var KTFormControls = function () {
 	 		case "Update_Rawmats_Stocks":{
 	 			if(response == true){
 	 			Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
-	 			let TableURL = baseURL + 'datatable_controller/RawMaterial_Stocks_DataTable';
-				let TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-				_DataTableLoader('tbl_rawmats',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/RawMaterial_OutStocks_DataTable';
-				let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-				_DataTableLoader('tbl_rawmats_outofstocks',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/RawMaterial_New_DataTable';
-				let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
-				_DataTableLoader('tbl_rawmats_new',TableURL2,TableData2,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_rawmats');
 				});}else{
 	 				_initToast('error','Nothing Changes');
 				}
@@ -4448,17 +4049,7 @@ var KTFormControls = function () {
 	 		case "Update_SpareParts_Stocks":{
 	 			if(response == true){
 	 				Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
-			 			let TableURL = baseURL + 'datatable_controller/SpareParts_Stocks_DataTable';
-						let TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-						_DataTableLoader('tbl_spareparts',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/SpareParts_Outofstocks_DataTable';
-						let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-						_DataTableLoader('tbl_spareparts_outofstocks',TableURL1,TableData1,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/SpareParts_newstocks_DataTable';
-						let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
-						_DataTableLoader('tbl_spareparts_new',TableURL2,TableData2,false);
+	 					KTDatatablesDataSourceAjaxClient.init('tbl_spareparts');
 					});
 	 			}else{
 	 				_initToast('error','Nothing Changes');
@@ -4468,19 +4059,9 @@ var KTFormControls = function () {
 	 		}
 	 		case "Update_OfficeSupplies_Stocks":{
 	 			if(response == true){
-			 			Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
-			 			let TableURL = baseURL + 'datatable_controller/OfficeSupplies_Stocks_DataTable';
-						let TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-						_DataTableLoader('tbl_officesupplies',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/OfficeSupplies_Outofstocks_DataTable';
-						let TableData1 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'stocks_alert'},{data: 'action'}];
-						_DataTableLoader('tbl_officesupplies_outofstocks',TableURL1,TableData1,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/OfficeSupplies_newstocks_DataTable';
-						let TableData2 =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'date_created'}];
-						_DataTableLoader('tbl_officesupplies_new',TableURL2,TableData2,false);
-						});
+			 		Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
+			 			KTDatatablesDataSourceAjaxClient.init('tbl_officesupplies');
+					});
 	 			}else{
 	 				_initToast('error','Nothing Changes');
 	 			}
@@ -4502,23 +4083,11 @@ var KTFormControls = function () {
 	 			case "Update_Approval_Design_Stocks":{
 	 			if(response.status==3){
 	 				 Swal.fire("REJECTED!", "Thank you!!", "warning").then(function(){
- 				 		let TableURL = baseURL + 'datatable_controller/Approval_Design_Stocks_Request_DataTable';
-						let TableData = [{data:'project_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_design_stocks_request',TableURL,TableData,false);
-
-						let TableURL2 = baseURL + 'datatable_controller/Approval_Design_Stocks_Rejected_DataTable';
-						let TableData2 = [{data:'project_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_design_stocks_rejected',TableURL2,TableData2,false);
+ 				 		KTDatatablesDataSourceAjaxClient.init('tbl_approval_design_stocks_request');
 	 				 });
 	 			}else{
 	 				 Swal.fire("APPROVED!", "Thank you!!", "success").then(function(){
-	 				 	let TableURL = baseURL + 'datatable_controller/Approval_Design_Stocks_Request_DataTable';
-						let TableData = [{data:'project_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_design_stocks_request',TableURL,TableData,false);
-
-	 				 	let TableURL1 = baseURL + 'datatable_controller/Approval_Design_Stocks_Approved_DataTable';
-						let TableData1 = [{data:'project_no'},{data:'image'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_design_stocks_approved',TableURL1,TableData1,false);
+	 				 	KTDatatablesDataSourceAjaxClient.init('tbl_approval_design_stocks_request');
 	 				 });
 	 			}
 	 			$('#modal-form').modal('hide');
@@ -4529,23 +4098,11 @@ var KTFormControls = function () {
 	 		case "Update_Approval_Designed_Project":{
 	 			if(response.status==3){
 	 				 Swal.fire("REJECTED!", "Thank you!!", "warning").then(function(){
- 				 		let TableURL = baseURL + 'datatable_controller/Approval_Design_Project_Request_DataTable';
-						let TableData = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_design_project_request',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Approval_Design_Project_Request_DataTable';
-						let TableData1 = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_design_project_rejected',TableURL1,TableData1,false);
+ 				 		KTDatatablesDataSourceAjaxClient.init('tbl_approval_design_project_request');
 	 				 });
 	 			}else{
 	 				 Swal.fire("APPROVED!", "Thank you!!", "success").then(function(){
-	 				 	let TableURL = baseURL + 'datatable_controller/Approval_Design_Project_Request_DataTable';
-						let TableData = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_design_project_request',TableURL,TableData,false);
-
-	 				 	let TableURL1 = baseURL + 'datatable_controller/Approval_Design_Project_Approved_DataTable';
-						let TableData1 = [{data:'project_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action'}]; 
-						_DataTableLoader('tbl_approval_design_project_approved',TableURL1,TableData1,false);
+	 				 	KTDatatablesDataSourceAjaxClient.init('tbl_approval_design_project_request');
 	 				 });
 	 			}
 	 			$('#modal-form').modal('hide');
@@ -4575,17 +4132,7 @@ var KTFormControls = function () {
                           $('#requestModal').modal('hide');
                          _initToast('error','Sales Order Rejected');
                     }
-                    let TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Admin';
-                    let TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
-
-                    let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Approved_DataTable_Admin';
-                    let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
-
-                    let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Rejected_DataTable_Admin';
-                    let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                     KTDatatablesDataSourceAjaxClient.init('tbl_salesorder_stocks_request_admin');
                     _initnotificationupdate();
                     break;
                }
@@ -4597,92 +4144,30 @@ var KTFormControls = function () {
                           $('#requestModal').modal('hide');
                          _initToast('error','Sales Order Rejected');
                     }
-                    let TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Admin';
-                    let TableData = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_approved',TableURL,TableData,false);
-
-                    let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Approved_DataTable_Admin';
-                    let TableData1 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
-
-                    let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Rejected_DataTable_Admin';
-                    let TableData2 = [{data:'so_no'},{data:'customer'},{data:'created'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
+                    KTDatatablesDataSourceAjaxClient.init('tbl_salesorder_project_request_admin');
                     _initnotificationupdate();
                     break;
                 }
-                case "Update_Salesorder_Stock_Delivery":{
-                    $('#requestModal').modal('hide');
-                     _initToast('success','Sales Invoice Number Submitted');
-                    let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Shipping_DataTable_Superuser';
-                    let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
-
-                    let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Delivered_DataTable_Production';
-                    let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
-                    _initnotificationupdate();
-                    break;
-                }
-                case "Update_Salesorder_Project_Delivery":{
-                    $('#requestModal').modal('hide');
-                     _initToast('success','Sales Invoice Number Submitted');
-                    let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Shipping_DataTable_Superuser';
-                    let TableData1 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_shipping',TableURL1,TableData1,false);
-
-                    let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Delivered_DataTable_Superuser';
-                    let TableData2 = [{data:'so_no'},{data:'customer'},{data:'date_created'},{data:'action'}]; 
-                    _DataTableLoader('tbl_salesorder_delivered',TableURL2,TableData2,false);
-                    _initnotificationupdate();
-                    break;
-                }
+               
              case "Create_Return_Item_Warehouse":{
 	 			_initToast('success','Return Item Successfully Submited ');
 	 			$('#item').empty();
-	 			if(response == 1){
-	 				let TableURL = baseURL + 'datatable_controller/Return_Item_Good_DataTable_Superuser';
-					let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_return_item_good',TableURL,TableData,false);
-	 			}else{
-	 				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Rejected_DataTable_Superuser';
-					let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,false);
-	 			}
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_return_item_warehouse_superuser');
 	 			_initnotificationupdate();
 	 			document.getElementById('Create_Return_Item').reset();
 	 			break;
 	 		}
 	 		case "Create_Return_Item_Customer":{
 	 			_initToast('success','Return Item Successfully Submited ');
-	 			if(response == 1){
-	 				let TableURL = baseURL + 'datatable_controller/Return_Item_Repair_Customer_DataTable_Superuser';
-					let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_return_item_repair',TableURL,TableData,false);
-	 			}else if(response == 2){
-	 				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Good_Customer_DataTable_Superuser';
-					let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_return_item_good',TableURL1,TableData1,false);
-	 			}else{
-	 				let TableURL2 = baseURL + 'datatable_controller/Return_Item_Rejected_Customer_DataTable_Superuser';
-					let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_return_item_rejected',TableURL2,TableData2,false);
-	 			}
 	 			$('#item').empty();
 	 			_initnotificationupdate();
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_return_item_customer_superuser');
 	 			document.getElementById('Create_Return_Item_Customer').reset();
 	 			break;
 	 		}
 	 		case "Update_Request_Materials":{
 	 			if(response == true){
 	 				_initToast('success','Request Material Successfully Submited');
-					let TableURL1 = baseURL + 'datatable_controller/Request_Material_Received_Superuser_Datatable';
-					let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_request_material_received',TableURL1,TableData1,false);
-
-					let TableURL2 = baseURL + 'datatable_controller/Request_Material_Cancelled_Superuser_Datatable';
-					let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_request_material_cancelled',TableURL2,TableData2,false);
 					$('#requestModal').modal('hide');
 	 			}else if(response == false){
 	 				Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
@@ -4691,24 +4176,17 @@ var KTFormControls = function () {
 	 				$('.balance-quantity').val(response.qty);
 	 				$('input[name=quantity]').val("");
 	 			}
-	 			let TableURL = baseURL + 'datatable_controller/Request_Material_List_Superuser_Datatable';
-				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_request_material_list',TableURL,TableData,false);
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_request_material_superuser');
 	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		 case "Update_Request_Materials_Cancelled":{
 	 		 	if(response == true){
-	 		 	_initToast('success','Request Cancelled');
-		 		 	let TableURL2 = baseURL + 'datatable_controller/Request_Material_Cancelled_Superuser_Datatable';
-					let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'}]; 
-					_DataTableLoader('tbl_request_material_cancelled',TableURL2,TableData2,false);
+	 		 		_initToast('success','Request Cancelled');
 	 			}else{
 	 				Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 			}
-		 			let TableURL = baseURL + 'datatable_controller/Request_Material_List_Superuser_Datatable';
-					let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'type'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_request_material_list',TableURL,TableData,false);
+				KTDatatablesDataSourceAjaxClient.init('tbl_request_material_superuser');
 	 			_initnotificationupdate();
 	 		 	break;
 	 		 }
@@ -4721,23 +4199,13 @@ var KTFormControls = function () {
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 		 	}
+	 		 	KTDatatablesDataSourceAjaxClient.init('tbl_onlineorder');
 	 		 	_initnotificationupdate();
 	 		 	break;
 	 		 }
 	 		 case "Create_Customized_Request":{
 	 		 	if(response.status == true){
-	 		 		_initToast(response.type,response.message);
-	 		    let TableURL = baseURL + 'datatable_controller/Customized_Request_Sales_Datatable';
-				let TableData = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}];
-				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Sales_Datatable';
-				let TableData1 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Sales_Datatable';
-				let TableData2 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
+	 		 	_initToast(response.type,response.message);
 				$('.summernote').summernote('reset');
 				$('#Create_Customized_Request')[0].reset();
 				$('input[name=subject]').removeClass('is-valid');
@@ -4746,27 +4214,17 @@ var KTFormControls = function () {
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 		 	}
-
+	 		 	KTDatatablesDataSourceAjaxClient.init('tbl_customized_sales');
 	 		  	_initnotificationupdate();
 	 		 	break;
 	 		 }
 	 		 case "Update_Customized_Request":{
 	 		 	if(response.status == true){
 	 		 		_initToast(response.type,response.message);
-	 		    let TableURL = baseURL + 'datatable_controller/Customized_Request_Sales_Datatable';
-				let TableData = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}];
-				_DataTableLoader('tbl_customized_request',TableURL,TableData,false);
-
-				let TableURL1 = baseURL + 'datatable_controller/Customized_Approved_Sales_Datatable';
-				let TableData1 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_customized_approved',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Customized_Rejected_Sales_Datatable';
-				let TableData2 = [{data:'no'},{data:'subject'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_customized_rejected',TableURL2,TableData2,false);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 		 	}
+	 		 	KTDatatablesDataSourceAjaxClient.init('tbl_customized_sales');
 	 		  	_initnotificationupdate();
 	 		 	break
 	 		 }
@@ -4774,16 +4232,11 @@ var KTFormControls = function () {
 	 		 case "Update_Approval_Inquiry":{
 	 		 	if(response == 'A'){
 	 		 		_initToast('success','Request Approved');
-	 		 		let TableURL1 = baseURL + 'datatable_controller/Inquiry_Approved_Sales_Datatable';
-					let TableData1 = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action'}]; 
-					_DataTableLoader('tbl_inquiry_approved',TableURL1,TableData1,false);
 					$('#modal-form').modal('hide');
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Something went wrong, Please try again later", "info"); 
 	 		 	}
-	 		  	let TableURL = baseURL + 'datatable_controller/Inquiry_Request_Sales_Datatable';
-				let TableData = [{data:'no'},{data:'subject'},{data:'customer'},{data:'email'},{data:'date_created'},{data:'action'}];
-				_DataTableLoader('tbl_inquiry_request',TableURL,TableData,false);
+	 		  	KTDatatablesDataSourceAjaxClient.init('tbl_inquiry');
 				_initnotificationupdate();
 	 		 	break
 	 		 }
@@ -4801,13 +4254,7 @@ var KTFormControls = function () {
 	 		 case "Create_Material_request_Supervisor":{
 	 		 	if(response !=false){
 	 		 		_initToast('success','Created Successfully');
-	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material',TableURL,TableData,response);
-
-					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+	 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response);
 
 					$('#add-material-request').modal('hide');
 					$('#Create_Material_request')[0].reset();
@@ -4820,9 +4267,7 @@ var KTFormControls = function () {
 	 		 case "Create_Purchase_request_Supervisor":{
 	 		 	if(response !=false){
 	 		 		_initToast('success','Created Successfully');
-	 		 		let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-					let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
+	 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response);
 					$('#add-purchase-request').modal('hide');
 					$('#Create_Purchase_request')[0].reset();
 					$('.item-status').trigger('change');
@@ -4835,13 +4280,7 @@ var KTFormControls = function () {
 	 		 case "Update_Material_Status_Request_Supervisor":{
 	 		 	if(response !=false){
 	 		 		_initToast('success','Request Successfully Submitted');
-	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material',TableURL,TableData,response);
-
-					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+	 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
 	 		 	}
@@ -4851,13 +4290,7 @@ var KTFormControls = function () {
 	 		 case "Update_Material_Used_Status_Request_Supervisor":{
 	 		 	if(response !=false){
 	 		 		_initToast('success','Request Successfully Submitted');
-	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material',TableURL,TableData,response);
-
-					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+	 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
 	 		 	}
@@ -4871,13 +4304,7 @@ var KTFormControls = function () {
 	 		 		}else{
 	 		 			_initToast('success','Item Unlock');
 	 		 		}
-	 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material',TableURL,TableData,response.id);
-
-					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.id);
+	 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response.id);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
 	 		 	}
@@ -4887,9 +4314,7 @@ var KTFormControls = function () {
 	 		 case "Update_Purchase_Status_Request_Supervisor":{
 	 		 	if(response !=false){
 	 		 		_initToast('success','Request Successfully Submitted');
-					let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-					let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
 	 		 	}
@@ -4899,13 +4324,7 @@ var KTFormControls = function () {
 	 		 case "Update_Material_Request_Supervisor":{
 		 		 	if(response !=false){
 		 		 		_initToast('success','Save Changes');
-		 		 		let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-						let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-						_DataTableLoader1('tbl_material',TableURL,TableData,response);
-
-						let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-						let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-						_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response);
+		 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response);
 						$('#edit-material-request').modal('hide');
 		 		 	}
 	 		 	 _initnotificationupdate();
@@ -4914,9 +4333,7 @@ var KTFormControls = function () {
 	 		 case "Update_Purchase_Request_Supervisor":{
 		 		 	if(response !=false){
 		 		 		_initToast('success','Save Changes');
-		 		 		let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-						let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
-						_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response);
+		 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response);
 						$('#edit-purchase-request').modal('hide');
 		 		 	}
 	 		 	 _initnotificationupdate();
@@ -4925,13 +4342,7 @@ var KTFormControls = function () {
 	 		 case "Delete_Material_Request_Supervisor":{
 	 		 	if(response !=false){
 	 		 		_initToast('success','Item Removed');
-					let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-					let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material',TableURL,TableData,url);
-
-					let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-					let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_material_used',TableURL2,TableData2,url);
+	 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',url);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
 	 		 	}
@@ -4941,9 +4352,7 @@ var KTFormControls = function () {
 	 		 case "Delete_Purchase_Request_Supervisor":{
 	 		 	if(response !=false){
 	 		 		_initToast('success','Item Removed');
-					let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-					let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
-					_DataTableLoader1('tbl_puchased',TableURL1,TableData1,url);
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',url);
 	 		 	}else{
 	 		 		Swal.fire("Oopps!", "Item Already Exist", "error"); 
 	 		 	}
@@ -4953,9 +4362,7 @@ var KTFormControls = function () {
 	 		 case "Create_Supplier_Item":{
 	 			if(response !=false){
 	 				_initToast('success','Item created successfully');
-			 		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
-					let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
-					_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_supplier_item',response);
 					$('#Create_Supplier_Item')[0].reset();
 					$('#add-item').modal('hide');
 	 			}else{
@@ -4967,9 +4374,7 @@ var KTFormControls = function () {
 	 		case "Update_Supplier_Item":{
 	 			if(response !=false){
 	 				_initToast('success','Save Changes');
-			 		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
-					let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
-					_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response);
+			 		KTDatatablesDataSourceAjaxClient.init('tbl_supplier_item',response);
 					$('#Update_Supplier_Item')[0].reset();
 					$('#edit-item').modal('hide');
 	 			}else{
@@ -4995,9 +4400,7 @@ var KTFormControls = function () {
 	 		case "Create_Supplier":{
 	 			if(response !=false){
 	 				_initToast('success','New Supplier Created Successfully');
-	 				let TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
-					let TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data: 'action'}]; 
-					_DataTableLoader('tbl_supplier',TableURL,TableData,false);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_supplier',response);
 					$('#Create_Supplier')[0].reset();
 					$('#add-supplier').modal('hide');
 	 			}else{
@@ -5065,6 +4468,9 @@ var KTFormControls = function () {
 	 				_initToast('success',response);
 		 			$('#tbl_purchasing_process > tbody').empty();
 		 			$('#processModal').modal('hide');
+
+		 			KTDatatablesDataSourceAjaxClient.init('tbl_purchase_request_stocks');
+		 			KTDatatablesDataSourceAjaxClient.init('tbl_purchase_request_project');
 
 	 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Complete_DataTable';
 					let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 

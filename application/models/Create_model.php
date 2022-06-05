@@ -161,13 +161,14 @@ class Create_model extends CI_Model{
 	 		 	$pur_quantitys = explode(',', $pur_quantity);
 	 		 	$pur_remarkss = explode(',', $pur_remarks);
 	 		 	$pur_types = explode(',', $pur_type);
+	 		 	$item_no = 0;
 	    		if($pur_item){
 	    			for($i=0; $i<count($pur_items);$i++){
     				     $query = $this->db->select('*')->from('tbl_materials')->where('id',$pur_items[$i])->get();
     				     $row = $query->row();
     				     if(!$row){
     				     	    if($pur_types[$i] == 2){
-	    				     	    $new_no = $this->get_code('tbl_materials','RMCODE-');
+	    				     	  $new_no=$this->get_random_code('tbl_materials', 'item_no', "RAWMATS", 5);
 									$data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
 									$this->db->insert('tbl_materials',$data);
 									$item_no = $this->db->insert_id();
@@ -175,6 +176,7 @@ class Create_model extends CI_Model{
     				     }else{
     				     		$item_no = $row->id;
     				     }
+    				     if($item_no != 0){
 	                 	$purchase_data = array('production_no'=>$value,
 								                'item_no'		   =>  $item_no,
 								                'quantity'         =>  $pur_quantitys[$i],
@@ -184,6 +186,7 @@ class Create_model extends CI_Model{
 								                'material_type'    =>  $pur_types[$i],
 								                'date_created'     =>  date('Y-m-d H:i:s'));
 	        			$this->db->insert('tbl_purchasing_project',$purchase_data);
+	        		}
 				    }
 			    }
 					$data = array('production'=>$this->user_id,
@@ -218,13 +221,14 @@ class Create_model extends CI_Model{
 	 		 	$pur_quantitys = explode(',', $pur_quantity);
 	 		 	$pur_remarkss = explode(',', $pur_remarks);
 	 		 	$pur_types = explode(',', $pur_type);
+	 		 	$item_no = 0;
 	    		if($pur_item){
 	    			for($i=0; $i<count($pur_items);$i++){
     				     $query = $this->db->select('*')->from('tbl_materials')->where('id',$pur_items[$i])->get();
     				     $row = $query->row();
     				     if(!$row){
     				     	    if($pur_types[$i] == 2){
-	    				     	    $new_no = $this->get_code('tbl_materials','RMCODE-');
+	    				     	  $new_no=$this->get_random_code('tbl_materials', 'item_no', "RAWMATS", 5);
 									$data = array('user_id'=> $this->user_id,'item_no'=> $new_no,'item'=> $pur_items[$i],'status' => 1,'date_created'=> date('Y-m-d H:i:s'));
 									$this->db->insert('tbl_materials',$data);
 									$item_no = $this->db->insert_id();
@@ -232,6 +236,7 @@ class Create_model extends CI_Model{
     				     }else{
     				     		$item_no = $row->id;
     				     }
+    				     if($item_no != 0){	
 	                 	$purchase_data = array('production_no'=>$value,
 				                'item_no'		   =>  $item_no,
 				                'quantity'         =>  $pur_quantitys[$i],
@@ -240,7 +245,8 @@ class Create_model extends CI_Model{
 				                'remarks'          =>  $pur_remarkss[$i],
 				                'material_type'    =>  $pur_types[$i],
 				                'date_created'     =>  date('Y-m-d H:i:s'));
-	        			$this->db->insert('tbl_purchasing_project',$purchase_data);
+	        					$this->db->insert('tbl_purchasing_project',$purchase_data);
+	        		  }
 				    }
 			    }
 				$data = array('production_no'=>$value,
@@ -275,7 +281,7 @@ class Create_model extends CI_Model{
     					  'production'=>$this->user_id,
     					  'assigned'=>$this->user_id,
     					  'unit'=> $unit,
-    					  'status'=>2,
+    					  'status'=>4,
     					  'type'=>$type,
     					  'date_created'=>date('Y-m-d H:i:s'));
 		 	$result = $this->db->insert('tbl_project',$data);

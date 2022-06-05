@@ -292,10 +292,11 @@
 					<label>Date of downpayment</label>
 					<input type="date" class="form-control form-control-solid form-control-lg" name="date_downpayment"/>
 				</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary font-weight-bold save-downpayment">Save</button>
+				<div class="row">
+					<div class="col-xl-12"><button type="button" class="btn btn-primary font-weight-bold btn-block save-downpayment" style="float: right;">Save</button></div> 
+				</div>
             </div>
         </div>
     </div>
 </div>
+

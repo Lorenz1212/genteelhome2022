@@ -136,7 +136,7 @@
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
 						<?php 
-						 echo($this->appinfo->supervisor('_SUPERVISOR_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->supervisor('_SUPERVISOR_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->supervisor('_SUPERVISOR_PROFILE').')"></div>';
+						 echo($this->appinfo->supervisor('_SUPERVISOR_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->supervisor('_SUPERVISOR_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->supervisor('_SUPERVISOR_PROFILE').')"></div>';
 						?>
 						<i class="symbol-badge bg-success"></i>
 					</div>
@@ -159,7 +159,7 @@
 											<!--end::Svg Icon-->
 										</span>
 									</span>
-									<span class="navi-text text-muted text-hover-primary"><?php echo $this->session->userdata('email') ?></span>
+									<span class="navi-text text-muted text-hover-primary"><?php echo $this->appinfo->supervisor('_SUPERVISOR_EMAIL') ?></span>
 								</span>
 							</a>
 							<a href="<?php echo base_url('gh/logout/supervisor') ?>"  class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>

@@ -601,10 +601,10 @@
 									<div class="topbar-item">
 										<div class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto" id="kt_quick_user_toggle">
 											<span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->appinfo->accounting('_SALES_FNAME') ?></span>
+											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->appinfo->sales('_SALES_FNAME') ?></span>
 											<span class="symbol symbol-35">
 												<?php 
-												 echo($this->appinfo->accounting('_SALES_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->accounting('_SALES_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->accounting('_SALES_PROFILE').')"></div>';
+												 echo($this->appinfo->sales('_SALES_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->sales('_SALES_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->sales('_SALES_PROFILE').')"></div>';
 												?>
 											</span>
 										</div>

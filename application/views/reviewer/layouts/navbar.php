@@ -303,27 +303,7 @@
 													</ul>
 												</div>
 											</li>
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="menu-text">Users Management</span>
-													<span class="menu-desc"></span>
-													<i class="menu-arrow"></i>
-												</a>
-												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-													<ul class="menu-subnav">
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/superuser/users?".base64_encode('urlstatus=pending')."";?>" class="menu-link ">
-																<span class="menu-text">LIST</span>
-															</a>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/superuser/user_create?".base64_encode('urlstatus=pending')."";?>" class="menu-link">
-																<span class="menu-text">ADD NEW USER</span>
-															</a>
-														</li>
-													</ul>
-												</div>
-											</li>
+										
 										</ul>
 										<!--end::Header Nav-->
 									</div>
@@ -343,7 +323,7 @@
 											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->appinfo->superuser('_SUPERUSER_FNAME') ?></span>
 											<span class="symbol symbol-35">
 												<?php 
-												 echo($this->appinfo->superuser('_SUPERUSER_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->superuser('_SUPERUSER_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->superuser('_SUPERUSER_PROFILE').')"></div>';
+												 echo($this->appinfo->superuser('_SUPERUSER_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->superuser('_SUPERUSER_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->superuser('_SUPERUSER_PROFILE').')"></div>';
 												?>
 											</span>
 										</div>

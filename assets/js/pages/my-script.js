@@ -939,6 +939,22 @@ var arrows;var item_v;var price;var special_option;
 				_ajaxloader(thisUrl,"POST",false,"superuser_dashboard");
 				break;
 			}
+			case "joborder-stock-masterlist":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_joborder_masterlist_stocks');
+				break;
+			}
+			case "joborder-project-masterlist":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_joborder_masterlist_project');
+				break;
+			}
+			case "production_stocks":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_production_stocks');
+				break;
+			}
+			case "request-material-list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_request_material');
+				break;
+			}
 			case "design-stocks":{
 				$(document).ready(function() {
 					KTFormControlsCreatives.init('form-design-stocks');
@@ -1198,6 +1214,7 @@ var arrows;var item_v;var price;var special_option;
 				})
 			}
 			case "data-customer-concern-list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_service_request_sales');
 				$(document).ready(function() {
 					$(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
@@ -1208,6 +1225,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-purchase-inventory":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_other_purchase_invetory');
 				$(document).ready(function() {
 				    $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
@@ -1649,7 +1667,6 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-jobeorder-update-stocks":{
-				_sessionStorage('request','Material Request');
 				var id = getUrlParameter('URI');
 				let thisUrl = 'view_controller/View_Joborder_Request_Stocks';
 				_ajaxloader(thisUrl,"POST",{id:id},"View_Joborder_Request_Stocks");
@@ -1723,13 +1740,14 @@ var arrows;var item_v;var price;var special_option;
 						}
 					}
 				})
+				$('#Update_Joborder_Project > div > div:nth-child(2) > button').trigger('click');
 				break;
 			}
 			case "data-jobeorder-update-project":{
-				_sessionStorage('request','Material Request');
+				//_sessionStorage('request','Material Request');
 				let id = getUrlParameter('URI');
-				let thisUrl = 'view_controller/View_Joborder_Request_Stocks';
-				_ajaxloader(thisUrl,"POST",{id:id},"View_Joborder_Request_Stocks");
+				let thisUrl = 'view_controller/View_Joborder_Request_Project';
+				_ajaxloader(thisUrl,"POST",{id:id},"View_Joborder_Request_Project");
 				$(document).on('click','.btn-request',function(e){
 					e.preventDefault();
 					let action = $(this).attr('data-action');
@@ -1789,7 +1807,8 @@ var arrows;var item_v;var price;var special_option;
 						}
 					}
 					
-				})
+				});
+				$('#Update_Joborder_Project > div > div:nth-child(2) > button').trigger('click');
 				break;
 			}
 			case "data-jobeorder-create-project":{
@@ -1958,6 +1977,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 			
 			case "data-online-request":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_onlineorder');
 				$(document).ready(function() {
 				    $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
@@ -2146,9 +2166,9 @@ var arrows;var item_v;var price;var special_option;
 				_initremovetable('#kt_product_breakdown_table');
 				break;
 			}
-			case "data-salesorder-stocks":{
+			case "salesorder-stocks":{
 				$(document).ready(function() {
-
+					KTDatatablesDataSourceAjaxClient.init('tbl_salesorder_stocks_production');
 				    $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
 					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
@@ -2163,8 +2183,9 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-salesorder-project":{
+			case "salesorder-project":{
 				$(document).ready(function() {
+					KTDatatablesDataSourceAjaxClient.init('tbl_salesorder_project_production');
 				    $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
 					 	let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
@@ -2182,6 +2203,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-sales-delivery":{
 				$(document).ready(function() {
+					KTDatatablesDataSourceAjaxClient.init('tbl_sales_delivery_superuser');
 					_initNumberOnly(".qty");
 					$('[data-toggle="tooltip"]').tooltip();
 				    $(document).on("click","#form-request",function() {
@@ -2358,23 +2380,9 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-salesorder-stocks-print":{
-					let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
-					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Stocks");
-				break;
-			}
-			case "data-salesorder-project-print":{
-					let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
-					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Project");
-				break;
-			}
-			case "data-salesorder-delivery-print":{
-					let thisUrl = 'modal_controller/Modal_SalesOrder_Delivery';
-					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('dr_no')},"Modal_SalesOrder_Delivery");
-				break;
-			}
 			case "joborder-stocks":{
 				$(document).ready(function() {
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks');
 				    $(document).on("click","#form-request",function(e) {
 				    		e.preventDefault();
 					 	let val = {id:$(this).attr('data-id')};
@@ -2449,6 +2457,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "joborder-project":{
 				$(document).ready(function() {
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project');
 					$(document).on('change','#project_no',function(e){
 						e.preventDefault();
 						let id = $(this).val();
@@ -2614,6 +2623,7 @@ var arrows;var item_v;var price;var special_option;
 
 			//Reviewer
 			case "data-request-material-superuser":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_request_material_superuser');
 				$(document).ready(function() {
 				    $(document).on("click","#form-request",function() {
 					 	let thisUrl = 'modal_controller/Modal_Request_Material';
@@ -2623,6 +2633,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-return-item-customer":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_return_item_customer_superuser');
 				 $('input[name=so_no]').on('blur',function(e){
 				   	e.preventDefault();
 				   	_ajaxloaderOption('option_controller/so_no_item',"POST",{so_no:$(this).val()},'so_no_item');
@@ -2630,6 +2641,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-return-item":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_return_item_warehouse_superuser');
 			   $('select[name=type]').on('change',function(e){
 			   	e.preventDefault();
 			   	_ajaxloaderOption('option_controller/item_list',"POST",{type:$(this).val()},'item_list');
@@ -2637,6 +2649,7 @@ var arrows;var item_v;var price;var special_option;
 			   break;
 			}
 			case "data-rawmats-list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_rawmats');
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
@@ -2648,6 +2661,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-spareparts-list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_spareparts');
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function(){
 					 	let val = {id:$(this).attr('data-id')};
@@ -2658,6 +2672,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-officesupplies-list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_officesupplies');
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
 					 	let val = {id:$(this).attr('data-id')};
@@ -2701,6 +2716,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-material-request-stocks":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks');
 				$(document).ready(function() {
 					$(document).on("click","#form-request-inprogress",function() {
 					 	let id = $(this).attr('data-id');
@@ -2735,6 +2751,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-material-request-project":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_project');
 				$(document).ready(function() {
 					$(document).on("click","#form-request-inprogress",function() {
 					 	let id = $(this).attr('data-id');
@@ -2769,6 +2786,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-purchase-stocks-request":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_purchase_request_stocks');
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
 					 	let val = {id:$(this).attr('data-id')};
@@ -2821,6 +2839,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-purchase-project-request":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_purchase_request_project');
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
 					 	let val = {id:$(this).attr('data-id')};
@@ -2873,6 +2892,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-supplier":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_supplier');
 				 $(document).ready(function() {
 					_initCurrency_format("#price");
 					$('select[name=type]').on('change',function(e){
@@ -2893,6 +2913,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-rawmaterials":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_rawmaterials_add');
 				_initCurrency_format("#price");
 				  $(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -2905,6 +2926,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-production-stocks":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_production_stockss');
 				_initNumberOnly('#stockss');
 				  $(document).ready(function() {
 					   $(document).on("click","#form-request",function() {
@@ -2917,6 +2939,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-spareparts":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_spareparts_add');
 				  $(document).ready(function() {
 					   $(document).on("click","#form-request",function() {
 						let val = {id:$(this).attr('data-id'),type:1};
@@ -2927,6 +2950,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-officesupplies":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_officesupplies_add');
 				  $(document).ready(function() {
 					   $(document).on("click","#form-request",function() {
 					   	let val = {id:$(this).attr('data-id'),type:2};
@@ -2998,6 +3022,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-customer":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_customer_list');
 				_ajaxloaderOption('option_controller/region_option','POST',false,'region');
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -3027,6 +3052,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-joborder-stocks-supervisor":{
 				$(document).ready(function() {
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks');
 					$(document).on("click","#form-request",function() {
 				 		let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
@@ -3042,6 +3068,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-joborder-project-supervisor":{
 				$(document).ready(function() {
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project');
 					$(document).on("click","#form-request",function() {
 				 		let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
@@ -3193,6 +3220,7 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-customer-customized-sales":{
 				$(document).ready(function(){
+					  KTDatatablesDataSourceAjaxClient.init('tbl_customized_sales');
 					  $('.summernote').summernote({
 					     height: 300
 					  });
@@ -3370,6 +3398,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-inquiry":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_inquiry');
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
 					 	let id = $(this).attr('data-id');
@@ -4563,18 +4592,7 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	  			$(".docs").val(response.docs);
 
-	  			let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-				let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader1('tbl_material',TableURL,TableData,response.production_no);
-
-				let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-				let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response.production_no);
-
-				let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-				let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.production_no);
-
+	  			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response.production_no);
 	  		}
 	  		$(document).on("click","#update-material-request",function(e) {
 	  				let element = $(this);
@@ -4635,19 +4653,7 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
 	  			$(".image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
 	  			$(".docs").val(response.docs);
-
-	  			let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
-				let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader1('tbl_material',TableURL,TableData,response.production_no);
-
-				let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
-				let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader1('tbl_puchased',TableURL1,TableData1,response.production_no);
-
-				let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
-				let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader1('tbl_material_used',TableURL2,TableData2,response.production_no);
-
+	  			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response.production_no);
 	  		}
 	  		$(document).on("click","#update-material-request",function(e) {
 	  				let element = $(this);
@@ -4721,7 +4727,7 @@ var arrows;var item_v;var price;var special_option;
 	  			$('.data-table').empty().append(html);
 	  	 	break;
 	  	 }
-	  	 	case "accounting_dashboard":{
+	  	 case "accounting_dashboard":{
 	  		$('#p_request').text(response.data.p);
 	  		$('#s_request').text(response.data.s);
 	  		break;
@@ -6398,6 +6404,14 @@ var arrows;var item_v;var price;var special_option;
 	  		$("#color").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	  		break;
 	  	}
+	  	case "View_Joborder_Request_Project":{
+	  		$('#joborder').text(response.production_no);
+	  		$('#joborder').attr('data-id',response.production_no);
+	  		$('#title').val(response.title);
+	  		$('#docs_href').attr('href',baseURL + 'assets/images/design/project_request/docx/'+response.docs);
+	  		$("#color").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
+	  		break;
+	  	}
 	  	case "Modal_Other_Materials_view":{
 	  		if(!response == false){
 	  			$('input[name=id]').val(response.id);
@@ -6509,11 +6523,8 @@ var arrows;var item_v;var price;var special_option;
 	  		$('input[name=mobile]').val(response.mobile);
 	  		$('input[name=email]').val(response.email);
 	  		$('input[name=address]').val(response.address);
-
 	  		$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response.image+')');
-	  		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
-			let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
-			_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response.id);
+	  		KTDatatablesDataSourceAjaxClient.init('tbl_supplier_item',response.id);
 	  		break;
 	  	}
 	  	case "Modal_Supplier_Item_Update_View":{
@@ -6526,25 +6537,7 @@ var arrows;var item_v;var price;var special_option;
 	  	case "Update_Sales_Delivery_Receipt_Superuser":{
 	  		if(response != false){
 	  			_initToast(response.type,response.message);
-	  			let TableURL1 = baseURL + 'datatable_controller/Sales_Delivery_Request_DataTable_Superuser';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action'}]; 
-				_DataTableLoader('tbl_delivery_request',TableURL1,TableData1,false);
-
-				let TableURL2 = baseURL + 'datatable_controller/Sales_Delivery_Ship_DataTable_Superuser';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_delivery_shipping',TableURL2,TableData2,false);
-
-				let TableURL3 = baseURL + 'datatable_controller/Sales_Delivery_Received_DataTable_Superuser';
-				let TableData3 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_delivery_received',TableURL3,TableData3,false);
-
-				let TableURL4 = baseURL + 'datatable_controller/Sales_Delivery_Completed_DataTable_Superuser';
-				let TableData4 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_delivery_completed',TableURL4,TableData4,false);
-
-				let TableURL5 = baseURL + 'datatable_controller/Sales_Delivery_Cancelled_DataTable_Superuser';
-				let TableData5 = [{data:'so_no'},{data:'customer'},{data:'email'},{data:'mobile'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_delivery_cancelled',TableURL5,TableData5,false);
+	  			KTDatatablesDataSourceAjaxClient.init('tbl_sales_delivery_superuser');
 				_initnotificationupdate();
 	  		}else{
 

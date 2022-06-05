@@ -625,6 +625,22 @@ class Update_controller extends CI_Controller
         $data = array('status' =>  'success');
         echo json_encode($data);
      }
+     public function Update_Joborder_Project(){
+        $production_no = $this->input->post('production_no');
+        $mat_itemno = $this->input->post('mat_itemno');            
+        $mat_quantity = $this->input->post('mat_quantity');
+        $mat_remarks = $this->input->post('mat_remarks');
+        $mat_type = $this->input->post('mat_type');
+        $mat_itemno = $this->input->post('mat_itemno');
+        $pur_item = $this->input->post('pur_itemno');
+        $pur_quantity = $this->input->post('pur_quantity');
+        $pur_unit = $this->input->post('pur_unit');
+        $pur_remarks = $this->input->post('pur_remarks');
+        $pur_type = $this->input->post('pur_type');
+        $this->update_model->Update_Joborder_Project($production_no,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type);
+        $data = array('status' =>  'success');
+        echo json_encode($data);
+     }
      public function Update_Salesorder_Stock_Request(){
 
          $id = $this->input->post('id');

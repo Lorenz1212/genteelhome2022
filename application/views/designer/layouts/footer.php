@@ -37,7 +37,7 @@
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
 								<?php 
-								echo ($this->appinfo->creative('_DESIGNER_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->creative('_DESIGNER_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->creative('_DESIGNER_PROFILE').')"></div>';
+								echo ($this->appinfo->creative('_DESIGNER_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->creative('_DESIGNER_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->creative('_DESIGNER_PROFILE').')"></div>';
 								?>
 						<i class="symbol-badge bg-success"></i>
 					</div>
@@ -75,7 +75,7 @@
 				<!--begin::Nav-->
 				<div class="navi navi-spacer-x-0 p-0">
 					<!--begin::Item-->
-					<a href="<?php echo base_url()?>gh/designer/user_update/<?php echo $this->session->userdata('id')?>" class="navi-item">
+					<a href="<?php echo base_url()?>gh/designer/user_update" class="navi-item">
 						<div class="navi-link">
 							<div class="symbol symbol-40 bg-light mr-3">
 								<div class="symbol-label">
@@ -96,6 +96,31 @@
 								<div class="font-weight-bold">My Profile</div>
 								<div class="text-muted">Account settings and more
 								<span class="label label-light-danger label-inline font-weight-bold">update</span></div>
+							</div>
+						</div>
+					</a>
+					<!--end:Item-->
+					<!--begin::Item-->
+					<a href="<?php echo base_url()?>gh/designer/tutorial" class="navi-item">
+						<div class="navi-link">
+							<div class="symbol symbol-40 bg-light mr-3">
+								<div class="symbol-label">
+									<span class="svg-icon svg-icon-md svg-icon-primary">
+										<!--begin::Svg Icon | path:assets/media/svg/icons/General/Notification2.svg-->
+										<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+										    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										        <rect x="0" y="0" width="24" height="24"/>
+										        <path d="M10,4 L21,4 C21.5522847,4 22,4.44771525 22,5 L22,7 C22,7.55228475 21.5522847,8 21,8 L10,8 C9.44771525,8 9,7.55228475 9,7 L9,5 C9,4.44771525 9.44771525,4 10,4 Z M10,10 L21,10 C21.5522847,10 22,10.4477153 22,11 L22,13 C22,13.5522847 21.5522847,14 21,14 L10,14 C9.44771525,14 9,13.5522847 9,13 L9,11 C9,10.4477153 9.44771525,10 10,10 Z M10,16 L21,16 C21.5522847,16 22,16.4477153 22,17 L22,19 C22,19.5522847 21.5522847,20 21,20 L10,20 C9.44771525,20 9,19.5522847 9,19 L9,17 C9,16.4477153 9.44771525,16 10,16 Z" fill="#000000"/>
+										        <rect fill="#000000" opacity="0.3" x="2" y="4" width="5" height="16" rx="1"/>
+										    </g>
+										</svg>
+										<!--end::Svg Icon-->
+									</span>
+								</div>
+							</div>
+							<div class="navi-text">
+								<div class="font-weight-bold">Tutorial</div>
+								<div class="text-muted">Video tutorial and more</div>
 							</div>
 						</div>
 					</a>

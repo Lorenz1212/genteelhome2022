@@ -53,10 +53,10 @@
 			            </ul>
 			   		 </div>
 			   		</div>
-			    <div class="card-body link" data-link="tbl_sales_delivery_superuser">
+			    <div class="card-body">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
-			                <table class="table table-bordered table-hover" id="tbl_delivery_request" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_delivery_request">
 								<thead>
 									<tr>
 										<th>DR #.</th>
@@ -70,7 +70,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover" id="tbl_delivery_shipping" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_delivery_shipping">
 								<thead>
 									<tr>
 										<th>DR #.</th>
@@ -84,7 +84,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="received" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover" id="tbl_delivery_received" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_delivery_received">
 								<thead>
 									<tr>
 										<th>DR #.</th>
@@ -98,7 +98,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			                <table class="table table-bordered table-hover" id="tbl_delivery_completed" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_delivery_completed">
 								<thead>
 									<tr>
 										<th>DR #.</th>

@@ -11,7 +11,7 @@
   table-layout: fixed;
 }
 </style>
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-jobeorder-update-stocks">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-jobeorder-update-project">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -30,7 +30,7 @@
 				    <div class="card-header card-header-tabs-line">
 				        <div class="card-toolbar">
 				            <div class="card-title">
-									<h3 class="card-label">Job Order: <span id="joborder"></span></h3>
+									<h3 class="card-label"><span id="joborder"></span></h3>
 							 </div>
 				        </div>
 				    </div>
@@ -39,12 +39,12 @@
 			       		 <div class="row">
 						 	  <div class="col-lg-12 col-xl-12 col-md-12">
 							    <div class="form-group">
-								   <label>ITEM</label>
+								   <label>Project Title</label>
 								   <div class="input-group">
 									   <input class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" id="title" disabled/>
 									  </select>
 									   <div class="input-group-append" style="padding-left: 10px;">
-									   		<a class="btn btn-light-dark font-weight-bold btn-sm btn-shadow btn-square" id="docs_href" data-toggle="tooltip" data-theme="dark" title="View Specification"><i class="flaticon2-paper"></i></a>
+									   		<a class="btn btn-light-dark font-weight-bold btn-sm btn-shadow btn-square" target="_blank" id="docs_href" data-toggle="tooltip" data-theme="dark" title="View Specification"><i class="flaticon2-paper"></i></a>
 									   </div>
 									</div>
 								</div>

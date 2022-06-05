@@ -43,11 +43,11 @@ class Delete_model extends CI_Model
       $this->db->delete('tbl_customer_testimony');
    }
    function Delete_Inspection_Image($id){
-      $query = $this->db->select('*')->from('tbl_product_inspection')->where('id',$id)->get();
+      $query = $this->db->select('*')->from('tbl_project_inspection')->where('id',$id)->get();
       $row = $query->row();
       unlink("./assets/images/inspection/".$row->images);
       $this->db->where('id',$id);
-      $this->db->delete('tbl_product_inspection');
+      $this->db->delete('tbl_project_inspection');
    }
    function Delete_Material_Request_Supervisor($id){
       $this->db->where('id',$id);

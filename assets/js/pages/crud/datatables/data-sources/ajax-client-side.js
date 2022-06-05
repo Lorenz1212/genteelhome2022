@@ -2,7 +2,7 @@
 var KTDatatablesDataSourceAjaxClient = function() {
 var TableURL;
 var TableData;
-var _DataTableLoader = async function(link,TableURL,TableData,order_by){
+var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false){
 	var table = $('#'+link);
 	table.DataTable().clear().destroy();
 	$.fn.dataTable.ext.errMode = 'throw';
@@ -22,12 +22,12 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 			url: TableURL,
 			type: 'POST',
 			datatype: "json",
-			data: {status:false},
+			data: {val:val},
 		},
 		columns:TableData,
 	});
 }
-	var _initView_Table = function(view){
+	var _initView_Table = function(view,val){
 		switch(view){
 			case "tbl_joborder_stocks":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Stocks_Request_DataTable';
@@ -236,12 +236,6 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 				TableURL = baseURL + 'datatable_controller/RawMat_Production_Stocks_DataTable';
 				TableData =  [{data: 'no'},{data: 'item'},{data:'stocks'},{data:'action'}];
 				_DataTableLoader('tbl_production_stocks',TableURL,TableData,false);
-				break;
-			}
-			case "tbl_supplier_item":{
-				TableURL = baseURL + 'datatable_controller/SupplierItem_DataTable';
-				TableData =  [{data:'item'},{data: 'price'},{data:'status'},{data: 'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}];
-				_DataTableLoader('tbl_supplier_item',TableURL,TableData,supplier_id);
 				break;
 			}
 			case "tbl_supplier":{
@@ -571,7 +565,26 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 				_DataTableLoader('tbl_customer_list',TableURL,TableData,[[1,'desc']]);
 				break;
 			}
+			case "tbl_joborder_material":{
+				let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
+				let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader('tbl_material',TableURL,TableData,false,val);
 
+				let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
+				let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader('tbl_puchased',TableURL1,TableData1,false,val);
+
+				let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
+				let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
+				_DataTableLoader('tbl_material_used',TableURL2,TableData2,false,val);
+				break;
+			}
+			case "tbl_supplier_item":{
+				let TableURL = baseURL + 'datatable_controller/Supplier_Item_View';
+			    let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
+				_DataTableLoader('tbl_supplier_item',TableURL,TableData,false,val);
+				break;
+			}
 		
 
 		}	 
@@ -580,14 +593,13 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 
 	return {
 		//main function to initiate the module
-		init: function(link) {
-			var link = $('.link').attr('data-link');
-			_initView_Table(link)
+		init: function(link,val=false) {
+			_initView_Table(link,val);
 		},
 	};
 
 }();
 
-jQuery(document).ready(function() {
-	KTDatatablesDataSourceAjaxClient.init();
-});
+// jQuery(document).ready(function() {
+// 	KTDatatablesDataSourceAjaxClient.init();
+// });

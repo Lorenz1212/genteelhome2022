@@ -77,5 +77,10 @@ class View_controller extends CI_Controller {
         $data = $this->view_model->View_Joborder_Request_Stocks($id);
         echo json_encode($data); 
     }
+    public function View_Joborder_Request_Project(){
+        $id = $this->input->post('id');
+        $data = $this->view_model->View_Joborder_Request_Project($id);
+        echo json_encode($data); 
+    }
 }
 ?>

@@ -117,11 +117,7 @@ class Modal_controller extends CI_Controller
         $data = $this->modal_model->Modal_Supplier_Item_Update_View($id);
         echo json_encode($data);
      }
-     public function Modal_Supplier_Item_View(){
-        $id = $this->input->post('val');
-        $data = $this->modal_model->Modal_Supplier_Item_View($id);
-        echo json_encode($data);
-     }
+    
 
 
      public function Modal_Production_Stocks(){

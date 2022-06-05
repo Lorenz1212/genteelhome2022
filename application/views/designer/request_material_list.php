@@ -1,6 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-	<div class="form" data-link="Create_Joborder_Inpection_Stocks_Image"></div>
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="request-material-list">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -20,8 +19,8 @@
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" href="#request">
-			                        <span class="nav-text mr-2">List of Request</span>
-			                        <span class="label label-rounded label-primary request_material_pending">0</span>
+			                        <span class="nav-text mr-2">Request</span>
+			                        <span class="label label-rounded label-warning request_material_pending">0</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
@@ -40,9 +39,9 @@
 			        </div>
 			    </div>
 			    <div class="card-body">
-			        <div class="tab-content link" data-link="tbl_request_material">
+			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
-			               	<table class="table table-bordered table-hover table-checkable " id="tbl_request_material_list"  style="margin-top: 13px !important">
+			               	<table class="table table-bordered table-hover " id="tbl_request_material_list"  >
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -55,7 +54,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="complete" role="tabpanel" aria-labelledby="kt_tab_pane_2_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_received" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_request_material_received" >
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -68,7 +67,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="kt_tab_pane_2_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_request_material_cancelled" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_request_material_cancelled" >
 								<thead>
 									<tr>
 										<th>NO</th>

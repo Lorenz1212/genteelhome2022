@@ -120,6 +120,10 @@ class View_model extends CI_Model
         $query = $this->db->select('*')->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->where('p.production_no',base64_decode($id))->get()->row();
         return $query;
     }
+     function View_Joborder_Request_Project($id){
+        $query = $this->db->select('*')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','d.id=c.project_no','LEFT')->where('p.production_no',base64_decode($id))->get()->row();
+        return $query;
+    }
    
 }
 ?>

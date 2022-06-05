@@ -83,7 +83,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12" style="height: 310px;">
+							<div class="col-md-12" style="height: 430px;">
 									<table class="table table-hover" id="tbl_supplier_item">
 						              			<thead>
 												<tr class="table-primary">

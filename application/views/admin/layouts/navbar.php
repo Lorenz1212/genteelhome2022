@@ -101,7 +101,7 @@
 																</ul>
 															</div>
 														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+													<!-- 	<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="javascript:;"class="menu-link">
 																<span class="menu-text">Sales Order</span>
 																<i class="menu-arrow"></i>
@@ -128,8 +128,8 @@
 																	</li>
 																</ul>
 															</div>
-														</li>
-													<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+														</li> -->
+													<!-- <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="javascript:;" class="menu-link">
 																<span class="menu-text">Users Request</span>
 																<i class="menu-arrow"></i>
@@ -154,7 +154,7 @@
 																	</li>
 																</ul>
 															</div>
-														</li>
+														</li> -->
 													</ul>
 												</div>
 											</li>

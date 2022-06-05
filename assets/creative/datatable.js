@@ -84,6 +84,42 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 				_DataTableLoader('tbl_preoder_rejected',TableURL2,TableData2,[[4,'desc']]);
 				break;
 			}
+			case "tbl_joborder_stocks":{
+				TableURL = baseURL + 'datatable_controller/Joborder_Stocks_Request_DataTable';
+				TableData = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				_DataTableLoader('tbl_joborder_request',TableURL,TableData,[[ 4,'desc']]);
+
+				let TableURL1 = baseURL + 'datatable_controller/Joborder_Stocks_Pending_DataTable';
+				let TableData1 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,[[ 4,'desc']]);
+
+				let TableURL3 = baseURL + 'datatable_controller/Joborder_Stocks_Complete_DataTable';
+				let TableData3 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 4,'desc']]);
+
+				let TableURL4 = baseURL + 'datatable_controller/Joborder_Stocks_Cancelled_DataTable';
+				let TableData4 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 4,'desc']]);
+				break;
+			}
+			case "tbl_joborder_project":{
+				TableURL = baseURL + 'datatable_controller/Joborder_Project_Request_DataTable';
+				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_joborder_request',TableURL,TableData,[[ 3,'desc']]);
+
+				let TableURL1 = baseURL + 'datatable_controller/Joborder_Project_Pending_DataTable';
+				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+				_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,[[ 3,'desc']]);
+
+				let TableURL3 = baseURL + 'datatable_controller/Joborder_Project_Complete_DataTable';
+				let TableData3 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 3,'desc']]);
+
+				let TableURL4 = baseURL + 'datatable_controller/Joborder_Project_Cancelled_DataTable';
+				let TableData4 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'}]; 
+				_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 3,'desc']]);
+				break;
+			}
 
 		}	 
 	}

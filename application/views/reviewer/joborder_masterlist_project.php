@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-joborder-list">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="joborder-project-masterlist">
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -24,7 +24,7 @@
 				<div class="card-header">
 				</div>
 				<div class="card-body">
-					<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_masterlist" data-link="tbl_joborder_masterlist_project" style="width: 100%;">
+					<table class="table table-bordered table-hover" id="tbl_joborder_masterlist" style="width: 100%;">
 						<thead>
 							<tr>
 								<th style="width:15%;">Trans #</th>

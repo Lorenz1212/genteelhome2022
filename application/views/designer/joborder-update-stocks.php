@@ -30,7 +30,7 @@
 				    <div class="card-header card-header-tabs-line">
 				        <div class="card-toolbar">
 				            <div class="card-title">
-									<h3 class="card-label">Job Order: <span id="joborder"></span></h3>
+									<h3 class="card-label"><span id="joborder"></span></h3>
 							 </div>
 				        </div>
 				    </div>
@@ -44,7 +44,7 @@
 									   <input class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" id="title" disabled/>
 									  </select>
 									   <div class="input-group-append" style="padding-left: 10px;">
-									   		<a class="btn btn-light-dark font-weight-bold btn-sm btn-shadow btn-square" id="docs_href" data-toggle="tooltip" data-theme="dark" title="View Specification"><i class="flaticon2-paper"></i></a>
+									   		<a class="btn btn-light-dark font-weight-bold btn-sm btn-shadow btn-square" target="_blank" id="docs_href" data-toggle="tooltip" data-theme="dark" title="View Specification"><i class="flaticon2-paper"></i></a>
 									   </div>
 									</div>
 								</div>

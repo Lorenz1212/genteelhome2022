@@ -123,6 +123,7 @@ class Gh extends CI_Controller {
           case "request-pre-order":{$this->load->view('designer/request_preorder.php');break;}
           case "request-customized":{$this->load->view('designer/request_customized.php');break;}
           case "user_update":{$this->load->view('designer/user_update.php');break;}
+          case "tutorial":{$this->load->view('designer/tutorial.php');break;}
           default: {redirect(base_url().'gh/designer/index');break;}
         }
         $this->load->view('designer/layouts/footer.php');

@@ -60,7 +60,6 @@
 												<thead>
 													<tr>
 														<th>Trans #</th>
-														<th>IMAGE</th>
 														<th style="white-space:nowrap;">TITLE</th>
 														<th style="width:5px;">QTY</th>
 														<th style="width:10px;">REQUESTOR</th>
@@ -75,7 +74,6 @@
 												<thead>
 													<tr>
 														<th style="width: 140px;;">Trans #</th>
-														<th>IMAGE</th>
 														<th class="mr-2" style="width: 180px;;">TITLE</th>
 														<th >REQUESTOR</th>
 														<th >STATUS</th>
