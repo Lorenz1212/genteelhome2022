@@ -88,7 +88,7 @@ class Datatable_model extends CI_Model{
     function Design_Stocks_Approved_DataTable(){
        $query = $this->db->query("SELECT *, DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
             (SELECT title FROM tbl_project_design WHERE id=tbl_project_color.project_no) AS title,
-            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_color.designer) AS requestor FROM tbl_project_color WHERE status=2 AND type=1 AND designer=".$this->user_id."");
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_color.designer) AS requestor FROM tbl_project_color WHERE status=2 AND type=1");
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
                $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-stocks" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>
@@ -111,7 +111,7 @@ class Datatable_model extends CI_Model{
     function Design_Stocks_Rejected_DataTable(){
         $query = $this->db->query("SELECT *, DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
             (SELECT title FROM tbl_project_design WHERE id=tbl_project_color.project_no) AS title,
-            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_color.designer) AS requestor FROM tbl_project_color WHERE status=3 AND type=1 AND designer=".$this->user_id."");
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_color.designer) AS requestor FROM tbl_project_color WHERE status=3 AND type=1");
         if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row) {
                $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-stocks" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>
