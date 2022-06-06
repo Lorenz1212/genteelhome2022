@@ -2662,18 +2662,18 @@ class Datatable_model extends CI_Model{
      function Account_Report_Collection_Daily($month,$year){
            $data =false;
             if($month == false || $year == false){
-                $date = "MONTH(s.date_collect)=".date('m')." AND YEAR(s.date_collect)=".date('Y')."";
+                $date = "MONTH(date_collect)=".date('m')." AND YEAR(date_collect)=".date('Y')."";
             }else{
-                $date = "MONTH(s.date_collect)=".$month." AND YEAR(s.date_collect)=".$year."";
+                $date = "MONTH(date_collect)=".$month." AND YEAR(date_collect)=".$year."";
             }
-            $query = $this->db->query("SELECT *,DATE_FORMAT(s.date_collect, '%M %d %Y') as date_created FROM tbl_sales_collection s LEFT JOIN tbl_salesorder_customer c ON c.id=s.customer WHERE ".$date." ORDER BY s.date_collect ASC");   
+            $query = $this->db->query("SELECT *,DATE_FORMAT(date_collect, '%M %d %Y') as date_created FROM tbl_sales_collection WHERE ".$date." ORDER BY date_collect ASC");   
              if($query){
                  foreach($query->result() as $row){
                      $gross = $row->amount / 1.12;
                      $vat = $row->amount - $gross;
                      $data[] = array(
                                   'so_no'        => $row->so_no,
-                                  'customer'     => $row->fullname,
+                                  'customer'     => $row->customer,
                                   'bank'         => $row->bank,
                                   'gross'        => round($gross,2),
                                   'vat'          => round($vat,2),
@@ -4103,15 +4103,17 @@ class Datatable_model extends CI_Model{
 
     function Collected_Request_DataTable_Accounting(){
          $data=array(); 
-        $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','P')->order_by('date_created','DESC')->get();
+         $query = $this->db->query("SELECT *,CONCAT(firstname, ' ',lastname) AS customer,DATE_FORMAT(date_deposite, '%M %d %Y') as date_created  FROM tbl_customer_deposite WHERE status='P'");
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row) {
              $status='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';  
-             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
+             $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-light btn-hover-success btn-icon btn-sm mr-2 btn-approved" data-trans="'.$row->order_no.'" data-id="'.$this->encryption->encrypt($row->id).'" data-status="A"><i class="la la-check"></i>
+                </button><button type="button" class="btn btn-light btn-hover-danger btn-icon btn-sm mr-2 btn-cancelled" data-trans="'.$row->order_no.'" data-id="'.$this->encryption->encrypt($row->id).'" data-status="C"><i class="la la-remove"></i></button>
+                <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button></div>';
+            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/deposit/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->customer.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->bank.'</a></div></div></div></span>';
              $data[] = array(
                           'so_no'        => $row->order_no,
-                          'customer'     => $row->customer,
-                          'bank'         => $row->bank,
+                          'customer'     => $title,
                           'amount'       => number_format($row->amount,2),
                           'date'         => $row->date_created,
                           'status'       => $status,
@@ -4123,15 +4125,15 @@ class Datatable_model extends CI_Model{
     }
     function Collected_Approved_DataTable_Accounting(){
         $data =array();   
-        $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','APPROVED')->order_by('date_created','DESC')->get();
+        $query = $this->db->query("SELECT *,CONCAT(firstname, ' ',lastname) AS customer,DATE_FORMAT(date_deposite, '%M %d %Y') as date_created  FROM tbl_customer_deposite WHERE status='A'");
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
              $status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Approved</span></span>';  
-             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
+             $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>'; 
+             $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/deposit/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->customer.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->bank.'</a></div></div></div></span>';
              $data[] = array(
                           'so_no'        => $row->order_no,
-                          'customer'     => $row->customer,
-                          'bank'         => $row->bank,
+                          'customer'     => $title,
                           'amount'       => number_format($row->amount,2),
                           'date'         => $row->date_created,
                           'status'       => $status,
@@ -4143,15 +4145,15 @@ class Datatable_model extends CI_Model{
     }
      function Collected_Cancelled_DataTable_Accounting(){
         $data =array();   
-        $query = $this->db->select('*,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('status','CANCELLED')->order_by('date_created','DESC')->get();
+        $query = $this->db->query("SELECT *,CONCAT(firstname, ' ',lastname) AS customer,DATE_FORMAT(date_deposite, '%M %d %Y') as date_created  FROM tbl_customer_deposite WHERE status='C'");
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
              $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';  
-             $action = '<button type="button" class="btn btn-sm btn-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
+            $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>'; 
+            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/deposit/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->customer.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->bank.'</a></div></div></div></span>';
              $data[] = array(
                           'so_no'        => $row->order_no,
-                          'customer'     => $row->customer,
-                          'bank'         => $row->bank,
+                          'customer'     => $title,
                           'amount'       => number_format($row->amount,2),
                           'date'         => $row->date_created,
                           'status'       => $status,

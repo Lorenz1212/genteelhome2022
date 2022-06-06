@@ -360,6 +360,7 @@ var KTFormControlsAccounting = function () {
 		        );
 		       	$('#view-materials').on('hidden.bs.modal', function () {
 				    validation_mat.resetForm();
+				    $('#Create-sales-form').get(0).reset();
 				});
 				$('.btn-edit-details-materials').on('click',function(e){
 		            e.preventDefault();
@@ -373,6 +374,93 @@ var KTFormControlsAccounting = function () {
 	                });                
 	            });
 				break;	
+			}
+			case "sales-collection":{
+				var form = KTUtil.getById('Create-sales-form');
+		       	validation = FormValidation.formValidation(
+		            form,{
+		                fields: {
+							firstname: {
+								validators: {
+									notEmpty: {
+										message: 'First name is required'
+									},
+								}
+							},
+							lastname: {
+								validators: {
+									notEmpty: {
+										message: 'Last name is required'
+									},
+								}
+							},
+
+							email: {
+								validators: {
+									notEmpty: {
+										message: 'Email is required'
+									},
+								}
+							},
+							order_no: {
+								validators: {
+									notEmpty: {
+										message: 'Order No. is required'
+									},
+								}
+							},
+							date_deposite: {
+								validators: {
+									notEmpty: {
+										message: 'Date Deposite is required'
+									},
+								}
+							},
+							amount: {
+								validators: {
+									notEmpty: {
+										message: 'Amount is required'
+									},
+								}
+							},
+							bank: {
+								validators: {
+									notEmpty: {
+										message: 'Bank type is required'
+									},
+								}
+							},
+							image: {
+								validators: {
+									notEmpty: {
+										message: 'Photo of deposite slip is required'
+									},
+								}
+							},
+
+		                },
+
+		                plugins: {
+		                    trigger: new FormValidation.plugins.Trigger(),
+		                    bootstrap: new FormValidation.plugins.Bootstrap(),
+		                }
+		            }
+		        );
+		        $('#create-sales-collection-modal').on('hidden.bs.modal', function () {
+				    validation.resetForm();
+				});
+				$('.btn-save').on('click',function(e){
+		            e.preventDefault();
+		            validation.validate().then(function(status) {
+		                if (status == 'Valid') {
+		                		let formData = new FormData(form);
+		                        formData.append("action", "sales-collection");
+		                        formData.append("type", 'add_sales_collection');
+		                        _ajaxForm(formData,'add_sales_collection',false);
+		                }	
+	                });                
+	            });
+				break;
 			}
 		}
 	}
@@ -396,6 +484,12 @@ var KTFormControlsAccounting = function () {
 				}else{
 					$('#view-materials').modal('hide');
 				}
+				break;
+			}
+			case "add_sales_collection":{
+				_showToast(response.type,response.message);
+				$('#create-sales-collection-modal').modal('hide');
+				KTDatatablesDataSourceAjaxClient.init('tbl_collection');
 				break;
 			}
 			

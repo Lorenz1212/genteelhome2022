@@ -402,22 +402,91 @@ const month = ["January","February","March","April","May","June","July","August"
 				break;
 			}
 			case "data-collection":{
+				KTFormControlsAccounting.init('sales-collection');
 				KTDatatablesDataSourceAjaxClient.init('tbl_collection');
-				$('#kt_datepicker_4_3').datepicker({
-				   rtl: KTUtil.isRTL(),
-				   orientation: "bottom left",
-				   todayHighlight: true,
-				   templates: arrows
-				  });
 				_initCurrency_format('#amount');
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Customer_Collection';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Customer_Collection");
-				    });
-				})
+				 $(document).on("click",".view-details",function() {
+				 	let id = $(this).attr('data-id');
+				 	let val = {id:id};
+				 	let thisUrl = 'modal_controller/Modal_Customer_Collection';
+					_ajaxloader(thisUrl,"POST",val,"Modal_Customer_Collection");
+			    });
+				$(document).on("click",".create-sales-collection-modal",function(e) {
+				 		e.preventDefault();
+				 		$('#create-sales-collection-modal').modal('show');
+			    });
+			     $('body').delegate('.btn-approved','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Do you want to move this form? Trans #: "+element.attr('data-trans'),
+			                          text: "You wont be able to revert this!",
+			                          icon: "warning",
+			                          showCancelButton: true,
+			                          confirmButtonText: "Yes, proceed!",
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      }).then(function(result) {
+			                          if (result.value){
+			                              let id = element.attr('data-id');
+			                              let status = element.attr('data-status');
+			                     		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Joborder...'),_constructForm(['sales-collection', 'fetch_sales_collection_status',id,status]));
+			                          } 
+			                      });
+			            });
+					 $("body").delegate('.btn-cancelled','click',function(e){
+					 	   e.preventDefault();
+			                  e.stopImmediatePropagation(); 
+			                  let element=$(this);
+			                  Swal.fire({
+			                    title:'Reason to Cancel',
+			                    input: 'textarea',
+			                    heightAuto: true,
+			                    // inputLabel: 'Remarks',
+			                    inputPlaceholder: 'Enter your remarks',
+			                    confirmButtonText: 'Submit',
+			                    // inputValue: my_reviews,
+			                    // onOpen: get_pc_options(classni),
+			                    inputAttributes: {
+			                      maxlength: 500,
+			                      rows: 10
+			                    },
+			                    showCancelButton: true,
+			                    inputValidator: (value) => {
+			                      return new Promise((resolve) => {
+			                        if (value.length >=1){
+			                          resolve();
+			                        }else{
+			                          resolve('Please enter your remarks.')
+			                        }
+			                      })
+			                    }
+			                  }).then(function(result){
+			                      if(result.isConfirmed == true){
+			                        if(result.value){
+			                          	let id = element.attr('data-id');
+			                          	 let status = element.attr('data-status');
+			                     		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Joborder...'),_constructForm(['sales-collection', 'fetch_sales_collection_status',id,status,result.value]));
+			                        }else{
+			                           swal.fire('Opss', 'Please enter your remarks', 'info');
+			                        }
+			                      }
+			                  });
+			              })
+					 $('body').delegate('.btn-remarks','click',function(e){
+			                    e.preventDefault();
+			                    e.stopImmediatePropagation();
+			                    let element = $(this);
+			                        Swal.fire({
+			                          title: "Trans #: "+element.attr('data-trans')+"</br>Reason to Remarks",
+			                          text: element.attr('data-remarks'),
+			                          showConfirmButton:false,
+			                          showCancelButton: false,
+			                          cancelButtonText: "close!",
+			                          reverseButtons: true
+			                      })
+			            });
 			}
 			case "data-salesorder-create-project":{
 				_initNumberOnly(".qty,#discount");
@@ -769,21 +838,7 @@ const month = ["January","February","March","April","May","June","July","August"
 				})
 				break;
 			}
-			case "data-salesorder-stocks-print":{
-					let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
-					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Stocks");
-				break;
-			}
-			case "data-salesorder-project-print":{
-					let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
-					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Project");
-				break;
-			}
-			case "data-profile-update":{
-				let thisUrl = 'view_controller/View_Profile';
-				_ajaxloader(thisUrl,"POST",false,"View_Profile");
-				break;
-			}
+		
 			case "report-collection":{
 					$(document).on('click','#search',function(e){
 				   		var action = $(this).attr('data-action');
@@ -1098,6 +1153,16 @@ const month = ["January","February","March","April","May","June","July","August"
 				})
 				break;
 			}
+			case "data-salesorder-stocks-print":{
+					let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
+					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Stocks");
+				break;
+			}
+			case "data-salesorder-project-print":{
+					let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
+					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Project");
+				break;
+			}
 			
 		}
 	}
@@ -1113,11 +1178,7 @@ const month = ["January","February","March","April","May","June","July","August"
   			$('#date_deposite').val(response.date_created);
   			$('#amounts').val(response.amount);
   			$('#bank').val(response.bank);
-  			if(response.status == 'A'){
-  				$('.btn_action').hide();
-  			}else{
-  				$('.btn_action').show();
-  			}
+  			$('#edit-sales-collection').modal('show');
 	  		break;
 	  	}
 	  	case "Modal_SalesOrder_Stocks":{
@@ -3850,6 +3911,10 @@ const month = ["January","February","March","April","May","June","July","August"
 				}else{
 					$('#tbl_others > tbody:last-child').empty().append('<tr><td colspan="8" rows="4"  class="text-center">NO DATA</td></tr>');
 				}
+	  			break;
+	  		}
+	  		case"fetch_sales_collection_status":{
+	  			KTDatatablesDataSourceAjaxClient.init('tbl_collection');
 	  			break;
 	  		}
 

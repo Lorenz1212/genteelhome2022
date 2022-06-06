@@ -176,16 +176,16 @@ var value;
 			}
 			case "tbl_collection":{
 				TableURL = baseURL + 'datatable_controller/Collected_Request_DataTable_Accounting';
-				TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_collection_request',TableURL,TableData,false);
+				TableData = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}]; 
+				_DataTableLoader('tbl_collection_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Collected_Approved_DataTable_Accounting';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,width:20,className:"text-center"}];
-				_DataTableLoader('tbl_collection_approved',TableURL1,TableData1,false);
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}];
+				_DataTableLoader('tbl_collection_approved',TableURL1,TableData1,[[3,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Collected_Cancelled_DataTable_Accounting';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,width:20,className:"text-center"}];
-				_DataTableLoader('tbl_collection_cancelled',TableURL2,TableData2,false);
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}];
+				_DataTableLoader('tbl_collection_cancelled',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
 			case "tbl_other_purchase_invetory":{

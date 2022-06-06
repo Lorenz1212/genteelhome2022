@@ -1,6 +1,75 @@
 <?php 
 class Accounting_model extends CI_Model{  
-
+		private function move_to_folder_docs($image,$tmp,$path){
+         $path_folder = $path.$image;
+         copy($tmp, $path_folder);
+         return true;
+  	}
+		private function move_to_folder($newimage,$tmp,$path){
+        $target_file = $path.basename($newimage);
+        return move_uploaded_file($tmp, $target_file);
+    }
+  	private function Get_Image_Code($table, $column, $key, $length, $image){
+      $code = $this->get_code($key, $length);
+      if($code){
+        $arr_image = explode('.', $image);
+        $fileActualExt = strtolower(end($arr_image));
+        $newimage = $code."-".str_replace(array( '-', '_', ' ', ',' , '(', ')'), '', $arr_image[0]).".". $fileActualExt;
+        $check = $this->Check_Code($table, $column, $newimage);
+        while ($check){
+          $code = $this->get_code($key, $length);
+          if($code){
+            $arr_image = explode('.', $image);
+            $fileActualExt = strtolower(end($arr_image));
+            $newimage = $code."-".str_replace(array( '-', '_', ' ', ',' , '(', ')'), '', $arr_image[0]).".". $fileActualExt;
+            $check = $this->Check_Code($table, $column, $newimage);
+          }else{
+            return false;
+          }
+        }
+      }else{
+        return false;
+      }
+      return $newimage;
+   }
+	  public function get_code($key, $length) {
+	    return  $key.$this->Ac_Code($length);
+	  }
+	  private function Ac_Code($codelength) { 
+	    $random="";srand((double)microtime()*1000000);
+	    $data = "ABCDEFGHJKLMNPQRSTUVWXYZ"; 
+	    $data .= "123456789"; 
+	    $data .= "54321ABCXVXV6789";
+	    for($i = 0; $i < $codelength; $i++) {
+	      $random .= substr($data, (rand()%(strlen($data))), 1);
+	    }
+	    return $random; 
+	  }
+	 private function get_random_code($table, $column, $key, $length){
+	  	   $code = $this->get_code($key, $length);
+	       if($code){
+	           $check = $this->Check_Code($table, $column, $code);
+	            while ($check){
+				    $code = $this->get_code($key, $length);
+				    if($code){
+				   	  $check = $this->Check_Code($table, $column, $code);
+				    }else{
+		              return false;
+		            }
+				}
+	        }else{
+	        	return false;
+	        }
+	        return $code;
+	}
+	private function Check_Code($table, $column, $code){
+        $sql="SELECT ".$column." FROM ".$table." WHERE ".$column."='$code'";
+		if($this->db->query($sql)->num_rows() >= 1){ 
+        	return true;
+	    }else{
+        	return false;
+        }
+	}
 	function Reports_Projectmonitoring($type,$val,$val1){
 		switch ($type) {
 			case "fetch_project_monitoring_joborder":{
@@ -154,6 +223,77 @@ class Accounting_model extends CI_Model{
 
        }
     }
+    function Sales_Collection($type,$val,$val1,$val2){
+    	switch ($type) {
+    		case 'fetch_sales_collection_status':{
+    			$id = $this->encryption->decrypt($val);
+					$sql = "SELECT *,CONCAT(firstname, ' ',lastname) AS customer FROM tbl_customer_deposite WHERE id='$id'";
+					$row = $this->db->query($sql)->row();
+					if($row){
+						$order_no = $row->order_no;
+						$customer = $row->customer;
+						$amount = $row->amount;
+						$bank = $row->bank;
+						$date_deposite = $row->date_deposite;
+						$result = $this->db->where('id',$id)->update('tbl_customer_deposite',array('status'=>$val1,'remarks'=>$val2,'latest_update'=>date('Y-m-d H:i:s')));
+						if($result){
+							if($val1 == 'A'){
+							
+								$data = array('so_no'=>$order_no,'customer'=>$customer,'amount'=>$amount,'bank'=>$bank,'date_collect'=>$date_deposite);
+								$this->db->insert('tbl_sales_collection',$data);
+								return array('type'=>'success','Approve Successfully');
+							}else{
+								return array('type'=>'success','Cancel Successfully');
+							}
+						}else{
+							return false;
+						}
+				}else{
+					return false;
+				}	
+    			break;
+    		}
+    		default:
+    			// code...
+    			break;
+    	}
+
+    }
+
+    function Submit_Sales_Collection($type,$firstname,$lastname,$mobile,$email,$amount,$order_no,$date_deposite,$bank,$image,$tmp){
+    	 $path_image =  "assets/images/deposit/";
+    	 switch($type){
+    	 	case "add_sales_collection":{
+	    	 	if($image){
+						$newimage=$this->Get_Image_Code('tbl_customer_deposite', 'image', 'DEPOSITE', 10, $image);
+						$this->move_to_folder($newimage,$tmp,$path_image);
+						$data = array('order_no'=>$order_no,'firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'mobile'=>$mobile,'amount'=>$amount,'bank'=>$bank,'image'=>$newimage,'date_deposite'=>$date_deposite);
+    	 			$result = $this->db->insert('tbl_customer_deposite',$data);
+    	 			if($result){
+    	 				return array('type'=>'success','message'=>'Create Successfully');
+    	 			}else{
+    	 				return array('type'=>'info','message'=>'Oops! Something went wrong.');
+    	 			}
+					}else{
+						return array('type'=>'info','message'=>'Please upload image of deposite slip');
+					}
+    	 		break;
+    	 	}
+    	 }
+    }
+    function Find($val){
+    	$sql = $this->db->query("SELECT * FROM tbl_salesorder_stocks WHERE so_no='$val'")->row();
+    	if($sql){
+    		return $val;
+    	}else{
+    		$sql = $this->db->query("SELECT * FROM tbl_salesorder_project WHERE so_no='$val'")->row();
+    		if($sql){
+    			return $val;
+    		}else{
+    			return false;
+    		}
+    	}
+   }
 
 
 }

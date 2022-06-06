@@ -995,7 +995,7 @@ class Modal_model extends CI_Model{
             return $query;
     }
     function Modal_Customer_Collection($id){
-         $query = $this->db->select('*,FORMAT(amount,"#,###,##0.###\,###") as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_sales_collection')->where('id',$id)->get();
+         $query = $this->db->select('*,FORMAT(amount,"#,###,##0.###\,###") as amount,CONCAT(firstname, " ",lastname) AS customer,DATE_FORMAT(date_deposite, "%M %d %Y") as date_created')->from('tbl_customer_deposite')->where('id',$this->encryption->decrypt($id))->get();
          if(!$query){return false;}else{return $query->row();}
     }
     function Modal_Customer_View($id){

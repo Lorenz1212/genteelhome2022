@@ -200,11 +200,11 @@
 															<span class="menu-text">Production Material Stocks</span>
 														</a>
 													</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
+														<!-- <li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/accounting/supplier";?>" class="menu-link">
 																<span class="menu-text">Supplier</span>
 															</a>
-														</li>
+														</li> -->
 													</ul>
 												</div>
 											</li>
