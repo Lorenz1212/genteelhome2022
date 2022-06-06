@@ -934,6 +934,21 @@ var arrows;var item_v;var price;var special_option;
 		           });
 				break;
 			}
+			case "data-salesorder-stocks-print":{
+					let thisUrl = 'modal_controller/Modal_SalesOrder_Stocks';
+					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Stocks");
+				break;
+			}
+			case "data-salesorder-project-print":{
+					let thisUrl = 'modal_controller/Modal_SalesOrder_Project';
+					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Project");
+				break;
+			}
+			case "data-salesorder-delivery-print":{
+					let thisUrl = 'modal_controller/Modal_SalesOrder_Delivery';
+					_ajaxloader(thisUrl,"POST",{id:sessionStorage.getItem('so_no')},"Modal_SalesOrder_Delivery");
+				break;
+			}
 			case "data-dashboard-superuser":{
 				let thisUrl = 'dashboard_controller/superuser_dashboard';
 				_ajaxloader(thisUrl,"POST",false,"superuser_dashboard");

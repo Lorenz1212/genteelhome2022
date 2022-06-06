@@ -177,11 +177,11 @@ var baseURL = "<?php echo base_url();?>";
 <script src="<?php echo base_url(); ?>assets/js/scripts.bundle.js"  type='text/javascript'></script>
 <script src="<?php echo base_url(); ?>assets/js/pages/my-script.js"  type='text/javascript'></script>
 <script type="text/javascript">
-// $(document).ready(function(){
-//       setTimeout(function(){
-//           window.print();
-//       }, 1000);
-//        window.onafterprint = window.close;
-//  })	
+$(document).ready(function(){
+      setTimeout(function(){
+          window.print();
+      }, 1000);
+       window.onafterprint = window.close;
+ })	
 </script> 
 </html>
