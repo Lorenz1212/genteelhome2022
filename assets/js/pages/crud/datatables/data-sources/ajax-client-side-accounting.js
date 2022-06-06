@@ -3,8 +3,6 @@ var KTDatatablesDataSourceAjaxClient = function() {
 var TableURL;
 var TableData;
 var value;
-const queryString = window.location.search;
-var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 	var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 		var table = $('#'+link);
 		table.DataTable().clear().destroy();
@@ -25,7 +23,6 @@ var url_Params_Status = queryString.replace('?dXJsc3RhdHVz','');
 				url: TableURL,
 				type: 'POST',
 				datatype: "json",
-				data: val,
 			},
 			columns:TableData,
 		});
