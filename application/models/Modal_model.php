@@ -63,8 +63,6 @@ class Modal_model extends CI_Model{
 
           return array_merge($data,$data_item);
     }
-
-
      function Modal_SalesOrder_Stocks($id){
           $id = $this->encryption->decrypt($id);
           $data=array();
