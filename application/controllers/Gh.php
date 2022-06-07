@@ -149,6 +149,7 @@ class Gh extends CI_Controller {
             case "raw-materials":{$this->load->view('production/rawmaterial_list.php'); break;}
             case "production-stocks":{$this->load->view('production/production_stocks.php'); break;}
             case "user_update":{$this->load->view('production/user_update.php');break;}
+            case "tutorial":{$this->load->view('production/tutorial.php');break;}
             default: {redirect(base_url().'gh/production/index');break;}
           }
           $this->load->view('production/layouts/footer.php');
@@ -203,6 +204,7 @@ class Gh extends CI_Controller {
             case "user_create":{$this->load->view('reviewer/user_create.php');break;}
             case "user_update":{$this->load->view('reviewer/user_update.php');break;}
             case "supplier":{$this->load->view('reviewer/supplier_list.php'); break;}
+            case "tutorial":{$this->load->view('reviewer/tutorial.php');break;}
             default: {redirect(base_url().'gh/reviewer/index');break;}
           }
           $this->load->view('reviewer/layouts/footer.php');
@@ -236,6 +238,7 @@ class Gh extends CI_Controller {
             case 'report-cashfund':{$this->load->view('admin/report_cashfund.php');break;}
             case 'report-sales-order':{$this->load->view('admin/report_salesorder.php');break;}
             case 'report-collection':{$this->load->view('admin/report_collection.php');break;}
+            case "tutorial":{$this->load->view('admin/tutorial.php');break;}
             default: {redirect(base_url().'gh/admin/index');break;} 
           }
           $this->load->view('admin/layouts/footer.php');
@@ -272,6 +275,7 @@ class Gh extends CI_Controller {
             case 'report-cashfund':{$this->load->view('accounting/report_cashfund.php');break;}
             case 'report-sales-order':{$this->load->view('accounting/report_salesorder.php');break;}
             case 'report-collection':{$this->load->view('accounting/report_collection.php');break;}
+            case "accounting":{$this->load->view('accounting/tutorial.php');break;}
             default: {redirect(base_url().'gh/accounting/index');break;}
           }
           $this->load->view('accounting/layouts/footer.php');
@@ -295,6 +299,7 @@ class Gh extends CI_Controller {
             case 'shipping-fee':{$this->load->view('webmodifier/shipping_fee.php');break;}
             case 'user_update':{$this->load->view('webmodifier/user_update.php');break;}
             case 'testimony':{$this->load->view('webmodifier/testimony.php');break;}
+            case "tutorial":{$this->load->view('webmodifier/tutorial.php');break;}
             default: {redirect(base_url().'gh/webmodifier/index');break;} 
           }
           $this->load->view('webmodifier/layouts/footer.php');
@@ -321,6 +326,7 @@ class Gh extends CI_Controller {
             case 'customer-inquiry':{$this->load->view('sales/customer_inquiry.php');break;}
             case 'customer-customized':{$this->load->view('sales/customer_customized.php');break;}
             case "collection":{$this->load->view('sales/collection.php');break;}
+            case "tutorial":{$this->load->view('sales/tutorial.php');break;}
             default: {redirect(base_url().'gh/sales/index');break;}
           }
           $this->load->view('sales/layouts/footer.php');

@@ -1024,7 +1024,7 @@ class Create_model extends CI_Model{
     	return true;
     }
      function Create_Request_Purchase($item_no,$item,$qty,$type,$amount){
-     	$trans_no=$this->get_random_code('tbl_other_material_p_header', 'trans_no', "TNXPR", 8);
+     	$trans_no=$this->get_random_code('tbl_other_material_p_header', 'request_no', "TNXPR", 8);
      	$this->db->insert('tbl_other_material_p_header',array('request_no'=>$trans_no,'purchaser'=>$this->user_id,'date_created'=>date('Y-m-d H:i:s')));
      	$last_id =$this->db->insert_id();	
 		foreach($item_no as $key => $value){

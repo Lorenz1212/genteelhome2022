@@ -1258,45 +1258,6 @@ var KTFormControls = function () {
 	 		//FOR REPAIR
 
 	 		
-	 		case "Create_Supplier":{
-				    form = document.getElementById('Create_Supplier');
-			         validation = FormValidation.formValidation(
-						form,
-						{
-							fields: {
-								name: {validators: {notEmpty: {message: 'Supplier Name is required'}}},
-			                   		mobile: {validators: {notEmpty: {message: 'Mobile No. is required'}}},
-			                   		email: {validators: {notEmpty: {message: 'Email is required'}}},
-								address: {validators: {notEmpty: {message: 'Address is required'}}}},
-
-							plugins: {
-							trigger: new FormValidation.plugins.Trigger(),
-							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-						}
-					   }
-					);
-					$('#Create_Supplier').on('submit',function(e){
-					    e.preventDefault();
-					     let element = this;
-					    validation.validate().then(function(status) {
-				            if (status == 'Valid') 
-				            { 
-				            	let formData = new FormData(element);
-				            	val = formData;
-						     thisURL = baseURL + 'create_controller/Create_Supplier';
-						     url = baseURL + 'gh/superuser/supplier_create';
-						     _ajaxForm(thisURL,"POST",val,"Create_Supplier",url);
-						
-							}
-						});
-					});
-	 			break;
-	 		}
 	 		case "Create_Return_Item":{
 	 			    var form = document.getElementById('Create_Return_Item');
 			         validation = FormValidation.formValidation(
@@ -1982,11 +1943,6 @@ var KTFormControls = function () {
 							plugins: {
 							trigger: new FormValidation.plugins.Trigger(),
 							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
 						}
 					   }
 					);
@@ -2015,11 +1971,6 @@ var KTFormControls = function () {
 							plugins: {
 							trigger: new FormValidation.plugins.Trigger(),
 							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
 						}
 					   }
 					);
@@ -2048,11 +1999,6 @@ var KTFormControls = function () {
 							plugins: {
 							trigger: new FormValidation.plugins.Trigger(),
 							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
 						}
 					   }
 					);
@@ -2078,25 +2024,10 @@ var KTFormControls = function () {
 			                },
 							plugins: {
 							trigger: new FormValidation.plugins.Trigger(),
-							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-						}
+							bootstrap: new FormValidation.plugins.Bootstrap()
+							}
 					   }
 					);
-	 			$(document).on('click','.btn-add-supplier',function(e){
-	 				e.preventDefault();
-	 				validation3.validate().then(function(status) {
-					     if (status == 'Valid'){ 	
-						 	let fd = new FormData(form3);
-						 	thisURL = baseURL + 'create_controller/Create_Supplier';
-					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Supplier",false);
-					     }
-					 });
-	 			})
 	 			$(document).on('click','.btn-add-supplier',function(e){
 	 				e.preventDefault();
 	 				validation3.validate().then(function(status) {
@@ -4400,7 +4331,7 @@ var KTFormControls = function () {
 	 		case "Create_Supplier":{
 	 			if(response !=false){
 	 				_initToast('success','New Supplier Created Successfully');
-	 				KTDatatablesDataSourceAjaxClient.init('tbl_supplier',response);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_supplier');
 					$('#Create_Supplier')[0].reset();
 					$('#add-supplier').modal('hide');
 	 			}else{

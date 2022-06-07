@@ -203,7 +203,7 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">LIST</span>
+																			<span class="menu-text">LIST OF STOCKS</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -211,7 +211,7 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">CREATE</span>
+																			<span class="menu-text">CREATE RAW MATERIAL</span>
 																		</a>
 																	</li>
 																</ul>
@@ -229,7 +229,7 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">LIST</span>
+																			<span class="menu-text">LIST OF STOCKS</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -237,7 +237,7 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">CREATE</span>
+																			<span class="menu-text">CREATE SPARE PART</span>
 																		</a>
 																	</li>
 																</ul>
@@ -255,7 +255,7 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">LIST</span>
+																			<span class="menu-text">LIST OF STOCKS</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -263,11 +263,16 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">CREATE</span>
+																			<span class="menu-text">CREATE SUPPLIES</span>
 																		</a>
 																	</li>
 																</ul>
 															</div>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/superuser/production-stocks";?>" class="menu-link">
+																<span class="menu-text">Production Stocks</span>
+															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a  href="<?php echo base_url()."gh/superuser/supplier";?>" class="menu-link">
@@ -286,7 +291,7 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">LIST</span>
+																			<span class="menu-text">LIST OF REQUEST</span>
 																		</a>
 																	</li>
 																	<li class="menu-item" aria-haspopup="true">
@@ -294,7 +299,7 @@
 																			<i class="menu-bullet menu-bullet-dot">
 																				<span></span>
 																			</i>
-																			<span class="menu-text">CREATE</span>
+																			<span class="menu-text">CREATE REQUEST</span>
 																		</a>
 																	</li>
 																</ul>

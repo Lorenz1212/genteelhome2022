@@ -180,7 +180,7 @@
 					   </div>
 					   <div class="form-group">
 						    <label class="text-white">Mobile</label>
-						    <input type="text" class="form-control form-control-lg mobile" name="mobile" />
+						    <input type="text" class="form-control form-control-lg mobile" maxlength="11" name="mobile" />
 					   </div>
 					   <div class="form-group">
 						    <label class="text-white">Email</label>
@@ -209,7 +209,7 @@
 					   </div>
 					   <div class="form-group">
 						    <label class="text-white">Mobile</label>
-						    <input type="text" class="form-control form-control-lg" name="mobile_add" />
+						    <input type="text" class="form-control form-control-lg" maxlength="11" name="mobile_add" />
 					   </div>
 					   <div class="form-group">
 						    <label class="text-white">Email</label>

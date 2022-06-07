@@ -241,7 +241,7 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			case "tbl_supplier":{
 				TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
 				TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_supplier',TableURL,TableData,false);
+				_DataTableLoader('tbl_supplier',TableURL,TableData,[[4,'desc']]);
 				break;
 			}
 			case "tbl_salesorder_stocks_production":{
