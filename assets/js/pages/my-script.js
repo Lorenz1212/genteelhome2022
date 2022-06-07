@@ -3698,6 +3698,7 @@ var arrows;var item_v;var price;var special_option;
 	  			$('input[name=stocks]').val(response.stocks);
 	  			$('input[name=stocks_alert]').val(response.stocks_alert);
 	  			$('select[name=status]').val(response.status).change();
+	  			$('#requestModal').modal('show');
 	  		} 
 	  		break;
 	  	}

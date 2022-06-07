@@ -199,10 +199,11 @@ class Datatable_model extends CI_Model{
        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_materials')->order_by('id','DESC')->get();  
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request" data-toggle="modal" data-target="#exampleModal"><i class="la la-eye"></i></button>'; 
+            $action = '<button type="button" class="btn btn-sm btn-light-dark btn-shadow btn-icon" data-id="'.$row->id.'" id="form-request"><i class="la la-eye"></i></button>'; 
+                if(!$row->unit){$unit = " ";}else{$unit = ' ('.$row->unit.')';}
                 $data[] = array(
                          'no'           => $row->item_no,
-                         'item'         => $row->item.' ('.$row->unit.')',
+                         'item'         => $row->item.$unit,
                          'price'        => number_format($row->price,2),
                          'date_created' => $row->date_created,
                          'action'       => $action);
