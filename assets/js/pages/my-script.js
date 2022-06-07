@@ -316,34 +316,6 @@ var arrows;var item_v;var price;var special_option;
                   }                                   
 		});	
 	}
-	var _DataTableLoader = async function(link,TableURL,TableData,val){
-		var table = $('#'+link);
-		table.DataTable().clear().destroy();
-		$.fn.dataTable.ext.errMode = 'throw';
-		table.DataTable({
-			destroy: true,
-			responsive: true,
-			info: true,
-			bFilter: false, 
-			bInfo: false,
-			bPaginate: false,
-			"fnDrawCallback": function() {
-	                $('[data-toggle="tooltip"]').tooltip();
-
-	           },
-			language: { 
-			 	infoEmpty: "No records available", 
-			 },
-			serverSide:false,
-			ajax: {
-				url: TableURL,
-				type: 'POST',
-				datatype: "json",
-				data: {val:val},
-			},
-			columns:TableData,
-		});
-	}
 	var _DataTableLoader1 = async function(link,TableURL,TableData,val){
 		var table = $('#'+link);
 		table.DataTable().clear().destroy();
@@ -2930,6 +2902,7 @@ var arrows;var item_v;var price;var special_option;
 			case "data-rawmaterials":{
 				KTDatatablesDataSourceAjaxClient.init('tbl_rawmaterials_add');
 				_initCurrency_format("#price");
+				_initCurrency_format("#prices");
 				  $(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
 						let id = $(this).attr('data-id');
@@ -4013,19 +3986,19 @@ var arrows;var item_v;var price;var special_option;
 	  		break;
 	  	}
 	  	case "Modal_RawMaterial_view":{
-	  		if(!response == false){
-	  			_initCurrency_format("#prices");
+	  		if(response != false){
+	  			
 	  			$('input[name=id]').val(response.id);
 	  			$('#item').val(response.item);
 	  			if(!response.price || response.price == '0') {
 					var tal = '';
-
 				}else{
 					var tal = _formatnumbercommat(response.price);
 				}
 	  			$('.price').val(tal);
 	  			$('#unit').val(response.unit);
 	  			$('select[name=status]').val(response.status).change();
+	  			$('#exampleModal').modal('show');
 	  		}
 	  		break;
 	  	}
