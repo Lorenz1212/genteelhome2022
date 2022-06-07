@@ -17,10 +17,7 @@
 			<div class="card card-custom">
 				<div class="card-header">
 					<div class="card-title">
-						<span class="card-icon">
-							<i class="flaticon2-psd text-primary"></i>
-						</span>
-						<h3 class="card-label">List of Stocks</h3>
+						<h3 class="card-label">List of stocks</h3>
 					</div>
 				</div>
 				<div class="card-body">
