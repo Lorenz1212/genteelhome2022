@@ -4701,6 +4701,6 @@ if (typeof module !== 'undefined') {
     module.exports = KTWidgets;
 }
 
-jQuery(document).ready(function () {
-    KTWidgets.init();
-});
+// jQuery(document).ready(function () {
+//     KTWidgets.init();
+// });
