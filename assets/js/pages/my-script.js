@@ -2374,7 +2374,7 @@ var arrows;var item_v;var price;var special_option;
 				    		e.preventDefault();
 					 	let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal-JobOrder-Stocks-View");
+						_ajaxloader(thisUrl,"POST",val,"Modal_JobOrder_Stocks_View");
 				    });
 				     $(document).on("click",".btn-active",function(e) {
 					 	e.preventDefault();
@@ -3486,7 +3486,7 @@ var arrows;var item_v;var price;var special_option;
 	  		}
 	  		break;
 	  	}
-	  	case "Modal-JobOrder-Stocks-View":{
+	  	case "Modal_JobOrder_Stocks_View":{
 	  		if(!response == false){
 	  			$('#joborder').text(response.production_no);
 	  			$('#title').val(response.title);
@@ -6742,6 +6742,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "fetch_design_project_status":{
+								console.log(response)
 				_initToast(response.type,response.message);
 				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_project_request');
 				break;

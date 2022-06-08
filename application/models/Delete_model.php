@@ -48,6 +48,7 @@ class Delete_model extends CI_Model
       unlink("./assets/images/inspection/".$row->images);
       $this->db->where('id',$id);
       $this->db->delete('tbl_project_inspection');
+      return array('type'=>'success','message'=>'Remove Successfully','id'=>$row->id);
    }
    function Delete_Material_Request_Supervisor($id){
       $this->db->where('id',$id);

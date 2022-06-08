@@ -1201,7 +1201,7 @@ class Datatable_model extends CI_Model{
      function Salesorder_Stocks_Completed_DataTable_Production(){
        $data=array(); 
        $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
+       ->from('tbl_salesorder_stocks as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
        ->where('s.status','COMPLETED')->where('s.created_by', $this->user_id)->order_by('s.latest_update','DESC')->get();
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
@@ -1222,9 +1222,10 @@ class Datatable_model extends CI_Model{
      }
      function Salesorder_Stocks_Cancelled_DataTable_Production(){
        $data=array(); 
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.status','CANCELLED')->where('s.created_by', $this->user_id)->order_by('s.latest_update','DESC')->get();
+       $user_id = $this->user_id;
+       $query = $this->db->query("SELECT *, DATE_FORMAT(date_order, '%M %d %Y') as date_created,
+        (SELECT fullname FROM tbl_salesorder_customer WHERE id=tbl_salesorder_stocks.customer) as fullname
+        FROM tbl_salesorder_stocks WHERE status='CANCELLED' AND created_by='$user_id'");
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
             $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';
@@ -1312,9 +1313,9 @@ class Datatable_model extends CI_Model{
 
      function Salesorder_Project_Cancelled_DataTable_Production(){
        $data=array(); 
-       $query = $this->db->select('s.*,c.*,s.id,s.status,DATE_FORMAT(s.date_order, "%M %d %Y") as date_created')
-       ->from('tbl_salesorder_project as s')->join('tbl_salesorder_customer as c','c.id=s.customer','LEFT')
-       ->where('s.status','CANCELLED')->where('s.created_by', $this->user_id)->order_by('s.latest_update','ASC')->get();
+        $query = $this->db->query("SELECT *, DATE_FORMAT(date_order, '%M %d %Y') as date_created,
+        (SELECT fullname FROM tbl_salesorder_customer WHERE id=tbl_salesorder_project.customer) as fullname
+        FROM tbl_salesorder_project WHERE status='CANCELLED' AND created_by='$user_id'");
       if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
              $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-sm btn-light-dark btn-icon mr-2" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="la la-eye"></i></button><button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'"  data-trans="'.$row->so_no.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button></div>';  

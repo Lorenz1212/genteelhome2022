@@ -2005,8 +2005,9 @@ class Update_model extends CI_Model
 
      function Update_Salesorder_Stocks_Accounting($id,$status,$remarks){
         $id = $this->encryption->decrypt($id);
-        $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('id',$id)->get()->row();
+        $row = $this->db->query("SELECT *,(SELECT fullname FROM tbl_salesorder_customer WHERE id=tbl_salesorder_stocks.customer) as customer_name FROM tbl_salesorder_stocks WHERE id='$id'")->row();
         if($row){
+            $customer = $row->customer_name;
             $result = $this->db->where('id',$id)->update('tbl_salesorder_stocks',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
             if($result){
                 if($status == 'APPROVED'){
@@ -2031,8 +2032,9 @@ class Update_model extends CI_Model
                     }
 
                     $this->db->insert('tbl_salesorder_completed',array('so_no'=>$row->so_no,'customer'=>$row->customer,'discount'=>$row->discount,'downpayment'=>$row->downpayment,'shipping_fee'=>$row->shipping_fee,'vat'=>$vat,'subtotal'=>$subtotal->amount,'total_amount'=>$total_amount,'date_order'=>$row->date_order,'date_downpayment'=>$row->date_downpayment));
+                    
                     if($row->downpayment !=0){
-                        $this->db->insert('tbl_sales_collection',array('so_no'=>$row->so_no,'customer'=>$row->customer,'amount'=>$row->downpayment,'date_collect'=>$row->date_downpayment));
+                        $this->db->insert('tbl_sales_collection',array('so_no'=>$row->so_no,'customer'=>$customer,'amount'=>$row->downpayment,'date_collect'=>$row->date_downpayment));
                     }
                     return array('type'=>'success','message'=>'Move to completed','status'=>$status);
                 }else{
@@ -2047,8 +2049,9 @@ class Update_model extends CI_Model
     }
      function Update_Salesorder_Project_Accounting($id,$status,$remarks){
         $id = $this->encryption->decrypt($id);
-        $row = $this->db->select('*')->from('tbl_salesorder_project')->where('id',$id)->get()->row();
+         $row = $this->db->query("SELECT *,(SELECT fullname FROM tbl_salesorder_customer WHERE id=tbl_salesorder_stocks.customer) as customer_name FROM tbl_salesorder_project WHERE id='$id'")->row();
         if($row){
+            $customer = $row->customer_name;
             $result = $this->db->where('id',$id)->update('tbl_salesorder_project',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
             if($result){
                 if($status == 'APPROVED'){
@@ -2075,7 +2078,7 @@ class Update_model extends CI_Model
 
                      $this->db->insert('tbl_salesorder_completed',array('so_no'=>$row->so_no,'customer'=>$row->customer,'discount'=>$discount,'downpayment'=>$row->downpayment,'shipping_fee'=>$row->shipping_fee,'vat'=>$vat,'subtotal'=>$subtotal,'total_amount'=>$total_amount,'date_order'=>$row->date_order,'date_downpayment'=>$row->date_downpayment));
                      if($row->downpayment !=0){
-                        $this->db->insert('tbl_sales_collection',array('so_no'=>$row->so_no,'customer'=>$row->customer,'amount'=>$row->downpayment,'date_collect'=>$row->date_downpayment));
+                        $this->db->insert('tbl_sales_collection',array('so_no'=>$row->so_no,'customer'=>$customer,'amount'=>$row->downpayment,'date_collect'=>$row->date_downpayment));
                     }
                      return array('type'=>'success','message'=>'Move to completed','status'=>$status);
                 }else{

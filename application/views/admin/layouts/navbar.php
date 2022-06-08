@@ -158,11 +158,11 @@
 													</ul>
 												</div>
 											</li>
-											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+									<!-- 		<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="<?php echo base_url()."gh/admin/voucher";?>" class="menu-link">
 													<span class="menu-text">Voucher</span>
 												</a>
-											</li>
+											</li> -->
 												<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text">Reports</span>

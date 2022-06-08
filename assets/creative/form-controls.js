@@ -115,7 +115,7 @@ var KTFormControlsCreatives = function () {
 		                                message: 'The first name can only consist of alphabetical characters'
 		                            },
 		                            stringLength: {
-		                                max: 20,
+		                                max: 50,
 		                                message: 'You have reached your maximum limit of characters allowed'
 		                            },
 		                            
@@ -177,7 +177,7 @@ var KTFormControlsCreatives = function () {
 		                                message: 'The first name can only consist of alphabetical characters'
 		                            },
 		                            stringLength: {
-		                                max: 20,
+		                                max: 50,
 		                                message: 'You have reached your maximum limit of characters allowed'
 		                            },
 		                            
@@ -248,7 +248,7 @@ var KTFormControlsCreatives = function () {
 		                                message: 'The first name can only consist of alphabetical characters'
 		                            },
 		                            stringLength: {
-		                                max: 20,
+		                                max: 50,
 		                                message: 'You have reached your maximum limit of characters allowed'
 		                            },
 		                            
@@ -264,7 +264,7 @@ var KTFormControlsCreatives = function () {
 		                                message: 'The first name can only consist of alphabetical characters'
 		                            },
 		                            stringLength: {
-		                                max: 20,
+		                                max: 50,
 		                                message: 'You have reached your maximum limit of characters allowed'
 		                            },
 		                            
@@ -335,7 +335,7 @@ var KTFormControlsCreatives = function () {
 		                                message: 'The first name can only consist of alphabetical characters'
 		                            },
 		                            stringLength: {
-		                                max: 20,
+		                                max: 50,
 		                                message: 'You have reached your maximum limit of characters allowed'
 		                            },
 		                            
@@ -351,7 +351,7 @@ var KTFormControlsCreatives = function () {
 		                                message: 'The first name can only consist of alphabetical characters'
 		                            },
 		                            stringLength: {
-		                                max: 20,
+		                                max: 50,
 		                                message: 'You have reached your maximum limit of characters allowed'
 		                            },
 		                            

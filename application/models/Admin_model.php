@@ -98,14 +98,14 @@ class Admin_model extends CI_Model{
 					$result = $this->db->where('id',$id)->update('tbl_project_color',array('approver'=>$this->user_id,'status'=>$val1,'remark'=>$val2,'date_approved'=>date('Y-m-d H:i:s')));
 					if($result){
 						if($val1 == '2'){
-							$sql ="SELECT * FROM tbl_project_design WHERE id='$project_no' AND project_status !='APPROVED'";
+							$sql ="SELECT * FROM tbl_project_design WHERE id='$project_no' AND project_status='PENDING'";
 							$rows = $this->db->query($sql)->row();
 							if($rows){
 								 $result = $this->db->where('id',$project_no)->update('tbl_project_design',array('project_status'=>'APPROVED'));
 							}
-							return array('type'=>'success','Approve Successfully');
+							return array('type'=>'success','message'=>'Approve Successfully');
 						}else{
-							return array('type'=>'success','Cancel Successfully');
+							return array('type'=>'success','message'=>'Cancel Successfully');
 						}
 						
 					}else{
@@ -145,9 +145,14 @@ class Admin_model extends CI_Model{
 					$result = $this->db->where('id',$id)->update('tbl_project_color',array('approver'=>$this->user_id,'status'=>$val1,'remark'=>$val2,'date_approved'=>date('Y-m-d H:i:s')));
 					if($result){
 						if($val1 == '2'){
-							return array('type'=>'success','Approve Successfully');
+							$sql ="SELECT * FROM tbl_project_design WHERE id='$id' AND project_status='PENDING'";
+							$rows = $this->db->query($sql)->row();
+							if($rows){
+								 $result = $this->db->where('id',$id)->update('tbl_project_design',array('project_status'=>'APPROVED'));
+							}
+							return array('type'=>'success','message'=>'Approve Successfully');
 						}else{
-							return array('type'=>'success','Cancel Successfully');
+							return array('type'=>'success','message'=>'Cancel Successfully');
 						}
 					}else{
 

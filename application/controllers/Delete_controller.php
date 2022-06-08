@@ -54,8 +54,7 @@ class Delete_controller extends CI_Controller
     }
     public function Delete_Inspection_Image(){
         $id = isset($_POST['id'])? $this->input->post('id'): false;
-        $this->delete_model->Delete_Inspection_Image($id);
-        $data = array('status' => 'error');
+        $data = $this->delete_model->Delete_Inspection_Image($id);
         echo json_encode($data);
     }
     public function Delete_Material_Request_Supervisor(){

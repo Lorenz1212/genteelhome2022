@@ -3713,7 +3713,8 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Delete_Inspection_Image":{
-	 			Swal.fire("Deleted!", "Image Deleted", "error").then(function(){$('#roww_'+response.id).remove();});
+	 			_initToast(response.type,response.message);
+	 			$('#row_'+response.id).remove();
 	 			_initnotificationupdate();
 	 			break;
 	 		}
@@ -3729,14 +3730,14 @@ var KTFormControls = function () {
 	 				if(response.unit == 0){
 	 					$('#requestModal').modal('hide');
 	 				}
-		 			KTDatatablesDataSourceAjaxClientCreative.init('tbl_joborder_stocks');
+		 			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks');
 	 			}else{
 	 				if(response.status == 1){
 	 					_initToast('success','Project is Successfully Completed');
 	 				}else{
 	 					_initToast('error', 'Project is Successfully Cancelled');
 	 				}
-	 				KTDatatablesDataSourceAjaxClientCreative.init('tbl_joborder_project');
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project');
 	 				$('#requestModal').modal('hide');
 	 			}
 
