@@ -19,17 +19,17 @@
 			        <div class="card-toolbar">
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
-			                    <a class="nav-link active" data-toggle="tab" href="#request">
+			                    <a class="nav-link" data-toggle="tab"  href="#request" data-name="request">
 			                        <span class="nav-text">Request</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#complete">
+			                    <a class="nav-link" data-toggle="tab" href="#complete" data-name="complete">
 			                        <span class="nav-text">Complete</span>
 			                    </a>
 			                </li>
 			                 <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#cancelled">
+			                    <a class="nav-link" data-toggle="tab" href="#cancelled" data-name="cancelled">
 			                        <span class="nav-text">Cancelled</span>
 			                    </a>
 			                </li>
@@ -38,16 +38,16 @@
 			    </div>
 			    <div class="card-body">
 			        <div class="tab-content">
-			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
+			            <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
 			               	<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_supervisor" data-link="tbl_joborder_stocks" style="margin-top: 13px !important">
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th style="white-space:nowrap;">TITLE</th>
-										<th style="width:5px;">QTY</th>
-										<th style="width:10px;">REQUESTOR</th>
+										<th>TITLE</th>
+										<th>QTY</th>
+										<th>REQUESTOR</th>
 										<th>DATE</th>
-										<th style="width:5px;">ACTION</th>
+										<th>ACTION</th>
 									</tr>
 								</thead>
 							</table>
@@ -179,7 +179,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="tab-pane" id="material" role="tabpanel" style="height:300px">
+								<div class="tab-pane" id="material" role="tabpanel" style="height:360px">
 									<div class="mb-10">
 							            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-material-request" data-action="material-create">
 							                <i class="flaticon2-plus"></i> Add Material
@@ -201,7 +201,7 @@
 											</tbody>
 										</table>
 								</div>
-								<div class="tab-pane" id="purchase" role="tabpanel" style="height:300px">
+								<div class="tab-pane" id="purchase" role="tabpanel" style="height:360px">
 									<div class="mb-10">
 							            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-purchase-request" data-action="purchased-create"><i class="flaticon2-plus"></i> Add Material</a>
 							            <a href="#" id="form-purchased" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#ModalTalble"><i class="flaticon2-plus"></i> View Request</a>
@@ -221,7 +221,7 @@
 											</tbody>
 										</table>
 								</div>
-								<div class="tab-pane" id="used" role="tabpanel" style="height:300px">
+								<div class="tab-pane" id="used" role="tabpanel" style="height:360px">
 								    <table class="table table-sm" id="tbl_material_used">
 										<thead>
 											<tr>

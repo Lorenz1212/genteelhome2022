@@ -28,10 +28,6 @@ var KTFormControls = function () {
 	var role;
 	var no;
 	var unit;
-	var accounting;
-	var amount;
-	var webmodifier;
-	var sales;
 	var _initSwalWarning = function(url){Swal.fire("Warning!", "Please Complete the form!", "warning");}
 	var _initSwalSuccess = function(url){
 	    Swal.fire("Submit!", "This form is Completed!", "success").then(function(){window.location = url;});
@@ -1531,69 +1527,6 @@ var KTFormControls = function () {
 						    }
 						});
 					});
-	 			break;
-	 		}
-	 		case "Create_Users":{
-	 			var form = document.getElementById('Create_Users');
-			         validation = FormValidation.formValidation(
-						form,
-						{
-							fields: {firstname: {validators: {notEmpty: {message: 'Firstname is required'}}},
-								lastname: {validators: {notEmpty: {message: 'Lastname is required'}}},
-								middlename: {validators: {notEmpty: {message: 'Middlename/Initial is required'}}},
-								username: {validators: {notEmpty: {message: 'Username is required'}}},
-								password: {validators: {notEmpty: {message: 'Password is required'}}},
-								conpassword: {validators: {notEmpty: {message: 'Confirm Password is required'}}},
-			                },
-							plugins: {
-							trigger: new FormValidation.plugins.Trigger(),
-							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
-						}
-					   }
-					);
-	 			$('#Create_Users').on('submit', function(e){
-	 				e.preventDefault();
-	 				var element = this;
-	 				var password = $('input[name=password]').val();
-	 				var conpassword = $('input[name=conpassword]').val();
-	 				if(password == conpassword){
-	 					validation.validate().then(function(status) {
-					     if (status == 'Valid'){ 	
-					     	if($('#designer').prop("checked") == true){designer = 1;}else if($('#designer').prop("checked") == false){designer = 0;}
-					     	if($('#production').prop("checked") == true){production = 1;}else if($('#production').prop("checked") == false){production = 0;}
-					     	if($('#supervisor').prop("checked") == true){supervisor = 1;}else if($('#supervisor').prop("checked") == false){supervisor = 0;}
-					     	if($('#superuser').prop("checked") == true){superuser = 1;}else if($('#superuser').prop("checked") == false){superuser = 0;}
-					     	if($('#admin').prop("checked") == true){admin = 1;}else if($('#admin').prop("checked") == false){admin = 0;}
-					     	if($('#accounting').prop("checked") == true){accounting = 1;}else if($('#accounting').prop("checked") == false){accounting = 0;}
-					     	if($('#webmodifier').prop("checked") == true){webmodifier = 1;}else if($('#webmodifier').prop("checked") == false){webmodifier = 0;}
-					     	if($('#sales').prop("checked") == true){sales = 1;}else if($('#sales').prop("checked") == false){sales = 0;}
-					     	var formData = new FormData(element);
-					     	    formData.append('designer',designer);
-					     	    formData.append('production',production);
-					     	    formData.append('supervisor',supervisor);
-					     	    formData.append('superuser',superuser);
-					     	    formData.append('admin',admin);
-					     	    formData.append('accounting',accounting);
-					     	    formData.append('webmodifier',webmodifier);
-					     	    formData.append('sales',sales);
-					   		 val = formData;
-						  	 thisURL = baseURL + 'create_controller/Create_Users';
-						  	 var page = $('input[name=page]').val();
-						  	 url = baseURL + 'gh/'+page+'/user_create';
-						  	 _ajaxForm(thisURL,"POST",val,"Create_Users",url);
-					  	}
-					  });
-
-	 				}else{
-	 				     Swal.fire("Warning!", "Password & Confirm Password does not matched!", "warning");
-	 				}
-	 				
-	 			});
 	 			break;
 	 		}
 	 		case "Create_Deposit":{
@@ -3730,14 +3663,20 @@ var KTFormControls = function () {
 	 				if(response.unit == 0){
 	 					$('#requestModal').modal('hide');
 	 				}
-		 			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks');
+	 				let tab1 = _getItem('joborder-stocks');
+					$('.nav-link[href="#'+tab1+'"]').addClass('active');
+					$('#'+tab1).addClass('show active');
+		 			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks',false,tab1);
 	 			}else{
 	 				if(response.status == 1){
 	 					_initToast('success','Project is Successfully Completed');
 	 				}else{
 	 					_initToast('error', 'Project is Successfully Cancelled');
 	 				}
-	 				KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project');
+	 				let tab1 = _getItem('joborder-project');
+					$('.nav-link[href="#'+tab1+'"]').addClass('active');
+					$('#'+tab1).addClass('show active');
+		 			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project',false,tab1);
 	 				$('#requestModal').modal('hide');
 	 			}
 

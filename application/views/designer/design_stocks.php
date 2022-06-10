@@ -22,19 +22,19 @@
 			        <div class="card-toolbar">
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
-			                    <a class="nav-link active" data-toggle="tab" href="#approved">
+			                    <a class="nav-link" data-toggle="tab" data-name="approved" href="#approved">
 			                        <span class="nav-icon"><i class="flaticon-list-3"></i></span>
 			                        <span class="nav-text">APPROVED <span class="label label-rounded label-success approved_stocks">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#request">
+			                    <a class="nav-link" data-toggle="tab" data-name="request" href="#request">
 			                        <span class="nav-icon"><i class="flaticon-exclamation-1"></i></span>
 			                        <span class="nav-text">REQUEST FOR APPROVAL <span class="label label-rounded label-warning request_stocks">0</span></span>
 			                    </a>
 			                </li>
 			                 <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#rejected">
+			                    <a class="nav-link" data-toggle="tab" data-name="rejected" href="#rejected">
 			                        <span class="nav-icon"><i class="flaticon-cancel"></i></span>
 			                        <span class="nav-text">REJECTED <span class="label label-rounded label-danger rejected_stocks">0</span></span>
 			                    </a>
@@ -44,7 +44,7 @@
 			    </div>
 			    <div class="card-body">
 			        <div class="tab-content">
-			        	<div class="tab-pane fade show active" id="approved" role="tabpanel" aria-labelledby="approved">
+			        	<div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved">
 			                <table class="table table-bordered table-hover table-checkable" id="tbl_design_stocks_approved" style="margin-top: 13px !important">
 								<thead>
 									<tr>

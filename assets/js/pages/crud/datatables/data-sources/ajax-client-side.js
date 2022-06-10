@@ -2,17 +2,26 @@
 var KTDatatablesDataSourceAjaxClient = function() {
 var TableURL;
 var TableData;
-var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false){
+var _sessionStorage = function(key,value){
+		sessionStorage.setItem(key, value);
+}
+var _getItem = function(key){
+	return sessionStorage.getItem(key);
+}
+var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false,pageLength=10,searching=true){
 	var table = $('#'+link);
 	table.DataTable().clear().destroy();
 	$.fn.dataTable.ext.errMode = 'throw';
 	table.DataTable({
-		destroy: true,
 		responsive: true,
-		info: true,
-		serverSide:false,
+		processing: true,
+		serverSide: false,
+		destroy: true,
 		order:order_by,
-		"fnDrawCallback": function() {
+		pageLength: pageLength,
+		lengthChange:false,
+		searching:searching,
+		fnDrawCallback: function() {
                 $('[data-toggle="tooltip"]').tooltip();
         },
 		language: { 
@@ -27,100 +36,122 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 		columns:TableData,
 	});
 }
-	var _initView_Table = function(view,val){
+	var _initView_Table = function(view,val,val1){
 		switch(view){
 			case "tbl_joborder_stocks":{
-				TableURL = baseURL + 'datatable_controller/Joborder_Stocks_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_joborder_request',TableURL,TableData,[[ 4,'desc']]);
-
-				let TableURL1 = baseURL + 'datatable_controller/Joborder_Stocks_Pending_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,[[ 4,'desc']]);
-
-				let TableURL3 = baseURL + 'datatable_controller/Joborder_Stocks_Complete_DataTable';
-				let TableData3 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 4,'desc']]);
-
-				let TableURL4 = baseURL + 'datatable_controller/Joborder_Stocks_Cancelled_DataTable';
-				let TableData4 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 4,'desc']]);
-
-				let TableURL5 = baseURL + 'datatable_controller/Joborder_Stocks_Material_Request_DataTable';
-				let TableData5 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}];
-
-				let TableURL6 = baseURL + 'datatable_controller/Joborder_Stocks_Supervisor_DataTable';
-				let TableData6 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,[[ 4,'desc']]);
-
-				let TableURL7 = baseURL + 'datatable_controller/Joborder_Stocks_Production_DataTable';
-				let TableData7 = [{data:'production_no'},{data:'title'},{data:'qty'},{data:'requestor'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_joborder_production',TableURL7,TableData7,[[ 4,'desc']]);
+				if(val1 == 'pending'){
+					let TableURL1 = baseURL + 'datatable_controller/Joborder_Stocks_Pending_DataTable';
+					let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,[[ 4,'desc']]);	
+				}else if(val1 == 'complete'){
+					let TableURL3 = baseURL + 'datatable_controller/Joborder_Stocks_Complete_DataTable';
+					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 4,'desc']]);
+				}else if(val1 == 'cancelled'){
+					let TableURL4 = baseURL + 'datatable_controller/Joborder_Stocks_Cancelled_DataTable';
+					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 4,'desc']]);
+				}else if(val1 == 'request'){
+					TableURL = baseURL + 'datatable_controller/Joborder_Stocks_Request_DataTable';
+					TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_request',TableURL,TableData,[[ 4,'desc']]);
+				}else if(val1 == 'production_request'){
+					let TableURL7 = baseURL + 'datatable_controller/Joborder_Stocks_Production_DataTable';
+					let TableData7 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_production',TableURL7,TableData7,[[ 4,'desc']]);
+				}
 				break;
 			}
 			case "tbl_joborder_project":{
-				TableURL = baseURL + 'datatable_controller/Joborder_Project_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_joborder_request',TableURL,TableData,[[ 3,'desc']]);
-
-				let TableURL1 = baseURL + 'datatable_controller/Joborder_Project_Pending_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,[[ 3,'desc']]);
-
-				let TableURL3 = baseURL + 'datatable_controller/Joborder_Project_Complete_DataTable';
-				let TableData3 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 3,'desc']]);
-
-				let TableURL4 = baseURL + 'datatable_controller/Joborder_Project_Cancelled_DataTable';
-				let TableData4 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 3,'desc']]);
-
-				let TableURL5 = baseURL + 'datatable_controller/Joborder_Project_Material_Request_DataTable';
-				let TableData5 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_joborder_material',TableURL5,TableData5,[[ 3,'desc']]);
-
-				let TableURL6 = baseURL + 'datatable_controller/Joborder_Project_Supervisor_DataTable';
-				let TableData6 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
-				_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,[[ 3,'desc']]);
-
-				let TableURL7 = baseURL + 'datatable_controller/Joborder_Project_Production_DataTable';
-				let TableData7 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_joborder_production',TableURL7,TableData7,[[ 3,'desc']]);
+				if(val1 == 'pending'){
+					let TableURL1 = baseURL + 'datatable_controller/Joborder_Project_Pending_DataTable';
+					let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+					_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,[[ 3,'desc']]);
+				}else if(val1 == 'complete'){
+					let TableURL3 = baseURL + 'datatable_controller/Joborder_Project_Complete_DataTable';
+					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 3,'desc']]);
+				}else if(val1 == 'cancelled'){
+					let TableURL4 = baseURL + 'datatable_controller/Joborder_Project_Cancelled_DataTable';
+					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'}]; 
+					_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 3,'desc']]);
+				}else if(val1 == 'request'){
+					TableURL = baseURL + 'datatable_controller/Joborder_Project_Request_DataTable';
+					TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'action',orderable:false}]; 
+					_DataTableLoader('tbl_joborder_request',TableURL,TableData,[[ 3,'desc']]);
+				}else if(val1 == 'production_request'){
+					let TableURL7 = baseURL + 'datatable_controller/Joborder_Project_Production_DataTable';
+					let TableData7 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'}]; 
+					_DataTableLoader('tbl_joborder_production',TableURL7,TableData7,[[ 3,'desc']]);
+				}
+				break;
+			}
+			case "tbl_joborder_stocks_supervisor":{
+				if(val1 == 'request'){
+					let TableURL6 = baseURL + 'datatable_controller/Joborder_Stocks_Supervisor_DataTable';
+					let TableData6 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'action',orderable:false,className: "text-nowrap"}]; 
+					let target = [{targets:[1],className: "text-nowrap"}];
+					_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,[[ 4,'desc']]);
+				}else if(val1 == 'complete'){
+					let TableURL3 = baseURL + 'datatable_controller/Joborder_Stocks_Complete_DataTable';
+					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 4,'desc']]);
+				}else if(val1 == 'cancelled'){
+					let TableURL4 = baseURL + 'datatable_controller/Joborder_Stocks_Cancelled_DataTable';
+					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 4,'desc']]);
+				}
+				break;
+			}
+			case "tbl_joborder_project_supervisor":{
+				if(val1 == 'request'){
+					let TableURL6 = baseURL + 'datatable_controller/Joborder_Project_Supervisor_DataTable';
+					let TableData6 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,[[ 3,'desc']]);
+				}else if(val1 == 'complete'){
+					let TableURL3 = baseURL + 'datatable_controller/Joborder_Project_Complete_DataTable';
+					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 3,'desc']]);
+				}else if(val1 == 'cancelled'){
+					let TableURL4 = baseURL + 'datatable_controllesr/Joborder_Project_Cancelled_DataTable';
+					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 3,'desc']]);
+				}
 				break;
 			}
 			case "tbl_joborder_masterlist_stocks":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Masterlist_Stocks_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'quantity'},{data:'date_created'},{data:'requestor'},{data:'status'}]; 
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'quantity'},{data:'date_created',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'status'}]; 
 				_DataTableLoader('tbl_joborder_masterlist',TableURL,TableData,[[ 3,'desc']]);
 				break;
 			}
 			case "tbl_joborder_masterlist_project":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Masterlist_Project_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'quantity',visible:false},{data:'date_created'},{data:'requestor'},{data:'status'}]; 
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'quantity',visible:false},{data:'date_created',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'status'}]; 
 				_DataTableLoader('tbl_joborder_masterlist',TableURL,TableData,[[ 3,'desc']]);
 				break;
 			}
 			case "tbl_purchase_request_stocks":{
 				TableURL = baseURL + 'datatable_controller/Purchase_Material_Stocks_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
 				_DataTableLoader('tbl_purchase_request',TableURL,TableData,[[ 4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Inprogress_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
 				_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,[[ 4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Complete_DataTable';
-				let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
+				let TableData3 = [{data:'production_no'},{data:'item',className: "text-nowrap"},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_purchase_request_complete',TableURL3,TableData3,[[ 4,'desc']]);
 				break;
 			}
 			case "tbl_purchase_request_project":{
 				TableURL = baseURL + 'datatable_controller/Purchase_Material_Project_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request',TableURL,TableData,[[ 4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Project_Inprogress_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
+				let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,[[ 4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Project_Complete_DataTable';
@@ -130,21 +161,21 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			}
 			case "tbl_material_request_stocks":{
 				let TableURL1 = baseURL + 'datatable_controller/Material_Request_Stocks_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+				let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_material_request',TableURL1,TableData1,[[ 3,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Material_Complete_Stocks_DataTable';
-				let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'requestor'},{data:'date_created'}]; 
+				let TableData3 = [{data:'production_no'},{data:'item',className: "text-nowrap"},{data:'quantity'},{data:'requestor'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_material_request_complete',TableURL3,TableData3,[[ 3,'desc']]);
 				break;
 			}
 			case "tbl_material_request_project":{
 				let TableURL1 = baseURL + 'datatable_controller/Material_Request_Project_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title'},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
 				_DataTableLoader('tbl_material_request',TableURL1,TableData1,[[ 3,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Material_Complete_Project_DataTable';
-				let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'requestor'},{data:'date_created'}]; 
+				let TableData3 = [{data:'production_no'},{data:'item',className: "text-nowrap"},{data:'quantity'},{data:'requestor'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_material_request_complete',TableURL3,TableData3,[[ 3,'desc']]);
 				break;
 			}
@@ -568,15 +599,15 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			case "tbl_joborder_material":{
 				let TableURL = baseURL + 'datatable_controller/Material_List_Supervisor';
 				let TableData = [{data:'status',className: "text-center"},{data:'item'},{data:'qty',className: "text-center"},{data:'balance',className: "text-center"},{data:'stocks',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader('tbl_material',TableURL,TableData,false,val);
+				_DataTableLoader('tbl_material',TableURL,TableData,false,val,4,false);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchased_List_Supervisor';
 				let TableData1 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'unit',className: "text-center"},{data:'remarks',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader('tbl_puchased',TableURL1,TableData1,false,val);
+				_DataTableLoader('tbl_puchased',TableURL1,TableData1,false,val,4,false);
 
 				let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
 				let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
-				_DataTableLoader('tbl_material_used',TableURL2,TableData2,false,val);
+				_DataTableLoader('tbl_material_used',TableURL2,TableData2,false,val,4,false);
 				break;
 			}
 			case "tbl_supplier_item":{
@@ -593,8 +624,8 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 
 	return {
 		//main function to initiate the module
-		init: function(link,val=false) {
-			_initView_Table(link,val);
+		init: function(link,val=false,val1=false) {
+			_initView_Table(link,val,val1);
 		},
 	};
 

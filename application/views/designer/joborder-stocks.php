@@ -19,22 +19,22 @@
 			        <div class="card-toolbar">
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
-			                    <a class="nav-link active" data-toggle="tab" href="#pending">
-			                        <span class="nav-text">List</span>
+			                    <a class="nav-link" data-toggle="tab" data-name="pending" href="#pending">
+			                        <span class="nav-text">Pending</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#complete">
+			                    <a class="nav-link" data-toggle="tab" data-name="complete" href="#complete">
 			                        <span class="nav-text">Completed</span>
 			                    </a>
 			                </li>
 			                 <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#cancelled">
+			                    <a class="nav-link" data-toggle="tab" data-name="cancelled" href="#cancelled">
 			                        <span class="nav-text">Cancelled</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#request">
+			                    <a class="nav-link" data-toggle="tab" data-name="request" href="#request">
 			                        <span class="nav-text">Request <span class="label label-rounded label-primary request_jo_stocks">0</span></span>
 			                    </a>
 			                </li>
@@ -44,29 +44,29 @@
 			    <div class="card-body">
 			        <div class="tab-content">
 			            <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
-			               	<table class="table table-bordered table-hover link" id="tbl_joborder_request" data-link="tbl_joborder_stocks">
+			               	<table class="table table-bordered table-hover" id="tbl_joborder_request">
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th style="white-space:nowrap;">TITLE</th>
-										<th style="width:5px;">QTY</th>
-										<th style="width:10px;">REQUESTOR</th>
+										<th>TITLE</th>
+										<th>QTY</th>
+										<th>REQUESTOR</th>
 										<th>DATE</th>
-										<th  style="width:5px;">ACTION</th>
+										<th>ACTION</th>
 									</tr>
 								</thead>
 							</table>
 			            </div>
-			            <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="kt_tab_pane_2_4">
+			            <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="kt_tab_pane_2_4">
 			                <table class="table table-bordered table-hover" id="tbl_joborder_pending">
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th style="white-space:nowrap;">TITLE</th>
-										<th style="width:5px;">QTY</th>
-										<th style="width:10px;">REQUESTOR</th>
+										<th>TITLE</th>
+										<th>QTY</th>
+										<th>REQUESTOR</th>
 										<th>DATE</th>
-										<th  style="width:5px;">ACTION</th>
+										<th>ACTION</th>
 									</tr>
 								</thead>
 							</table>
@@ -76,9 +76,9 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th style="white-space:nowrap;">TITLE</th>
-										<th style="width:5px;">QTY</th>
-										<th style="width:10px;">REQUESTOR</th>
+										<th>TITLE</th>
+										<th>QTY</th>
+										<th>REQUESTOR</th>
 										<th>DATE</th>
 									</tr>
 								</thead>
@@ -89,9 +89,9 @@
 								<thead>
 									<tr>
 										<th>NO</th>
-										<th style="white-space:nowrap;">TITLE</th>
-										<th style="width:5px;">QTY</th>
-										<th style="width:10px;">REQUESTOR</th>
+										<th>TITLE</th>
+										<th>QTY</th>
+										<th>REQUESTOR</th>
 										<th>DATE</th>
 									</tr>
 								</thead>

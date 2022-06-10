@@ -50,39 +50,39 @@ var value;
 			}
 			case "tbl_salesorder_project":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Accounting';
-				 TableData = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}];
+				 TableData = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'status'},{data:'action',orderable:false,width:20,className: "text-nowrap"}];
 				_DataTableLoader('tbl_salesorder_request',TableURL,TableData,[[4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Approved_DataTable_Accounting';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}];
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'status'},{data:'action',orderable:false,className: "text-nowrap"}];
 				_DataTableLoader('tbl_salesorder_approved',TableURL1,TableData1,[[4,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Completed_DataTable_Accounting';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}];
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created,className: "text-nowrap"'},{data:'status'},{data:'action',orderable:false,className: "text-nowrap"}];
 				_DataTableLoader('tbl_salesorder_completed',TableURL2,TableData2,[[4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Salesorder_Project_Cancelled_DataTable_Accounting';
-				let TableData3 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				let TableData3 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'status'},{data:'action',orderable:false,className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_salesorder_cancelled',TableURL3,TableData3,[[4,'desc']]);
 				break;
 			}
 			case "tbl_purchased_material_stocks":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks';
-				TableData = [{data:'production_no'},{data:'title',width:200},{data:'requestor',width:10},{data:'date_created',width:10},{data:'status',width:10},{data:'action',orderable:false,width:10,className:"text-center"}];
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',width:10},{data:'status',width:10},{data:'action',orderable:false,className: "text-nowrap"}];
 				_DataTableLoader('tbl_purchased_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
-				let TableData2 = [{data:'production_no'},{data:'title',width:200},{data:'requestor',width:10},{data:'date_created',width:10},{data:'status',width:10},{data:'action',orderable:false,width:10,className:"text-center"}]; 
+				let TableData2 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'status'},{data:'action',orderable:false,width:10,className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
 			case "tbl_purchased_material_project":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
-				TableData = [{data:'production_no'},{data:'title',width:150},{data:'requestor',width:10},{data:'date_created',width:10},{data:'status',width:10},{data:'action',orderable:false,width:10,className:"text-center"}];
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'status'},{data:'action',orderable:false,width:10,className: "text-nowrap"}];
 				_DataTableLoader('tbl_purchased_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
-				let TableData2 = [{data:'production_no'},{data:'title',width:150},{data:'requestor',width:10},{data:'date_created',width:10},{data:'status'},{data:'action',orderable:false,width:10,className:"text-center"}]; 
+				let TableData2 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'status'},{data:'action',orderable:false,className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}

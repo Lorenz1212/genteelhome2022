@@ -22,22 +22,22 @@
 			        <div class="card-toolbar">
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
-			                    <a class="nav-link active" data-toggle="tab" href="#pending">
+			                    <a class="nav-link active" data-toggle="tab" data-name="pending" href="#pending">
 			                        <span class="nav-text">List</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#complete">
+			                    <a class="nav-link" data-toggle="tab" data-name="complete" href="#complete">
 			                        <span class="nav-text">Completed</span>
 			                    </a>
 			                </li>
 			                 <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#cancelled">
+			                    <a class="nav-link" data-toggle="tab" data-name="cancelled" href="#cancelled">
 			                        <span class="nav-text">Cancelled</span>
 			                    </a>
 			                </li>
 			                 <li class="nav-item">
-			                    <a class="nav-link" data-toggle="tab" href="#request">
+			                    <a class="nav-link" data-toggle="tab"  data-name="production_request" href="#production_request">
 			                        <span class="nav-text">Request <span class="label label-rounded label-primary request_jo_project_production">0</span></span>
 			                    </a>
 			                </li>
@@ -46,8 +46,8 @@
 			    </div>
 			    <div class="card-body">
 			        <div class="tab-content">
-			            <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
-			               	<table class="table table-bordered table-hover table-checkable link" id="tbl_joborder_production" data-link="tbl_joborder_project" style="margin-top: 13px !important">
+			            <div class="tab-pane fade" id="production_request" role="tabpanel" aria-labelledby="kt_tab_pane_1_4">
+			               	<table class="table table-bordered table-hover" id="tbl_joborder_production">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -59,20 +59,20 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="kt_tab_pane_2_4">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_joborder_pending" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_joborder_pending">
 								<thead>
 									<tr>
 										<th>NO</th>
 										<th>TITLE</th>
-										<th style="width:30px;">REQUESTOR</th>
+										<th>REQUESTOR</th>
 										<th >DATE</th>
-										<th style="width:5px;">ACTION</th>
+										<th>ACTION</th>
 									</tr>
 								</thead>
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="complete" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			               <table class="table table-bordered table-hover table-checkable" id="tbl_joborder_complete" style="margin-top: 13px !important">
+			               <table class="table table-bordered table-hover" id="tbl_joborder_complete">
 								<thead>
 									<tr>
 										<th>NO</th>
@@ -84,7 +84,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="kt_tab_pane_3_4">
-			               <table class="table table-bordered table-hover table-checkable" id="tbl_joborder_cancelled" style="margin-top: 13px !important">
+			               <table class="table table-bordered table-hover" id="tbl_joborder_cancelled">
 								<thead>
 									<tr>
 										<th>NO</th>

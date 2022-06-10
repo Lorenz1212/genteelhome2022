@@ -1036,17 +1036,16 @@ class Modal_model extends CI_Model{
         if($p_query !== FALSE && $p_query->num_rows() > 0){
              $no = 1;
             foreach($p_query->result() as $p_row){
-                $data_p[] = array('no'       => $no,
+                $data_p['purchased'][] = array('no'       => $no,
                                   'item'     => $p_row->item,
                                   'quantity' => $p_row->quantity,
                                   'date_created'   => $p_row->date_created);
                 $no++;
             }
         }else{
-            $data_m = false;
+            $data_p = array();
         }
-        $data_array = array('purchased' => $data_p);
-        return $data_array;
+        return $data_p;
     }
     function Modal_Material_Used_Supervisor($id){
     $p_query = $this->db->select('*,DATE_FORMAT(p.latest_update, "%M %d %Y %r") as  date_created')->from('tbl_material_project as p')

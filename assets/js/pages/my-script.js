@@ -945,7 +945,20 @@ var arrows;var item_v;var price;var special_option;
 			case "design-stocks":{
 				$(document).ready(function() {
 					KTFormControlsCreatives.init('form-design-stocks');
-					KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
+					let tab1 = _getItem('creative-design-stocks');
+					if(!_getItem('creative-design-stocks')){
+						_sessionStorage('creative-design-stocks','approved');
+					 tab1 = 'approved';
+					}
+					$('.nav-link[href="#'+tab1+'"]').addClass('active');
+					$('#'+tab1).addClass('show active');
+					KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks',false,tab1);
+					$('#kt_content > div.d-flex.flex-column-fluid > div > div > div.card-header.card-header-tabs-line > div > ul > li > a').on('click',function(e){
+						e.preventDefault();
+						let tab = $(this).attr('data-name');
+						_sessionStorage('creative-design-stocks',tab);
+						KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks',false,tab);
+					});
 					_initAvatar('design_image');
 					_initAvatar('design_image_add');
 					$('#add-stocks-modal input[name=image]').on('change',function(e){
@@ -1015,7 +1028,20 @@ var arrows;var item_v;var price;var special_option;
 			case "design-project":{
 				$(document).ready(function() {
 					KTFormControlsCreatives.init('form-design-project');
-					KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project');
+					let tab1 = _getItem('creative-design-project');
+					if(!_getItem('creative-design-project')){
+						_sessionStorage('creative-design-project','approved');
+						 tab1 = 'approved';
+					}
+					$('.nav-link[href="#'+tab1+'"]').addClass('active');
+					$('#'+tab1).addClass('show active');
+					KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project',false,tab1);
+					$('#kt_content > div.d-flex.flex-column-fluid > div > div > div.card-header.card-header-tabs-line > div > ul > li > a').on('click',function(e){
+						e.preventDefault();
+						let tab = $(this).attr('data-name');
+						_sessionStorage('creative-design-project',tab);
+						KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project',false,tab);
+					});
 					_initAvatar('design_image');
 					_initAvatar('design_image_add');
 					$('#add-project-modal input[name=image]').on('change',function(e){
@@ -2369,7 +2395,20 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "joborder-stocks":{
 				$(document).ready(function() {
-					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks');
+					let tab1 = _getItem('joborder-stocks');
+					if(!_getItem('joborder-stocks')){
+						_sessionStorage('joborder-stocks','pending');
+					 tab1 = 'pending';
+					}
+					$('.nav-link[href="#'+tab1+'"]').addClass('active');
+					$('#'+tab1).addClass('show active');
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks',false,tab1);
+					$('#kt_content > div.d-flex.flex-column-fluid > div > div > div.card-header.card-header-tabs-line > div > ul > li > a').on('click',function(e){
+						e.preventDefault();
+						let tab = $(this).attr('data-name');
+						_sessionStorage('joborder-stocks',tab);
+						KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks',false,tab);
+					});
 				    $(document).on("click","#form-request",function(e) {
 				    		e.preventDefault();
 					 	let val = {id:$(this).attr('data-id')};
@@ -2444,7 +2483,20 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "joborder-project":{
 				$(document).ready(function() {
-					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project');
+					let tab1 = _getItem('joborder-project');
+					if(!_getItem('joborder-project')){
+						_sessionStorage('joborder-project','pending');
+					 tab1 = 'pending';
+					}
+					$('.nav-link[href="#'+tab1+'"]').addClass('active');
+					$('#'+tab1).addClass('show active');
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project',false,tab1);
+					$('#kt_content > div.d-flex.flex-column-fluid > div > div > div.card-header.card-header-tabs-line > div > ul > li > a').on('click',function(e){
+						e.preventDefault();
+						let tab = $(this).attr('data-name');
+						_sessionStorage('joborder-project',tab);
+						KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project',false,tab);
+					});
 					$(document).on('change','#project_no',function(e){
 						e.preventDefault();
 						let id = $(this).val();
@@ -3040,7 +3092,19 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-joborder-stocks-supervisor":{
 				$(document).ready(function() {
-					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks');
+					let tab1 = _getItem('joborder-stocks-supervisor');
+					if(!_getItem('joborder-stocks-supervisor')){
+						_sessionStorage('joborder-stocks-supervisor','request');
+						tab1 = 'request';
+					}
+					$('.nav-link[href="#'+tab1+'"]').addClass('active');
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks_supervisor',false,tab1);
+					$('#'+tab1).addClass('show active');
+					$('#kt_content > div.d-flex.flex-column-fluid > div > div > div.card-header.card-header-tabs-line > div > ul > li > a').on('click',function(e){
+						let tab = $(this).attr('data-name');
+						_sessionStorage('joborder-stocks-supervisor',tab);
+						KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks_supervisor',false,tab);
+					});
 					$(document).on("click","#form-request",function() {
 				 		let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
@@ -3056,7 +3120,19 @@ var arrows;var item_v;var price;var special_option;
 			}
 			case "data-joborder-project-supervisor":{
 				$(document).ready(function() {
-					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project');
+					let tab1 = _getItem('joborder-project-supervisor');
+					if(!_getItem('joborder-project-supervisor')){
+						_sessionStorage('joborder-project-supervisor','request');
+						tab1 = 'request';
+					}
+					$('.nav-link[href="#'+tab1+'"]').addClass('active');
+					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project_supervisor',false,tab1);
+					$('#'+tab1).addClass('show active');
+					$('#kt_content > div.d-flex.flex-column-fluid > div > div > div.card-header.card-header-tabs-line > div > ul > li > a').on('click',function(e){
+						let tab = $(this).attr('data-name');
+						_sessionStorage('joborder-project-supervisor',tab);
+						KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project_supervisor',false,tab);
+					});
 					$(document).on("click","#form-request",function() {
 				 		let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
@@ -4580,7 +4656,6 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
 	  			$(".c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	  			$(".docs").val(response.docs);
-
 	  			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response.production_no);
 	  		}
 	  		$(document).on("click","#update-material-request",function(e) {
@@ -6742,7 +6817,6 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "fetch_design_project_status":{
-								console.log(response)
 				_initToast(response.type,response.message);
 				KTDatatablesDataSourceAjaxClientAdmin.init('tbl_approval_design_project_request');
 				break;
@@ -6900,6 +6974,7 @@ var arrows;var item_v;var price;var special_option;
 			_initView();
 			_initImageView();
 			_initnotificationupdate();
+			sessionStorage.clear();
 		},
 
 	};

@@ -18,6 +18,12 @@ var KTFormControlsCreatives = function () {
     var _initnotificationupdate = function(){
 		 _ajaxloaderOption('Dashboard_controller/designer_dashboard','POST',false,'designer');
 	}
+	var _sessionStorage = function(key,value){
+		sessionStorage.setItem(key, value);
+	}
+	var _getItem = function(key){
+		return sessionStorage.getItem(key);
+	}
 	var _ajaxloaderOption = async function(thisURL,type,val,sub){
 		  $.ajax({
 	             url: baseURL + thisURL,
@@ -505,7 +511,7 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#add-stocks-modal').modal('hide');
 				}
-				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks',false,'request');
 				break;
 			}
 			case "add_design_stocks-existing":{
@@ -513,7 +519,7 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#add-stocks-existing-modal').modal('hide');
 				}
-				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks',false,'request');
 				break;
 			}
 			case "edit_design-stocks":{
@@ -521,7 +527,12 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#edit-stocks-modal').modal('hide');
 				}
-				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks');
+				let tab1 = _getItem('creative-design-stocks');
+				if(!_getItem('creative-design-stocks')){
+					_sessionStorage('creative-design-stocks','approved');
+					 tab1 = 'approved';
+				}
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_stocks',false,tab1);
 				break;
 			}
 			case "add_design_project":{
@@ -529,7 +540,12 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#add-project-modal').modal('hide');
 				}
-				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project');
+				let tab1 = _getItem('creative-design-project');
+				if(!_getItem('creative-design-stocks')){
+					_sessionStorage('creative-design-project','approved');
+					 tab1 = 'approved';
+				}
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project',false,tab1);
 				break;
 			}
 			case "edit_design-project":{
@@ -537,7 +553,12 @@ var KTFormControlsCreatives = function () {
 				if(response.type == 'success'){
 					$('#edit-project-modal').modal('hide');
 				}
-				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project');
+				let tab1 = _getItem('creative-design-project');
+				if(!_getItem('creative-design-stocks')){
+					_sessionStorage('creative-design-project','approved');
+					 tab1 = 'approved';
+				}
+				KTDatatablesDataSourceAjaxClientCreative.init('tbl_design_project',false,tab1);
 				break;
 			}
 			
