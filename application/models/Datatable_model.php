@@ -899,7 +899,6 @@ class Datatable_model extends CI_Model{
              (SELECT title FROM tbl_project_design WHERE id=tbl_project_finished.project_no) as title,
              (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_finished.assigned) as requestor
              FROM tbl_project_finished WHERE type=1 AND status=1 AND assigned='".$this->user_id."'");   
-      
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
@@ -1012,11 +1011,12 @@ class Datatable_model extends CI_Model{
          return $json_data;
       } 
       function Joborder_Project_Complete_DataTable(){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
-          ->from('tbl_project_finished as p')
-          ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-          ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-          ->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',1)->where('p.assigned',$this->user_id)->order_by('p.date_created','DESC')->get();
+           $user_id = $this->user_id;
+           $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+               (SELECT image FROM tbl_project_color WHERE project_no=tbl_project_finished.project_no) as image,
+               (SELECT title FROM tbl_project_design WHERE id=tbl_project_finished.project_no) as title,
+               (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_finished.assigned) as requestor
+               FROM tbl_project_finished WHERE status=1 AND type=2 AND assigned='$user_id'");  
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
@@ -1032,8 +1032,13 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;
         } 
-      function Joborder_Project_Cancelled_DataTable(){        
-          $query = $this->db->select('p.*,c.*,d.*,c.image as image,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.type',2)->where('p.status',2)->where('c.designer',$this->user_id)->order_by('p.date_created','DESC')->get();
+      function Joborder_Project_Cancelled_DataTable(){      
+        $user_id = $this->user_id;
+       $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+           (SELECT image FROM tbl_project_color WHERE project_no=tbl_project_finished.project_no) as image,
+           (SELECT title FROM tbl_project_design WHERE id=tbl_project_finished.project_no) as title,
+           (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_finished.assigned) as requestor
+           FROM tbl_project_finished WHERE status=2 AND type=2 AND assigned='$user_id'");  
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
                  $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>'; 
@@ -1113,10 +1118,17 @@ class Datatable_model extends CI_Model{
          return $json_data;
      } 
      function Joborder_Stocks_Supervisor_DataTable(){
-         $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',1)->order_by('p.date_created','DESC')->get();
+         $data =array();    
+         $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+           (SELECT image FROM tbl_project_color WHERE project_no=tbl_project.c_code) as image,
+           (SELECT title FROM tbl_project_design WHERE id=tbl_project.project_no) as title,
+           (SELECT c_image FROM tbl_project_color WHERE id=tbl_project.c_code) as c_image,
+           (SELECT c_name FROM tbl_project_color WHERE id=tbl_project.c_code) as c_name,
+           (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project.assigned) as requestor
+           FROM tbl_project WHERE status !=4 AND type=1"); 
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-              $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal"><i class="flaticon2-pen"></i></button>';
+              $action = '<button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" id="form-request" data-id="'.$row->production_no.'"><i class="flaticon2-pen"></i></button>';
             $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
@@ -1127,33 +1139,114 @@ class Datatable_model extends CI_Model{
                           'status'        => $row->status,
                           'action'        => $action);
             }  
-         }else{   
-             $data =array();    
          }
          $json_data  = array("data" =>$data); 
          return $json_data;
      }
+     function Joborder_Stocks_Cancelled_Supervisor_DataTable(){
+          $data =array();   
+          $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+           (SELECT image FROM tbl_project_color WHERE project_no=tbl_project_finished.c_code) as image,
+           (SELECT title FROM tbl_project_design WHERE id=tbl_project_finished.project_no) as title,
+           (SELECT c_image FROM tbl_project_color WHERE id=tbl_project_finished.c_code) as c_image,
+           (SELECT c_name FROM tbl_project_color WHERE id=tbl_project_finished.c_code) as c_name,
+           (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_finished.assigned) as requestor
+           FROM tbl_project_finished WHERE status=2 AND type=1");        
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                    $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
+                     $data[] = array(
+                              'production_no' => $row->production_no,
+                              'title'         => $title,
+                              'qty'           => $row->unit,
+                              'requestor'     => $row->requestor,
+                              'date_created'  => $row->date_created);
+                }  
+         }
+         return array("data" =>$data);
+      } 
+      function Joborder_Stocks_Completed_Supervisor_DataTable(){
+         $data =array();   
+         $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+           (SELECT image FROM tbl_project_color WHERE project_no=tbl_project_finished.c_code) as image,
+           (SELECT title FROM tbl_project_design WHERE id=tbl_project_finished.project_no) as title,
+           (SELECT c_image FROM tbl_project_color WHERE id=tbl_project_finished.c_code) as c_image,
+           (SELECT c_name FROM tbl_project_color WHERE id=tbl_project_finished.c_code) as c_name,
+           (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_finished.assigned) as requestor
+           FROM tbl_project_finished WHERE status=1 AND type=1");             
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){ 
+                   $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
+                     $data[] = array(
+                              'production_no' => $row->production_no,
+                              'title'         => $title,
+                              'qty'           => $row->unit,
+                              'requestor'     => $row->requestor,
+                              'date_created'  => $row->date_created);
+                }  
+         }
+         return array("data" =>$data);
+      } 
      function Joborder_Project_Supervisor_DataTable(){
-         $query = $this->db->select('p.*,c.*,d.*,p.status as status,DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')->from('tbl_project as p')->join('tbl_project_design as d','d.id=p.project_no','LEFT')->join('tbl_project_color as c','c.project_no=d.id','LEFT')->join('tbl_administrator as u','u.id=p.assigned','LEFT')->where('p.status !=',2)->where('p.type',2)->order_by('p.date_created','DESC')->get();
+         $data =array();  
+         $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+           (SELECT image FROM tbl_project_color WHERE project_no=tbl_project.project_no) as image,
+           (SELECT title FROM tbl_project_design WHERE id=tbl_project.project_no) as title,
+           (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project.assigned) as requestor
+           FROM tbl_project WHERE status !=4 AND type=2"); 
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row){
-              $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" data-toggle="modal" id="form-request" data-id="'.$row->production_no.'" data-target="#requestModal" data-toggle="tooltip" data-theme="dark" title="View details"><i class="flaticon2-pen"></i></button></div>';
+              $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-icon btn-light-dark btn-hover-success btn-sm mx-3" id="form-request" data-id="'.$row->production_no.'"  data-toggle="tooltip" data-theme="dark" title="View details"><i class="flaticon2-pen"></i></button></div>';
              $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
                  $data[] = array(
                           'production_no' => $row->production_no,
                           'title'         => $title,
                           'requestor'     => $row->requestor,
-                          'qty'           => $row->unit,
                           'date_created'  => $row->date_created,
                           'status'        => $row->status,
                           'action'        => $action);
             }  
-         }else{   
-             $data =array();    
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
+         return array("data" =>$data); 
      }
+      function Joborder_Project_Cancelled_Supervisor_DataTable(){
+          $data =array();   
+          $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+           (SELECT image FROM tbl_project_color WHERE project_no=tbl_project_finished.project_no) as image,
+           (SELECT title FROM tbl_project_design WHERE id=tbl_project_finished.project_no) as title,
+           (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_finished.assigned) as requestor
+           FROM tbl_project_finished WHERE status=2 AND type=2");        
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                    $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
+                     $data[] = array(
+                              'production_no' => $row->production_no,
+                              'title'         => $title,
+                              'requestor'     => $row->requestor,
+                              'date_created'  => $row->date_created);
+                }  
+         }
+         return array("data" =>$data); 
+      } 
+      function Joborder_Project_Completed_Supervisor_DataTable(){
+          $data =array();   
+         $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+           (SELECT image FROM tbl_project_color WHERE project_no=tbl_project_finished.project_no) as image,
+           (SELECT title FROM tbl_project_design WHERE id=tbl_project_finished.project_no) as title,
+           (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_finished.assigned) as requestor
+           FROM tbl_project_finished WHERE status=1 AND type=2");             
+         if($query !== FALSE && $query->num_rows() > 0){
+             foreach($query->result() as $row){
+                    $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a  class="text-muted font-weight-bold text-hover-primary"></a></div></div></div></span>';
+                     $data[] = array(
+                              'production_no' => $row->production_no,
+                              'title'         => $title,
+                              'requestor'     => $row->requestor,
+                              'date_created'  => $row->date_created);
+                }  
+         }
+         return array("data" =>$data); 
+      } 
 
      function Salesorder_Stocks_Request_DataTable_Production(){
         $data=array(); 
@@ -1173,8 +1266,7 @@ class Datatable_model extends CI_Model{
                       'action'       => $action);
             }  
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
+         return array("data" =>$data); 
      }
      function Salesorder_Stocks_Approved_DataTable_Production(){
         $data=array(); 
@@ -1195,8 +1287,7 @@ class Datatable_model extends CI_Model{
                       'action'       => $action);
             }  
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
+         return array("data" =>$data); 
      }
      function Salesorder_Stocks_Completed_DataTable_Production(){
        $data=array(); 
@@ -1217,8 +1308,7 @@ class Datatable_model extends CI_Model{
                       'action'       => $action);
             }  
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
+         return array("data" =>$data); 
      }
      function Salesorder_Stocks_Cancelled_DataTable_Production(){
        $data=array(); 
@@ -1240,8 +1330,7 @@ class Datatable_model extends CI_Model{
                       'action'       => $action);
             }  
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
+         return array("data" =>$data); 
      }
 
      function Salesorder_Project_Request_DataTable_Production(){
@@ -1262,8 +1351,7 @@ class Datatable_model extends CI_Model{
                       'action'       => $action);
             }  
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
+         return array("data" =>$data);
      }
      function Salesorder_Project_Approved_DataTable_Production(){
         $data=array(); 
@@ -1285,8 +1373,7 @@ class Datatable_model extends CI_Model{
                       'action'       => $action);
             }  
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
+         return array("data" =>$data);
      }
      function Salesorder_Project_Completed_DataTable_Production(){
        $data=array(); 
@@ -4100,6 +4187,67 @@ class Datatable_model extends CI_Model{
          return $json_data;
      }
 
+     function Collected_Request_DataTable_Sales(){
+         $data=array(); 
+         $query = $this->db->query("SELECT *,CONCAT(firstname, ' ',lastname) AS customer,DATE_FORMAT(date_deposite, '%M %d %Y') as date_created  FROM tbl_customer_deposite WHERE status='P'");
+         if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row) {
+             $status='<span style="width: 112px;"><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">Request</span></span>';  
+             $action = '<div class="d-flex flex-row"><button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button></div>';
+            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/deposit/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->customer.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->bank.'</a></div></div></div></span>';
+             $data[] = array(
+                          'so_no'        => $row->order_no,
+                          'customer'     => $title,
+                          'amount'       => number_format($row->amount,2),
+                          'date'         => $row->date_created,
+                          'status'       => $status,
+                          'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+    function Collected_Approved_DataTable_Sales(){
+        $data =array();   
+        $query = $this->db->query("SELECT *,CONCAT(firstname, ' ',lastname) AS customer,DATE_FORMAT(date_deposite, '%M %d %Y') as date_created  FROM tbl_customer_deposite WHERE status='A'");
+         if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row)  {
+             $status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Approved</span></span>';  
+             $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>'; 
+             $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/deposit/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->customer.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->bank.'</a></div></div></div></span>';
+             $data[] = array(
+                          'so_no'        => $row->order_no,
+                          'customer'     => $title,
+                          'amount'       => number_format($row->amount,2),
+                          'date'         => $row->date_created,
+                          'status'       => $status,
+                          'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+     function Collected_Cancelled_DataTable_Sales(){
+        $data =array();   
+        $query = $this->db->query("SELECT *,CONCAT(firstname, ' ',lastname) AS customer,DATE_FORMAT(date_deposite, '%M %d %Y') as date_created  FROM tbl_customer_deposite WHERE status='C'");
+         if($query !== FALSE && $query->num_rows() > 0){
+         foreach($query->result() as $row)  {
+             $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';  
+            $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button> <button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'"  data-trans="'.$row->order_no.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button>'; 
+            $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/deposit/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->customer.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->bank.'</a></div></div></div></span>';
+             $data[] = array(
+                          'so_no'        => $row->order_no,
+                          'customer'     => $title,
+                          'amount'       => number_format($row->amount,2),
+                          'date'         => $row->date_created,
+                          'status'       => $status,
+                          'action'       => $action);
+            }  
+         }
+         $json_data  = array("data" =>$data); 
+         return $json_data;
+    }
+
 
 
 
@@ -4151,7 +4299,7 @@ class Datatable_model extends CI_Model{
          if($query !== FALSE && $query->num_rows() > 0){
          foreach($query->result() as $row)  {
              $status='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Cancelled</span></span>';  
-            $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button>'; 
+            $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-details" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="la la-eye"></i></button> <button type="button" class="btn btn-sm btn-light-dark btn-icon btn-remarks" data-remarks="'.$row->remarks.'"  data-trans="'.$row->order_no.'" data-toggle="tooltip" data-theme="dark" title="Remarks"><i class="la la-comment"></i></button>'; 
             $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/deposit/'.$row->image.'" alt="photo"></div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->customer.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->bank.'</a></div></div></div></span>';
              $data[] = array(
                           'so_no'        => $row->order_no,
@@ -4372,7 +4520,7 @@ class Datatable_model extends CI_Model{
                 $unit =$row->unit.'(s)';
                 if(!$row->unit){ $unit ="";}
                  $status = '<button  class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_remove_material" data-id="'.$row->id.'" data-toggle="tooltip" data-theme="dark" '.$lock.'><i class="'.$icon.'"></i></button>';       
-                 $item = '<a href="javascript:;" id="update-material-request" data-type="'.$row->mat_type.'" data-qty="'.$row->total_qty.'" data-name="'.$row->item.'" data-id="'.$row->id.'">'.$row->item.' - '.$unit.'</a>';
+                 $item = '<a href="javascript:;" id="update-material-request" data-order="'.$row->production_no.'" data-type="'.$row->mat_type.'" data-qty="'.$row->total_qty.'" data-name="'.$row->item.'" data-id="'.$row->id.'">'.$row->item.' - '.$unit.'</a>';
                  $qty = '<input type="text" class="form-control form-control-sm text-center quantity" placeholder="Enter Quantity" autocomplete="off"/>';
                  $action = '<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success btn_material_request"  data-id="'.$row->id.'"><i class="flaticon2-fast-next"></i></button>';
                 
@@ -4397,7 +4545,7 @@ class Datatable_model extends CI_Model{
                     $unit =$row->unit.'(s)';
                 if(!$row->unit){ $unit ="";}
                 $status = '<button class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger btn_remove_purchased" data-id="'.$row->id.'"><i class="flaticon-delete-1"></i></button>';
-                $item = '<a href="javascript:;" id="update-purchase-request"  data-id="'.$row->id.'">'.$row->item.'</a>';
+                $item = '<a href="javascript:;" id="update-purchase-request" data-order="'.$row->production_no.'"  data-id="'.$row->id.'">'.$row->item.'</a>';
                 $action = '<button type="button" class="btn btn-sm btn-shadow btn-icon btn-bg-light btn-icon-success btn-hover-success btn_purchased_request"  data-id="'.$row->id.'"><i class="flaticon2-fast-next"></i></button>';
                 $remarks = '(<a href="javascript:;" data-toggle="tooltip" data-theme="dark" title="'.$row->remarks.'">Remarks</a>)';
                 if(!$row->remarks){$remarks ="";}

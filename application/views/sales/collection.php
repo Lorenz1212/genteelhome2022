@@ -1,6 +1,6 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-collection">
-	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+	<div class="subheader py-2 py-lg-12 subheader-transparent form" data-link="Create_Deposit"  id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
@@ -8,7 +8,7 @@
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
-					<button class="btn btn-light-success font-weight-bolder btn-sm" data-toggle="modal" data-target="#create-collection"><i class="flaticon-add-circular-button"></i> Create sales collection</button>
+					<button class="btn btn-light-success font-weight-bolder btn-sm create-sales-collection-modal"><i class="flaticon-add-circular-button"></i> Create sales collection</button>
 				</div>
 		</div>
 	</div>
@@ -46,12 +46,11 @@
 			    <div class="card-body">
 						<div class="tab-content">
 							<div class="tab-pane active" id="request" role="tabpanel">
-								<table class="table table-bordered table-hover table-checkable" id="tbl_collection_request">
+								<table class="table table-bordered table-hover" id="tbl_collection_request">
 									<thead>
 										<tr>
 											<th>TRACKING NO</th>
 											<th>CUSTOMER</th>
-											<th>BANK</th>
 											<th>AMOUNT</th>
 											<th>DATE</th>
 											<th>STATUS</th>
@@ -61,12 +60,11 @@
 								</table>
 							</div>
 							<div class="tab-pane" id="approved" role="tabpanel">
-								<table class="table table-bordered table-hover table-checkable" id="tbl_collection_approved">
+								<table class="table table-bordered table-hover" id="tbl_collection_approved">
 									<thead>
 										<tr>
 											<th>TRACKING NO</th>
 											<th>CUSTOMER</th>
-											<th>BANK</th>
 											<th>AMOUNT</th>
 											<th>DATE</th>
 											<th>STATUS</th>
@@ -75,21 +73,20 @@
 									</thead>
 								</table>
 							</div>
-										<div class="tab-pane" id="cancelled" role="tabpanel">
-											<table class="table table-bordered table-hover table-checkable" id="tbl_collection_cancelled">
-												<thead>
-													<tr>
-														<th>TRACKING NO</th>
-														<th>CUSTOMER</th>
-														<th>BANK</th>
-														<th>AMOUNT</th>
-														<th>DATE</th>
-														<th>STATUS</th>
-														<th>ACTION</th>
-													</tr>
-												</thead>
-											</table>
-										</div>
+							<div class="tab-pane" id="cancelled" role="tabpanel">
+								<table class="table table-bordered table-hover" id="tbl_collection_cancelled">
+									<thead>
+										<tr>
+											<th>TRACKING NO</th>
+											<th>CUSTOMER</th>
+											<th>AMOUNT</th>
+											<th>DATE</th>
+											<th>STATUS</th>
+											<th>ACTION</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
 										
 									</div>
 								</div>
@@ -102,7 +99,7 @@
 
 
 
-<div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit-sales-collection" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
         	 <div class="modal-header">
@@ -152,15 +149,12 @@
 				   </div>
 				   </div>
 				  </div>
-			 <div class="modal-footer">
-			 	<button type="button" class="btn btn-success btn_action" id="Update_Deposit_Approved" data-id="0">APPROVED</button>
-			 </div>
 	    </div>
 	</div>
 </div>
 
 
-<div class="modal fade" id="create-collection" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeLg" aria-hidden="true">
+<div class="modal fade" id="create-sales-collection-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeLg" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
         	 <div class="modal-header">
@@ -170,7 +164,7 @@
                 </button>
             </div>
             <div class="modal-body">
-            	<form class="form" id="Create_Deposit" data-link="Create_Deposit" enctype="multipart/form-data" accept-charset="utf-8">
+            	<form  id="Create-sales-form" enctype="multipart/form-data" accept-charset="utf-8">
             		<div class="form-group row">
             			<div class="col-lg-6">
 						    <label>Firstname:</label>
@@ -230,7 +224,7 @@
 				</form>
             </div>
        		<div class="modal-footer">
-	 		<button type="button" class="btn btn-success Create_Deposit">Submit Form</button>
+	 		<button type="button" class="btn btn-success btn-save">Submit Form</button>
 	 	</div>
     </div>
 </div>

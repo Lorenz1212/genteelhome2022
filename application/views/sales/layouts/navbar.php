@@ -53,13 +53,13 @@
 													<span class="menu-text">Dashboard</span>
 												</a>
 											</li>
-											<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a  href="<?php echo base_url()."gh/sales/online-order";?>" class="menu-link">
 													<span class="menu-text mr-2">Online Order</span>
 													<span class="label label-rounded label-primary online_add_cart">0</span>
 													<span class="menu-desc"></span>
 												</a>
-											</li> -->
+											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text mr-2">Sales Order</span>
@@ -127,12 +127,12 @@
 												</ul>
 											</div>
 										</li>
-											<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="<?php echo base_url()."gh/sales/collection"?>" class="menu-link">
-													<span class="menu-text mr-2">Collection</span>
+													<span class="menu-text mr-2">Sales Collection</span>
 													<span class="label label-rounded label-primary collection_count">0</span>
 												</a>
-											</li> -->
+											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text mr-2">Customer</span>

@@ -1530,7 +1530,7 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Create_Deposit":{
-	 			var form = document.getElementById('Create_Deposit');
+	 			var form = document.getElementById('Create-sales-form');
 			         validation = FormValidation.formValidation(
 						form,
 						{
@@ -1546,15 +1546,13 @@ var KTFormControls = function () {
 							plugins: {
 							trigger: new FormValidation.plugins.Trigger(),
 							bootstrap: new FormValidation.plugins.Bootstrap(),
-			                    icon: new FormValidation.plugins.Icon({
-			                    valid: 'fa fa-check',
-			                    invalid: 'fa fa-times',
-			                    validating: 'fa fa-refresh'
-			                }),
 						}
 					   }
 					);
-	 			$(document).on('submit','#Create_Deposit',function(e){
+			       $('#create-sales-collection-modal').on('hidden.bs.modal', function () {
+					    validation.resetForm();
+					});
+	 			$(document).on('click','.btn-save',function(e){
 	 				e.preventDefault();
 	 				validation.validate().then(function(status) {
 					     if (status == 'Valid'){ 	
@@ -1565,11 +1563,6 @@ var KTFormControls = function () {
 					  	 	_ajaxForm(thisURL,"POST",fd,"Create_Deposit",false);
 					     }
 					 });
-	 			})
-	 			$(document).on('click','#Update_Deposit_Approved',function(e){
-	 				e.preventDefault();
-				 	 thisURL = baseURL + 'update_controller/Update_Deposit_Approved';
-			  	 	_ajaxForm_loaded(thisURL,"POST",{id:$(this).attr('data-id')},"Create_Deposit",false);
 	 			})
 	 			break;
 	 		}
@@ -3327,27 +3320,11 @@ var KTFormControls = function () {
 	 		//Create
 	 		case "Create_Deposit":{
 	 			if(response.status=="success"){
-                  	_initToastSuccess();
-
-                  	let TableURL = baseURL + 'datatable_controller/Customer_Collected_DataTable';
-					let TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
-					_DataTableLoader('tbl_customer_collected',TableURL,TableData,false);
-					document.getElementById("Create_Deposit").reset();
-					$('#Create_Deposit').resetForm();
-                    }else if(response.status =='APPROVED'){
-                    	Swal.fire("APPROVED!", "Thank you!", "success").then(function(){
-						let TableURL = baseURL + 'datatable_controller/Customer_Deposite_DataTable';
-						let TableData = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}]; 
-						_DataTableLoader('tbl_customer_deposite',TableURL,TableData,false);
-
-						let TableURL1 = baseURL + 'datatable_controller/Customer_Collected_DataTable';
-						let TableData1 = [{data:'so_no'},{data:'customer'},{data:'bank'},{data:'amount'},{data:'date'},{data:'action'}];
-						_DataTableLoader('tbl_customer_collected',TableURL1,TableData1,false);
-                    	});
-                    
+                  		_initToast(response.type,response.message);
                     }else{
                     	Swal.fire("TRACKING NO IS INVALID!", "Please check your receipt", "info");
                     }
+                    KTDatatablesDataSourceAjaxClient.init('tbl_collection');
                      _initnotificationupdate();
                     break;
 	 		}
@@ -4126,7 +4103,6 @@ var KTFormControls = function () {
 	 		 	if(response !=false){
 	 		 		_initToast('success','Created Successfully');
 	 		 		KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response);
-
 					$('#add-material-request').modal('hide');
 					$('#Create_Material_request')[0].reset();
 	 		 	}else{

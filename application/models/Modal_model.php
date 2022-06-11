@@ -1032,20 +1032,24 @@ class Modal_model extends CI_Model{
         return $data_array;
     }
       function Modal_Purchased_Request_Supervisor($id){
-        $p_query = $this->db->select('*,DATE_FORMAT(p.date_created, "%M %d %Y %r") as  date_created')->from('tbl_purchasing_project as p')->join('tbl_materials as m','m.id=p.item_no','LEFT')->where('p.production_no',$id)->where('p.status !=',1)->order_by('p.date_created','DESC')->get();
-        if($p_query !== FALSE && $p_query->num_rows() > 0){
+        $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as  date_created,
+         (SELECT item FROM tbl_materials WHERE id=tbl_purchasing_project.item_no) as item,
+         (SELECT unit FROM tbl_materials WHERE id=tbl_purchasing_project.item_no) as unit
+         FROM tbl_purchasing_project WHERE production_no='$id' AND status != 1");
+        if($query !== FALSE && $query->num_rows() > 0){
              $no = 1;
-            foreach($p_query->result() as $p_row){
-                $data_p['purchased'][] = array('no'       => $no,
-                                  'item'     => $p_row->item,
-                                  'quantity' => $p_row->quantity,
-                                  'date_created'   => $p_row->date_created);
+            foreach($query->result() as $row){
+                if(!$row->unit){$unit ="";}else{$unit =' ('.$row->unit.')';}
+                $data['purchased'][] = array('no'=> $no,
+                                  'item'=> $row->item.$unit,
+                                  'quantity'=> $row->quantity,
+                                  'date_created'=> $row->date_created);
                 $no++;
             }
         }else{
-            $data_p = array();
+            $data = false;
         }
-        return $data_p;
+        return $data;
     }
     function Modal_Material_Used_Supervisor($id){
     $p_query = $this->db->select('*,DATE_FORMAT(p.latest_update, "%M %d %Y %r") as  date_created')->from('tbl_material_project as p')

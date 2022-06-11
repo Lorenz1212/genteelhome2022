@@ -178,10 +178,6 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Joborder_Masterlist_Project_DataTable();
         echo json_encode($data);
     }
-    public function Joborder_Stocks_Supervisor_DataTable(){
-        $data = $this->datatable_model->Joborder_Stocks_Supervisor_DataTable();
-        echo json_encode($data);
-    }
 
     public function Joborder_Project_Material_Request_DataTable(){
         $data = $this->datatable_model->Joborder_Project_Material_Request_DataTable();
@@ -207,10 +203,32 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Joborder_Project_Masterlist_DataTable();
         echo json_encode($data);
     }
+
+     public function Joborder_Stocks_Supervisor_DataTable(){
+        $data = $this->datatable_model->Joborder_Stocks_Supervisor_DataTable();
+        echo json_encode($data);
+    }
+    public function Joborder_stocks_Completed_Supervisor_DataTable(){
+        $data = $this->datatable_model->Joborder_stocks_Completed_Supervisor_DataTable();
+        echo json_encode($data);
+    }
+    public function Joborder_stocks_Cancelled_Supervisor_DataTable(){
+        $data = $this->datatable_model->Joborder_stocks_Cancelled_Supervisor_DataTable();
+        echo json_encode($data);
+    }
     public function Joborder_Project_Supervisor_DataTable(){
         $data = $this->datatable_model->Joborder_Project_Supervisor_DataTable();
         echo json_encode($data);
     }
+    public function Joborder_Project_Completed_Supervisor_DataTable(){
+        $data = $this->datatable_model->Joborder_Project_Completed_Supervisor_DataTable();
+        echo json_encode($data);
+    }
+    public function Joborder_Project_Cancelled_Supervisor_DataTable(){
+        $data = $this->datatable_model->Joborder_Project_Cancelled_Supervisor_DataTable();
+        echo json_encode($data);
+    }
+
 
 
     public function Salesorder_Stocks_Request_DataTable_Production(){

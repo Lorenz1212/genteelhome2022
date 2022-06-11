@@ -1210,21 +1210,33 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-collection":{
-				$('#kt_datepicker_4_3').datepicker({
-				   rtl: KTUtil.isRTL(),
-				   orientation: "bottom left",
-				   todayHighlight: true,
-				   templates: arrows
-				  });
+				// KTFormControlsAccounting.init('sales-collection');
+				KTDatatablesDataSourceAjaxClient.init('tbl_collection');
 				_initCurrency_format('#amount');
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Customer_Collection';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Customer_Collection");
-				    });
-				})
+				 $(document).on("click",".view-details",function() {
+				 	let id = $(this).attr('data-id');
+				 	let val = {id:id};
+				 	let thisUrl = 'modal_controller/Modal_Customer_Collection';
+					_ajaxloader(thisUrl,"POST",val,"Modal_Customer_Collection");
+			    });
+				$(document).on("click",".create-sales-collection-modal",function(e) {
+				 		e.preventDefault();
+				 		$('#create-sales-collection-modal').modal('show');
+			    });
+				 $('body').delegate('.btn-remarks','click',function(e){
+	                    e.preventDefault();
+	                    e.stopImmediatePropagation();
+	                    let element = $(this);
+	                        Swal.fire({
+	                          title: "Trans #: "+element.attr('data-trans')+"</br>Reason to Remarks",
+	                          text: element.attr('data-remarks'),
+	                          showConfirmButton:false,
+	                          showCancelButton: false,
+	                          cancelButtonText: "close!",
+	                          reverseButtons: true
+	                      })
+		            });
+				 break;
 			}
 			case "data-customer-concern-list":{
 				KTDatatablesDataSourceAjaxClient.init('tbl_service_request_sales');
@@ -2590,75 +2602,6 @@ var arrows;var item_v;var price;var special_option;
 			  	break;
 			}
 
-			case "data-production-Salesorder-Create":{
-				_initDatepicker('#date_order');
-				break;
-			}
-			//supervisor
-			case "data-supervisor-project-list":{
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Joborder_View';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Production_View");
-				    });
-				})
-				break;
-			}
-			case "data-supervisor-material-request":{
-				$(document).ready(function() { 
-					_initJOBORDER1_option();
-					$(document).on('change','#joborder',function(e){
-						var id = $(this).val();
-						let val = {id:id};
-						let thisUrl = 'view_controller/View_Joborder_Data';
-						_ajaxloader(thisUrl,"POST",val,"View_Production_Data");
-					 });
-				 });
-				_initNumberOnly("#quantity");
-				_initItem_option();
-				$(document).on('change','select[name=item]',function(e){
-					var action = $(this).val().split('-');
-					_initItemQTY_option(action[0]);
-				});
-				_initpurchasing_mat();
-				break;
-			}
-			case "data-supervisor-purchase-request":{
-				$(document).ready(function() { 
-					_initJOBORDER1_option();
-					$(document).on('change','#joborder',function(e){
-						var id = $(this).val();
-						let val = {id:id};
-						let thisUrl = 'view_controller/View_Joborder_Data';
-						_ajaxloader(thisUrl,"POST",val,"View_Production_Data");
-					 });
-				 });
-				_initNumberOnly("#quantity");
-				_initItem_option();
-				$(document).on('change','select[name=item]',function(e){
-					_initItemqty_option();
-				});
-				_initpurchasing('add_purchase');
-				$('.hide_special').hide();
-				$(".special").removeAttr("name");
-				$(document).on('change','select[name=special_option]',function(){
-					let option = $(this).val();
-					if(option == 'common'){
-						$('.hide_common').show();
-						$(".special").removeAttr("name");
-						$(".common").attr("name",'item');
-						$('.hide_special').hide();
-					}else{
-						$('.hide_common').hide();
-						$(".common").removeAttr("name");
-						$(".special").attr("name",'item');
-						$('.hide_special').show();
-					}
-				});
-				break;
-			}
 
 			//Reviewer
 			case "data-request-material-superuser":{
@@ -3090,7 +3033,7 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-joborder-stocks-supervisor":{
+			case "joborder-stocks-supervisor":{
 				$(document).ready(function() {
 					let tab1 = _getItem('joborder-stocks-supervisor');
 					if(!_getItem('joborder-stocks-supervisor')){
@@ -3105,20 +3048,109 @@ var arrows;var item_v;var price;var special_option;
 						_sessionStorage('joborder-stocks-supervisor',tab);
 						KTDatatablesDataSourceAjaxClient.init('tbl_joborder_stocks_supervisor',false,tab);
 					});
-					$(document).on("click","#form-request",function() {
-				 		let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Stocks_Supervisor");
-				     });
-				     $(document).on("click","#form-purchased",function() {
-				 		let val = {id:$('#project_no').attr('data-order')};
-					 	let thisUrl = 'modal_controller/Modal_Purchased_Request_Supervisor';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Purchased_Request_Supervisor");
-				     });
+						$(document).on("click","#form-request",function() {
+					 		let val = {id:$(this).attr('data-id')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Stocks_Supervisor");
+					     });
+					     $('#edit-material-request').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+						     let val = {id:$('.text-name-m').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Stocks_Supervisor");
+						});
+						$('#edit-purchase-request').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+						     let val = {id:$('.text-name').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
+						});
+						$('#add-material-request').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+						     let val = {id:$('#project_no').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Stocks_Supervisor");
+						});
+						$('#add-purchase-request').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+						     let val = {id:$('#project_no').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Stocks_Supervisor");
+						});
+						$('#ModalTalble').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+							let val = {id:$('#project_no').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Stocks_Supervisor");
+						});
+					     $(document).on("click","#form-purchased",function() {
+					 		let val = {id:$('#project_no').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Purchased_Request_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Purchased_Request_Supervisor");
+					     });
+					     $(document).on("click","#update-material-request",function(e) {
+				  				let element = $(this);
+				  				let production_no = element.attr('data-order');
+							 	let id = element.attr('data-id');
+							 	let type = element.attr('data-type');
+							 	let row = element.closest("tr");
+							 	let item = row.find("td:nth-child(2)").text();
+							 	let qty = row.find("td:nth-child(3)").text();
+							 	$('.text-name-m').text(item).attr('data-order',production_no);
+						 		$('input[name=qty_update_m]').val(qty).attr('data-id',id);
+						 		$('select[name=type_update_m]').val(type);
+						 		$('#edit-material-request').modal('show');
+						 		$('#requestModal').modal('hide');
+						});
+						$(document).on("click","#update-purchase-request",function(e) {
+								e.preventDefault();
+								let production_no = $(this).attr('data-order');
+							 	let id = $(this).attr('data-id');
+							 	let row = $(this).closest("tr");
+							 	let item = row.find("td:nth-child(2)").text();
+							 	let qty = row.find("td:nth-child(3)").text();
+							 	let unit = row.find("td:nth-child(4)").text();
+							 	let remarks = row.find("td:nth-child(5) a").attr('title');
+							 	$('.text-name').text(item).attr('data-order',production_no);;
+							 	$('input[name=qty_update_p]').attr('data-id',id); 
+							 	$('input[name=qty_update_p]').val(qty); 
+								$('textarea[name=remarks_update_p]').val(remarks);
+						 		$('#edit-purchase-request').modal('show');
+						 		$('#requestModal').modal('hide');
+						});
+
+						$(document).on('click','#form-add',function(e){
+							$('.item-status').trigger('change');
+							$('#add-material-request').modal('show');
+							$('#requestModal').modal('hide');
+						});
+						$(document).on('click','#form-add-purchase',function(e){
+							$('.item-status').trigger('change');
+							$('#add-purchase-request').modal('show');
+							$('#requestModal').modal('hide');
+						});
+
+						$('.item-status').on('change',function(e){
+							e.preventDefault();
+							let val = $(this).val();
+							if(val == 1){
+							   $('#Create_Purchase_request > div.row > div:nth-child(2)').addClass('d-none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(2) > div > input').val('none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(3)').addClass('d-none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(3) > div > input').val('none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(4)').removeClass('d-none');
+							}else{
+							   $('#Create_Purchase_request > div.row > div:nth-child(2)').removeClass('d-none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(2) > div > input').val("");
+							   $('#Create_Purchase_request > div.row > div:nth-child(3)').removeClass('d-none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(3) > div > input').val("");
+							   $('#Create_Purchase_request > div.row > div:nth-child(4)').addClass('d-none');
+							}
+						});
 				})
 				break;
 			}
-			case "data-joborder-project-supervisor":{
+			case "joborder-project-supervisor":{
 				$(document).ready(function() {
 					let tab1 = _getItem('joborder-project-supervisor');
 					if(!_getItem('joborder-project-supervisor')){
@@ -3133,16 +3165,106 @@ var arrows;var item_v;var price;var special_option;
 						_sessionStorage('joborder-project-supervisor',tab);
 						KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project_supervisor',false,tab);
 					});
+
 					$(document).on("click","#form-request",function() {
 				 		let val = {id:$(this).attr('data-id')};
 					 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
 						_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
 				     });
-				     $(document).on("click","#form-purchased",function() {
-				 		let val = {id:$('#project_no').attr('data-order')};
-					 	let thisUrl = 'modal_controller/Modal_Purchased_Request_Supervisor';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Purchased_Request_Supervisor");
-				     });
+				     	$('#edit-material-request').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+						     let val = {id:$('.text-name-m').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
+						});
+						$('#edit-purchase-request').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+						     let val = {id:$('.text-name').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
+						});
+						$('#add-material-request').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+						     let val = {id:$('#project_no').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
+						});
+						$('#add-purchase-request').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+						     let val = {id:$('#project_no').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
+						});
+						$('#ModalTalble').on('hidden.bs.modal', function (e) {
+							e.preventDefault();
+							let val = {id:$('#project_no').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Stocks_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Stocks_Supervisor");
+						});
+					     $(document).on("click","#form-purchased",function() {
+					 		let val = {id:$('#project_no').attr('data-order')};
+						 	let thisUrl = 'modal_controller/Modal_Purchased_Request_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Purchased_Request_Supervisor");
+					     });
+					     $(document).on("click","#update-material-request",function(e) {
+				  				let element = $(this);
+				  				let production_no = element.attr('data-order');
+							 	let id = element.attr('data-id');
+							 	let type = element.attr('data-type');
+							 	let row = element.closest("tr");
+							 	let item = row.find("td:nth-child(2)").text();
+							 	let qty = row.find("td:nth-child(3)").text();
+							 	$('.text-name-m').text(item).attr('data-order',production_no);
+						 		$('input[name=qty_update_m]').val(qty).attr('data-id',id);
+						 		$('select[name=type_update_m]').val(type);
+						 		$('#edit-material-request').modal('show');
+						 		$('#requestModal').modal('hide');
+						});
+						$(document).on("click","#update-purchase-request",function(e) {
+								e.preventDefault();
+								let production_no = $(this).attr('data-order');
+							 	let id = $(this).attr('data-id');
+							 	let row = $(this).closest("tr");
+							 	let item = row.find("td:nth-child(2)").text();
+							 	let qty = row.find("td:nth-child(3)").text();
+							 	let unit = row.find("td:nth-child(4)").text();
+							 	let remarks = row.find("td:nth-child(5) a").attr('title');
+							 	$('.text-name').text(item).attr('data-order',production_no);;
+							 	$('input[name=qty_update_p]').attr('data-id',id); 
+							 	$('input[name=qty_update_p]').val(qty); 
+								$('textarea[name=remarks_update_p]').val(remarks);
+						 		$('#edit-purchase-request').modal('show');
+						 		$('#requestModal').modal('hide');
+						});
+
+						$(document).on('click','#form-add',function(e){
+							$('.item-status').trigger('change');
+							$('#add-material-request').modal('show');
+							$('#requestModal').modal('hide');
+						});
+						$(document).on('click','#form-add-purchase',function(e){
+							$('.item-status').trigger('change');
+							$('#add-purchase-request').modal('show');
+							$('#requestModal').modal('hide');
+						});
+
+						$('.item-status').on('change',function(e){
+							e.preventDefault();
+							let val = $(this).val();
+							if(val == 1){
+							   $('#Create_Purchase_request > div.row > div:nth-child(2)').addClass('d-none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(2) > div > input').val('none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(3)').addClass('d-none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(3) > div > input').val('none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(4)').removeClass('d-none');
+							}else{
+							   $('#Create_Purchase_request > div.row > div:nth-child(2)').removeClass('d-none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(2) > div > input').val("");
+							   $('#Create_Purchase_request > div.row > div:nth-child(3)').removeClass('d-none');
+							   $('#Create_Purchase_request > div.row > div:nth-child(3) > div > input').val("");
+							   $('#Create_Purchase_request > div.row > div:nth-child(4)').addClass('d-none');
+							}
+						});
 				})
 				break;
 			}
@@ -3640,36 +3762,6 @@ var arrows;var item_v;var price;var special_option;
 	  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
 	  			$("#c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-	  		}
-	  		break;
-	  	}
-
-	  	//supervisor
-	  	case "Modal_Production_View":{
-	  		if(!response == false){
-		  		if(response.status == 'COMPLETE'){
-		  			$('#btn_request').remove();
-		  			$('#btn_request1').remove();
-		  		}else if(response.status == 'REQUEST' || response.status == 'PARTIAL'){
-		  			$('#btn_request').html('<a  class="btn btn-success"  id="purchase_request">E.P Request</a>');
-		  			$('#btn_request1').html('<a  class="btn btn-primary"    id="material_request">E.M Request</a>');
-		  		}
-		  		$('#project_no').text(response.project_no);
-	  			$('#title').val(response.title);
-	  			$('#c_code').text(response.c_code);
-	  			$('#c_name').val(response.c_name);
-	  			$('#unit').val(response.unit);
-
-		  		$('#c_name').val(response.c_name);
-		  		$("#c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
-		  		$("#return_item").attr("href",baseURL + 'gh/supervisor/return-item/'+btoa(response.production_no));
-		  		$("#material_request").attr("href",baseURL + 'gh/supervisor/material_request/'+btoa(response.production_no));
-		  		$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.image);
-		  		$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.docs);
-		  		$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
-		  		$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-		  		$('#title').val(response.title);
-		  		$('#unit').val(response.balance);
 	  		}
 	  		break;
 	  	}
@@ -4477,16 +4569,7 @@ var arrows;var item_v;var price;var special_option;
 	  	//View Data Update
 
 	  	//supervisor
-	  	case "View_Production_Data":{
-	  	    if(!response == false){
-	  	      	_initItem_option();
-	  		   $('#title').val(response.title);
-	  		   $('#unit').val(response.balance);
-	  		   $('#c_name').val(response.c_name);
-	  		   $('#requestor').val(response.production);
-	  	    }
-	  	    break;
-	  	}
+
 
 	  	//Reviewer
 	  	case "View_Profile":{
@@ -4621,11 +4704,7 @@ var arrows;var item_v;var price;var special_option;
   			$('#date_deposite').val(response.date_created);
   			$('#amounts').val(response.amount);
   			$('#bank').val(response.bank);
-  			if(response.status == 'APPROVED'){
-  				$('.btn_action').hide();
-  			}else{
-  				$('.btn_action').show();
-  			}
+  			$('#edit-sales-collection').modal('show');
 	  		break;
 	  	}
 	  	case "Modal_Customer_View":{
@@ -4657,53 +4736,8 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	  			$(".docs").val(response.docs);
 	  			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response.production_no);
+	  			$('#requestModal').modal('show');
 	  		}
-	  		$(document).on("click","#update-material-request",function(e) {
-	  				let element = $(this);
-				 	let id = element.attr('data-id');
-				 	let type = element.attr('data-type');
-				 	let row = element.closest("tr");
-				 	let item = row.find("td:nth-child(2)").text();
-				 	let qty = row.find("td:nth-child(3)").text();
-				 	$('.text-name-m').text(item);
-			 		$('input[name=qty_update_m]').val(qty).attr('data-id',id);
-			 		$('select[name=type_update_m]').val(type);
-			 		$('#edit-material-request').modal('show');
-			});
-			$(document).on("click","#update-purchase-request",function() {
-				 	let id = $(this).attr('data-id');
-				 	let row = $(this).closest("tr");
-				 	let item = row.find("td:nth-child(2)").text();
-				 	let qty = row.find("td:nth-child(3)").text();
-				 	let unit = row.find("td:nth-child(4)").text();
-				 	let remarks = row.find("td:nth-child(5) a").attr('title');
-				 	$('.text-name').text(item);
-				 	$('input[name=qty_update_p]').attr('data-id',id); 
-				 	$('input[name=qty_update_p]').val(qty); 
-					$('textarea[name=remarks_update_p]').val(remarks);
-			 		$('#edit-purchase-request').modal('show');
-			});
-			$(document).on('click','#form-add',function(e){
-				$('.item-status').trigger('change');
-			});
-			$('.item-status').on('change',function(e){
-				e.preventDefault();
-				let val = $(this).val();
-				if(val == 1){
-				   $('#Create_Purchase_request > div.row > div:nth-child(2)').addClass('d-none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(2) > div > input').val('none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(3)').addClass('d-none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(3) > div > input').val('none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(4)').removeClass('d-none');
-				}else{
-				   $('#Create_Purchase_request > div.row > div:nth-child(2)').removeClass('d-none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(2) > div > input').val("");
-				   $('#Create_Purchase_request > div.row > div:nth-child(3)').removeClass('d-none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(3) > div > input').val("");
-				   $('#Create_Purchase_request > div.row > div:nth-child(4)').addClass('d-none');
-				}
-			});
-			
 	  		break;
 	  	}
 	  	case "Modal_Joborder_Project_Supervisor":{
@@ -4718,77 +4752,31 @@ var arrows;var item_v;var price;var special_option;
 	  			$(".image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.image);
 	  			$(".docs").val(response.docs);
 	  			KTDatatablesDataSourceAjaxClient.init('tbl_joborder_material',response.production_no);
+	  			$('#requestModal').modal('show');
 	  		}
-	  		$(document).on("click","#update-material-request",function(e) {
-	  				let element = $(this);
-				 	let id = element.attr('data-id');
-				 	let type = element.attr('data-type');
-				 	let row = element.closest("tr");
-				 	let item = row.find("td:nth-child(2)").text();
-				 	let qty = row.find("td:nth-child(3)").text();
-				 	$('.text-name-m').text(item);
-			 		$('input[name=qty_update_m]').val(qty).attr('data-id',id);
-			 		$('select[name=type_update_m]').val(type);
-			 		$('#edit-material-request').modal('show');
-			});
-			$(document).on("click","#update-purchase-request",function() {
-				 	let id = $(this).attr('data-id');
-				 	let row = $(this).closest("tr");
-				 	let item = row.find("td:nth-child(2)").text();
-				 	let qty = row.find("td:nth-child(3)").text();
-				 	let unit = row.find("td:nth-child(4)").text();
-				 	let remarks = row.find("td:nth-child(5) a").attr('title');
-				 	$('.text-name').text(item);
-				 	$('input[name=qty_update_p]').attr('data-id',id); 
-				 	$('input[name=qty_update_p]').val(qty); 
-					$('textarea[name=remarks_update_p]').val(remarks);
-			 		$('#edit-purchase-request').modal('show');
-			});
-			$(document).on('click','#form-add',function(e){
-				$('.item-status').trigger('change');
-			});
-			$('.item-status').on('change',function(e){
-				e.preventDefault();
-				let val = $(this).val();
-				if(val == 1){
-				   $('#Create_Purchase_request > div.row > div:nth-child(2)').addClass('d-none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(2) > div > input').val('none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(3)').addClass('d-none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(3) > div > input').val('none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(4)').removeClass('d-none');
-				}else{
-				   $('#Create_Purchase_request > div.row > div:nth-child(2)').removeClass('d-none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(2) > div > input').val("");
-				   $('#Create_Purchase_request > div.row > div:nth-child(3)').removeClass('d-none');
-				   $('#Create_Purchase_request > div.row > div:nth-child(3) > div > input').val("");
-				   $('#Create_Purchase_request > div.row > div:nth-child(4)').addClass('d-none');
-				}
-			});
-			
 	  		break;
 	  	}
 	  	case "Modal_Purchased_Request_Supervisor":{
-	  	 	$('#text-table').text('Purchased Request');
-  				let html="";
-	  	 		html +='<table class="table table-hover table-dark table-sm table-purchased">\
-					<thead>\
-						<th>No.</th>\
-						<th>ITEM</th>\
-						<th>QTY</th>\
-						<th>DATE CREATED</th>\
-					</thead>	\
-					<tbody>';
-	  	 	for(var i=0;i<response.purchased.length;i++){
-				html+='<tr>\
-					  <td>'+response.purchased[i].no+'</td>\
-					  <td>'+response.purchased[i].item+'</td>\
-					  <td>'+response.purchased[i].quantity+'</td>\
-					  <td>'+response.purchased[i].date_created+'</td>\
-					</tr>';
-	  		}
-	  			html+='</tbody>\
-				</table>';
-	  			$('.data-table').empty().append(html);
+	  		console.log(response)
+	  	 	let container = $('#tbl_view_purchased_request > tbody').empty();
+  			let message_alert = $('#table_message_alert').empty();
+  			let html="";
+			if(response !=false){
+				for(var i=0;i<response.length;i++){
+					html+='<tr>\
+						  <td>'+response[i].no+'</td>\
+						  <td>'+response[i].item+'</td>\
+						  <td>'+response[i].quantity+'</td>\
+						  <td>'+response[i].date_created+'</td>\
+						</tr>';
+		  		}
+		  		container.append(html);
+			}else{
+				message_alert.append('<h3 class="text-center">No avaialable Data</h3>')
+			}
+  			
+  			$('#ModalTalble').modal('show');
+  			$('#requestModal').modal('hide');
 	  	 	break;
 	  	 }
 	  	 case "accounting_dashboard":{

@@ -295,8 +295,8 @@ class Create_controller extends CI_Controller
      }
       public function Create_Deposit(){
         $order_no  = $this->input->post('order_no');
-        $firstname = strtoupper($this->input->post('firstname'));
-        $lastname = strtoupper($this->input->post('lastname'));
+        $firstname = $this->input->post('firstname');
+        $lastname = $this->input->post('lastname');
         $mobile = $this->input->post('mobile');
         $email  = $this->input->post('email');
         $date_deposite  = $this->input->post('date_deposite');

@@ -93,11 +93,11 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 					let target = [{targets:[1],className: "text-nowrap"}];
 					_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,[[ 4,'desc']]);
 				}else if(val1 == 'complete'){
-					let TableURL3 = baseURL + 'datatable_controller/Joborder_Stocks_Complete_DataTable';
+					let TableURL3 = baseURL + 'datatable_controller/Joborder_stocks_Completed_Supervisor_DataTable';
 					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 4,'desc']]);
 				}else if(val1 == 'cancelled'){
-					let TableURL4 = baseURL + 'datatable_controller/Joborder_Stocks_Cancelled_DataTable';
+					let TableURL4 = baseURL + 'datatable_controller/Joborder_stocks_Cancelled_Supervisor_DataTable';
 					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 4,'desc']]);
 				}
@@ -109,11 +109,11 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 					let TableData6 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,[[ 3,'desc']]);
 				}else if(val1 == 'complete'){
-					let TableURL3 = baseURL + 'datatable_controller/Joborder_Project_Complete_DataTable';
+					let TableURL3 = baseURL + 'datatable_controller/Joborder_Project_Completed_Supervisor_DataTable';
 					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 3,'desc']]);
 				}else if(val1 == 'cancelled'){
-					let TableURL4 = baseURL + 'datatable_controllesr/Joborder_Project_Cancelled_DataTable';
+					let TableURL4 = baseURL + 'datatable_controller/Joborder_Project_Cancelled_Supervisor_DataTable';
 					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 3,'desc']]);
 				}
@@ -613,7 +613,21 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			case "tbl_supplier_item":{
 				let TableURL = baseURL + 'datatable_controller/Supplier_Item_View';
 			    let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
-				_DataTableLoader('tbl_supplier_item',TableURL,TableData,false,val);
+				_DataTableLoader('tbl_supplier_item',TableURL,TableData,false,val,4,false);
+				break;
+			}
+			case "tbl_collection":{
+				TableURL = baseURL + 'datatable_controller/Collected_Request_DataTable_Sales';
+				TableData = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}]; 
+				_DataTableLoader('tbl_collection_request',TableURL,TableData,[[3,'desc']]);
+
+				let TableURL1 = baseURL + 'datatable_controller/Collected_Approved_DataTable_Sales';
+				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}];
+				_DataTableLoader('tbl_collection_approved',TableURL1,TableData1,[[3,'desc']]);
+
+				let TableURL2 = baseURL + 'datatable_controller/Collected_Cancelled_DataTable_Sales';
+				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}];
+				_DataTableLoader('tbl_collection_cancelled',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
 		

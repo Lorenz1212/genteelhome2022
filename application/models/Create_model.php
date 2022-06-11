@@ -780,18 +780,22 @@ class Create_model extends CI_Model{
 	        $json = array('status'=>$status,'image' => $images,'id'=> $last_id);
   			return $json;
     }
+
     function Create_Deposite($firstname,$lastname,$mobile,$email,$order_no,$date_deposite,$amount,$bank,$image,$tmp,$path_image){
           if($image){$images = $this->move_to_folder1($image,$tmp,$path_image);}else{$images='default.jpg';}
-	         $type ="";
+	         $type = false;
 	        $row = $this->db->select('*')->from('tbl_salesorder_stocks')->where('so_no',$order_no)->get()->row();
 	        if($row){
-	        	$type = 1;
+	        	$type = true;
 	        }else{
 	        	$row1 = $this->db->select('*')->from('tbl_salesorder_project')->where('so_no',$order_no)->get()->row();
 	        	if($row1){
-	        	   $type = 2;
+	        	   $type = true;
+	        	}else{
+	        		 return array('type'=>'info','message'=>'Trans # is not valid');
 	        	}
 	        }
+          if($type != false){
            $data = array('order_no' => $order_no,
                          'firstname' => $firstname,
                          'lastname' => $lastname,
@@ -800,12 +804,10 @@ class Create_model extends CI_Model{
                          'date_deposite'=> date('Y-m-d',strtotime($date_deposite)),
                          'amount'=> $amount,
                          'bank'=> $bank,
-                         'image'=> $images,
-                         'type'=>$type,
-                     	 'date_created'=> date('Y-m-d H:i:s'),
-                     	 'created_by'=>$this->user_id);
+                         'image'=> $images);
             	$this->db->insert('tbl_customer_deposite',$data);
-            	return array('status'=>'success');
+            	return array('type'=>'success','message'=>'Create Successfully');
+          }
   	}
   	function Create_Customer($firstname,$lastname,$mobile,$email,$address,$city,$province,$region){
 				$data = array('firstname' => $firstname,
@@ -1064,14 +1066,14 @@ class Create_model extends CI_Model{
     	if($row){
     		return false;
     	}else{
-			$material_data = array('production_no' 	  =>  $id,
-					               'production'       =>  $this->user_id,
-					               'item_no'		  =>  $item,
-					               'total_qty'        =>  $qty,
-					               'status'           =>  1,
-					               'mat_type'		  =>  $type,
-					               'date_created'     =>  date('Y-m-d H:i:s'),
-					               'created_by'		  =>  $this->user_id);
+			$material_data = array('production_no' =>  $id,
+							               'production'   =>  $this->user_id,
+							               'item_no'	 =>  $item,
+							               'total_qty'  =>  $qty,
+							               'status'  =>  1,
+							               'mat_type'	=>  $type,
+							               'date_created' =>  date('Y-m-d H:i:s'),
+							               'created_by'=>  $this->user_id);
     		$this->db->insert('tbl_material_project',$material_data);
     		return $id;
     	}

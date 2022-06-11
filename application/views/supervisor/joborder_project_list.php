@@ -1,5 +1,5 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-joborder-project-supervisor">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="joborder-project-supervisor">
 	    <div class="form" data-link="Joborder_Supervisor_Project"></div>
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
@@ -163,7 +163,7 @@
 								</div>
 								<div class="tab-pane" id="material" role="tabpanel" style="height:300px">
 									<div class="mb-10">
-							            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-material-request" data-action="material-create">
+							            <a href="javascript:;" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2">
 							                <i class="flaticon2-plus"></i> Add Material
 							            </a>
 						        	</div>
@@ -187,8 +187,8 @@
 								</div>
 								<div class="tab-pane" id="purchase" role="tabpanel" style="height:300px">
 									<div class="mb-10">
-							            <a href="#" id="form-add" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#add-purchase-request" data-action="purchased-create"><i class="flaticon2-plus"></i> Add Material</a>
-							            <a href="#" id="form-purchased" class="btn btn-dark btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#ModalTalble"><i class="flaticon2-plus"></i> View Request</a>
+							            <a href="javascript:;" id="form-add-purchase" class="btn btn-dark btn-shadow font-weight-bold mr-2"><i class="flaticon2-plus"></i> Add Material</a>
+							            <a href="javascript:;" id="form-purchased" class="btn btn-dark btn-shadow font-weight-bold mr-2"><i class="flaticon2-plus"></i> View Request</a>
 						        	</div>
 								 	 <div data-scroll="true" data-height="290">
 									    <table class="table table-sm" id="tbl_puchased">
@@ -449,18 +449,32 @@
 </div>
 <div class="modal fade" id="ModalTalble" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content bg-dark">
+        <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-white"><span id="text-table"></span></h5>
+                <h5 class="modal-title">List of purchase request</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close text-white"></i>
                 </button>
             </div>
             <div class="modal-body">
-                 <div class="data-table" data-scroll="true" data-height="300"></div>
+                 <div class="data-table" data-scroll="true" data-height="300">
+	                 	<table class="table table-hover table-sm table-purchased" id="tbl_view_purchased_request">
+							<thead>
+								<tr class="table-warining">
+								<th>No.</th>
+								<th>ITEM</th>
+								<th>QTY</th>
+								<th>DATE CREATED</th>
+								</tr>
+							</thead>	
+						<tbody>	
+						</tbody>
+					</table>
+					<div id="table_message_alert"></div>
+                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-transparent-white font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
