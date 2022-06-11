@@ -1874,6 +1874,10 @@ var KTFormControls = function () {
 						}
 					   }
 					);
+		          $('#add-item').on('hidden.bs.modal', function (e) {
+					e.preventDefault();
+				   	validation.resetForm();
+				});
 	 			$(document).on('click','.btn-add',function(e){
 	 				e.preventDefault();
 	 				validation.validate().then(function(status) {
@@ -4233,16 +4237,9 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Update_Supplier_Edit":{
-	 			if(response !=false){
-	 				$('.name').text(response.name).attr('data-id',response.id);
-			  		$('.mobile').text(response.mobile);
-			  		$('.email').text(response.email);
-			  		$('.address').text(response.address);
-	 				_initToast('success','Save Changes');
-					$('#edit-supplier').modal('hide');
-	 			}else{
-	 				 Swal.fire("Error!", "Something went wrong!", "error");
-	 			}
+	 			_initToast(response.type,response.message);
+	 			KTDatatablesDataSourceAjaxClient.init('tbl_supplier');
+	 			$('#edit-supplier').modal('hide');
 				_initnotificationupdate();
 	 			break;
 	 		}

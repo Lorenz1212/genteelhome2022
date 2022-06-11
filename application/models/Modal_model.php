@@ -163,7 +163,7 @@ class Modal_model extends CI_Model{
    
     function Modal_Supplier_View($id){
           $row = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as ss_date_created')->from('tbl_supplier')->where('id',$this->encryption->decrypt($id))->get()->row();
-         return $row;
+         return array('info'=>$row,'id'=>$this->encryption->encrypt($row->id));
     }
     function Modal_Supplier_Item_Update_View($id){
          $row = $this->db->select('*')->from('tbl_supplier_item')->where('id',$this->encryption->decrypt($id))->get()->row();

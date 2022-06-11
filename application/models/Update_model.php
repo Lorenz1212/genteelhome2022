@@ -1685,18 +1685,16 @@ class Update_model extends CI_Model
                      'address'=>$address,
                      'latest_update' => date('Y-m-d H:i:s'),
                      'update_by'  => $this->user_id);
-        $this->db->where('id',$id);        
+        $this->db->where('id',$this->encryption->decrypt($id));        
         $result = $this->db->update('tbl_supplier',$data);
-
-        $row = $this->db->select('*')->from('tbl_supplier')->where('id',$id)->get()->row();
         if($result){
-            return $row;
+            return array('type'=>'success','message'=>'Save Changes');
         }else{
-            return false;
-        }
+            return array('type'=>'info','message'=>'Nothing Changes');
+        }   
     }
     function Update_Supplier_Image($id,$image,$tmp,$path_image){
-        $row = $this->db->select('*')->from('tbl_supplier')->where('id',$id)->get()->row();
+        $row = $this->db->select('*')->from('tbl_supplier')->where('id',$this->encryption->decrypt($id))->get()->row();
         if($image){
             $files = $this->move_to_folder4('SUPPLIER',$image,$tmp,$path_image,300,300);
             if($files == false){

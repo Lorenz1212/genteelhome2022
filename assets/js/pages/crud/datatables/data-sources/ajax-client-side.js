@@ -269,12 +269,7 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 				_DataTableLoader('tbl_production_stocks',TableURL,TableData,false);
 				break;
 			}
-			case "tbl_supplier":{
-				TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
-				TableData =  [{data: 'name'},{data: 'address'},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
-				_DataTableLoader('tbl_supplier',TableURL,TableData,[[4,'desc']]);
-				break;
-			}
+
 			case "tbl_salesorder_stocks_production":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Production';
 				 TableData = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
@@ -608,6 +603,12 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 				let TableURL2 = baseURL + 'datatable_controller/Material_Used_List_Supervisor';
 				let TableData2 = [{data:'status'},{data:'item'},{data:'qty',className: "text-center"},{data:'input',className: "text-center"},{data:'action',className: "text-center"}];
 				_DataTableLoader('tbl_material_used',TableURL2,TableData2,false,val,4,false);
+				break;
+			}
+			case "tbl_supplier":{
+				TableURL = baseURL + 'datatable_controller/Supplier_Datatable';
+				TableData =  [{data: 'name',className: "text-nowrap"},{data: 'address',className: "text-nowrap"},{data: 'mobile'},{data:'status'},{data: 'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				_DataTableLoader('tbl_supplier',TableURL,TableData,[[5,'desc']]);
 				break;
 			}
 			case "tbl_supplier_item":{

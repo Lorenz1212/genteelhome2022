@@ -1147,18 +1147,18 @@ class Create_model extends CI_Model{
 	     }
     }
     function Create_Supplier_Item($id,$item_no,$item,$amount,$type){
-    	$row = $this->db->select('*')->from('tbl_supplier_item')->where('item',$item)->where('supplier',$id)->get()->row();
+    	$row = $this->db->select('*')->from('tbl_supplier_item')->where('item',$item)->where('supplier',$this->encryption->decrypt($id))->get()->row();
 		if($row){
 			return false;
 		}else{
-			$data = array('item_no'  => $item_no,
-						  'item'	 => $item,
-		                  'supplier' => $id,
-		                  'amount'   => $amount,
-		                  'status'         => 1,
-		                  'type'         => $type,
-		                  'date_created'   => date('Y-m-d H:i:s'),
-		                  'created_by'	   => $this->user_id);        
+			$data = array('item_no'=> $item_no,
+						  			'item'=> $item,
+		                'supplier'=> $this->encryption->decrypt($id),
+		                'amount' => $amount,
+		                'status'=> 1,
+		                 'type'=> $type,
+		                 'date_created'=> date('Y-m-d H:i:s'),
+		                 'created_by'	=> $this->user_id);        
 	    	$this->db->insert('tbl_supplier_item',$data);
 	    	return $id;
 		}

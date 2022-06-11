@@ -21,10 +21,11 @@ class Datatable_model extends CI_Model{
           }
         }
        function supplier_DataTable(){
+        $data =array(); 
         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_supplier')->order_by('id','ASC')->get();
         if($query !== FALSE && $query->num_rows() > 0){
            foreach($query->result() as $row){
-             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#modal-form"><i class="flaticon2-pen"></i></button>';    
+             $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'"><i class="flaticon2-pen"></i></button>';    
             if($row->status == 1){$status ='<span class="label label-lg label-light-primary label-inline">ACTIVE</span>';}else{$status='<span class="label label-lg label-light-danger label-inline">INACTIVE</span>';}
                    $data[] = array(
                             'name'         => $row->name,
@@ -34,11 +35,8 @@ class Datatable_model extends CI_Model{
                             'date_created' => $row->date_created,
                             'action'       => $action);
             }      
-         }else{   
-             $data =array();    
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;    
+         return array("data" =>$data);     
      }
 
      function SupplierItem_DataTable($id){
@@ -4773,9 +4771,9 @@ class Datatable_model extends CI_Model{
     }
       function Supplier_Item_View($id){
           $data = false;
-          $query = $this->db->select('*')->from('tbl_supplier_item as mp')->where('supplier',$id)->order_by('id','ASC')->get();
+          $query = $this->db->select('*')->from('tbl_supplier_item as mp')->where('supplier',$this->encryption->decrypt($id))->order_by('id','ASC')->get();
                foreach($query->result() as $row){
-                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon" data-toggle="modal" id="edit-item-view" data-id="'.$this->encryption->encrypt($row->id).'" data-target="#edit-item"><i class="flaticon2-pen"></i></button>';    
+                 $action = '<button type="button" class="btn btn-sm btn-light-dark btn-icon"  id="edit-item-view" data-id="'.$this->encryption->encrypt($row->id).'" ><i class="flaticon2-pen"></i></button>';    
                 $data[] = array('item'   => $row->item,
                                 'amount' => number_format($row->amount,2),
                                 'action' => $action);

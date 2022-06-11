@@ -67,7 +67,7 @@
 												<div class="mt-2">
 													<input type="file" name="image" style="display: none;" accept="image/png, image/jpeg">
 													<button class="btn btn-sm btn-light-primary mr-2 btn-change-image" onclick="$('input[name=image]').trigger('click')">Choose image</button>
-													<button href="#" class="btn btn-sm btn-light-success font-weight-bolder text-uppercase mr-2" data-toggle="modal" data-target="#edit-supplier"><i class="flaticon2-pen"></i> Edit Profile</button>
+													<button href="javascript:;" class="btn btn-sm btn-light-success font-weight-bolder text-uppercase mr-2 edit-supplier"><i class="flaticon2-pen"></i> Edit Profile</button>
 												</div>
 
 											</div>
@@ -99,7 +99,7 @@
 						</div>
 					</div>
 				 <div class="modal-footer">
-				 	<button type="button" class="btn btn-dark btn-shadow mr-2" data-toggle="modal" data-target="#add-item"><i class="flaticon2-plus"></i> Add item</button>
+				 	<button type="button" class="btn btn-dark btn-shadow mr-2 add-item"><i class="flaticon2-plus"></i> Add item</button>
             	</div>
         </div>
     </div>

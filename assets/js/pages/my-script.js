@@ -2740,8 +2740,9 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-supplier":{
-				KTDatatablesDataSourceAjaxClient.init('tbl_supplier');
-				 $(document).ready(function() {
+				 KTDatatablesDataSourceAjaxClient.init('tbl_supplier');
+				 _initCurrency_format('.amount');
+				 	$(document).ready(function() {
 					_initCurrency_format("#price");
 					$('select[name=type]').on('change',function(e){
 						_ajaxloaderOption('option_controller/item_list','POST',{type:$(this).val()},'item_list');
@@ -2750,13 +2751,38 @@ var arrows;var item_v;var price;var special_option;
 						let thisUrl = 'modal_controller/Modal_Supplier_View';
 						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_View");
 				    	});
+
+				    	$(document).on("click",".add-item",function() {
+						$('#add-item').modal('show');
+						$('#modal-form').modal('hide');
+				    	});
+				    	$(document).on("click",".edit-supplier",function() {
+						$('#edit-supplier').modal('show');
+						$('#modal-form').modal('hide');
+				    	});
 				    	$(document).on("click","#edit-item-view",function() {
 						let thisUrl = 'modal_controller/Modal_Supplier_Item_Update_View';
 						_ajaxloader(thisUrl,"POST",{id:$(this).attr('data-id')},"Modal_Supplier_Item_Update_View");
 				    	});
 				    	$(document).on("click",".add-supplier",function() {
 						$('#Create_Supplier')[0].reset();
+						$('#add-supplier').modal('show');
 				    	});
+				    	$('#edit-item').on('hidden.bs.modal', function (e) {
+						e.preventDefault();
+					     let thisUrl = 'modal_controller/Modal_Supplier_View';
+						_ajaxloader(thisUrl,"POST",{id:$('.name').attr('data-id')},"Modal_Supplier_View");
+					});
+					$('#edit-supplier').on('hidden.bs.modal', function (e) {
+						e.preventDefault();
+					   	let thisUrl = 'modal_controller/Modal_Supplier_View';
+						_ajaxloader(thisUrl,"POST",{id:$('.name').attr('data-id')},"Modal_Supplier_View");
+					});
+					$('#add-item').on('hidden.bs.modal', function (e) {
+						e.preventDefault();
+					   	let thisUrl = 'modal_controller/Modal_Supplier_View';
+						_ajaxloader(thisUrl,"POST",{id:$('.name').attr('data-id')},"Modal_Supplier_View");
+					});
 				  });
 				break;
 			}
@@ -6414,24 +6440,29 @@ var arrows;var item_v;var price;var special_option;
 	  		break;
 	  	}
 	  	case "Modal_Supplier_View":{
-	  		_initCurrency_format('.amount');
-	  		$('.name').text(response.name).attr('data-id',response.id);
-	  		$('.mobile').text(response.mobile);
-	  		$('.email').text(response.email);
-	  		$('.address').text(response.address);
-	  		$('input[name=name]').val(response.name);
-	  		$('input[name=mobile]').val(response.mobile);
-	  		$('input[name=email]').val(response.email);
-	  		$('input[name=address]').val(response.address);
-	  		$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response.image+')');
-	  		KTDatatablesDataSourceAjaxClient.init('tbl_supplier_item',response.id);
+	  		if(response){
+	  			$('.name').text(response.info.name).attr('data-id',response.id);
+		  		$('.mobile').text(response.info.mobile);
+		  		$('.email').text(response.info.email);
+		  		$('.address').text(response.info.address);
+		  		$('input[name=name]').val(response.info.name);
+		  		$('input[name=mobile]').val(response.info.mobile);
+		  		$('input[name=email]').val(response.info.email);
+		  		$('input[name=address]').val(response.info.address);
+		  		$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response.info.image+')');
+		  		KTDatatablesDataSourceAjaxClient.init('tbl_supplier_item',response.id);
+		  		$('#modal-form').modal('show');
+	  		}
 	  		break;
 	  	}
 	  	case "Modal_Supplier_Item_Update_View":{
-	  		_initCurrency_format('.amount');
-	  		$('select[name=item]').val(response.item_no).change();
-	  		$('select[name=item]').attr('data-id',response.id);
-	  		$('input[name=amount]').val(response.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	  		if(response){
+	  			$('select[name=item]').val(response.item_no).change();
+		  		$('select[name=item]').attr('data-id',response.id);
+		  		$('input[name=amount]').val(response.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		  		$('#edit-item').modal('show');
+				$('#modal-form').modal('hide');
+		  	}
 	  		break;
 	  	}
 	  	case "Update_Sales_Delivery_Receipt_Superuser":{
