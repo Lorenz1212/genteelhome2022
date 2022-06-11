@@ -315,9 +315,9 @@ class Dashboard_model extends CI_Model
       $total_request = intval($customer_service_request->id+$request_material_pending->id+$material_request_pending_stocks+$material_request_pending_project+$purchase_stocks_pending+$purchase_stocks_approved+$purchase_project_pending+$purchase_project_approved);
       $purchase_stocks = intval($purchase_stocks_pending+$purchase_stocks_approved);
       $purchase_project = intval($purchase_project_pending+$purchase_project_approved);
-      $json_data = array( 'rawmats'      => $rawmats,
-                          'office'       => $office,
-                          'spare'        => $spare,
+      $json_data = array( 'rawmats'  => $rawmats,
+                          'office' => $office,
+                          'spare' => $spare,
                           'customer_service_request'=> $customer_service_request->id,
                           'customer_service_approved'=> $customer_service_approved->id,
                           'return_item_good'=>$return_item_good->id,
@@ -372,7 +372,9 @@ class Dashboard_model extends CI_Model
 
     $pre_order_count = $this->db->select('count(id) as id')->from('tbl_cart_pre_order')->where('status',1)->get()->row();
 
-    $collection_count = $this->db->select('count(id) as id')->from('tbl_customer_deposite')->where('status','P')->get()->row();
+    $sales_collection_request = $this->db->select('*')->from('tbl_customer_deposite')->where('status','P')->get()->num_rows();
+    $sales_collection_approved = $this->db->select('*')->from('tbl_customer_deposite')->where('status','A')->get()->num_rows();
+    $sales_collection_cancelled = $this->db->select('*')->from('tbl_customer_deposite')->where('status','C')->get()->num_rows();
 
     $request_customized_pending = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','P')->where('created_by',$this->user_id)->get()->row();
     $request_customized_approved = $this->db->select('count(id) as id')->from('tbl_customized_request')->where('status','A')->where('created_by',$this->user_id)->get()->row();
@@ -396,13 +398,15 @@ class Dashboard_model extends CI_Model
                   'customer_service_approved'=>$customer_service_approved->id,
                   'online_add_cart'=>$online_add_cart->id,
                   'pre_order_count'=>$pre_order_count->id,
-                  'collection_count'=>$collection_count->id,
                   'request_customized_pending'=>$request_customized_pending->id,
                   'request_customized_approved'=>$request_customized_approved->id,
                   'request_customized_rejected'=>$request_customized_rejected->id,
                   'customer_total_count'=>$customer_total_count,
                   'request_inquiry_pending'=>$request_inquiry_pending->id,
-                  'request_inquiry_approved'=>$request_inquiry_approved->id
+                  'request_inquiry_approved'=>$request_inquiry_approved->id,
+                  'sales_collection_request'=>$sales_collection_request,
+                  'sales_collection_approved'=>$sales_collection_approved,
+                  'sales_collection_cancelled'=>$sales_collection_cancelled
               );
     return $data; 
   }

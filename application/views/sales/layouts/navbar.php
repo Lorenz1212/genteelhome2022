@@ -56,14 +56,14 @@
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a  href="<?php echo base_url()."gh/sales/online-order";?>" class="menu-link">
 													<span class="menu-text mr-2">Online Order</span>
-													<span class="label label-rounded label-primary online_add_cart">0</span>
+													<span class="label label-rounded label-warning online_add_cart">0</span>
 													<span class="menu-desc"></span>
 												</a>
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text mr-2">Sales Order</span>
-													<span class="label label-rounded label-primary sales_count">0</span>
+													<span class="label label-rounded label-warning sales_count">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>
@@ -130,13 +130,13 @@
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="<?php echo base_url()."gh/sales/collection"?>" class="menu-link">
 													<span class="menu-text mr-2">Sales Collection</span>
-													<span class="label label-rounded label-primary sales_collection_request_total">0</span>
+													<span class="label label-rounded label-warning sales_collection_request">0</span>
 												</a>
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="javascript:;" class="menu-link menu-toggle">
 													<span class="menu-text mr-2">Customer</span>
-													<span class="label label-rounded label-primary customer_count">0</span>
+													<span class="label label-rounded label-warning customer_count">0</span>
 													<span class="menu-desc"></span>
 													<i class="menu-arrow"></i>
 												</a>

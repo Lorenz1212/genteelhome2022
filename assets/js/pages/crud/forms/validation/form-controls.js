@@ -164,7 +164,9 @@ var KTFormControls = function () {
 
 				$('.online_add_cart').text(response.online_add_cart);
 				$('.pre_order_count').text(response.pre_order_count);
-				$('.collection_count').text(response.collection_count);
+				$('.sales_collection_request').text(response.sales_collection_request);
+				$('.sales_collection_approved').text(response.sales_collection_approved);
+				$('.sales_collection_cancelled').text(response.sales_collection_cancelled);
 
 				$('.request_customized_pending').text(response.request_customized_pending);
 				$('.request_customized_approved').text(response.request_customized_approved);

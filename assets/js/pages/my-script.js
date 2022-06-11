@@ -319,6 +319,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "sales":{
+				console.log(response)
 				let total_salesoder_request = $('.total_salesoder_request');
 				(response.total_salesoder_request != 0)?total_salesoder_request.addClass('label label-rounded label-warning').text(response.total_salesoder_request):total_salesoder_request.removeClass("label label-rounded label-warning").text("");
 
@@ -343,7 +344,10 @@ var arrows;var item_v;var price;var special_option;
 
 				$('.online_add_cart').text(response.online_add_cart);
 				$('.pre_order_count').text(response.pre_order_count);
-				$('.collection_count').text(response.collection_count);
+
+				$('.sales_collection_request').text(response.sales_collection_request);
+				$('.sales_collection_approved').text(response.sales_collection_approved);
+				$('.sales_collection_cancelled').text(response.sales_collection_cancelled);
 
 				$('.request_customized_pending').text(response.request_customized_pending);
 				$('.request_customized_approved').text(response.request_customized_approved);
