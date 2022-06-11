@@ -674,7 +674,6 @@ var KTFormControls = function () {
 	 				_initToast('success','Saved Changes!');
 	 				$("#cimage_href").attr("href",baseURL + 'assets/images/palettecolor/'+response.c_image);
 	 				$("#c_previous").val(response.c_image);
-	 				KTDatatablesDataSourceAjaxClient.init('tbl_products');
 	 			}
 	 			break;
 	 		}

@@ -258,9 +258,6 @@ class Create_controller extends CI_Controller
         $project_no = $this->input->post('project_no');
         $c_name = strtoupper($this->input->post('c_name'));
         $amount = floatval(str_replace(',', '', $this->input->post('amount')));
-        $image      =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
-        $tmp        =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
-        $path_image = "assets/images/design/project_request/images/";
         $color_image =  isset($_FILES["color"]["name"]) ? $_FILES["color"]["name"]: false;
         $color_tmp   =  isset($_FILES["color"]["tmp_name"]) ? $_FILES["color"]["tmp_name"]:false;
         $path_color  =  "assets/images/palettecolor/";
@@ -274,8 +271,7 @@ class Create_controller extends CI_Controller
        $discount = $this->input->post('discount');
        $date_from = $this->input->post('date_from');
        $date_to = $this->input->post('date_to');
-       $this->create_model->Create_Web_Voucher($voucher,$discount,$date_from,$date_to);
-        $data = array('status'=>'success');
+       $data =  $this->create_model->Create_Web_Voucher($voucher,$discount,$date_from,$date_to);
         echo json_encode($data);
      }
      public function Create_Interior_Status(){

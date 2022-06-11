@@ -620,8 +620,6 @@ class Create_model extends CI_Model{
 	   	if($color_image){$files2 = $this->move_to_folder5('PALLET',$color_image,$color_tmp,$path_color,300,300);
 	    	if($files2 == false){$color_images = false;}else{$color_images = $files2;}
 	    }else{$color_images="default.jpg";}
-
-
 	   		if($images == false || $color_images == false){
 	   			if($images == false){
 	   				$message = 'Image is incorrect format';
@@ -682,15 +680,15 @@ class Create_model extends CI_Model{
    		}else{
    			$id = $this->encryption->decrypt($project_no);
 			$value=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
-	   		$data = array('designer'      => $this->user_id,
-	   					  'project_no'    => $this->encryption->decrypt($project_no),
-	   					  'c_code'    	  => $value,
-	   					  'c_name'        => $c_name,
-	   					  'c_price'		  => $amount,
-	                      'c_image'       => $color_images,
-				  		  'image'         => $images,
-	                      'status'        => 2,
-	                      'type'       	  => 1,
+	   		$data = array('designer'=> $this->user_id,
+	   					  		  'project_no'=> $this->encryption->decrypt($project_no),
+	   					  			'c_code'  => $value,
+	   					  			'c_name'  => $c_name,
+	   					  			'c_price'	=> $amount,
+	                    'c_image' => $color_images,
+				  		  			'image'   => $images,
+	                    'status'  => 2,
+	                    'type'    => 1,
 	   					  'date_created'  =>  date('Y-m-d H:i:s'),
 	   					  'created_by'	  => $this->user_id);
 	   		$this->db->insert('tbl_project_color',$data);

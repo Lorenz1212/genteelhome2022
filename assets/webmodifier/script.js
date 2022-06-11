@@ -159,6 +159,14 @@ let view;
 					e.preventDefault();
 				    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_list']));
 				});
+				$('#modal-form-add').on('hidden.bs.modal', function (e) {
+					e.preventDefault();
+				    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_list']));
+				});
+				$('#modal-form-pallet').on('hidden.bs.modal', function (e) {
+					e.preventDefault();
+				    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_list']));
+				});
 				break;
 			}
 			case "voucher":{

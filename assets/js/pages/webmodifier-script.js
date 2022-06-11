@@ -412,22 +412,24 @@ var html;var _avatar;
 								      	if(img.height >=360){
 								      		$('.image-add').css("background-image", "url(" + blob + ")");
 								      	 }else{
-								      		Swal.fire("Ops!","Please upload minimum 360x360 size", "info");
-								      		$('.btn-close-image').trigger('click');
-								      	 	$('#profile_avatar').val('');
+								      		Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
+								      			$('#kt_image_5 > span').trigger('click');
+								      	 		$('#profile_avatar').val('');
+								      		});
 								      	 }
 								       }else{
-								       	Swal.fire("Ops!","Please upload minimum 360x360 size", "info");
-								       	$('.btn-close-image').trigger('click');
-								       	$('#profile_avatar').val('');
+								       	Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
+							      			$('#kt_image_5 > span').trigger('click');
+							      	 		$('#profile_avatar').val('');
+							      		})
 								       }
 								    }
 							  }else{
-							  	Swal.fire("Ops!","Please upload minimum 360x360 size (jpg, jpeg, or png)", "info");
-							  	$('.btn-close-image').trigger('click');
-							  	$('#profile_avatar').val('');
+							  	Swal.fire("Oops!","Please upload correct file. (jpg, jpeg & png)", "info").then(function(){
+					      			$('#kt_image_5 > span').trigger('click');
+					      	 		$('#profile_avatar').val('');
+					      		})
 							  }
-							  
 							});
 							var avatar6 = new KTImageInput('kt_image_6');
 							avatar6.on('change', function(imageInput) {
@@ -440,20 +442,23 @@ var html;var _avatar;
 								      	if(img.height >=360){
 								      		$('.image-color').css("background-image", "url(" + blob + ")");
 								      	 }else{
-								      		Swal.fire("Ops!","Please upload minimum 300x300 size", "info");
-								      		$('.btn-close-color').trigger('click');
-								      	 	$('#image_avatar').val('');
+								      		Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
+								      			$('#kt_image_6 > span').trigger('click');
+								       			$('#image_avatar').val('');
+							      			})
 								      	 }
 								       }else{
-								       	Swal.fire("Ops!","Please upload minimum 300x300 size", "info");
-								       	$('.btn-close-color').trigger('click');
-								       	$('#image_avatar').val('');
+								       	Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
+								      			$('#kt_image_6 > span').trigger('click');
+								       			$('#image_avatar').val('');
+							      			})
 								       }
 								    }
 								}else{
-									Swal.fire("Ops!","Please upload minimum 300x300 size (jpg, jpeg, or png)", "info");
-									$('.btn-close-color').trigger('click');
-									$('#image_avatar').val('');
+									Swal.fire("Oops!","Please upload correct file. (jpg, jpeg & png)", "info").then(function(){
+					      				$('#kt_image_6 > span').trigger('click');
+								       	$('#image_avatar').val('');
+					      			})
 								}
 							});
 							_initavatar_change('kt_image_6',360,360,'.image-color','#image_avatar');
