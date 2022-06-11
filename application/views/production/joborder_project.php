@@ -23,7 +23,7 @@
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" data-name="pending" href="#pending">
-			                        <span class="nav-text">List</span>
+			                        <span class="nav-text">Pending</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">

@@ -9,7 +9,7 @@ var value;
 		$.fn.dataTable.ext.errMode = 'throw';
 		table.DataTable({
 			destroy: true,
-			responsive: false,
+			responsive: true,
 			info: true,
 			serverSide:false,
 			order:order_by,
@@ -27,42 +27,42 @@ var value;
 			columns:TableData,
 		});
 	}
-	var _initView_Table = function(view){
+	var _initView_Table = function(view,val,val1){
 		switch(view){
 			//Accounting
 			case "tbl_salesorder_stocks":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Stocks_Request_DataTable_Accounting';
-				 TableData = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				 TableData = [{data:'so_no',responsivePriority: 1},{data:'customer',className: "text-nowrap"},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'terms'},{data:'status',responsivePriority: 2},{data:'action',responsivePriority: -1}]; 
 				_DataTableLoader('tbl_salesorder_request',TableURL,TableData,[[4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Stocks_Approved_DataTable_Accounting';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				let TableData1 = [{data:'so_no',responsivePriority: 1},{data:'customer',className: "text-nowrap"},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'terms'},{data:'status',responsivePriority: 2},{data:'action',responsivePriority: -1}]; 
 				_DataTableLoader('tbl_salesorder_approved',TableURL1,TableData1,[[4,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Stocks_Completed_DataTable_Accounting';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				let TableData2 = [{data:'so_no',responsivePriority: 1},{data:'customer',className: "text-nowrap"},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'terms'},{data:'status',responsivePriority: 2},{data:'action',responsivePriority: -1}]; 
 				_DataTableLoader('tbl_salesorder_completed',TableURL2,TableData2,[[4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Salesorder_Stocks_Cancelled_DataTable_Accounting';
-				let TableData3 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created'},{data:'status',width:20},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				let TableData3 = [{data:'so_no',responsivePriority: 1},{data:'customer',className: "text-nowrap"},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'terms'},{data:'status',responsivePriority: 2},{data:'action',responsivePriority: -1}]; 
 				_DataTableLoader('tbl_salesorder_cancelled',TableURL3,TableData3,[[4,'desc']]);
 				break;
 			}
 			case "tbl_salesorder_project":{
 				 TableURL = baseURL + 'datatable_controller/Salesorder_Project_Request_DataTable_Accounting';
-				 TableData = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'status'},{data:'action',orderable:false,width:20,className: "text-nowrap"}];
+				 TableData = [{data:'so_no',responsivePriority: 1},{data:'customer',className: "text-nowrap"},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'terms'},{data:'status',responsivePriority: 2},{data:'action',responsivePriority: -1}];
 				_DataTableLoader('tbl_salesorder_request',TableURL,TableData,[[4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Salesorder_Project_Approved_DataTable_Accounting';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'status'},{data:'action',orderable:false,className: "text-nowrap"}];
+				let TableData1 = [{data:'so_no',responsivePriority: 1},{data:'customer',className: "text-nowrap"},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'terms'},{data:'status',responsivePriority: 2},{data:'action',responsivePriority: -1}];
 				_DataTableLoader('tbl_salesorder_approved',TableURL1,TableData1,[[4,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Salesorder_Project_Completed_DataTable_Accounting';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created,className: "text-nowrap"'},{data:'status'},{data:'action',orderable:false,className: "text-nowrap"}];
+				let TableData2 = [{data:'so_no',responsivePriority: 1},{data:'customer',className: "text-nowrap"},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'terms'},{data:'status',responsivePriority: 2},{data:'action',responsivePriority: -1}];
 				_DataTableLoader('tbl_salesorder_completed',TableURL2,TableData2,[[4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Salesorder_Project_Cancelled_DataTable_Accounting';
-				let TableData3 = [{data:'so_no'},{data:'customer'},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'status'},{data:'action',orderable:false,className: "text-nowrap"}]; 
+				let TableData3 = [{data:'so_no',responsivePriority: 1},{data:'customer',className: "text-nowrap"},{data:'mobile'},{data:'email'},{data:'date_created',className: "text-nowrap"},{data:'terms'},{data:'status',responsivePriority: 2},{data:'action',responsivePriority: -1}]; 
 				_DataTableLoader('tbl_salesorder_cancelled',TableURL3,TableData3,[[4,'desc']]);
 				break;
 			}
@@ -176,15 +176,15 @@ var value;
 			}
 			case "tbl_collection":{
 				TableURL = baseURL + 'datatable_controller/Collected_Request_DataTable_Accounting';
-				TableData = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}]; 
+				TableData = [{data:'so_no'},{data:'customer',className: "text-nowrap"},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}]; 
 				_DataTableLoader('tbl_collection_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Collected_Approved_DataTable_Accounting';
-				let TableData1 = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}];
+				let TableData1 = [{data:'so_no'},{data:'customer',className: "text-nowrap"},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}];
 				_DataTableLoader('tbl_collection_approved',TableURL1,TableData1,[[3,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Collected_Cancelled_DataTable_Accounting';
-				let TableData2 = [{data:'so_no'},{data:'customer'},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}];
+				let TableData2 = [{data:'so_no'},{data:'customer',className: "text-nowrap"},{data:'amount'},{data:'date'},{data:'status'},{data:'action',orderable:false,className:"text-center"}];
 				_DataTableLoader('tbl_collection_cancelled',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
@@ -210,8 +210,8 @@ var value;
 
 	return {
 		//main function to initiate the module
-		init: function(table) {
-			_initView_Table(table)
+		init: function(link,val=false,val1=false) {
+			_initView_Table(link,val,val1)
 		},
 	};
 

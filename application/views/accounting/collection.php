@@ -25,19 +25,19 @@
 			                <li class="nav-item">
 			                    <a class="nav-link active" data-toggle="tab" href="#request">
 			                    	<span class="nav-icon"><i class="flaticon-exclamation-1"></i></span>
-			                        <span class="nav-text">Request <span class="label label-rounded label-warning collection_request">0</span></span>
+			                        <span class="nav-text">Request <span class="label label-rounded label-warning sales_collection_request">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#approved">
 			                    	<span class="nav-icon"><i class="la la-check-circle"></i></span>
-			                        <span class="nav-text">Approved <span class="label label-rounded label-primary collection_approved">0</span></span>
+			                        <span class="nav-text">Approved <span class="label label-rounded label-primary sales_collection_approved">0</span></span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" href="#cancelled">
 			                    	<span class="nav-icon"><i class="la la-times-circle-o"></i></span>
-			                        <span class="nav-text">Cancelled <span class="label label-rounded label-danger collection_cancelled">0</span></span>
+			                        <span class="nav-text">Cancelled <span class="label label-rounded label-danger sales_collection_cancelled">0</span></span>
 			                    </a>
 			                </li>
 			            </ul>

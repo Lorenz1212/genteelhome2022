@@ -23,7 +23,7 @@
 			            <ul class="nav nav-tabs nav-bold nav-tabs-line">
 			                <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" data-name="pending"  href="#pending">
-			                        <span class="nav-text">List</span>
+			                        <span class="nav-text">Pending</span>
 			                    </a>
 			                </li>
 			                <li class="nav-item">
@@ -366,7 +366,7 @@
 							     	<option value="" disabled="" selected>Select Pallet Color</option>
 							     </select>
 							     <div class="input-group-append" style="padding-left: 10px;">
-								      <img class="images mx-auto d-block img-thumbnail z-depth-3 upfile1" id="color" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:43px;"/>
+								      <img class="images mx-auto d-block img-thumbnail z-depth-3" id="color" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:43px;"/>
 							       </div>
 							    </div>
 						  </div>

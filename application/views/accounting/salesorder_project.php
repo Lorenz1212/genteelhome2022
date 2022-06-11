@@ -47,7 +47,7 @@
 			    <div class="card-body link" data-link="tbl_salesorder_project">
 			        <div class="tab-content">
 			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_request">
+			                <table class="table table-bordered table-hover" id="tbl_salesorder_request">
 								<thead>
 									<tr>
 										<th>Trans #.</th>
@@ -55,6 +55,7 @@
 										<th>MOBILE</th>
 										<th>EMAIL</th>
 										<th>DATE ORDER</th>
+										<th>TERMS</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
@@ -62,7 +63,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_approved">
+			                <table class="table table-bordered table-hover" id="tbl_salesorder_approved">
 								<thead>
 									<tr>
 										<th>Trans #.</th>
@@ -70,6 +71,7 @@
 										<th>MOBILE</th>
 										<th>EMAIL</th>
 										<th>DATE ORDER</th>
+										<th>TERMS</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
@@ -77,7 +79,7 @@
 							</table>
 			            </div>
 			            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed">
-			                <table class="table table-bordered table-hover table-checkable" id="tbl_salesorder_completed" style="margin-top: 13px !important">
+			                <table class="table table-bordered table-hover" id="tbl_salesorder_completed">
 								<thead>
 									<tr>
 										<th>Trans #.</th>
@@ -85,6 +87,7 @@
 										<th>MOBILE</th>
 										<th>EMAIL</th>
 										<th>DATE ORDER</th>
+										<th>TERMS</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
@@ -100,6 +103,7 @@
 										<th>MOBILE</th>
 										<th>EMAIL</th>
 										<th>DATE ORDER</th>
+										<th>TERMS</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>

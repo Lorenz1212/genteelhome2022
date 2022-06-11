@@ -130,7 +130,7 @@
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="<?php echo base_url()."gh/sales/collection"?>" class="menu-link">
 													<span class="menu-text mr-2">Sales Collection</span>
-													<span class="label label-rounded label-primary collection_count">0</span>
+													<span class="label label-rounded label-primary sales_collection_request_total">0</span>
 												</a>
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">

@@ -8,6 +8,12 @@ const month = ["January","February","March","April","May","June","July","August"
 	var _initToast = function(type,message){
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
 	}
+	var _sessionStorage = function(key,value){
+		sessionStorage.setItem(key, value);
+	}
+	var _getItem = function(key){
+		return sessionStorage.getItem(key);
+	}
 	var _month_year = function(){
 		 $(function() {
 		   var monthNameList = ["January", "February", "March", "April", "May", "June", "July", "August", "September","October", "November", "December"];
@@ -35,6 +41,21 @@ const month = ["January","February","March","April","May","June","July","August"
 		$( document ).ready(function() {
 			$(''+action+'').mask('000,000,000,000,000.00', {reverse: true});
 		});
+	}
+	var _initImageView = function(){
+		var modal = document.getElementById("myModal");
+		var img = document.getElementById("myImg");
+		var modalImg = document.getElementById("img01");
+		var captionText = document.getElementById("caption");
+		 $(document).on("click","#myImg",function() {
+		 	  modal.style.display = "block";
+			  modalImg.src = this.src;
+			  captionText.innerHTML = this.alt;
+		 })
+		var span = document.getElementsByClassName("close-image")[0];
+		  span.onclick = function() {
+		  modal.style.display = "none";
+		}
 	}
 	var _initNumberOnly = function(action){
 		$(document).on('input', action, function(evt){
@@ -178,7 +199,8 @@ const month = ["January","February","March","April","May","June","July","August"
 				let other_purchased_approved = $('.other_purchased_approved');
 				(response.other_purchased_approved != 0)?other_purchased_approved.addClass('label label-rounded label-warning').text(response.other_purchased_approved):other_purchased_approved.removeClass("label label-rounded label-warning").text("");
 
-
+				let sales_collection_request = $('.sales_collection_request_total');
+				(response.sales_collection_request != 0)?sales_collection_request.addClass('label label-rounded label-warning').text(response.sales_collection_request):sales_collection_request.removeClass("label label-rounded label-warning").text("");
 
 				$('.sales_stocks_pending').text(response.sales_stocks_pending);
 				$('.sales_project_pending').text(response.sales_project_pending);
@@ -188,6 +210,9 @@ const month = ["January","February","March","April","May","June","July","August"
 				$('.sales_project_completed').text(response.sales_project_completed);
 				$('.sales_stocks_cancelled').text(response.sales_stocks_cancelled);
 				$('.sales_project_cancelled').text(response.sales_project_cancelled);
+				$('.sales_collection_request').text(response.sales_collection_request);
+				$('.sales_collection_approved').text(response.sales_collection_approved);
+				$('.sales_collection_cancelled').text(response.sales_collection_cancelled);
 				break;
 			}
 			case "pallet-color":{
@@ -3517,9 +3542,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		$('input[name=email]').val(response.email);
 	  		$('input[name=address]').val(response.address);
 	  		$('.image-view').css('background-image','url('+baseURL+'assets/images/supplier/'+response.image+')');
-	  		let TableURL = baseURL + 'modal_controller/Modal_Supplier_Item_View';
-			let TableData = [{data:'item'},{data:'amount',className: "text-center"},{data:'action', className: "text-center"}];
-			_DataTableLoader1('tbl_supplier_item',TableURL,TableData,response.id);
+	  		KTDatatablesDataSourceAjaxClient.init('tbl_supplier_item',response.id);
 			_initnotificationupdate();
 	  		break;
 	  	}
@@ -4022,6 +4045,8 @@ const month = ["January","February","March","April","May","June","July","August"
 			_ViewController(viewForm);
 			_initView();
 			_initnotificationupdate();
+			_initImageView();
+			sessionStorage.clear();
 		},
 
 	};

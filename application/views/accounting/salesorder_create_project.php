@@ -53,7 +53,7 @@
 						       		 <div class="row">
 									 	  <div class="col-lg-12 col-xl-12 col-md-12">
 									 	  	    <div class="form-group row">
-													<label>Date</label>
+													<label>Date order</label>
 													<input type="date" class="form-control form-control-lg" name="date_created" />
 												</div>
 											    <div class="form-group row">

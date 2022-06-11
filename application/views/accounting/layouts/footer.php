@@ -1,3 +1,8 @@
+<div id="myModal" class="modal-image">
+  <span class="close-image">&times;</span>
+  <img class="modal-content-image" id="img01">
+  <div id="caption"></div>
+</div>
 	<!--begin::Footer-->
 		<div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
 						<!--begin::Container-->

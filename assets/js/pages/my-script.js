@@ -107,131 +107,7 @@ var arrows;var item_v;var price;var special_option;
 		}
 	}
 
-
-	var _initJOBORDER1_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/Joborder1_Option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	  let option = '<option value="'+response[i].production_no+'">'+response[i].production_no+'</option>';
-                  	  	  $('#joborder').append(option).addClass('selectpicker').attr('data-live-search', 'true').selectpicker('refresh');
-                  	  }
-                  }                                    
-		});	
-	}
-	var _initUser = async function(username){
-		 $.ajax({
-	             url: baseURL + 'option_controller/User_option',
-	             type: "POST",
-	             data:{username:username},
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	   
-                  	if(response.username == username){
-                  		Swal.fire("Warning!", "Username is already exists!", "warning");
-                  		$('input[name=username]').val('');
-                  	}
-                 }                                    
-		});	
-	}
-	var _initUsers_option = function(action){
-		$.ajax({
-	             url: baseURL + 'option_controller/UserJobOrder_option',
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	   
-                  	 for(let i=0;i<response.length;i++){
-                  	  	  let option = '<option value="'+response[i].id+'">'+response[i].name+'</option>';
-                  	  	  $('#users_data').append(option);  
-                  	  	  $('#users_data').addClass('selectpicker');
-					  $('#users_data').attr('data-live-search', 'true');
-					  $('#users_data').selectpicker('refresh');
-                  	  	
-                  	  }
-                 }                                    
-		});
-	}
-
 	
-	
-	var _initItem_option = async function(){
-		 $.ajax({
-	             url: baseURL + 'option_controller/Item_option',
-	             type: "POST",
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	  for(let i=0;i<response.length;i++){
-                  	  	 
-                  	  	  let option = '<option value="'+response[i].id+'">('+response[i].qty+') '+response[i].name+'</option>';
-                  	  	  $('#item').append(option);
-                  	  	  $('#item').addClass('selectpicker');
-					  $('#item').attr('data-live-search', 'true');
-					  $('#item').selectpicker('refresh');
-					   let option1 = '<option value="'+response[i].id+'-'+response[i].name+'">('+response[i].qty+') '+response[i].name+'</option>';
-                  	  	  $('select[name=purchase_item]').append(option1);
-                  	  	  $('select[name=purchase_item]').addClass('selectpicker');
-					  $('select[name=purchase_item]').attr('data-live-search', 'true');
-					  $('select[name=purchase_item]').selectpicker('refresh');
-                  	  }
-                  }                                  
-		});	
-	}
-
-	var _initItemQTY_option = async function(id){
-		 $.ajax({
-	             url: baseURL + 'option_controller/ItemQty_option',
-	             type: "POST",
-	             data:{id:id},
-	             dataType:"json",
-	             beforeSend: function()
-	             {
-	                 KTApp.blockPage();
-	             },
-                 complete: function(){
-                      KTApp.unblockPage();
-                  },
-                  success: function(response)
-                  {	  
-                  	 if(response.stocks <= response.stocks_alert && response.stocks_alert <= response.stocks){
-                  	 	Swal.fire("Warning!", "Running Out of Stocks!", "warning");
-                  	 }else if(response.stocks == 0){
-                  	 	Swal.fire("Warning!", "Out of Stocks!", "warning");
-                  	 }
-                  }                                  
-		});	
-	}
 	var _initnotificationupdate = function(){
 		 let url = window.location.pathname;
 		 let urlpost="";
@@ -2587,20 +2463,6 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-joborder-create-request":{
-				_ajaxloaderOption('option_controller/Designer_option','POST',false,'design_option');
-				_initCurrency_format('#labor_cost');
-				_initUsers_option();
-				$('#project_no').on('change',function(){
-					let id = $(this).val();
-					_initColor_option(id);
-				});
-				$('#c_code').on('change',function(){
-					let id = $(this).val();
-					_initImage_option(id);
-				})
-			  	break;
-			}
 
 
 			//Reviewer
@@ -2943,25 +2805,7 @@ var arrows;var item_v;var price;var special_option;
 				  });
 				break;
 			}
-			case"data-users":{
-				$(document).ready(function() {
-					 $(document).on("click","#form-request",function() {
-					 	let id = $(this).attr('data-id');
-					 	let val = {id:id};
-					 	let thisUrl = 'modal_controller/Modal_Users';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Users");
-				    });
-				})
-				break;
-			}
-			case "data-user-create":{
-				_initAvatar('avatar');	
-				 $(document).on("blur","input[name=username]",function() {
-				 	 var username = $(this).val();
-					 _initUser(username);	
-				 });			
-				break;
-			}
+
 
 			//ADMIN
 			

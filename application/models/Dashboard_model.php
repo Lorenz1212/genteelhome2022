@@ -434,6 +434,9 @@ class Dashboard_model extends CI_Model
     $sales_stocks_cancelled = $this->db->select('*')->from('tbl_salesorder_stocks')->where('status','CANCELLED')->get()->num_rows();
     $sales_project_cancelled = $this->db->select('*')->from('tbl_salesorder_project')->where('status','CANCELLED')->get()->num_rows();
 
+    $sales_collection_request = $this->db->select('*')->from('tbl_customer_deposite')->where('status','P')->get()->num_rows();
+    $sales_collection_approved = $this->db->select('*')->from('tbl_customer_deposite')->where('status','A')->get()->num_rows();
+    $sales_collection_cancelled = $this->db->select('*')->from('tbl_customer_deposite')->where('status','C')->get()->num_rows();
 
     $other_purchased_request = $this->db->select('*')->from('tbl_other_material_p_header')->where('status','PENDING')->get()->num_rows();
     $other_purchased_approved = $this->db->select('*')->from('tbl_other_material_p_header')->where('a_status','APPROVED')->get()->num_rows();
@@ -464,7 +467,10 @@ class Dashboard_model extends CI_Model
                   'total_salesoder_request'=>$total_salesoder_request,
                   'other_purchased_request'=>$other_purchased_request,
                   'other_purchased_approved'=>$other_purchased_approved,
-                  'other_purchased_total'=>$other_purchased_total);
+                  'other_purchased_total'=>$other_purchased_total,
+                  'sales_collection_request'=>$sales_collection_request,
+                  'sales_collection_approved'=>$sales_collection_approved,
+                  'sales_collection_cancelled'=>$sales_collection_cancelled);
      return $data; 
   }
 

@@ -59,6 +59,7 @@
 										<th>MOBILE</th>
 										<th>EMAIL</th>
 										<th>DATE ORDER</th>
+										<th>TERMS</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
@@ -74,6 +75,7 @@
 										<th>MOBILE</th>
 										<th>EMAIL</th>
 										<th>DATE ORDER</th>
+										<th>TERMS</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
@@ -89,6 +91,7 @@
 										<th>MOBILE</th>
 										<th>EMAIL</th>
 										<th>DATE ORDER</th>
+										<th>TERMS</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>
@@ -104,6 +107,7 @@
 										<th>MOBILE</th>
 										<th>EMAIL</th>
 										<th>DATE ORDER</th>
+										<th>TERMS</th>
 										<th>STATUS</th>
 										<th>ACTION</th>
 									</tr>

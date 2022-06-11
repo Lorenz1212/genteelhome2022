@@ -109,6 +109,9 @@ var KTFormControls = function () {
 
 				let sales_project_pending = $('.sales_project_pending_request');
 				(response.sales_project_pending != 0)?sales_project_pending.addClass('label label-rounded label-warning').text(response.sales_project_pending):sales_project_pending.removeClass("label label-rounded label-warning").text("");
+
+				let sales_collection_request = $('.sales_collection_request_total');
+				(response.sales_collection_request != 0)?sales_collection_request.addClass('label label-rounded label-warning').text(response.sales_collection_request):sales_collection_request.removeClass("label label-rounded label-warning").text("");
 				
 				$('.sales_stocks_pending').text(response.sales_stocks_pending);
 				$('.sales_project_pending').text(response.sales_project_pending);
@@ -118,6 +121,10 @@ var KTFormControls = function () {
 				$('.sales_project_completed').text(response.sales_project_completed);
 				$('.sales_stocks_cancelled').text(response.sales_stocks_cancelled);
 				$('.sales_project_cancelled').text(response.sales_project_cancelled);
+
+				$('.sales_collection_request').text(response.sales_collection_request);
+				$('.sales_collection_approved').text(response.sales_collection_approved);
+				$('.sales_collection_cancelled').text(response.sales_collection_cancelled);
 				break;
 			}
 			
