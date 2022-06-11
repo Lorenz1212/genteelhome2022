@@ -65,7 +65,7 @@ class View_model extends CI_Model
 
     //Sales 
       function View_Web_Voucher($id){
-          $query = $this->db->select('*,DATE_FORMAT(date_from, "%m/%d/%Y") as date_from,DATE_FORMAT(date_to, "%m/%d/%Y") as date_to')->from('tbl_code_promo')->where('promo_code',$id)->get();
+          $query = $this->db->select('*,DATE_FORMAT(date_from, "%m/%d/%Y") as date_from,DATE_FORMAT(date_to, "%m/%d/%Y") as date_to')->from('tbl_code_promo')->where('id',$this->encryption->decrypt($id))->get();
           if(!$query){return false;}else{   return $query->row();}
       }
       function View_Inpection_project($id){

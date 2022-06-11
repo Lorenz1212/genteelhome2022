@@ -171,7 +171,7 @@ let view;
 			}
 			case "shipping-fee":{
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['shipping','fetch_shipping_list']));
-				 $('#add-voucher').on('hidden.bs.modal', function (e) {
+				 $('#requestModal').on('hidden.bs.modal', function (e) {
 					e.preventDefault();
 				    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['shipping','fetch_shipping_list']));
 				});
@@ -224,7 +224,7 @@ let view;
 		  			$("#divimages").empty();
 		  			for(let i=0;i<response.data.length;i++){
 		  				$("#divimages").append('<div class="col-lg-2 col-xl-2" id="row_'+response.data[i].id+'">'
-				  			+'<div class="image-input image-input-empty image-input-outline" style="background-image: url('+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+')">'
+				  			+'<div class="image-input image-input-empty image-input-outline" id="myImg" style="background-image: url('+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+')">'
 							+'<div class="image-input-wrapper"></div>'
 							+'  	<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" id="delete" data-id="'+response.data[i].id+'" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">'
 							+'	   <i class="ki ki-bold-close icon-xs text-muted"></i>'

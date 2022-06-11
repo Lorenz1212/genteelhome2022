@@ -35,7 +35,7 @@ var KTDatatablesDataSourceAjaxClient = function() {
 				break;
 			}
 			case "tbl_testimony":{
-				let TableData = [{data:'no'},{data:'image'},{data:'name',className:"text-nowrap"},{data:'description'},{data:'date_created',className:"text-nowrap"},{data:'action'}];
+				let TableData = [{data:'no',visible:false},{data:'image'},{data:'name',className:"text-nowrap"},{data:'description'},{data:'date_created',className:"text-nowrap"},{data:'action'}];
 				_DataTableLoader('tbl_testimony',response,TableData,[[4,'desc']]); 
 				break;
 			}

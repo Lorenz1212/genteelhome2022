@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
-					<button type="button" class="btn btn-white font-weight-bold py-3 px-6" data-toggle="modal" id="form-request" data-id="0" data-action="create" data-target="#requestModal"><i class="ki ki-plus text-success"></i> Create Voucher</button>
+					<button type="button" class="btn btn-white font-weight-bold py-3 px-6"id="form-request" data-id="0" data-action="create"><i class="ki ki-plus text-success"></i> Create Voucher</button>
 			</div>
 		</div>
 	</div>
@@ -77,11 +77,11 @@
 						   </div>
 						   <div class="col-lg-6">
 							    <label>Date From</label>
-							    <input type="date" class="form-control" name="date_from" required=""  autocomplete="off"/>
+							    <input type="text" class="form-control" id="date_from" name="date_from" required=""  autocomplete="off"/>
 						   </div>
 						   <div class="col-lg-6">
 							    <label>Date To</label>
-							    <input type="date" class="form-control"  name="date_to" required=""  autocomplete="off"/>
+							    <input type="text" class="form-control"  id="date_to" name="date_to" required=""  autocomplete="off"/>
 						   </div>
 						  </div>
 					</div>

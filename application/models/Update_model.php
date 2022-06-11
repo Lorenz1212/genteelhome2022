@@ -1017,7 +1017,12 @@ class Update_model extends CI_Model
                       'date_from'  => date('Y-m-d',strtotime($date_from)),
                       'date_to'    => date('Y-m-d',strtotime($date_to)));
         $this->db->where('promo_code',$voucher);
-        $this->db->update('tbl_code_promo',$data);
+        $result = $this->db->update('tbl_code_promo',$data);
+        if($result){
+            return array('type'=>'success','message'=>'Save Changes');
+        }else{
+            return array('type'=>'info','message'=>'Nothing Changes');
+        }
     }
     function Update_Vouncher_Customer($voucher,$id){
         $data = array('user_id'     =>  $this->user_id,

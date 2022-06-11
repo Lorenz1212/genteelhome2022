@@ -396,7 +396,6 @@ var html;var _avatar;
 					}
 					case "data-product-list":{
 						$(document).ready(function() {
-							//KTDatatablesDataSourceAjaxClient.init('tbl_products');
 							_initCurrency_format('#amount-pallet')
 							_initCurrency_format('#amount');
 							_initCurrency_format('#c_price');
@@ -612,7 +611,6 @@ var html;var _avatar;
 						break;
 					}
 					case "data-voucher-list":{
-						KTDatatablesDataSourceAjaxClient.init('tbl_voucher');
 						$(document).on("click","#form-request",function() {
 							var action = $(this).attr('data-action');
 							var id = $(this).attr('data-id');
@@ -625,7 +623,7 @@ var html;var _avatar;
 								$('#action').val('create');
 								$('#date_from').val('');
 								$('#date_to').val('');
-
+								$('#add-voucher').modal('show');
 							}else{
 								let thisUrl = 'view_controller/View_Web_Voucher';
 								let val = {id:id};
@@ -635,7 +633,6 @@ var html;var _avatar;
 						break;
 					}
 					case "data-shipping":{
-						KTDatatablesDataSourceAjaxClient.init('tbl_shipping');
 						$(document).ready(function() {
 								$(document).on("click","#form-request",function() {
 								 	let id = $(this).attr('data-id');
@@ -648,8 +645,7 @@ var html;var _avatar;
 						break;
 					}
 					case "data-testimony":{
-						KTDatatablesDataSourceAjaxClient.init('tbl_testimony');
-						_initavatar_change('kt_image_5');
+						 var avatar5 = new KTImageInput('kt_image_5');
 						$(document).on('click','.btn-create',function(e){
 							e.preventDefault();
 							let action = $(this).attr('data-action');
@@ -1106,6 +1102,7 @@ var html;var _avatar;
 					_initDatepicker('date_from');
 					_initDatepicker('date_to');
 					_initPercentage('#discount');
+					$('#add-voucher').modal('show');
 		  		}
 		  		break;
 		  	}

@@ -77751,7 +77751,7 @@ code {
 }
 
 .datepicker {
-  width: 265px;
+/*  width: 265px;*/
   padding: 10px;
   border-radius: 0.42rem;
 }

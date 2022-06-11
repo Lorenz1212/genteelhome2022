@@ -436,8 +436,7 @@ class Update_controller extends CI_Controller
        $discount = $this->input->post('discount');
        $date_from = $this->input->post('date_from');
        $date_to = $this->input->post('date_to');
-       $this->update_model->Update_Web_Voucher($voucher,$discount,$date_from,$date_to);
-        $data = array('status'=>'success');
+       $data = $this->update_model->Update_Web_Voucher($voucher,$discount,$date_from,$date_to);
         echo json_encode($data);
      }
      public function Update_Vouncher_Customer(){

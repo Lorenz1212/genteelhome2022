@@ -727,8 +727,7 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Update_Shipping_Range":{
-	 			_initToast('success','Saved Changes!');
-	 			KTDatatablesDataSourceAjaxClient.init('tbl_shipping');
+	 			_initToast('success','Save Changes!');
 				 $('#requestModal').modal('hide');
 	 			break;
 	 		}

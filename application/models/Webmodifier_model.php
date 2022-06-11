@@ -132,7 +132,7 @@ class Webmodifier_model extends CI_Model{
 		                $now = $now->format('Y-m-d');
 		                $now = strtotime($now);
 		                    if ($exp_date < $now) {
-		                     	 $disable = true;
+		                     	 $disable = 'disabled';
 		                        $status = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Already Expired</span>';
 		                        $query1 = $this->db->select('*')->from('tbl_code_promo')->where('id',$row->id)->get();
 		                        $row1 = $query1->row();
@@ -143,7 +143,7 @@ class Webmodifier_model extends CI_Model{
 		                        }
 		                    } 
 		                    else if ($exp_date == $now) {
-		                     $disable = true;  
+		                     $disable = 'disabled';  
 		                        $status = '<span class="label label-lg label-light-warning label-inline font-weight-bold py-4">Will Expire Today</span>';
 		                        $query1 = $this->db->select('*')->from('tbl_code_promo')->where('id',$row->id)->get();
 		                        $row1 = $query1->row();
@@ -154,10 +154,10 @@ class Webmodifier_model extends CI_Model{
 		                        }
 		                    }
 		                    else if ($exp_date > $now) {
-		                        $disable = false;
+		                        $disable = "";
 		                        $status = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">ACTIVE</span>';
 		                    }
-		             $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-id="'.$this->encryption->encrypt($row->id).'" disabled="'.$disable.'"><i class="la la-eye"></i></button>'; 
+		             $action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2" id="form-request" data-id="'.$this->encryption->encrypt($row->id).'" "'.$disable.'"><i class="la la-eye"></i></button>'; 
 		             $dis = floatval(($row->discount*100)/1);
 		             $discount = $dis.'%';
 		             $data[] = array(
@@ -186,7 +186,8 @@ class Webmodifier_model extends CI_Model{
 				  $query = $this->db->query("SELECT * FROM tbl_region_shipping");
 		        if($query){
 		              foreach($query->result() as $row){
-		              $action = '<button type="button" data-action="info" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
+		              $action = '
+		              <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 " data-action="info" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
 		             	$data[] = array(
 			                      'id'                    => $row->id,
 			                      'region'                => $row->region,
