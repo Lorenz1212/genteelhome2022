@@ -8,6 +8,7 @@
 		<script src="<?php echo base_url(); ?>assets/plugins/custom/datatables/datatables.bundle.js"></script>
 		<script src="<?php echo base_url(); ?>assets/js/pages/widgets.js"  type='text/javascript'></script>
 		<script src="<?php echo base_url(); ?>assets/js/pages/webmodifier-script.js"  type='text/javascript'></script>
+		<script src="<?php echo base_url(); ?>assets/webmodifier/script.js"  type='text/javascript'></script>
 	 	<script src="<?php echo base_url(); ?>assets/plugins/custom/tinymce/tinymce.bundle.js"></script>
 	 	<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/validation/webmodifier-form-control.js"  type='text/javascript'></script> 
 	 	<script src="<?php echo base_url(); ?>assets/js/pages/crud/datatables/data-sources/ajax-client-side-webmodifier.js"  type='text/javascript'></script> 

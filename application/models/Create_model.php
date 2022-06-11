@@ -709,7 +709,12 @@ class Create_model extends CI_Model{
     				'discount'   => $dis,
     				'date_from'  => date('Y-m-d',strtotime($date_from)),
     				'date_to'    => date('Y-m-d',strtotime($date_to)));
-    	$this->db->insert('tbl_code_promo',$data);
+    	$result =	$this->db->insert('tbl_code_promo',$data);
+    	if($result){
+    		return array('type'=>'success','message'=>'Create Successfully');
+    	}else{
+    		return array('type'=>'info','message'=>'Oops! Something went wrong');
+    	}
     }
      function Create_Web_Interior($title,$cat_id,$description,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image){
      	if($banner_image){$files1 = $this->move_to_folder4('INTERIORBANNER',$banner_image,$banner_tmp,$path_image,1140,653);

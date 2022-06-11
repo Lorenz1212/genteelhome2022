@@ -3859,24 +3859,7 @@ class Datatable_model extends CI_Model{
          $json_data  = array("data" =>$data); 
          return $json_data;  
      }
-     function Web_Shipping_DataTable(){
-         $query = $this->db->select('*')->from('tbl_region_shipping')->order_by('id','DESC')->get();
-        if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row)  
-            {
-              $action = '<button type="button" data-action="info" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
-             $data[] = array(
-                      'id'                    => $row->id,
-                      'region'                => $row->region,
-                      'shipping_range'        => $row->shipping_range,
-                      'action'                => $action);
-            }  
-        }else{
-             $data =array();   
-        }
-         $json_data  = array("data" =>$data); 
-         return $json_data; 
-     }
+
       function Web_Interior_Data(){
         $query = $this->db->select('*')->from('tbl_interior_design')->get(); 
            if($query !== FALSE && $query->num_rows() > 0){
@@ -3914,37 +3897,7 @@ class Datatable_model extends CI_Model{
              }
             return $data;
      }
-     function Web_Testimony_DataTable(){
-         $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y") as date_created')->from('tbl_customer_testimony')->order_by('id','DESC')->get();
-        if($query !== FALSE && $query->num_rows() > 0){
-            $no =1;
-              foreach($query->result() as $row){
-              $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/testimony/'.$row->image.'" alt="'.$row->name.'"></div>';
-              $action = '<button type="button" class="btn btn-sm  btn-icon btn-dark btn-shadow btn-create" data-id="'.$this->encryption->encrypt($row->id).'" data-action="update" data-toggle="modal" data-target="#staticBackdrop"><i class="la la-eye icon-md"></i></button>
-                         <button type="button" class="btn btn-sm btn-icon btn-danger btn-shadow btn-delete" data-id="'.$this->encryption->encrypt($row->id).'" data-action="delete"><i class="flaticon2-delete icon-md"></i></button>';
-            $string = strip_tags($row->description);
-            if (strlen($string) > 500) {
-                // truncate string
-                $stringCut = substr($string, 0, 80);
-                $endPoint = strrpos($stringCut, ' ');
-                //if the string doesn't contain any space then it will cut without word basis.
-                $string = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
-                $string .= '... <a class="btn-create" data-id="'.$this->encryption->encrypt($row->id).'" data-action="update" data-toggle="modal" data-target="#staticBackdrop">Read More</a>';
-            }
-             $data[] = array('no'               => $no,
-                            'image'             => $image,
-                            'name'              => $row->name,
-                            'description'       => $string,
-                            'date_created'      => $row->date_created,
-                            'action'            => $action);
-             $no++;
-            }  
-        }else{
-             $data =array();   
-        }
-         $json_data  = array("data" =>$data); 
-         return $json_data; 
-     }
+
 
      //sales
      function OnlineOrder_DataTable(){

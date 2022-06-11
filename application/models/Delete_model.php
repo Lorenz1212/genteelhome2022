@@ -41,6 +41,32 @@ class Delete_model extends CI_Model
       unlink("./assets/images/testimony/".$row->image);
       $this->db->where('id',$this->encryption->decrypt($id));
       $this->db->delete('tbl_customer_testimony');
+       $data =array();  
+       $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y') as date_created FROM tbl_customer_testimony");
+      if($query){
+           $no =1;
+           foreach($query->result() as $row){
+           $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/testimony/'.$row->image.'" alt="'.$row->name.'"></div>';
+           $action = '
+           <button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 btn-create" data-id="'.$this->encryption->encrypt($row->id).'" data-action="update" data-toggle="modal" data-target="#staticBackdrop"><i class="la la-eye"></i></button>
+                      <button type="button" class="btn btn-sm btn-icon btn-light btn-hover-danger btn-delete" data-id="'.$this->encryption->encrypt($row->id).'" data-action="delete"><i class="la la-trash"></i></button>';
+            $string = strip_tags($row->description);
+             if (strlen($string) > 500) {
+                   $stringCut = substr($string, 0, 80);
+                   $endPoint = strrpos($stringCut, ' ');
+                   $string = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                   $string .= '... <a class="btn-create" data-id="'.$this->encryption->encrypt($row->id).'" data-action="update" data-toggle="modal" data-target="#staticBackdrop">Read More</a>';
+               }
+             $data[] = array('no'               => $no,
+                            'image'             => $image,
+                            'name'              => $row->name,
+                            'description'       => $string,
+                            'date_created'      => $row->date_created,
+                            'action'            => $action);
+             $no++;
+            }  
+      }
+      return array('status' => 'error','data'=>$data);
    }
    function Delete_Inspection_Image($id){
       $query = $this->db->select('*')->from('tbl_project_inspection')->where('id',$id)->get();

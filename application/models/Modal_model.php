@@ -884,14 +884,14 @@ class Modal_model extends CI_Model{
          return $json;
     }
      function Modal_Web_Design_Gallery($id){
-        $query1 = $this->db->select('*')->from('tbl_project_color')->where('c_code', $id)->get();
+        $query1 = $this->db->select('*')->from('tbl_project_color')->where('id', $this->encryption->decrypt($id))->get();
         $row1 = $query1->row();
-        $query = $this->db->select('*')->from('tbl_project_gallery')->where('c_code', $id)->get();
+        $query = $this->db->select('*')->from('tbl_project_image')->where('c_code', $id)->get();
            if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  
             {
              $data[] = array('id' => $row->id,
-                             'images'=> $row->g_images);
+                             'images'=> $row->images);
             }  
         }else{
              $data = false;

@@ -31,6 +31,7 @@
 									<th>ID</th>
 									<th>NO</th>
 									<th>TITLE</th>
+									<th>DATE CREATED</th>
 									<th>STATUS</th>
 									<th>ACTION</th>
 								</tr>
@@ -175,7 +176,7 @@
 												  	  <div class="form-group">
 													    <label>Price</label>
 														    <div class="input-group">
-														     <input class="form-control" name="c_price" id="c_price" />
+														     <input class="form-control amount" name="c_price" id="c_price" autocomplete="off" />
 														   <div class="input-group-append">
 														      <button class="btn btn-secondary save" type="button" id="save_price">SAVE</button>
 														     </div>
@@ -188,8 +189,8 @@
 												    <div class="input-group">
 												     <select class="form-control" id="displayed_status" name="displayed_status">
 												   		<option value="" selected="" disabled="">SELECT STATUS</option>
-												   		<option value="displayed">Display</option>
-												   		<option value="n/a">Hide</option>
+												   		<option value="displayed">Active</option>
+												   		<option value="n/a">Inactive</option>
 												   </select>
 												   <div class="input-group-append">
 												      <button class="btn btn-secondary save" type="button" id="save_status">SAVE</button>
@@ -237,7 +238,7 @@
 											    <label>Upload Photo</label>
 												    <div class="input-group">
 												     <input type="text" class="form-control form-control-solid upfile1" id="customFile" placeholder="Click Here...." style="cursor:pointesr;" readonly=""/>
-												     <input type="file" value="" accept=".png, .jpg, .jpeg" onchange="document.getElementById('customFile').value = window.URL.createObjectURL(this.files[0])" id="imagess" name="image" style="display:none"/>
+												     <input type="file" value="" accept=".png, .jpg, .jpeg" onchange="document.getElementById('customFile').value = this.files[0].name" id="imagess" name="image" style="display:none"/>
 												      <div class="input-group-append">
 												      <button class="btn btn-secondary save" type="button" id="save_image">SAVE</button>
 												     </div>
@@ -245,8 +246,7 @@
 										   </div>
 									 </div>
 								</div>
-								<div class="row" id="divimages">
-							 </div>
+								<div class="row" id="divimages"></div>
 						</div>
 
 					 </div>

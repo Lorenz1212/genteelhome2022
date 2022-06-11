@@ -653,14 +653,7 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Web_ProductCategory_Data($id);
         echo json_encode($data);
    }
-   public function Web_Vouncher_DataTable(){
-        $data = $this->datatable_model->Web_Vouncher_DataTable();
-        echo json_encode($data);
-   }
-   public function Web_Shipping_DataTable(){
-        $data = $this->datatable_model->Web_Shipping_DataTable();
-        echo json_encode($data);
-   }
+  
    public function Web_Interior_Data(){
         $data = $this->datatable_model->Web_Interior_Data();
         echo json_encode($data);
@@ -668,10 +661,6 @@ class Datatable_controller extends CI_Controller
    public function Web_Events_Data(){
         $data = $this->datatable_model->Web_Events_Data();
         echo json_encode($data);
-   }
-   public function Web_Testimony_DataTable(){
-      $data = $this->datatable_model->Web_Testimony_DataTable();
-      echo json_encode($data);
    }
    public function supplier_DataTable(){
         $data = $this->datatable_model->supplier_DataTable();

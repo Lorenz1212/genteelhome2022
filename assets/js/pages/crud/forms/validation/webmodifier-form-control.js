@@ -1,11 +1,7 @@
 'use strict';
 // Class definition
 var KTFormControls = function () {
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const url_Params_Status = urlParams.get('urlstatus');
 	var validation;var form;var url;var thisURL;var val;
-	var idArr = [];var idArrs = [];var idItemArr = [];var keys = [];var myData = {};
 	var id;var production_no;var status;var item;var quantity;var remarks;var status;
 	var supplier;var payment;var received;var balance;var amount;var warehouse_status;
 	var unit;var designer;var production;var supervisor;var superuser;var admin;var role;
@@ -30,67 +26,6 @@ var KTFormControls = function () {
 	var _initToastWarning = function()
 	{
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'warning',title: 'Nothing to change'});
-	}
-	var _initgetvaluetable = function(){
-
-			 $("table thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("table tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-				 item = myData.items;
-				 quantity = myData.qty;
-				 unit = myData.unit; 	 	
-				 remarks = myData.remarks;
-	}
-	var _initgetvaluetable2 = function(){
-			 $("#myTable thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("#myTable tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-				 item = myData.items;
-				 status = myData.status;
-				 supplier = myData.supplier;
-				 payment  = myData.payment;
-				 received = myData.received;
-				 amount = myData.amount;
-	}
-	var _initgetvaluetable3 = function(){
-
-			 $("table thead th").each(function() {
-				   var k = $(this).text().trim().toLowerCase();
-				   keys.push(k);
-				   myData[k] = [];
-			 });
-			 $("table tbody tr").each(function(i, el) {
-				  $.each(keys, function(k, v) {
-				      myData[v].push($("td:eq(" + k + ")", el).text().trim());
-				    });
-			  });
-			      no = myData.no;
-				 item = myData.items;
-				 quantity = myData.qty; 	
-				 unit = myData.unit;
-	}
-	var _initgetvalueArray = function(){
-		     $("input[name='id[]']").each(function(){
-		            idArr.push($(this).val());
-
-		     });
-		     $('.supplier_in option:selected').each(function(){
-		            idArrs.push($(this).val());
-		     });
 	}
 	var _ajaxForm = async function(thisURL,type,val,view,url){
 		$.ajax({
@@ -151,80 +86,6 @@ var KTFormControls = function () {
 
 	 var _FormSubmit = async function(action){
 	 	switch(action){
-	 		case "Update_Profile":{
-	 			$('#save_image').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var files = $('input[name=image]')[0].files;
- 				 	var fd = new FormData();
- 				 	fd.append('action',action);
- 				 	fd.append('data',false);
-   					fd.append('file',files[0]);
- 				 	val = fd;
- 				 	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	url = baseURL + 'gh/'+page+'/user_update?'+btoa('urlstatus=pending');
-			  	      _ajaxForm(thisURL,"POST",val,"Update_Profile",false);
-	 			});
-	 			$('#save_username').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="username"]').val();
-			   		val = {data:data,action:action};
-				  	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	url = baseURL + 'gh/'+page+'/user_update?'+btoa('urlstatus=pending');
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-
-	 			});
-	 			$('#save_firstname').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="firstname"]').val();
-			   		val = {data:data,action:action};
-				  	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	url = baseURL + 'gh/'+page+'/user_update?'+btoa('urlstatus=pending');
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-	 			});
-	 			$('#save_lastname').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="lastname"]').val();
-			   		val = {data:data,action:action};
-				  	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	url = baseURL + 'gh/'+page+'/user_update?'+btoa('urlstatus=pending');
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-	 			});
-	 			$('#save_middlename').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="middlename"]').val();
-			   		val = {data:data,action:action};
-				  	thisURL = baseURL + 'update_controller/Update_Profile';
-				  	var page = $('input[name=page]').val();
-				  	url = baseURL + 'gh/'+page+'/user_update?'+btoa('urlstatus=pending');
-				  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-	 			});
-	 			$('#save_password').on('click', function(e){
-	 				e.preventDefault();
-	 				var action = $(this).attr('data-action');
-	 				var data = $('input[name="password"]').val();
-	 				var con = $('input[name="con_password"]').val();
-	 				if(data == con){
-	 					val = {data:data,action:action};
-					  	thisURL = baseURL + 'update_controller/Update_Profile';
-					  	var page = $('input[name=page]').val();
-					  	url = baseURL + 'gh/'+page+'/user_update?'+btoa('urlstatus=pending');
-					  	_ajaxForm_loaded(thisURL,"POST",val,"Update_Profile",false);
-	 				}else{
-	 					const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: 'error',title: 'Password not matched'});
-	 				}
-			   		
-	 			});
-	 			break;
-	 		}
 	 		  case "Create_Update_Banner":{
 		 			$('#Create_Update_Banner').on('submit', function(e){
 		 				e.preventDefault();
@@ -859,9 +720,9 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Create_Web_Voucher":{
-	 			if(response.status == 'success'){
-	 			   _initToast('success','Created Successfully!');
-	 			   KTDatatablesDataSourceAjaxClient.init('tbl_voucher');
+	 			if(response.type == 'success'){
+	 			   _initToast(response.type,response.message);
+	 			   $('#add-voucher').modal('hide');
 	 			}
 	 			break;
 	 		}
@@ -907,19 +768,20 @@ var KTFormControls = function () {
 	 		}
 	 		case "Create_Update_Testimony":{
 	 			if(response.status == 'create'){
-	 				_initToast('success','Created Successfully!');
+	 				_initToast('success','Create Successfully!');
 	 				 $('#staticBackdrop').modal('hide');
 				 	 $('input[name=profile_avatar]').val(response.image);
 	 			}else if(response.status == 'error'){
-	 				_initToast('error','Removed Item!');
+	 				_initToast('success','Delete Successfully!');
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_testimony',response.data);
 	 			}else if (response.status == 'update'){
-	 				_initToast('success','Saved Changes!');
+	 				_initToast('success','Save Changes!');
 	 				 $('#staticBackdrop').modal('hide');
 				 	 $('input[name=profile_avatar]').val(response.image);
 	 			}else{
-	 				Swal.fire("Error!", 'Image is incorrect format!', "error");
+	 				Swal.fire("Error!", 'Image is incorrect format!', "info");
 	 			}
-	 			KTDatatablesDataSourceAjaxClient.init('tbl_testimony');
+	 			
 	 			break;
 	 		}
 	 		case "Create_Web_Finishproduct":{

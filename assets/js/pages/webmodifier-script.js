@@ -26,6 +26,9 @@ var html;var _avatar;
 		   rightAlignNumerics: true
 		 }); //123456  =>  € ___.__1.234,56
 	}
+	var _formatnumbercommat = function(value){
+		return value.toLocaleString('en-US').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 	var _initCurrency_format = function(action){
 		$( document ).ready(function() {
 			$(''+action+'').mask('000,000,000,000,000.00', {reverse: true});
@@ -304,13 +307,7 @@ var html;var _avatar;
 								   img.onload = function() {
 								      if(img.width>=1600){
 								      	if(img.height >=1200){
-								      		 swal.fire({
-											  title: 'Image successfully changed !',
-											  type: 'success',
-											  buttonsStyling: false,
-											  confirmButtonText: 'Awesome!',
-											  confirmButtonClass: 'btn btn-primary font-weight-bold'
-											 });
+
 								      	 }else{
 								      		Swal.fire("Ops!","Please upload minimum 1600x1200 size", "info");
 								      		$('.images').attr('src',''+baseURL+'assets/images/banner/'+images+'');
@@ -399,7 +396,7 @@ var html;var _avatar;
 					}
 					case "data-product-list":{
 						$(document).ready(function() {
-							KTDatatablesDataSourceAjaxClient.init('tbl_products');
+							//KTDatatablesDataSourceAjaxClient.init('tbl_products');
 							_initCurrency_format('#amount-pallet')
 							_initCurrency_format('#amount');
 							_initCurrency_format('#c_price');
@@ -506,8 +503,6 @@ var html;var _avatar;
 								let id = $(this).val();
 								_ajaxloaderOption('option_controller/SubCategory_option','POST',{id:id},'sub-category');
 							});
-							
-						
 				 			$(document).on('click','#close-add',function(e){
 								$('.btn-close-image').trigger('click');
 								$('input[name=docs]').val("");
@@ -529,20 +524,7 @@ var html;var _avatar;
 								$('.docs-text1').text("");
 								$('#changeimage1').attr('src',baseURL+'assets/images/design/project_request/images/default.jpg');
 				 			});
-							$(document).on("click",".view-product",function() {
-								 	let id = $(this).attr('data-id');
-								 	let action = $(this).attr('data-action');
-								 	if(action == 'info'){
-								 		let val = {id:id};
-									 	let thisUrl = 'modal_controller/Modal_Web_Design_View';
-										_ajaxloader(thisUrl,"POST",val,"Modal_Web_Design_View");
-								 	}else{
-								 		let val = {id:id};
-									 	let thisUrl = 'modal_controller/Modal_Web_Design_Gallery';
-										_ajaxloader(thisUrl,"POST",val,"Modal_Web_Design_Gallery");
-								 	}
-								 	
-							    });
+							
 						})
 					   break;
 					}
@@ -855,66 +837,6 @@ var html;var _avatar;
 		  		 }
 	  		  break;
 	  		}
-	  		case "Modal_Web_Design_View":{
-		  		if(!response == false){
-		  			$('#project_no').attr('data-id',response.row.project_no);
-		  			$('#title').val(response.row.title);
-		  			$('#c_code').attr('data-id',response.row.id);
-		  			$('#c_name').val(response.row.c_name);
-		  			$('#unit').val(response.row.unit);
-		  			$('#c_price').val(response.c_price);
-		  			$('select[name=cat_id_update]').val(response.row.cat_id);
-		  			_ajaxloaderOption('option_controller/SubCategory_Edit_option','POST',{id:response.row.sub_id},'sub-category-update');
-		  			$('#cat-id-edit').on('change',function(e){
-						e.preventDefault();
-						let id = $(this).val();
-						_ajaxloaderOption('option_controller/SubCategory_Update_option','POST',{id:id},'sub-category-update');
-					});
-		  			$('#displayed_status').val(response.row.display_status).change();
-		  			$("#projectno_href").attr("href",baseURL + 'gh/designer/project_update/'+btoa(response.row.c_code));
-		  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.row.image);
-		  			$("#docs_href").attr("href",baseURL + 'assets/images/design/project_request/docx/'+response.row.docs);
-		  			$("#cimage_href").attr("href",baseURL + 'assets/images/palettecolor/'+response.row.c_image);
-		  			$("#image").attr("src",baseURL + 'assets/images/design/project_request/images/'+response.row.image);
-		  			$(".c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.row.c_image);
-		  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-		  			$("#tearsheet_href").attr("href",baseURL + 'assets/images/tearsheet/'+response.row.tearsheet);
-		  			$("#tearsheet").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
-		  			$("#c_previous").val(response.row.c_image);
-		  			$("#divimages").empty();
-		  			for(let i=0;i<response.data.length;i++){
-		  				$("#divimages").append('<div class="col-lg-2 col-xl-2" id="row_'+response.data[i].id+'">'
-				  			+'<div class="image-input image-input-empty image-input-outline" style="background-image: url('+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+')">'
-							+'<div class="image-input-wrapper"></div>'
-							+'  	<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" id="delete" data-id="'+response.data[i].id+'" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">'
-							+'	   <i class="ki ki-bold-close icon-xs text-muted"></i>'
-							+'	 </label>'
-							+'  </div>'
-				  			+'</div>');
-
-		  			}
-		  			$('#modal-form').modal('show');
-		  		}
-		  		break;
-		  	}
-		  	case "Modal_Web_Design_Gallery":{
-		  		if(!response == false){
-		  			$('#project_no1').text(response.row.project_no);
-		  			$('#c_code1').text(response.row.c_code);
-		  			$("#divgallery").empty();
-		  			for(let i=0;i<response.data.length;i++){
-		  				$("#divgallery").append('<div class="col-lg-2 col-xl-2" id="roww_'+response.data[i].id+'">'
-				  			+'<div class="image-input image-input-empty image-input-outline" style="background-image: url('+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+')">'
-							+'<div class="image-input-wrapper"></div>'
-							+'  	<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" id="deletes" data-id="'+response.data[i].id+'" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">'
-							+'	   <i class="ki ki-bold-close icon-xs text-muted"></i>'
-							+'	 </label>'
-							+'  </div>'
-				  			+'</div>');
-		  			}
-		  		}
-		  		break;
-		  	}
 		  	case "Create_ProductCategory":{
 	  				Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
 					       $('#row'+response.id).remove();

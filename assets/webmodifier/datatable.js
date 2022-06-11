@@ -29,14 +29,17 @@ var KTDatatablesDataSourceAjaxClient = function() {
 				_DataTableLoader('tbl_voucher',response,TableData,[[0,'desc']]);
 				break;
 			}
+			
 			case "tbl_shipping":{
-				let TableData =  [{data:'region'},{data:'shipping_range',responsivePriority:1},{data:'action'}];
-				_DataTableLoader('tbl_shipping',response,TableData,[[0,'desc']]);
+				let TableURL = baseURL + 'datatable_controller/Web_Shipping_DataTable';
+				let TableData = [{data:'region'},{data:'shipping_range'},{data:'action'}]; 
+				_DataTableLoader('tbl_shipping',TableURL,TableData,false);
 				break;
 			}
 			case "tbl_testimony":{
-				let TableData = [{data:'no'},{data:'image'},{data:'name',className:"text-nowrap"},{data:'description'},{data:'date_created',className:"text-nowrap"},{data:'action'}];
-				_DataTableLoader('tbl_testimony',response,TableData,[[4,'desc']]); 
+				TableURL = baseURL + 'datatable_controller/Web_Testimony_DataTable';
+				TableData = [{data:'no'},{data:'image'},{data:'name'},{data:'description'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_testimony',TableURL,TableData,[[4,'desc']]);
 				break;
 			}
 		}	 

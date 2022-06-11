@@ -54,7 +54,7 @@
 	<!--end::Content-->
 
 <!-- Modal-->
-<div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="add-voucher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
 					 <div class="modal-header">
@@ -77,11 +77,11 @@
 						   </div>
 						   <div class="col-lg-6">
 							    <label>Date From</label>
-							    <input type="text" class="form-control" id="date_from" name="date_from" required=""  autocomplete="off"/>
+							    <input type="date" class="form-control" name="date_from" required=""  autocomplete="off"/>
 						   </div>
 						   <div class="col-lg-6">
 							    <label>Date To</label>
-							    <input type="text" class="form-control" id="date_to" name="date_to" required=""  autocomplete="off"/>
+							    <input type="date" class="form-control"  name="date_to" required=""  autocomplete="off"/>
 						   </div>
 						  </div>
 					</div>

@@ -48,8 +48,7 @@ class Delete_controller extends CI_Controller
     }
     public function Delete_Testimony(){
         $id = isset($_POST['id'])? $this->input->post('id'): false;
-        $this->delete_model->Delete_Testimony($id);
-        $data = array('status' => 'error');
+        $data = $this->delete_model->Delete_Testimony($id);
         echo json_encode($data);
     }
     public function Delete_Inspection_Image(){
