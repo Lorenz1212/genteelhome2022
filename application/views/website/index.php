@@ -169,7 +169,7 @@
             </header>
         </section>
  -->
-<!--         <section class="quotes quotes-slider" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)">
+<section class="quotes quotes-slider" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)">
             <div class="container">
                 <div class="row">
                     <div class="quote-carousel">
@@ -192,7 +192,7 @@
                     </div> 
                 </div> 
             </div> 
-        </section> -->
+        </section> 
 
         <!-- ========================  Instagram ======================== -->
 

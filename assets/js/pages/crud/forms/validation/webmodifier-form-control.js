@@ -633,7 +633,6 @@ var KTFormControls = function () {
 	 		case "Create_Project_Title":
 	 		case "Create_Project_Status":{
 	 			_initToast('success','Saved Changes!');
-	 			KTDatatablesDataSourceAjaxClient.init('tbl_products');	
 	 			break;
 	 		}
 	 		case "Create_Web_Project_Gallery":{
