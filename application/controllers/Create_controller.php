@@ -140,7 +140,7 @@ class Create_controller extends CI_Controller
         $banner_tmp  =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
         $bg_image =  isset($_FILES["bg_image"]["name"]) ? $_FILES["bg_image"]["name"]: false;
         $bg_tmp  =  isset($_FILES["bg_image"]["tmp_name"]) ? $_FILES["bg_image"]["tmp_name"]:false;
-        $path_image =  "assets_website/images/";
+        $path_image =  "assets/images/interior/";
         $title = $this->input->post('title');
         $cat_id = $this->input->post('cat_id');
         $status = $this->input->post('status');
@@ -261,6 +261,9 @@ class Create_controller extends CI_Controller
         $color_image =  isset($_FILES["color"]["name"]) ? $_FILES["color"]["name"]: false;
         $color_tmp   =  isset($_FILES["color"]["tmp_name"]) ? $_FILES["color"]["tmp_name"]:false;
         $path_color  =  "assets/images/palettecolor/";
+        $docs       =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
+        $docs_tmp   =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
+        $path_docs  =  "assets/images/tearsheet/";
         $this->create_model->Create_Web_Finishproduct_Pallet($project_no,$c_name,$amount,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color);
         $data = array('status' => 'success');
         echo json_encode($data);

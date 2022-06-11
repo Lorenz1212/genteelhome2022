@@ -715,16 +715,19 @@ class Create_model extends CI_Model{
     	}
     }
      function Create_Web_Interior($title,$cat_id,$description,$status,$banner_image,$banner_tmp,$bg_image,$bg_tmp,$path_image){
-     	if($banner_image){$files1 = $this->move_to_folder4('INTERIORBANNER',$banner_image,$banner_tmp,$path_image,1140,653);
+     	if($banner_image){
+     		$files1 = $this->move_to_folder4('INTERIORBANNER',$banner_image,$banner_tmp,$path_image,1140,653);
      		if($files1 == false){$banner = false;}else{$banner = $files1;}
-     	}else{$banner="default.png";}
-
-     	if($bg_image){$files2 = $this->move_to_folder5('INTERIORBG',$bg_image,$bg_tmp,$path_image,810,457);
+     	}else{
+     		$banner="default.png";
+     	}
+     	if($bg_image){
+     		$files2 = $this->move_to_folder5('INTERIORBG',$bg_image,$bg_tmp,$path_image,810,457);
      		if($files2 == false){$bg = false;}else{$bg = $files2;}
-     	}else{$bg="default.png";}
-
+     	}else{
+     		$bg="default.png";
+     	}
      	if($banner == false || $bg == false){
-     		
      		if($banner == false){
      			$message == 'Banner is incorrect format';
      		$status = 'error';
@@ -734,17 +737,16 @@ class Create_model extends CI_Model{
      		}
      	}else{
      		$data = array('cat_id' => $cat_id,
-    				  'project_name' => $title,
-    				  'description'=> $description,
-    				  'image'=> $banner,
-    				  'bg'=> $bg,
-    				  'status' => $status);
+				    				  'project_name' => $title,
+				    				  'description'=> $description,
+				    				  'image'=> $banner,
+				    				  'bg'=> $bg,
+				    				  'status' => $status);
     		$this->db->insert('tbl_interior_design',$data);
     		$message = 'ok';
     		$status = 'create';
      	}
-     	$data_response = array('status'=>$status,'message'=>$message);
-    	return $data_response;
+    	return array('status'=>$status,'message'=>$message);
     }
      function Create_Web_Events($title,$status,$description,$id,$date_event,$time_event,$location,$image,$tmp,$path){
      	if($image){$images = $this->move_to_folder1($image,$tmp,$path);}else{$images="default.jpg";}

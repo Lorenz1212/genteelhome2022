@@ -556,10 +556,10 @@ var KTFormControls = function () {
 	 		}
 	 		case "Create_Update_Interior":{
 	 			if(response.status == 'create'){
-	 				Swal.fire("Created Successfully!", "All text fields are correct and recorded!", "success").then(function(){
+	 				Swal.fire("Create Successfully!", "All text fields are correct and recorded!", "success").then(function(){
 					       location.reload();});
 	 			}else if(response.status == 'update'){
-	 				Swal.fire("Saved Changes!", "All text fields are correct and recorded!", "success").then(function(){
+	 				Swal.fire("Save Changes!", "All text fields are correct and recorded!", "success").then(function(){
 					       location.reload();});
 	 			}else{
 	 				Swal.fire("Error!", response.message, "error");
@@ -568,10 +568,10 @@ var KTFormControls = function () {
 	 		}
 	 		case "Create_Update_Banner":{
 	 			if(response.status == 'create'){
-	 				Swal.fire("Created Successfully!", "All text fields are correct and recorded!", "success").then(function(){
+	 				Swal.fire("Create Successfully!", "All text fields are correct and recorded!", "success").then(function(){
 					       location.reload();});
 	 			}else if(response.status == 'update'){
-	 				Swal.fire("Saved Changes!", "All text fields are correct and recorded!", "success").then(function(){
+	 				Swal.fire("Save Changes!", "All text fields are correct and recorded!", "success").then(function(){
 					       location.reload();});
 	 			}else{
 	 				 Swal.fire("Warning!", "Image is incorrect format!", "question");

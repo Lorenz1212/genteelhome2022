@@ -745,14 +745,17 @@ var html;var _avatar;
 		  				}else if(response[i].cat_id == 3){
 		  					var category = 'EXPERIENCES';
 		  				}
-
+		  				let status = '<span class="label label-xl label-inline label-light-success">'+response[i].status+'</span>';
+		  				if(response[i].status == 'INACTIVE'){
+		  					 status = '<span class="label label-xl label-inline label-light-danger">'+response[i].status+'</span>';
+		  				}
 						$('#interior').append('<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">'
 									+'<div class="card card-custom gutter-b card-stretch"><div class="card-body text-center pt-4">'
 									+'<div class="card-body text-center pt-4">'
-									+'<div class="d-flex justify-content-end"><span class="label label-xl label-inline label-light-success">'+response[i].status+'</span></div>'
+									+'<div class="d-flex justify-content-end">'+status+'</div>'
 									+'<div class="mt-7">'
 									+'<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">'
-									+'<img id="myImg" src="'+baseURL+'assets_website/images/'+response[i].image+'" alt="'+response[i].title+'" style="width: 100%;height: 200px;object-fit: cover;"/></div></div>'
+									+'<img id="myImg" src="'+baseURL+'assets/images/interior/'+response[i].image+'" alt="'+response[i].title+'" style="width: 100%;height: 200px;object-fit: cover;"/></div></div>'
 									+'<div class="my-4">'
 									+'<div class="text-dark font-weight-bold text-hover-primary font-size-h4">'+response[i].title+'</div></div>'
 									+'<div class="my-4">'
@@ -769,9 +772,9 @@ var html;var _avatar;
 	  	
 	  		case "Modal_Web_Interior":{
 		  		 if(!response == false){
-		  			 	$('.images').attr('src',baseURL+'assets_website/images/'+response.image);
+		  			 	$('.images').attr('src',baseURL+'assets/images/interior/'+response.image);
 		  			 	$('input[name="previous_image"]').val(response.image);
-		  			 	$('.background-image').attr('src',baseURL+'assets_website/images/'+response.bg);
+		  			 	$('.background-image').attr('src',baseURL+'assets/images/interior/'+response.bg);
 		  				$('input[name="previous_bg"]').val(response.bg);
 		  			 	$('input[name="id"]').val(response.id);
 		  			 	$('select[name="status"]').val(response.status).change();

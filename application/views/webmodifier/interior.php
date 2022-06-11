@@ -41,17 +41,17 @@ overflow-y: auto;">
                 </button>
             </div>
             <form class="form" id="Create_Update_Interior" data-link="Create_Update_Interior" enctype="multipart/form-data" accept-charset="utf-8">
-            		<input type="hidden" name="previous_image"/>
-            		<input type="hidden" name="previous_bg"/>
-					<input type="hidden" name="id"/>
-					<input type="hidden" name="page"/>
+    		<input type="hidden" name="previous_image"/>
+    		<input type="hidden" name="previous_bg"/>
+			<input type="hidden" name="id"/>
+			<input type="hidden" name="page"/>
             <div class="modal-body">
 				<div class="row justify-content-center">
 					<div class="col-xl-10 col-xxl-10">
 						<!--begin::Group-->
 							<div class="form-group row">
 								<div class="col-lg-12 col-xl-12">
-									<label><h3>BACKGROUND</h3></label>
+									<label><h3>BACKGROUND</h3> image size(810 x 460)</label>
 									<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">
 										<img class="background-image mx-auto d-block img-thumbnail z-depth-3" id="bg" alt="image" style="width: 700px;height: 300px;"/>
 									</div>
@@ -60,7 +60,7 @@ overflow-y: auto;">
 							</div>
 							<div class="form-group row">
 									<div class="col-lg-12 col-xl-12">
-										<label><h3>BANNER</h3></label>
+										<label><h3>BANNER</h3> image size(1140 x 660)</label>
 										<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">
 											<img class="images mx-auto d-block img-thumbnail z-depth-3" id="blah" alt="image" style="width: 700px;height: 300px;"/>
 										</div>
