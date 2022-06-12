@@ -133,29 +133,29 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			}
 			case "tbl_purchase_request_stocks":{
 				TableURL = baseURL + 'datatable_controller/Purchase_Material_Stocks_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor'},{data:'status'},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className:"text-center"}]; 
 				_DataTableLoader('tbl_purchase_request',TableURL,TableData,[[ 4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Inprogress_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false,width:20,className:"text-center"}]; 
+				let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor'},{data:'status'},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,width:20,className:"text-center"}]; 
 				_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,[[ 4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Stocks_Complete_DataTable';
-				let TableData3 = [{data:'production_no'},{data:'item',className: "text-nowrap"},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
+				let TableData3 = [{data:'production_no'},{data:'item',className: "text-nowrap",width:'100%'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created',className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_purchase_request_complete',TableURL3,TableData3,[[ 4,'desc']]);
 				break;
 			}
 			case "tbl_purchase_request_project":{
 				TableURL = baseURL + 'datatable_controller/Purchase_Material_Project_Request_DataTable';
-				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor'},{data:'status'},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request',TableURL,TableData,[[ 4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Purchase_Material_Project_Inprogress_DataTable';
-				let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'status'},{data:'date_created'},{data:'action',orderable:false}]; 
+				let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor'},{data:'status'},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false}]; 
 				_DataTableLoader('tbl_purchase_request_inprogress',TableURL1,TableData1,[[ 4,'desc']]);
 
 				let TableURL3 = baseURL + 'datatable_controller/Purchase_Material_Project_Complete_DataTable';
-				let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created'}]; 
+				let TableData3 = [{data:'production_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'terms'},{data:'date_created',className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_purchase_request_complete',TableURL3,TableData3,[[ 4,'desc']]);
 				break;
 			}

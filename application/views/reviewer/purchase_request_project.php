@@ -56,7 +56,7 @@
 									<!--begin::Nav Content-->
 									<div class="tab-content">
 										<div class="tab-pane active" id="request" role="tabpanel">
-											<table class="table table-bordered table-hover table-checkable link" id="tbl_purchase_request" data-link="tbl_purchase_request_project" style="margin-top: 13px !important">
+											<table class="table table-bordered table-hover" id="tbl_purchase_request" data-link="tbl_purchase_request_project" >
 												<thead>
 													<tr>
 														<th>Trans #</th>
@@ -64,13 +64,13 @@
 														<th>REQUESTOR</th>
 														<th>ITEM REQUEST</th>
 														<th>DATE</th>
-														<th style="width:10px;">ACTION</th>
+														<th>ACTION</th>
 													</tr>
 												</thead>
 											</table>
 										</div>
 										<div class="tab-pane" id="inprogress" role="tabpanel">
-											<table class="table table-bordered table-hover table-checkable" id="tbl_purchase_request_inprogress" style="margin-top: 13px !important">
+											<table class="table table-bordered table-hover" id="tbl_purchase_request_inprogress">
 												<thead>
 													<tr>
 														<th>Trans #</th>
@@ -84,7 +84,7 @@
 											</table>
 										</div>
 										<div class="tab-pane" id="complete" role="tabpanel">
-											<table class="table table-bordered table-hover table-checkable" id="tbl_purchase_request_complete" style="margin-top: 13px !important">
+											<table class="table table-bordered table-hover" id="tbl_purchase_request_complete">
 												<thead>
 													<tr>
 														<th>Trans #</th>

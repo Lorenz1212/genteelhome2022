@@ -56,26 +56,26 @@
 									<!--begin::Nav Content-->
 									<div class="tab-content">
 										<div class="tab-pane active" id="request" role="tabpanel">
-											<table class="table table-bordered table-hover link" id="tbl_purchase_request" data-link="tbl_purchase_request_stocks" >
+											<table class="table table-bordered table-hover" id="tbl_purchase_request">
 												<thead>
 													<tr>
 														<th>Trans #</th>
-														<th style="white-space:nowrap;">TITLE</th>
-														<th style="width:5px;">QTY</th>
-														<th style="width:10px;">REQUESTOR</th>
+														<th>TITLE</th>
+														<th>REQUESTOR</th>
+														<th>ITEM REQUEST</th>
 														<th>DATE</th>
-														<th  style="width:5px;">ACTION</th>
+														<th>ACTION</th>
 													</tr>
 												</thead>
 											</table>
 										</div>
 										<div class="tab-pane" id="inprogress" role="tabpanel">
-											<table class="table table-bordered table-hover " id="tbl_purchase_request_inprogress" style="width:100%">
+											<table class="table table-bordered table-hover " id="tbl_purchase_request_inprogress">
 												<thead>
 													<tr>
-														<th style="width: 140px;;">Trans #</th>
-														<th class="mr-2" style="width: 180px;;">TITLE</th>
-														<th >REQUESTOR</th>
+														<th>Trans #</th>
+														<th>TITLE</th>
+														<th>REQUESTOR</th>
 														<th >STATUS</th>
 														<th>DATE</th>
 														<th>ACTION</th>
