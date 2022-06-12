@@ -84,7 +84,7 @@
 											</table>
 										</div>
 										<div class="tab-pane" id="complete" role="tabpanel">
-											<table class="table table-bordered table-hover table-checkable" id="tbl_purchase_request_complete">
+											<table class="table table-bordered table-hover " id="tbl_purchase_request_complete">
 												<thead>
 													<tr>
 														<th>Trans #</th>
