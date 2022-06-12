@@ -27,7 +27,7 @@
 				 	<div class="row">
 				 		<div class="col">
 				 			 <video width="100%" height="100%" controls>
-							  <source src="<?php echo base_url('assets/video_tutorial/supervisor-joborder-stocks.mp4') ?>" type="video/mp4">
+							  <source src="<?php echo base_url('assets/video_tutorial/supervisor-jo-stocks.mp4') ?>" type="video/mp4">
 							</video>
 				 		</div>
 				 	</div>
@@ -49,7 +49,7 @@
 				 	<div class="row">
 				 		<div class="col">
 				 			 <video width="100%" height="100%" controls>
-							  <source src="<?php echo base_url('assets/video_tutorial/supervisor-joborder-project.mp4') ?>" type="video/mp4">
+							  <source src="<?php echo base_url('assets/video_tutorial/supervisor-jo-project.mp4') ?>" type="video/mp4">
 							</video>
 				 		</div>
 				 	</div>
