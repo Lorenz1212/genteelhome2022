@@ -2552,12 +2552,7 @@ var KTFormControls = function () {
 
 								plugins: { //Learn more: https://formvalidation.io/guide/plugins
 								trigger: new FormValidation.plugins.Trigger(),
-								bootstrap: new FormValidation.plugins.Bootstrap(),
-				                    icon: new FormValidation.plugins.Icon({
-				                    valid: 'fa fa-check',
-				                    invalid: 'fa fa-times',
-				                    validating: 'fa fa-refresh'
-				                }),
+								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
 					    );
@@ -2601,12 +2596,7 @@ var KTFormControls = function () {
 
 								plugins: { //Learn more: https://formvalidation.io/guide/plugins
 								trigger: new FormValidation.plugins.Trigger(),
-								bootstrap: new FormValidation.plugins.Bootstrap(),
-				                    icon: new FormValidation.plugins.Icon({
-				                    valid: 'fa fa-check',
-				                    invalid: 'fa fa-times',
-				                    validating: 'fa fa-refresh'
-				                }),
+								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
 					    );
@@ -2665,12 +2655,7 @@ var KTFormControls = function () {
 
 								plugins: { //Learn more: https://formvalidation.io/guide/plugins
 								trigger: new FormValidation.plugins.Trigger(),
-								bootstrap: new FormValidation.plugins.Bootstrap(),
-				                    icon: new FormValidation.plugins.Icon({
-				                    valid: 'fa fa-check',
-				                    invalid: 'fa fa-times',
-				                    validating: 'fa fa-refresh'
-				                }),
+								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
 					    );
@@ -2717,12 +2702,7 @@ var KTFormControls = function () {
 								},
 								plugins: { //Learn more: https://formvalidation.io/guide/plugins
 								trigger: new FormValidation.plugins.Trigger(),
-								bootstrap: new FormValidation.plugins.Bootstrap(),
-				                    icon: new FormValidation.plugins.Icon({
-				                    valid: 'fa fa-check',
-				                    invalid: 'fa fa-times',
-				                    validating: 'fa fa-refresh'
-				                }),
+								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
 					    );
@@ -2918,12 +2898,7 @@ var KTFormControls = function () {
 
 								plugins: { //Learn more: https://formvalidation.io/guide/plugins
 								trigger: new FormValidation.plugins.Trigger(),
-								bootstrap: new FormValidation.plugins.Bootstrap(),
-				                    icon: new FormValidation.plugins.Icon({
-				                    valid: 'fa fa-check',
-				                    invalid: 'fa fa-times',
-				                    validating: 'fa fa-refresh'
-				                }),
+								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
 					    );
@@ -2967,12 +2942,7 @@ var KTFormControls = function () {
 
 								plugins: { //Learn more: https://formvalidation.io/guide/plugins
 								trigger: new FormValidation.plugins.Trigger(),
-								bootstrap: new FormValidation.plugins.Bootstrap(),
-				                    icon: new FormValidation.plugins.Icon({
-				                    valid: 'fa fa-check',
-				                    invalid: 'fa fa-times',
-				                    validating: 'fa fa-refresh'
-				                }),
+								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
 					    );
@@ -3031,12 +3001,7 @@ var KTFormControls = function () {
 
 								plugins: { //Learn more: https://formvalidation.io/guide/plugins
 								trigger: new FormValidation.plugins.Trigger(),
-								bootstrap: new FormValidation.plugins.Bootstrap(),
-				                    icon: new FormValidation.plugins.Icon({
-				                    valid: 'fa fa-check',
-				                    invalid: 'fa fa-times',
-				                    validating: 'fa fa-refresh'
-				                }),
+								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
 					    );
@@ -3083,18 +3048,12 @@ var KTFormControls = function () {
 								},
 								plugins: { //Learn more: https://formvalidation.io/guide/plugins
 								trigger: new FormValidation.plugins.Trigger(),
-								bootstrap: new FormValidation.plugins.Bootstrap(),
-				                    icon: new FormValidation.plugins.Icon({
-				                    valid: 'fa fa-check',
-				                    invalid: 'fa fa-times',
-				                    validating: 'fa fa-refresh'
-				                }),
+								bootstrap: new FormValidation.plugins.Bootstrap()
 							}
 						   }
 					    );
 		 			$('.Update_Purchase_request').on('click', function(e){
 		 				e.preventDefault();
-		 				alert('ok')
 		 				validation_update_p.validate().then(function(status) {
 					     if (status == 'Valid') {
 		 				 Swal.fire({

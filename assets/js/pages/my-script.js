@@ -3031,20 +3031,20 @@ var arrows;var item_v;var price;var special_option;
 						_sessionStorage('joborder-project-supervisor','request');
 						tab1 = 'request';
 					}
-					$('.nav-link[href="#'+tab1+'"]').addClass('active');
-					KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project_supervisor',false,tab1);
-					$('#'+tab1).addClass('show active');
-					$('#kt_content > div.d-flex.flex-column-fluid > div > div > div.card-header.card-header-tabs-line > div > ul > li > a').on('click',function(e){
-						let tab = $(this).attr('data-name');
-						_sessionStorage('joborder-project-supervisor',tab);
-						KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project_supervisor',false,tab);
-					});
+						$('.nav-link[href="#'+tab1+'"]').addClass('active');
+						KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project_supervisor',false,tab1);
+						$('#'+tab1).addClass('show active');
+						$('#kt_content > div.d-flex.flex-column-fluid > div > div > div.card-header.card-header-tabs-line > div > ul > li > a').on('click',function(e){
+							let tab = $(this).attr('data-name');
+							_sessionStorage('joborder-project-supervisor',tab);
+							KTDatatablesDataSourceAjaxClient.init('tbl_joborder_project_supervisor',false,tab);
+						});
 
-					$(document).on("click","#form-request",function() {
-				 		let val = {id:$(this).attr('data-id')};
-					 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
-						_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
-				     });
+						$(document).on("click","#form-request",function() {
+					 		let val = {id:$(this).attr('data-id')};
+						 	let thisUrl = 'modal_controller/Modal_Joborder_Project_Supervisor';
+							_ajaxloader(thisUrl,"POST",val,"Modal_Joborder_Project_Supervisor");
+					     });
 				     	$('#edit-material-request').on('hidden.bs.modal', function (e) {
 							e.preventDefault();
 						     let val = {id:$('.text-name-m').attr('data-order')};
@@ -4631,17 +4631,16 @@ var arrows;var item_v;var price;var special_option;
 	  		break;
 	  	}
 	  	case "Modal_Purchased_Request_Supervisor":{
-	  		console.log(response)
 	  	 	let container = $('#tbl_view_purchased_request > tbody').empty();
   			let message_alert = $('#table_message_alert').empty();
-  			let html="";
 			if(response !=false){
-				for(var i=0;i<response.length;i++){
+				let html="";
+				for(var i=0;i<response.purchased.length;i++){
 					html+='<tr>\
-						  <td>'+response[i].no+'</td>\
-						  <td>'+response[i].item+'</td>\
-						  <td>'+response[i].quantity+'</td>\
-						  <td>'+response[i].date_created+'</td>\
+						  <td>'+response.purchased[i].no+'</td>\
+						  <td>'+response.purchased[i].item+'</td>\
+						  <td>'+response.purchased[i].quantity+'</td>\
+						  <td>'+response.purchased[i].date_created+'</td>\
 						</tr>';
 		  		}
 		  		container.append(html);
