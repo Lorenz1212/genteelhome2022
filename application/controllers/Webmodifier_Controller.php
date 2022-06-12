@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Webmodifier_Controller extends CI_Controller 
-{ 
+class Webmodifier_Controller extends CI_Controller{ 
 	public function __construct(){
       parent::__construct();
       $this->load->model('Webmodifier_model');
@@ -12,13 +11,13 @@ class Webmodifier_Controller extends CI_Controller
 		switch($action){
 			case "product":{
     			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
-				$val = $this->input->post('data3')??false;
-				$model_response = $this->Webmodifier_model->Product_List($type,$val);
-				 $data = array(
-	                 'status' => 'success',
+					$val = $this->input->post('data3')??false;
+					$model_response = $this->Webmodifier_model->Product_List($type,$val);
+					$data = array(
+									 'status' => 'success',
 	                 'message' => 'request accepted',
 	                 'payload' => base64_encode(json_encode($model_response))
-	            );
+	          		);
            		echo json_encode($data);
     			break;
     		}
@@ -38,7 +37,7 @@ class Webmodifier_Controller extends CI_Controller
     			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
 					$val = $this->input->post('data3')??false;
 					$model_response = $this->Webmodifier_model->Shipping_List($type,$val);
-				 $data = array(
+				 	$data = array(
 	                 'status' => 'success',
 	                 'message' => 'request accepted',
 	                 'payload' => base64_encode(json_encode($model_response))
@@ -50,7 +49,7 @@ class Webmodifier_Controller extends CI_Controller
     			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
 					$val = $this->input->post('data3')??false;
 					$model_response = $this->Webmodifier_model->Testimony_List($type,$val);
-				 $data = array(
+				 	$data = array(
 	                 'status' => 'success',
 	                 'message' => 'request accepted',
 	                 'payload' => base64_encode(json_encode($model_response))

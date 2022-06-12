@@ -127,7 +127,7 @@
 														      <a id="tearsheet_href" target="_blank" data-toggle="tooltip" data-theme="dark" title="View Tearsheet" class="btn  btn-light-dark btn-icon"><i class="flaticon-eye"></i></a>
 														     </div>
 														     <input type="text" class="form-control form-control-solid tearsheets" id="tearsheetss" placeholder="Click Here...." style="cursor:pointer;" readonly=""/>
-														     <input type="file" value="" accept=".docx, .pdf, .word" onchange="document.getElementById('tearsheetss').value = window.URL.createObjectURL(this.files[0])" id="tearsheets" name="tearsheet" style="display:none"/>
+														     <input type="file" value="" accept=".docx, .pdf, .word" onchange="document.getElementById('tearsheetss').value = this.files[0].name" id="tearsheets" name="tearsheet" style="display:none"/>
 														      <div class="input-group-append">
 														      <button class="btn btn-secondary save" type="button" id="save_tearsheet">SAVE</button>
 														     </div>
@@ -246,7 +246,9 @@
 										   </div>
 									 </div>
 								</div>
+								<div data-scroll="true" data-height="200">
 								<div class="row" id="divimages"></div>
+								</div>
 						</div>
 
 					 </div>

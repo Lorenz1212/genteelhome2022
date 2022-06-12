@@ -598,9 +598,9 @@ var KTFormControls = function () {
 	 		}
 	 		case "Create_Project_Price":{
 	 			if(response == 'success'){
-	 				_initToast('success','Saved Changes');
+	 				_initToast('success','Save Changes');
 	 			}else{
-	 				_initToast('error','Nothing Changes');
+	 				_initToast('info','Nothing Changes');
 	 			}
 	 			break;
 	 		}
@@ -615,15 +615,19 @@ var KTFormControls = function () {
 	 				 $('#customFile').val(" ");
 		 			 document.getElementById("imagess").value = null;
 	 			}else if(response.status == 'success'){
-	 				$("#divimages").prepend('<div class="col-lg-2 col-xl-2" id="row_'+response.id+'">'
-				  			+'<div class="image-input image-input-empty image-input-outline" id="kt_image_5" style="background-image: url('+baseURL+'assets/images/finishproduct/product/'+response.image+')">'
-							+'<div class="image-input-wrapper"></div>'
-							+'  	<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" id="delete" data-id="'+response.id+'" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">'
-							+'	   <i class="ki ki-bold-close icon-xs text-muted"></i>'
-							+'	 </label>'
-							+'  </div>'
-				  			+'</div>');
-	 				_initToast('success','Saved Changes');
+	 				$("#divimages").prepend('<div class="col-lg-2 col-xl-2 mb-5" id="row_'+response.id+'">\
+		  									  <div class="row">\
+		  									  	<div class="col-lg-12 col-xl-12">\
+			  										<div class="symbol symbol-50 symbol-lg-150">\
+														<img alt="Pic" id="myImg" src="'+baseURL+'assets/images/finishproduct/product/'+response.image+'" class="">\
+													</div>\
+												</div>\
+													<div class="col-lg-12 col-xl-12">\
+													   <button class="btn btn-danger btn-sm btn-block" id="delete" data-id="'+response.id+'">Remove</button>\
+													</div>\
+												</div>\
+		  									</div>');
+	 				_initToast('success','Save Changes');
 		 			$('#customFile').val(" ");
 		 			document.getElementById("imagess").value = "";
 	 			}
@@ -641,7 +645,7 @@ var KTFormControls = function () {
 	 				 document.getElementById('customFileg').value = "";
 		 			 document.getElementById('imagefileg').value = "";
 	 			}else if(response.status == 'success'){
-	 				$("#divgallery").prepend('<div class="col-lg-2 col-xl-2" id="roww_'+response.id+'">'
+	 				$("#divgallery").prepend('<div class="col-lg-2 col-xl-2" id="row_'+response.id+'">'
 				  			+'<div class="image-input image-input-empty image-input-outline" id="kt_image_5" style="background-image: url('+baseURL+'assets/images/finishproduct/product/'+response.image+')">'
 							+'<div class="image-input-wrapper"></div>'
 							+'  	<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" id="deletes" data-id="'+response.id+'" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">'
@@ -677,14 +681,14 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Delete_Web_Project_Image":{
-	 				Swal.fire("Deleted!", "Image Deleted", "error").then(function(){
-					      $('#row_'+response.id).remove();
-				     });
+	 				console.log(response)
+	 				_initToast('success','Image Delete Successfully');
+				     $('#row_'+response).remove();
 			     break;
 	 		}
 	 		case "Delete_Web_Project_Gallery":{
-	 				Swal.fire("Deleted!", "Image Deleted", "error").then(function(){
-					      $('#roww_'+response.id).remove();
+	 				Swal.fire("Deleted!", "Image Delete Successfully", "success").then(function(){
+					      $('#row_'+response.id).remove();
 				     });
 			     break;
 	 		}

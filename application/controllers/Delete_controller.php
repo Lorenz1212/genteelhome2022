@@ -11,8 +11,7 @@ class Delete_controller extends CI_Controller
      
     public function Delete_Web_Project_Image(){
         $id = $this->input->post('id');    
-        $this->delete_model->Delete_Web_Project_Image($id);
-        $data = array('status' =>'success','id' => $id);
+        $data = $this->delete_model->Delete_Web_Project_Image($id);
         echo json_encode($data);
     }
     public function Delete_Web_Project_Gallery(){

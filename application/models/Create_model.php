@@ -543,32 +543,21 @@ class Create_model extends CI_Model{
     function Create_Web_Project_Tearsheet($id,$image,$tmp,$path_image){
     			$query = $this->db->select('*')->from('tbl_project_design')->where('id',$id)->get();
     			$row = $query->row();
-    			if(!$row->tearsheet){
-    					if($image){$images = $this->move_to_folder3('TEARSHEET'.$image,$tmp,$path_image);
-		    					$data = array('tearsheet' => $images);
-		    					$this->db->where('project_no',$id);
-					 			$this->db->update('tbl_project_design',$data);
-					 			$last_id = $id;
-		    					$status = 'success';
-		    			}else{
-		    				$status = 'no image';
-		    				$last_id = "";
-    						$images="";
-		    			}
-    			}else{
-    				if($image){$images = $this->move_to_folder3('TEARSHEET'.$image,$tmp,$path_image);
-    					unlink("./".$path_image.$row->tearsheet);
-		    					 $data = array('tearsheet' => $images);
-		    					 $this->db->where('project_no',$id);
-					 			 $this->db->update('tbl_project_design',$data);
-					 			 $last_id = $id;
-		    					 $status = 'success';
-		    			}else{
-		    				$status = 'no image';
-		    				$last_id = "";
-    						$images="";
-		    			}
-    			}
+  				if($image){
+  						if($row->tearsheet){
+  							unlink("./".$path_image.$row->tearsheet);
+  						}
+							$images = $this->move_to_folder3('TEARSHEET'.$image,$tmp,$path_image);
+    					$data = array('tearsheet' => $images);
+    					$this->db->where('id',$id);
+				 			$this->db->update('tbl_project_design',$data);
+				 			$last_id = $id;
+	    				$status = 'success';
+	    			}else{
+	    				$status = 'no image';
+	    				$last_id = "";
+  						$images="";
+	    			}
     			$json = array('status'=>$status,'image' => $images,'id' => $last_id);
 	    	 	return $json;		
     }

@@ -6,14 +6,15 @@ class Delete_model extends CI_Model
       $row = $query->row();
       unlink("./assets/images/finishproduct/product/".$row->images);
       $this->db->where('id',$id);
-	  $this->db->delete('tbl_project_image');
+	   $this->db->delete('tbl_project_image');
+     return $id;
    } 
    function Delete_Web_Project_Gallery($id){        
-      $query = $this->db->select('*')->from('tbl_project_gallery')->where('id',$id)->get();
+      $query = $this->db->select('*')->from('tbl_project_images')->where('id',$id)->get();
       $row = $query->row();
-      unlink("./assets/images/finishproduct/product/".$row->g_images);
+      unlink("./assets/images/finishproduct/product/".$row->image);
       $this->db->where('id',$id);
-      $this->db->delete('tbl_project_gallery');
+      $this->db->delete('tbl_project_image');
    } 
    function Delete_Web_Cart($id){        
       $this->db->where('id',$id);

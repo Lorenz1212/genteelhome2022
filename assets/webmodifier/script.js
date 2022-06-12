@@ -231,14 +231,18 @@ let view;
 		  			$("#c_previous").val(response.row.c_image);
 		  			$("#divimages").empty();
 		  			for(let i=0;i<response.data.length;i++){
-		  				$("#divimages").append('<div class="col-lg-2 col-xl-2" id="row_'+response.data[i].id+'">'
-				  			+'<div class="image-input image-input-empty image-input-outline" id="myImg" style="background-image: url('+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+')">'
-							+'<div class="image-input-wrapper"></div>'
-							+'  	<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" id="delete" data-id="'+response.data[i].id+'" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">'
-							+'	   <i class="ki ki-bold-close icon-xs text-muted"></i>'
-							+'	 </label>'
-							+'  </div>'
-				  			+'</div>');
+		  				$("#divimages").append('<div class="col-lg-2 col-xl-2 mb-5" id="row_'+response.data[i].id+'">\
+		  									  <div class="row">\
+		  									  	<div class="col-lg-12 col-xl-12">\
+			  										<div class="symbol symbol-50 symbol-lg-150">\
+														<img alt="Pic" id="myImg" src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" class="">\
+													</div>\
+												</div>\
+													<div class="col-lg-12 col-xl-12">\
+													   <button class="btn btn-danger btn-sm btn-block" id="delete" data-id="'+response.data[i].id+'">Remove</button>\
+													</div>\
+												</div>\
+		  									</div>');
 
 		  			}
 		  			$('#modal-form').modal('show');

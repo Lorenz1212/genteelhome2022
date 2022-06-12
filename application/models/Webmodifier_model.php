@@ -89,12 +89,12 @@ class Webmodifier_model extends CI_Model{
 					                 if($row->display_status=='n/a'){$status ='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Inactive</span></span>';
                      			}else{$status='<span style="width: 112px;"><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">Active</span></span>';}
 							 		 			$data[] = array('id'=>$row->id,
-					                      'c_code'=> $row->c_code,
-					                      'title' => $title,
-					                      'created_by' => $row->requestor,
-					                      'date_created' => $row->date_created,
-					                   		'status'=>$status,
-					                      'action'  => $action);
+							                      'c_code'=> $row->c_code,
+							                      'title' => $title,
+							                      'created_by' => $row->requestor,
+							                      'date_created' => $row->date_created,
+							                   		'status'=>$status,
+							                      'action'  => $action);
 							 	}
 				 		}
 				 return $data;
@@ -104,10 +104,10 @@ class Webmodifier_model extends CI_Model{
 				$data = array();
 				$id = $this->encryption->decrypt($val);
 				$sql = $this->db->query("SELECT *,(SELECT title FROM tbl_project_design WHERE id=tbl_project_color.project_no) AS title FROM tbl_project_color WHERE id='$id'")->row();
-		        $query = $this->db->select('*')->from('tbl_project_image')->where('c_code', $id)->get();
+		        $query = $this->db->select('*')->from('tbl_project_image')->where('c_code', $sql->c_code)->get();
 			        if($query !== FALSE && $query->num_rows() > 0){
 		            foreach($query->result() as $row)  {
-		             $data[] = array('id' => $row->c_code,
+		             $data[] = array('id' => $row->id,
 		                             'images'=> $row->images);
 		            }  
        			 } 
