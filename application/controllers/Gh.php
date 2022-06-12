@@ -167,6 +167,7 @@ class Gh extends CI_Controller {
             case "production-stocks":{$this->load->view('supervisor/production_stocks.php');break;}
             case "joborder-stocks":{$this->load->view('supervisor/joborder_stocks_list.php');break;}
             case "joborder-project":{$this->load->view('supervisor/joborder_project_list.php');break;}
+             case "tutorial":{$this->load->view('supervisor/tutorial.php');break;}
             default: {redirect(base_url().'gh/supervisor/index');break;}
           }
           $this->load->view('supervisor/layouts/footer.php');
