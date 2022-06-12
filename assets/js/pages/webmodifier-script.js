@@ -431,37 +431,37 @@ var html;var _avatar;
 					      		})
 							  }
 							});
-							var avatar6 = new KTImageInput('kt_image_6');
-							avatar6.on('change', function(imageInput) {
-				                  var img = document.createElement('img');
-							   var blob = URL.createObjectURL(event.target.files[0]);
-							    if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
-								   img.src = blob;
-								   img.onload = function() {
-								      if(img.width>=360){
-								      	if(img.height >=360){
-								      		$('.image-color').css("background-image", "url(" + blob + ")");
-								      	 }else{
-								      		Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
-								      			$('#kt_image_6 > span').trigger('click');
-								       			$('#image_avatar').val('');
-							      			})
-								      	 }
-								       }else{
-								       	Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
-								      			$('#kt_image_6 > span').trigger('click');
-								       			$('#image_avatar').val('');
-							      			})
-								       }
-								    }
-								}else{
-									Swal.fire("Oops!","Please upload correct file. (jpg, jpeg & png)", "info").then(function(){
-					      				$('#kt_image_6 > span').trigger('click');
-								       	$('#image_avatar').val('');
-					      			})
-								}
-							});
-							_initavatar_change('kt_image_6',360,360,'.image-color','#image_avatar');
+							// var avatar6 = new KTImageInput('kt_image_6');
+							// avatar6.on('change', function(imageInput) {
+				   //                var img = document.createElement('img');
+							//    var blob = URL.createObjectURL(event.target.files[0]);
+							//     if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
+							// 	   img.src = blob;
+							// 	   img.onload = function() {
+							// 	      if(img.width>=360){
+							// 	      	if(img.height >=360){
+							// 	      		$('.image-color').css("background-image", "url(" + blob + ")");
+							// 	      	 }else{
+							// 	      		Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
+							// 	      			$('#kt_image_6 > span').trigger('click');
+							// 	       			$('#image_avatar').val('');
+							//       			})
+							// 	      	 }
+							// 	       }else{
+							// 	       	Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
+							// 	      			$('#kt_image_6 > span').trigger('click');
+							// 	       			$('#image_avatar').val('');
+							//       			})
+							// 	       }
+							// 	    }
+							// 	}else{
+							// 		Swal.fire("Oops!","Please upload correct file. (jpg, jpeg & png)", "info").then(function(){
+					  //     				$('#kt_image_6 > span').trigger('click');
+							// 	       	$('#image_avatar').val('');
+					  //     			})
+							// 	}
+							// });
+							//_initavatar_change('kt_image_6',360,360,'.image-color','#image_avatar');
 							$(".upfile1").click(function(e){
 								e.preventDefault()
 							    $("#imagess").trigger('click');

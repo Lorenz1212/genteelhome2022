@@ -359,10 +359,10 @@
 </div>
 
 <div class="modal fade" id="modal-form-pallet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 			 <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title">Add New Pallet</h5>
                 <button type="button" class="close" id="close-color" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -371,33 +371,7 @@
             	<div class="row justify-content-center">
 					<div class="col-xl-12 col-xxl-12 col-md-12">
 			        	<div class="row">
-							<div class="col-lg-4 col-xl-4 col-md-4">
-								<div class="form-group image-update">
-										<label class="col-xl-12 col-lg-12 col-form-label text-left">Image (Minimum 360x360)</label>
-										<div >
-											<div class="image-input image-input-outline img_header_logo" id="kt_image_6" style="width: 200px;height: 200px;">
-												 <div class="image-input-wrapper image-color"  style="background-image: url(<?php echo base_url();?>assets/images/design/project_request/images/default.jpg);width: 200px;height: 200px;object-fit: cover;"></div>
-												 <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
-												  <i class="fa fa-pen icon-sm text-muted"></i>
-												  <input type="file" id="image_avatar" name="image_avatar" accept=".png, .jpg, .jpeg"/>
-												  <input type="hidden" name="image_avatar_remove"/>
-												 </label>
-
-												 <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow btn-close-color" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
-												  <i class="ki ki-bold-close icon-xs text-muted"></i>
-												 </span>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="custom-file">
-											 <button type="button" data-toggle="tooltip" data-theme="dark" title="PDF OR DOCS" class="btn btn-lg btn-light-dark tearsheet-btn1"><i class="flaticon-upload"></i> TEARSHEET</button>
-										  	<input type="file" class="docs-btn1" name="docs_image" accept=".doc, .pdf" style="display:none;"/>
-										  	<span class="form-text docs-text1"></span>
-										</div>
-								   </div>
-							</div>
-					  	<div class="col-lg-8 col-xl-8 col-md-8">
+					  	<div class="col-lg-12 col-xl-12 col-md-12">
 					  	  <div class="row">
 						 	  <div class="col-lg-12 col-xl-12">
 						 	  	 <div class="form-group">
@@ -417,7 +391,7 @@
 									    <div class="input-group">
 									     <input type="text" class="form-control form-control-solid form-control-lg" name="cc_name" placeholder="Enter pallete name...." required=""  autocomplete="off"/>
 									     <div class="input-group-append" style="padding-left: 10px;">
-										      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile3"><i class="flaticon-upload"></i></button>
+										      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark " onclick="$('#imagefilebtn').trigger('click')"><i class="flaticon-upload"></i></button>
 										      <input type="file" value="" accept=".png, .jpg, .jpeg" id="imagefilebtn" name="color_image" onchange="document.getElementById('changeimage1').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
 									      </div>
 									       <div class="input-group-append" style="padding-left: 10px;">

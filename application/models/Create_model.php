@@ -649,16 +649,13 @@ class Create_model extends CI_Model{
 	   		$data_response = array('status' => $status, 'message' => $message);
 	   		return $data_response;
    }
-   function Create_Web_Finishproduct_Pallet($project_no,$c_name,$amount,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color){
-   		if($image){$files1 = $this->move_to_folder4('PRODUCT',$image,$tmp,$path_image,500,500);
-		 	if($files1 == false){$images = false;}else{$images = $files1;}
-		   }else{$images="default.jpg";}
+   function Create_Web_Finishproduct_Pallet($project_no,$c_name,$amount,$color_image,$color_tmp,$path_color){
 
 	   	if($color_image){$files2 = $this->move_to_folder5('PALLET',$color_image,$color_tmp,$path_color,300,300);
 	    	if($files2 == false){$color_images = false;}else{$color_images = $files2;}
 	    }else{$color_images="default.jpg";}
 
-   		if($images == false || $color_images == false){
+   		if($color_images == false){
 	   			if($images == false){
 	   				$message = 'Image is incorrect format';
 	   				$status = 'error';
@@ -668,14 +665,15 @@ class Create_model extends CI_Model{
 	   			}
    		}else{
    			$id = $this->encryption->decrypt($project_no);
-			$value=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
+  			$row = $this->db->query("SELECT * FROM tbl_project_color WHERE project_no='$id' LIMIT 1")->row();
+				$value=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
 	   		$data = array('designer'=> $this->user_id,
 	   					  		  'project_no'=> $this->encryption->decrypt($project_no),
 	   					  			'c_code'  => $value,
 	   					  			'c_name'  => $c_name,
 	   					  			'c_price'	=> $amount,
 	                    'c_image' => $color_images,
-				  		  			'image'   => $images,
+				  		  			'image'   => $row->image,
 	                    'status'  => 2,
 	                    'type'    => 1,
 	   					  'date_created'  =>  date('Y-m-d H:i:s'),

@@ -336,19 +336,15 @@ var KTFormControls = function () {
 	 			});
 	 			$(document).on('click','.design-pallet',function(e){
 	 				e.preventDefault();
-	 				let image = $('input[name=image_avatar]')[0].files;
 	 				let color = $('input[name=color_image]')[0].files;
-	 				let docs = $('input[name=docs_image]')[0].files;
 	 				let project_no = $('select[name=project_no]').val();
 	 				let c_name = $('input[name=cc_name]').val();
 	 				let amount = $('input[name=amount-pallet]').val();
-	 				if(!project_no || !c_name || !amount || image.length == 0 || color.length == 0 || docs.length == 0){
+	 				if(!project_no || !c_name || !amount  || color.length == 0){
 	 					_initSwalWarning();
 	 				}else{
 	 					let formdata = new FormData();
-	 				    formdata.append('image',image[0]);
 	 				    formdata.append('color',color[0]);
-	 				    formdata.append('docs',docs[0]);
 	 				    formdata.append('project_no',project_no);
 	 				    formdata.append('c_name',c_name);
 	 				    formdata.append('amount',amount);
@@ -681,7 +677,6 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Delete_Web_Project_Image":{
-	 				console.log(response)
 	 				_initToast('success','Image Delete Successfully');
 				     $('#row_'+response).remove();
 			     break;

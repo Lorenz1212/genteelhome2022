@@ -261,11 +261,7 @@ class Create_controller extends CI_Controller
         $color_image =  isset($_FILES["color"]["name"]) ? $_FILES["color"]["name"]: false;
         $color_tmp   =  isset($_FILES["color"]["tmp_name"]) ? $_FILES["color"]["tmp_name"]:false;
         $path_color  =  "assets/images/palettecolor/";
-        $docs       =  isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]:false;
-        $docs_tmp   =  isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
-        $path_docs  =  "assets/images/tearsheet/";
-        $this->create_model->Create_Web_Finishproduct_Pallet($project_no,$c_name,$amount,$image,$tmp,$path_image,$color_image,$color_tmp,$path_color);
-        $data = array('status' => 'success');
+        $data = $this->create_model->Create_Web_Finishproduct_Pallet($project_no,$c_name,$amount,$color_image,$color_tmp,$path_color);
         echo json_encode($data);
      }
    
