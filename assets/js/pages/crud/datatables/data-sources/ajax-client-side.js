@@ -41,23 +41,23 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			case "tbl_joborder_stocks":{
 				if(val1 == 'pending'){
 					let TableURL1 = baseURL + 'datatable_controller/Joborder_Stocks_Pending_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
+					let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,[[ 4,'desc']]);	
 				}else if(val1 == 'complete'){
 					let TableURL3 = baseURL + 'datatable_controller/Joborder_Stocks_Complete_DataTable';
-					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 4,'desc']]);
 				}else if(val1 == 'cancelled'){
 					let TableURL4 = baseURL + 'datatable_controller/Joborder_Stocks_Cancelled_DataTable';
-					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 4,'desc']]);
 				}else if(val1 == 'request'){
 					TableURL = baseURL + 'datatable_controller/Joborder_Stocks_Request_DataTable';
-					TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
+					TableData = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_request',TableURL,TableData,[[ 4,'desc']]);
 				}else if(val1 == 'production_request'){
 					let TableURL7 = baseURL + 'datatable_controller/Joborder_Stocks_Production_DataTable';
-					let TableData7 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					let TableData7 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_production',TableURL7,TableData7,[[ 4,'desc']]);
 				}
 				break;
@@ -65,23 +65,23 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			case "tbl_joborder_project":{
 				if(val1 == 'pending'){
 					let TableURL1 = baseURL + 'datatable_controller/Joborder_Project_Pending_DataTable';
-					let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor'},{data:'date_created'},{data:'action',orderable:false}]; 
+					let TableData1 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false}]; 
 					_DataTableLoader('tbl_joborder_pending',TableURL1,TableData1,[[ 3,'desc']]);
 				}else if(val1 == 'complete'){
 					let TableURL3 = baseURL + 'datatable_controller/Joborder_Project_Complete_DataTable';
-					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
+					let TableData3 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_complete',TableURL3,TableData3,[[ 3,'desc']]);
 				}else if(val1 == 'cancelled'){
 					let TableURL4 = baseURL + 'datatable_controller/Joborder_Project_Cancelled_DataTable';
-					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'}]; 
+					let TableData4 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_cancelled',TableURL4,TableData4,[[ 3,'desc']]);
 				}else if(val1 == 'request'){
 					TableURL = baseURL + 'datatable_controller/Joborder_Project_Request_DataTable';
-					TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'action',orderable:false}]; 
+					TableData = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false}]; 
 					_DataTableLoader('tbl_joborder_request',TableURL,TableData,[[ 3,'desc']]);
 				}else if(val1 == 'production_request'){
 					let TableURL7 = baseURL + 'datatable_controller/Joborder_Project_Production_DataTable';
-					let TableData7 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'}]; 
+					let TableData7 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:'100%'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"}]; 
 					_DataTableLoader('tbl_joborder_production',TableURL7,TableData7,[[ 3,'desc']]);
 				}
 				break;
@@ -89,8 +89,7 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			case "tbl_joborder_stocks_supervisor":{
 				if(val1 == 'request'){
 					let TableURL6 = baseURL + 'datatable_controller/Joborder_Stocks_Supervisor_DataTable';
-					let TableData6 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'action',orderable:false,className: "text-nowrap"}]; 
-					let target = [{targets:[1],className: "text-nowrap"}];
+					let TableData6 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'qty'},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap",responsive:-1}]; 
 					_DataTableLoader('tbl_joborder_supervisor',TableURL6,TableData6,[[ 4,'desc']]);
 				}else if(val1 == 'complete'){
 					let TableURL3 = baseURL + 'datatable_controller/Joborder_stocks_Completed_Supervisor_DataTable';

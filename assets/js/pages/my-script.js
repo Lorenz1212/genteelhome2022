@@ -619,7 +619,6 @@ var arrows;var item_v;var price;var special_option;
 				if(response.data.unit){unit = ' - '+response.data.unit+'(s)';}
 				let name = response.data.item+unit;
 				if($('#kt_material_table tr > td:contains('+name+')').length == 0){
-					
 					if(response.remarks){remarks='(<a href="javascript:;" type="button" id="bulk_actions_btn" data-toggle="popover" data-action="show" data-content="'+response.remarks+'">Remark</a>)';}
 					if(response.type ==1){
 						var type ='FRAMING - MATERIALS';
@@ -640,6 +639,8 @@ var arrows;var item_v;var price;var special_option;
 					<td class="text-right text-success  tbl-mat-3" data-remarks="'+response.remarks+'">'+type+'</td>\
 					<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon  btn-danger btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
 					</tr>');
+					$('#remarks').val("");
+					$('input[name=qty]').val("");
 				}else{
 					Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
 				}
@@ -664,6 +665,8 @@ var arrows;var item_v;var price;var special_option;
 					<td class="text-center tbl-pur-3" data-remarks="'+response.remarks+'">'+remarks+'</td>\
 					<td class="text-right text-danger"><button type="button" id="DeleteButton" class="btn btn-icon  btn-danger btn-circle btn-xs"><i class="icon-sm la la-times"></i></button></td>\
 					</tr>');
+					$('#remarks').val(" ");
+					$('input[name=qty]').val(" ");
 				}else{
 					Swal.fire("Warning!", "You're trying to add the same entry!", "warning");
 				}
@@ -707,9 +710,6 @@ var arrows;var item_v;var price;var special_option;
 				if(response !=false){
 					for(let i=0;i<response.length;i++){
                   	  	  $('#supplier').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
-                  	  	  $('#supplier').addClass('selectpicker');
-					  $('#supplier').attr('data-live-search', 'true');
-					  $('#supplier').selectpicker('refresh');
                   	  }	
 				}else{
 					$('#supplier').append('<option value="">No Data Available</option>');
@@ -1572,6 +1572,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-jobeorder-update-stocks":{
+				_sessionStorage('request','Material Request');
 				var id = getUrlParameter('URI');
 				let thisUrl = 'view_controller/View_Joborder_Request_Stocks';
 				_ajaxloader(thisUrl,"POST",{id:id},"View_Joborder_Request_Stocks");
@@ -1649,7 +1650,7 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "data-jobeorder-update-project":{
-				//_sessionStorage('request','Material Request');
+				_sessionStorage('request','Material Request');
 				let id = getUrlParameter('URI');
 				let thisUrl = 'view_controller/View_Joborder_Request_Project';
 				_ajaxloader(thisUrl,"POST",{id:id},"View_Joborder_Request_Project");
@@ -3885,11 +3886,6 @@ var arrows;var item_v;var price;var special_option;
 	             	 _ajaxloaderOption('option_controller/purchase_transaction','POST',{id:response.fund_no},'purchase_transaction');
 				$('[data-toggle="tooltip"]').tooltip();
 				_initCurrency_format('.amount');
-				$('#kt_datepicker_5').datepicker({
-					   rtl: KTUtil.isRTL(),
-					   todayHighlight: true,
-					   templates: arrows
-				 });	
 	  		}
 	  		break;
 	  	}

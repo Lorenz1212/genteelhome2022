@@ -1415,6 +1415,7 @@ class Update_model extends CI_Model
                                     'status'           =>  1,
                                     'remarks'          =>  $pur_remarkss[$i],
                                     'material_type'    =>  $pur_types[$i],
+                                    'type'=>1,
                                     'date_created'     =>  date('Y-m-d H:i:s'));
                             $this->db->insert('tbl_purchasing_project',$purchase_data);
                          }
@@ -1468,6 +1469,7 @@ class Update_model extends CI_Model
                                 'status'           =>  1,
                                 'remarks'          =>  $pur_remarkss[$i],
                                 'material_type'    =>  $pur_types[$i],
+                                'type'=>2,
                                 'date_created'     =>  date('Y-m-d H:i:s'));
                              $this->db->insert('tbl_purchasing_project',$purchase_data); 
                         }
@@ -1802,8 +1804,7 @@ class Update_model extends CI_Model
     function Update_Purchase_Complete($fund_no,$joborder,$type){
         $query = $this->db->select('*')->from('tbl_purchase_transactions')->where('fund_no',$fund_no)->get();
         if($query){
-           $this->db->where('fund_no',$fund_no);
-           $result = $this->db->update('tbl_purchasing_project',array('status'=>5));
+           $result = $this->db->where('fund_no',$fund_no)->update('tbl_purchasing_project',array('status'=>5));
            if($result){
                 $rows = $this->db->select('*')->from('tbl_purchasing_project')->where('fund_no',$fund_no)->get()->row();
                  foreach($query->result() as $row){
@@ -1820,7 +1821,6 @@ class Update_model extends CI_Model
                                       'type'=>$type,
                                       'date_created'=>date('Y-m-d H:i:s'),
                                       'created_by'=>$this->user_id));
-
                     $this->db->insert('tbl_material_new',array('fund_no'=>$fund_no,'supplier'=>$row->supplier,'item_no'=>$row->item_no,'qty'=>$row->quantity,'amount'=>$row->amount,'date_created'=>date('Y-m-d H:i:s'),'created_by'=>$rows->purchaser));
                 }
                 $this->db->where('fund_no',$fund_no);

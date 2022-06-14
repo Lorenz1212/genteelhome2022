@@ -544,8 +544,12 @@ class Modal_model extends CI_Model{
              ->where('p.fund_no',$this->encryption->decrypt($id))->order_by('p.item_no')->get();        
              foreach($query->result() as $row){
                     if($row->unit){$unit = ' - '.$row->unit;}else{$unit="";};
+                     
+
                      if($row->payment==1){$terms ='<span style="width: 112px;"><span class="label label-primary label-dot"></span><span class="font-weight-bold text-primary"> Cash</span></span>';
-                    }else if($row->payment == 2){$terms ='<span style="width: 112px;"><span class="label label-warning label-dot"></span><span class="font-weight-bold text-warning"> Terms</span>';} 
+                    }else if($row->payment == 2){
+
+                        $terms ='<span style="width: 112px;" data-container="body" data-theme="dark" data-toggle="tooltip" data-placement="top" title="" data-original-title="1"><span class="label label-warning label-dot"></span><span class="font-weight-bold text-warning"> Terms</span>';} 
                     $data[] = array('id' => $row->id,
                                     'item'=> $row->item.$unit,
                                     'amount'=> number_format($row->amount,2),

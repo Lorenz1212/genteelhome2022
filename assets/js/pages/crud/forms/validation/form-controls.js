@@ -1593,10 +1593,10 @@ var KTFormControls = function () {
 						form,
 						{
 							fields: {item: {validators: {notEmpty: {message: 'Item is required'}}},
-								supplier: {validators: {notEmpty: {message: 'Supplier is required'}}},
-								terms: {validators: {notEmpty: {message: 'Payment terms is required'}}},
-								quantity: {validators: {notEmpty: {message: 'quantity is required'}}},
-								amount_process: {validators: {notEmpty: {message: 'amount is required'}}},
+									supplier: {validators: {notEmpty: {message: 'Supplier is required'}}},
+									terms: {validators: {notEmpty: {message: 'Payment terms is required'}}},
+									quantity: {validators: {notEmpty: {message: 'quantity is required'}}},
+									amount_process: {validators: {notEmpty: {message: 'amount is required'}}},
 							
 			                },
 							plugins: {
@@ -1765,7 +1765,7 @@ var KTFormControls = function () {
 	 					let formdata = new FormData();
 	 					formdata.append('fund_no',$('.fund_no').attr('data-id'));
 	 					formdata.append('joborder',$('.joborder').attr('data-id'));
-	 					formdata.append('type',1);
+	 					formdata.append('type',2);
 		 				thisURL = baseURL + 'update_controller/Update_Purchase_Complete';
 		 				_ajaxForm(thisURL,"POST",formdata,"Update_Purchase_Complete",false);
 	 				}
@@ -3628,7 +3628,7 @@ var KTFormControls = function () {
 	 		case "Update_Purchase_Stocks_Estimate":{
 	 			if(response == true){
 	 				_initToast('success','Estimated Cost is Successfully Submited');
-	 				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks');
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_purchase_request_stocks');
 					$('#requestModal').modal('hide');
 	 			}
 	 			_initnotificationupdate();
@@ -3637,7 +3637,7 @@ var KTFormControls = function () {
 	 		case "Update_Purchase_Stocks_Process":{
 	 			if(response == true){
 	 				_initToast('success','Puchased Item is Successfully Submited');
-	 				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks');
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_purchase_request_stocks');
 					$('#processModal').modal('hide');
 	 			}
 	 			_initnotificationupdate();
@@ -4242,6 +4242,7 @@ var KTFormControls = function () {
 						}else{
 							$('#item').append('<option value="">No Data Available</option>');
 						}
+						$('#supplier').empty();
 						$('#supplier option[value=""]').attr('selected',true);
 
 			 			let container = $('#tbl_purchasing_process > tbody');

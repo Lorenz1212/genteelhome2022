@@ -411,20 +411,12 @@ class Dashboard_model extends CI_Model
     return $data; 
   }
   function accounting_dashboard(){
-    $purchase_stocks_pending = $this->db->select('*')->from('tbl_purchasing_project as m')
-      ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
-      ->where('m.status',3)->where('p.type',1)->group_by('m.fund_no')->get()->num_rows();
+    $purchase_stocks_pending = $this->db->select('*')->from('tbl_purchasing_project')->where('status',3)->where('type',1)->group_by('fund_no')->get()->num_rows();
 
-    $purchase_project_pending = $this->db->select('*')->from('tbl_purchasing_project as m')
-      ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
-      ->where('m.status',3)->where('p.type',2)->group_by('m.fund_no')->get()->num_rows();
+    $purchase_project_pending = $this->db->select('*')->from('tbl_purchasing_project')->where('status',3)->where('type',2)->group_by('fund_no')->get()->num_rows();
 
-    $purchase_stocks_received = $this->db->select('*')->from('tbl_purchase_received as m')
-           ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
-           ->where('m.status',1)->where('p.type',1)->group_by('m.fund_no')->get()->num_rows();    
-    $purchase_project_received = $this->db->select('*')->from('tbl_purchase_received as m')
-           ->join('tbl_project as p','p.production_no=m.production_no','LEFT')
-           ->where('m.status',1)->where('p.type',1)->group_by('m.fund_no')->get()->num_rows();  
+    $purchase_stocks_received = $this->db->select('*')->from('tbl_purchase_received')->where('status',1)->where('type',1)->group_by('fund_no')->get()->num_rows();    
+    $purchase_project_received = $this->db->select('*')->from('tbl_purchase_received')->where('status',1)->where('type',2)->group_by('fund_no')->get()->num_rows();  
 
     $sales_stocks_pending = $this->db->select('*')->from('tbl_salesorder_stocks')->where('status','PENDING')->get()->num_rows();
     $sales_project_pending = $this->db->select('*')->from('tbl_salesorder_project')->where('status','PENDING')->get()->num_rows();

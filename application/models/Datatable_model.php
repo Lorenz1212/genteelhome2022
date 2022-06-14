@@ -512,21 +512,15 @@ class Datatable_model extends CI_Model{
      }
 
      function Purchase_Material_Stocks_Request_DataTable(){
-           $query = $this->db->select('d.*,c.*,p.*,
-            CONCAT(u.fname, " ",u.lname) AS requestor,
-             DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,
-            (SELECT count(id) FROM tbl_purchasing_project WHERE status=2 AND production_no=p.production_no GROUP BY production_no) as status,
-            c.image as image,c.c_image as c_image,d.title as title,c.c_name,p.production_no as production_no')
-            ->from('tbl_project as p')
-            ->join('tbl_project_color as c','c.id=p.c_code','LEFT')
-            ->join('tbl_project_design as d','d.id=c.project_no','LEFT')
-            ->join('tbl_purchasing_project as pr','pr.production_no=p.production_no','LEFT')
-            ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
-            ->where('pr.status',2)
-            ->where('p.type',1)
-            ->group_by('pr.production_no')
-            ->order_by('p.date_created','DESC')->get();
-          if($query !== FALSE && $query->num_rows() > 0){
+          $sql = "SELECT *, (SELECT  DATE_FORMAT(date_created, '%M %d %Y %r') FROM tbl_project WHERE production_no=tbl_purchasing_project.production_no) as date_created,
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator a LEFT JOIN tbl_project p ON a.id=p.assigned WHERE p.production_no=tbl_purchasing_project.production_no) as requestor, 
+            (SELECT c_name FROM tbl_project_color c LEFT JOIN tbl_project p ON p.c_code=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as c_name, 
+            (SELECT image FROM tbl_project_color c LEFT JOIN tbl_project p ON p.c_code=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as image, 
+             (SELECT c_image FROM tbl_project_color c LEFT JOIN tbl_project p ON p.c_code=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as c_image,
+            (SELECT title FROM tbl_project_design c LEFT JOIN tbl_project p ON p.project_no=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as title 
+            FROM tbl_purchasing_project WHERE status =2 AND type=1 GROUP BY production_no";
+             $query = $this->db->query($sql);
+          if($query){
               foreach($query->result() as $row)  {
                 if($row->status == 0){
                     $data =array();    
@@ -550,9 +544,15 @@ class Datatable_model extends CI_Model{
          return $json_data;    
     }
      function Purchase_Material_Stocks_Inprogress_DataTable(){
-            $array = array(3,4,5);
-            $query = $this->db->select('pr.*,p.*,d.*,c.*,pr.status as status,DATE_FORMAT(pr.latest_update, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
-            ->from('tbl_purchasing_project as pr')->join('tbl_project as p','p.production_no=pr.production_no','LEFT')->join('tbl_project_color as c','c.id=p.c_code','LEFT')->join('tbl_project_design as d','d.id=c.project_no','LEFT')->join('tbl_administrator as u','u.id=p.production','LEFT')->where_in('pr.status',$array)->where('pr.type',1)->group_by('pr.fund_no')->order_by('pr.latest_update','DESC')->get(); 
+            $sql = "SELECT *, 
+            (SELECT  DATE_FORMAT(date_created, '%M %d %Y %r') FROM tbl_project WHERE production_no=tbl_purchasing_project.production_no) as date_created,
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator a LEFT JOIN tbl_project p ON a.id=p.assigned WHERE p.production_no=tbl_purchasing_project.production_no) as requestor, 
+            (SELECT c_name FROM tbl_project_color c LEFT JOIN tbl_project p ON p.c_code=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as c_name, 
+            (SELECT image FROM tbl_project_color c LEFT JOIN tbl_project p ON p.c_code=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as image, 
+             (SELECT c_image FROM tbl_project_color c LEFT JOIN tbl_project p ON p.c_code=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as c_image,
+            (SELECT title FROM tbl_project_design c LEFT JOIN tbl_project p ON p.project_no=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as title 
+            FROM tbl_purchasing_project WHERE status IN (3,4,5) AND type=1 GROUP BY fund_no";
+            $query = $this->db->query($sql);
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
                $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
@@ -617,20 +617,12 @@ class Datatable_model extends CI_Model{
     }
 
      function Purchase_Material_Project_Request_DataTable(){
-         $query = $this->db->select('d.*,c.*,p.*,
-            CONCAT(u.fname, " ",u.lname) AS requestor,
-             DATE_FORMAT(p.date_created, "%M %d %Y %r") as date_created,
-            (SELECT count(id) FROM tbl_purchasing_project WHERE status=2 AND production_no=p.production_no GROUP BY production_no) as status,
-            c.image as image,c.c_image as c_image,d.title as title,c.c_name,p.production_no as production_no')
-            ->from('tbl_project as p')
-             ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-            ->join('tbl_project_color as c','c.project_no=d.id','LEFT')
-            ->join('tbl_purchasing_project as pr','pr.production_no=p.production_no','LEFT')
-            ->join('tbl_administrator as u','u.id=p.assigned','LEFT')
-            ->where('pr.status',2)
-            ->where('p.type',2)
-            ->group_by('pr.production_no')
-            ->order_by('p.date_created','DESC')->get();
+         $sql = "SELECT *, (SELECT  DATE_FORMAT(date_created, '%M %d %Y %r') FROM tbl_project WHERE production_no=tbl_purchasing_project.production_no) as date_created,
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator a LEFT JOIN tbl_project p ON a.id=p.assigned WHERE p.production_no=tbl_purchasing_project.production_no) as requestor,  
+            (SELECT image FROM tbl_project_color c LEFT JOIN tbl_project p ON p.project_no=c.project_no WHERE p.production_no=tbl_purchasing_project.production_no) as image, 
+            (SELECT title FROM tbl_project_design c LEFT JOIN tbl_project p ON p.project_no=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as title 
+            FROM tbl_purchasing_project WHERE status =2 AND  type=2 GROUP BY production_no";
+             $query = $this->db->query($sql);
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row)  {
                 if($row->status == 0){
@@ -654,15 +646,13 @@ class Datatable_model extends CI_Model{
          return $json_data;    
     }
     function Purchase_Material_Project_Inprogress_DataTable(){
-            $array = 'pr.type=2 AND pr.status=3 OR pr.status=4 AND pr.type=2';
-            $query = $this->db->select('pr.*,p.*,d.*,c.*,c.image as image,d.title as title,pr.status as status,DATE_FORMAT(pr.latest_update, "%M %d %Y %r") as date_created,CONCAT(u.fname, " ",u.lname) AS requestor')
-            ->from('tbl_purchasing_project as pr')
-            ->join('tbl_project as p','p.production_no=pr.production_no','LEFT')
-            ->join('tbl_project_design as d','d.id=p.project_no','LEFT')
-            ->join('tbl_project_color as c','d.id=c.project_no','LEFT')
-            ->join('tbl_administrator as u','u.id=p.production','LEFT')
-            ->where($array)->group_by('pr.fund_no')->order_by('pr.latest_update','DESC')
-            ->get(); 
+          $sql = "SELECT *, 
+            (SELECT  DATE_FORMAT(date_created, '%M %d %Y %r') FROM tbl_project WHERE production_no=tbl_purchasing_project.production_no) as date_created,
+            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator a LEFT JOIN tbl_project p ON a.id=p.assigned WHERE p.production_no=tbl_purchasing_project.production_no) as requestor, 
+            (SELECT image FROM tbl_project_color c LEFT JOIN tbl_project p ON p.project_no=c.project_no WHERE p.production_no=tbl_purchasing_project.production_no) as image, 
+            (SELECT title FROM tbl_project_design c LEFT JOIN tbl_project p ON p.project_no=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as title 
+            FROM tbl_purchasing_project WHERE status IN (3,4,5) AND type=2 GROUP BY fund_no";
+             $query = $this->db->query($sql);
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row){
                $action = '<button data-toggle="modal" data-target="#processModal" id="form-request-inprogress" data-id="'.$row->fund_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
@@ -1117,8 +1107,9 @@ class Datatable_model extends CI_Model{
      } 
      function Joborder_Stocks_Supervisor_DataTable(){
          $data =array();    
-         $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
-           (SELECT image FROM tbl_project_color WHERE project_no=tbl_project.c_code) as image,
+         $query = $this->db->query("SELECT *,
+            DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+           (SELECT image FROM tbl_project_color WHERE id=tbl_project.c_code) as image,
            (SELECT title FROM tbl_project_design WHERE id=tbl_project.project_no) as title,
            (SELECT c_image FROM tbl_project_color WHERE id=tbl_project.c_code) as c_image,
            (SELECT c_name FROM tbl_project_color WHERE id=tbl_project.c_code) as c_name,
@@ -1138,8 +1129,7 @@ class Datatable_model extends CI_Model{
                           'action'        => $action);
             }  
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;
+         return array("data" =>$data); 
      }
      function Joborder_Stocks_Cancelled_Supervisor_DataTable(){
           $data =array();   

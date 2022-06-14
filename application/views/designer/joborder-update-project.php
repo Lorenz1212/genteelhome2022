@@ -105,7 +105,7 @@
 														<label>ITEM</label>
 															<select class="form-control form-control-md selectpicker" data-live-search="true" name="item">
 																<?php 
-																	$query = $this->db->select('*,(stocks+production_stocks) as stocks')->from('tbl_materials')->where('status',1)->order_by('date_created','ASC')->get();
+																	$query = $this->db->select('*,(stocks+production_stocks) as stocks')->from('tbl_materials')->where('status',1)->order_by('id','ASC')->get();
 																	    if(!$query){return false;}else{ 
 																	        foreach($query->result() as $row){  
 																	        	if(!$row->unit){$unit = "";}else{$unit = $row->unit.'(s)';}

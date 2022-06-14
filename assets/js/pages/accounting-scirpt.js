@@ -1418,6 +1418,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    		$('#separator-status-1,#separator-status-2').removeClass('separator-success separator-primary').addClass('separator-warning');
 		  		    	}
 		  		    $('#view-purchased-request').modal('show');
+		  		    
 
 		  		}
 	  		   break;

@@ -44,7 +44,7 @@
 									   <select class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" id="project_no" name="project_no" required />
 									     <option value="" disabled="" selected="">Select Project</option>
 									     <?php 
-												  $query = $this->db->select('*')->from('tbl_project_design')->where('type',2)->where('project_status','APPROVED')->get();
+												  $query = $this->db->select('*')->from('tbl_project_design')->where('type',2)->where('project_status','APPROVED')->order_by('id','DESC')->get();
 												  foreach($query->result() as $row){
 												  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
 												  }

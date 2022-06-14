@@ -156,7 +156,7 @@ class Create_model extends CI_Model{
   		 }
   	}
    	 function Create_Joborder_Stocks($project_no,$c_code,$qty,$mat_type,$mat_itemno,$mat_quantity,$mat_remarks,$pur_item,$pur_quantity,$pur_remarks,$pur_type){
-   	 		    $value=$this->get_random_code('tbl_project', 'production_no', "JO", 10);
+   	 		$value=$this->get_random_code('tbl_project', 'production_no', "JO", 10);
 	 		 	$pur_items = explode(',', $pur_item);
 	 		 	$pur_quantitys = explode(',', $pur_quantity);
 	 		 	$pur_remarkss = explode(',', $pur_remarks);
@@ -178,13 +178,14 @@ class Create_model extends CI_Model{
     				     }
     				     if($item_no != 0){
 	                 	$purchase_data = array('production_no'=>$value,
-								                'item_no'		   =>  $item_no,
-								                'quantity'         =>  $pur_quantitys[$i],
-								                'balance' 		   =>  $pur_quantitys[$i],
-								                'status'           =>  1,
-								                'remarks'          =>  $pur_remarkss[$i],
-								                'material_type'    =>  $pur_types[$i],
-								                'date_created'     =>  date('Y-m-d H:i:s'));
+								                'item_no'=> $item_no,
+								                'quantity'=> $pur_quantitys[$i],
+								                'balance'=> $pur_quantitys[$i],
+								                'status'=> 1,
+								                'remarks'=>$pur_remarkss[$i],
+								                'material_type' =>$pur_types[$i],
+								                'type'=>1,
+								                'date_created'=>  date('Y-m-d H:i:s'));
 	        			$this->db->insert('tbl_purchasing_project',$purchase_data);
 	        		}
 				    }
@@ -193,11 +194,11 @@ class Create_model extends CI_Model{
 				                  'assigned'=>$this->user_id,
 				                  'project_no'=>$this->encryption->decrypt($project_no),
 				                  'c_code' => $this->encryption->decrypt($c_code),
-					 			  'production_no'=>$value,
-					 			  'unit' =>$qty,
-					 			  'status'=>1,
-					 			  'type'=>1,
-					 			  'date_created'=>date('Y-m-d H:i:s'));
+									 			  'production_no'=>$value,
+									 			  'unit' =>$qty,
+									 			  'status'=>1,
+									 			  'type'=>1,
+									 			  'date_created'=>date('Y-m-d H:i:s'));
 				$this->db->insert('tbl_project',$data);
 				$mat_itemnos = explode(',', $mat_itemno);
 	 		 	$mat_quantitys = explode(',', $mat_quantity);
@@ -238,21 +239,22 @@ class Create_model extends CI_Model{
     				     }
     				     if($item_no != 0){	
 	                 	$purchase_data = array('production_no'=>$value,
-				                'item_no'		   =>  $item_no,
-				                'quantity'         =>  $pur_quantitys[$i],
-				                'balance' 		   =>  $pur_quantitys[$i],
-				                'status'           =>  1,
-				                'remarks'          =>  $pur_remarkss[$i],
-				                'material_type'    =>  $pur_types[$i],
-				                'date_created'     =>  date('Y-m-d H:i:s'));
+				                'item_no'	=> $item_no,
+				                'quantity' => $pur_quantitys[$i],
+				                'balance'=> $pur_quantitys[$i],
+				                'status' =>  1,
+				                'remarks' => $pur_remarkss[$i],
+				                'material_type'=>  $pur_types[$i],
+				                 'type'=>2,
+				                'date_created'=>  date('Y-m-d H:i:s'));
 	        					$this->db->insert('tbl_purchasing_project',$purchase_data);
 	        		  }
 				    }
 			    }
 				$data = array('production_no'=>$value,
 							  'production'=>$this->user_id,
-			                  'assigned'=>$this->user_id,
-			                  'project_no'=>$this->encryption->decrypt($project_no),
+                'assigned'=>$this->user_id,
+                'project_no'=>$this->encryption->decrypt($project_no),
 				 			  'status'=>1,
 				 			  'type'=>2,
 				 			  'date_created'=>date('Y-m-d H:i:s'));

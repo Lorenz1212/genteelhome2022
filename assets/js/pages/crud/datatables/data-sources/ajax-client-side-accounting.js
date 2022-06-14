@@ -68,35 +68,35 @@ var value;
 			}
 			case "tbl_purchased_material_stocks":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks';
-				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created',width:10},{data:'status',width:10},{data:'action',orderable:false,className: "text-nowrap"}];
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap",width:"100%"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'status',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}];
 				_DataTableLoader('tbl_purchased_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Stocks_Received';
-				let TableData2 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'status'},{data:'action',orderable:false,width:10,className: "text-nowrap"}]; 
+				let TableData2 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:"100%"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'status',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
 			case "tbl_purchased_material_project":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Request';
-				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'status'},{data:'action',orderable:false,width:10,className: "text-nowrap"}];
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap",width:"100%"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'status',className: "text-nowrap"},{data:'action',orderable:false,width:10,className: "text-nowrap"}];
 				_DataTableLoader('tbl_purchased_request',TableURL,TableData,[[3,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Material_Project_Received';
-				let TableData2 = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'date_created'},{data:'status'},{data:'action',orderable:false,className: "text-nowrap"}]; 
+				let TableData2 = [{data:'production_no'},{data:'title',className: "text-nowrap",width:"100%"},{data:'requestor',className: "text-nowrap"},{data:'date_created',className: "text-nowrap"},{data:'status',className: "text-nowrap"},{data:'action',orderable:false,className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_purchased_received',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
 			case "tbl_purchased_stocks_request":{
 				TableURL = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Request';
-				TableData =  [{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action'}];
+				TableData =  [{data: 'request_id'},{data: 'requestor',className: "text-nowrap",width:"100%"},{data:'date_created'},{data: 'action'}];
 				_DataTableLoader('tbl_purchased_stocks_request',TableURL,TableData,[[2,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Approval';
-				let TableData1 =  [{data:'fund_no'},{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action',orderable:false}];
+				let TableData1 =  [{data:'fund_no'},{data: 'request_id',className: "text-nowrap",width:"100%"},{data: 'requestor'},{data:'date_created'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_purchased_stocks_approved',TableURL1,TableData1,[[2,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Accounting_Purchase_Stocks_Received';
-				let TableData2 =  [{data:'fund_no'},{data: 'request_id'},{data: 'requestor'},{data:'date_created'},{data: 'action',orderable:false}];
+				let TableData2 =  [{data:'fund_no'},{data: 'request_id',className: "text-nowrap",width:"100%"},{data: 'requestor'},{data:'date_created'},{data: 'action',orderable:false}];
 				_DataTableLoader('tbl_purchased_stocks_received',TableURL2,TableData2,[[2,'desc']]);
 
 				break;
