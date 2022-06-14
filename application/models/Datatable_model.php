@@ -512,6 +512,7 @@ class Datatable_model extends CI_Model{
      }
 
      function Purchase_Material_Stocks_Request_DataTable(){
+          $data =array();   
           $sql = "SELECT *, (SELECT  DATE_FORMAT(date_created, '%M %d %Y %r') FROM tbl_project WHERE production_no=tbl_purchasing_project.production_no) as date_created,
             (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator a LEFT JOIN tbl_project p ON a.id=p.assigned WHERE p.production_no=tbl_purchasing_project.production_no) as requestor, 
             (SELECT c_name FROM tbl_project_color c LEFT JOIN tbl_project p ON p.c_code=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as c_name, 
@@ -537,11 +538,8 @@ class Datatable_model extends CI_Model{
                               'action'       => $action);
                 }
             }      
-         }else{   
-             $data =array();    
          }
-         $json_data  = array("data" =>$data); 
-         return $json_data;    
+         return array("data" =>$data);
     }
      function Purchase_Material_Stocks_Inprogress_DataTable(){
             $sql = "SELECT *, 
@@ -577,20 +575,17 @@ class Datatable_model extends CI_Model{
          return $json_data;    
     }
      function Purchase_Material_Stocks_Complete_DataTable(){
-            $query =  $this->db->select('mp.*,p.*,
-                m.item ,s.name,mp.amount,m.unit,
-                DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
-                DATE_FORMAT(mp.terms_start, "%M %d %Y") as terms_start,
-                DATE_FORMAT(mp.terms_end, "%M %d %Y") as terms_end,
-                CONCAT(u.fname, " ",u.lname) AS requestor')
-            ->from('tbl_purchase_received as mp')
-            ->join('tbl_materials as m','m.id=mp.item_no','LEFT')
-            ->join('tbl_supplier as s','s.id=mp.supplier','LEFT')
-            ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-            ->join('tbl_administrator as u','u.id=p.production','LEFT')
-            ->where('mp.type=1')
-            ->where('mp.created_by',$this->user_id)
-            ->order_by('mp.date_created','DESC')->get(); 
+             $user_id = $this->user_id;
+        $sql = "SELECT *,
+          DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+          DATE_FORMAT(terms_start, '%M %d %Y') as terms_start,
+          DATE_FORMAT(terms_end, '%M %d %Y') as terms_end,
+         (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator a LEFT JOIN tbl_project p ON a.id=p.assigned WHERE p.production_no=tbl_purchase_received.production_no) as requestor, 
+         (SELECT item FROM tbl_materials WHERE id=tbl_purchase_received.item_no) as item,
+         (SELECT unit FROM tbl_materials WHERE id=tbl_purchase_received.item_no) as unit,
+         (SELECT name FROM tbl_supplier WHERE id=tbl_purchase_received.item_no) as supplier
+         FROM tbl_purchase_received WHERE type=1 AND created_by='$user_id'";
+          $query = $this->db->query($sql);
           if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  { 
                 if($row->payment==1){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Cash</span></span>';
@@ -604,7 +599,7 @@ class Datatable_model extends CI_Model{
                           'item'          => $row->item.$unit,
                           'quantity'      => $row->quantity,
                           'amount'        => number_format($row->amount,2),
-                          'supplier'      => $row->name,
+                          'supplier'      => $row->supplier,
                           'terms'         => $terms,
                           'requestor'     => $row->requestor,
                           'date_created'  => $row->date_created);
@@ -675,20 +670,17 @@ class Datatable_model extends CI_Model{
          return $json_data;    
     }
     function Purchase_Material_Project_Complete_DataTable(){
-             $query =  $this->db->select('mp.*,p.*,
-                m.item ,s.name,mp.amount,m.unit,
-                DATE_FORMAT(mp.date_created, "%M %d %Y %r") as date_created,
-                 DATE_FORMAT(mp.terms_start, "%M %d %Y") as terms_start,
-                DATE_FORMAT(mp.terms_end, "%M %d %Y") as terms_end,
-                CONCAT(u.fname, " ",u.lname) AS requestor')
-            ->from('tbl_purchase_received as mp')
-            ->join('tbl_materials as m','m.id=mp.item_no','LEFT')
-            ->join('tbl_supplier as s','s.id=mp.supplier','LEFT')
-            ->join('tbl_project as p','p.production_no=mp.production_no','LEFT')
-            ->join('tbl_administrator as u','u.id=p.production','LEFT')
-            ->where('mp.type',2)
-            ->where('mp.created_by',$this->user_id)
-            ->order_by('mp.date_created','DESC')->get(); 
+        $user_id = $this->user_id;
+        $sql = "SELECT *,
+          DATE_FORMAT(date_created, '%M %d %Y %r') as date_created,
+          DATE_FORMAT(terms_start, '%M %d %Y') as terms_start,
+          DATE_FORMAT(terms_end, '%M %d %Y') as terms_end,
+         (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator a LEFT JOIN tbl_project p ON a.id=p.assigned WHERE p.production_no=tbl_purchase_received.production_no) as requestor, 
+         (SELECT item FROM tbl_materials WHERE id=tbl_purchase_received.item_no) as item,
+         (SELECT unit FROM tbl_materials WHERE id=tbl_purchase_received.item_no) as unit,
+         (SELECT name FROM tbl_supplier WHERE id=tbl_purchase_received.item_no) as supplier
+         FROM tbl_purchase_received WHERE type=2 AND created_by='$user_id'";
+          $query = $this->db->query($sql);
           if($query !== FALSE && $query->num_rows() > 0){
             foreach($query->result() as $row)  { 
                 if($row->payment==1){$terms ='<span style="width: 112px;" class="d-block"><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">Cash</span></span>';
@@ -702,7 +694,7 @@ class Datatable_model extends CI_Model{
                           'item'          => $row->item.$unit,
                           'quantity'      => $row->quantity,
                           'amount'        => number_format($row->amount,2),
-                          'supplier'      => $row->name,
+                          'supplier'      => $row->supplier,
                           'terms'         => $terms,
                           'requestor'     => $row->requestor,
                           'date_created'  => $row->date_created);
