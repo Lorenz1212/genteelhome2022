@@ -52,9 +52,9 @@
 														<tr>
 															<th>Trans #</th>
 															<th>TITLE</th>
-															<th style="width:30px;">REQUESTOR</th>
-															<th >DATE</th>
-															<th style="width:5px;">ACTION</th>
+															<th>REQUESTOR</th>
+															<th>DATE</th>
+															<th>ACTION</th>
 														</tr>
 													</thead>
 												</table>

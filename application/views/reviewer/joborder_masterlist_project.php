@@ -27,12 +27,12 @@
 					<table class="table table-bordered table-hover" id="tbl_joborder_masterlist" style="width: 100%;">
 						<thead>
 							<tr>
-								<th style="width:15%;">Trans #</th>
-								<th style="width:30%;">TITLE</th>
-								<th style="width:5px;">QTY</th>
-								<th style="width:15px;">DATE</th>
-								<th style="width:5px;">REQUESTOR</th>
-								<th style="width:5px;">STATUS</th>
+								<th>Trans #</th>
+								<th>TITLE</th>
+								<th>QTY</th>
+								<th>DATE</th>
+								<th>REQUESTOR</th>
+								<th>STATUS</th>
 							</tr>
 						</thead>
 					</table>

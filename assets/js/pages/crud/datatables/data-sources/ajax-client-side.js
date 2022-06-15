@@ -120,13 +120,13 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			}
 			case "tbl_joborder_masterlist_stocks":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Masterlist_Stocks_DataTable';
-				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'quantity'},{data:'date_created',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'status'}]; 
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap",width:"100%"},{data:'quantity'},{data:'date_created',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'status',className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_joborder_masterlist',TableURL,TableData,[[ 3,'desc']]);
 				break;
 			}
 			case "tbl_joborder_masterlist_project":{
 				TableURL = baseURL + 'datatable_controller/Joborder_Masterlist_Project_DataTable';
-				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap"},{data:'quantity',visible:false},{data:'date_created',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'status'}]; 
+				TableData = [{data:'production_no'},{data:'title',className: "text-nowrap",width:"100%"},{data:'quantity',visible:false},{data:'date_created',className: "text-nowrap"},{data:'requestor',className: "text-nowrap"},{data:'status',className: "text-nowrap"}]; 
 				_DataTableLoader('tbl_joborder_masterlist',TableURL,TableData,[[ 3,'desc']]);
 				break;
 			}
@@ -359,24 +359,24 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 			case "tbl_return_item_warehouse_superuser":{
 				let TableURL = baseURL + 'datatable_controller/Return_Item_Good_DataTable_Superuser';
 				let TableData = [{data:'no',visible:false},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_return_item_good',TableURL,TableData,[[ 5,'desc']]);
+				_DataTableLoader('tbl_return_item_good',TableURL,TableData,[[ 4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Rejected_DataTable_Superuser';
 				let TableData1 = [{data:'no',visible:false},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'type'},{data:'date_created'}]; 
-				_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,[[ 5,'desc']]);
+				_DataTableLoader('tbl_return_item_rejected',TableURL1,TableData1,[[ 4,'desc']]);
 				break;
 			}
 			case "tbl_return_item_customer_superuser":{
 				let TableURL = baseURL + 'datatable_controller/Return_Item_Repair_Customer_DataTable_Superuser';
-				let TableData = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+				let TableData = [{data:'no',visible:false},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_return_item_repair',TableURL,TableData,[[ 4,'desc']]);
 
 				let TableURL1 = baseURL + 'datatable_controller/Return_Item_Good_Customer_DataTable_Superuser';
-				let TableData1 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+				let TableData1 = [{data:'no',visible:false},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_return_item_good',TableURL1,TableData1,[[ 4,'desc']]);
 
 				let TableURL2 = baseURL + 'datatable_controller/Return_Item_Rejected_Customer_DataTable_Superuser';
-				let TableData2 = [{data:'no'},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
+				let TableData2 = [{data:'no',visible:false},{data:'item'},{data:'quantity'},{data:'remarks'},{data:'date_created'}]; 
 				_DataTableLoader('tbl_return_item_rejected',TableURL2,TableData2,[[ 4,'desc']]);
 
 				break;
