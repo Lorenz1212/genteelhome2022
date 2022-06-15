@@ -62,7 +62,6 @@
 														<th>Trans #</th>
 														<th>TITLE</th>
 														<th>REQUESTOR</th>
-														<th>ITEM REQUEST</th>
 														<th>DATE</th>
 														<th>ACTION</th>
 													</tr>

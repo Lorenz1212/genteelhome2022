@@ -56,13 +56,12 @@
 									<!--begin::Nav Content-->
 									<div class="tab-content">
 										<div class="tab-pane active" id="request" role="tabpanel">
-											<table class="table table-bordered table-hover" id="tbl_purchase_request" data-link="tbl_purchase_request_project" >
+											<table class="table table-bordered table-hover" id="tbl_purchase_request">
 												<thead>
 													<tr>
 														<th>Trans #</th>
 														<th>TITLE</th>
 														<th>REQUESTOR</th>
-														<th>ITEM REQUEST</th>
 														<th>DATE</th>
 														<th>ACTION</th>
 													</tr>

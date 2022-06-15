@@ -523,9 +523,6 @@ class Datatable_model extends CI_Model{
              $query = $this->db->query($sql);
           if($query){
               foreach($query->result() as $row)  {
-                if($row->status == 0){
-                    $data =array();    
-                }else{
                    $action = '<button data-toggle="modal" data-target="#requestModal" id="form-request" data-id="'.$row->production_no.'" class="btn btn-sm btn-light-dark btn-shadow btn-icon" title="View Request"><i class="la la-eye"></i></button>';  
                    $title = '<span style="width: 250px;"><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
 
@@ -534,9 +531,8 @@ class Datatable_model extends CI_Model{
                               'title'        => $title,
                               'requestor'    => $row->requestor, 
                               'date_created' => $row->date_created,
-                              'status'       => $row->status,
                               'action'       => $action);
-                }
+     
             }      
          }
          return array("data" =>$data);
