@@ -630,6 +630,20 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 				_DataTableLoader('tbl_collection_cancelled',TableURL2,TableData2,[[3,'desc']]);
 				break;
 			}
+			case "tbl_material_request_stocks_modal":{
+				let TableURL = baseURL + 'modal_controller/Modal_Material_Request_List_View';
+				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'remarks', className: "text-center"}];
+				_DataTableLoader('tbl_material_request_stocks_modal',TableURL,TableData,false,val,4,false);
+
+				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
+				let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
+				_DataTableLoader('tbl_material_accept',TableURL1,TableData1,false,val,4,false);
+
+				let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
+				let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
+				_DataTableLoader('tbl_material_cancelled',TableURL2,TableData2,false,val);
+				break;
+			}
 		
 
 		}	 

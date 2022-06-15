@@ -103,7 +103,7 @@
 				   </div>
 	                <div class="form-group">
 				    <label>Quantity</label>
-				    <input type="text"  name="quantity" class="form-control form-control-lg quantity numbers"  placeholder="Input quantity....."/>
+				    <input type="number" min="0"  name="quantity" class="form-control form-control-lg quantity numbers"  placeholder="Input quantity....." value="0"/>
 				   </div>
 			   </div>
             </div>

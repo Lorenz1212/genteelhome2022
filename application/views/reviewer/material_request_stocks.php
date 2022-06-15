@@ -26,7 +26,7 @@
 													<!--begin::Item-->
 													<li class="nav-item">
 														 <a class="nav-link active" data-toggle="tab" href="#request">
-									                        <span class="nav-text">Request</span>
+									                        <span class="nav-text  mr-2">Request</span>
 									                        <span class="label label-rounded label-warning material_request_pending_stocks">0</span>
 									                    </a>
 													</li>
@@ -34,7 +34,7 @@
 													<!--begin::Item-->
 													<li class="nav-item">
 														 <a class="nav-link" data-toggle="tab" href="#complete">
-									                        <span class="nav-text">COMPLETE</span>
+									                        <span class="nav-text mr-2">RELEASE</span>
 									                        <span class="label label-rounded label-success material_request_complete_stocks">0</span>
 									                    </a>
 													</li>

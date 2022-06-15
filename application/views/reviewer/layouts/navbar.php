@@ -127,7 +127,7 @@
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
 															<a  href="<?php echo base_url()."gh/superuser/request-material-stocks";?>" class="menu-link">
-																<span class="menu-text mr-2">Request Material For Stocks</span>
+																<span class="menu-text mr-2">Request Material For Office/Janitorial Supplies</span>
 																<span class="label label-rounded label-primary request_material_pending">0</span>
 															</a>
 														</li>

@@ -1105,7 +1105,7 @@ class Modal_model extends CI_Model{
            return array('data'=>$data);
     }
     function Modal_Material_Request_Accept_View($id){
-          $data = false;
+          $data = array();
           $query = $this->db->select('*,mp.status,mp.id,mp.remarks,m.unit,mp.quantity,mp.remarks')
            ->from('tbl_material_project as mp')->join('tbl_materials as m','mp.item_no=m.id','LEFT')->where('mp.production_no',$id)->where('mp.status',2)->get();
            if(!$query){return false;}else{  

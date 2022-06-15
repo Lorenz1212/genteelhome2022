@@ -217,23 +217,20 @@ class Dashboard_model extends CI_Model
     $sales_delivery_completed = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','COMPLETED')->get()->num_rows();
     $sales_delivery_cancelled = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','CANCELLED')->get()->num_rows();
 
-
-    $stocks = $this->db->select('count(p.production_no) as id')->from('tbl_material_project as m')
-    ->join('tbl_project as p','m.production_no=p.production_no','LEFT')
-    ->where('m.status',2)->where('p.type',1)->group_by('m.production_no')->get();
+    $stocks = $this->db->query("SELECT count(production_no) as id FROM tbl_material_project WHERE status=2 AND (SELECT type FROM tbl_project WHERE production_no=tbl_material_project.production_no AND type=1) GROUP BY production_no");
     $material_request_pending_stocks=0;
-    foreach($stocks->result() as $row){
-        if($row->id >= 0){
-           $material_request_pending_stocks += 1;
+    if($stocks){
+        foreach($stocks->result() as $row){
+            if($row->id > 0){
+               $material_request_pending_stocks += 1;
+            }
+            
         }
-        
     }
-    $project = $this->db->select('count(p.production_no) as id')->from('tbl_material_project as m')
-    ->join('tbl_project as p','m.production_no=p.production_no','LEFT')
-    ->where('m.status',2)->where('p.type',2)->group_by('m.production_no')->get();
+     $project = $this->db->query("SELECT count(production_no) as id FROM tbl_material_project WHERE status=2 AND (SELECT type FROM tbl_project WHERE production_no=tbl_material_project.production_no AND type=2) GROUP BY production_no");
     $material_request_pending_project=0;
     foreach($project->result() as $row){
-        if($row->id >= 0){
+        if($row->id > 0){
             $material_request_pending_project += 1;
         }
     }

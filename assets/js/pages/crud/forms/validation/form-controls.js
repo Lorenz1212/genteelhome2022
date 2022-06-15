@@ -2017,7 +2017,6 @@ var KTFormControls = function () {
 							        		if(request <= 0  || !request){
 							        			Swal.fire("Warning!", "Request Quantity is not Equal!<br> Please Input Correct Request", "warning");
 							        		}else{
-							        			alert(element.attr('data-id'))
 							        			let formData = new FormData();
 										     	formData.append('id', element.attr('data-id'));
 										     	formData.append('request',request);
@@ -2107,7 +2106,6 @@ var KTFormControls = function () {
 							        		if(request <= 0  || !request){
 							        			Swal.fire("Warning!", "Request Quantity is not Equal!<br> Please Input Correct Request", "warning");
 							        		}else{
-							        			alert(element.attr('data-id'))
 							        			let formData = new FormData();
 										     	formData.append('id', element.attr('data-id'));
 										     	formData.append('request',request);
@@ -3665,20 +3663,22 @@ var KTFormControls = function () {
 	 			if(response.status == 'success'){
 	 				let item = url.find("td:eq(1)").text();
 	 				_initToast('success', item+' is Successfully Submited');
-			        	url.find("td:eq(2)").text(response.total);
-			        	url.find("td:eq(3)").text(response.stocks);
-			        	url.find("td:eq(4) input").val("");
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks_modal',response.id);
+			        	// url.find("td:eq(2)").text(response.total);
+			        	// url.find("td:eq(3)").text(response.stocks);
+			        	// url.find("td:eq(4) input").val("");
 	 			}
 	 			_initnotificationupdate();
 	 			break;
 	 		}
 	 		case "Update_Material_Request_Project_Process":{
 	 			if(response.status == 'success'){
-	 					let item = url.find("td:eq(1)").text();
-	 					_initToast('success', item+' is Successfully Submited');
-			        	url.find("td:eq(2)").text(response.total);
-			        	url.find("td:eq(3)").text(response.stocks);
-			        	url.find("td:eq(4) input").val("");
+ 					// let item = url.find("td:eq(1)").text();
+ 					_initToast('success', item+' is Successfully Submited');
+ 					 KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks_modal',response.id);
+			        	// url.find("td:eq(2)").text(response.total);
+			        	// url.find("td:eq(3)").text(response.stocks);
+			        	// url.find("td:eq(4) input").val("");
 	 			}
 	 			_initnotificationupdate();
 	 			break;
@@ -3692,13 +3692,7 @@ var KTFormControls = function () {
 		  		     $('#count-cancelled').text(count);
 
 	 				_initToast('success','Item successfully return to request');
-					let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
-					let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
-					_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.id);
-
-					let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
-					let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
-					_DataTableLoader1('tbl_material_cancelled',TableURL2,TableData2,response.id);
+					 KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks_modal',response.id);
 	 			}else if(response.status == 'cancelled'){
 	 				_initToast('error','Removed item');
 	 				let count = '('+response.count+')';
@@ -3706,13 +3700,7 @@ var KTFormControls = function () {
 		  		     	count ="";
 		  		     }
 		  		     $('#count-cancelled').text(count);
-	 				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
-					let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
-					_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.id);
-
-	 				let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
-					let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
-					_DataTableLoader1('tbl_material_cancelled',TableURL2,TableData2,response.id);
+		  		     KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks_modal',response.id);
 	 			}else{
 	 				 Swal.fire("Error!", "Something went wrong!", "error");
 	 			}
@@ -3727,13 +3715,8 @@ var KTFormControls = function () {
 		  		     $('#count-cancelled').text(count);
 
 	 				_initToast('success','Item successfully return to request');
-					let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
-					let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
-					_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.id);
 
-					let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
-					let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
-					_DataTableLoader1('tbl_material_cancelled',TableURL2,TableData2,response.id);
+	 				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks_modal',response.id);
 	 			}else if(response.status == 'cancelled'){
 	 				_initToast('error','Removed item');
 	 				let count = '('+response.count+')';
@@ -3741,13 +3724,7 @@ var KTFormControls = function () {
 		  		     	count ="";
 		  		     }
 		  		     $('#count-cancelled').text(count);
-	 				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
-					let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
-					_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.id);
-
-	 				let TableURL2 = baseURL + 'modal_controller/Modal_Material_Request_Cancel_View';
-					let TableData2 = [{data:'item'},{data:'balance'},{data:'date_created'},{data:'action'}];
-					_DataTableLoader1('tbl_material_cancelled',TableURL2,TableData2,response.id);
+		  		     KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks_modal',response.id);
 	 			}else{
 	 				 Swal.fire("Error!", "Something went wrong!", "error");
 	 			}

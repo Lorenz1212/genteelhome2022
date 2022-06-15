@@ -34,7 +34,7 @@
 													<!--begin::Item-->
 													<li class="nav-item">
 														 <a class="nav-link" data-toggle="tab" href="#complete">
-									                        <span class="nav-text">COMPLETE</span>
+									                        <span class="nav-text  mr-2">RELEASE ITEM</span>
 									                        <span class="label label-rounded label-success material_request_complete_project">0</span>
 									                    </a>
 													</li>

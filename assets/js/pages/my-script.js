@@ -2164,24 +2164,17 @@ var arrows;var item_v;var price;var special_option;
 			                  Swal.fire({
 			                    title:'Create new D.R',
 			                    heightAuto: false,
-			                    html:' <div class="row">\
-									 <div class="col">\
-										 <div class="form-group">\
-										    <label>Type <span class="text-danger">*</span></label>\
-										    <select class="form-control type-soa" name="type">\
-										    	<option value="">Select Type First</option>\
-										    	<option value="1">Stocks</option>\
-										    	<option value="2">Project</option>\
-										    </select>\
-										 </div>\
-									</div></div>\
-								<div class="row">\
-									<div class="col">\
-										 <div class="form-group">\
-										    <label>Trans. # <span class="text-danger">*</span></label>\
-										    <select class="form-control trans-no" name="trans_no"></select>\
-										 </div>\
-									</div>\
+			                    html:' <div >\
+								    <label>Type <span class="text-danger">*</span></label>\
+								    <select class="form-control type-soa" name="type">\
+								    	<option value="">Select Type First</option>\
+								    	<option value="1">Stocks</option>\
+								    	<option value="2">Project</option>\
+								    </select>\
+								/div>\
+								<div>\
+								    <label>Trans. # <span class="text-danger">*</span></label>\
+								    <select class="form-control trans-no" name="trans_no"></select>\
 								</div>',
 			                    showCancelButton: true,
 			                    confirmButtonText: "Yes, submit!",
@@ -3785,13 +3778,7 @@ var arrows;var item_v;var price;var special_option;
 	             	$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
 				$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
 
-				let TableURL = baseURL + 'modal_controller/Modal_Material_Request_List_View';
-				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'remarks', className: "text-center"}];
-				_DataTableLoader1('tbl_material_request_stocks_modal',TableURL,TableData,response.row.production_no);
-
-				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
-				let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
-				_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.row.production_no);
+				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks_modal',response.row.production_no);
 
 				 $('[data-toggle="tooltip"]').tooltip();
 	  		}
@@ -3817,13 +3804,8 @@ var arrows;var item_v;var price;var special_option;
 	             	$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1)').removeClass('d-none');
 				$('#modal-form > div > div > div.modal-body > div:nth-child(2) > div:nth-child(2)').addClass('d-none');
 
-				let TableURL = baseURL + 'modal_controller/Modal_Material_Request_List_View';
-				let TableData = [{data:'item'},{data:'quantity',className: "text-center"},{data:'remarks', className: "text-center"}];
-				_DataTableLoader1('tbl_material_request_stocks_modal',TableURL,TableData,response.row.production_no);
+				KTDatatablesDataSourceAjaxClient.init('tbl_material_request_stocks_modal',response.row.production_no);
 
-				let TableURL1 = baseURL + 'modal_controller/Modal_Material_Request_Accept_View';
-				let TableData1 = [{data:'remove', className: "text-center"},{data:'item'},{data:'balance',className: "text-center"},{data:'stocks', className: "text-center"},{data:'input', className: "text-center"},{data:'action', className: "text-center"}];
-				_DataTableLoader1('tbl_material_accept',TableURL1,TableData1,response.row.production_no);
 
 				 $('[data-toggle="tooltip"]').tooltip();
 	  		}
