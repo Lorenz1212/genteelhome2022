@@ -2,18 +2,17 @@
 var KTAjaxClientweb = function() {
 let view;	 
 	var _check_url =  async function (url){
-		alert(url.split('/')[3])
-	 	if(url.split('/')[0] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
+	 	if(url.split('/')[0] == 'genteelhome2022' || url.split('/')[0] == 'genteelhomev2'){
 	 		view =  url.split('/')[3];
 	 	}else if(url.split('/')[1] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
 	 		view =  url.split('/')[4];
-	 	}else if(url.split('/')[2] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
+	 	}else if(url.split('/')[2] == 'genteelhome2022' || url.split('/')[2] == 'genteelhomev2'){
 	 		view =  url.split('/')[5];
-	 	}else if(url.split('/')[3] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
+	 	}else if(url.split('/')[3] == 'genteelhome2022' || url.split('/')[3] == 'genteelhomev2'){
 	 		view =  url.split('/')[6];
-	 	}else if(url.split('/')[4] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
+	 	}else if(url.split('/')[4] == 'genteelhome2022' || url.split('/')[4] == 'genteelhomev2'){
 	 		view = url.split('/')[7];
-	 	}else if(url.split('/')[5] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
+	 	}else if(url.split('/')[5] == 'genteelhome2022' || url.split('/')[5] == 'genteelhomev2'){
 	 		view =  url.split('/')[8];
 	 	}
 	 	_ViewController(view);
