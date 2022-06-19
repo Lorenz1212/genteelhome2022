@@ -294,7 +294,7 @@ class Gh extends CI_Controller {
             case 'interior':{$this->load->view('webmodifier/interior.php');break;}
             case 'events':{$this->load->view('webmodifier/events.php');break;}
             case 'product':{$this->load->view('webmodifier/product.php');break;}
-            case 'category':{$this->load->view('webmodifier/category.php');break;}
+            case 'category-list':{$this->load->view('webmodifier/category-list.php');break;}
             case 'company':{$this->load->view('webmodifier/company.php');break;}
             case 'voucher':{$this->load->view('webmodifier/voucher.php');break;}
             case 'shipping-fee':{$this->load->view('webmodifier/shipping_fee.php');break;}

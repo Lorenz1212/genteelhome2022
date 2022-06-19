@@ -39,6 +39,16 @@ var KTDatatablesDataSourceAjaxClient = function() {
 				_DataTableLoader('tbl_testimony',response,TableData,[[4,'desc']]); 
 				break;
 			}
+			case "tbl_category":{
+				let TableData = [{data:'image'},{data:'name',className:"text-nowrap"},{data:'date_created',className:"text-nowrap"},{data:'status',className:"text-nowrap"},{data:'action'}];
+				_DataTableLoader('tbl_category',response,TableData,[[2,'desc']]); 
+				break;
+			}
+			case "tbl_sub_category":{
+				let TableData = [{data:'name',className:"text-nowrap"},{data:'date_created',className:"text-nowrap"},{data:'status',className:"text-nowrap"},{data:'action'}];
+				_DataTableLoader('tbl_sub_category',response,TableData,[[1,'desc']]); 
+				break;
+			}
 		}	 
 	}
 

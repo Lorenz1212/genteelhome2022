@@ -42,6 +42,12 @@ var KTDatatablesDataSourceAjaxClient = function() {
 				_DataTableLoader('tbl_testimony',TableURL,TableData,[[4,'desc']]);
 				break;
 			}
+			case "tbl_testimony":{
+				TableURL = baseURL + 'datatable_controller/Web_Testimony_DataTable';
+				TableData = [{data:'no'},{data:'image'},{data:'name'},{data:'description'},{data:'date_created'},{data:'action'}]; 
+				_DataTableLoader('tbl_testimony',TableURL,TableData,[[4,'desc']]);
+				break;
+			}
 		}	 
 	}
 

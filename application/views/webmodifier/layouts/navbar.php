@@ -90,7 +90,7 @@
 												</a>
 											</li>
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-												<a href="<?php echo base_url()."gh/webmodifier/category";?>" class="menu-link">
+												<a href="<?php echo base_url()."gh/webmodifier/category-list";?>" class="menu-link">
 													<span class="menu-text">Category</span>
 												</a>
 											</li>

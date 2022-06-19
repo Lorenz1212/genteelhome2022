@@ -431,37 +431,6 @@ var html;var _avatar;
 					      		})
 							  }
 							});
-							// var avatar6 = new KTImageInput('kt_image_6');
-							// avatar6.on('change', function(imageInput) {
-				   //                var img = document.createElement('img');
-							//    var blob = URL.createObjectURL(event.target.files[0]);
-							//     if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
-							// 	   img.src = blob;
-							// 	   img.onload = function() {
-							// 	      if(img.width>=360){
-							// 	      	if(img.height >=360){
-							// 	      		$('.image-color').css("background-image", "url(" + blob + ")");
-							// 	      	 }else{
-							// 	      		Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
-							// 	      			$('#kt_image_6 > span').trigger('click');
-							// 	       			$('#image_avatar').val('');
-							//       			})
-							// 	      	 }
-							// 	       }else{
-							// 	       	Swal.fire("Oops!","Please upload minimum 360x360 size", "info").then(function(){
-							// 	      			$('#kt_image_6 > span').trigger('click');
-							// 	       			$('#image_avatar').val('');
-							//       			})
-							// 	       }
-							// 	    }
-							// 	}else{
-							// 		Swal.fire("Oops!","Please upload correct file. (jpg, jpeg & png)", "info").then(function(){
-					  //     				$('#kt_image_6 > span').trigger('click');
-							// 	       	$('#image_avatar').val('');
-					  //     			})
-							// 	}
-							// });
-							//_initavatar_change('kt_image_6',360,360,'.image-color','#image_avatar');
 							$(".upfile1").click(function(e){
 								e.preventDefault()
 							    $("#imagess").trigger('click');
@@ -532,73 +501,7 @@ var html;var _avatar;
 						})
 					   break;
 					}
-					case "data-category":{
-						let thisUrl = 'datatable_controller/Web_Category_Data';
-						_ajaxloader(thisUrl,"POST",false,"Web_Category_Data");
-						$(document).ready(function() {
-							$(document).on("click","#btn_category",function() {
-							 	let id = $(this).attr('data-id');
-							 	let val = {id:id};
-							 	$('#Table_ProductCategory > tbody:last-child').empty();
-							 	let thisUrl = 'datatable_controller/Web_SubCategory_Data';
-								_ajaxloader(thisUrl,"POST",val,"Web_SubCategory_Data");
-							 	
-						     });
-						     $(document).on("click","#btn_category_sub",function() {
-							 	let id = $(this).attr('data-id');
-							 	let val = {id:id};
-							 	let thisUrl = 'datatable_controller/Web_ProductCategory_Data';
-								_ajaxloader(thisUrl,"POST",val,"Web_ProductCategory_Data");
-
-						     });
-						    	$(document).on("click","#save",function() {
-						 			let id = $(this).attr('data-id');
-						 			let sub_id = $(this).attr('data-sub');
-						 			let val = {id:id,sub_id:sub_id};
-						 			let thisUrl = 'create_controller/Create_ProductCategory';
-						 			_ajaxloader(thisUrl,"POST",val,"Create_ProductCategory");
-						 	});
-							$(document).on("click","#form-request",function() {
-							 	let status = $(this).attr('data-action');
-							 	let id = $(this).attr('data-id');
-							 	$('#form_data').empty();
-							 	if(status == 'sub_caterogy'){
-							 		_initcategory_option();
-							 		$('#form_data').append('<div class="form-group">'
-							   		   +'<label>CATEGORY:</label>'
-									   +'<select id="category" class="form-control form-control-solid" name="cat_id" required><option value="" disabled selected>SELECT CATEGORY</option></select>'
-									   +'</div>'
-									   +'<div class="form-group">'
-							   		   +'<label>Sub Name:</label>'
-							   		   +'<input type="hidden" name="page" value="create"/>'
-									   +'<input type="text" class="form-control form-control-solid" name="sub_name" required/>'
-									   +'</div>');
-							 	}else if(status == 'add_product'){
-								 	let thisUrl = 'modal_controller/Modal_Web_Product_Data';
-								 	let val = {id:id};
-									_ajaxloader(thisUrl,"POST",val,"Modal_Web_Product_Data");
-							 	}else if(status == 'view_product'){
-							 		let thisUrl = 'modal_controller/Modal_Web_Product_Color_Data';
-								 	let val = {id:id};
-									_ajaxloader(thisUrl,"POST",val,"Modal_Web_Product_Color_Data");
-							 	}
-							 	else if(status == 'sub_update'){
-							 		let thisUrl = 'modal_controller/Modal_Web_SubCategory_Data';
-								 	let val = {id:id};
-									_ajaxloader(thisUrl,"POST",val,"Modal_Web_SubCategory_Data");
-							 	}else if(status == 'product_update'){
-							 		let thisUrl = 'modal_controller/Modal_Web_ProductDetails_Data';
-								 	let val = {id:id};
-									_ajaxloader(thisUrl,"POST",val,"Modal_Web_ProductDetails_Data");
-							 	}else if(status =='update_status'){
-							 		let thisUrl = 'modal_controller/Modal_Web_Category';
-								 	let val = {id:id};
-									_ajaxloader(thisUrl,"POST",val,"Modal_Web_Category");
-							 	}
-						     });
-						})
-						break;
-					}
+					
 					case "data-company-profile":{
 						$(document).ready(function() {
 							$(".upfile1").click(function () {
@@ -841,45 +744,8 @@ var html;var _avatar;
 		  		 }
 	  		  break;
 	  		}
-		  	case "Create_ProductCategory":{
-	  				Swal.fire("Submit!", "This form is Completed!", "success").then(function(){
-					       $('#row'+response.id).remove();
-					});
-			       break;
-	  		}
-	  		case "Modal_Web_Category":{
-	  			
-	  			$('#form_data').append('<div class="form-group">'
-		   		   +'<label>Name: </label>'
-		   		   +'<input type="hidden" name="page" value="updatecategory"/>'
-		   		   +'<input type="hidden" name="id" value="'+response.id+'"/>'
-				   +'<input type="text" class="form-control form-control-solid" name="cat_name" value="'+response.cat_name+'" readonly/>'
-				   +'</div>'
-	  			   +'<div class="form-group">'
-		   		   +'<label>CATEGORY:</label>'
-				   +'<select id="status" class="form-control form-control-solid" name="status" required><option value="" disabled>SELECT STATUS</option>'
-				   +'<option value="ACTIVE">ACTIVE</option>'
-				   +'<option value="INACTIVE">INACTIVE</option>'
-				   +'</select>'
-				   +'</div>');
-	  			$('select[name=status]').val(response.status).change();
-	  			break;
-	  		}
-
-		  	case "Modal_Web_SubCategory_Data":{
-		  		_initcategory_option();
-		  		$('#form_data').append('<div class="form-group">'
-		   		   +'<label>CATEGORY:</label>'
-				   +'<select id="category" class="form-control form-control-solid" name="cat_id" required><option value="'+response.cat_id+'" selected>'+response.cat_name+'</option></select>'
-				   +'</div>'
-				   +'<div class="form-group">'
-		   		   +'<label>Sub Name:</label>'
-		   		   +'<input type="hidden" name="page" value="update"/>'
-		   		   +'<input type="hidden" name="sub_id" value="'+response.id+'"/>'
-				   +'<input type="text" class="form-control form-control-solid" name="sub_name" value="'+response.sub_name+'" required/>'
-				   +'</div>');
-		  		break;
-		  	}
+		  	
+	  	
 
 	  		case "Modal_Web_ProductDetails_Data":{
 	  			_initcategory_option();
@@ -907,72 +773,8 @@ var html;var _avatar;
 		  		break;
 	  		}
 
-		  	case "Web_Category_Data":{
-		  		if(!response == false){
-		  			for(let i=0;i<response.data.length;i++){
-			  		    $('#Table_Category > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder h-65px">'
-							+'<td class="align-middle pl-0 border-0">'+response.data[i].name+'</td>'
-							+'<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button class="btn btn-icon btn-light btn-sm" id="form-request" data-id="'+response.data[i].id+'" data-action="update_status" data-toggle="modal" data-target="#exampleModal">'
-							+'	<span class="svg-icon svg-icon-primary svg-icon-2x">'
-							+'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'
-							+'	    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'
-							+'	        <rect x="0" y="0" width="24" height="24"/>'
-							+'	        <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>'
-							+'	        <path d="M11,11 L11,7 C11,6.44771525 11.4477153,6 12,6 C12.5522847,6 13,6.44771525 13,7 L13,11 L17,11 C17.5522847,11 18,11.4477153 18,12 C18,12.5522847 17.5522847,13 17,13 L13,13 L13,17 C13,17.5522847 12.5522847,18 12,18 C11.4477153,18 11,17.5522847 11,17 L11,13 L7,13 C6.44771525,13 6,12.5522847 6,12 C6,11.4477153 6.44771525,11 7,11 L11,11 Z" fill="#000000"/>'
-							+'	    </g>'
-							+'	</svg></span>'
-							+'</button> <button type="button" id="btn_category" data-id="'+response.data[i].id+'" class="btn btn-icon btn-light btn-sm">'
-		                         +'<span class="svg-icon svg-icon-success">'
-		                         +'       <span class="svg-icon svg-icon-md">'
-		                         +'           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'
-		                         +'               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'
-		                         +'                   <polygon points="0 0 24 0 24 24 0 24" />'
-		                         +'                   <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)" x="11" y="5" width="2" height="14" rx="1" />'
-		                         +'                   <path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)" />'
-		                         +'               </g>'
-		                         +'           </svg>'
-		                         +'       </span>'
-		                         +'   </span>'
-		                         +'</button></td>'
-							+'</tr>');
-			  		}
-		  		}
-		  		 break;
-		  	}
-		  	case "Web_SubCategory_Data":{
-		  		if(!response == false){
-		  			$('#Table_Subcategory > tbody:last-child').empty();
-		  			for(let i=0;i<response.data.length;i++){
-			  		    $('#Table_Subcategory > tbody:last-child').append('<tr class="font-size-lg font-weight-bolder h-65px">'
-							+'<td class="align-middle pl-0 border-0">'+response.data[i].name+'</td>'
-							+'<td class="align-middle text-right text-danger font-weight-boldest font-size-h5 pr-0 border-0"><button class="btn btn-icon btn-light btn-sm" id="form-request" data-id="'+response.data[i].id+'" data-action="add_product" data-toggle="modal" data-target="#ProductModal">'
-							+'	<span class="svg-icon svg-icon-primary svg-icon-2x">'
-							+'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'
-							+'	    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'
-							+'	        <rect x="0" y="0" width="24" height="24"/>'
-							+'	        <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>'
-							+'	        <path d="M11,11 L11,7 C11,6.44771525 11.4477153,6 12,6 C12.5522847,6 13,6.44771525 13,7 L13,11 L17,11 C17.5522847,11 18,11.4477153 18,12 C18,12.5522847 17.5522847,13 17,13 L13,13 L13,17 C13,17.5522847 12.5522847,18 12,18 C11.4477153,18 11,17.5522847 11,17 L11,13 L7,13 C6.44771525,13 6,12.5522847 6,12 C6,11.4477153 6.44771525,11 7,11 L11,11 Z" fill="#000000"/>'
-							+'	    </g>'
-							+'	</svg></span>'
-							+'</button> ' 
-							+'<button type="button" id="btn_category_sub" data-id="'+response.data[i].id+'" class="btn btn-icon btn-light btn-sm">'
-		                         +'<span class="svg-icon svg-icon-success">'
-		                         +'       <span class="svg-icon svg-icon-md">'
-		                         +'           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">'
-		                         +'               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'
-		                         +'                   <polygon points="0 0 24 0 24 24 0 24" />'
-		                         +'                   <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)" x="11" y="5" width="2" height="14" rx="1" />'
-		                         +'                   <path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)" />'
-		                         +'               </g>'
-		                         +'           </svg>'
-		                         +'       </span>'
-		                         +'   </span>'
-		                         +'</button></td>'
-							+'</tr>');
-			  		}
-		  		}
-		  		break;
-		  	}
+		  
+		  
 		  	case "Web_ProductCategory_Data":{
 		  		if(!response == false){
 		  			$('#Table_ProductCategory > tbody:last-child').empty();

@@ -23,6 +23,31 @@ let view;
 	var _initToast = function(type,message){
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
 	}
+	var _showSwal  = function(type,message,title) {
+      if(!title){
+        swal.fire({
+          text: message,
+          icon: type,
+          buttonsStyling: false,
+          confirmButtonText: "Ok, got it!",
+          customClass: {
+            confirmButton: "btn font-weight-bold btn-light-primary"
+          }
+          })
+      }else{
+        swal.fire({
+          title: title,
+          text: message,
+          icon: type,
+          buttonsStyling: false,
+          confirmButtonText: "Ok, got it!",
+          customClass: {
+            confirmButton: "btn font-weight-bold btn-light-primary"
+          }
+          })
+      }
+      
+    }
 	var _initremovetable = function(action){
 		$(""+action+"").on("click", "#DeleteButton", function() {
 			   $(this).closest("tr").remove();
@@ -193,6 +218,149 @@ let view;
 				});
 				break;
 			}
+			case "category-list":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_category_list']));
+				$('body').delegate('.view_details','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_category_details',$(this).attr('data-id')]));
+				});
+				$('body').delegate('.update_status','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_category_status',$(this).attr('data-id')]));
+				});
+				$('body').delegate('.view_subcategories','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_sub_category_list',$(this).attr('data-id')]));
+				});
+				$('body').delegate('.view_sub_details','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_sub_category_details',$(this).attr('data-id')]));
+				});
+				$('body').delegate('.update_status_sub','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_sub_category_status',$(this).attr('data-id')]));
+				});
+				$('body').delegate('.delete-sub-cat','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	          Swal.fire({
+	                 text: "Do you want to remove this sub category?",
+	                 icon: "question",
+	                 showCancelButton: true,
+	                 buttonsStyling: false,
+	                 confirmButtonText: "Yes, proceed!",
+	                 cancelButtonText: "No, cancel",
+	                 customClass: {
+	                   confirmButton: "btn font-weight-bold btn-primary",
+	                   cancelButton: "btn font-weight-bold btn-default"
+	                 }
+	          }).then(function (result) {
+	            if (result.value) {
+	              _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_sub_category_delete',element.attr('data-id')]));
+	            }
+	          })
+				});
+				$('body').delegate('.create-new-category','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	        Swal.fire({
+					  imageUrl: baseURL+"assets/images/category/default.jpg",
+         		imageHeight: 200, 
+    				imageWidth: 600,   
+					  html:'<div class="form-group">\
+								    <label>Upload Image</label>\
+								    <div class="input-group">\
+								     <div class="input-group-prepend">\
+								     <span class="input-group-text text-success btn-click-upload" style="cursor: pointer;"><i class="la la-cloud-upload icon-lg text-success"></i></span></div>\
+								     <input type="text" class="form-control btn-click-upload view-name" placeholder="Click here to browse files" cursor: pointer; readonly/>\
+								    	 <input type="file" name="image" class="view-upload" style="display:none;">\
+								    </div>\
+								  </div>',
+					  input: 'text',
+					  inputLabel: 'Category Name',
+					  width:600,
+					  showCancelButton: true,
+					  inputValidator: (value) => {
+					    return new Promise((resolve) => {
+                  if (value.length >=1){
+                    resolve();
+                  }else{
+                    resolve('Please complete the form.');
+                  }
+                })
+					  },
+					  willOpen: () => {
+					    $('.btn-click-upload').on('click',function(e){
+					    	e.preventDefault();
+					    		$('.view-upload').trigger('click');
+					    });
+					    $('.view-upload').on('change',function(e){
+					    		e.preventDefault();
+					    		let file = $(this).get(0).files[0].name;
+					    		$('.view-name').val(file);
+					    		if(file){
+					    			$('.swal2-image').attr('src', window.URL.createObjectURL($(this).get(0).files[0]));
+					    		}else{
+					    			$('.swal2-image').attr('src', baseURL+"assets/images/category/default");
+					    		}
+					    		
+					    });
+					  }
+					}).then(function(result){
+                if(result.isConfirmed == true){
+                  	if(result.value){
+                  		 let files = $('input[name="image"]')[0].files;
+                    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_category_add',false,result.value,files[0]]));
+                    }else{
+                       swal.fire('Opss', 'Please complete the form', 'info');
+                    }
+                  }
+          	})
+				});
+					$('body').delegate('.create-new-sub-category','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	        Swal.fire({ 
+					  html:'<div class="form-group">\
+					  		<label>Category</label>\
+					  		<select class="form-control select-category"></select>\
+					  	</div>',
+					  input: 'text',
+					  inputLabel: 'Sub Category Name',
+					  showCancelButton: true,
+					  inputValidator: (value) => {
+					    return new Promise((resolve) => {
+                  if (value.length >=1){
+                    resolve();
+                  }else{
+                    resolve('Please complete the form.');
+                  }
+                })
+					  },
+					  willOpen: () => {
+					  	 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_category_option']));
+					  }
+					}).then(function(result){
+                if(result.isConfirmed == true){
+                  	if(result.value){
+                  		let id = $('.select-category').val();
+                    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_sub_category_add',id,result.value,false]));
+                    }else{
+                       swal.fire('Opss', 'Please complete the form', 'info');
+                    }
+                  }
+          	})
+				});
+				break;
+			}
 		}
 	}
 	
@@ -261,6 +429,149 @@ let view;
 			   KTDatatablesDataSourceAjaxClient.init('tbl_testimony',response);
 			   break;
 			}
+			case "fetch_category_list":{
+				KTDatatablesDataSourceAjaxClient.init('tbl_category',response);
+				break;
+			}
+			case "fetch_category_details":{
+				if(response != false){
+						Swal.fire({
+					  imageUrl: baseURL+"assets/images/category/"+response.image,
+         		imageHeight: 200, 
+    				imageWidth: 600,   
+					  html:'<div class="form-group">\
+								    <label>Upload Image</label>\
+								    <div class="input-group">\
+								     <div class="input-group-prepend">\
+								     <span class="input-group-text text-success btn-click-upload" style="cursor: pointer;"><i class="la la-cloud-upload icon-lg text-success"></i></span></div>\
+								     <input type="text" class="form-control btn-click-upload view-name" placeholder="Click here to browse files" cursor: pointer; readonly/>\
+								    	 <input type="file" name="image" class="view-upload" style="display:none;">\
+								    </div>\
+								  </div>',
+					  input: 'text',
+					  inputLabel: 'Category Name',
+					  inputValue: response.cat_name,
+					  width:600,
+					  showCancelButton: true,
+					  inputValidator: (value) => {
+					    return new Promise((resolve) => {
+                  if (value.length >=1){
+                    resolve();
+                  }else{
+                    resolve('Please complete the form.');
+                  }
+                })
+					  },
+					  willOpen: () => {
+					    $('.btn-click-upload').on('click',function(e){
+					    	e.preventDefault();
+					    		$('.view-upload').trigger('click');
+					    });
+					    $('.view-upload').on('change',function(e){
+					    		e.preventDefault();
+					    		let file = $(this).get(0).files[0].name;
+					    		$('.view-name').val(file);
+					    		if(file){
+					    			$('.swal2-image').attr('src', window.URL.createObjectURL($(this).get(0).files[0]));
+					    		}else{
+					    			$('.swal2-image').attr('src', baseURL+"assets/images/category/"+response.image);
+					    		}
+					    		
+					    });
+					  }
+					}).then(function(result){
+                if(result.isConfirmed == true){
+                  	if(result.value){
+                  		 var files = $('input[name="image"]')[0].files;
+                    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_category_update',response.id,result.value,files[0]]));
+                    }else{
+                       swal.fire('Opss', 'Please complete the form', 'info');
+                    }
+                  }
+          	})
+				}
+				break;
+			}
+			case "fetch_category_option":{
+				let container = $('.select-category').empty();
+				if(response != false){
+					for(let i=0;i<response.length;i++){
+						container.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+					}
+				}
+				break;
+			}
+
+			case "fetch_category_add":
+			case "fetch_category_status":
+			case "fetch_category_update":{
+				if(response !=false){
+					_initToast(response.type,response.message);
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_category_list']));
+				}
+				break;
+			}
+			case "fetch_sub_category_list":{
+				if(response != false){
+					$('.cat-name').text(response.cat.cat_name);
+					KTDatatablesDataSourceAjaxClient.init('tbl_sub_category',response.sub);
+					$('#view-sub-cateogy-modal').modal('show');
+				}
+				break;
+			}
+			case "fetch_sub_category_details":{
+					if(response != false){
+						Swal.fire({
+					  title: 'Category Name : '+response.cat_name,
+					  input: 'text',
+					  inputLabel: 'Sub Category Name',
+					  inputValue: response.sub_name,
+					  showCancelButton: true,
+					  inputValidator: (value) => {
+					    return new Promise((resolve) => {
+                  if (value.length >=1){
+                    resolve();
+                  }else{
+                    resolve('Please Sub Category Name');
+                  }
+                })
+					  },
+					}).then(function(result){
+                if(result.isConfirmed == true){
+                  	if(result.value){
+                    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_sub_category_update',response.id,result.value]));
+                    }else{
+                       swal.fire('Opss', 'Please complete the form', 'info');
+                    }
+                  }
+          	})
+				}
+				break;
+			}
+			case "fetch_sub_category_status":
+			case "fetch_sub_category_update":{
+				if(response !=false){
+					_initToast(response.type,response.message);
+					KTDatatablesDataSourceAjaxClient.init('tbl_sub_category',response.sub);
+				}
+				break;
+			}
+			case 'fetch_sub_category_delete':{
+	        if(response.type == 'success'){
+	          $('#kt_search').click();
+	        	 _initToast(response.type,response.message);
+	        	 KTDatatablesDataSourceAjaxClient.init('tbl_sub_category',response.sub);
+	        }else{
+	          _showSwal(response.type,response.message);
+	        }
+	        break;
+	    }
+	    case "fetch_sub_category_add":{
+	    	if(response !=false){
+	    			_initToast(response.type,response.message);
+	    	}
+	    	break;
+	    }
 		}
 	}
 

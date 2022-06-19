@@ -57,6 +57,21 @@ class Webmodifier_Controller extends CI_Controller{
            		echo json_encode($data);
     			break;
     		}
+    		case "category":{
+    			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
+					$val = $this->input->post('data3')??false;
+					$val1 = $this->input->post('data4')??false;
+					$image = isset($_FILES["data5"]["name"]) ? $_FILES["data5"]["name"]: false;
+			    $tmp = isset($_FILES["data5"]["tmp_name"]) ? $_FILES["data5"]["tmp_name"]:false;
+					$model_response = $this->Webmodifier_model->Category_List($type,$val,$val1,$image,$tmp);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+           		echo json_encode($data);
+    			break;
+    		}
 
 		 }
     }
