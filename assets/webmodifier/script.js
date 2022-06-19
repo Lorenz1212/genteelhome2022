@@ -2,6 +2,7 @@
 var KTAjaxClientweb = function() {
 let view;	 
 	var _check_url =  async function (url){
+		alert(url.split('/')[3])
 	 	if(url.split('/')[0] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
 	 		view =  url.split('/')[3];
 	 	}else if(url.split('/')[1] == 'genteelhome2022' || url.split('/')[1] == 'genteelhomev2'){
