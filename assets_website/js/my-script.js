@@ -1424,6 +1424,7 @@ var KTAjaxClient = function() {
 			_initheader();
 			_initfooter();
 			_initnotification();
+			
 		},
 
 	};
