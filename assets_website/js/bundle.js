@@ -7899,9 +7899,13 @@ $(function() {
         callbacks: {
             open: function() {
                 $(".popup-main .owl-carousel").hide();
+                $('.navbar-fixed').attr('style','z-index:10 !important');
                 setTimeout(function() {
                     $(".popup-main .owl-carousel").slideDown();
                 }, 500);
+            },
+            close: function(){
+                $('nav.navbar-fixed').removeAttr('style');
             }
         }
     });

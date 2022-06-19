@@ -45,20 +45,22 @@ class Website_model extends CI_Model{
                        'date_created'  => date('Y-m-d H:i:s'));
       $this->db->insert('tbl_customer_forgotpassword',$data);
    }
-   function header(){        
-        $query = $this->db->select('*,s.id as id')->from('tbl_category as c')
-        ->join('tbl_category_sub as s','s.cat_id=c.id','LEFT')->where('c.status','ACTIVE')
-        ->get();
-        if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row)
-            {
-                $data[] = array(
-                    'sub_id'   => $row->id,
-                    'cat_name' => $row->cat_name,
-                    'sub_name' => $row->sub_name);
-            }      
-         }else{$data =false;}
-         return $data;
+   function header(){
+        $query = $this->db->query("SELECT *FROM tbl_category WHERE status='ACTIVE'");
+        if($query){
+           foreach($query->result() as $row){
+            $cat_id = $row->id;
+              $sub = $this->db->query("SELECT sub_name FROM tbl_category_sub WHERE status='ACTIVE' AND cat_id='$cat_id'")->row();
+              $data[] = array(
+                'sub_id'   => $row->id,
+                'cat_name' => $row->cat_name,
+                'sub_name' => $sub->sub_name);
+            }   
+            return $data;   
+         }else{
+            return false;
+        }
+         
 
    }
    function account($id){
@@ -161,67 +163,116 @@ class Website_model extends CI_Model{
          return $json;
    }
    function product_list($id,$action){
+            $sub_name = null;
+            $data =array();
             if($action == 'all'){
-                $sub_name = null;
                 $cat_name = 'ALL PRODUCT';
                 $query = $this->db->select('d.*,c.*,s.*,d.id as id')->from('tbl_project_design as d')
                ->join('tbl_category as c','c.id=d.cat_id','LEFT')
                ->join('tbl_category_sub as s','s.id=d.sub_id','LEFT')
                ->where('d.d_status', 'DISPLAYED')
                ->where('d.sub_id IS NOT NULL')->get();
+               if($query){
+                   foreach($query->result() as $row){
+                       $query2 = $this->db->select('*')->from('tbl_project_color as c')
+                       ->join('tbl_project_image as i','c.c_code=i.c_code','LEFT')
+                       ->where('c.project_no',$row->id)
+                       ->where('c.display_status','displayed')
+                       ->limit(1)->get();
+                       $row2 = $query2->row();
+
+                       if(!$row2->images){
+                          $images = 'default.png';
+                       }else{
+                            $images = $row2->images;
+                       }
+                       $data[] = array(
+                          'id'         => $row->id,
+                          'project_no' => $row->id,
+                          'title'      => $row->title,
+                          'images'     => $images,
+                          'c_code'     => $row2->c_code);
+                    } 
+                    $json = array('data'=> $data,'cat_name' => $cat_name,'sub_name' => $sub_name,'action' => $action);     
+                 }
             }else if($action == 'category'){
-                $query1 = $this->db->select('*')->from('tbl_category')->where('cat_name',$id)->get();
-               $row1 = $query1->row();
-               $cat_name = $row1->cat_name;
-               $sub_name = null;
-               $array = array('d.cat_id'=> $row1->id);
-
-               $query = $this->db->select('d.*,c.*,s.*,d.id as id')->from('tbl_project_design as d')
-               ->join('tbl_category as c','c.id=d.cat_id','LEFT')
-               ->join('tbl_category_sub as s','s.id=d.sub_id','LEFT')
-               ->where('d.d_status', 'DISPLAYED')
-               ->where($array)->get();
-            }else if($action == 'subcaterogy'){
-               $query1 = $this->db->select('*,s.id as id')->from('tbl_category_sub as s')
-                ->join('tbl_category as c','s.cat_id=c.id','LEFT')->where('s.sub_name',$id)->get();
-               $row1 = $query1->row();
-               $cat_name = $row1->cat_name;
-               $sub_name = $row1->sub_name;
-               $array = array('d.sub_id'=> $row1->id);
+               $row = $this->db->query("SELECT * FROM tbl_category WHERE cat_name='$id' WHERE status='ACTIVE'")->row();
+               if($row){
+                $cat_name = $row->cat_name;
+                $cat_id = $row->id;
                 $query = $this->db->select('d.*,c.*,s.*,d.id as id')->from('tbl_project_design as d')
-               ->join('tbl_category as c','c.id=d.cat_id','LEFT')
-               ->join('tbl_category_sub as s','s.id=d.sub_id','LEFT')
-               ->where('d.d_status', 'DISPLAYED')
-               ->where('d.sub_id',$row1->id)->get();
-            }
-       
-           if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row){
-               $query2 = $this->db->select('*')->from('tbl_project_color as c')
-               ->join('tbl_project_image as i','c.c_code=i.c_code','LEFT')
-               ->where('c.project_no',$row->id)
-               ->where('c.display_status','displayed')
-               ->limit(1)->get();
-               $row2 = $query2->row();
+                   ->join('tbl_category as c','c.id=d.cat_id','LEFT')
+                   ->join('tbl_category_sub as s','s.id=d.sub_id','LEFT')
+                   ->where('d.d_status', 'DISPLAYED')
+                   ->where('d.cat_id',$cat_id)->get();
+                   if($query){
+                       foreach($query->result() as $row){
+                           $query2 = $this->db->select('*')->from('tbl_project_color as c')
+                           ->join('tbl_project_image as i','c.c_code=i.c_code','LEFT')
+                           ->where('c.project_no',$row->id)
+                           ->where('c.display_status','displayed')
+                           ->limit(1)->get();
+                           $row2 = $query2->row();
 
-               if(!$row2->images){
-                  $images = 'default.png';
-               }else{
-                    $images = $row2->images;
-               }
-
-               $data[] = array(
-                  'id'         => $row->id,
-                  'project_no' => $row->id,
-                  'title'      => $row->title,
-                  'images'     => $images,
-                  'c_code'     => $row2->c_code);
-            }      
-         }else{$data =false;}
-         $json = array('data'     => $data,
+                           if(!$row2->images){
+                              $images = 'default.png';
+                           }else{
+                                $images = $row2->images;
+                           }
+                           $data[] = array(
+                              'id'         => $row->id,
+                              'project_no' => $row->id,
+                              'title'      => $row->title,
+                              'images'     => $images,
+                              'c_code'     => $row2->c_code);
+                        }      
+                     }
+                     $json = array('data'     => $data,
                        'cat_name' => $cat_name,
                        'sub_name' => $sub_name,
                        'action'   => $action);
+               }
+            }else if($action == 'subcaterogy'){
+                $row = $this->db->query("SELECT *, (SELECT cat_name FROM tbl_category WHERE id=tbl_category_sub.cat_id) as cat_name
+                    FROM tbl_category_sub WHERE sub_name='$id' AND status='ACTIVE'")->row();
+                if($row){
+                    $cat_name = $row->cat_name;
+                    $sub_name = $row->sub_name;
+                    $sub_id = $row->id;
+                    $query = $this->db->select('d.*,c.*,s.*,d.id as id')->from('tbl_project_design as d')
+                   ->join('tbl_category as c','c.id=d.cat_id','LEFT')
+                   ->join('tbl_category_sub as s','s.id=d.sub_id','LEFT')
+                   ->where('d.d_status', 'DISPLAYED')
+                   ->where('d.sub_id',$sub_id)->get();
+                    if($query){
+                       foreach($query->result() as $row){
+                           $query2 = $this->db->select('*')->from('tbl_project_color as c')
+                           ->join('tbl_project_image as i','c.c_code=i.c_code','LEFT')
+                           ->where('c.project_no',$row->id)
+                           ->where('c.display_status','displayed')
+                           ->limit(1)->get();
+                           $row2 = $query2->row();
+                           if(!$row2->images){
+                              $images = 'default.png';
+                           }else{
+                                $images = $row2->images;
+                           }
+                           $data[] = array(
+                              'id'         => $row->id,
+                              'project_no' => $row->id,
+                              'title'      => $row->title,
+                              'images'     => $images,
+                              'c_code'     => $row2->c_code);
+                        }      
+                     }
+                     $json = array('data'     => $data,
+                       'cat_name' => $cat_name,
+                       'sub_name' => $sub_name,
+                       'action'   => $action);
+                }
+            }
+       
+         
          return $json;
    }
      function product_arrival(){

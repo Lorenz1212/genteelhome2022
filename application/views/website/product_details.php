@@ -107,17 +107,17 @@
                         </div> <!--/col-md-4-->
                         <!-- === product item gallery === -->
 
-                        <div class="col-md-8 col-sm-12 product-flex-gallery">
+                        <div class="col-md-8 col-sm-12 product-flex-gallery" style="padding-bottom: 50px;">
 
                             <!-- === add to cart === -->
                            
                             <!-- === product gallery === -->
-                            <div class="owl-product-gallery open-popup-gallery">
-                                <a id="aimage1"><img id="image1" alt="" height="500" /></a>
+                            <div class="modal_image1">
+                               <!--  <a id="aimage1"><img id="image1" alt="" height="500" /></a>
                                 <a id="aimage2"><img id="image2" alt="" height="500" /></a>
                                 <a id="aimage3"><img id="image3" alt="" height="500" /></a>
                                 <a id="aimage4"><img id="image4" alt="" height="500" /></a>
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>
