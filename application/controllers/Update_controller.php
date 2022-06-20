@@ -359,7 +359,7 @@ class Update_controller extends CI_Controller
         $banner_tmp  =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
         $bg_image  =  isset($_FILES["bg_image"]["name"]) ? $_FILES["bg_image"]["name"]: false;
         $bg_tmp    =  isset($_FILES["bg_image"]["tmp_name"]) ? $_FILES["bg_image"]["tmp_name"]:false;
-        $path_image = "assets_website/images/";
+        $path_image = "assets/images/interior/";
         $previous_banner = $this->input->post('previous_image');
         $previous_bg = $this->input->post('previous_bg');
         $id = $this->input->post('id');
@@ -372,29 +372,17 @@ class Update_controller extends CI_Controller
         echo json_encode($data);
      }
      public function Update_Web_Events(){
-        error_reporting(0);
         $id = $this->input->post('id');
         $title = $this->input->post('title');
-        $titles = str_replace(' ','',$title);
         $date_event = $this->input->post('date_event');
         $time_event = $this->input->post('time_event');
         $location = $this->input->post('location');
         $status = $this->input->post('status');
         $description = $this->input->post('description');
-
-        if($_FILES['image']['size']>0){
-          $filename=$_FILES["image"]["name"];
-          $extension=end(explode(".", $filename));
-          $newfilename=$titles.".".$extension;
-          $destination = $_FILES['image']['tmp_name'];
-          $destination2 = "assets_website/images/".$newfilename;
-          copy($destination, $destination2);
-          $image=$newfilename;
-        }else{
-          $image=$this->input->post('previous_image');
-        }
-        $this->update_model->Update_Web_Events($title,$status,$description,$image,$id,$date_event,$time_event,$location);
-        $data = array('status' => 'success');
+        $image  = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+        $tmp    = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]: false;
+        $path   = "assets/images/events/";
+        $data = $this->update_model->Update_Web_Events($id,$title,$status,$description,$date_event,$time_event,$location,$image,$tmp,$path);
         echo json_encode($data);
      }
 

@@ -50,6 +50,7 @@
             </div> <!--/container-->
         </section>
 
+
         <!-- ========================  Stretcher widget ======================== -->
     <section class="banner" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg2.jpg)">
     </section>
@@ -89,6 +90,7 @@
                 </a>
             </div> <!--/gallery-->
         </section>
+       
         <!-- ========================  Blog Block ======================== -->
         <section class="blog blog-block">
             <div class="container">
@@ -157,7 +159,8 @@
             </div> 
         </section>
 
-<!--         <section class="instagram">
+
+        <section class="instagram">
             <header>
                 <div class="container">
                     <div class="row">
@@ -168,8 +171,8 @@
                 </div>
             </header>
         </section>
- -->
-<section class="quotes quotes-slider" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)">
+
+    <section class="quotes quotes-slider" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)">
             <div class="container">
                 <div class="row">
                     <div class="quote-carousel">
@@ -193,6 +196,62 @@
                 </div> 
             </div> 
         </section> 
+         <section class="blog">
+            <div class="container">
+                <!-- === blog header === -->
+                <header>
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-8 text-center">
+                            <h1 class="h2 title">Announcement</h1>
+                            <div class="text">
+                                <p>Latest news from the blog</p>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div class="row">
+                    <?php 
+                           $query = $this->db->select('*')->from('tbl_events')->where('status','ACTIVE')->order_by('id','DESC')->limit(3)->get();
+                           if($query){
+                                foreach($query->result() as $row){
+                                        echo'  <div class="col-sm-4">
+                                                <article>
+                                                    <a href="article.html">
+                                                        <div class="image" style="background-image:url('.base_url().'assets/images/events/'.$row->image.')">
+                                                            <img src="assets/images/blog-1.jpg" alt="">
+                                                        </div>
+                                                        <div class="entry entry-table">
+                                                            <div class="date-wrapper">
+                                                                <div class="date">
+                                                                    <span>MAR</span>
+                                                                    <strong>08</strong>
+                                                                    <span>2017</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="title">
+                                                                <h2 class="h5">'.$row->title.'</h2>
+                                                            </div>
+                                                        </div>
+                                                        <div class="show-more">
+                                                            <span class="btn btn-clean-dark btn-block">Read more</span>
+                                                        </div>
+                                                    </a>
+                                                </article>
+                                            </div>';
+                               }
+                           }
+                        ?>
+                    <!-- === blog item === -->
+                    
+                </div> <!--/row-->
+                <!-- === button more === -->
+
+                <div class="wrapper-more">
+                    <a href="blog-grid.html" class="btn btn-clean-dark">View all posts</a>
+                </div>
+
+            </div> <!--/container-->
+        </section>
 
         <!-- ========================  Instagram ======================== -->
 

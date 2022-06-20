@@ -737,7 +737,7 @@ class Create_model extends CI_Model{
      	}
     	return array('status'=>$status,'message'=>$message);
     }
-     function Create_Web_Events($title,$status,$description,$id,$date_event,$time_event,$location,$image,$tmp,$path){
+     function Create_Web_Events($title,$status,$description,$date_event,$time_event,$location,$image,$tmp,$path){
      	if($image){$images = $this->move_to_folder1($image,$tmp,$path);}else{$images="default.jpg";}
     	$data = array('title'           => $title,
                       'description'     => $description,
@@ -746,7 +746,12 @@ class Create_model extends CI_Model{
                       'time_event'      => $time_event,
                       'status'          => $status,
                       'image'           => $images);
-    	$this->db->insert('tbl_events',$data);
+    	$result = $this->db->insert('tbl_events',$data);
+    	if($result){
+    		 return array('status' => 'success');
+    	}else{
+    		return false;
+    	}
     }
     function Create_Interior_Status($id,$status){
     	 	$data = array('status' 	=> $status);

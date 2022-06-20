@@ -716,7 +716,7 @@ var html;var _avatar;
 									+'<div class="d-flex justify-content-end"><span class="label label-xl label-inline label-light-success">'+response[i].status+'</span></div>'
 									+'<div class="mt-7">'
 									+'<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">'
-									+'<img id="myImg" src="'+baseURL+'assets_website/images/'+response[i].image+'" alt="'+response[i].title+'" style="width: 100%;height: 200px;object-fit: cover;"/></div></div>'
+									+'<img id="myImg" src="'+baseURL+'assets/images/events/'+response[i].image+'" alt="'+response[i].title+'" style="width: 100%;height: 200px;object-fit: cover;"/></div></div>'
 									+'<div class="my-4">'
 									+'<div class="text-dark font-weight-bold text-hover-primary font-size-h4">'+response[i].title+'</div></div>'
 									+'<div class="my-4">'
@@ -732,15 +732,15 @@ var html;var _avatar;
 
 	  		case "Modal_Web_Events":{
 		  		 if(!response == false){
-		  			 	$('.images').attr('src',baseURL+'assets_website/images/'+response.image);
-		  			 	$('input[name="previous_image"]').val(response.image);
-		  			 	$('input[name="id"]').val(response.id);
-					 	$('input[name="title"]').val(response.title);
-					 	$('input[name="location"]').val(response.location);
-					 	$('input[name="date_event"]').val(response.date_event);
-					 	$('input[name="time_event"]').val(response.time_event);
-					 	tinyMCE.get('kt-tinymce-10').setContent(response.description);
-					 	$('select[name="status"]').val(response.status).change();
+	  			 	$('.images').attr('src',baseURL+'assets/images/events/'+response.image);
+	  			 	$('input[name="previous_image"]').val(response.image);
+	  			 	$('input[name="id"]').val(response.id);
+				 	$('input[name="title"]').val(response.title);
+				 	$('input[name="location"]').val(response.location);
+				 	$('input[name="date_event"]').val(response.date_event);
+				 	$('input[name="time_event"]').val(response.time_event);
+				 	tinyMCE.get('kt-tinymce-10').setContent(response.description);
+				 	$('select[name="status"]').val(response.status).change();
 		  		 }
 	  		  break;
 	  		}

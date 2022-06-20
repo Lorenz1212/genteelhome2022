@@ -589,7 +589,7 @@ var KTAjaxClient = function() {
 	  		   	 $('#events').append(' <div class="col-sm-4">'
 					               +'    <article>'
 					               +'         <div class="image">'
-					               +'             <img src="'+baseURL+'assets_website/images/'+response.event[i].image+'" alt="" />'
+					               +'             <img src="'+baseURL+'assets/images/events/'+response.event[i].image+'" alt="" />'
 					               +'         </div>'
 					               +'         <div class="entry entry-block">'
 					               +'                <div class="title">LOCATION :'+response.event[i].location+'</div>'
@@ -1331,8 +1331,8 @@ var KTAjaxClient = function() {
 	  				$('#interior_list').append(' <div class="col-sm-4 col-md-4">'
 					                           +'     <article>'
 					                           +'         <a href="'+baseURL+'gh/app/article/'+btoa(response.category)+'/'+btoa(response.data[i].project_name)+'">'
-					                           +'             <div class="image" style="background-image:url('+baseURL+'assets_website/images/'+response.data[i].image+')">'
-					                           +'                 <img src="'+baseURL+'assets_website/images/'+response.data[i].image+'" alt="" />'
+					                           +'             <div class="image" style="background-image:url('+baseURL+'assets/images/interior/'+response.data[i].image+')">'
+					                           +'                 <img src="'+baseURL+'assets/images/interior/'+response.data[i].image+'" alt="" />'
 					                           +'             </div>'
 					                           +'             <div class="entry entry-table">'
 					                           +'                 <div class="title">'
@@ -1356,7 +1356,7 @@ var KTAjaxClient = function() {
 	                			+'<li><a class="active">'+response.project_name+'</a></li>');
 	  			$('#project_name').text(response.project_name);
 	  			$('#description').html(response.row.description);
-	  			$('#image').attr('style','background-image: -webkit-linear-gradient(rgba(0,0,0, 0) 0%,rgba(0,0,0, 1) 100%) ,url('+baseURL+'assets_website/images/'+response.row.bg+')');
+	  			$('#image').attr('style','background-image: -webkit-linear-gradient(rgba(0,0,0, 0) 0%,rgba(0,0,0, 1) 100%) ,url('+baseURL+'assets/images/interior/'+response.row.bg+')');
 	  			$('#image1').attr('src',baseURL+'assets_website/images/'+response.row.image);
 	  		}
 	  		break;

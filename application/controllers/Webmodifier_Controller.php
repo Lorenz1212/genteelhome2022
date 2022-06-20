@@ -72,7 +72,6 @@ class Webmodifier_Controller extends CI_Controller{
            		echo json_encode($data);
     			break;
     		}
-
 		 }
     }
     public function Action(){

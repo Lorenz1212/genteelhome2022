@@ -211,6 +211,7 @@ class Webmodifier_model extends CI_Model{
 	        	if($query){
 	              $no =1;
 	              foreach($query->result() as $row){
+	              ++$no;
 	              $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/testimony/'.$row->image.'" alt="'.$row->name.'"></div>';
 	              $action =  $this->Action('action3',$row->id,'btn-create','btn_delete',false,false);   		           
 	            	$string = strip_tags($row->description);
@@ -226,7 +227,6 @@ class Webmodifier_model extends CI_Model{
 		                            'description'       => $string,
 		                            'date_created'      => $row->date_created,
 		                            'action'            => $action);
-		             $no++;
 		            }  
 	        	}
          		return $data; 

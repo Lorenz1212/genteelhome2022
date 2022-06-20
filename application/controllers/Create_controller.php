@@ -157,9 +157,8 @@ class Create_controller extends CI_Controller
         $description = $this->input->post('description');
         $image  = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp    = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]: false;
-        $path   = "assets_website/images/";
-        $this->create_model->Create_Web_Events($title,$status,$description,$id,$date_event,$time_event,$location,$image,$tmp,$path);
-        $data = array('status' => 'success');
+        $path   = "assets/images/events/";
+        $data = $this->create_model->Create_Web_Events($title,$status,$description,$date_event,$time_event,$location,$image,$tmp,$path);
         echo json_encode($data);
      }
      public function Create_Web_SubCategory(){
@@ -284,7 +283,7 @@ class Create_controller extends CI_Controller
         $id = $this->input->post('id');    
         $image      =  isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
         $tmp        =  isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
-        $path_image =  "assets_website/images/";
+        $path_image =  "assets/images/interior/";
         $data = $this->create_model->Create_Web_Interior_Image($id,$image,$tmp,$path_image);
         echo json_encode($data);
      }

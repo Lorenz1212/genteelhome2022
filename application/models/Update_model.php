@@ -1070,16 +1070,34 @@ class Update_model extends CI_Model
         $data_response = array('status'=>$status,'message'=>$message);
         return $data_response;
     }
-    function Update_Web_Events($title,$status,$description,$image,$id,$date_event,$time_event,$location){
-        $data = array('title'           => $title,
+    function Update_Web_Events($id,$title,$status,$description,$date_event,$time_event,$location,$image,$tmp,$path){
+        $row = $this->db->query("SELECT * FROM tbl_events WHERE id='$id'")->row();
+        if($row){
+            if($image){
+                if($row->image !='default.jpg'){
+                    if(file_exists($path.$row->image)){
+                        unlink('./'.$path.$row->image);
+                    }
+                }
+                $images = $this->move_to_folder1($image,$tmp,$path);
+             }else{
+                $images=$row->image;
+             }
+            $data = array('title'       => $title,
                       'description'     => $description,
                       'location'        => $location,
                       'date_event'      => date('Y-m-d',strtotime($date_event)),
                       'time_event'      => $time_event,
                       'status'          => $status,
-                      'image'           => $image);
-         $this->db->where('id',$id);
-         $this->db->update('tbl_events',$data);  
+                      'image'           => $images);
+            $result = $this->db->where('id',$id)->update('tbl_events',$data);
+            if($result){
+                return array('status'=>'success');
+            }
+        }else{
+            return false;
+        }
+          
     }
     function Update_Deposit_Approved($id){
         $data = array('status' => 'A');
