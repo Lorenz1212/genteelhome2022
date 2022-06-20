@@ -211,7 +211,7 @@
                 </header>
                 <div class="row">
                     <?php 
-                           $query = $this->db->select('*')->from('tbl_events')->where('status','ACTIVE')->order_by('id','DESC')->limit(3)->get();
+                           $query = $this->db->select('*')->from('tbl_events')->where('status','ACTIVE')->order_by('id','DESC')->limit(6)->get();
                            if($query){
                                 foreach($query->result() as $row){
                                         echo'  <div class="col-sm-4">
