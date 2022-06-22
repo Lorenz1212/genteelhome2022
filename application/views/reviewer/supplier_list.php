@@ -144,7 +144,8 @@
             	<form id="Create_Supplier_Item">
             			<div class="form-group">
 						    <label class="text-white">Type</label>
-						    <select class="form-control form-control-solid form-control-lg selectpicker" data-live-search="true" name="type"/>
+						    <select class="form-control form-control-solid form-control-lg" name="type"/>
+						     	 <option value="">SELECT OPTION</option>
 							     <option value="1">Raw Materials</option>
 							     <option value="2">Office & Janitorial Supplies</option>
 							     <option value="3">Spare Parts</option>

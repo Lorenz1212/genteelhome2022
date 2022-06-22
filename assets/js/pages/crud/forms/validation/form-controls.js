@@ -1839,7 +1839,7 @@ var KTFormControls = function () {
 	                             let formdata = new FormData();
 	                             formdata.append('fund_no',$('.cf_no').attr('data-id'));
 	                             formdata.append('id',id);
-	                             thisURL = baseURL + 'delete_controller/Delete_Purchased_Transaction';
+	                             thisURL = baseURL + 'delete_controller/Delete_Purchased_Transaction_Inventory';
 						   _ajaxForm(thisURL,"POST",formdata,"Delete_Purchased_Transaction",false);
 			             }
 			   	   });
@@ -4209,13 +4209,13 @@ var KTFormControls = function () {
 	 					_initToast(response.type,response.status);
 	 					 $('#item').empty();
 						 $('#item').append('<option value="" disabled selected>SELECT MATERIAL</option>');
-						if(response !=false){
+						if(response.material !=false){
 							for(let i=0;i<response.material.length;i++){
-		                  	  	  $('#item').append('<option value="'+response.material[i].id+'">'+response.material[i].item+'</option>');
-		                  	  	  $('#item').addClass('selectpicker');
-							  $('#item').attr('data-live-search', 'true');
-							  $('#item').selectpicker('refresh');
-		                  	  }	
+			                  	  	  $('#item').append('<option value="'+response.material[i].id+'" data-type="'+response.material[i].type+'">'+response.material[i].item+'</option>');
+			                  	  	  $('#item').addClass('selectpicker');
+								  $('#item').attr('data-live-search', 'true');
+								  $('#item').selectpicker('refresh');
+		                  	 	 }	
 						}else{
 							$('#item').append('<option value="">No Data Available</option>');
 						}
@@ -4270,7 +4270,6 @@ var KTFormControls = function () {
 	 		}
 	 		case "Delete_Purchased_Other_Transaction":
 	 		case "Update_Purchased_Other_Transaction":{
-	 			console.log(response)
 	 			if(response != false){
 	 				if(response.type == 'info'){
 	 					Swal.fire("Oops!",response.status, response.type);
@@ -4278,13 +4277,13 @@ var KTFormControls = function () {
 	 					_initToast(response.type,response.status);
 	 					 $('#item').empty();
 						 $('#item').append('<option value="" disabled selected>SELECT MATERIAL</option>');
-						if(response !=false){
+						if(response.material){
 							for(let i=0;i<response.material.length;i++){
 		                  	  	  $('#item').append('<option value="'+response.material[i].id+'" data-type="'+response.material[i].type+'">'+response.material[i].item+'</option>');
 		                  	  	  $('#item').addClass('selectpicker');
 							  $('#item').attr('data-live-search', 'true');
 							  $('#item').selectpicker('refresh');
-		                  	  }	
+		                  	  		}	
 						}else{
 							$('#item').append('<option value="">No Data Available</option>');
 						}

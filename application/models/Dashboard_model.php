@@ -217,6 +217,10 @@ class Dashboard_model extends CI_Model
     $sales_delivery_completed = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','COMPLETED')->get()->num_rows();
     $sales_delivery_cancelled = $this->db->select('*')->from('tbl_sales_delivery_header')->where('status','CANCELLED')->get()->num_rows();
 
+    $other_purchased_pending = $this->db->select('*')->from('tbl_other_material_p_header')->where('status','PENDING')->get()->num_rows();
+    $other_purchased_approved = $this->db->select('*')->from('tbl_other_material_p_header')->where('status','APPROVED')->get()->num_rows();
+    $other_purchased_received = $this->db->select('*')->from('tbl_other_material_p_header')->where('status','PENDING')->get()->num_rows();
+
     $stocks = $this->db->query("SELECT count(production_no) as id FROM tbl_material_project WHERE status=2 AND (SELECT type FROM tbl_project WHERE production_no=tbl_material_project.production_no AND type=1) GROUP BY production_no");
     $material_request_pending_stocks=0;
     if($stocks){
@@ -342,7 +346,9 @@ class Dashboard_model extends CI_Model
                           'purchase_project_complete'=>$purchase_project_complete,
                           'purchase_stocks'=>$purchase_stocks,
                           'purchase_project'=>$purchase_project,
-                          'total_request'=>$total_request
+                          'total_request'=>$total_request,
+                          'other_purchased_pending'=>$other_purchased_pending,
+                          ''
                           );
       return $json_data;   
   } 

@@ -134,21 +134,19 @@ class Delete_model extends CI_Model
       }
    }
    function Delete_Purchased_Transaction_Inventory($fund_no,$id){
-      $data_item = false;
-      $data = false;
+      $data_item = array();
+      $data = array();
       $row_m = $this->db->select('*')->from('tbl_other_material_p_transaction')->where('id',$id)->get()->row();
       if($row_m){
-         $row_p = $this->db->select('*')->from('tbl_other_material_p_request as t')
-         ->join('tbl_other_material_p_header as o','t.id=o.pr_id','LEFT')
+         $row_p = $this->db->select('*,t.id')->from('tbl_other_material_p_request as t')
+         ->join('tbl_other_material_p_header as o','t.pr_id=o.id','LEFT')
          ->where('o.fund_no',$fund_no)->where('t.item_no',$row_m->item_no)->where('t.type',$row_m->type)->get()->row();
          $balanced = $row_p->balance + $row_m->quantity;
-         $this->db->where('id',$row_p->id);
-         $result = $this->db->update('tbl_other_material_p_request',array('balance'=>$balanced));
+         $result = $this->db->where('id',$row_p->id)->update('tbl_other_material_p_request',array('balance'=>$balanced));
          if($result){
             $this->db->where('id',$id);
-            $result = $this->db->delete('tbl_other_material_p_transaction');
-            if($result){
-
+            $resultw = $this->db->delete('tbl_other_material_p_transaction');
+            if($resultw){
                $query = $this->db->select('*,s.name,t.item,t.payment,t.quantity,t.id')->from('tbl_other_material_p_transaction as t')->join('tbl_supplier as s','s.id=t.supplier','LEFT')->where('t.fund_no',$fund_no)->order_by('t.latest_update','DESC')->get();
                 if($query){
                      foreach($query->result() as $row){
@@ -161,14 +159,17 @@ class Delete_model extends CI_Model
                                              'amount'=>number_format($row->amount,2));
                        } 
                 }
-               $query = $this->db->select('*')->from('tbl_other_material_p_request')->where('pr_id',$row_b->id)->get();
-                if($query){  
-                    foreach($query->result() as $row){
-                           $data_item[] = array('id'=> $row->item_no,'item'=> $row->item.' - '.$row->balance);
-                    } 
+               $row_b =  $this->db->select('*')->from('tbl_other_material_p_header')->where('fund_no',$fund_no)->get()->row();
+               if($row_b){
+                  $query = $this->db->select('*')->from('tbl_other_material_p_request')->where('pr_id',$row_b->id)->get();
+                   if($query){  
+                       foreach($query->result() as $row){
+                              $data_item[] = array('id'=> $row->item_no,'item'=> $row->item.' - '.$row->balance,'type'=>$row->type);
+                       } 
+                   }
                 }
                
-               return array('type'=>'error','status'=>'Remove Item','row'=>$data,'material'=>$data_item);
+               return array('type'=>'success','status'=>'Remove Item Successfully','row'=>$data,'material'=>$data_item,'id'=>$fund_no);
             }else{
                return array('status'=>false);
             }

@@ -472,11 +472,11 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "supplier":{
-				if(!response == false){
-				   $('.supplier-option').empty();
-				   $('.supplier-option').append('<option value="">SELECT SUPPLIER</option>');
+				let supplier = $('.supplier-option').empty();
+				supplier.append('<option value="">SELECT SUPPLIER</option>');
+				if(response != false){
 				   for(let i=0;i<response.length;i++){
-						$('.supplier-option').append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+						supplier.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
 				   }
 				}
 			   break;

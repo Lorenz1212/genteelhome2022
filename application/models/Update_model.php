@@ -1894,7 +1894,7 @@ class Update_model extends CI_Model
                  $query = $this->db->select('*')->from('tbl_other_material_p_request')->where('pr_id',$row_b->id)->get();
                    if($query){  
                        foreach($query->result() as $row){
-                              $data_item[] = array('id'=> $row->item_no,'item'=> $row->item.' - '.$row->balance);
+                              $data_item[] = array('id'=> $row->item_no,'item'=> $row->item.' - '.$row->balance,'type'=>$row->type);
                        } 
                    }
                

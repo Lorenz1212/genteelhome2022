@@ -62,8 +62,7 @@ class Website_controller extends CI_Controller
         $lastname = $this->input->post('lastname');
         $email = $this->input->post('email');
         $password = $this->input->post('password');
-        $this->website_model->registration($firstname,$lastname,$email,$password);
-        $data = array('status'=> 'success');
+        $data =$this->website_model->registration($firstname,$lastname,$email,$password);
         echo json_encode($data);
     }
     public function header()  

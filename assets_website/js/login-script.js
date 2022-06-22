@@ -18,12 +18,11 @@ var KTLogin = function() {
                   { 
                   	if(response.status =='success'){
                   		swal({
-						  title: action,
+						  title: response.message,
 						  text: "You clicked the button!",
-						  icon: "success",
+						  icon: response.status,
 						  button: "Ok!",
 						}).then(function() {
-			            	
                             if(login == 'Login'){
                                 var url = baseURL+'gh/app/index';
                                 window.location = url;
@@ -31,7 +30,6 @@ var KTLogin = function() {
                                  var url = $(location).attr('href');
                                  window.location = url;
                             }
-							
 						});
                   	}else if(response.status =='error'){
                   		swal("Oopps", "Invalid Username/Password", "warning");
@@ -42,7 +40,14 @@ var KTLogin = function() {
 						  icon: "warning",
 						  button: "Ok!",
 						});
-                  	}	
+                  	}else if(response.status == 'already'){
+                        swal({
+                          title: "Warning!",
+                          text: response.message,
+                          icon: "warning",
+                          button: "Ok!",
+                        });
+                    }	
                   },
                  error: function(xhr,status,error){
                        console.log(xhr);

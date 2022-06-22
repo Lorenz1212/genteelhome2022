@@ -4,17 +4,16 @@
             <?php 
                  $query = $this->db->select('*')->from('tbl_website_banner')->where('type !=','none')->order_by('type','ASC')->get();
                   if($query !== FALSE && $query->num_rows() > 0){
-                   foreach($query->result() as $row)
-                    {
-                          echo '<div class="item wp-block-cover-image" style="background-image:url('.base_url().'assets/images/banner/'.$row->image.'); object-fit: cover;">
-                                 <div class="box">
-                                   <div class="container">
-                                    <h2 class="title animated h1" data-animation="fadeInDown">'.$row->title.'</h2>
-                                      <div class="animated" data-animation="fadeInUp">'.$row->sub_title.'
-                                   </div>
-                                  </div>
-                                </div>
-                              </div>';
+                   foreach($query->result() as $row){
+                      echo '<div class="item wp-block-cover-image" style="background-image:url('.base_url().'assets/images/banner/'.$row->image.'); object-fit: cover;">
+                             <div class="box">
+                               <div class="container">
+                                <h2 class="title animated h1" data-animation="fadeInDown">'.$row->title.'</h2>
+                                  <div class="animated" data-animation="fadeInUp">'.$row->sub_title.'
+                               </div>
+                              </div>
+                            </div>
+                          </div>';
                     }      
                  }
             ?>      
@@ -196,63 +195,58 @@
                 </div> 
             </div> 
         </section> 
-         <section class="blog">
-            <div class="container">
-                <!-- === blog header === -->
-                <header>
-                    <div class="row">
-                        <div class="col-md-offset-2 col-md-8 text-center">
-                            <h1 class="h2 title">Announcement</h1>
-                            <div class="text">
-                                <p>Latest news from the blog</p>
-                            </div>
-                        </div>
+    <?php 
+       $query = $this->db->query("SELECT *,
+         DATE_FORMAT(date_event, '%d') AS day_name,
+        DATE_FORMAT(date_event, '%Y') AS year_name,
+        DATE_FORMAT(date_event, '%b') AS month_name FROM tbl_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 6");
+       if($query){
+            echo ' <section class="blog">
+                        <div class="container">
+                            <header>
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-8 text-center">
+                                        <h1 class="h2 title">Announcement</h1>
+                                        <div class="text">
+                                            <p>Latest news from the blog</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </header>
+                            <div class="row">';
+            foreach($query->result() as $row){
+                    echo'  <div class="col-sm-4">
+                            <article>
+                                <a href="article.html">
+                                    <div class="image" style="background-image:url('.base_url().'assets/images/events/'.$row->image.')">
+                                        <img src="assets/images/blog-1.jpg" alt="">
+                                    </div>
+                                    <div class="entry entry-table">
+                                        <div class="date-wrapper">
+                                            <div class="date">
+                                                <span>'.$row->month_name.'</span>
+                                                <strong>'.$row->day_name.'</strong>
+                                                <span>'.$row->year_name.'</span>
+                                            </div>
+                                        </div>
+                                        <div class="title">
+                                            <h2 class="h5">'.$row->title.'</h2>
+                                        </div>
+                                    </div>
+                                    <div class="show-more">
+                                        <span class="btn btn-clean-dark btn-block">Read more</span>
+                                    </div>
+                                </a>
+                            </article>
+                        </div>';
+           }
+           echo'</div> 
+                    <div class="wrapper-more">
+                        <a href="blog-grid.html" class="btn btn-clean-dark">View all posts</a>
                     </div>
-                </header>
-                <div class="row">
-                    <?php 
-                           $query = $this->db->select('*')->from('tbl_events')->where('status','ACTIVE')->order_by('id','DESC')->limit(6)->get();
-                           if($query){
-                                foreach($query->result() as $row){
-                                        echo'  <div class="col-sm-4">
-                                                <article>
-                                                    <a href="article.html">
-                                                        <div class="image" style="background-image:url('.base_url().'assets/images/events/'.$row->image.')">
-                                                            <img src="assets/images/blog-1.jpg" alt="">
-                                                        </div>
-                                                        <div class="entry entry-table">
-                                                            <div class="date-wrapper">
-                                                                <div class="date">
-                                                                    <span>MAR</span>
-                                                                    <strong>08</strong>
-                                                                    <span>2017</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="title">
-                                                                <h2 class="h5">'.$row->title.'</h2>
-                                                            </div>
-                                                        </div>
-                                                        <div class="show-more">
-                                                            <span class="btn btn-clean-dark btn-block">Read more</span>
-                                                        </div>
-                                                    </a>
-                                                </article>
-                                            </div>';
-                               }
-                           }
-                        ?>
-                    <!-- === blog item === -->
-                    
-                </div> <!--/row-->
-                <!-- === button more === -->
-
-                <div class="wrapper-more">
-                    <a href="blog-grid.html" class="btn btn-clean-dark">View all posts</a>
-                </div>
-
-            </div> <!--/container-->
-        </section>
-
-        <!-- ========================  Instagram ======================== -->
-
+                </div> 
+            </section>';
+       }
+    ?>
+                
        

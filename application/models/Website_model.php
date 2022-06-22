@@ -15,21 +15,20 @@ class Website_model extends CI_Model{
       $this->db->select('*')->from('tbl_customer_online')->where('email',$email)->get();
       $row = $query->row();
       if(!$row){
-            $data = array('email'      => $email,
-                    'password'   => md5($password),
-                    'firstname'  => $firstname,
-                    'lastname'   => $lastname,
-                    'status'     => 1,
+            $data = array('email'=> $email,
+                    'password'=> md5($password),
+                    'firstname' => $firstname,
+                    'lastname' => $lastname,
+                    'status' => 1,
                     'date_created'  => date('Y-m-d H:i:s'));
-             $this->db->insert('tbl_customer_online',$data);
+             $result = $this->db->insert('tbl_customer_online',$data);
+             if($result){
+                 return array('status'=>'success','message'=>'Your account has been create successfully');
+             }else{
+                 return array('status'=>'already','message'=>'Email is already used');
+             }
       }else{
-         $data = array('password'   => md5($password),
-                       'firstname'  => $firstname,
-                       'lastname'   => $lastname,
-                       'status'     => 1,
-                       'latest_update'  => date('Y-m-d H:i:s'));
-          $this->db->where('id',$row->id);
-          $this->db->update('tbl_customer_online',$data);
+         return array('status'=>'already','message'=>'Email is already used');
       }
       
    }
@@ -339,37 +338,21 @@ class Website_model extends CI_Model{
          return $json;
    }
    function product_collection($userid){
-           $query = $this->db->select('cc.*,d.*,c.*,s.*,d.id as id')
-           ->from('tbl_cart_collection as cc')
-           ->join('tbl_project_design as d','d.id=cc.project_no','LEFT')
-           ->join('tbl_project_color as pc','d.id=pc.project_no','LEFT')
-           ->join('tbl_category as c','c.id=d.cat_id','LEFT')
-           ->join('tbl_category_sub as s','s.id=d.sub_id','LEFT')
-           ->where('d.d_status', 'DISPLAYED')
-           ->where('cc.customer',$userid)
-           ->get();
-           if($query !== FALSE && $query->num_rows() > 0){
-           foreach($query->result() as $row)
-            {  
-                    $query2 = $this->db->select('*')->from('tbl_project_color as c')
-                   ->join('tbl_project_image as i','c.c_code=i.c_code','LEFT')
-                   ->where('c.project_no',$row->id)
-                   ->where('c.display_status','displayed')
-                   ->limit(1)->get();
-                   $row2 = $query2->row();
-                   if(!$row2->images){
-                      $images = 'default.png';
-                   }else{
-                        $images = $row2->images;
-                   }
-                   $data[] = array(
-                      'id'         => $row->id,
-                      'project_no' => $row->id,
-                      'title'      => $row->title,
-                      'images'     => $images,
-                      'c_code'     => $row2->c_code);
-               
-            }      
+            $query = $this->db->query("SELECT *,
+                (SELECT title FROM tbl_project_design WHERE id=tbl_cart_collection.project_no) as title,
+                (SELECT c_code FROM tbl_project_color WHERE id=tbl_cart_collection.project_no GROUP BY project_no LIMIT 1) as c_code,
+                (SELECT IFNULL(images,'default.png') FROM tbl_project_image WHERE project_no=tbl_cart_collection.project_no GROUP BY project_no LIMIT 1) as image
+                FROM tbl_cart_collection WHERE customer='$userid'");
+           if($query){
+               foreach($query->result() as $row){    
+                       $data[] = array(
+                          'id'         => $row->project_no,
+                          'project_no' => $row->project_no,
+                          'title'      => $row->title,
+                          'images'     => $row->image,
+                          'c_code'     =>$row->c_code);
+                   
+                }      
          }else{$data =false;}
          $json = array('data'=> $data);
          return $json;

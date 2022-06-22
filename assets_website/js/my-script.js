@@ -892,20 +892,21 @@ var KTAjaxClient = function() {
 	  		break;
 	  	}
 	  	case "product-image-modal":{
+	  		let container = $('.modal_image').empty();
+  			let container1 = $('.modal_image1').empty();
 	  		if(!response == false){
+	  			console.log(response)
 	  			$('#price').text(response.price);
   			  	let html="";
   			  	let html1="";
-  			  	let container = $('.modal_image');
-  			  	let container1 = $('.modal_image1');
       				for(let i=0;i<response.data.length;i++){
   				 html +='<img src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" alt="" width="340">';
   				 html1 +='<a href="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'">\
   				 <img src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" alt="" height="500"></a>';
   				}
-				container.html('<div class="owl-product-gallery owl-carousel owl-theme" style="opacity: 1; display: block;">\
+				container.append('<div class="owl-product-gallery owl-carousel owl-theme" style="opacity: 1; display: block;">\
                       	'+html+'');
-                      	container1.html('<div class="owl-product-gallery open-popup-gallery owl-carousel owl-theme">\
+                      	container1.append('<div class="owl-product-gallery open-popup-gallery owl-carousel owl-theme">\
                       	'+html1+'');
 
                             let t = [ '<span class="icon icon-chevron-left"></span>', '<span class="icon icon-chevron-right"></span>' ];
@@ -1433,5 +1434,4 @@ var KTAjaxClient = function() {
 
 jQuery(document).ready(function() {
 	KTAjaxClient.init();
-});
-		
+});		

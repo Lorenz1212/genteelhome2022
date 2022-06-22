@@ -18,10 +18,10 @@ class Gh extends CI_Controller {
                                   'website_logged_in' => 1  
                            );    
                            $this->session->set_userdata($data); 
-                           $data = array('status' => 'success');  
+                           $data = array('status' => 'success','message'=>'Login Successfully');  
                            echo json_encode($data);
                   }else{
-                    $data = array('status' => 'error');  
+                    $data = array('status' => 'error','message'=>'Invalid Email/Password');  
                     echo json_encode($data);
                   }     
             }else{
