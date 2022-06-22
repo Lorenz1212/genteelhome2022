@@ -3621,14 +3621,13 @@ const month = ["January","February","March","April","May","June","July","August"
 	  	}
 	  	case "Modal_Other_Purchase_View_Received_Accounting":{
 	  		if(!response == false){
-	  				_initCurrency_format(".amount");
 	  			    $('.cash_fund_r').text(response.info.request_no);
 		  		    $('.requestor_r').text(response.info.requestor);
 		  		    $('.date_created_r').text(response.info.date_created);
 		  		    $('.cf_no').text(response.info.fund_no);
-		  		    $('.total_petty').text(response.info.pettycash);
-		  		    $('.actual_change').text(response.info.actual_change);
-		  		    $('.total_refund').text(response.info.refund);
+		  		    $('.total_petty').text(response.fund.pettycash);
+		  		    $('.actual_change').text(response.fund.actual_change);
+		  		    $('.total_refund').text(response.fund.refund);
 		  		    let container = $('#tbl_purchased_received_modal > tbody:last-child');
 		  		    container.empty();
 		  		    let total=0;
