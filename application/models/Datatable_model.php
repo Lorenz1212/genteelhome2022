@@ -612,7 +612,7 @@ class Datatable_model extends CI_Model{
             (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator a LEFT JOIN tbl_project p ON a.id=p.assigned WHERE p.production_no=tbl_purchasing_project.production_no) as requestor,  
             (SELECT image FROM tbl_project_color c LEFT JOIN tbl_project p ON p.project_no=c.project_no WHERE p.production_no=tbl_purchasing_project.production_no) as image, 
             (SELECT title FROM tbl_project_design c LEFT JOIN tbl_project p ON p.project_no=c.id WHERE p.production_no=tbl_purchasing_project.production_no) as title 
-            FROM tbl_purchasing_project WHERE status =2 AND  type=2 GROUP BY production_no";
+            FROM tbl_purchasing_project WHERE status =2 AND type=2 GROUP BY production_no";
              $query = $this->db->query($sql);
           if($query !== FALSE && $query->num_rows() > 0){
               foreach($query->result() as $row)  {

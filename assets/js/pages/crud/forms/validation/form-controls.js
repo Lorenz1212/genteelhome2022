@@ -3023,7 +3023,7 @@ var KTFormControls = function () {
 						        formData.append('qty',$('input[name=qty_add_p]').val());
 						        formData.append('remarks',$('textarea[name=remarks_add_p]').val());
 						        formData.append('unit',$('input[name=unit_add_p]').val());
-						        formData.append('type',1);
+						        formData.append('type',2);
 							  	 thisURL = baseURL + 'create_controller/Create_Purchase_request_Supervisor';
 							  	 _ajaxForm(thisURL,"POST",formData,"Create_Purchase_request_Supervisor",false);
 					         }

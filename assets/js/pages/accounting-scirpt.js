@@ -329,6 +329,7 @@ const month = ["January","February","March","April","May","June","July","August"
 			}
 			case "data-purchased-material-project-request":{
 				KTDatatablesDataSourceAjaxClient.init('tbl_purchased_material_project');
+				_initCurrency_format(".amount");
 				$(document).ready(function() {
 					$(document).on("click","#view-request-form",function() {
 					 	let val = {id:$(this).attr('data-id')};
@@ -1398,7 +1399,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    					  </tr>');
 		  		    		total+=parseFloat(response.material[i].amount);
 		  		    }
-		  		     $('.total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		  		     $('.total').text(response.total);
 	  		    		$('.purchase-button').show();
 	  		    		$('.purchase-cash-fund').hide();
 	  		    		$('.total_fund').text(response.fund);
@@ -1447,7 +1448,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    					  </tr>');
 						total+=parseFloat(response.material[i].amount);
 		  		    }
-		  		    $('.total-received').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		  		    $('.total-received').text(response.total);
 		  		     $('.purchased-received-input').show();
 	  		    		$('.purchased-received-hide').hide();
 		  		    	if(response.info.status == 2){
@@ -1466,7 +1467,6 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		}
 	  		case "Modal_Accounting_Purchase_Material_Project":{
 	  			if(!response == false){
-	  				_initCurrency_format(".amount");
 	  			    $('.cash_fund').text(response.info.fund_no);
 		  		    $('.joborder').text(response.info.production_no);
 		  		    $('.requestor').text(response.info.requestor);
@@ -1481,9 +1481,8 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    					  	 <td class="text-center">'+response.material[i].quantity+'</td>\
 		  		    					  	 <td class="text-right">₱ '+response.material[i].amount+'</td>\
 		  		    					  </tr>');
-		  		    		total+=parseFloat(response.material[i].amount);
 		  		    }
-		  		     $('.total').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		  		     $('.total').text(response.total);
 	  		    		$('.purchase-button').show();
 	  		    		$('.purchase-cash-fund').hide();
 	  		    		$('.total_fund').text(response.fund);
@@ -1532,7 +1531,8 @@ const month = ["January","February","March","April","May","June","July","August"
 		  		    					  </tr>');
 		  		    		total+=parseFloat(response.material[i].amount);
 		  		    }
-		  		    $('.total-received').text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+		  		    $('.total-received').text(response.total);
 		  		     $('.purchased-received-input').show();
 	  		    		$('.purchased-received-hide').hide();
 		  		    	if(response.info.status == 2){

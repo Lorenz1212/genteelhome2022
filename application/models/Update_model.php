@@ -2070,7 +2070,7 @@ class Update_model extends CI_Model
     }
      function Update_Salesorder_Project_Accounting($id,$status,$remarks){
         $id = $this->encryption->decrypt($id);
-         $row = $this->db->query("SELECT *,(SELECT fullname FROM tbl_salesorder_customer WHERE id=tbl_salesorder_stocks.customer) as customer_name FROM tbl_salesorder_project WHERE id='$id'")->row();
+         $row = $this->db->query("SELECT *,(SELECT fullname FROM tbl_salesorder_customer WHERE id=tbl_salesorder_project.customer) as customer_name FROM tbl_salesorder_project WHERE id='$id'")->row();
         if($row){
             $customer = $row->customer_name;
             $result = $this->db->where('id',$id)->update('tbl_salesorder_project',array('status'=>$status,'remarks'=>$remarks,'latest_update'=>date('Y-m-d H:i:s'),'update_by'=>$this->user_id));
