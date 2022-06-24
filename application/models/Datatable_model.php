@@ -2797,7 +2797,7 @@ class Datatable_model extends CI_Model{
              return $data;
      }
        function Account_Report_Collection_Weekly($month,$year){
-             $$data =false;
+             $data =false;
              $date = "MONTH(date_collect)=".$month." AND YEAR(date_collect)=".$year."";
              if($month == false || $year == false){
                 $date = "MONTH(date_collect)=".date('m')." AND YEAR(date_collect)=".date('Y')."";

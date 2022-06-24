@@ -3937,6 +3937,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  			break;
 	  		}
 	  		case"fetch_sales_collection_status":{
+	  			_initnotificationupdate();
 	  			KTDatatablesDataSourceAjaxClient.init('tbl_collection');
 	  			break;
 	  		}
