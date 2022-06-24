@@ -3755,6 +3755,7 @@ const month = ["January","February","March","April","May","June","July","August"
 		  			$('.btn-search').attr('data-id',response.info.id);
 	           	}
 	  			let framing = $('#tbl_framing > tbody').empty();
+	  			$('.btn-edit-materials[data-type=1]').attr('disabled',true);
 	  			if(response.framing){
 	  				$('.btn-edit-materials[data-type=1]').attr('disabled',false);
 		  			for(var i=0;i<response.framing.length;i++){
@@ -3785,6 +3786,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_framing > tbody').empty().append('<tr>\<td colspan="8" rows="4" class="text-center">NO DATA</td></tr>');
 				}
 				let mechanism = $('#tbl_mechanism > tbody').empty();
+				('.btn-edit-materials[data-type=2]').attr('disabled',true);
 				if(response.mechanism){
 					$('.btn-edit-materials[data-type=2]').attr('disabled',false);
 		  			for(var i=0;i<response.mechanism.length;i++){
@@ -3815,6 +3817,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_mechanism > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
 				let finishing = $('#tbl_finishing > tbody').empty();
+				('.btn-edit-materials[data-type=3]').attr('disabled',true);
 				if(response.finishing){
 					$('.btn-edit-materials[data-type=3]').attr('disabled',false);
 		  			for(var i=0;i<response.finishing.length;i++){
@@ -3845,6 +3848,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_finishing > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
 				let sulihiya = $('#tbl_sulihiya > tbody').empty();
+				('.btn-edit-materials[data-type=4]').attr('disabled',true);
 				if(response.sulihiya){
 					$('.btn-edit-materials[data-type=4]').attr('disabled',false);
 		  			for(var i=0;i<response.sulihiya.length;i++){
@@ -3875,6 +3879,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_sulihiya > tbody:last-child').empty().append('<tr>\<td colspan="8" class="text-center">NO DATA</td>\</tr>');
 				}
 				let upholstery = $('#tbl_upholstery > tbody').empty();
+				('.btn-edit-materials[data-type=4]').attr('disabled',true);
 				if(response.upholstery){
 					$('.btn-edit-materials[data-type=5]').attr('disabled',false);
 		  			for(var i=0;i<response.upholstery.length;i++){
@@ -3905,6 +3910,7 @@ const month = ["January","February","March","April","May","June","July","August"
 					$('#tbl_upholstery > tbody:last-child').empty().append('<tr><td colspan="8" class="text-center">NO DATA</td></tr>');
 				}
 				let other = $('#tbl_others > tbody').empty();
+				('.btn-edit-materials[data-type=6]').attr('disabled',true);
 				if(response.others){
 					$('.btn-edit-materials[data-type=6]').attr('disabled',false);
 		  			for(var i=0;i<response.others.length;i++){
