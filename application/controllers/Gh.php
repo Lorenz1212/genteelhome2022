@@ -271,7 +271,7 @@ class Gh extends CI_Controller {
             case "production-stocks":{$this->load->view('accounting/production_stocks.php'); break;}
             case "supplier":{$this->load->view('accounting/supplier_list.php'); break;}
 
-
+             case "tutorial":{$this->load->view('accounting/tutorial.php');break;}
             case 'report-project-monitoring':{$this->load->view('accounting/report_production.php');break;}
             case 'report-cash-position':{$this->load->view('accounting/report_cashposition.php');break;}
             case 'report-cashfund':{$this->load->view('accounting/report_cashfund.php');break;}

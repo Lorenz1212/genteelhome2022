@@ -19,7 +19,7 @@
 				 <div class="card-header">
 				  <div class="card-title">
 				   <h3 class="card-label">
-				    Joborder for stock
+				    Request for Cash Fund
 				   </h3>
 				  </div>
 				 </div>
@@ -27,7 +27,7 @@
 				 	<div class="row">
 				 		<div class="col">
 				 			 <video width="100%" height="100%" controls>
-							  <source src="<?php echo base_url('assets/video_tutorial/production-joborder-stocks.mp4') ?>" type="video/mp4">
+							  <source src="<?php echo base_url('assets/video_tutorial/accounting-cashfund-request.mp4') ?>" type="video/mp4">
 							</video>
 				 		</div>
 				 	</div>
@@ -36,26 +36,6 @@
 				</div>
 		 	</div>
 
-		 	<div class="col-4">
-		 		<div class="card card-custom gutter-b">
-				 <div class="card-header">
-				  <div class="card-title">
-				   <h3 class="card-label">
-				     Joborder for project
-				   </h3>
-				  </div>
-				 </div>
-				 <div class="card-body">
-				 	<div class="row">
-				 		<div class="col">
-				 			 <video width="100%" height="100%" controls>
-							  <source src="<?php echo base_url('assets/video_tutorial/production-joborder-project.mp4') ?>" type="video/mp4">
-							</video>
-				 		</div>
-				 	</div>
-				 </div>
-				</div>
-		 	</div>
 
 		 	<div class="col-4">
 		 		<div class="card card-custom gutter-b">
@@ -70,7 +50,7 @@
 				 	<div class="row">
 				 		<div class="col">
 				 			 <video width="100%" height="100%" controls>
-							  <source src="<?php echo base_url('assets/video_tutorial/production-salesorder-stocks.mp4') ?>" type="video/mp4">
+							  <source src="<?php echo base_url('assets/video_tutorial/accounting-salesorder-stocks.mp4') ?>" type="video/mp4">
 							</video>
 				 		</div>
 				 	</div>
@@ -91,7 +71,7 @@
 				 	<div class="row">
 				 		<div class="col">
 				 			 <video width="100%" height="100%" controls>
-							  <source src="<?php echo base_url('assets/video_tutorial/production-salesorder-project.mp4') ?>" type="video/mp4">
+							  <source src="<?php echo base_url('assets/video_tutorial/accounting-salesorder-project.mp4') ?>" type="video/mp4">
 							</video>
 				 		</div>
 				 	</div>
@@ -104,7 +84,28 @@
 				 <div class="card-header">
 				  <div class="card-title">
 				   <h3 class="card-label">
-				     INVENTORY
+				      Sales Collection
+				   </h3>
+				  </div>
+				 </div>
+				 <div class="card-body">
+				 	<div class="row">
+				 		<div class="col">
+				 			 <video width="100%" height="100%" controls>
+							  <source src="<?php echo base_url('assets/video_tutorial/accounting-salescollection.mp4') ?>" type="video/mp4">
+							</video>
+				 		</div>
+				 	</div>
+				 </div>
+				</div>
+		 	</div>
+
+		 	<div class="col-4">
+		 		<div class="card card-custom gutter-b">
+				 <div class="card-header">
+				  <div class="card-title">
+				   <h3 class="card-label">
+				     Inventory
 				   </h3>
 				  </div>
 				 </div>
@@ -120,6 +121,47 @@
 				</div>
 		 	</div>
 
+		 	<div class="col-4">
+		 		<div class="card card-custom gutter-b">
+				 <div class="card-header">
+				  <div class="card-title">
+				   <h3 class="card-label">
+				     Project Monitoring
+				   </h3>
+				  </div>
+				 </div>
+				 <div class="card-body">
+				 	<div class="row">
+				 		<div class="col">
+				 			 <video width="100%" height="100%" controls>
+							  <source src="<?php echo base_url('assets/video_tutorial/accounting-project-monitoring.mp4') ?>" type="video/mp4">
+							</video>
+				 		</div>
+				 	</div>
+				 </div>
+				</div>
+		 	</div>
+
+		 	<div class="col-4">
+		 		<div class="card card-custom gutter-b">
+				 <div class="card-header">
+				  <div class="card-title">
+				   <h3 class="card-label">
+				     Reports
+				   </h3>
+				  </div>
+				 </div>
+				 <div class="card-body">
+				 	<div class="row">
+				 		<div class="col">
+				 			 <video width="100%" height="100%" controls>
+							  <source src="<?php echo base_url('assets/video_tutorial/accounting-reports.mp4') ?>" type="video/mp4">
+							</video>
+				 		</div>
+				 	</div>
+				 </div>
+				</div>
+		 	</div>
 
 
 		 </div>
