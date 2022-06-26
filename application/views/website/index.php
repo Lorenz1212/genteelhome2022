@@ -199,14 +199,14 @@
        $query = $this->db->query("SELECT *,
          DATE_FORMAT(date_event, '%d') AS day_name,
         DATE_FORMAT(date_event, '%Y') AS year_name,
-        DATE_FORMAT(date_event, '%b') AS month_name FROM tbl_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 6");
+        DATE_FORMAT(date_event, '%b') AS month_name FROM tbl_events WHERE status='ACTIVE' ORDER BY date_event DESC LIMIT 6");
        if($query){
             echo ' <section class="blog">
                         <div class="container">
                             <header>
                                 <div class="row">
                                     <div class="col-md-offset-2 col-md-8 text-center">
-                                        <h1 class="h2 title">Announcement</h1>
+                                        <h1 class="h2 title">Blogs</h1>
                                         <div class="text">
                                             <p>Latest news from the blog</p>
                                         </div>
@@ -242,7 +242,7 @@
            }
            echo'</div> 
                     <div class="wrapper-more">
-                        <a href="blog-grid.html" class="btn btn-clean-dark">View all posts</a>
+                        <a href="blog-grid.html" class="btn btn-clean-dark">View all</a>
                     </div>
                 </div> 
             </section>';

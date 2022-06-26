@@ -100,6 +100,7 @@ let mainpage;
 		switch(view){
 			case "index":{
 				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_popular_product']));
+				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_popular_product']));
 				break;
 			}
 			case "product-details":{
