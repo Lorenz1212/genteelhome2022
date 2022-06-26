@@ -147,6 +147,16 @@ class Web_model extends CI_Model{
 				}
 				break;
 			}
+			case"fetch_company_info":{
+				$sql = "SELECT * FROM tbl_company_profile";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
 
 		}
 	}

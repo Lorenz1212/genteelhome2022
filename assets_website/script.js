@@ -93,6 +93,9 @@ let mainpage;
 	var cart_list = function(){
 		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['categories', 'fetch_cart_list']));
 	}
+	var footer = function(){
+		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['categories', 'fetch_company_info']));
+	}
 	var _ViewController = async function(view,val){
 		switch(view){
 			case "index":{
@@ -262,6 +265,26 @@ let mainpage;
 
 	var _construct = async function(response, type, element, object){
 		switch(type){
+			case "fetch_company_info":{
+				if(response !=false){
+					$('#facebook').attr('href',response.facebook);
+			  		$('#youtube').attr('href',response.youtube);
+			  		$('#tweeter').attr('href',response.tweeter);
+
+			  		$('#instagram').text(response.instagram);
+			  		$('#email').text(response.email);
+			  		$('#mobile').text(response.mobile);
+			  		$('#company').text(response.company);
+			  		$('#address').text(response.address);
+			  		$('#storeopen').text(response.store_open);
+
+			  		$('#mobile_contact').text(response.mobile);
+			  		$('#company_contact').text(response.company);
+			  		$('#address_contact').text(response.address);
+			  		$('#store_open').text(response.store_open);
+				}
+				break;
+			}
 			case "fetch_categories_list":{
 				let container = $('#category_nav').empty();
 				if(response != false){
@@ -767,6 +790,7 @@ let mainpage;
 			_check_url(window.location.pathname);
 			categories();
 			cart_list();
+			footer();
 			sessionStorage.clear();
 		},
 
