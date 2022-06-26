@@ -760,38 +760,44 @@ class Website_model extends CI_Model{
       $this->db->where('id',$id);
       $this->db->update('tbl_cart_add',$data);
    }
-   function Update_Cart_CheckOut($id,$b_address,$b_city,$b_province,$s_address,$s_city,$s_province,$order_date,$shipping_date,$order_no,$coupons,$subtotal,$total,$discount,$type,$region){
-        $cart = array('order_no' => $order_no,
+   function Update_Cart_CheckOut($id,$b_address,$b_city,$b_province,$s_address,$s_city,$s_province,$order_date,$shipping_date,$order_no,$type){
+        $sql = "SELECT sum(price) as total  FROM tbl_cart_add WHERE customer='$id' AND status='process'";
+        $row = $this->db->query($sql)->row();
+        if($row){
+            $cart = array('order_no' => $order_no,
                       'status'   =>'checkout');
-        $this->db->where('customer',$id);
-        $this->db->where('status','process');
-        $this->db->update('tbl_cart_add',$cart);
-
-        $promo = array('order_no'=>$order_no,
-                       'status'=>'used');
-        $this->db->where('customer',$id);
-        $this->db->where('promo_code',$coupons);
-        $this->db->update('tbl_customer_promo',$promo);
-
-        $insert = array('customer'      => $id,
-                        'order_no'      => $order_no,
-                        'promo_no'      => $coupons,
-                        'b_address'     => $b_address,
-                        'b_city'        => $b_city,
-                        'b_province'    => $b_province,
-                        's_address'     => $s_address,
-                        's_city'        => $s_city,
-                        's_province'    => $s_province,
-                        'region'        => $region,
-                        'subtotal'      => $subtotal,
-                        'discount'      => $discount,
-                        'total'         => $total,
-                        'type'          => $type,
-                        'status'        => 'REQUEST',
-                        'date_created'  => date('Y-m-d H:i:s'),
-                        'date_order'    => $order_date,
-                        'date_shipping' => $shipping_date);
-        $this->db->insert('tbl_cart_address',$insert);
+            $result = $this->db->where('customer',$id)->where('status','process')->update('tbl_cart_add',$cart);
+            if($result){
+                $insert = array('customer' => $id,
+                            'order_no'      => $order_no,
+                            'b_address'     => $b_address,
+                            'b_city'        => $b_city,
+                            'b_province'    => $b_province,
+                            's_address'     => $s_address,
+                            's_city'        => $s_city,
+                            's_province'    => $s_province,
+                            'type'          => $type,
+                            'status'        => 'REQUEST',
+                            'date_created'  => date('Y-m-d H:i:s'),
+                            'date_order'    => $order_date,
+                            'date_shipping' => $shipping_date);
+                $result = $this->db->insert('tbl_cart_address',$insert);
+                if($result){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+             
+        }
+        // $promo = array('order_no'=>$order_no,
+        //                'status'=>'used');
+        // $this->db->where('customer',$id);
+        // $this->db->where('promo_code',$coupons);
+        // $this->db->update('tbl_customer_promo',$promo);
+       
    }
     function Update_Password($id,$password){
         $data = array('password' => md5($password));

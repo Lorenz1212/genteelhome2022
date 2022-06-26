@@ -1,10 +1,13 @@
 <div id="kt_content" data-table="data-product-list">
 <!-- ======================== Main header ======================== -->
-<section class="main-header" style="background-image:url(<?php echo base_url() ?>assets_website/images/gallery-3.jpg)">
+<section class="main-header">
     <header>
         <div class="container">
             <h1 class="h2 title">Shop</h1>
-            <ol class="breadcrumb breadcrumb-inverted" id="btn_cat">
+            <ol class="breadcrumb breadcrumb-inverted categories-list">
+                <li><span class="icon icon-home"></span></li>
+                <li><span class="cat-name"></span></li>
+                <li><a class="active"><span class="sub-name"></span></a></li>
 
             </ol>
         </div>

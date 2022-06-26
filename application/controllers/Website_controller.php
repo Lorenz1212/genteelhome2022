@@ -6,13 +6,98 @@ class Website_controller extends CI_Controller
     public function __construct()
     {
       parent::__construct();
-      $this->load->helper('url'); 
       $this->load->helper('string');
       $this->load->library('email');
       $this->load->model('email_model');
       $this->load->model('website_model');
-      $this->load->library('session');
+      $this->load->model('web_model');
     }
+    public function Controller(){
+        $action = $this->input->post('data1');
+        switch ($action) {
+            case "categories":{
+                $type = $this->input->post('data2')??$this->invalidMissing_Input('Missing request type');
+                $val = $this->input->post('data3')??false;
+                $model_response = $this->web_model->Categories($type,$val);
+                $data = array(
+                       'status' => 'success',
+                       'message' => 'request accepted',
+                       'payload' => base64_encode(json_encode($model_response))
+                  );
+                echo json_encode($data); 
+                break;
+            }
+            case "dashboard":{
+                $type = $this->input->post('data2')??$this->invalidMissing_Input('Missing request type');
+                $val = $this->input->post('data3')??false;
+                $model_response = $this->web_model->Dashboard($type,$val);
+                $data = array(
+                       'status' => 'success',
+                       'message' => 'request accepted',
+                       'payload' => base64_encode(json_encode($model_response))
+                  );
+                echo json_encode($data); 
+                break;
+            }
+            case "product":{
+                $type = $this->input->post('data2')??$this->invalidMissing_Input('Missing request type');
+                $val = $this->input->post('data3')??false;
+                $val1 = $this->input->post('data4')??false;
+                $val2 = $this->input->post('data5')??false;
+                $model_response = $this->web_model->Product($type,$val,$val1,$val2);
+                $data = array(
+                       'status' => 'success',
+                       'message' => 'request accepted',
+                       'payload' => base64_encode(json_encode($model_response))
+                  );
+                echo json_encode($data); 
+                break;
+            }
+            case "cart":{
+                $type = $this->input->post('data2')??$this->invalidMissing_Input('Missing request type');
+                $val = $this->input->post('data3')??false;
+                $val1 = $this->input->post('data4')??false;
+                $val2 = $this->input->post('data5')??false;
+                $model_response = $this->web_model->Cart($type,$val,$val1,$val2);
+                $data = array(
+                       'status' => 'success',
+                       'message' => 'request accepted',
+                       'payload' => base64_encode(json_encode($model_response))
+                  );
+                echo json_encode($data); 
+                break;
+            }
+            case "collection":{
+                $type = $this->input->post('data2')??$this->invalidMissing_Input('Missing request type');
+                $val = $this->input->post('data3')??false;
+                $val1 = $this->input->post('data4')??false;
+                $val2 = $this->input->post('data5')??false;
+                $model_response = $this->web_model->Collection($type,$val,$val1,$val2);
+                $data = array(
+                       'status' => 'success',
+                       'message' => 'request accepted',
+                       'payload' => base64_encode(json_encode($model_response))
+                  );
+                echo json_encode($data);
+                break;
+            }
+            
+            default:
+                return false;
+                break;
+        }
+    }
+    private function invalidMissing_Input($message){
+          $data = array(
+              'status' => 'failed',
+              'message' => $message,
+              'payload' => ''
+           );
+           echo json_encode($data);
+           exit();
+    }
+
+
     public function email_validation(){
          $email = $this->input->post('email');
          $query = $this->db->select()->from('tbl_customer_online')->where('email',$email)->where('status',1)->get();
@@ -247,13 +332,8 @@ class Website_controller extends CI_Controller
          $order_date    =  $this->input->post('order_date');
          $shipping_date =  $this->input->post('shipping_date');
          $order_no      =  $this->input->post('order_no');
-         $coupons       =  $this->input->post('coupons');
-         $subtotal      =  floatval(str_replace(',', '', $this->input->post('subtotal'))); 
-         $total         =  floatval(str_replace(',', '', $this->input->post('total'))); 
-         $discount      =  $this->input->post('discount');
          $type          =  $this->input->post('type');
-         $region        =  $this->input->post('region');
-         $this->website_model->Update_Cart_CheckOut($id,$b_address,$b_city,$b_province,$s_address,$s_city,$s_province,$order_date,$shipping_date,$order_no,$coupons,$subtotal,$total,$discount,$type,$region);
+         $this->website_model->Update_Cart_CheckOut($id,$b_address,$b_city,$b_province,$s_address,$s_city,$s_province,$order_date,$shipping_date,$order_no,$type);
          $data = array('status' => 'success');
          echo json_encode($data);
     }

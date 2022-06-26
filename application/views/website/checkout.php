@@ -127,15 +127,15 @@
                             <div class="col-md-6">
 
                                 <div class="white-block">
-                                    <div class="form-group">
+                                   <!--  <div class="form-group">
                                          <label for="deliveryId1">Region</label>
                                         <select type="text" id="region" name="region" class="form-control">
                                             <option value="" disabled="" selected="">SELECT REGION</option>
                                         </select>
-                                     </div>
+                                     </div> -->
                                     <hr>
                                         <ul>
-                                            <li>Shipping Fee: <span id="shipping"></span></li>
+                                       <!--      <li>Shipping Fee: <span id="shipping"></span></li> -->
                                             <li>Shipping Arrival : 15 - 30 days</li>
                                         </ul>
                                     <hr>
@@ -263,14 +263,14 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                 <!--        <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Shipping Fee</strong> <br>
                                                 <span id="region_name"></span></br>
                                                 <span id="shipping_fee"></span>
                                             </div>
                                         </div>
-
+ -->
 
 
                                         <div class="col-md-6">
@@ -308,7 +308,18 @@
 
                    <div class="panel panel-default" id="tables">
                             <div class="panel-body">
-                                <div id="checkout"></div>
+                                <table class="table table-striped table-condensed table-hover" id="table-cart-list">
+                                <thead>
+                                    <tr>
+                                    <th>Image</th>
+                                    <th>Product</th>
+                                    <th style="text-align:center;">Qty</th>
+                                    <th style="text-align:center;">Price</th>
+                                    <th style="text-align:center;">Remove</th>
+                                     </tr>
+                                     </thead><tbody>
+                                     </tbody>
+                                 </table>
                             </div>
                     </div>
 
@@ -318,25 +329,26 @@
                         
                         <div class="cart-block cart-block-footer clearfix">
                             <div>
-                                <strong>Sub total</strong>
+                               
                             </div>
                             <div>
+                                <strong>GRAND TOTAL : </strong>
                                 <span id="subtotal"></span>
                             </div>
                         </div>
-                         <div class="cart-block cart-block-footer clearfix">
+                        <!--  <div class="cart-block cart-block-footer clearfix">
                             <div>
                                 <strong>Discount</strong>
                             </div>
                             <div>
                                 <span id="discount">0%</span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!--cart final price -->
 
-                    <div class="clearfix">
+                    <!-- <div class="clearfix">
                         <div class="cart-block cart-block-footer cart-block-footer-price clearfix">
                             <div>
                                 <span class="checkbox" id="coupon">
@@ -350,7 +362,7 @@
                                 <div class="h2 title"><span id="total"></span></div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- ========================  Cart navigation ======================== -->
@@ -358,7 +370,6 @@
                 <div class="clearfix">
                     <div class="row">
                         <div class="col-xs-6">
-                            <a href="<?php echo base_url()?>gh/app/product-list/<?php echo base64_encode('all')?>/<?php echo base64_encode('dasxasdas2342')?>" id="shop_more" class="btn btn-clean-dark"><span class="icon icon-chevron-left"></span><span>Shop more</span></a>
                             <button type="button" id="back" class="btn btn-clean-dark" data-back="delivery"><span class="icon icon-chevron-left"></span><span id="back_name" >Back</span></button>
                         </div>
                         <div class="col-xs-6 text-right">

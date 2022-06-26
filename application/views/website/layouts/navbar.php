@@ -17,7 +17,7 @@
                         <li><a href="javascript:void(0);" class="open-login"><i class="icon icon-user"></i></a></li>
                               <?php if(!$this->session->userdata('userId')){
                                }else{
-                                    echo '<li><a href="javascript:void(0);" class="open-cart"><i class="icon icon-cart"></i> <span id="count"></span></a></li>';
+                                    echo '<li><a href="javascript:void(0);" class="open-cart"><i class="icon icon-cart"></i> <span class="count_cart"></span></a></li>';
                                }
                            ?>
                        

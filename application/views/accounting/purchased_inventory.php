@@ -29,7 +29,7 @@
 			                    <a class="nav-link" data-toggle="tab" href="#delivered">
 			                        <span class="nav-icon"><i class="flaticon-truck"></i></span>
 			                        <span class="nav-text mr-2">Delivered</span>
-			                        <span class="label label-rounded label-success purchase_stocks_received">0</span>
+			                        <span class="label label-rounded label-success other_purchased_approved">0</span>
 			                    </a>
 			                </li>
 			            </ul>

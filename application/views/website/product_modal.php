@@ -34,15 +34,15 @@
                                     <div class="col-sm-7">
                                         <div class="info-box">
                                             <strong>Model</strong>
-                                            <span id="title1"></span>
+                                            <span class="title-model"></span>
                                         </div>
                                         <div class="info-box">
                                             <strong>Color</strong>
-                                            <span id="c_name"></span>
+                                            <span class="pallet-name"></span>
                                         </div>
                                         <div class="info-box">
                                             <strong>Availability</strong>
-                                            <span id="product_order"></span>
+                                            <span class="product-availability"></span>
                                         </div>
                                     </div>
                                     <!-- === right-column === -->
@@ -50,11 +50,11 @@
                                     <div class="col-sm-5">
                                         <div class="info-box">
                                             <strong>In Stock</strong>
-                                            <div class="product-colors clearfix" id="product_color"></div>
+                                            <div class="product-on-stocks clearfix"></div>
                                         </div>
                                         <div class="info-box">
                                             <strong>Pre Order</strong>
-                                            <div class="product-colors clearfix" id="product_color_pre">
+                                            <div class="product-pre-stocks clearfix">
                                             </div>
                                         </div>
                                     </div>
@@ -67,12 +67,12 @@
                         <div class="popup-table">
                             <div class="popup-cell">
                                 <div class="price">
-                                    <span class="h3" id="price"></span>
+                                    <span class="h3 pallet-price"></span>
                                 </div>
                             </div>
                             <div class="popup-cell">
                                 <div class="popup-buttons">
-                                    <a id="project_href"><span class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
+                                    <a href="javascript:;" class="view-details"><span class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
 <!--                                     <a href="javascript:void(0);"><span class="icon icon-cart"></span> <span class="hidden-xs">Buy</span></a> -->
                                 </div>
                             </div>

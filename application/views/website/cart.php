@@ -32,7 +32,19 @@
 
                     <div class="panel panel-default" id="tables">
                             <div class="panel-body">
-                                <div id="cart"></div>
+                               <table class="table table-striped table-condensed table-hover" id="table-cart-list">
+                                <thead>
+                                    <tr>
+                                    <th></th>
+                                    <th>Image</th>
+                                    <th>Product</th>
+                                    <th style="text-align:center;">Qty</th>
+                                    <th style="text-align:center;">Price</th>
+                                    <th style="text-align:center;">Remove</th>
+                                     </tr>
+                                     </thead><tbody>
+                                     </tbody>
+                                 </table>
                             </div>
                     </div>
 

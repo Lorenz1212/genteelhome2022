@@ -158,19 +158,19 @@ var KTFormControls = function () {
 				 });
 	 			break;
 	 		}
-	 		case "Update_Cart_Process":{
-	 			$("#Update_Cart_Process").click(function () {
-		            $("#cart input[type=checkbox]:checked").each(function () {
-		                 	 let id = $(this).attr('data-checked');
-		                 	 val = {id:id};
-		                 	 thisURL = baseURL + 'website_controller/Update_Cart_Process';
-		                 	 url = baseURL + 'gh/app/checkout';	
-		                 	_ajaxForm_loaded(thisURL,"POST",val,"Update_Cart_Process",url);
-		            });
-		            return false;
-		        });
-	 			break;
-	 		}
+	 		// case "Update_Cart_Process":{
+	 		// 	$("#Update_Cart_Process").click(function () {
+		  //           $("#cart input[type=checkbox]:checked").each(function () {
+		  //                	 let id = $(this).attr('data-checked');
+		  //                	 val = {id:id};
+		  //                	 thisURL = baseURL + 'website_controller/Update_Cart_Process';
+		  //                	 url = baseURL + 'gh/app/checkout';	
+		  //                	_ajaxForm_loaded(thisURL,"POST",val,"Update_Cart_Process",url);
+		  //           });
+		  //           return false;
+		  //       });
+	 		// 	break;
+	 		// }
 	 		case "Update_Cart_Checkout":{
 	 			$("#next").click(function () {
 		           	var nextt = $(this).attr('data-action');
@@ -190,11 +190,9 @@ var KTFormControls = function () {
 					 	 let total 	  	=  $('#total').text();
 					 	 let discount    	=  $('#coupons').attr('data-promo');
 					 	 let type   	  	=  $('input[name="deliveryOption"]:checked').val();
-					 	 let region   	  	=  $('select[name="region"]').val();
-					 	 val = {order_no:order_no,b_address:b_address,b_city:b_city,b_province:b_province,s_address:s_address,s_city:s_city,s_province:s_province,order_date:order_date,shipping_date:shipping_date,coupons:coupons,subtotal:subtotal,total:total,discount:discount,type:type,region:region};
+					 	 val = {order_no:order_no,b_address:b_address,b_city:b_city,b_province:b_province,s_address:s_address,s_city:s_city,s_province:s_province,order_date:order_date,shipping_date:shipping_date,type:type};
 		                 	 thisURL = baseURL + 'website_controller/Update_Cart_CheckOut';
-		                 	 url = baseURL + 'gh/app/cart';	
-		                 	_ajaxForm_loaded(thisURL,"POST",val,"Update_Cart_CheckOut",url);
+		                 	_ajaxForm_loaded(thisURL,"POST",val,"Update_Cart_CheckOut",false);
 		           	}
 		          });
 	 			break;
@@ -389,14 +387,16 @@ var KTFormControls = function () {
 	 			break;
 	 		}
 	 		case "Update_Cart_CheckOut":{
-	 			swal({
+	 			if(response != false){
+	 				swal({
 					  title: "Your order is completed!!",
 					  text: "You clicked the button!",
 					  icon: "success",
 					  button: "Ok!",
 					}).then(function() {
-						window.location = url;
-				});
+						window.location = baseURL+'gh/app/cart';
+					});	
+	 			}
 				break;
 	 		}
 	 		case "Delete_Web_Cart":{

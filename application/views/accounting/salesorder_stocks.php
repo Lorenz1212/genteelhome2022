@@ -50,69 +50,85 @@
 			   		</div>
 			    <div class="card-body link" data-link="tbl_salesorder_stocks">
 			        <div class="tab-content">
-			            <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
-			                <table class="table table-bordered table-hover" id="tbl_salesorder_request">
-								<thead>
-									<tr>
-										<th>Trans #.</th>
-										<th>CUSTOMER</th>
-										<th>MOBILE</th>
-										<th>EMAIL</th>
-										<th>DATE ORDER</th>
-										<th>TERMS</th>
-										<th>STATUS</th>
-										<th>ACTION</th>
-									</tr>
-								</thead>
-							</table>
+					         <div class="tab-pane fade show active" id="request" role="tabpanel" aria-labelledby="request">
+					            	<div class="row">
+			            				<div class="col-12">
+					                <table class="table table-bordered table-hover" id="tbl_salesorder_request">
+										<thead>
+											<tr>
+												<th>Trans #.</th>
+												<th>CUSTOMER</th>
+												<th>MOBILE</th>
+												<th>EMAIL</th>
+												<th>DATE ORDER</th>
+												<th>TERMS</th>
+												<th>STATUS</th>
+												<th>ACTION</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
 			            </div>
 			            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved">
-			                <table class="table table-bordered table-hover" id="tbl_salesorder_approved" >
-								<thead>
-									<tr>
-										<th>Trans #.</th>
-										<th>CUSTOMER</th>
-										<th>MOBILE</th>
-										<th>EMAIL</th>
-										<th>DATE ORDER</th>
-										<th>TERMS</th>
-										<th>STATUS</th>
-										<th>ACTION</th>
-									</tr>
-								</thead>
-							</table>
+			                <div class="row">
+			            		<div class="col-12">
+					                <table class="table table-bordered table-hover" id="tbl_salesorder_approved" >
+										<thead>
+											<tr>
+												<th>Trans #.</th>
+												<th>CUSTOMER</th>
+												<th>MOBILE</th>
+												<th>EMAIL</th>
+												<th>DATE ORDER</th>
+												<th>TERMS</th>
+												<th>STATUS</th>
+												<th>ACTION</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
 			            </div>
 			            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed">
-			                <table class="table table-bordered table-hover" id="tbl_salesorder_completed" >
-								<thead>
-									<tr>
-										<th>Trans #.</th>
-										<th>CUSTOMER</th>
-										<th>MOBILE</th>
-										<th>EMAIL</th>
-										<th>DATE ORDER</th>
-										<th>TERMS</th>
-										<th>STATUS</th>
-										<th>ACTION</th>
-									</tr>
-								</thead>
-							</table>
+			                <div class="row">
+			            		<div class="col-12">
+					                <table class="table table-bordered table-hover" id="tbl_salesorder_completed" >
+										<thead>
+											<tr>
+												<th>Trans #.</th>
+												<th>CUSTOMER</th>
+												<th>MOBILE</th>
+												<th>EMAIL</th>
+												<th>DATE ORDER</th>
+												<th>TERMS</th>
+												<th>STATUS</th>
+												<th>ACTION</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
 			            </div>
 			            <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled">
-			                <table class="table table-bordered table-hover" id="tbl_salesorder_cancelled">
-								<thead>
-									<tr>
-										<th>Trans #.</th>
-										<th>CUSTOMER</th>
-										<th>MOBILE</th>
-										<th>EMAIL</th>
-										<th>DATE ORDER</th>
-										<th>TERMS</th>
-										<th>STATUS</th>
-										<th>ACTION</th>
-									</tr>
-								</thead>
-							</table>
+			                <div class="row">
+			            		<div class="col-12">
+					                <table class="table table-bordered table-hover" id="tbl_salesorder_cancelled">
+										<thead>
+											<tr>
+												<th>Trans #.</th>
+												<th>CUSTOMER</th>
+												<th>MOBILE</th>
+												<th>EMAIL</th>
+												<th>DATE ORDER</th>
+												<th>TERMS</th>
+												<th>STATUS</th>
+												<th>ACTION</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
 			            </div>
 
 			        </div>

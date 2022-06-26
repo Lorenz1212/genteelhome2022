@@ -43,6 +43,7 @@ class Gh extends CI_Controller {
         $this->load->view('website/layouts/navbar.php');
         if(!$this->session->userdata('userId')){
             switch ($view1) {
+              case ' ':{$this->load->view('website/index.php');break;}
               case 'index':{$this->load->view('website/index.php');break;}
               case 'blogs':{$this->load->view('website/blogs.php');break;}
               case 'registration':{$this->load->view('website/registration.php');break;}
@@ -67,6 +68,7 @@ class Gh extends CI_Controller {
             }
         }else{
              switch ($view1) {
+              case ' ':{$this->load->view('website/index.php');break;}
               case 'index':{$this->load->view('website/index.php');break;}
               case 'blogs':{$this->load->view('website/blogs.php');break;}
               case 'product-list':{$this->load->view('website/product_list.php');break;}
@@ -93,7 +95,6 @@ class Gh extends CI_Controller {
               default: {redirect(base_url().'gh/app/index');break;}
             }
         }
-       
         $this->load->view('website/layouts/footer.php');
     }
      public function logout($view = null){

@@ -27,15 +27,14 @@
 
                                 <!-- === product-title === -->
 
-                                <h1 class="title"><span id="title"></span></h1>
+                                <h1 class="title"><span class="title"></span></h1>
 
                                 <div class="clearfix">
 
                                     <!-- === price wrapper === -->
 
                                     <div class="price">
-                                        <span class="h3" id="price">
-                                        </span>
+                                        <span class="h3 pallet-price" ></span>
                                     </div>
                                     <hr />
 
@@ -44,14 +43,14 @@
 
                                     <div class="info-box">
                                         <strong>Color</strong>
-                                        <span id="c_name"></span>
+                                        <span class="pallet-name"></span>
                                     </div>
 
                                     <!-- === info-box === -->
 
                                     <div class="info-box">
                                          <strong>Availability</strong>
-                                         <span id="product_order"></span>
+                                         <span class="product-availability"></span>
                                     </div>
 
                                     <hr />
@@ -62,8 +61,8 @@
                                                 echo '<span><i id="alert_collection"><i class="fa fa-star-o"></i> Add to Collection</i></span>';
                                               }else{
                                                 echo '<span>
-                                                        <i class="add" id="add_collection"><i class="fa fa-star-o"></i> Add to Collection</i>
-                                                        <i class="added" id="delete_collection" data-id="0"><i class="fa fa-star"></i> Remove from Collection</i>
+                                                        <i class="add add_collection"><i class="fa fa-star-o"></i> Add to Collection</i>
+                                                        <i class="added add_collection"><i class="fa fa-star"></i> Remove from Collection</i>
                                                     </span>';
                                            }
                                        ?>
@@ -75,26 +74,26 @@
 
                                     <div class="info-box">
                                         <span><strong>In Stock</strong></span>
-                                        <div class="product-colors clearfix" id="product_color"></div>
+                                        <div class="product-on-stocks clearfix"></div>
                                     </div>
 
                                     <!-- === info-box === -->
 
                                     <div class="info-box">
                                         <span><strong>Pre Order</strong></span>
-                                       <div class="product-colors clearfix" id="product_color_pre"></div>
+                                       <div class="product-pre-stocks clearfix"></div>
                                     </div>
 
                                     <div class="info-box">
                                     	<div class="row">
                                     		<div class="col-md-4 col-sm-4 col-xs-4">
-                                    			 <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="0"  />
+                                    			 <input type="number" min="1" value="1" name="qty" id="qty" class="form-control" placeholder="0"  />
                                     		</div>
                                     		<div class="col-md-4 col-sm-4">
                                     			 <?php if(!$this->session->userdata('userId')){
                                                            echo '<button type="button" title="Add to Cart" id="alert_cart" value="Add to Cart" class="btn btn-clean-dark">Add to Cart</button>';
                                                        }else{
-                                                            echo '<button type="button" title="Add to Cart" id="add_cart" value="Add to Cart" class="btn btn-clean-dark">Add to Cart</button>';
+                                                            echo '<button type="button" title="Add to Cart"  value="Add to Cart" class="btn btn-clean-dark add_cart">Add to Cart</button>';
                                                        }
                                                 ?>
                                     		</div>
@@ -146,7 +145,7 @@
                                     </a>
                                 </li> -->
                                 <li role="presentation">
-                                    <a id="tearsheet" target="_blank">
+                                    <a href="javascript:;" class="tearsheet" target="_blank">
                                         <i class="icon icon-book"></i>
                                         <span>Tearsheet</span>
                                     </a>
@@ -159,10 +158,10 @@
                                 <div role="tabpanel" class="tab-pane active" id="designer">
                                     <div class="content">
                                         <!-- === designer collection title === -->
-                                        <h3>Photo of <span id="c_name1"></span></h3>
+                                        <h3>Photo of <span class="title"></span></h3>
 
                                         <div class="products">
-                                            <div class="row" id="gallery">
+                                            <div class="row view-gallery" >
 
                                             </div> <!--/row-->
                                         </div> <!--/products-->

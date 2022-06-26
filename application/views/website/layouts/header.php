@@ -1,3 +1,4 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +11,7 @@
     <!-- Meta tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-    <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/logo.png') ?>" />
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/logo.jpg') ?>" />
     <!--Title-->
     <title>Official Genteel Home - Furniture + Boutique + Lifestyle</title>
     <!--CSS bundle -->
@@ -25,12 +25,12 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&amp;subset=latin-ext" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-<!-- Add the slick-theme.css if you want default styling -->
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+        <!-- Add the slick-theme.css if you want default styling -->
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
-<!--     <link href="<?php echo base_url('assets_website/fonts/fonts.googleapis.com/css808c.css?family=Montserrat:400,500,600&amp;subset=latin-ext'); ?>" rel="stylesheet">
-    <link href="<?php echo base_url('assets_website/fonts/fonts.googleapis.com/css7dfd.css?family=Roboto:300,400,500'); ?>" rel="stylesheet"> -->
-
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+  <!--       <link href="<?php echo base_url(); ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" /> -->
+        <link href="<?php echo base_url(); ?>assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
