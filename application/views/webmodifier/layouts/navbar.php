@@ -94,11 +94,11 @@
 													<span class="menu-text">Category</span>
 												</a>
 											</li>
-											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="<?php echo base_url()."gh/webmodifier/voucher";?>" class="menu-link">
 													<span class="menu-text">Voucher</span>
 												</a>
-											</li>
+											</li> -->
 											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 												<a href="<?php echo base_url()."gh/webmodifier/shipping-fee";?>" class="menu-link">
 													<span class="menu-text">Shipping Fee</span>
