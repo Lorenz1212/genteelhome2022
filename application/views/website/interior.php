@@ -1,7 +1,7 @@
    <div id="kt_content" data-table="data-interior"></div>
      <!-- ========================  Main header ======================== -->
 
-        <section class="main-header main-header-blog" style="background-image:url(<?php echo base_url() ?>assets_website/images/gallery-2.jpg)">
+        <section class="main-header main-header-blog" style="background-image:url(<?php echo base_url() ?>assets/images/static/static1.jpg)">
             <header>
                 <div class="container text-center">
                     <h2 class="h2 title">Interior</h2>

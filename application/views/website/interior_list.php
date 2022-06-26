@@ -1,5 +1,5 @@
  <div id="kt_content" data-table="data-interior-list"></div>  
-       <section class="main-header" style="background-image:url(<?php echo base_url()?>assets_website/images/gallery-2.jpg)">
+       <section class="main-header" style="background-image:url(<?php echo base_url() ?>assets/images/static/static.jpg)">
             <header>
                 <div class="container">
                     <h1 class="h2 title">Design List</h1>
