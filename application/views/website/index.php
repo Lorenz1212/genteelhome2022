@@ -234,7 +234,7 @@
                                         </div>
                                     </div>
                                     <div class="show-more">
-                                        <span class="btn btn-clean-dark btn-block">Read more</span>
+                                       <a href="'.base_url().'gh/app/blogs/'.base64_encode($this->encryption->encrypt($row->id)).'"><span class="btn btn-clean-dark btn-block">Read more</span></a>
                                     </div>
                                 </a>
                             </article>
