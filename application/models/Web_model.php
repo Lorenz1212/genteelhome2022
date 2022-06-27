@@ -195,6 +195,7 @@ class Web_model extends CI_Model{
 				break;
 			}
 			case "fetch_blog_list_latest":{
+				$data = array();
 				$sql = "SELECT *,DATE_FORMAT(date_event, '%d') AS day_name,DATE_FORMAT(date_event, '%Y') AS year_name,DATE_FORMAT(date_event, '%b') AS month_name FROM tbl_events WHERE status='ACTIVE' ORDER BY date_event DESC LIMIT 6";
 				 $query = $this->db->query($sql);
 				 if($query){
