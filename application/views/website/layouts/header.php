@@ -11,20 +11,23 @@
     <!-- Meta tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Official Genteel Home - Furniture + Boutique + Lifestyle</title>
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/logo.jpg') ?>" />
+    <!--Title-->
+    <title>Official Genteel Home - Furniture + Boutique + Lifestyle</title>
+    <!--CSS bundle -->
     <link rel="stylesheet" media="all" href="<?php echo base_url('assets_website/css/bundle.css'); ?>" />
     <link rel="stylesheet" media="all" href="<?php echo base_url('assets_website/css/style.css'); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_website/custom-slide/css/demo.css'); ?>"/>
     <!--Google fonts-->
 <!--     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&amp;subset=latin-ext" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet"> -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets_website/css/slick.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets_website/css/slick-theme.css"/>
-  <!--   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" /> -->
-  <!--       <link href="<?php echo base_url(); ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" /> -->
-    <link href="<?php echo base_url(); ?>assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+  <!--       <link href="<?php echo base_url(); ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" /> -->
+        <link href="<?php echo base_url(); ?>assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
 </head>
