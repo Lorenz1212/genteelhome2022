@@ -8195,7 +8195,7 @@ $(function() {
     }
 });
 
-$(window).bind("load", function() {
+$(window).load(function () {
     setTimeout(function() {
         $(".page-loader").addClass("loaded");
     }, 1e3);

@@ -10903,7 +10903,7 @@ b, strong, label, .label {
     margin-top: -20px;
     -webkit-animation: fa-spin 2s infinite linear;
     animation: fa-spin 2s infinite linear;
-    color: #fb0;
+    color: #000000;
     -moz-transition: all .3s;
     -o-transition: all .3s;
     -webkit-transition: all .3s;
