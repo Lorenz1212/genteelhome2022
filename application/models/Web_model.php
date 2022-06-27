@@ -88,6 +88,33 @@ class Web_model extends CI_Model{
 		    return '₱'.$money;
 		  } // numeric
 		} 
+
+	public function Company($type,$val){
+		switch($type){
+			case 'fetch_company_profile':{
+				$sql = "SELECT * FROM tbl_company_owner LIMIT 1";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case"fetch_company_info":{
+				$sql = "SELECT * FROM tbl_company_profile";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+
+		}
+
+	}
 	public function Categories($type,$val){
 		switch($type){
 			case "fetch_categories_list":{
@@ -147,17 +174,6 @@ class Web_model extends CI_Model{
 				}
 				break;
 			}
-			case"fetch_company_info":{
-				$sql = "SELECT * FROM tbl_company_profile";
-				$row = $this->db->query($sql)->row();
-				if($row){
-					return $row;
-				}else{
-					return false;
-				}
-				break;
-			}
-
 		}
 	}
 	public function Dashboard($type,$val){
@@ -178,6 +194,52 @@ class Web_model extends CI_Model{
 				}
 				break;
 			}
+			case "fetch_blog_list_latest":{
+				$sql = "SELECT *,DATE_FORMAT(date_event, '%d') AS day_name,DATE_FORMAT(date_event, '%Y') AS year_name,DATE_FORMAT(date_event, '%b') AS month_name FROM tbl_events WHERE status='ACTIVE' ORDER BY date_event DESC LIMIT 6";
+				 $query = $this->db->query($sql);
+				 if($query){
+					 	foreach($query->result() as $row){
+					 		$data[]=array('image'=>$row->image,
+					 									'month_name'=>$row->month_name,
+					 									'day_name'=>$row->day_name,
+					 									'year_name'=>$row->year_name,
+					 									'title'=>$row->title,
+					 									'id'=>base64_encode($this->encryption->encrypt($row->id))
+					 								);
+					 	}
+					 	return $data;
+				 }else{
+				 	return false;
+				 }
+				break;
+			}
+
+		}
+	}
+		public function Blogs($type,$val){
+		switch($type){
+			case "fetch_blog_list":{
+				$sql = "SELECT *,IFNULL(description,'NO DESCRIPTION') as description,
+				DATE_FORMAT(date_event, '%d') AS day_name,DATE_FORMAT(date_event, '%Y') AS year_name,DATE_FORMAT(date_event, '%b') AS month_name FROM tbl_events WHERE status='ACTIVE' ORDER BY date_event DESC";
+				 $query = $this->db->query($sql);
+				 if($query){
+					 	foreach($query->result() as $row){
+					 		$data[]=array('image'=>$row->image,
+					 									'month_name'=>$row->month_name,
+					 									'day_name'=>$row->day_name,
+					 									'year_name'=>$row->year_name,
+					 									'description'=>$row->description,
+					 									'title'=>$row->title,
+					 									'id'=>base64_encode($this->encryption->encrypt($row->id))
+					 								);
+					 	}
+					 	return $data;
+				 }else{
+				 	return false;
+				 }
+				break;
+			}
+
 		}
 	}
 	public function Collection($type,$val,$val1,$val2){

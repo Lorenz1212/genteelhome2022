@@ -1,31 +1,20 @@
 <body>
-      <!--Use class "navbar-fixed" or "navbar-default" -->
-        <!--If you use "navbar-fixed" it will be sticky menu on scroll (only for large screens)-->
-        <!-- ======================== Navigation ======================== -->
         <nav class="navbar-fixed">
             <div class="container">
-                <!-- ==========  Top navigation ========== -->
                 <div class="navigation navigation-top">
                     <ul>
-                        <!--add active class for current page-->
                         <li><a href="https://www.facebook.com/GenteelHomePH" target="_blank"><i class="fa fa-facebook"></i></a></li>
-<!--                         <li><a id="twitter"  target="_blank"><i class="fa fa-twitter"></i></a></li> -->
-				<li><a href="finance@genteelhome.com"  target="_blank"><i class="fa fa-google-plus"></i></a></li>
-				<li><a href="https://www.instagram.com/home_genteel/?hl=en"  target="_blank"><i class="fa fa-instagram"></i></a></li>
+        				<li><a href="finance@genteelhome.com"  target="_blank"><i class="fa fa-google-plus"></i></a></li>
+				        <li><a href="https://www.instagram.com/home_genteel/?hl=en"  target="_blank"><i class="fa fa-instagram"></i></a></li>
                         <li><a id="youtube"  target="_blank"><i class="fa fa-youtube"></i></a></li>
-
                         <li><a href="javascript:void(0);" class="open-login"><i class="icon icon-user"></i></a></li>
                               <?php if(!$this->session->userdata('userId')){
                                }else{
                                     echo '<li><a href="javascript:void(0);" class="open-cart"><i class="icon icon-cart"></i> <span class="count_cart"></span></a></li>';
                                }
                            ?>
-                       
                     </ul>
-                </div> <!--/navigation-top-->
-
-                <!-- ==========  Main navigation ========== -->
-
+                </div>
                 <div class="navigation navigation-main">
                     <!-- Setup your logo here-->
                     <a href="" class="logo"><img src="<?php echo base_url('assets/images/logo/logo2.png') ?>" alt=""  style=""></a>
@@ -58,7 +47,7 @@
                                 </div> <!--/navbar-dropdown-->
                             </li>
                             <li><a href="<?php echo base_url()."gh/app/interior";?>">PROJECTS</a></li>
-<!--                             <li><a href="<?php echo base_url()."gh/app/events";?>">EVENTS</a></li> -->
+                            <li><a href="<?php echo base_url()."gh/app/blogs";?>">Blogs</a></li>
                             <li><a href="<?php echo base_url()."gh/app/contact";?>">CONTACT</a></li>
                             <!-- Multi-content dropdown -->
                             <!-- <li>

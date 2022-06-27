@@ -1,6 +1,11 @@
     
             </div> <!--/wrapper-->
         <div>        <!-- ================== Footer  ================== -->
+<div id="myModal" class="modal-image">
+  <span class="close-image">&times;</span>
+  <img class="modal-content-image" id="img01">
+  <div id="caption"></div>
+</div>
         <footer>
             <div class="container">
                 <!--footer showroom-->

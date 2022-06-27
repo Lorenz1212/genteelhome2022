@@ -15,6 +15,30 @@ class Website_controller extends CI_Controller
     public function Controller(){
         $action = $this->input->post('data1');
         switch ($action) {
+            case "company":{
+                $type = $this->input->post('data2')??$this->invalidMissing_Input('Missing request type');
+                $val = $this->input->post('data3')??false;
+                $model_response = $this->web_model->Company($type,$val);
+                $data = array(
+                       'status' => 'success',
+                       'message' => 'request accepted',
+                       'payload' => base64_encode(json_encode($model_response))
+                  );
+                echo json_encode($data); 
+                break;
+            }
+            case "blogs":{
+                $type = $this->input->post('data2')??$this->invalidMissing_Input('Missing request type');
+                $val = $this->input->post('data3')??false;
+                $model_response = $this->web_model->Blogs($type,$val);
+                $data = array(
+                       'status' => 'success',
+                       'message' => 'request accepted',
+                       'payload' => base64_encode(json_encode($model_response))
+                  );
+                echo json_encode($data); 
+                break;
+            }
             case "categories":{
                 $type = $this->input->post('data2')??$this->invalidMissing_Input('Missing request type');
                 $val = $this->input->post('data3')??false;

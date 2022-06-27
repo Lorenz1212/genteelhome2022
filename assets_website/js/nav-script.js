@@ -164,4 +164,3 @@
            $('.video').css('height','273px');
            $('.quotes-style').css('width','100%');
         }
-        

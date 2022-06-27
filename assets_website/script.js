@@ -36,6 +36,24 @@ let mainpage;
 	var _initToast = function(type,message){
 		const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
 	}
+	var _initImageView = function(){
+		var modal = document.getElementById("myModal");
+		var img = document.getElementById("myImg");
+		var modalImg = document.getElementById("img01");
+		var captionText = document.getElementById("caption");
+		 $(document).on("click","#myImg",function() {
+		 	 let image= $(this).attr('data-image');
+		 	  modal.style.display = "block";
+			  modalImg.src = image;
+			  // captionText.innerHTML = this.alt;
+			  $('.navbar-fixed').attr('style','z-index:10 !important');
+		 })
+		var span = document.getElementsByClassName("close-image")[0];
+		  span.onclick = function() {
+		  modal.style.display = "none";
+		    $('nav.navbar-fixed').removeAttr('style');
+		}
+	}
 	var _showSwal  = function(type,message,title) {
       if(!title){
         swal.fire({
@@ -94,22 +112,28 @@ let mainpage;
 		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['categories', 'fetch_cart_list']));
 	}
 	var footer = function(){
-		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['categories', 'fetch_company_info']));
+		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['company', 'fetch_company_info']));
 	}
 	var _ViewController = async function(view,val){
 		switch(view){
 			case "index":{
 				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_popular_product']));
-				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_popular_product']));
+				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_blog_list_latest']));
 				break;
 			}
-			case "product-details":{
-				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'fetch_product_details',val]));
-				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'fetch_product_gallery',val]));
-				$('.add_collection').on('click',function(e){
-					let id = $(this).attr('data-id');
-					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'add_product_collection',id]));
-				 });
+			case "terms-conditions":
+			case "returns-exchange-policy":
+			case "privacy-policy":
+			case "about":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['company', 'fetch_company_profile']));
+				break;
+			}
+			case "blogs":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['blogs', 'fetch_blog_list']));
+				break;
+			}
+			case "cart":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['cart', 'fetch_cart_list_view']));
 				break;
 			}
 			case"collection":{
@@ -120,8 +144,13 @@ let mainpage;
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'fetch_product_list',val]));
 				break;
 			}
-			case "cart":{
-				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['cart', 'fetch_cart_list_view']));
+			case "product-details":{
+				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'fetch_product_details',val]));
+				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'fetch_product_gallery',val]));
+				$('.add_collection').on('click',function(e){
+					let id = $(this).attr('data-id');
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'add_product_collection',id]));
+				 });
 				break;
 			}
 			case "checkout":{
@@ -266,19 +295,91 @@ let mainpage;
 
 	var _construct = async function(response, type, element, object){
 		switch(type){
+			case "fetch_blog_list_latest":{
+				let container = $('.list-blog-latest').empty();
+				if(response !=false){
+					for(let i=0;i<response.length;i++){
+						let html =$('<div class="col-sm-4">\
+			                            <article>\
+			                                <a href="article.html">\
+			                                    <div class="image" style="background-image:url('+baseURL+'assets/images/events/'+response[i].image+')">\
+			                                        <img src="assets/images/blog-1.jpg" alt="">\
+			                                    </div>\
+			                                    <div class="entry entry-table">\
+			                                        <div class="date-wrapper">\
+			                                            <div class="date">\
+			                                                <span>'+response[i].month_name+'</span>\
+			                                                <strong>'+response[i].day_name+'</strong>\
+			                                                <span>'+response[i].year_name+'</span>\
+			                                            </div>\
+			                                        </div>\
+			                                        <div class="title">\
+			                                            <h2 class="h5">'+response[i].title+'</h2>\
+			                                        </div>\
+			                                    </div>\
+			                                    <div class="show-more">\
+			                                       <a href="'+baseURL+'gh/app/blogs-detials/'+response[i].id+'"><span class="btn btn-clean-dark btn-block">Read more</span></a>\
+			                                    </div>\
+			                                </a>\
+			                            </article>\
+			                        </div>');
+						container.append(html);
+					}
+				}else{
+					$('.blog-list').attr('style','display:none');
+				}
+				break;
+			}
+			case "fetch_blog_list":{
+				let container = $('.list-blog').empty();
+				if(response !=false){
+					for(let i=0;i<response.length;i++){
+						let html = $('<div class="col-sm-12">\
+			                                <article class="article-table">\
+			                                	<a href="javascript:;">\
+			                                        <div class="image" id="myImg" data-image="'+baseURL+'assets/images/events/'+response[i].image+'" style="background-image:url('+baseURL+'assets/images/events/'+response[i].image+')">\
+			                                            <img src="'+baseURL+'assets/images/events/'+response[i].image+'" alt="">\
+			                                        </div>\
+			                                        <div class="text">\
+			                                            <div class="title">\
+			                                                <p>'+response[i].month_name+'.'+response[i].day_name+'.'+response[i].year_name+'</p>\
+			                                                <h2 class="h5">'+response[i].title+'</h2>\
+			                                            </div>\
+			                                            <div class="text-intro">\
+			                                                <p>'+response[i].description+'</p>\
+			                                            </div>\
+			                                        </div>\
+			                                        </a>\
+			                                </article>\
+			                            </div>');
+						container.append(html);
+					}
+				}
+				break;
+			}
+			case "fetch_company_profile":{
+				if(response !=false){
+					$('#image').attr('style','background-image: url('+baseURL+'assets/images/avatar/'+response.image+')');
+					$('#owner_name').text(response.owner_name);
+					$('#about').html(response.about_owner);
+					$('#ourstory').html(response.our_story);
+					$('#return_policy').html(response.return_exchange);
+					$('#privacy').html(response.privacy);
+					$('#terms').html(response.terms);
+				}
+				break;
+			}
 			case "fetch_company_info":{
 				if(response !=false){
 					$('#facebook').attr('href',response.facebook);
 			  		$('#youtube').attr('href',response.youtube);
 			  		$('#tweeter').attr('href',response.tweeter);
-
 			  		$('#instagram').text(response.instagram);
 			  		$('#email').text(response.email);
 			  		$('#mobile').text(response.mobile);
 			  		$('#company').text(response.company);
 			  		$('#address').text(response.address);
 			  		$('#storeopen').text(response.store_open);
-
 			  		$('#mobile_contact').text(response.mobile);
 			  		$('#company_contact').text(response.company);
 			  		$('#address_contact').text(response.address);
@@ -304,6 +405,7 @@ let mainpage;
 				}
 				break;
 			}
+
 			case "fetch_popular_product":{
 				let container = $('.product_index').empty();
 				if(response !=false){
@@ -382,7 +484,7 @@ let mainpage;
 				let container = $('.product_list').empty();
 				if(response !=false){
 					if(response.cat !=false){
-							$('.main-header').attr('style','background-image:url('+baseURL+'assets/images/category/'+response.cat.image+')');
+							//$('.main-header').attr('style','background-image:url('+baseURL+'assets/images/category/'+response.cat.image+')');
 							$('.cat-name').text(response.cat.cat_name);
 							$('.sub-name').text(response.cat.sub_name);
 							for (let i=0;i<response.details.length;i++) {
@@ -587,12 +689,12 @@ let mainpage;
 					$('.count_cart').text(response.count);
 					for(let i=0;i<response.cart.length;i++){
 						let html = $('<tr>\
-													<td width="50" style="text-align:center;vertical-align: middle;"><span class="checkbox"><input type="checkbox" id="check_'+i+'" data-id="'+response.cart[i].id+'" ><label for="check_'+i+'"></label></span></td>\
-					  							 <td style="padding-right:3px"><img src="'+baseURL+'assets/images/finishproduct/product/'+response.cart[i].image+'" alt="" style="width:60;height:60px;"></td>\
-					  							 <td ><div class="title"><div>'+response.cart[i].title+'</div><small> '+response.cart[i].pallet_name+'</small></div></td>\
-					  							 <td width="100"><div class="quantity"><input type="number" style="text-align:center;" class="form-control form-quantity"  min="1" value="'+response.cart[i].quantity+'" data-id="'+response.cart[i].id+'"></div></td>\
-					  							 <td width="100" style="text-align:right;"><div class="price"><span class="final"><span class="cart_price"">'+response.cart[i].price+'</span></span></div></td>\
-					  							 <td width="50" style="text-align:center;"><a href="javascript:;" class="detele-cart" data-id="'+response.cart[i].id+'"><span class="icon icon-cross icon-delete"></span></a></td>\
+										<td width="50" style="text-align:center;vertical-align: middle;"><span class="checkbox"><input type="checkbox" id="check_'+i+'" data-id="'+response.cart[i].id+'" ><label for="check_'+i+'"></label></span></td>\
+			  							 <td style="padding-right:3px"><img src="'+baseURL+'assets/images/finishproduct/product/'+response.cart[i].image+'" alt="" style="width:60;height:60px;"></td>\
+			  							 <td ><div class="title"><div>'+response.cart[i].title+'</div><small> '+response.cart[i].pallet_name+'</small></div></td>\
+			  							 <td width="100"><div class="quantity"><input type="number" style="text-align:center;" class="form-control form-quantity"  min="1" value="'+response.cart[i].quantity+'" data-id="'+response.cart[i].id+'"></div></td>\
+			  							 <td width="100" style="text-align:right;"><div class="price"><span class="final"><span class="cart_price"">'+response.cart[i].price+'</span></span></div></td>\
+			  							 <td width="50" style="text-align:center;"><a href="javascript:;" class="detele-cart" data-id="'+response.cart[i].id+'"><span class="icon icon-cross icon-delete"></span></a></td>\
 					  						</tr>');
 						container.append(html).promise().done(function(){
 								$('body').delegate('.form-quantity','input',function(e){
@@ -779,7 +881,7 @@ let mainpage;
                 }else{
                   console.log(xhr);
                   console.log(status);
-                  // Swal.fire("Ops!", 'Something went wrong..', "error");
+                  swal("Ops!", 'Something went wrong..', "error");
                 }
               }       
         });      
@@ -792,6 +894,7 @@ let mainpage;
 			categories();
 			cart_list();
 			footer();
+			_initImageView();
 			sessionStorage.clear();
 		},
 

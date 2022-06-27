@@ -1,6 +1,5 @@
-<div id="kt_content" data-table="data-product-list">
-<!-- ======================== Main header ======================== -->
-<section class="main-header">
+
+<section class="main-header" style="background-image:url(<?php echo base_url() ?>assets/images/static/static1.jpg)">
     <header>
         <div class="container">
             <h1 class="h2 title">Shop</h1>
