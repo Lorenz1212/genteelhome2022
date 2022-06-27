@@ -118,6 +118,7 @@ class Web_model extends CI_Model{
 	public function Categories($type,$val){
 		switch($type){
 			case "fetch_categories_list":{
+				$data = array();
 				 $query = $this->db->query("SELECT * FROM tbl_category WHERE status='ACTIVE'");
           if($query){
            foreach($query->result() as $row){
@@ -220,6 +221,7 @@ class Web_model extends CI_Model{
 		public function Blogs($type,$val){
 		switch($type){
 			case "fetch_blog_list":{
+				$data = array();
 				$sql = "SELECT *,IFNULL(description,'NO DESCRIPTION') as description,
 				DATE_FORMAT(date_event, '%d') AS day_name,DATE_FORMAT(date_event, '%Y') AS year_name,DATE_FORMAT(date_event, '%b') AS month_name FROM tbl_events WHERE status='ACTIVE' ORDER BY date_event DESC";
 				 $query = $this->db->query($sql);
