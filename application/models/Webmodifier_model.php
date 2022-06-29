@@ -659,7 +659,7 @@ class Webmodifier_model extends CI_Model{
 				    $newimage=$this->Get_Image_Code('tbl_customer_testimony', 'image', 'IMAGE', 14, $image);
 				    $this->move_to_folder($newimage,$tmp,'assets/images/testimony/');
 					}
-					$data = array('title'=>$title,'description'=>$description,'image'=>$newimage);
+					$data = array('name'=>$name,'description'=>$description,'image'=>$newimage);
 					$result = $this->db->where('id',$id)->update('tbl_customer_testimony',$data);
 					if($result){
 							$response = $this->Testimony_List('fetch_testimony_list',false);
