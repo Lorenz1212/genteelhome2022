@@ -1,19 +1,24 @@
    <div class="page-loader"></div>
         <section class="header-content ">
-        <div class="owl-slider owl-carousel owl-theme wp-block-cover alignwide" style="opacity: 1; display: block; width: 100%;">
+        <div class="owl-slider owl-slider-fullscreen owl-carousel owl-theme" style="opacity: 1; display: block; width: 100%;">
             <?php 
-                 $query = $this->db->select('*')->from('tbl_website_banner')->where('type !=','none')->order_by('type','ASC')->get();
+                 $sql = "SELECT * FROM tbl_website_banner WHERE type !='OFF' AND status='ACTIVE' ORDER BY type ASC";
+                 $query = $this->db->query($sql);
                   if($query !== FALSE && $query->num_rows() > 0){
                    foreach($query->result() as $row){
-                      echo '<div class="item wp-block-cover-image" style="background-image:url('.base_url().'assets/images/banner/'.$row->image.'); object-fit: cover;">
-                             <div class="box">
+                     $color = "";
+                     if($row->title !="" && $row->sub_title != ""){
+                        $color = "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),";
+                     }
+                      echo '<div class="item wp-block-cover-image" style="background-image: '.$color.'url('.base_url().'assets/images/banner/'.$row->image.'); object-fit: cover;background-color: black;">
+                             <div class="box box-heade">
                                <div class="container">
                                 <h2 class="title animated h1" data-animation="fadeInDown">'.$row->title.'</h2>
-                                  <div class="animated" data-animation="fadeInUp">'.$row->sub_title.'
-                               </div>
+                                  <p class="subtitle animated" data-animation="fadeInUp">'.$row->sub_title.'</p>
                               </div>
                             </div>
-                          </div>';
+                          </div>
+                          ';
                     }      
                  }
             ?>      
@@ -159,7 +164,8 @@
                 <div class="row">
                     <div class="quote-carousel">
                         <?php 
-                           $query = $this->db->select('*')->from('tbl_customer_testimony')->order_by('id','DESC')->get();
+                          $sql = "SELECT * FROM tbl_customer_testimony WHERE  status='ACTIVE' ORDER BY id DESC";
+                          $query = $this->db->query($sql);
                            foreach($query->result() as $row){
                             echo'  <div class="quote quotes-style">
                                      <div class="image">
