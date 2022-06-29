@@ -91,6 +91,7 @@ var KTFormControlsWeb= function () {
                 });
                 $('.btn-create-banner').on('click',function(e){
                     e.preventDefault();
+                    e.stopImmediatePropagation();
                     validation.validate().then(function(status) {
                         if (status == 'Valid') {
                                 let formData = new FormData(form);
@@ -106,11 +107,11 @@ var KTFormControlsWeb= function () {
                 });
                 $('.btn-update-banner').on('click',function(e){
                     e.preventDefault();
-                    let formData = new FormData(form_update);
-                    formData.append("action", "banner");
-                    formData.append("type", 'update_banner');
-                    formData.append("id", id);
-                    _ajaxForm(formData,'update_banner',false);
+                    let formDatas = new FormData(form_update);
+                    formDatas.append("action", "banner");
+                    formDatas.append("type", 'update_banner');
+                    formDatas.append("id", id);
+                    _ajaxForm(formDatas,'update_banner',false);
               
                 });
 				break;
@@ -192,12 +193,12 @@ var KTFormControlsWeb= function () {
                 });
                 $('.btn-update-interior').on('click',function(e){
                     e.preventDefault();
-                    let formData = new FormData(form_update);
-                    formData.append("action", "interior");
-                    formData.append("type", 'update_interior');
-                    formData.append('description',$('.description-update').summernote('code'));
-                    formData.append("id", id);
-                    _ajaxForm(formData,'update_interior',false);
+                    let formDatas = new FormData(form_update);
+                    formDatas.append("action", "interior");
+                    formDatas.append("type", 'update_interior');
+                    formDatas.append('description',$('.description-update').summernote('code'));
+                    formDatas.append("id", id);
+                    _ajaxForm(formDatas,'update_interior',false);
               
                 });
                 break;
@@ -262,11 +263,11 @@ var KTFormControlsWeb= function () {
                 });
                 $('.btn-update-events').on('click',function(e){
                     e.preventDefault();
-                    let formData = new FormData(form_update);
-                    formData.append("action", "events");
-                    formData.append("type", 'update_events');
-                    formData.append("id", id);
-                    _ajaxForm(formData,'update_events',false);
+                    let formDatas = new FormData(form_update);
+                    formDatas.append("action", "events");
+                    formDatas.append("type", 'update_events');
+                    formDatas.append("id", id);
+                    _ajaxForm(formDatas,'update_events',false);
               
                 });
                 break;
@@ -332,11 +333,11 @@ var KTFormControlsWeb= function () {
                 });
                 $('.btn-update-testimony').on('click',function(e){
                     e.preventDefault();
-                    let formData = new FormData(form_update);
-                    formData.append("action", "testimony");
-                    formData.append("type", 'update_testimony');
-                    formData.append("id", id);
-                    _ajaxForm(formData,'update_testimony',false);
+                    let formDatas = new FormData(form_update);
+                    formDatas.append("action", "testimony");
+                    formDatas.append("type", 'update_testimony');
+                    formDatas.append("id", id);
+                    _ajaxForm(formDatas,'update_testimony',false);
               
                 });
                 break;

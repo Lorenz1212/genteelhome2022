@@ -177,7 +177,7 @@ class Webmodifier_model extends CI_Model{
 				$row = $this->db->query($sql)->row();
 				if($row){
 					if($slide != 'OFF'){
-						$result = $this->db->where('type',$slide)->update('tbl_website_banner',array('type'=>'OFF'));
+						$this->db->where('type',$slide)->update('tbl_website_banner',array('type'=>'OFF'));
 					}
 				}
 				$newimage = 'default.png';
@@ -185,8 +185,7 @@ class Webmodifier_model extends CI_Model{
 				    $newimage=$this->Get_Image_Code('tbl_website_banner', 'image', 'IMAGE', 14, $image);
 				    $this->move_to_folder($newimage,$tmp,'assets/images/banner/');
 				}
-				$data = array('title'=>$title,'sub_title'=>$sub_title,'type'=>$slide,'image'=>$newimage);
-				$result = $this->db->insert('tbl_website_banner',$data);
+				$result = $this->db->insert('tbl_website_banner',array('title'=>$title,'sub_title'=>$sub_title,'type'=>$slide,'image'=>$newimage));
 				if($result){
 					$response = $this->Banner('fetch_banner_list',false);
 					return array('type'=>'success','message'=>'Create Successfully','data'=>$response);
@@ -1118,7 +1117,7 @@ class Webmodifier_model extends CI_Model{
 										<a href="javascript:;" class="btn btn-icon btn-light btn-hover-primary btn-sm m-1 '.$class1.'" data-id="'.$this->encryption->encrypt($id).'" title="View Package">
 											<i class="la la-eye"></i>
 										</a>
-										<a href="javascript:;" class="btn btn-icon btn-light btn-hover-primary btn-sm m-1 '.$class2.'"  data-id="'.$this->encryption->encrypt($id).'" title="View description">
+										<a href="javascript:;" class="btn btn-icon btn-light btn-hover-primary btn-sm m-1 '.$class2.'"  data-id="'.$this->encryption->encrypt($id).'" title="View Sub category">
 											<i class="flaticon2 flaticon2-document "></i>
 										</a>
 									</div>';

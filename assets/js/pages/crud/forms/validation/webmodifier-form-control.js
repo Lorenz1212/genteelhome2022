@@ -86,145 +86,6 @@ var KTFormControls = function () {
 
 	 var _FormSubmit = async function(action){
 	 	switch(action){
-	 		  case "Create_Update_Banner":{
-		 			$('#Create_Update_Banner').on('submit', function(e){
-		 				e.preventDefault();
-		 				var page = $('input[name="page"]').val();
-	 					var files = $('#image')[0].files;
- 						var element = this;
-		 				var formData = new FormData(element);
-		 				    formData.append('image',files[0]);
-		 				 Swal.fire({
-						        title: "Are you sure?",
-						        text: "You won't be able to revert this",
-						        icon: "warning",
-						        confirmButtonText: "Submit!",
-						        showCancelButton: true
-						    }).then(function(result) {
-						        if (result.value) {
-						   		 if(page=='Create'){
-						   		 	thisURL = baseURL + 'create_controller/Create_Web_Banner';
-						   		 }else if(page == 'Update'){
-						   		 	formData.append('id', $('input[name=id]').val());
-						   		 	formData.append('previous_image', $('input[name=previous_image]').val());
-						   		 	thisURL = baseURL + 'update_controller/Update_Web_Banner';
-						   		 }
-						  	 _ajaxForm(thisURL,"POST",formData,"Create_Update_Banner",false);
-					         }
-					   	 });
-	 				});
-	 			break;
-	 		}
-	 		case "Create_Update_Interior":{
-				 $('#Create_Update_Interior').on('submit', function(e){
-						e.preventDefault();
-						let description   = $('#description').summernote('code');
-						var page = $('input[name="page"]').val();
-						var element = this;
-		 				var formData = new FormData(element);
-		 				formData.append('description',description); 
-		 				 Swal.fire({
-						        title: "Are you sure?",
-						        text: "You won't be able to revert this",
-						        icon: "warning",
-						        confirmButtonText: "Submit!",
-						        showCancelButton: true
-						    }).then(function(result) {
-						        if (result.value) {
-						   		 val = formData;
-						   		 if(page=='Create'){
-						   		 	thisURL = baseURL + 'create_controller/Create_Web_Interior';
-						   		 }else if(page == 'Update'){
-						   		 	thisURL = baseURL + 'update_controller/Update_Web_Interior';
-						   		 }
-							  	 _ajaxForm(thisURL,"POST",val,"Create_Update_Interior",false);
-					         }
-					   	 });		
-				 	});
-					$(document).on('click','.save',function(e){
-						 var action = $(this).attr('id');
-		 				 var id 	  = $('input[name=id]').val();
-		 				 if(action == 'save_status'){
-		 				 	let status = $('select[name=status]').val();	
-		 				 	val = {id:id,status:status};
-		 				 	thisURL = baseURL + 'create_controller/Create_Interior_Status';
-					  	      _ajaxForm_loaded(thisURL,"POST",val,"Create_Interior_Status",false);
-		 				 }else if(action == 'save_gallery'){
-		 				 	var files = $('#imagefileg')[0].files;
-		 				 	var fd = new FormData();
-		 				 	fd.append('id',id);
-	        					fd.append('file',files[0]);
-		 				 	val = fd;
-		 				 	thisURL = baseURL + 'create_controller/Create_Web_Interior_Image';
-					  	      _ajaxForm(thisURL,"POST",val,"Create_Web_Interior_Image",false);
-		 				 }    
-		 			});
-		 			$(document).on('click','#deletes',function(e){
-	 				var id = $(this).attr('data-id'); 
-	 				val = {id:id};
-	 				thisURL = baseURL + 'delete_controller/Delete_Web_Interior_Image';
-					_ajaxForm_loaded(thisURL,"POST",val,"Delete_Web_Interior_Image",false);
-	 			});
-	 			break;
-	 		}
-	 		case "Create_Update_Events":{
-				 $('#Create_Update_Events').on('submit', function(e){
-						e.preventDefault();
-						let description   = tinymce.get("kt-tinymce-10").getContent();
-						var page = $('input[name="page"]').val();
-						var element = this;
-		 				var formData = new FormData(element);
-		 				formData.append('description',description); 
-		 				 Swal.fire({
-						        title: "Are you sure?",
-						        text: "You won't be able to revert this",
-						        icon: "warning",
-						        confirmButtonText: "Submit!",
-						        showCancelButton: true
-						    }).then(function(result) {
-						        if (result.value) {
-						   		 val = formData;
-						   		 if(page=='Create'){
-						   		 	thisURL = baseURL + 'create_controller/Create_Web_Events';
-						   		 }else if(page == 'Update'){
-						   		 	thisURL = baseURL + 'update_controller/Update_Web_Events';
-						   		 }
-							  	 url = baseURL + 'gh/webmodifier/events';
-							  	 _ajaxForm(thisURL,"POST",val,"Create_Update_Events",url);
-					         }
-					   	 });		
-				 	});
-	 			break;
-	 		}
-	 		case "Create_SubCategory":{
-					$('#Create_SubCategory').on('submit', function(e){
-						e.preventDefault();
-			 			let cat_id 	= $('select[name=cat_id]').val();
-					 	let sub_name 	= $('input[name=sub_name]').val();
-					 	let page 		= $('input[name=page]').val();
-					 	if(page == 'create'){
-					 		thisURL = baseURL + 'create_controller/Create_Web_SubCategory';
-					 		val = {cat_id:cat_id,sub_name:sub_name};
-					 	}else if(page == 'update'){
-					 		let sub_id 	= $('input[name=sub_id]').val();
-					 		thisURL = baseURL + 'update_controller/Update_Web_SubCategory';
-					 		val = {cat_id:cat_id,sub_name:sub_name,sub_id:sub_id};
-					 	}else if(page == 'updateproduct'){
-					 		let project_no 	= $('input[name=project_no]').val();
-					 		let sub_id 	= $('select[name=sub_id]').val();
-					 		thisURL = baseURL + 'update_controller/Update_Web_ProductSub';
-					 		val = {cat_id:cat_id,sub_id:sub_id,project_no:project_no};
-					 	}else if(page == 'updatecategory'){
-					 		let id 	= $('input[name=id]').val();
-					 		let status 	= $('select[name=status]').val();
-					 		thisURL = baseURL + 'update_controller/Update_Web_Category';
-					 		val = {cat_id:id,status};
-					 	}
-			 			url = baseURL + 'gh/webmodifier/category';
-					     _ajaxForm_loaded(thisURL,"POST",val,"Create_Web_SubCategory",url);		
-			 		});
-	 			break;  
-	 		}
 	 		case "Create_Project_Image":{
 	 			$(document).on('click','.save',function(e){
 	 				 e.preventDefault();
@@ -317,6 +178,15 @@ var KTFormControls = function () {
 	 				let amount = $('input[name=amount]').val();
 	 				let cat_id = $('select[name=cat_id]').val();
 	 				let sub_id = $('select[name=sub_id]').val();
+	 				alert('ok')
+	 				console.log(title)
+	 				console.log(c_name)
+	 				console.log(cat_id)
+	 				console.log(amount)
+	 				console.log(sub_id)
+	 				console.log(image.length)
+	 				console.log(color.length)
+	 				console.log(docs.length)
 	 				if(!title || !c_name || !amount || !cat_id || !sub_id || image.length == 0 || color.length == 0 || docs.length == 0){
 	 					_initSwalWarning();
 	 				}else{
