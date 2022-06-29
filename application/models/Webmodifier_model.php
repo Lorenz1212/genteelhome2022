@@ -176,7 +176,7 @@ class Webmodifier_model extends CI_Model{
 				$sql = "SELECT * FROM tbl_website_banner WHERE type='$slide'";
 				$row = $this->db->query($sql)->row();
 				if($row){
-					if($slide != 'hide'){
+					if($slide != 'OFF'){
 						$result = $this->db->where('type',$slide)->update('tbl_website_banner',array('type'=>'OFF'));
 					}
 				}
@@ -199,7 +199,7 @@ class Webmodifier_model extends CI_Model{
 				$sql = "SELECT * FROM tbl_website_banner WHERE type='$slide'";
 				$row = $this->db->query($sql)->row();
 				if($row){
-					if($slide != 'hide'){
+					if($slide != 'OFF'){
 						$result = $this->db->where('type',$slide)->update('tbl_website_banner',array('type'=>'OFF'));
 					}
 				}
