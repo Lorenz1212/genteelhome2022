@@ -105,9 +105,6 @@ var KTFormControls = function () {
 	 				let password = $('.password').val();
 	 				let con_password = $('input[name=con_password]').val();
 	 				let email = $('input[name=con_password]').attr('data-code');
-	 				alert(email)
-	 				alert(con_password)
-	 				alert(password)
 	 				if(password == con_password){
 	 					val = {password:password,email:email};
 						thisURL = baseURL + 'website_controller/forgotpassword';

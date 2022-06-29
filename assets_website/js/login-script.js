@@ -63,7 +63,62 @@ var KTLogin = function() {
                  }                                      
 		});	
 	}
-
+    var _ajaxForm = function(formData){
+         $.ajax({
+                url: baseURL+'Website_controller/registration',
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType:"json",
+                beforeSend: function(){
+                  // KTApp.blockPage();
+                },
+                complete: function(){
+                  // KTApp.unblockPage();
+                },
+                success: function(response){
+                   if(response.status =='success'){
+                        swal({
+                          title: response.message,
+                          text: "You clicked the button!",
+                          icon: response.status,
+                          button: "Ok!",
+                        }).then(function() {
+                            if(login == 'Login'){
+                                var url = baseURL+'gh/app/index';
+                                window.location = url;
+                            }else{
+                                 var url = $(location).attr('href');
+                                 window.location = url;
+                            }
+                        });
+                    }else if(response.status =='error'){
+                        swal("Oopps", "Invalid Username/Password", "warning");
+                    }else if(response.status == 'no account'){
+                        swal({
+                          title: "Warning!",
+                          text: "The email you entered isn’t connected to an account.",
+                          icon: "warning",
+                          button: "Ok!",
+                        });
+                    }else if(response.status == 'already'){
+                        swal({
+                          title: "Warning!",
+                          text: response.message,
+                          icon: "warning",
+                          button: "Ok!",
+                        });
+                    }   
+                  },
+                  error: function(xhr,status,error){
+                      console.log(xhr);
+                      console.log(status);
+                      console.log(error);
+                      console.log(xhr.responseText);
+                 } 
+            })
+    }
 
     var _handleSignInForm = function() {
         $('#kt_signin').on('click', function () {
@@ -88,24 +143,22 @@ var KTLogin = function() {
     }
 
      var _handleSignUpForm = function() {
-        $('.kt_signup').on('click', function (e) {
+         var form = KTUtil.getById('registration-form');
+        $('#registration-form').on('submit', function (e) {
             e.preventDefault();
-            let email = $('input[name=email_address]').val();
-            let code = $('input[name=code]').val();
-            let con_code = $('input[name=code]').attr('data-code');
-            if(code == atob(con_code)){
-                var firstname       = $('#firstname').val();
-                var lastname         = $('#lastname').val();
-                var confirm_email    = $('#confirm_email').val();
-                var password         = $('.password').val();
-                var confirm_password = $('#confirm_password').val();
-                var val = {firstname:firstname,lastname:lastname,email:email,password:password};
-                var thisURL = 'Website_controller/registration';
-                var action ='Your Account has been Created Successfully'
-                var login ='Login';
-                _ajaxloader(thisURL,"POST",val,action,login);
+            let password    = $('.password').val();
+            let confirm_password = $('#confirm_password').val();
+            let email    = $('.email').val();
+            let confirm_email = $('#confirm_email').val();
+            if(email == confirm_email){
+                if(password == confirm_password){
+                   let formData = new FormData(form);
+                    _ajaxForm(formData);
+                }else{
+                    swal("Oopps", "Sorry, the confirmation password you entered does not match!", "info");
+                }
             }else{
-                swal("Invalid Code", "Sorry, the verification code you entered does not match!", "info");
+                 swal("Oopps", "Sorry, the confirmation email you entered does not match!", "info");
             }
         });
     }

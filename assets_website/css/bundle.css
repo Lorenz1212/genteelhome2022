@@ -12324,11 +12324,6 @@ nav .search-wrapper.open, nav .login-wrapper.open, nav .cart-wrapper.open {
     .header-content .item {
     height: 100vh;
     }
-    .header-content .item .title {
-        font-size: 300%
-         bottom:300px;
-        left:50px;
-    }
 }
 @media(min-width:375px) {
     .header-content .item {

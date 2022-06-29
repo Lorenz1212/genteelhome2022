@@ -12,15 +12,15 @@ class Website_model extends CI_Model{
          return $query->id;
     }
    function registration($firstname,$lastname,$email,$password){
-      $this->db->select('*')->from('tbl_customer_online')->where('email',$email)->get();
-      $row = $query->row();
+      $sql = "SELECT * FROM tbl_customer_online WHERE email='$email'";
+      $row = $this->db->query($sql)->row();
       if(!$row){
             $data = array('email'=> $email,
-                    'password'=> md5($password),
-                    'firstname' => $firstname,
-                    'lastname' => $lastname,
-                    'status' => 1,
-                    'date_created'  => date('Y-m-d H:i:s'));
+                        'password'=> md5($password),
+                        'firstname' => $firstname,
+                        'lastname' => $lastname,
+                        'status' => 1,
+                        'date_created'  => date('Y-m-d H:i:s'));
              $result = $this->db->insert('tbl_customer_online',$data);
              if($result){
                  return array('status'=>'success','message'=>'Your account has been create successfully');

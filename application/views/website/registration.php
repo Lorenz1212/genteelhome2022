@@ -41,13 +41,8 @@
                             </div>
                         </div>
             <div class="container card-center">
-
-
                 <!-- ========================  Delivery ======================== -->
-
                 <div class="cart-wrapper">
-
-                
                         <div class="row" >
                             <!-- === left content === -->
                             <div class="col-md-12" >
@@ -95,6 +90,7 @@
                                             <div class="h4">Register now <a href="javascript:void(0);" id="btn_login" data-name="Sign In" class="btn btn-clean-dark btn-xs btn-login pull-right">Log in</a></div>
 
                                             <hr>
+                                            <form id="registration-form">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -104,14 +100,14 @@
 
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="text" id="lastname" class="form-control" placeholder="Last name: *" required="">
+                                                        <input type="text" id="lastname" class="form-control" name="lastname" placeholder="Last name: *" required="">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-12">
 
                                                     <div class="form-group">
-                                                        <input type="email" id="email" class="form-control email" name="email_address" placeholder="Email Address:" required=""><span class="message_email"></span>
+                                                        <input type="email" id="email" name="email" class="form-control email" name="email" placeholder="Email Address:" required=""><span class="message_email"></span>
                                                     </div>
                                                 </div>
 
@@ -124,13 +120,13 @@
 
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="password" id="password" class="form-control password" placeholder="Password" required=""><span class="password_message"></span>
+                                                        <input type="password" id="password" name="password" class="form-control password" placeholder="Password" required=""><span class="password_message"></span>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" required=""><span class="confirm_password_message"></span>
+                                                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm Password" required=""><span class="confirm_password_message"></span>
                                                     </div>
                                                 </div>
 
@@ -142,10 +138,11 @@
                                                     </span>
                                                     <hr>
                                                 </div>
-
+                                                
                                                 <div class="col-md-12">
-                                                    <button type="button" class="btn btn-clean-dark btn-block btn_email">Create account</button>
+                                                    <button type="submit" class="btn btn-clean-dark btn-block kt_signup">Create account</button>
                                                 </div>
+                                                </form>
                                             </div>
                                     </div> <!--/signup-->
                                 </div>
