@@ -11,6 +11,7 @@ var value;
 			destroy: true,
 			responsive: true,
 			info: true,
+			stateSave: true,
 			serverSide:false,
 			order:order_by,
 			"fnDrawCallback": function() {

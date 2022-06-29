@@ -14,3 +14,4 @@
 	 	<script src="<?php echo base_url(); ?>assets/js/pages/crud/datatables/data-sources/ajax-client-side-webmodifier.js"  type='text/javascript'></script> 
 	 	<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/editors/summernote.js"></script>
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/editors/tinymce.js"></script>
+		<script src="<?php echo base_url(); ?>assets/webmodifier/form-control.js"  type='text/javascript'></script>

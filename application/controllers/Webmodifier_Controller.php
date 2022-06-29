@@ -72,12 +72,116 @@ class Webmodifier_Controller extends CI_Controller{
            		echo json_encode($data);
     			break;
     		}
+    		case "banner":{
+    			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
+					$val = $this->input->post('data3')??false;
+					$model_response = $this->Webmodifier_model->Banner($type,$val);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+    			break;
+    		}
+    		case "interiors":{
+    			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
+					$val = $this->input->post('data3')??false;
+					$model_response = $this->Webmodifier_model->Interiors($type,$val);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+    			break;
+    		}
+    		case "events":{
+    			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
+					$val = $this->input->post('data3')??false;
+					$model_response = $this->Webmodifier_model->Events($type,$val);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+    			break;
+    		}
 		 }
     }
     public function Action(){
 			$action = $this->input->post('action');
 			switch($action){
-
+				case"banner":{
+					$type = $this->input->post('type')??$this->invalidMissing_Input('Missing Type');
+					$id = $this->input->post('id')??false;
+					$title = $this->input->post('title')??false;
+					$sub_title = $this->input->post('sub_title')??false;
+					$slide = $this->input->post('slide')??false;
+					$image = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+			    $tmp = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+					$model_response = $this->Webmodifier_model->Submit_Banner($type,$id,$title,$sub_title,$slide,$image,$tmp);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+					break;
+				}
+				case"interior":{
+					$type = $this->input->post('type')??$this->invalidMissing_Input('Missing Type');
+					$id = $this->input->post('id')??false;
+					$project_name = $this->input->post('project_name')??false;
+					$description = $this->input->post('description')??false;
+					$cat_id = $this->input->post('cat_id')??false;
+					$image = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+			    $tmp = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+			    $bg_image = isset($_FILES["bg_image"]["name"]) ? $_FILES["bg_image"]["name"]: false;
+			    $bg_tmp = isset($_FILES["bg_image"]["tmp_name"]) ? $_FILES["bg_image"]["tmp_name"]:false;
+					$model_response = $this->Webmodifier_model->Submit_Interior($type,$id,$project_name,$description,$cat_id,$image,$tmp,$bg_image,$bg_tmp);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+					break;
+				}
+				case"events":{
+					$type = $this->input->post('type')??$this->invalidMissing_Input('Missing Type');
+					$id = $this->input->post('id')??false;
+					$title = $this->input->post('title')??false;
+					$description = $this->input->post('description')??false;
+					$date_event = date('Y-m-d',strtotime($this->input->post('date_event')))??false;
+					$image = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+			    $tmp = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+					$model_response = $this->Webmodifier_model->Submit_Events($type,$id,$title,$description,$date_event,$image,$tmp);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+					break;
+				}
+				case"testimony":{
+					$type = $this->input->post('type')??$this->invalidMissing_Input('Missing Type');
+					$id = $this->input->post('id')??false;
+					$name = $this->input->post('name')??false;
+					$description = $this->input->post('description')??false;
+					$image = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+			    $tmp = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+					$model_response = $this->Webmodifier_model->Submit_Testimony($type,$id,$name,$description,$image,$tmp);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+					break;
+				}
 			}
     }
     private function invalidMissing_Input($message){

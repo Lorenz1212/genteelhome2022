@@ -17,6 +17,20 @@ let view;
 	 	}
 	 	_ViewController(view);
     };
+    var _showToast = function(type,message) {
+        const Toast = Swal.mixin({toast: true,position: 'top-end',showConfirmButton: false,timer: 3000,timerProgressBar: true,onOpen: (toast) => {toast.addEventListener('mouseenter', Swal.stopTimer),toast.addEventListener('mouseleave', Swal.resumeTimer)}});Toast.fire({icon: type,title: message});
+    }
+    var _showSwal  = function(type,message) {
+        swal.fire({
+          text: message,
+          icon: type,
+          buttonsStyling: false,
+          confirmButtonText: "Ok, got it!",
+          customClass: {
+            confirmButton: "btn font-weight-bold btn-light-primary"
+          }
+          })
+    }
 	var _formatnumbercommat = function(value){
 		return value.toLocaleString('en-US').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
@@ -118,6 +132,9 @@ let view;
 	}
 	 var _initOption = function(view,response){
 		switch(view){
+			case "banners":{
+				break;
+			}
 			case "finishproduct":{
 				 var finishproduct = $('select[name=project_no]');
 				for(let i=0;i<response.length;i++){
@@ -171,6 +188,272 @@ let view;
 	var _ViewController = async function(view){
 		_month_year();
 		switch(view){
+			case "testimony":{
+			 	var avatar5 = new KTImageInput('kt_image_5');
+			 	var avatar6 = new KTImageInput('kt_image_6');
+			 	KTFormControlsWeb.init('testimony');
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['testimony','fetch_testimony_list']));
+				$('body').delegate('.view-testimony','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['testimony','fetch_testimony_details',element.attr('data-id')]));
+				});
+				$('body').delegate('.update_status_testimony','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['testimony','fetch_testimony_status',element.attr('data-id')]));
+				});
+				$('body').delegate('.delete-testimony','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	          Swal.fire({
+	                 text: "Do you want to remove this item?",
+	                 icon: "question",
+	                 showCancelButton: true,
+	                 buttonsStyling: false,
+	                 confirmButtonText: "Yes, proceed!",
+	                 cancelButtonText: "No, cancel",
+	                 customClass: {
+	                   confirmButton: "btn font-weight-bold btn-primary",
+	                   cancelButton: "btn font-weight-bold btn-default"
+	                 }
+	          }).then(function (result) {
+	            if (result.value) {
+	             _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['testimony','fetch_testimony_delete',element.attr('data-id')]));
+	            }
+	          })
+				});
+				break;
+			}
+			case "events":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['events','fetch_events_list']));
+				KTFormControlsWeb.init('events');
+				$('body').delegate('.view-event','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['events','fetch_event_details',element.attr('data-id')]));
+				});
+				$('body').delegate('.update_status_event','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['events','fetch_event_status',element.attr('data-id')]));
+				});
+				$('body').delegate('.delete-event','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	          Swal.fire({
+	                 text: "Do you want to remove this item?",
+	                 icon: "question",
+	                 showCancelButton: true,
+	                 buttonsStyling: false,
+	                 confirmButtonText: "Yes, proceed!",
+	                 cancelButtonText: "No, cancel",
+	                 customClass: {
+	                   confirmButton: "btn font-weight-bold btn-primary",
+	                   cancelButton: "btn font-weight-bold btn-default"
+	                 }
+	          }).then(function (result) {
+	            if (result.value) {
+	             _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['events','fetch_event_delete',element.attr('data-id')]));
+	            }
+	          })
+				});
+				$('#image').on('change', function(imageInput) {
+						   let action = $(this);
+			         var img = document.createElement('img');
+						   var blob = URL.createObjectURL(action.get(0).files[0]);
+						   let extension = action.val().replace(/^.*\./, '');
+						  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
+						  	   img.src = blob;
+								   img.onload = function() {
+								      if(img.width>=400 ){
+								      	if(img.height >=400){
+
+								      	 }else{
+								      		Swal.fire("Ops!","Please upload minimum 400x400 size (jpg, jpeg, or png)", "info");
+								      		$('.image-update').attr('src',''+baseURL+'assets/images/events/default.jpg');
+								      	 	action.val('');
+								      	 }
+								       }else{
+								       	Swal.fire("Ops!","Please upload minimum 400x400 size (jpg, jpeg, or png)", "info");
+								       	$('.image-update').attr('src',''+baseURL+'assets/images/events/default.jpg');
+								       	action.val('');
+								       }
+								    }
+						  }else{
+						  	$('.image-update').attr('src',''+baseURL+'assets/images/events/default.jpg');
+						  	Swal.fire("Ops!","Please upload minimum 400x400 size (jpg, jpeg, or png)", "info");
+						  	action.val('');
+						  }
+						});
+				break;
+			}
+			case "interior":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['interiors','fetch_interior_list']));
+				KTFormControlsWeb.init('interior');
+				$('body').delegate('.view-interior','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['interiors','fetch_interior_details',element.attr('data-id')]));
+				});
+				$('body').delegate('.update_status_interior','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['interiors','fetch_interior_status',element.attr('data-id')]));
+				});
+				$('body').delegate('.delete-interior','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	          Swal.fire({
+	                 text: "Do you want to remove this item?",
+	                 icon: "question",
+	                 showCancelButton: true,
+	                 buttonsStyling: false,
+	                 confirmButtonText: "Yes, proceed!",
+	                 cancelButtonText: "No, cancel",
+	                 customClass: {
+	                   confirmButton: "btn font-weight-bold btn-primary",
+	                   cancelButton: "btn font-weight-bold btn-default"
+	                 }
+	          }).then(function (result) {
+	            if (result.value) {
+	             _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['interiors','fetch_interior_delete',element.attr('data-id')]));
+	            }
+	          })
+				});
+				$('#image').on('change', function(imageInput) {
+						   let action = $(this);
+			         var img = document.createElement('img');
+						   var blob = URL.createObjectURL(action.get(0).files[0]);
+						   let extension = action.val().replace(/^.*\./, '');
+						  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
+						  	   img.src = blob;
+								   img.onload = function() {
+								      if(img.width>=1140 ){
+								      	if(img.height >=660){
+
+								      	 }else{
+								      		Swal.fire("Ops!","Please upload minimum 1140x660 size (jpg, jpeg, or png)", "info");
+								      		$('.image-update').attr('src',''+baseURL+'assets/images/interior/default.png');
+								      	 	action.val('');
+								      	 }
+								       }else{
+								       	Swal.fire("Ops!","Please upload minimum 1140x660 size (jpg, jpeg, or png)", "info");
+								       	$('.image-update').attr('src',''+baseURL+'assets/images/interior/default.png');
+								       	action.val('');
+								       }
+								    }
+						  }else{
+						  	$('.image-update').attr('src',''+baseURL+'assets/images/interior/default.png');
+						  	Swal.fire("Ops!","Please upload minimum 1140x660 size (jpg, jpeg, or png)", "info");
+						  	action.val('');
+						  }
+						});
+				$('#bg_image').on('change', function(imageInput) {
+						   let action = $(this);
+			         var img = document.createElement('img');
+						   var blob = URL.createObjectURL(action.get(0).files[0]);
+						   let extension = action.val().replace(/^.*\./, '');
+						  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
+						  	   img.src = blob;
+								   img.onload = function() {
+								      if(img.width>=810){
+								      	if(img.height >=460){
+
+								      	 }else{
+								      		Swal.fire("Ops!","Please upload minimum 810x460 size (jpg, jpeg, or png)", "info");
+								      		$('.bg-update').attr('src',''+baseURL+'assets/images/interior/default.png');
+								      	 	action.val('');
+								      	 }
+								       }else{
+								       	Swal.fire("Ops!","Please upload minimum 810x460 size (jpg, jpeg, or png)", "info");
+								       	$('.bg-update').attr('src',''+baseURL+'assets/images/interior/default.png');
+								       	action.val('');
+								       }
+								    }
+						  }else{
+						  	$('.bg-update').attr('src',''+baseURL+'assets/images/interior/default.png');
+						  	Swal.fire("Ops!","Please upload minimum 810x460 size (jpg, jpeg, or png)", "info");
+						  	action.val('');
+						  }
+						});
+				break;
+			}
+			case "banner":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['banner','fetch_banner_list']));
+				KTFormControlsWeb.init('banner');
+				$('body').delegate('.view-banner','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['banner','fetch_banner_details',element.attr('data-id')]));
+				});
+				$('body').delegate('.update_status_banner','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['banner','fetch_banner_status',element.attr('data-id')]));
+				});
+				$('body').delegate('.delete-banner','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	          Swal.fire({
+	                 text: "Do you want to remove this item?",
+	                 icon: "question",
+	                 showCancelButton: true,
+	                 buttonsStyling: false,
+	                 confirmButtonText: "Yes, proceed!",
+	                 cancelButtonText: "No, cancel",
+	                 customClass: {
+	                   confirmButton: "btn font-weight-bold btn-primary",
+	                   cancelButton: "btn font-weight-bold btn-default"
+	                 }
+	          }).then(function (result) {
+	            if (result.value) {
+	             _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['banner','fetch_banner_delete',element.attr('data-id')]));
+	            }
+	          })
+				});
+				$('#image').on('change', function(imageInput) {
+						   let action = $(this);
+			         var img = document.createElement('img');
+						   var blob = URL.createObjectURL(action.get(0).files[0]);
+						   let extension = action.val().replace(/^.*\./, '');
+						  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
+						  	   img.src = blob;
+								   img.onload = function() {
+								      if(img.width>=1600){
+								      	if(img.height >=1200){
+
+								      	 }else{
+								      		Swal.fire("Ops!","Please upload minimum 1600x1200 size (jpg, jpeg, or png)", "info");
+								      		$('.images').attr('src',''+baseURL+'assets/images/banner/default.png');
+								      	 	action.val('');
+								      	 }
+								       }else{
+								       	Swal.fire("Ops!","Please upload minimum 1600x1200 size (jpg, jpeg, or png)", "info");
+								       	$('.images').attr('src',''+baseURL+'assets/images/banner/default.png');
+								       	action.val('');
+								       }
+								    }
+						  }else{
+						  	$('.images').attr('src',''+baseURL+'assets/images/banner/default.png');
+						  	Swal.fire("Ops!","Please upload minimum 1600x1200 size (jpg, jpeg, or png)", "info");
+						  	action.val('');
+						  }
+						});
+				break;
+			}
 			case "product":{
 				_initCurrency_format('.amount');
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_list']));
@@ -210,14 +493,7 @@ let view;
 				});
 				break;
 			}
-			case "testimony":{
-				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['testimony','fetch_testimony_list']));
-				$('#staticBackdrop').on('hidden.bs.modal', function (e) {
-					e.preventDefault();
-				    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['testimony','fetch_testimony_list']))
-				});
-				break;
-			}
+
 			case "category-list":{
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_category_list']));
 				$('body').delegate('.view_details','click',function(e){
@@ -367,6 +643,110 @@ let view;
 
 	var _construct = async function(response, type, element, object){
 		switch(type){
+			case "fetch_testimony_list":{
+					if(response != false){
+						KTDatatablesDataSourceAjaxClient.init('tbl_testimony',response);
+					}
+			   break;
+			}
+			case"fetch_testimony_delete":
+			case "fetch_testimony_status":{
+					if(response !=false){
+						_showToast(response.type,response.message);
+					 KTDatatablesDataSourceAjaxClient.init('tbl_testimony',response.data);
+					}
+				break;
+			}
+			case "fetch_testimony_details":{
+					if(response != false){
+						KTFormControlsWeb.init('testimony',response.id);
+						$('.name').val(response.name);
+						$('.description-update').val(response.description);
+						$('.image-update').css('background-image','url('+baseURL+'assets/images/testimony/'+response.image+')');
+						$('#kt_image_6 > span').on('click',function(e){
+							e.preventDefault();
+							$('.image-update').css('background-image','url('+baseURL+'assets/images/testimony/'+response.image+')');
+						})
+						$('#update-testimony-modal').modal('show');
+					}
+			   break;
+			}
+			case "fetch_events_list":{
+				if(response !=false){
+					 KTDatatablesDataSourceAjaxClient.init('tbl_events',response);
+				}
+				break;
+			}
+			case"fetch_event_delete":
+			case "fetch_event_status":{
+					if(response !=false){
+						_showToast(response.type,response.message);
+					 KTDatatablesDataSourceAjaxClient.init('tbl_events',response.data);
+					}
+				break;
+			}
+			case "fetch_event_details":{
+				if(response != false){
+					KTFormControlsWeb.init('events',response.id);
+					$('.title').val(response.title);
+					$('.description-update').val(response.description);
+					$('.date-event').val(response.date_event);
+					$('.image-update').attr('src',baseURL+'assets/images/events/'+response.image);
+					$('#update-events-modal').modal('show');
+				}
+				break;
+			}
+			case "fetch_interior_list":{
+				if(response !=false){
+				 KTDatatablesDataSourceAjaxClient.init('tbl_interiors',response);
+				}
+				break;
+			}
+			case"fetch_interior_delete":
+			case "fetch_interior_status":{
+					if(response !=false){
+						_showToast(response.type,response.message);
+				 KTDatatablesDataSourceAjaxClient.init('tbl_interiors',response.data);
+				}
+				break;
+			}
+			case "fetch_interior_details":{
+				if(response !=false){
+					KTFormControlsWeb.init('interior',response.id);
+					$('.project_name').val(response.project_name);
+					$('.description-update').summernote('code',response.description);
+					$('.cat_id').val(response.cat_id).change();
+					$('.edit-image-bg').attr('src',baseURL+'assets/images/interior/'+response.bg);
+					$('.edit-image').attr('src',baseURL+'assets/images/interior/'+response.image);
+					$('#update-interior-modal').modal('show');
+				}
+				break;
+			}
+			case "fetch_banner_list":{
+				if(response !=false){
+					 KTDatatablesDataSourceAjaxClient.init('tbl_banners',response);
+					}
+				break;
+			}
+			case"fetch_banner_delete":
+			case "fetch_banner_status":{
+					if(response !=false){
+						_showToast(response.type,response.message);
+				 KTDatatablesDataSourceAjaxClient.init('tbl_banners',response.data);
+				}
+				break;
+			}
+			case "fetch_banner_details":{
+				if(response !=false){
+					KTFormControlsWeb.init('banner',response.id);
+					$('.title').val(response.title);
+					$('.sub_title').val(response.sub_title);
+					$('.slide').val(response.type).change();
+					$('.edit-image').attr('src',baseURL+'assets/images/banner/'+response.image);
+					$('#view-banner-modal').modal('show');
+				}
+				break;
+			}
 			case "fetch_product_list":{
 			  KTDatatablesDataSourceAjaxClient.init('tbl_products',response);
 			  break;
@@ -425,10 +805,7 @@ let view;
 			   KTDatatablesDataSourceAjaxClient.init('tbl_shipping',response);
 			   break;
 			}
-			case "fetch_testimony_list":{
-			   KTDatatablesDataSourceAjaxClient.init('tbl_testimony',response);
-			   break;
-			}
+
 			case "fetch_category_list":{
 				KTDatatablesDataSourceAjaxClient.init('tbl_category',response);
 				break;

@@ -9,7 +9,11 @@ class Webmodifier_model extends CI_Model{
          copy($tmp, $path_folder);
          return true;
   	}
-	private function move_to_folder($newimage,$tmp,$path){
+		private function move_to_folder($newimage,$tmp,$path){
+        $target_file = $path.basename($newimage);
+        return move_uploaded_file($tmp, $target_file);
+    }
+    private function move_to_folder1($newimage,$tmp,$path){
         $target_file = $path.basename($newimage);
         return move_uploaded_file($tmp, $target_file);
     }
@@ -73,6 +77,603 @@ class Webmodifier_model extends CI_Model{
 	    }else{
         	return false;
         }
+	}
+	public function Banner($type,$val){
+		switch($type){
+			case "fetch_banner_list":{
+				$data = array();
+				$sql = "SELECT *,IFNULL(sub_title,'No Subtitle') as sub_title,IFNULL(title,'No title') as title,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created FROM tbl_website_banner ORDER BY type ASC,date_created DESC";
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$stat ='';
+						if($row->status=='ACTIVE'){
+							$stat ='checked';
+						}
+						$action =  $this->Action('action1',$row->id,'update_status_banner','view-banner','delete-banner',$stat);
+						$status = array('INACTIVE'=>array('state'=>'Inactive','color'=>'danger'),
+                 								'ACTIVE'=>array('state'=>'Active','color'=>'success'));
+            $status_data ='<span style="width: 112px;"><span class="label label-'.$status[$row->status]['color'].' label-dot mr-2"></span><span class="font-weight-bold text-'.$status[$row->status]['color'].'">'.$status[$row->status]['state'].'</span></span>';
+            $image = '<span style="width: 250px;"><div class="d-flex align-items-center">
+					                <div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/banner/'.$row->image.'" alt="photo"></div></span>';
+
+						$data[]=array(
+							'image'=>$image,
+							'title'=>$row->title,
+							'sub_title'=>$row->sub_title,
+							'type'=>$row->type,
+							'date_created'=>$row->date_created,
+							'status'=>$status_data,
+							'action'=>$action);
+					}
+					return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_banner_details":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_website_banner WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+				case "fetch_banner_status":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_website_banner WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$status = 'INACTIVE';
+					if($row->status == 'INACTIVE'){
+						$status ='ACTIVE';
+					}
+					$data = array('status'=>$status);
+					$result = $this->db->where('id',$id)->update('tbl_website_banner',$data);
+					if($result){
+						$response = $this->Banner('fetch_banner_list',false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_banner_delete":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_website_banner WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					 if($row->image != 'default.png'){
+							if(file_exists('assets/images/banner/'.$row->image)){
+								unlink('assets/images/banner/'.$row->image);
+							}
+				   }
+				   $result = $this->db->where('id',$id)->delete('tbl_website_banner');
+				   if($result){
+				   		$response = $this->Banner('fetch_banner_list',false);
+						  return array('type'=>'success','message'=>'Delete Successfully','data'=>$response);
+				   }else{
+				   	return false;
+				   }
+				}else{
+					return false;
+				}
+				break;
+			}
+		}
+	}
+
+	public function Submit_Banner($type,$id,$title,$sub_title,$slide,$image,$tmp){
+		switch($type){
+			case "add_banner":{
+				$sql = "SELECT * FROM tbl_website_banner WHERE type='$slide'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					if($slide != 'hide'){
+						$result = $this->db->where('type',$slide)->update('tbl_website_banner',array('type'=>'OFF'));
+					}
+				}
+				$newimage = 'default.png';
+				if($image){	
+				    $newimage=$this->Get_Image_Code('tbl_website_banner', 'image', 'IMAGE', 14, $image);
+				    $this->move_to_folder($newimage,$tmp,'assets/images/banner/');
+				}
+				$data = array('title'=>$title,'sub_title'=>$sub_title,'type'=>$slide,'image'=>$newimage);
+				$result = $this->db->insert('tbl_website_banner',$data);
+				if($result){
+					$response = $this->Banner('fetch_banner_list',false);
+					return array('type'=>'success','message'=>'Create Successfully','data'=>$response);
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "update_banner":{
+				$sql = "SELECT * FROM tbl_website_banner WHERE type='$slide'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					if($slide != 'hide'){
+						$result = $this->db->where('type',$slide)->update('tbl_website_banner',array('type'=>'OFF'));
+					}
+				}
+				$sql = "SELECT * FROM tbl_website_banner WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$newimage = $row->image;
+					if($image){	
+							if($row->image != 'default.png'){
+								if(file_exists('assets/images/banner/'.$row->image)){
+									unlink('assets/images/banner/'.$row->image);
+								}
+					    }
+					    $newimage=$this->Get_Image_Code('tbl_website_banner', 'image', 'IMAGE', 14, $image);
+					    $this->move_to_folder($newimage,$tmp,'assets/images/banner/');
+					}
+					$data = array('title'=>$title,'sub_title'=>$sub_title,'type'=>$slide,'image'=>$newimage);
+					$result = $this->db->where('id',$id)->update('tbl_website_banner',$data);
+					if($result){
+						$response = $this->Banner('fetch_banner_list',false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return array('type'=>'info','message'=>'Nothing Changes');
+					}
+				}else {
+					return false;
+				}
+				break;
+			}
+
+		}
+	}
+	public function Interiors($type,$val){
+		switch($type){
+			case "fetch_interior_list":{
+				$data = array();
+				$sql = "SELECT *,IFNULL(project_name,'No title') as project_name,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created FROM tbl_interior_design ORDER BY  date_created DESC";
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$stat ='';
+						if($row->status=='ACTIVE'){
+							$stat ='checked';
+						}
+						$action =  $this->Action('action1',$row->id,'update_status_interior','view-interior','delete-interior',$stat);
+						$status = array('INACTIVE'=>array('state'=>'Inactive','color'=>'danger'),
+                 								'ACTIVE'=>array('state'=>'Active','color'=>'success'));
+            $status_data ='<span style="width: 112px;"><span class="label label-'.$status[$row->status]['color'].' label-dot mr-2"></span><span class="font-weight-bold text-'.$status[$row->status]['color'].'">'.$status[$row->status]['state'].'</span></span>';
+            $image = '<span style="width: 250px;"><div class="d-flex align-items-center">
+					                <div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/interior/'.$row->image.'" alt="photo"></div><div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/interior/'.$row->bg.'" alt="photo"></div></span>';
+					  $category = array(1=>array('state'=>'RESIDENTIAL PROJECT'),
+                 							2=>array('state'=>'COMMERCIAL PROJECT'));              
+						$data[]=array(
+							'image'=>$image,
+							'project_name'=>$row->project_name,
+							'category'=>$category[$row->cat_id]['state'],
+							'date_created'=>$row->date_created,
+							'status'=>$status_data,
+							'action'=>$action);
+					}
+					return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_interior_details":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_interior_design WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_interior_status":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_interior_design WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$status = 'INACTIVE';
+					if($row->status == 'INACTIVE'){
+						$status ='ACTIVE';
+					}
+					$data = array('status'=>$status);
+					$result = $this->db->where('id',$id)->update('tbl_interior_design',$data);
+					if($result){
+						$response = $this->Interiors('fetch_interior_list',false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_interior_delete":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_interior_design WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					 if($row->image != 'default.png'){
+							if(file_exists('assets/images/interior/'.$row->image)){
+								unlink('assets/images/interior/'.$row->image);
+							}
+				   }
+				   if($row->bg != 'default.png'){
+							if(file_exists('assets/images/interior/'.$row->bg)){
+								unlink('assets/images/interior/'.$row->bg);
+							}
+				   }
+				   $result = $this->db->where('id',$id)->delete('tbl_interior_design');
+				   if($result){
+				   		$response = $this->Interiors('fetch_interior_list',false);
+						  return array('type'=>'success','message'=>'Delete Successfully','data'=>$response);
+				   }else{
+				   	return false;
+				   }
+				}else{
+					return false;
+				}
+				break;
+			}
+		}
+	}
+		public function Submit_Interior($type,$id,$project_name,$description,$cat_id,$image,$tmp,$bg_image,$bg_tmp){
+		switch($type){
+			case "add_interior":{
+				$newimage = 'default.png';
+				$bgnewimage = 'default.png';
+				if($image){	
+				    $newimage=$this->Get_Image_Code('tbl_interior_design', 'image', 'IMAGE', 14, $image);
+				    $this->move_to_folder($newimage,$tmp,'assets/images/interior/');
+				}
+				if($bg_image){	
+				    $bgnewimage=$this->Get_Image_Code('tbl_interior_design', 'bg', 'BG', 14, $bg_image);
+				    $this->move_to_folder($bgnewimage,$bg_tmp,'assets/images/interior/');
+				}
+				$data = array('cat_id'=>$cat_id,'project_name'=>$project_name,'description'=>$description,'image'=>$newimage,'bg'=>$bgnewimage);
+				$result = $this->db->insert('tbl_interior_design',$data);
+				if($result){
+					$response = $this->Interiors('fetch_interior_list',false);
+					return array('type'=>'success','message'=>'Create Successfully','data'=>$response);
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "update_interior":{
+				$sql = "SELECT * FROM tbl_interior_design WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$newimage = $row->image;
+					$bgnewimage = $row->bg;
+					if($image){	
+							if($row->image != 'default.png'){
+								if(file_exists('assets/images/interior/'.$row->image)){
+									unlink('assets/images/interior/'.$row->image);
+								}
+					    }
+					    $newimage=$this->Get_Image_Code('tbl_website_banner', 'image', 'IMAGE', 14, $image);
+					    $this->move_to_folder($newimage,$tmp,'assets/images/interior/');
+					}
+					if($bg_image){
+						if($row->bg != 'default.png'){
+								if(file_exists('assets/images/interior/'.$row->bg)){
+									unlink('assets/images/interior/'.$row->bg);
+								}
+					   }
+				    $bgnewimage=$this->Get_Image_Code('tbl_interior_design', 'bg', 'BG', 14, $bg_image);
+				    $this->move_to_folder1($bgnewimage,$bg_tmp,'assets/images/interior/');
+			  	}
+					$data = array('cat_id'=>$cat_id,'project_name'=>$project_name,'description'=>$description,'image'=>$newimage,'bg'=>$bgnewimage);
+					$result = $this->db->where('id',$id)->update('tbl_interior_design',$data);
+					if($result){
+						$response = $this->Interiors('fetch_interior_list',false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return array('type'=>'info','message'=>'Nothing Changes');
+					}
+				}else {
+					return false;
+				}
+				break;
+			}
+
+		}
+	}
+	public function Events($type,$val){
+		switch($type){
+			case "fetch_events_list":{
+				$data = array();
+				$sql = "SELECT *,IFNULL(title,'No Title') as title,DATE_FORMAT(date_event, '%M %d %Y') as date_event 
+				FROM tbl_events ORDER BY date_event DESC";
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$stat ='';
+						if($row->status=='ACTIVE'){
+							$stat ='checked';
+						}
+						$action =  $this->Action('action1',$row->id,'update_status_event','view-event','delete-event',$stat);
+						$status = array('INACTIVE'=>array('state'=>'Inactive','color'=>'danger'),
+                 								'ACTIVE'=>array('state'=>'Active','color'=>'success'));
+            $status_data ='<span style="width: 112px;"><span class="label label-'.$status[$row->status]['color'].' label-dot mr-2"></span><span class="font-weight-bold text-'.$status[$row->status]['color'].'">'.$status[$row->status]['state'].'</span></span>';
+            $image = '<span style="width: 250px;"><div class="d-flex align-items-center">
+					                <div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/events/'.$row->image.'" alt="photo"></div></span>';
+
+						$data[]=array(
+							'image'=>$image,
+							'title'=>$row->title,
+							'date_created'=>$row->date_event,
+							'status'=>$status_data,
+							'action'=>$action);
+					}
+					return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_event_details":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_events WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+				case "fetch_event_status":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_events WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$status = 'INACTIVE';
+					if($row->status == 'INACTIVE'){
+						$status ='ACTIVE';
+					}
+					$data = array('status'=>$status);
+					$result = $this->db->where('id',$id)->update('tbl_events',$data);
+					if($result){
+						$response = $this->Events('fetch_events_list',false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_event_delete":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_events WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					 if($row->image != 'default.png'){
+							if(file_exists('assets/images/events/'.$row->image)){
+								unlink('assets/images/events/'.$row->image);
+							}
+				   }
+				   $result = $this->db->where('id',$id)->delete('tbl_events');
+				   if($result){
+				   		$response = $this->Events('fetch_events_list',false);
+						  return array('type'=>'success','message'=>'Delete Successfully','data'=>$response);
+				   }else{
+				   	return false;
+				   }
+				}else{
+					return false;
+				}
+				break;
+			}
+		}
+	}
+	public function Submit_Events($type,$id,$title,$description,$date_event,$image,$tmp){
+			switch($type){
+			case "add_events":{
+				$newimage = 'default.jpg';
+				if($image){	
+				    $newimage=$this->Get_Image_Code('tbl_events', 'image', 'IMAGE', 14, $image);
+				    $this->move_to_folder($newimage,$tmp,'assets/images/events/');
+				}
+				$data = array('title'=>$title,'description'=>$description,'date_event'=>$date_event,'image'=>$newimage);
+				$result = $this->db->insert('tbl_events',$data);
+				if($result){
+					$response = $this->Events('fetch_events_list',false);
+					return array('type'=>'success','message'=>'Create Successfully','data'=>$response);
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "update_events":{
+				$sql = "SELECT * FROM tbl_events WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$newimage = $row->image;
+					if($image){	
+							if($row->image != 'default.jpg'){
+								if(file_exists('assets/images/events/'.$row->image)){
+									unlink('assets/images/events/'.$row->image);
+								}
+					    }
+				    $newimage=$this->Get_Image_Code('tbl_events', 'image', 'IMAGE', 14, $image);
+				    $this->move_to_folder($newimage,$tmp,'assets/images/events/');
+					}
+					$data = array('title'=>$title,'description'=>$description,'date_event'=>$date_event,'image'=>$newimage);
+					$result = $this->db->where('id',$id)->update('tbl_events',$data);
+					if($result){
+							$response = $this->Events('fetch_events_list',false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return array('type'=>'info','message'=>'Nothing Changes');
+					}
+				}else {
+					return false;
+				}
+				break;
+			}
+
+		}
+	}
+	public function Testimony_List($type,$val){
+		switch ($type) {
+			case 'fetch_testimony_list':{
+				 $data =array();  
+				 $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created FROM tbl_customer_testimony");
+	        	if($query){
+	              $no =1;
+	              foreach($query->result() as $row){
+	              ++$no;
+	              $stat ='';
+								if($row->status=='ACTIVE'){
+									$stat ='checked';
+								}
+	             	$action =  $this->Action('action1',$row->id,'update_status_testimony','view-testimony','delete-testimony',$stat);
+								$status = array('INACTIVE'=>array('state'=>'Inactive','color'=>'danger'),
+		                 								'ACTIVE'=>array('state'=>'Active','color'=>'success'));
+		            $status_data ='<span style="width: 112px;"><span class="label label-'.$status[$row->status]['color'].' label-dot mr-2"></span><span class="font-weight-bold text-'.$status[$row->status]['color'].'">'.$status[$row->status]['state'].'</span></span>';
+		            $image = '<span style="width: 250px;"><div class="d-flex align-items-center">
+							                <div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/testimony/'.$row->image.'" alt="photo"></div></span>'; 		           
+	            	$string = strip_tags($row->description);
+		           	 if (strlen($string) > 500) {
+			                $stringCut = substr($string, 0, 80);
+			                $endPoint = strrpos($stringCut, ' ');
+			                $string = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+			                $string .= '... <a class="view-testimony" data-id="'.$this->encryption->encrypt($row->id).'">Read More</a>';
+			            }
+		             $data[] = array('no'               => $no,
+		                            'image'             => $image,
+		                            'name'              => $row->name,
+		                            'description'       => $string,
+		                            'date_created'      => $row->date_created,
+		                            'status'						=> $status_data,
+		                            'action'            => $action);
+		            }  
+	        	}
+         		return $data; 
+				break;
+			}
+			case "fetch_testimony_details":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_customer_testimony WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_testimony_status":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_customer_testimony WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$status = 'INACTIVE';
+					if($row->status == 'INACTIVE'){
+						$status ='ACTIVE';
+					}
+					$data = array('status'=>$status);
+					$result = $this->db->where('id',$id)->update('tbl_customer_testimony',$data);
+					if($result){
+						$response = $this->Testimony_List('fetch_testimony_list',false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_testimony_delete":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_customer_testimony WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					 if($row->image != 'default.jpg'){
+							if(file_exists('assets/images/testimony/'.$row->image)){
+								unlink('assets/images/testimony/'.$row->image);
+							}
+				   }
+				   $result = $this->db->where('id',$id)->delete('tbl_customer_testimony');
+				   if($result){
+				   		$response = $this->Testimony_List('fetch_testimony_list',false);
+						  return array('type'=>'success','message'=>'Delete Successfully','data'=>$response);
+				   }else{
+				   	return false;
+				   }
+				}else{
+					return false;
+				}
+				break;
+			}
+			default:
+				return false;
+				break;
+		}
+	}
+		public function Submit_Testimony($type,$id,$name,$description,$image,$tmp){
+			switch($type){
+			case "add_testimony":{
+				$newimage = 'default.jpg';
+				if($image){	
+				    $newimage=$this->Get_Image_Code('tbl_customer_testimony', 'image', 'IMAGE', 14, $image);
+				    $this->move_to_folder($newimage,$tmp,'assets/images/testimony/');
+				}
+				$data = array('name'=>$name,'description'=>$description,'image'=>$newimage);
+				$result = $this->db->insert('tbl_customer_testimony',$data);
+				if($result){
+					$response = $this->Testimony_List('fetch_testimony_list',false);
+					return array('type'=>'success','message'=>'Create Successfully','data'=>$response);
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "update_testimony":{
+				$sql = "SELECT * FROM tbl_customer_testimony WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$newimage = $row->image;
+					if($image){	
+							if($row->image != 'default.jpg'){
+								if(file_exists('assets/images/testimony/'.$row->image)){
+									unlink('assets/images/testimony/'.$row->image);
+								}
+					    }
+				    $newimage=$this->Get_Image_Code('tbl_customer_testimony', 'image', 'IMAGE', 14, $image);
+				    $this->move_to_folder($newimage,$tmp,'assets/images/testimony/');
+					}
+					$data = array('title'=>$title,'description'=>$description,'image'=>$newimage);
+					$result = $this->db->where('id',$id)->update('tbl_customer_testimony',$data);
+					if($result){
+							$response = $this->Testimony_List('fetch_testimony_list',false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return array('type'=>'info','message'=>'Nothing Changes');
+					}
+				}else {
+					return false;
+				}
+				break;
+			}
+
+		}
 	}
 	public function Product_List($type,$val){
 		switch ($type) {
@@ -203,41 +804,7 @@ class Webmodifier_model extends CI_Model{
 				break;
 		}
 	}
-	public function Testimony_List($type,$val){
-		switch ($type) {
-			case 'fetch_testimony_list':{
-				 $data =array();  
-				 $query = $this->db->query("SELECT *,DATE_FORMAT(date_created, '%M %d %Y') as date_created FROM tbl_customer_testimony");
-	        	if($query){
-	              $no =1;
-	              foreach($query->result() as $row){
-	              ++$no;
-	              $image = '<div class="symbol symbol-40 symbol-circle symbol-sm"><img class="" id="myImg" src="'.base_url().'assets/images/testimony/'.$row->image.'" alt="'.$row->name.'"></div>';
-	              $action =  $this->Action('action3',$row->id,'btn-create','btn_delete',false,false);   		           
-	            	$string = strip_tags($row->description);
-		           	 if (strlen($string) > 500) {
-			                $stringCut = substr($string, 0, 80);
-			                $endPoint = strrpos($stringCut, ' ');
-			                $string = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
-			                $string .= '... <a class="btn-create" data-id="'.$this->encryption->encrypt($row->id).'" data-action="update" data-toggle="modal" data-target="#staticBackdrop">Read More</a>';
-			            }
-		             $data[] = array('no'               => $no,
-		                            'image'             => $image,
-		                            'name'              => $row->name,
-		                            'description'       => $string,
-		                            'date_created'      => $row->date_created,
-		                            'action'            => $action);
-		            }  
-	        	}
-         		return $data; 
-				break;
-			}
-			default:
-				return false;
-				break;
-		}
-	}
-
+	
 	public function Category_List($type,$val,$val1,$image,$tmp){
 		switch ($type) {
 			case "fetch_category_option":

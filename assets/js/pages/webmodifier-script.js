@@ -270,63 +270,63 @@ var html;var _avatar;
 						_ajaxloader(thisUrl,"POST",false,"View_Profile");
 						break;
 					}
-					case "data-banner-list":{
-						let thisUrl = 'datatable_controller/Web_Banner_Data';
-						_ajaxloader(thisUrl,"POST",false,"Web_Banner_Data_List");
-						$(document).ready(function() {
-							 $(document).on("click","#form-request",function() {
-							 	let status = $(this).attr('data-action');
-							 	$('input[name="page"]').val(status);
-							 	if(status == 'Create'){
-							 		$('.images').attr('src',''+baseURL+'assets/images/banner/default.png');
-							 		// $('input[name="title"]').val('');
-							 		// tinyMCE.get('kt-tinymce-1').setContent('');
-							 		$('select[name="type"]').val('');
-							 		$('input[name="previous_image"]').val('');
-							 		$('input[name="id"]').val('');
-							 		$('input[name="web_no"]').val('');
-							 	}else if(status == 'Update'){
-							 		let id = $(this).attr('data-id');
-								 	let val = {id:id};
-								 	let thisUrl = 'modal_controller/Modal_Web_Banner';
-									_ajaxloader(thisUrl,"POST",val,"Modal_Web_Banner");
-							 	}
-						    });
-							$('#image').on('change', function(imageInput) {
-							   let action = $(this);
-				                  var img = document.createElement('img');
-							   var blob = URL.createObjectURL(event.target.files[0]);
-							   let extension = action.val().replace(/^.*\./, '');
-							  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
-							  	  let previous= $('input[name="previous_image"]').val();
-							  	  var images ='default.png';
-							  	   if(previous.length > 0){
-							  	   	var images = previous;
-							  	   }
-							  	   img.src = blob;
-								   img.onload = function() {
-								      if(img.width>=1600){
-								      	if(img.height >=1200){
+					// case "data-banner-list":{
+					// 	let thisUrl = 'datatable_controller/Web_Banner_Data';
+					// 	_ajaxloader(thisUrl,"POST",false,"Web_Banner_Data_List");
+					// 	$(document).ready(function() {
+					// 		 $(document).on("click","#form-request",function() {
+					// 		 	let status = $(this).attr('data-action');
+					// 		 	$('input[name="page"]').val(status);
+					// 		 	if(status == 'Create'){
+					// 		 		$('.images').attr('src',''+baseURL+'assets/images/banner/default.png');
+					// 		 		// $('input[name="title"]').val('');
+					// 		 		// tinyMCE.get('kt-tinymce-1').setContent('');
+					// 		 		$('select[name="type"]').val('');
+					// 		 		$('input[name="previous_image"]').val('');
+					// 		 		$('input[name="id"]').val('');
+					// 		 		$('input[name="web_no"]').val('');
+					// 		 	}else if(status == 'Update'){
+					// 		 		let id = $(this).attr('data-id');
+					// 			 	let val = {id:id};
+					// 			 	let thisUrl = 'modal_controller/Modal_Web_Banner';
+					// 				_ajaxloader(thisUrl,"POST",val,"Modal_Web_Banner");
+					// 		 	}
+					// 	    });
+					// 		$('#image').on('change', function(imageInput) {
+					// 		   let action = $(this);
+				 //                  var img = document.createElement('img');
+					// 		   var blob = URL.createObjectURL(event.target.files[0]);
+					// 		   let extension = action.val().replace(/^.*\./, '');
+					// 		  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
+					// 		  	  let previous= $('input[name="previous_image"]').val();
+					// 		  	  var images ='default.png';
+					// 		  	   if(previous.length > 0){
+					// 		  	   	var images = previous;
+					// 		  	   }
+					// 		  	   img.src = blob;
+					// 			   img.onload = function() {
+					// 			      if(img.width>=1600){
+					// 			      	if(img.height >=1200){
 
-								      	 }else{
-								      		Swal.fire("Ops!","Please upload minimum 1600x1200 size", "info");
-								      		$('.images').attr('src',''+baseURL+'assets/images/banner/'+images+'');
-								      	 	action.val('');
-								      	 }
-								       }else{
-								       	Swal.fire("Ops!","Please upload minimum 1600x1200 size", "info");
-								       	$('.images').attr('src',''+baseURL+'assets/images/banner/'+images+'');
-								       	action.val('');
-								       }
-								    }
-							  }else{
-							  	Swal.fire("Ops!","Please upload minimum 1600x1200 size (jpg, jpeg, or png)", "info");
-							  	action.val('');
-							  }
-							});
-						})
-					   break;
-					}
+					// 			      	 }else{
+					// 			      		Swal.fire("Ops!","Please upload minimum 1600x1200 size", "info");
+					// 			      		$('.images').attr('src',''+baseURL+'assets/images/banner/'+images+'');
+					// 			      	 	action.val('');
+					// 			      	 }
+					// 			       }else{
+					// 			       	Swal.fire("Ops!","Please upload minimum 1600x1200 size", "info");
+					// 			       	$('.images').attr('src',''+baseURL+'assets/images/banner/'+images+'');
+					// 			       	action.val('');
+					// 			       }
+					// 			    }
+					// 		  }else{
+					// 		  	Swal.fire("Ops!","Please upload minimum 1600x1200 size (jpg, jpeg, or png)", "info");
+					// 		  	action.val('');
+					// 		  }
+					// 		});
+					// 	})
+					//    break;
+					// }
 					case "data-interior-list":{
 						$(document).ready(function() {
 							$(".upfile1g").click(function () {

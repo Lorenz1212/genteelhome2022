@@ -17,6 +17,7 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by,val=false
 		processing: true,
 		serverSide: false,
 		destroy: true,
+		stateSave: true,
 		order:order_by,
 		pageLength: pageLength,
 		lengthChange:false,

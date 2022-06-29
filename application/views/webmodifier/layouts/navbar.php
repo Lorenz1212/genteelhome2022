@@ -70,15 +70,15 @@
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/webmodifier/events";?>"class="menu-link"><span class="menu-text">Events</span>
-															</a>
-														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/webmodifier/company";?>"class="menu-link"><span class="menu-text">Company Information</span>
+															<a href="<?php echo base_url()."gh/webmodifier/events";?>"class="menu-link"><span class="menu-text">Blogs</span>
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/webmodifier/testimony";?>"class="menu-link"><span class="menu-text">Testimony</span>
+															</a>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/webmodifier/company";?>"class="menu-link"><span class="menu-text">Company Information</span>
 															</a>
 														</li>
 													</ul>
