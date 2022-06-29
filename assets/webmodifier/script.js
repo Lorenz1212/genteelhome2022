@@ -644,9 +644,7 @@ let view;
 	var _construct = async function(response, type, element, object){
 		switch(type){
 			case "fetch_testimony_list":{
-					if(response != false){
 						KTDatatablesDataSourceAjaxClient.init('tbl_testimony',response);
-					}
 			   break;
 			}
 			case"fetch_testimony_delete":
@@ -672,9 +670,7 @@ let view;
 			   break;
 			}
 			case "fetch_events_list":{
-				if(response !=false){
 					 KTDatatablesDataSourceAjaxClient.init('tbl_events',response);
-				}
 				break;
 			}
 			case"fetch_event_delete":
@@ -697,10 +693,8 @@ let view;
 				break;
 			}
 			case "fetch_interior_list":{
-				if(response !=false){
 				 KTDatatablesDataSourceAjaxClient.init('tbl_interiors',response);
-				}
-				break;
+				 break;
 			}
 			case"fetch_interior_delete":
 			case "fetch_interior_status":{
@@ -723,9 +717,7 @@ let view;
 				break;
 			}
 			case "fetch_banner_list":{
-				if(response !=false){
-					 KTDatatablesDataSourceAjaxClient.init('tbl_banners',response);
-					}
+				KTDatatablesDataSourceAjaxClient.init('tbl_banners',response);
 				break;
 			}
 			case"fetch_banner_delete":
