@@ -87,7 +87,7 @@
 
                                         <div class="login-block login-block-signup">
 
-                                            <div class="h4">Register now <a href="javascript:void(0);" id="btn_login" data-name="Sign In" class="btn btn-clean-dark btn-xs btn-login pull-right">Log in</a></div>
+                                            <div class="h4">Register now <!-- <a href="javascript:void(0);" id="btn_login" data-name="Sign In" class="btn btn-clean-dark btn-xs btn-login pull-right">Log in</a> --></div>
 
                                             <hr>
                                             <form id="registration-form">

@@ -85,13 +85,7 @@ var KTLogin = function() {
                           icon: response.status,
                           button: "Ok!",
                         }).then(function() {
-                            if(login == 'Login'){
-                                var url = baseURL+'gh/app/index';
-                                window.location = url;
-                            }else{
-                                 var url = $(location).attr('href');
-                                 window.location = url;
-                            }
+                            window.location.reload();
                         });
                     }else if(response.status =='error'){
                         swal("Oopps", "Invalid Username/Password", "warning");
