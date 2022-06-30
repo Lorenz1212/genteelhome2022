@@ -845,6 +845,7 @@ let view;
 					_initToast(response.type,response.message);
 					let container = $("#divimages").empty();
 					if(response.data){
+						$('#customFile').val("");
 						for(let i=0;i<response.data.length;i++){
 		  				container.append('<div class="col-lg-3 col-xl-3 mb-5" id="row_'+response.data[i].id+'">\
 									  									  <div class="row">\

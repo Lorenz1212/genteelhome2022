@@ -17,7 +17,7 @@
                 </div>
                 <div class="navigation navigation-main">
                     <!-- Setup your logo here-->
-                    <a href="" class="logo"><img src="<?php echo base_url('assets/images/logo/logo2.png') ?>" alt=""  style=""></a>
+                    <a href="javascript:;" class="logo"><img src="<?php echo base_url('assets/images/logo/logo2.png') ?>" alt=""  style=""></a>
                     <!-- Mobile toggle menu -->
                     <a href="#" class="open-menu"><i class="icon icon-menu"></i></a>
 

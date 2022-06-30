@@ -1,6 +1,4 @@
-   <div id="kt_content" data-table="data-interior"></div>
-     <!-- ========================  Main header ======================== -->
-
+<!-- ========================  Main header ======================== -->
         <section class="main-header main-header-blog" style="background-image:url(<?php echo base_url() ?>assets/images/static/static1.jpg)">
             <header>
                 <div class="container text-center">
@@ -8,11 +6,8 @@
                 </div>
             </header>
         </section>    
-
         <section class="cards">
-
             <!-- === cards header === -->
-
             <header>
                 <div class="row">
                     <div class="col-md-offset-2 col-md-8 text-center">

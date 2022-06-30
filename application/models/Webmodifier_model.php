@@ -40,9 +40,19 @@ class Webmodifier_model extends CI_Model{
       }
       return $newimage;
    }
-   private function move_to_folder4($string,$image,$tmp,$path,$targetWidth,$targetHeight){
+   private function move_to_folder4($newfilename,$image,$tmp,$path,$targetWidth,$targetHeight){
+   			$extension=pathinfo($image, PATHINFO_EXTENSION);
+        $path_folder = $path.$newfilename;
+        list($width, $height) = getimagesize($tmp);
+        $file = $this->imageType($extension,$path_folder,$tmp,$targetWidth,$targetHeight,$width,$height);
+        if($file == true){
+            return $newfilename;
+        }else{
+            return false;
+        }
+    }
+    private function move_to_folder5($newfilename,$image,$tmp,$path,$targetWidth,$targetHeight){
         $extension=pathinfo($image, PATHINFO_EXTENSION);
-        $newfilename=  'IMG'.date('YmdHis').'-'.$string.mt_rand(1000, 999999).'.'.$extension;
         $path_folder = $path.$newfilename;
         list($width, $height) = getimagesize($tmp);
         $file = $this->imageType($extension,$path_folder,$tmp,$targetWidth,$targetHeight,$width,$height);
@@ -879,10 +889,14 @@ class Webmodifier_model extends CI_Model{
 					 	  $c_code = $row->c_code;
 							if($image){	
 									$path_image = "assets/images/finishproduct/product/";
-   								$newimage=$this->move_to_folder4('IMG',$image,$tmp,$path_image,400,400);
+									$path_image_size = "assets/images/finishproduct/product600x600/";
+									$extension=pathinfo($image, PATHINFO_EXTENSION);
+       						$newfilename=  'IMG'.date('YmdHis').'-PRODUCT'.mt_rand(1000, 999999).'.'.$extension;
+   								$this->move_to_folder4($newfilename,$image,$tmp,$path_image,400,400);
+   								$this->move_to_folder5($newfilename,$image,$tmp,$path_image_size,600,600);
 							    $data = array('project_no'=>$project_no,
 							    							'c_code'=>$c_code,
-							    							'images'=>$newimage);
+							    							'images'=>$newfilename);
 							    $result = $this->db->insert('tbl_project_image',$data);
 							    $sql ="SELECT * FROM tbl_project_image WHERE c_code='$c_code' ORDER BY id DESC";
 							    $query = $this->db->query($sql);
@@ -907,9 +921,13 @@ class Webmodifier_model extends CI_Model{
 					 if($row){
 						 		$c_code = $row->c_code;	
 						 		$path_image = "assets/images/finishproduct/product/";
+						 		$path_image_size = "assets/images/finishproduct/product600x600/";
 				 				if($row->images != 'default.jpg'){
 				 					if(file_exists($path_image.$row->images)){
 				 						unlink($path_image.$row->images);
+				 						if(file_exists($path_image_size.$row->images)){
+				 							unlink($path_image_size.$row->images);
+				 						}
 				 					}
 				 				}
 						    $result = $this->db->where('id',$val)->delete('tbl_project_image');
