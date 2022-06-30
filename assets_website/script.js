@@ -683,12 +683,12 @@ let mainpage;
 						$('.product-availability').text(status[response.availability].title).attr('data-status',response.availability);
 						if(response.pallet){
 							for(let i=0;i<response.pallet.length;i++){
-								 html +='<img src="'+baseURL+'assets/images/finishproduct/product/'+response.pallet[i].images+'" alt="" width="340">';
-				  				 html1 +='<a href="'+baseURL+'assets/images/finishproduct/product/'+response.pallet[i].images+'"><img src="'+baseURL+'assets/images/finishproduct/product/'+response.pallet[i].images+'" alt="" height="500"></a>';
+								 html +='<img src="'+baseURL+'assets/images/finishproduct/product600x600/'+response.pallet[i].images+'" alt="" width="340">';
+				  				 html1 +='<a href="'+baseURL+'assets/images/finishproduct/product600x600/'+response.pallet[i].images+'"><img src="'+baseURL+'assets/images/finishproduct/product600x600/'+response.pallet[i].images+'" alt="" height="500"></a>';
 							 }
 						}else{
 							 html ='<img src="'+baseURL+'assets/images/finishproduct/product/default.png" alt="" width="340">';
-				  			html1 ='<a href="'+baseURL+'assets/images/finishproduct/product/default.png"><img src="'+baseURL+'assets/images/finishproduct/product/default.png" alt="" height="500"></a>';
+				  		 html1 ='<a href="'+baseURL+'assets/images/finishproduct/product/default.png"><img src="'+baseURL+'assets/images/finishproduct/product/default.png" alt="" height="500"></a>';
 						}
 						container.append('<div class="owl-product-gallery owl-carousel owl-theme" style="opacity: 1; display: block;">\
 	                      	'+html+'');

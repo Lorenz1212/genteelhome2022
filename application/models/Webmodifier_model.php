@@ -893,7 +893,7 @@ class Webmodifier_model extends CI_Model{
 									$extension=pathinfo($image, PATHINFO_EXTENSION);
        						$newfilename=  'IMG'.date('YmdHis').'-PRODUCT'.mt_rand(1000, 999999).'.'.$extension;
    								$this->move_to_folder4($newfilename,$image,$tmp,$path_image,400,400);
-   								$this->move_to_folder5($newfilename,$image,$tmp,$path_image_size,600,600);
+   								$this->move_to_folder5($newfilename,$image,$tmp,$path_image_size,700,700);
 							    $data = array('project_no'=>$project_no,
 							    							'c_code'=>$c_code,
 							    							'images'=>$newfilename);
