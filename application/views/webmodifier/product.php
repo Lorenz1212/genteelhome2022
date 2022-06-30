@@ -376,7 +376,8 @@
 										   <select class="form-control selectpicker" data-live-search="true" name="title">
 										   		<option value="" disabled="" selected="">SELECT ITEM</option>
 										   		<?php 
-												  $query = $this->db->select('*')->from('tbl_project_design')->where('type',1)->where('project_status','APPROVED')->get();
+										   		  $sql = "SELECT * FROM tbl_project_design WHERE type=1 AND project_status='APPROVED'";
+										   		  $query = $this->db->query($sql);
 												  foreach($query->result() as $row){
 												  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
 												  }
