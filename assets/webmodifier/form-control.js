@@ -342,10 +342,189 @@ var KTFormControlsWeb= function () {
                 });
                 break;
             }
+            case "product":{
+                var form = KTUtil.getById('create-product-form');
+                    validation = FormValidation.formValidation(
+                    form,{
+                        fields: {
+                            title: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Product Name is required'
+                                    },
+                                }
+                            },
+                            pallet_name: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Pallet Name is required'
+                                    },
+                                }
+                            },
+                            amount: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Amount of product is required'
+                                    },
+                                }
+                            },
+                            cat_id: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Category is required'
+                                    },
+                                }
+                            },
+                            sub_id: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Sub Category is required'
+                                    },
+                                }
+                            },
+                            image: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Image is required'
+                                    },
+                                    file: {
+                                        extension: 'jpg,jpeg,png',
+                                        type: 'image/jpeg,image/png',
+                                        message: 'The selected file is not valid'
+                                    },
+                                }
+                            },
+                            color: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Pallet Color is required'
+                                    },
+                                    file: {
+                                        extension: 'jpg,jpeg,png',
+                                        type: 'image/jpeg,image/png',
+                                        message: 'The selected file is not valid'
+                                    },
+                                }
+                            },
+                            docs: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Tearsheet is required'
+                                    }
+                                }
+                            },
+
+                        },
+                        plugins: {
+                            trigger: new FormValidation.plugins.Trigger(),
+                            bootstrap: new FormValidation.plugins.Bootstrap(),
+                        }
+                    }
+                );
+                $('#create-product-modal').on('hidden.bs.modal', function () {
+                    validation.resetForm();
+                    document.getElementById("create-product-form").reset();
+                    $('#kt_image_5 > span').trigger('click');
+                    $('.image').attr('src',''+baseURL+'assets/images/design/project_request/images/default.jpg');
+                });
+                $('.btn-create-product').on('click',function(e){
+                    e.preventDefault();
+                    validation.validate().then(function(status) {
+                        if (status == 'Valid') {
+                                let formData = new FormData(form);
+                                formData.append("action", "product");
+                                formData.append("type", 'add_product');
+                                _ajaxForm(formData,'add_product',false);
+                        }   
+                    });                
+                });   
+                  var form_exisiting = KTUtil.getById('create-existing-form');
+                    validation_existing = FormValidation.formValidation(
+                    form_exisiting,{
+                        fields: {
+                            title: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Product Name is required'
+                                    },
+                                }
+                            },
+                            pallet_name: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Pallet Name is required'
+                                    },
+                                }
+                            },
+                            amount: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Amount of product is required'
+                                    },
+                                }
+                            },
+                            color: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Pallet Color is required'
+                                    },
+                                    file: {
+                                        extension: 'jpg,jpeg,png',
+                                        type: 'image/jpeg,image/png',
+                                        message: 'The selected file is not valid'
+                                    },
+                                }
+                            },
+
+                        },
+                        plugins: {
+                            trigger: new FormValidation.plugins.Trigger(),
+                            bootstrap: new FormValidation.plugins.Bootstrap(),
+                        }
+                    }
+                );
+                $('#create-existing-modal').on('hidden.bs.modal', function () {
+                    validation.resetForm();
+                    document.getElementById("create-existing-form").reset();
+                    $('.image').attr('src',''+baseURL+'assets/images/design/project_request/images/default.jpg');
+                });
+                $('.btn-create-existing').on('click',function(e){
+                    e.preventDefault();
+                    validation_existing.validate().then(function(status) {
+                        if (status == 'Valid') {
+                                let formData_existing = new FormData(form_exisiting);
+                                formData_existing.append("action", "product");
+                                formData_existing.append("type", 'add_existing');
+                                _ajaxForm(formData_existing,'add_existing',false);
+                        }   
+                    });                
+                });      
+                break;
+            }
 		}
 	}
 	var _initResponse = function(response,val,val2){
 		switch(val){
+            case "add_existing":{
+                if(response != false){
+                    _showToast(response.type,response.message);
+                    if(response.data){
+                     KTDatatablesDataSourceAjaxClient.init('tbl_products',response.data);
+                    }
+                    $('#create-existing-modal').modal('hide');
+                }
+                break;
+            }
+            case "add_product":{
+                if(response != false){
+                    _showToast(response.type,response.message);
+                    if(response.data){
+                     KTDatatablesDataSourceAjaxClient.init('tbl_products',response.data);
+                    }
+                    $('#create-product-modal').modal('hide');
+                }
+                break;
+            }
             case "add_testimony":{
                 if(response != false){
                     _showToast(response.type,response.message);

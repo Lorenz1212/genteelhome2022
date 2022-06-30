@@ -674,7 +674,7 @@ class Webmodifier_model extends CI_Model{
 
 		}
 	}
-	public function Product_List($type,$val){
+	public function Product_List($type,$val,$val1,$val2,$val3,$image,$tmp){
 		switch ($type) {
 			case 'fetch_product_list':{
 				 $data = array();
@@ -683,7 +683,7 @@ class Webmodifier_model extends CI_Model{
 			            (SELECT CONCAT(fname, ' ',lname) FROM tbl_administrator WHERE id=tbl_project_color.designer) AS requestor FROM tbl_project_color WHERE status=2 AND type=1");
 					 if($query){
 							 	foreach($query->result() as $row){
-							 	$action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-product" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>';
+							 		$action = '<button type="button" class="btn btn-light btn-hover-dark btn-icon btn-sm mr-2 view-product" data-id="'.$this->encryption->encrypt($row->id).'"><i class="la la-eye"></i></button>';
 					            $title = '<span style="width: 250px;"><div class="d-flex align-items-center">
 					                <div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/design/project_request/images/'.$row->image.'" alt="photo"></div><div class="d-flex align-items-center"><div class="symbol symbol-40 symbol-sm flex-shrink-0"><img class="" id="myImg" src="'.base_url().'assets/images/palettecolor/'.$row->c_image.'" alt="photo"> </div><div class="ml-4"><div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'.$row->title.'</div><a href="#" class="text-muted font-weight-bold text-hover-primary">'.$row->c_name.'</a></div></div></div></span>';
 					                 if($row->display_status=='n/a'){$status ='<span style="width: 112px;"><span class="label label-danger label-dot mr-2"></span><span class="font-weight-bold text-danger">Inactive</span></span>';
@@ -703,20 +703,303 @@ class Webmodifier_model extends CI_Model{
 			case "fetch_product_details":{
 				$data = array();
 				$id = $this->encryption->decrypt($val);
-				$sql = $this->db->query("SELECT *,(SELECT title FROM tbl_project_design WHERE id=tbl_project_color.project_no) AS title FROM tbl_project_color WHERE id='$id'")->row();
-		        $query = $this->db->select('*')->from('tbl_project_image')->where('c_code', $sql->c_code)->get();
-			        if($query !== FALSE && $query->num_rows() > 0){
-		            foreach($query->result() as $row)  {
+				$sql = $this->db->query("SELECT *,
+					(SELECT tearsheet FROM tbl_project_design WHERE id=tbl_project_color.project_no) AS tearsheet,
+					(SELECT cat_id FROM tbl_project_design WHERE id=tbl_project_color.project_no) AS cat_id,
+					(SELECT sub_id FROM tbl_project_design WHERE id=tbl_project_color.project_no) AS sub_id,
+					(SELECT title FROM tbl_project_design WHERE id=tbl_project_color.project_no) AS title FROM tbl_project_color WHERE id='$id'")->row();
+					if($sql){
+						 $c_code= $sql->c_code;
+		      	 $cat_id = $sql->cat_id;
+		      	  $query = $this->db->query("SELECT * FROM tbl_project_image WHERE c_code='$c_code' ORDER BY id DESC");
+			        if($query){
+		            foreach($query->result() as $row) {
 		             $data[] = array('id' => $row->id,
 		                             'images'=> $row->images);
 		            }  
        			 } 
-         		return array('data'=>$data,'row' => $sql);
+       			$sub = $this->Category_List('fetch_sub_category_select',$cat_id,false,false,false);
+         		return array('data'=>$data,'row' => $sql,'sub'=>$sub);
+					}else{
+						return false;
+					}	       
+				break;
+			}
+			case "fetch_product_update":{
+				$sql = "SELECT * FROM tbl_project_color WHERE id='$val'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$project_no = $row->project_no;
+					if($val2 == 1){
+						$result = $this->db->where('id',$project_no)->update('tbl_project_design',array('title'=>$val1));
+					}else{
+						if($val3 == 'display_status'){
+							$result = $this->db->where('id',$val)->update('tbl_project_color',array($val3=>$val1));
+						}else{
+							$result = $this->db->where('id',$val)->update('tbl_project_color',array($val3=>$val1));
+						}
+					}
+					$response = $this->Product_List('fetch_product_list',false,false,false,false,false,false,false);
+					if($result){
+						if($val3 == 'display_status'){
+							$sql = "SELECT * FROM tbl_project_color WHERE id='$val' AND display_status='displayed'";
+							$count = $this->db->query($sql)->num_rows();
+							if($count == 0){
+								$this->db->where('id',$project_no)->update('tbl_project_design',array('d_status'=>'n/a'));
+							}else{
+								$sql = "SELECT * FROM tbl_project_design WHERE id='$project_no' AND d_status='n/a'";
+								$row = $this->db->query($sql)->row();
+								if($row){
+									$this->db->where('id',$project_no)->update('tbl_project_design',array('d_status'=>'DISPLAYED'));
+								}
+							}
+						}
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return array('type'=>'info','message'=>'Nothing Changes','data'=>$response);
+					}
+				}else{
+					return $val;
+				}
+				break;
+			}
+			case "fetch_product_pallet":{
+						$sql ="SELECT * FROM tbl_project_color WHERE id='$val'";
+						$row = $this->db->query($sql)->row();
+						if($row){
+							$path_color  =  "assets/images/palettecolor/";
+							$palletnewimage = $row->c_image;
+							if($image){	
+									if($row->c_image != 'default.jpg'){
+										if(file_exists($path_color.$row->c_image)){
+											unlink($path_color.$row->c_image);
+										}
+									}
+							    $palletnewimage=$this->Get_Image_Code('tbl_project_color', 'c_image', 'COLOR', 14, $image);
+							    $this->move_to_folder($palletnewimage,$tmp,$path_color);
+							}
+							$result = $this->db->where('id',$val)->update('tbl_project_color',array('c_image'=>$palletnewimage));
+							$response = $this->Product_List('fetch_product_list',false,false,false,false,false,false,false);
+							if($result){
+								return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+							}else{
+								return array('type'=>'info','message'=>'Nothing Changes','data'=>$response);
+							}
+						}else{
+							return false;
+						}
+				break;
+			}
+			case "fetch_product_category_update":{
+						$sql ="SELECT * FROM tbl_project_color WHERE id='$val'";
+						$row = $this->db->query($sql)->row();
+						if($row){
+							$project_no = $row->project_no;
+							$result = $this->db->where('id',$project_no)->update('tbl_project_design',array('cat_id'=>$val1,'sub_id'=>$val2));
+							$response = $this->Product_List('fetch_product_list',false,false,false,false,false,false,false);
+							if($result){
+								return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+							}else{
+								return array('type'=>'info','message'=>'Nothing Changes','data'=>$response);
+							}
+						}else{
+							return false;
+						}
+				break;
+			}
+			case "fetch_product_tearsheet":{
+						$sql ="SELECT * FROM tbl_project_color WHERE id='$val' LIMIT 1";
+						$row = $this->db->query($sql)->row();
+						if($row){
+							$project_no = $row->project_no;
+							$sql = "SELECT * FROM tbl_project_design WHERE id='$project_no'";
+							$row = $this->db->query($sql)->row();
+							if($row){
+									$path_docs  =  "assets/images/tearsheet/";
+									$tearsheet = $row->tearsheet;
+									if($image){	
+											if($row->tearsheet != 'default.jpg'){
+												if(file_exists($path_docs.$row->tearsheet)){
+													unlink($path_docs.$row->tearsheet);
+												}
+											}
+									    $tearsheet=$this->Get_Image_Code('tbl_project_design', 'tearsheet', 'TEARSHEET', 14, $image);
+									    $this->move_to_folder($tearsheet,$tmp,$path_docs);
+									}
+									$result = $this->db->where('id',$project_no)->update('tbl_project_design',array('tearsheet'=>$tearsheet));
+									$response = $this->Product_List('fetch_product_list',false,false,false,false,false,false,false);
+									if($result){
+										return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+									}else{
+										return array('type'=>'info','message'=>'Nothing Changes','data'=>$response);
+									}
+							}else{
+								return false;
+							}
+						}else{
+							return false;
+						}
+				break;
+			}
+			case "fetch_product_save_image":{
+					 $data_response = array();
+					 $sql = "SELECT * FROM tbl_project_color WHERE id='$val'";
+					 $row = $this->db->query($sql)->row();
+					 if($row){
+					 	  $project_no = $row->project_no;
+					 	  $c_code = $row->c_code;
+							if($image){	
+									$path_image = "assets/images/finishproduct/product/";
+							    $newimage=$this->Get_Image_Code('tbl_project_image', 'images', 'IMAGE', 14, $image);
+							    $this->move_to_folder($newimage,$tmp,$path_image);
+							    $data = array('project_no'=>$project_no,
+							    							'c_code'=>$c_code,
+							    							'images'=>$newimage);
+							    $result = $this->db->insert('tbl_project_image',$data);
+							    $sql ="SELECT * FROM tbl_project_image WHERE c_code='$c_code' ORDER BY id DESC";
+							    $query = $this->db->query($sql);
+					        if($query !== FALSE && $query->num_rows() > 0){
+				            foreach($query->result() as $row) {
+				             $data_response[] = array('id' => $row->id,
+				                             'images'=> $row->images);
+				            }  
+		       			 } 
+							   return array('type'=>'success','message'=>'Upload Successfully','data'=>$data_response);
+							}else{
+									return array('type'=>'info','message'=>'Please input file to upload');
+							}
+					 }
+				   return $json;
+				break;
+			}
+			case "fetch_product_delete_image":{
+					 $data_response = array();
+					 $sql = "SELECT * FROM tbl_project_image WHERE id='$val'";
+					 $row = $this->db->query($sql)->row();
+					 if($row){
+						 		$c_code = $row->c_code;	
+						 		$path_image = "assets/images/finishproduct/product/";
+				 				if($row->images != 'default.jpg'){
+				 					if(file_exists($path_image.$row->images)){
+				 						unlink($path_image.$row->images);
+				 					}
+				 				}
+						    $result = $this->db->where('id',$val)->delete('tbl_project_image');
+						    if($result){
+						    	  $sql ="SELECT * FROM tbl_project_image WHERE c_code='$c_code' ORDER BY id DESC";
+								    $query = $this->db->query($sql);
+						        if($query !== FALSE && $query->num_rows() > 0){
+						            foreach($query->result() as $row) {
+						             $data_response[] = array('id' => $row->id,
+						                             'images'=> $row->images);
+						            }  
+			       			 	 } 
+								   return array('type'=>'success','message'=>'Delete Successfully','data'=>$data_response);
+								 }else{
+								 	return false;
+								 }
+						}else{
+								return false;
+						}
 				break;
 			}
 			default:
 				return false;
 				break;
+		}
+	}
+	public function Submit_Product($type,$id,$title,$pallet_name,$cat_id,$sub_id,$amount,$image,$tmp,$pallet_image,$pallet_tmp,$docs_image,$docs_tmp){
+			$path_image = "assets/images/design/project_request/images/";
+			$path_color  =  "assets/images/palettecolor/";
+		  $path_docs  =  "assets/images/tearsheet/";
+			switch($type){
+				case "add_product":{
+						$newimage = 'default.jpg';
+						$palletnewimage = 'default.jpg';
+						$docsnewimage = 'default.jpg';
+						if($image){	
+						    $newimage=$this->Get_Image_Code('tbl_project_color', 'image', 'IMAGE', 14, $image);
+						    $this->move_to_folder($newimage,$tmp,$path_image);
+						}
+						if($pallet_image){	
+						    $palletnewimage=$this->Get_Image_Code('tbl_project_color', 'c_image', 'COLOR', 14, $pallet_image);
+						    $this->move_to_folder($palletnewimage,$pallet_tmp,$path_color);
+						}
+						if($docs_image){	
+						    $docsnewimage=$this->Get_Image_Code('tbl_project_design', 'tearsheet', 'TEARSHEET', 14, $docs_image);
+						    $this->move_to_folder($palletnewimage,$docs_tmp,$path_docs);
+						}
+						$project_no=$this->get_random_code('tbl_project_design', 'project_no', "STXID", 8);
+						$c_code=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
+						$data = array('project_no'      => $project_no,
+					                  'title'         => $title,
+					                  'tearsheet'	    => $docsnewimage,
+					                  'project_Status'=> 'APPROVED',
+					                  'type'		      => 1,
+					                  'cat_id'		    => $cat_id,
+					                  'sub_id'		    => $sub_id,
+					   				  			'date_created'  =>  date('Y-m-d H:i:s'));
+						 $this->db->insert('tbl_project_design',$data);
+						 $insert_id = $this->db->insert_id();
+						if($insert_id){
+							$data = array('designer'      => $this->user_id,
+							   					  'project_no'    => $insert_id,
+							   					  'c_code'    	  => $c_code,
+							   					  'c_name'        => $pallet_name,
+							   					  'c_price'		  	=> $amount,
+							              'c_image'       => $palletnewimage,
+										  		  'image'         => $newimage,
+							              'status'        => 2,
+							              'type'       		=> 1,
+							   					  'date_created'  =>  date('Y-m-d H:i:s'),
+							   					  'created_by'	  => $this->user_id);
+							$result = $this->db->insert('tbl_project_color',$data);
+							if($result){
+								$response = $this->Product_List('fetch_product_list',false,false,false,false,false,false,false);
+								return array('type'=>'success','message'=>'Create Successfully!','data'=>$response);
+							}else{
+								return false;
+							}
+						}else{
+							return false;
+						}
+				break;
+			}
+			case "add_existing":{
+						$project_no = $this->encryption->decrypt($title);
+						$palletnewimage = 'default.jpg';
+							if($pallet_image){	
+							    $palletnewimage=$this->Get_Image_Code('tbl_project_color', 'c_image', 'COLOR', 14, $pallet_image);
+							    $this->move_to_folder($palletnewimage,$pallet_tmp,$path_color);
+							}
+							$sql ="SELECT * FROM tbl_project_color WHERE project_no='$project_no' LIMIT 1";
+							$row = $this->db->query($sql)->row();
+							if($row){
+								$newimage = $row->image;
+								$c_code=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
+								$data = array('designer'      => $this->user_id,
+								   					  'project_no'    => $project_no,
+								   					  'c_code'    	  => $c_code,
+								   					  'c_name'        => $pallet_name,
+								   					  'c_price'		  	=> $amount,
+								              'c_image'       => $palletnewimage,
+											  		  'image'         => $newimage,
+								              'status'        => 2,
+								              'type'       		=> 1,
+								   					  'date_created'  =>  date('Y-m-d H:i:s'),
+								   					  'created_by'	  => $this->user_id);
+								$result = $this->db->insert('tbl_project_color',$data);
+								if($result){
+								$response = $this->Product_List('fetch_product_list',false,false,false,false,false,false,false);
+									return array('type'=>'success','message'=>'Create Successfully!','data'=>$response);
+								}else{
+									return false;
+								}
+							}
+				break;
+			}
+
+
 		}
 	}
 	public function Voucher_List($type,$val){
@@ -1051,6 +1334,25 @@ class Webmodifier_model extends CI_Model{
 					}else{
 						return false;
 					}
+				break;
+			}
+			case "fetch_sub_category_select":{
+				 $data =array();  
+				 $result = $this->db->query("SELECT * FROM tbl_category WHERE id='$val'")->row();
+				 if($result){
+				 		$query = $this->db->query("SELECT * FROM tbl_category_sub WHERE cat_id='$val'");
+	        	if($query){
+	              foreach($query->result() as $row){
+		             $data[] = array('name'=> $row->sub_name,
+					                       'id'=> $row->id);
+		            }  
+		            return $data;
+	        	}else{
+	        		return false;
+	        	}
+				 }else{
+				 		return false;
+				 }
 				break;
 			}
 			default:

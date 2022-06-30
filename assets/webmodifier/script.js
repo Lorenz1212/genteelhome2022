@@ -145,44 +145,6 @@ let view;
 	             	  }
 				break;
 			}
-			case "sub-category":{
-				var sub_id = $('select[name=sub_id]');
-				sub_id.empty();
-				if(!response){
-	                  	 sub_id.append('<option value="">No Data Available</option>');
-	                  	 sub_id.addClass('selectpicker');
-	                  	 sub_id.attr('data-live-search', 'true');  
-					 sub_id.selectpicker('refresh');
-                  	  }else{
-                  	  	 for(let i=0;i<response.length;i++){
-	                  	  	  sub_id.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
-	                  	  	  sub_id.addClass('selectpicker');
-	                  	  	  sub_id.attr('data-live-search', 'true');  
-						  sub_id.selectpicker('refresh');
-                  	  	
-                  	 	 }
-                  	  }
-				break;
-			}
-			case "sub-category-update":{
-				var sub_id = $('select[name=sub_id_update]');
-				sub_id.empty();
-				if(!response){
-	                  	 sub_id.append('<option value="">No Data Available</option>');
-	                  	 sub_id.addClass('selectpicker');
-	                  	 sub_id.attr('data-live-search', 'true');  
-					 sub_id.selectpicker('refresh');
-                  	  }else{
-                  	  	 for(let i=0;i<response.length;i++){
-	                  	  	  sub_id.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
-	                  	  	  sub_id.addClass('selectpicker');
-	                  	  	  sub_id.attr('data-live-search', 'true');  
-						  sub_id.selectpicker('refresh');
-                  	  	
-                  	 	 }
-                  	  }
-				break;
-			}
 		}
 	}
 	var _ViewController = async function(view){
@@ -455,26 +417,22 @@ let view;
 				break;
 			}
 			case "product":{
+					var avatar5 = new KTImageInput('kt_image_5');
 				_initCurrency_format('.amount');
+				KTFormControlsWeb.init('product');
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_list']));
+				$('.category').on('change',function(e){
+						e.preventDefault();
+						let id = $(this).val();
+						_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_sub_category_select',id]));
+				});
 				$('body').delegate('.view-product','click',function(e){
 					e.preventDefault();
 					e.stopImmediatePropagation();
 					let element = $(this);
 					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_details',element.attr('data-id')]));
 				});
-				$('#modal-form').on('hidden.bs.modal', function (e) {
-					e.preventDefault();
-				    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_list']));
-				});
-				$('#modal-form-add').on('hidden.bs.modal', function (e) {
-					e.preventDefault();
-				    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_list']));
-				});
-				$('#modal-form-pallet').on('hidden.bs.modal', function (e) {
-					e.preventDefault();
-				    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_list']));
-				});
+
 				break;
 			}
 			case "voucher":{
@@ -743,21 +701,36 @@ let view;
 			  KTDatatablesDataSourceAjaxClient.init('tbl_products',response);
 			  break;
 			}
+			case "fetch_sub_category_select":{
+				let container = $('.sub_category').empty();
+				if(response != false){
+					for(let i=0;i<response.length;i++){
+						container.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+					}
+				}else{
+					container.append('<option value="">No Sub Category Available</option>');
+				}
+				break;
+			}
 			case "fetch_product_details":{
 				if(response != false){
-					_ajaxloaderOption('option_controller/SubCategory_Edit_option','POST',{id:response.row.sub_id},'sub-category-update');
-		  			$('#cat-id-edit').on('change',function(e){
-						e.preventDefault();
-						let id = $(this).val();
-						_ajaxloaderOption('option_controller/SubCategory_Update_option','POST',{id:id},'sub-category-update');
-					});
-					$('#project_no').attr('data-id',response.row.project_no);
+			  		$('.cat_id_update').on('change',function(e){
+							e.preventDefault();
+								let id = $(this).val();
+								_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['category','fetch_sub_category_select',id]));
+						});
+						$('.cat_id_update option[value="'+response.row.cat_id+'"]').attr("selected", "selected");
+						let container = $('.sub_category_update').empty();
+						if(response.sub != false){
+							for(let i=0;i<response.sub.length;i++){
+								container.append('<option value="'+response.sub[i].id+'">'+response.sub[i].name+'</option>');
+							}
+						}
+						$('.sub_category_update option[value="'+response.row.sub_id+'"]').attr("selected", "selected");
 		  			$('#title').val(response.row.title);
-		  			$('#c_code').attr('data-id',response.row.id);
 		  			$('#c_name').val(response.row.c_name);
 		  			$('#unit').val(response.row.unit);
 		  			$('#c_price').val(_formatnumbercommat(response.row.c_price));
-		  			$('select[name=cat_id_update]').val(response.row.cat_id);
 		  			$('#displayed_status').val(response.row.display_status).change();
 		  			$("#projectno_href").attr("href",baseURL + 'gh/designer/project_update/'+btoa(response.row.c_code));
 		  			$("#image_href").attr("href",baseURL + 'assets/images/design/project_request/images/'+response.row.image);
@@ -767,26 +740,114 @@ let view;
 		  			$(".c_image").attr("src",baseURL + 'assets/images/palettecolor/'+response.row.c_image);
 		  			$("#docs").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
 		  			$("#tearsheet_href").attr("href",baseURL + 'assets/images/tearsheet/'+response.row.tearsheet);
+		  			$("#tearsheetss").val(response.row.tearsheet);
 		  			$("#tearsheet").attr("src",baseURL + 'assets/images/design/project_request/docx/default.jpg');
 		  			$("#c_previous").val(response.row.c_image);
 		  			$("#divimages").empty();
 		  			for(let i=0;i<response.data.length;i++){
-		  				$("#divimages").append('<div class="col-lg-2 col-xl-2 mb-5" id="row_'+response.data[i].id+'">\
-		  									  <div class="row">\
-		  									  	<div class="col-lg-12 col-xl-12">\
-			  										<div class="symbol symbol-50 symbol-lg-150">\
-														<img alt="Pic" id="myImg" src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" class="">\
-													</div>\
-												</div>\
-													<div class="col-lg-12 col-xl-12">\
-													   <button class="btn btn-danger btn-sm btn-block" id="delete" data-id="'+response.data[i].id+'">Remove</button>\
-													</div>\
-												</div>\
-		  									</div>');
+		  				$("#divimages").append('<div class="col-lg-3 col-xl-3 mb-5" id="row_'+response.data[i].id+'">\
+									  									  <div class="row">\
+									  									  	<div class="col-lg-12 col-xl-12">\
+										  										<div class="symbol symbol-50 symbol-lg-150">\
+																					<img id="myImg" src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" class="">\
+																				</div>\
+																			</div>\
+																				<div class="col-lg-12 col-xl-12">\
+																				   <button class="btn btn-danger btn-sm btn-block" id="delete" data-id="'+response.data[i].id+'">Remove</button>\
+																				</div>\
+																			</div>\
+									  									</div>');
 
 		  			}
-		  			$('#modal-form').modal('show');
+		  			$('.save').on('click',function(e){
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							let name = $(this).attr('data-name');
+							let val1 = $('input[name='+name+']').val();
+							let val2 = $(this).attr('data-status');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_update',response.row.id,val1,val2,name]));
+						});
+						$('.save_status').on('click',function(e){
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							let name = $(this).attr('data-name');
+							let val1 = $('select[name='+name+']').val();
+							let val2 = $(this).attr('data-status');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_update',response.row.id,val1,val2,name]));
+						});
+						$('.save_category').on('click',function(e){
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							let val1 = $('select[name=cat_id_update]').val();
+							let val2 = $('select[name=sub_id_update]').val();
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_category_update',response.row.id,val1,val2]));
+						});
+						$('input[name=color_update]').on('change',function(e){
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							let image = $(this)[0].files;
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_pallet',response.row.id,false,false,false,image[0]]));
+						});
+						$('.save_tearsheet').on('click',function(e){
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							let image = $('input[name=tearsheet]')[0].files;
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_tearsheet',response.row.id,false,false,false,image[0]]));
+						});
+						$('.save_image').on('click',function(e){
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							let image = $('input[name=gallery]')[0].files;
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_save_image',response.row.id,false,false,false,image[0]]));
+						});
+						$('#delete').on('click',function(e){
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							let id = $(this).attr('data-id');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_delete_image',id]));
+						});
+		  			$('#view-details-modal').modal('show');
 		  		}
+				break;
+			}
+			case "fetch_product_delete_image":
+			case "fetch_product_save_image":{
+				if(response != false){
+					_initToast(response.type,response.message);
+					let container = $("#divimages").empty();
+					if(response.data){
+						for(let i=0;i<response.data.length;i++){
+		  				container.append('<div class="col-lg-3 col-xl-3 mb-5" id="row_'+response.data[i].id+'">\
+									  									  <div class="row">\
+									  									  	<div class="col-lg-12 col-xl-12">\
+										  										<div class="symbol symbol-50 symbol-lg-150">\
+																					<img alt="Pic" id="myImg" src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" class="">\
+																				</div>\
+																			</div>\
+																				<div class="col-lg-12 col-xl-12">\
+																				   <button class="btn btn-danger btn-sm btn-block" id="delete" data-id="'+response.data[i].id+'">Remove</button>\
+																				</div>\
+																			</div>\
+									  									</div>');
+
+		  			}
+					}
+				}
+				break;
+			}
+			case "fetch_product_tearsheet":{
+				if(response != false){
+					_initToast(response.type,response.message);
+				}
+				break;
+			}
+			case "fetch_product_pallet":
+			case "fetch_product_category_update":
+			case "fetch_product_update":{
+				if(response != false){
+					_initToast(response.type,response.message);
+					KTDatatablesDataSourceAjaxClient.init('tbl_products',response.data);
+				}
 				break;
 			}
 			case "fetch_voucher_list":{

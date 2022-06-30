@@ -230,10 +230,10 @@ var KTFormControlsCreatives = function () {
 		            e.preventDefault();
 		            validation_add.validate().then(function(status) {
 		                if (status == 'Valid') {
-	                		let formData = new FormData(form_add);
-	                        formData.append("action", "design-project");
-	                        formData.append("type", 'add_design_project');
-	                        _ajaxForm(formData,'add_design_project',false);
+	                		let formData_add = new FormData(form_add);
+	                        formData_add.append("action", "design-project");
+	                        formData_add.append("type", 'add_design_project');
+	                        _ajaxForm(formData_add,'add_design_project',false);
 		                }	
 	                });                
 	            });
@@ -319,11 +319,11 @@ var KTFormControlsCreatives = function () {
 		            e.preventDefault();
 		            validation.validate().then(function(status) {
 		                if (status == 'Valid') {
-	                		let formData = new FormData(form);
-	                        formData.append("action", "design-stocks");
-	                        formData.append("type", 'edit_design-stocks');
-	                        formData.append("id", $('input[name=title]').attr('data-id'));
-	                        _ajaxForm(formData,'edit_design-stocks',false);
+	                		let formData_update = new FormData(form);
+	                        formData_update.append("action", "design-stocks");
+	                        formData_update.append("type", 'edit_design-stocks');
+	                        formData_update.append("id", $('input[name=title]').attr('data-id'));
+	                        _ajaxForm(formData_update,'edit_design-stocks',false);
 		                }	
 	                });                
 	            });
@@ -492,10 +492,10 @@ var KTFormControlsCreatives = function () {
 		            e.preventDefault();
 		            validation_existing.validate().then(function(status) {
 		                if (status == 'Valid') {
-	                		let formData = new FormData(form_existing);
-	                        formData.append("action", "design-stocks");
-	                        formData.append("type", 'add_design_stocks-existing');
-	                        _ajaxForm(formData,'add_design_stocks-existing',false);
+	                		let formData_existing = new FormData(form_existing);
+	                        formData_existing.append("action", "design-stocks");
+	                        formData_existing.append("type", 'add_design_stocks-existing');
+	                        _ajaxForm(formData_existing,'add_design_stocks-existing',false);
 		                }	
 	                });                
 	            });

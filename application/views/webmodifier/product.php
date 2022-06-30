@@ -1,6 +1,6 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-product-list">
-	<div class="form" data-link="Create_Project_Image"></div>	
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<!-- <div class="form" data-link="Create_Project_Image"></div>	 -->
 	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
@@ -11,8 +11,8 @@
 			<div class="d-flex align-items-center">
 				<button type="button" class="btn btn-success btn-shadow font-weight-bold py-3 px-6 dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Create Product</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			        <a class="dropdown-item " href="#" data-toggle="modal" data-target="#modal-form-add" data-action="Create"><p><i class="flaticon2-plus"></i> Add New Product</p></a>
-			        <a class="dropdown-item " href="#" data-toggle="modal" data-target="#modal-form-pallet" data-action="Update"><p><i class="flaticon2-plus"></i> Add New Pallet</p></a>
+			        <a class="dropdown-item " href="javascript:;" data-toggle="modal" data-target="#create-product-modal"><p><i class="flaticon2-plus"></i> Add New Product</p></a>
+			        <a class="dropdown-item " href="javascript:;" data-toggle="modal" data-target="#create-existing-modal" data-action="Update"><p><i class="flaticon2-plus"></i> Add New Pallet</p></a>
 			    </div>
 			</div>
 		</div>
@@ -46,8 +46,8 @@
 	<!--end::Content-->
 
 <!-- Modal-->
-<div class="modal fade" id="modal-form" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+<div class="modal fade" id="view-details-modal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
 			 <div class="modal-header">
                 <h5 class="modal-title"><span id="project_no"></span><span id="c_code"></span></h5>
@@ -126,10 +126,10 @@
 														    	 <div class="input-group-append">
 														      <a id="tearsheet_href" target="_blank" data-toggle="tooltip" data-theme="dark" title="View Tearsheet" class="btn  btn-light-dark btn-icon"><i class="flaticon-eye"></i></a>
 														     </div>
-														     <input type="text" class="form-control form-control-solid tearsheets" id="tearsheetss" placeholder="Click Here...." style="cursor:pointer;" readonly=""/>
+														     <input type="text" class="form-control tearsheets" id="tearsheetss" placeholder="Click Here...." style="cursor:pointer;" onclick="$('#tearsheets').trigger('click')" readonly=""/>
 														     <input type="file" value="" accept=".docx, .pdf, .word" onchange="document.getElementById('tearsheetss').value = this.files[0].name" id="tearsheets" name="tearsheet" style="display:none"/>
 														      <div class="input-group-append">
-														      <button class="btn btn-secondary save" type="button" id="save_tearsheet">SAVE</button>
+														      	<button class="btn btn-secondary save_tearsheet" type="button">SAVE</button>
 														     </div>
 													    </div>
 												   </div>
@@ -141,9 +141,9 @@
 															 <div class="form-group">
 																   <label>ITEM</label>
 																   <div class="input-group">
-																 	  <input class="form-control" id="title" name="title_update" />
+																 	  <input class="form-control" id="title" name="title"/>
 																 	  <div class="input-group-append">
-																      <button class="btn btn-secondary save" type="button" id="save_title">SAVE</button>
+																      <button class="btn btn-secondary save" type="button" data-name="title" data-status="1">SAVE</button>
 																    </div>
 																   </div>
 														  	 </div>
@@ -154,14 +154,13 @@
 												  	 	<div class="form-group">
 														   <label>PALLETE COLOR</label>
 														   <div class="input-group">
-														   		 <input type="text" class="form-control form-control-solid form-control-lg" id="c_name" name="cname_update"/>
-														   	 <div class="input-group-append">
-																      <button class="btn btn-secondary save" type="button" id="save_cname">SAVE</button>
-																    </div>
-														    <div class="input-group-append" style="padding-left: 10px;">
-														      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile4"><i class="flaticon-upload"></i></button>
-														      <input type="file" value="" accept=".png, .jpg, .jpeg" id="imagefile4" class="color_update"  onchange="document.getElementById('changeimage4').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
-														      <input type="hidden" name="c_previous" id="c_previous">
+														   		 <input type="text" class="form-control" id="c_name" name="c_name"/>
+												   			 <div class="input-group-append">
+														      <button class="btn btn-sm btn-secondary save" type="button" data-name="c_name" data-status="2">SAVE</button>
+														    </div>
+														    <div class="input-group-append pl-3">
+														      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-light-dark" onclick="$('#imagefile4').trigger('click')"><i class="flaticon-upload"></i></button>
+														      <input type="file" value="" accept=".png, .jpg, .jpeg" id="imagefile4" class="color_update" name="color_update"  onchange="document.getElementById('changeimage4').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
 													      </div>
 													       <div class="input-group-append" style="padding-left: 10px;">
 													       		<a id="cimage_href" target="_blank">
@@ -178,7 +177,7 @@
 														    <div class="input-group">
 														     <input class="form-control amount" name="c_price" id="c_price" autocomplete="off" />
 														   <div class="input-group-append">
-														      <button class="btn btn-secondary save" type="button" id="save_price">SAVE</button>
+														      <button class="btn btn-secondary save" type="button" data-name="c_price" data-status="2">SAVE</button>
 														     </div>
 													    </div>
 												   </div>
@@ -187,13 +186,13 @@
 										  	  <div class="form-group">
 											    <label>Status</label>
 												    <div class="input-group">
-												     <select class="form-control" id="displayed_status" name="displayed_status">
+												     <select class="form-control" id="displayed_status" name="display_status">
 												   		<option value="" selected="" disabled="">SELECT STATUS</option>
 												   		<option value="displayed">Active</option>
 												   		<option value="n/a">Inactive</option>
 												   </select>
 												   <div class="input-group-append">
-												      <button class="btn btn-secondary save" type="button" id="save_status">SAVE</button>
+												      <button class="btn btn-secondary save_status" type="button" data-name="display_status">SAVE</button>
 												     </div>
 											    </div>
 										   </div>
@@ -214,61 +213,58 @@
 													   <div class="input-group-append">
 													      <button class="btn btn-secondary"><i class="flaticon-more-v2"></i></button>
 													     </div>
-													    <select class="form-control sub_id_update" id="sub-id-edit" name="sub_id_update">
-													   </select>
+													    <select class="form-control sub_category_update sub_category" id="sub-id-edit" name="sub_id_update">
+													   	</select>
 													    <div class="input-group-append">
-													      <button class="btn btn-secondary save" type="button" id="save_category">SAVE</button>
+													      <button class="btn btn-secondary save_category" type="button">SAVE</button>
 													     </div>
 												    </div>
 											   </div>
 										  	</div>
 										</div>
 									</div>
-									
-									  	
-									  
-									</div>
 								</div>
 							</div>
 						</div>
+						</div>
 						<div class="tab-pane" id="gallery" role="tabpanel" style="height:400px">
 						  		<div class="row">
-									  	<div class="col-lg-4 col-xl-4">
+									  	<div class="col-lg-6 col-xl-6">
 											  <div class="form-group">
 											    <label>Upload Photo</label>
 												    <div class="input-group">
-												     <input type="text" class="form-control form-control-solid upfile1" id="customFile" placeholder="Click Here...." style="cursor:pointesr;" readonly=""/>
-												     <input type="file" value="" accept=".png, .jpg, .jpeg" onchange="document.getElementById('customFile').value = this.files[0].name" id="imagess" name="image" style="display:none"/>
+												     <input type="text" class="form-control" id="customFile" placeholder="Click Here...." style="cursor:pointesr;" readonly="" onclick="$('#imagess').trigger('click')"/>
+												     <input type="file" value="" accept=".png, .jpg, .jpeg" onchange="document.getElementById('customFile').value = this.files[0].name" id="imagess" name="gallery" style="display:none"/>
 												      <div class="input-group-append">
-												      <button class="btn btn-secondary save" type="button" id="save_image">SAVE</button>
+												      <button class="btn btn-secondary save_image" type="button" id="save_image">SAVE</button>
 												     </div>
 											    </div>
 										   </div>
 									 </div>
 								</div>
 								<div data-scroll="true" data-height="200">
-								<div class="row" id="divimages"></div>
+									<div class="row" id="divimages"></div>
 								</div>
-						</div>
-
+							</div>
 					 </div>
-					 <div class="modal-footer">
-							<button  class="btn btn-success" data-dismiss="modal" id="close"  aria-label="Close">Close</button>
-			            </div>
 		        </div>
+		         <div class="modal-footer">
+							<button  class="btn btn-success" data-dismiss="modal" id="close"  aria-label="Close">Close</button>
+			           </div>
 		    </div>
 		</div>
 	</div>
-<div class="modal fade" id="modal-form-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="create-product-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
 			 <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title"> Create New Product</h5>
                 <button type="button" class="close" id="close-add" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
+            	<form class="form" id="create-product-form" enctype="multipart/form-data" accept-charset="utf-8">
             	<div class="row justify-content-center">
 					<div class="col-xl-12 col-xxl-12 col-md-12">
 			        	<div class="row">
@@ -277,11 +273,11 @@
 										<label class="col-xl-12 col-lg-12 col-md-12 col-form-label text-left">Image (Minimum 360x360)</label>
 										<div>
 											<div class="image-input image-input-outline" id="kt_image_5" style="width: 200px;height: 200px; box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);">
-												 <div class="image-input-wrapper image-add" style="background-image: url(<?php echo base_url();?>assets/images/design/project_request/images/default.jpg);width: 200px;height: 200px;object-fit: cover;"></div>
+												 <div class="image-input-wrapper image-add" style="background-image: url(<?php echo base_url();?>assets/images/design/project_request/images/default.jpg);width: 200px;height: 200px;object-fit: cover;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;"></div>
 												 <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 												  <i class="fa fa-pen icon-sm text-muted"></i>
-												  <input type="file" id="profile_avatar" name="profile_avatar" accept=".png, .jpg, .jpeg"/>
-												  <input type="hidden" name="profile_avatar_remove"/>
+												  <input type="file" id="profile_avatar" name="image" accept=".png, .jpg, .jpeg"/>
+												  <input type="hidden" name="image_remove"/>
 												 </label>
 												 <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow btn-close-image" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
 												  <i class="ki ki-bold-close icon-xs text-muted"></i>
@@ -291,7 +287,7 @@
 									</div>
 									<div class="form-group">
 										<div class="custom-file">
-											 <button type="button" data-toggle="tooltip" data-theme="dark" title="PDF OR DOCS" class="btn btn-lg btn-light-dark tearsheet-btn"><i class="flaticon-upload"></i> TEARSHEET</button>
+											 <button type="button" data-toggle="tooltip" data-theme="dark" title="PDF OR DOCS" class="btn btn-lg btn-light-dark tearsheet-btn" onclick="$('.docs-btn').trigger('click')"><i class="flaticon-upload"></i> TEARSHEET</button>
 										  	<input type="file" class="docs-btn" name="docs" accept=".doc, .pdf" style="display:none;"/>
 										  	<span class="form-text docs-text"></span>
 										</div>
@@ -301,38 +297,38 @@
 								<div class="row">
 									<div class="col-lg-12 col-xl-12 col-md-12">
 										<div class="form-group">
-											   <label>ITEM</label>
-											   <input class="form-control form-control-solid" name="title" placeholder="Enter Item Name" required />
+											   <label>Product Name</label>
+											   <input class="form-control form-control-solid" name="title" placeholder="Enter Product Name" required />
 									  	 </div>
 									</div>
 									 <div class="col-lg-12 col-xl-12">
 											 <div class="form-group">
-												   <label>PALLETE COLOR</label>
+												   <label>Pallet Color</label>
 												    <div class="input-group">
-												     <input type="text" class="form-control form-control-solid form-control-lg" name="c_name" placeholder="Enter pallete name...." required=""  autocomplete="off"/>
+												     <input type="text" class="form-control form-control-solid form-control-lg" name="pallet_name" placeholder="Enter pallete name...." required=""  autocomplete="off"/>
 												     <div class="input-group-append" style="padding-left: 10px;">
-													      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile2"><i class="flaticon-upload"></i></button>
+													      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark upfile2" onclick="$('#imagefiless').trigger('click')"><i class="flaticon-upload"></i></button>
 													      <input type="file" value="" accept=".png, .jpg, .jpeg" id="imagefiless" name="color" onchange="document.getElementById('changeimage').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
 												      </div>
 												       <div class="input-group-append" style="padding-left: 10px;">
-													      <img class="images mx-auto d-block img-thumbnail z-depth-3" id="changeimage" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
+													      <img class="images mx-auto d-block img-thumbnail z-depth-3 image" id="changeimage" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
 												      </div>
 												    </div>
 											  </div>
 								 		 </div>
 								 		 <div class="col-lg-12 col-xl-12 col-md-12">
 								 		 	<div class="form-group">
-												   <label>PRICE AMOUNT</label>
-												   <input class="form-control form-control-solid" id="amount" name="amount" placeholder="Enter Amount" required/>
+												   <label>Amount of Product</label>
+												   <input class="form-control form-control-solid amount" name="amount" placeholder="Enter Amount" required/>
 											 </div>
 											<div class="form-group">
-												   <label>CATEGORY</label>
-												   <select class="form-control form-control-solid cat-id" name="cat_id" required>
+												   <label>Category</label>
+												   <select class="form-control form-control-solid category" name="cat_id" required>
 												   	<option value="" selected disabled>SELECT CATEGORY</option>
 												   		<?php 
 												   			$query = $this->db->select('*')->from('tbl_category')->where('status','ACTIVE')->get();
 												   			foreach($query->result() as $row){
-												   				echo'<option value="'.$this->encryption->encrypt($row->id).'">'.$row->cat_name.'</option>';
+												   				echo'<option value="'.$row->id.'">'.$row->cat_name.'</option>';
 												   			}
 												   		?>
 												   </select> 
@@ -340,82 +336,84 @@
 										</div>
 										<div class="col-lg-12 col-xl-12 col-md-12">
 											<div class="form-group">
-												   <label>SUB CATEGORY</label>
-												  <select class="form-control form-control-solid sub-id" name="sub_id"></select> 
+												   <label>Sub Category</label>
+												  <select class="form-control form-control-solid sub_category" name="sub_id"></select> 
 											 </div>
 										</div>
 									</div>
+								</div>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-light-primary font-weight-bold mr-2" id="close-add" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close icon-nm"></i> Close</button>
-					<button  class="btn btn-dark design-stocks"><i class="flaticon2-pen"></i> Save</button>
+					<button type="button" class="btn btn-dark btn-create-product"><i class="flaticon2-pen"></i> Save</button>
 	            </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal-form-pallet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="create-existing-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 			 <div class="modal-header">
-                <h5 class="modal-title">Add New Pallet</h5>
+                <h5 class="modal-title">Create New Pallet</h5>
                 <button type="button" class="close" id="close-color" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
-            	<div class="row justify-content-center">
-					<div class="col-xl-12 col-xxl-12 col-md-12">
-			        	<div class="row">
-					  	<div class="col-lg-12 col-xl-12 col-md-12">
-					  	  <div class="row">
-						 	  <div class="col-lg-12 col-xl-12">
-						 	  	 <div class="form-group">
-									   <label>ITEM</label>
-									   <select class="form-control selectpicker" data-live-search="true" name="project_no">
-									   		<option value="" disabled="" selected="">SELECT ITEM</option>
-									   		<?php 
-											  $query = $this->db->select('*')->from('tbl_project_design')->where('type',1)->where('project_status','APPROVED')->get();
-											  foreach($query->result() as $row){
-											  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
-											  }
-											?>
-									   </select>
-							  	 </div>
-								 <div class="form-group">
-									   <label>PALLETE COLOR</label>
-									    <div class="input-group">
-									     <input type="text" class="form-control form-control-solid form-control-lg" name="cc_name" placeholder="Enter pallete name...." required=""  autocomplete="off"/>
-									     <div class="input-group-append" style="padding-left: 10px;">
-										      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark " onclick="$('#imagefilebtn').trigger('click')"><i class="flaticon-upload"></i></button>
-										      <input type="file" value="" accept=".png, .jpg, .jpeg" id="imagefilebtn" name="color_image" onchange="document.getElementById('changeimage1').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
-									      </div>
-									       <div class="input-group-append" style="padding-left: 10px;">
-										      <img class="images mx-auto d-block img-thumbnail z-depth-3" id="changeimage1" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
-									      </div>
-									    </div>
-								  </div>
-							 </div>
-							 <div class="col-lg-12 col-xl-12 col-md-12">
-								<div class="form-group">
-									   <label>PRICE AMOUNT</label>
-									   <input class="form-control form-control-solid" id="amount-pallet" name="amount-pallet" placeholder="Enter Amount" required/>
+            	<form class="form" id="create-existing-form" enctype="multipart/form-data" accept-charset="utf-8">
+	            	<div class="row justify-content-center">
+						<div class="col-xl-12 col-xxl-12 col-md-12">
+				        	<div class="row">
+						  	<div class="col-lg-12 col-xl-12 col-md-12">
+						  	  <div class="row">
+							 	  <div class="col-lg-12 col-xl-12">
+							 	  	 <div class="form-group">
+										   <label>Product Name</label>
+										   <select class="form-control selectpicker" data-live-search="true" name="title">
+										   		<option value="" disabled="" selected="">SELECT ITEM</option>
+										   		<?php 
+												  $query = $this->db->select('*')->from('tbl_project_design')->where('type',1)->where('project_status','APPROVED')->get();
+												  foreach($query->result() as $row){
+												  	 echo '<option value="'.$this->encryption->encrypt($row->id).'">'.$row->title.'</option>';
+												  }
+												?>
+										   </select>
+								  	 </div>
+									 <div class="form-group">
+										   <label>PALLETE COLOR</label>
+										    <div class="input-group">
+										     <input type="text" class="form-control form-control-solid form-control-lg" name="pallet_name" placeholder="Enter pallete name...." required=""  autocomplete="off"/>
+										     <div class="input-group-append" style="padding-left: 10px;">
+											      <button type="button" data-toggle="tooltip" data-theme="dark" title="FILE SIZE (250 x 250)" class="btn btn-sm btn-light-dark " onclick="$('#imagefilebtn').trigger('click')"><i class="flaticon-upload"></i></button>
+											      <input type="file" value="" accept=".png, .jpg, .jpeg" id="imagefilebtn" name="color" onchange="document.getElementById('changeimage1').src = window.URL.createObjectURL(this.files[0])" style="display:none"/>
+										      </div>
+										       <div class="input-group-append" style="padding-left: 10px;">
+											      <img class="images mx-auto d-block img-thumbnail z-depth-3 image" id="changeimage1" src="<?php echo base_url();?>assets/images/design/project_request/images/default.jpg" style="width:50;height:45px;cursor:pointer;"/>
+										      </div>
+										    </div>
+									  </div>
 								 </div>
+								 <div class="col-lg-12 col-xl-12 col-md-12">
+									<div class="form-group">
+										   <label>Product Amount</label>
+										   <input class="form-control form-control-solid amount" name="amount" placeholder="Enter Amount" required/>
+									 </div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-					</div>
-				</div>
+			</form>
+		</div>
 				<div class="modal-footer">
 					<button type="button"  class="btn btn-light-primary font-weight-bold mr-2" id="close-color" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close icon-nm"></i> Close</button>
-					<button  class="btn btn-dark design-pallet"><i class="flaticon2-pen"></i> Save</button>
+					<button  class="btn btn-dark btn-create-existing"><i class="flaticon2-pen"></i> Save</button>
 	            </div>
-            </div>
-        </div>
-    </div>
+	        </div>
+	    </div>
+	</div>
 </div>

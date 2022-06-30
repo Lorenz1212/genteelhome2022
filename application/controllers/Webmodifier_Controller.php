@@ -12,13 +12,18 @@ class Webmodifier_Controller extends CI_Controller{
 			case "product":{
     			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
 					$val = $this->input->post('data3')??false;
-					$model_response = $this->Webmodifier_model->Product_List($type,$val);
+					$val1 = $this->input->post('data4')??false;
+					$val2 = $this->input->post('data5')??false;
+					$val3 = $this->input->post('data6')??false;
+					$image = isset($_FILES["data7"]["name"]) ? $_FILES["data7"]["name"]: false;
+			    $tmp = isset($_FILES["data7"]["tmp_name"]) ? $_FILES["data7"]["tmp_name"]:false;
+					$model_response = $this->Webmodifier_model->Product_List($type,$val,$val1,$val2,$val3,$image,$tmp);
 					$data = array(
 									 'status' => 'success',
 	                 'message' => 'request accepted',
 	                 'payload' => base64_encode(json_encode($model_response))
 	          		);
-           		echo json_encode($data);
+          echo json_encode($data);
     			break;
     		}
     		case "voucher":{
@@ -174,6 +179,29 @@ class Webmodifier_Controller extends CI_Controller{
 					$image = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
 			    $tmp = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
 					$model_response = $this->Webmodifier_model->Submit_Testimony($type,$id,$name,$description,$image,$tmp);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+					break;
+				}
+				case"product":{
+					$type = $this->input->post('type')??$this->invalidMissing_Input('Missing Type');
+					$id = $this->input->post('id')??false;
+					$title = $this->input->post('title')??false;
+					$pallet_name = $this->input->post('pallet_name')??false;
+					$cat_id = $this->input->post('cat_id')??false;
+					$sub_id = $this->input->post('sub_id')??false;
+					$amount = floatval(str_replace(',', '', $this->input->post('amount')))??false;
+					$image = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+			    $tmp = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+			    $pallet_image = isset($_FILES["color"]["name"]) ? $_FILES["color"]["name"]: false;
+			    $pallet_tmp = isset($_FILES["color"]["tmp_name"]) ? $_FILES["color"]["tmp_name"]:false;
+			    $docs_image = isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]: false;
+			    $docs_tmp = isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
+					$model_response = $this->Webmodifier_model->Submit_Product($type,$id,$title,$pallet_name,$cat_id,$sub_id,$amount,$image,$tmp,$pallet_image,$pallet_tmp,$docs_image,$docs_tmp);
 				 	$data = array(
 	                 'status' => 'success',
 	                 'message' => 'request accepted',

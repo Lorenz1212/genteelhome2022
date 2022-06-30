@@ -623,14 +623,7 @@ class Create_model extends CI_Model{
 	   			if($docs){$docs_file = $this->move_to_folder3('TEARSHEET'.$docs,$docs_tmp,$path_docs);}else{$docs_file="default.jpg";}
 	   			$project_no=$this->get_random_code('tbl_project_design', 'project_no', "STXID", 8);
 				$value=$this->get_random_code('tbl_project_color', 'c_code', "STXCODE", 8);
-		   		$data = array('project_no'    => $project_no,
-			                  'title'         => $title,
-			                  'tearsheet'	    => $docs_file,
-			                  'project_Status'=> 'APPROVED',
-			                  'type'		     => 1,
-			                  'cat_id'		  => $this->encryption->decrypt($cat_id),
-			                  'sub_id'		  => $this->encryption->decrypt($sub_id),
-			   				  'date_created'  =>  date('Y-m-d H:i:s'));
+		   		$data = ;
 		   		$this->db->insert('tbl_project_design',$data);
 		   		$last_id = $this->db->insert_id();
 		   		$data = array('designer'      => $this->user_id,

@@ -178,7 +178,6 @@ var KTFormControls = function () {
 	 				let amount = $('input[name=amount]').val();
 	 				let cat_id = $('select[name=cat_id]').val();
 	 				let sub_id = $('select[name=sub_id]').val();
-	 				alert('ok')
 	 				console.log(title)
 	 				console.log(c_name)
 	 				console.log(cat_id)
