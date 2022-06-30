@@ -10,27 +10,17 @@
                         <div class="popup-title">
                             <div class="h1 title-product"></div>
                         </div>
-
-                        <!-- === product gallery === -->
-
                        <div class="modal_image">
                             <!--  <img id="image1" alt="" width="340" />
                              <img id="image2" alt="" width="340" />
                              <img id="image3" alt="" width="340" />
                              <img id="image4" alt="" width="340" /> -->
                         </div>
-                            
-                            
-   
-
                         <!-- === product-popup-info === -->
-
                         <div class="popup-content">
                             <div class="product-info-wrapper">
                                 <div class="row">
-
                                     <!-- === left-column === -->
-
                                     <div class="col-sm-7">
                                         <div class="info-box">
                                             <strong>Model</strong>
@@ -46,7 +36,6 @@
                                         </div>
                                     </div>
                                     <!-- === right-column === -->
-
                                     <div class="col-sm-5">
                                         <div class="info-box">
                                             <strong>In Stock</strong>
