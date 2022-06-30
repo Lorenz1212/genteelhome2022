@@ -46,8 +46,8 @@
                                     </div> <!--/navbar-box-->
                                 </div> <!--/navbar-dropdown-->
                             </li>
-                            <li><a href="<?php echo base_url()."gh/app/interior";?>">PROJECTS</a></li>
-                            <li><a href="<?php echo base_url()."gh/app/blogs";?>">Blogs</a></li>
+                            <li><a href="<?php echo base_url()."gh/app/interior";?>">INTERIOR DESIGN</a></li>
+                            <li><a href="<?php echo base_url()."gh/app/blogs";?>">BLOGS</a></li>
                             <li><a href="<?php echo base_url()."gh/app/contact";?>">CONTACT</a></li>
                             <!-- Multi-content dropdown -->
                             <!-- <li>
