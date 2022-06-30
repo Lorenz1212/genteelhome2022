@@ -481,6 +481,46 @@ class Web_model extends CI_Model{
 			}
 		}
 	}
+	public function Interior($type,$val,$val1,$val2){
+		switch($type){
+			case "fetch_interior_list":{
+				$data = array();
+				if($val=='residential-projects'){
+					$cat_id = 1;
+					$data['cat_name']='Residential Project';
+				}else if($val =='commerial-projects'){
+					$cat_id = 2;
+					$data['cat_name']='Commerial Project';
+				}
+				$data['cat_id']=$val;
+				$sql = "SELECT * FROM tbl_interior_design WHERE cat_id='$cat_id' AND status ='ACTIVE'";
+				$query= $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$data['data'][]=array('project_name'=>$row->project_name,
+													'image'=>$row->image,
+													'id'=>base64_encode($this->encryption->encrypt($row->id))
+												);
+					}
+					return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_interior_details":{
+				$id = $this->encryption->decrypt(base64_decode($val));
+				$sql = "SELECT * FROM tbl_interior_design WHERE id='$id'";
+				$row= $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+		}
+	}
 	public function Cart($type,$val,$val1,$val2){
 		switch($type){
 			case "fetch_cart_list_view":{

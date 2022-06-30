@@ -1,7 +1,10 @@
 <section class="main-header" style="background-image:url(<?php echo base_url() ?>assets/images/static/static.jpg)">
     <header>
         <div class="container">
-            <h1 class="h2 title">Interior Design List</h1>
+            <h1 class="h2 title"></h1>
+            <ol class="breadcrumb breadcrumb-inverted categories-list">
+
+            </ol>
         </div>
     </header>
 </section>

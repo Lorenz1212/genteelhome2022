@@ -34,7 +34,7 @@
                             <figcaption style="background-image:url(<?php echo base_url() ?>assets_website/images/blog-2.jpg)">
                                 <img src="assets/images/blog-1.jpg" alt="" />
                             </figcaption>
-                            <a href="<?php echo base_url()."gh/app/interior-list/".base64_encode('RESIDENTIAL PROJECTS')."";?>" class="btn btn-clean">Residential Projects</a>
+                            <a href="<?php echo base_url()."gh/app/interior-list/residential-projects";?>" class="btn btn-clean">Residential Projects</a>
                         </figure>
                     </div>
 
@@ -45,7 +45,7 @@
                             <figcaption style="background-image:url(<?php echo base_url() ?>assets_website/images/blog-3.jpg)">
                                 <img src="assets/images/blog-2.jpg" alt="" />
                             </figcaption>
-                            <a href="<?php echo base_url()."gh/app/interior-list/".base64_encode('COMMERICIAL PROJECTS')."";?>"  class="btn btn-clean">Commercial Projects</a>
+                            <a href="<?php echo base_url()."gh/app/interior-list/commerial-projects";?>"  class="btn btn-clean">Commercial Projects</a>
                         </figure>
                     </div>
 

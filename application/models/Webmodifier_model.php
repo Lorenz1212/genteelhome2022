@@ -40,6 +40,39 @@ class Webmodifier_model extends CI_Model{
       }
       return $newimage;
    }
+   private function move_to_folder4($string,$image,$tmp,$path,$targetWidth,$targetHeight){
+        $extension=pathinfo($image, PATHINFO_EXTENSION);
+        $newfilename=  'IMG'.date('YmdHis').'-'.$string.mt_rand(1000, 999999).'.'.$extension;
+        $path_folder = $path.$newfilename;
+        list($width, $height) = getimagesize($tmp);
+        $file = $this->imageType($extension,$path_folder,$tmp,$targetWidth,$targetHeight,$width,$height);
+        if($file == true){
+            return $newfilename;
+        }else{
+            return false;
+        }
+    }
+    private function imageType($extension,$path_folder,$tmp,$targetWidth,$targetHeight,$width,$height){
+         if($extension=='png' || $extension=='PNG'){
+               $targetLayer=imagecreatetruecolor($targetWidth,$targetHeight);
+               $imageResourceId = imagecreatefrompng($tmp); 
+               if(!imagecopyresampled($targetLayer,$imageResourceId,0,0,0,0,$targetWidth,$targetHeight,$width,$height)){
+                     return false;
+               }else{
+                    imagepng($targetLayer,$path_folder);
+                    return true;
+               }
+         }else if($extension=='jpg'  || $extension=='jpeg' || $extension=='JPG' || $extension=='JPEG'){
+                $targetLayer=imagecreatetruecolor($targetWidth,$targetHeight);
+                $imageResourceId = imagecreatefromjpeg($tmp); 
+                if(!imagecopyresampled($targetLayer,$imageResourceId,0,0,0,0,$targetWidth,$targetHeight,$width,$height)){
+                     return false;
+               }else{
+                    imagejpeg($targetLayer,$path_folder);
+                    return true;
+               }
+         }
+    }
 	  public function get_code($key, $length) {
 	    return  $key.$this->Ac_Code($length);
 	  }
@@ -846,8 +879,7 @@ class Webmodifier_model extends CI_Model{
 					 	  $c_code = $row->c_code;
 							if($image){	
 									$path_image = "assets/images/finishproduct/product/";
-							    $newimage=$this->Get_Image_Code('tbl_project_image', 'images', 'IMAGE', 14, $image);
-							    $this->move_to_folder($newimage,$tmp,$path_image);
+   								$newimage=$this->move_to_folder4('IMG',$image,$tmp,$path_image,400,400);
 							    $data = array('project_no'=>$project_no,
 							    							'c_code'=>$c_code,
 							    							'images'=>$newimage);

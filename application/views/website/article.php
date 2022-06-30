@@ -2,7 +2,7 @@
      <section class="main-header main-header-blog" id="image">
             <header>
                 <div class="container text-center">
-                    <h2 class="h2 title"><?php echo $name ?></h2>
+                    <h2 class="h2 title"></h2>
                     <ol class="breadcrumb breadcrumb-inverted" id="btn_cat">
 
                     </ol>
@@ -27,7 +27,7 @@
 
                             <!-- === blog main image & entry info === -->
                             <div class="blog-image-main">
-                                <img id="image1" style="image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;">
+                                <img id="image1" style="image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;height: 100%;max-height: 500px!important;">
                             </div>
 
                             <div class="blog-post-content">

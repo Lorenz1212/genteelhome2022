@@ -128,6 +128,14 @@ let mainpage;
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['company', 'fetch_company_profile']));
 				break;
 			}
+			case "interior-list":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['interior', 'fetch_interior_list',val]));
+				break;
+			}
+			case "article":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['interior', 'fetch_interior_details',val]));
+				break;
+			}
 			case "blogs":{
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['blogs', 'fetch_blog_list']));
 				break;
@@ -295,6 +303,66 @@ let mainpage;
 
 	var _construct = async function(response, type, element, object){
 		switch(type){
+			case "fetch_interior_details":{
+				let btn = $('.categories-list').empty();
+				let cat_name ="";
+				if(!response == false){
+					if(response.cat_id == 1){
+						cat_name = 'Residential Project';
+					}else if(response.cat_id == 2){
+						cat_name = 'Commerial Project';
+					}
+					btn.append('<li><a href="'+baseURL+'gh/app/index"><span class="icon icon-home"></span></a></li>\
+		                			<li><a href="'+baseURL+'gh/app/interior">INTERIOR</a></li>\
+		                			<li><a class="active">'+cat_name+'</a></li>');
+	  			$('#project_name').text(response.project_name);
+	  			$('#description').html(response.description);
+	  			$('#image').attr('style','background-image: -webkit-linear-gradient(rgba(0,0,0, 0) 0%,rgba(0,0,0, 1) 100%) ,url('+baseURL+'assets/images/interior/'+response.bg+')');
+	  			$('#image1').attr('src',baseURL+'assets/images/interior/'+response.image);
+	  		}
+				break;
+			}
+			case "fetch_interior_list":{
+				let container =$('#interior_list').empty();
+				let btn = $('.categories-list').empty();
+				$('.title').text(response.cat_name);
+				btn.append('<li><a href="'+baseURL+'gh/app/index"><span class="icon icon-home"></span></a></li>'
+		                			+'<li><a href="'+baseURL+'gh/app/interior">INTERIOR</a></li>');
+				if(response.data){
+		  			for(let i=0;i<response.data.length;i++){
+				  				container.append(' <div class="col-sm-4 col-md-4">\
+								                        <article>\
+							                           <a href="'+baseURL+'gh/app/article/'+response.data[i].id+'">\
+							                           	<div class="image" style="background-image:url('+baseURL+'assets/images/interior/'+response.data[i].image+')">\
+							                           	   <img src="'+baseURL+'assets/images/interior/'+response.data[i].image+'" alt="" />\
+							                                  </div>\
+							                                        <div class="entry entry-table">\
+							                                            <div class="title">\
+							                                                <h2 class="h5">'+response.data[i].project_name+'</h2>\
+							                                            </div>\
+							                                        </div>\
+							                                    </a>\
+							                                </article>\
+							                            </div>');	
+				  	 }
+				}else{
+					 container.append('<div class="col-md-12 col-xs-12">\
+					  		   	  			 <section class="history">\
+						           				 <div class="container">\
+															  	<div class="row row-block">\
+														                    <div class="col-md-7 history-desc">\
+														                        <p>  <h1 class="title" data-title="Page not found!">Sorry!</h1>\
+																                    <div class="h4 subtitle">No Interior Design Available</div>\
+																                <p>The requested interior was not available on this page. That’s all we know.</p>\
+																                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
+														                    		</div>\
+														                	</div>\
+														                </div>\
+														            <div>\
+											           	</div>');
+				}
+				break;
+			}
 			case "fetch_blog_list_latest":{
 				let container = $('.list-blog-latest').empty();
 				if(response !=false){
@@ -354,6 +422,21 @@ let mainpage;
 			                            </div>');
 						container.append(html);
 					}
+				}else{
+					 container.append('<div class="col-md-12 col-xs-12">\
+					  		   	  			 <section class="history">\
+						           				 <div class="container">\
+															  	<div class="row row-block">\
+														                    <div class="col-md-7 history-desc">\
+														                        <p>  <h1 class="title" data-title="Page not found!">Sorry!</h1>\
+																                    <div class="h4 subtitle">No Blogs Available</div>\
+																                <p>The requested blogs was not available on this page. That’s all we know.</p>\
+																                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
+														                    		</div>\
+														                	</div>\
+														                </div>\
+														            <div>\
+											           	</div>');
 				}
 				break;
 			}

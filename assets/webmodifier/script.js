@@ -432,7 +432,30 @@ let view;
 					let element = $(this);
 					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_details',element.attr('data-id')]));
 				});
+				$('body').delegate('#delete','click',function(e){
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						let id = $(this).attr('data-id');
+						_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_delete_image',id]));
+				});
+				$('#imagess').on('change', function(imageInput) {
+						   let action = $(this);
+			         var img = document.createElement('img');
+						   var blob = URL.createObjectURL(action.get(0).files[0]);
+						   let extension = action.val().replace(/^.*\./, '');
+						  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
+						  	   img.src = blob; 
+								   img.onload = function() {
+								  if((img.height >= 300 || img.height <= 600) && (img.width >= 300 || img.width <= 600) ){
 
+						       }else{
+							       	Swal.fire("Your image upload is ("+width+"x"+height+")","Please upload image (width  is 300 to 600 size and height is 300 to 600 size) (jpg, jpeg, or png)", "info");
+							       	action.val('');
+							       	$('#customFile').val("");
+						       }
+						    }
+						  }
+					});
 				break;
 			}
 			case "voucher":{
@@ -747,11 +770,11 @@ let view;
 		  			for(let i=0;i<response.data.length;i++){
 		  				$("#divimages").append('<div class="col-lg-3 col-xl-3 mb-5" id="row_'+response.data[i].id+'">\
 									  									  <div class="row">\
-									  									  	<div class="col-lg-12 col-xl-12">\
-										  										<div class="symbol symbol-50 symbol-lg-150">\
-																					<img id="myImg" src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" class="">\
+									  									  	<div class="col-lg-12 col-xl-12 text-center">\
+											  										<div class="symbol symbol-50 symbol-lg-150 ">\
+																						<img id="myImg" style="width:100%" src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" class="">\
+																					</div>\
 																				</div>\
-																			</div>\
 																				<div class="col-lg-12 col-xl-12">\
 																				   <button class="btn btn-danger btn-sm btn-block" id="delete" data-id="'+response.data[i].id+'">Remove</button>\
 																				</div>\
@@ -804,14 +827,14 @@ let view;
 							e.stopImmediatePropagation();
 							let image = $('input[name=gallery]')[0].files;
 							let id = $('#title').attr('data-id');
-							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_save_image',id,false,false,false,image[0]]));
+							let alert = $('#customFile').val();
+							if(alert != ""){
+									_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_save_image',id,false,false,false,image[0]]));
+							}else{
+								Swal.fire("Oopps!","Please upload image", "info");
+							}
 						});
-						$('#delete').on('click',function(e){
-							e.preventDefault();
-							e.stopImmediatePropagation();
-							let id = $(this).attr('data-id');
-							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_delete_image',id]));
-						});
+						
 		  			$('#view-details-modal').modal('show');
 		  		}
 				break;
@@ -827,7 +850,7 @@ let view;
 									  									  <div class="row">\
 									  									  	<div class="col-lg-12 col-xl-12">\
 										  										<div class="symbol symbol-50 symbol-lg-150">\
-																					<img alt="Pic" id="myImg" src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" class="">\
+																					<img alt="Pic" id="myImg" style="width:100%" src="'+baseURL+'assets/images/finishproduct/product/'+response.data[i].images+'" class="">\
 																				</div>\
 																			</div>\
 																				<div class="col-lg-12 col-xl-12">\
