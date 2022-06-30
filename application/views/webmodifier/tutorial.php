@@ -62,6 +62,27 @@
 				 <div class="card-header">
 				  <div class="card-title">
 				   <h3 class="card-label">
+				     Interior Design
+				   </h3>
+				  </div>
+				 </div>
+				 <div class="card-body">
+				 	<div class="row">
+				 		<div class="col">
+				 			 <video width="100%" height="100%" controls>
+							  <source src="<?php echo base_url('assets/video_tutorial/webmodifier-interiordesign.mp4') ?>" type="video/mp4">
+							</video>
+				 		</div>
+				 	</div>
+				 </div>
+				</div>
+		 	</div>
+
+		 	<div class="col-4">
+		 		<div class="card card-custom gutter-b">
+				 <div class="card-header">
+				  <div class="card-title">
+				   <h3 class="card-label">
 				     Testimony
 				   </h3>
 				  </div>
@@ -114,6 +135,27 @@
 				 		<div class="col">
 				 			 <video width="100%" height="100%" controls>
 							  <source src="<?php echo base_url('assets/video_tutorial/webmodifier-categories.mp4') ?>" type="video/mp4">
+							</video>
+				 		</div>
+				 	</div>
+				 </div>
+				</div>
+		 	</div>
+
+		 	<div class="col-4">
+		 		<div class="card card-custom gutter-b">
+				 <div class="card-header">
+				  <div class="card-title">
+				   <h3 class="card-label">
+				     Product Details
+				   </h3>
+				  </div>
+				 </div>
+				 <div class="card-body">
+				 	<div class="row">
+				 		<div class="col">
+				 			 <video width="100%" height="100%" controls>
+							  <source src="<?php echo base_url('assets/video_tutorial/webmodifier-product.mp4') ?>" type="video/mp4">
 							</video>
 				 		</div>
 				 	</div>

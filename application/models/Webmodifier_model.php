@@ -960,7 +960,7 @@ class Webmodifier_model extends CI_Model{
 		  $path_docs  =  "assets/images/tearsheet/";
 			switch($type){
 				case "add_product":{
-						$newimage = 'default.jpg';
+						$newimage = 'default.png';
 						$palletnewimage = 'default.jpg';
 						$docsnewimage = 'default.jpg';
 						if($image){	
