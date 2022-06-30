@@ -197,12 +197,11 @@
                                 </div>
                             </header>
                             <div class="row list-blog-latest"></div> 
-                    <div class="wrapper-more">
+                   <!--  <div class="wrapper-more">
                         <a href="<?php echo base_url() ?>gh/app/blogs" class="btn btn-clean-dark">View all</a>
-                    </div>
+                    </div> -->
                 </div> 
             </section>
- 
-    ?>
+
                 
        

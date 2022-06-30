@@ -386,7 +386,7 @@ let mainpage;
 			                                        </div>\
 			                                    </div>\
 			                                    <div class="show-more">\
-			                                       <a href="'+baseURL+'gh/app/blogs-detials/'+response[i].id+'"><span class="btn btn-clean-dark btn-block">Read more</span></a>\
+			                                       <a href="'+baseURL+'gh/app/blogs"><span class="btn btn-clean-dark btn-block">Read more</span></a>\
 			                                    </div>\
 			                                </a>\
 			                            </article>\
