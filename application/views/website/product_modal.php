@@ -8,7 +8,7 @@
                         <!-- === popup-title === -->
 
                         <div class="popup-title">
-                            <div class="h1 title"><span id="title"></span></div>
+                            <div class="h1 title-product"></div>
                         </div>
 
                         <!-- === product gallery === -->

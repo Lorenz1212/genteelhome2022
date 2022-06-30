@@ -618,7 +618,7 @@ let mainpage;
 						$('.added').show();
 					}
 					if(response.info != false){
-						$('.title').text(response.info.title);
+						$('.title-product').text(response.info.title);
 						$('.title-model').text(response.info.title);
 						$('.tearsheet').attr('href',baseURL+'assets/images/tearsheet/'+response.info.tearsheet);
 						let stocks = $('.product-on-stocks').empty();
