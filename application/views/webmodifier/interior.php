@@ -60,7 +60,7 @@ overflow-y: auto;">
 								<div class="col-lg-12 col-xl-12">
 									<label><h3>BACKGROUND</h3> image size(810 x 460)</label>
 									<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">
-										<img class="background-image mx-auto d-block img-thumbnail z-depth-3 bg-update" id="bg" alt="image" src="<?php echo base_url('assets/images/banner/default.png') ?>" style="width: 700px;height: 250px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;"/>
+										<img class="background-image mx-auto d-block img-thumbnail z-depth-3 bg-update" id="bg" alt="image" src="<?php echo base_url('assets/images/banner/default.png') ?>" style="width: 700px;height: 270px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;"/>
 									</div>
 									 <input type="file" value="" onchange="document.getElementById('bg').src = window.URL.createObjectURL(this.files[0])" id="bg_image" name="bg_image">
 								</div>
@@ -69,7 +69,7 @@ overflow-y: auto;">
 									<div class="col-lg-12 col-xl-12">
 										<label><h3>BANNER</h3> image size(1140 x 660)</label>
 										<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">
-											<img class="images mx-auto d-block img-thumbnail z-depth-3 image-update" id="blah" alt="image" src="<?php echo base_url('assets/images/banner/default.png') ?>" style="width: 700px;height: 250px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast"/>
+											<img class="images mx-auto d-block img-thumbnail z-depth-3 image-update" id="blah" alt="image" src="<?php echo base_url('assets/images/banner/default.png') ?>" style="width: 700px;height: 270px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast"/>
 										</div>
 										 <input type="file" value="" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" id="image" name="image">
 									</div>
@@ -120,7 +120,7 @@ overflow-y: auto;">
 								<div class="col-lg-12 col-xl-12">
 									<label><h3>BACKGROUND</h3> image size(810 x 460)</label>
 									<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">
-										<img class="background-image mx-auto d-block img-thumbnail z-depth-3 edit-image-bg" id="bg-update" alt="image" style="width: 700px;height: 200px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;"/>
+										<img class="background-image mx-auto d-block img-thumbnail z-depth-3 edit-image-bg" id="bg-update" alt="image" style="width: 700px;height: 270px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;"/>
 									</div>
 									 <input type="file" value="" onchange="document.getElementById('bg-update').src = window.URL.createObjectURL(this.files[0])" id="bg_image" name="bg_image">
 								</div>
@@ -129,7 +129,7 @@ overflow-y: auto;">
 									<div class="col-lg-12 col-xl-12">
 										<label><h3>BANNER</h3> image size(1140 x 660)</label>
 										<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">
-											<img class="images mx-auto d-block img-thumbnail z-depth-3 edit-image" id="image-update" alt="" style="width: 700px;height: 200px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;"/>
+											<img class="images mx-auto d-block img-thumbnail z-depth-3 edit-image" id="image-update" alt="" style="width: 700px;height: 270px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast;"/>
 										</div>
 										 <input type="file" value="" onchange="document.getElementById('image-update').src = window.URL.createObjectURL(this.files[0])" id="image" name="image">
 									</div>

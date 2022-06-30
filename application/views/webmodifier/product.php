@@ -242,7 +242,7 @@
 										   </div>
 									 </div>
 								</div>
-								<div data-scroll="true" data-height="200">
+								<div data-scroll="true" data-height="250">
 									<div class="row" id="divimages"></div>
 								</div>
 							</div>

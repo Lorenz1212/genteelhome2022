@@ -141,34 +141,29 @@
 
                     <!-- === product-items === -->
 
-                    <div class="col-md-12 col-xs-12">
-
+                    <!-- <div class="col-md-12 col-xs-12">
                         <div class="sort-bar clearfix">
                             <div class="sort-results pull-left">
-                                <!--Showing result per page-->
                                 <select>
                                     <option value="1">10</option>
                                     <option value="2">50</option>
                                     <option value="3">100</option>
                                     <option value="4">All</option>
                                 </select>
-                                <!--Items counter-->
                                 <span>Showing all <strong>50</strong> of <strong>3,250</strong> items</span>
                             </div>
                             <div class="sort-options pull-right">
                                 <span>Sort by</span>
-                                <!--Sort options-->
                                 <select id="sort-price">
                                     <option data-option-value="asc">Price: lowest</option>
                                     <option data-option-value="desc">Price: highest</option>
                                 </select>
-                                <!--Grid-list view-->
                                 <span class="grid-list">
                                     <a href="javascript:void(0);" class="toggle-filters-mobile"><i class="fa fa-search"></i></a>
                                     <a  href="#productid1" id="btn_modal" class="mfp-open" style="display:none;"></a>
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div id="products" class="row" style="position: relative; height: 299.987px;">
                             <div class="product_list alignwides wp-block-covers"></div>

@@ -570,6 +570,7 @@ let mainpage;
 							//$('.main-header').attr('style','background-image:url('+baseURL+'assets/images/category/'+response.cat.image+')');
 							$('.cat-name').text(response.cat.cat_name);
 							$('.sub-name').text(response.cat.sub_name);
+							if(response.details){
 							for (let i=0;i<response.details.length;i++) {
 							let html = $('<div class="col-md-4 col-xs-6">\
 	                              <article>\
@@ -599,7 +600,22 @@ let mainpage;
 							 	});
 							 });
 						}
-
+						}else{
+							 container.append('<div class="col-md-12 col-xs-12">\
+				  		   	  			 <section class="history">\
+					           				 <div class="container">\
+														  	<div class="row row-block">\
+													                    <div class="col-md-7 history-desc">\
+													                        <p>  <h1 class="title" data-title="Page not found!">Sorry!</h1>\
+															                    <div class="h4 subtitle">No Product Available</div>\
+															                <p>The requested product was not available on this page. That’s all we know.</p>\
+															                <p>Click <a href="'+baseURL+'gh/app/index">here</a> to get to the front page? </p></p>\
+													                    		</div>\
+													                	</div>\
+													                </div>\
+													            <div>\
+										           	</div>');
+						}
 					}
 					
 				}
