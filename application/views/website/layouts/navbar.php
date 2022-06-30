@@ -4,9 +4,9 @@
                 <div class="navigation navigation-top">
                     <ul>
                         <li><a href="https://www.facebook.com/GenteelHomePH" target="_blank"><i class="fa fa-facebook"></i></a></li>
-        				<li><a href="finance@genteelhome.com"  target="_blank"><i class="fa fa-google-plus"></i></a></li>
+        				<!-- <li><a href="finance@genteelhome.com"  target="_blank"><i class="fa fa-google-plus"></i></a></li> -->
 				        <li><a href="https://www.instagram.com/home_genteel/?hl=en"  target="_blank"><i class="fa fa-instagram"></i></a></li>
-                        <li><a id="youtube"  target="_blank"><i class="fa fa-youtube"></i></a></li>
+                       <!--  <li><a id="youtube"  target="_blank"><i class="fa fa-youtube"></i></a></li> -->
                         <li><a href="javascript:void(0);" class="open-login"><i class="icon icon-user"></i></a></li>
                               <?php if(!$this->session->userdata('userId')){
                                }else{
