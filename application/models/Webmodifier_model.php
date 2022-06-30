@@ -733,16 +733,12 @@ class Webmodifier_model extends CI_Model{
 					if($val2 == 1){
 						$result = $this->db->where('id',$project_no)->update('tbl_project_design',array('title'=>$val1));
 					}else{
-						if($val3 == 'display_status'){
-							$result = $this->db->where('id',$val)->update('tbl_project_color',array($val3=>$val1));
-						}else{
-							$result = $this->db->where('id',$val)->update('tbl_project_color',array($val3=>$val1));
-						}
+						$result = $this->db->where('id',$val)->update('tbl_project_color',array($val3=>$val1));
 					}
 					$response = $this->Product_List('fetch_product_list',false,false,false,false,false,false,false);
 					if($result){
 						if($val3 == 'display_status'){
-							$sql = "SELECT * FROM tbl_project_color WHERE id='$val' AND display_status='displayed'";
+							$sql = "SELECT * FROM tbl_project_color WHERE project_no='$project_no' AND display_status='displayed' GROUP BY project_no";
 							$count = $this->db->query($sql)->num_rows();
 							if($count == 0){
 								$this->db->where('id',$project_no)->update('tbl_project_design',array('d_status'=>'n/a'));
@@ -754,7 +750,7 @@ class Webmodifier_model extends CI_Model{
 								}
 							}
 						}
-						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response,'count'=>$count);
 					}else{
 						return array('type'=>'info','message'=>'Nothing Changes','data'=>$response);
 					}

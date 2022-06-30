@@ -727,7 +727,7 @@ let view;
 							}
 						}
 						$('.sub_category_update option[value="'+response.row.sub_id+'"]').attr("selected", "selected");
-		  			$('#title').val(response.row.title);
+		  			$('#title').val(response.row.title).attr('data-id',response.row.id);
 		  			$('#c_name').val(response.row.c_name);
 		  			$('#unit').val(response.row.unit);
 		  			$('#c_price').val(_formatnumbercommat(response.row.c_price));
@@ -765,7 +765,8 @@ let view;
 							let name = $(this).attr('data-name');
 							let val1 = $('input[name='+name+']').val();
 							let val2 = $(this).attr('data-status');
-							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_update',response.row.id,val1,val2,name]));
+							let id = $('#title').attr('data-id');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_update',id,val1,val2,name]));
 						});
 						$('.save_status').on('click',function(e){
 							e.preventDefault();
@@ -773,32 +774,37 @@ let view;
 							let name = $(this).attr('data-name');
 							let val1 = $('select[name='+name+']').val();
 							let val2 = $(this).attr('data-status');
-							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_update',response.row.id,val1,val2,name]));
+							let id = $('#title').attr('data-id');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_update',id,val1,val2,name]));
 						});
 						$('.save_category').on('click',function(e){
 							e.preventDefault();
 							e.stopImmediatePropagation();
 							let val1 = $('select[name=cat_id_update]').val();
 							let val2 = $('select[name=sub_id_update]').val();
-							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_category_update',response.row.id,val1,val2]));
+							let id = $('#title').attr('data-id');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_category_update',id,val1,val2]));
 						});
 						$('input[name=color_update]').on('change',function(e){
 							e.preventDefault();
 							e.stopImmediatePropagation();
 							let image = $(this)[0].files;
-							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_pallet',response.row.id,false,false,false,image[0]]));
+							let id = $('#title').attr('data-id');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_pallet',id,false,false,false,image[0]]));
 						});
 						$('.save_tearsheet').on('click',function(e){
 							e.preventDefault();
 							e.stopImmediatePropagation();
 							let image = $('input[name=tearsheet]')[0].files;
-							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_tearsheet',response.row.id,false,false,false,image[0]]));
+							let id = $('#title').attr('data-id');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_tearsheet',id,false,false,false,image[0]]));
 						});
 						$('.save_image').on('click',function(e){
 							e.preventDefault();
 							e.stopImmediatePropagation();
 							let image = $('input[name=gallery]')[0].files;
-							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_save_image',response.row.id,false,false,false,image[0]]));
+							let id = $('#title').attr('data-id');
+							_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product','fetch_product_save_image',id,false,false,false,image[0]]));
 						});
 						$('#delete').on('click',function(e){
 							e.preventDefault();
