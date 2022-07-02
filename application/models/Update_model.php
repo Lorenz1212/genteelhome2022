@@ -1639,10 +1639,11 @@ class Update_model extends CI_Model
         }
     }
     function Update_Salesorder_Stocks($id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat,$terms_start,$terms_end){
+        $id = $this->encryption->decrypt($id);
         $rows = $this->db->select('u.*,s.*,s.id,CONCAT(u.firstname, " ",u.lastname) AS name,CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address')->from('tbl_cart_address as s')
-        ->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.id',$this->encryption->decrypt($id))->get()->row();
-         $so_no=$this->get_random_code('tbl_salesorder_stocks', 'so_no', "SOFS", 8);
-       
+        ->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.id',$id)->get()->row();
+         
+        $so_no=$this->get_random_code('tbl_salesorder_stocks', 'so_no', "SOFS", 8);
         $row = $this->db->select('*')->from('tbl_salesorder_customer')->where('fullname',$rows->name)->get()->row();
         if(!$row){
             $c_no=$this->get_random_code('tbl_salesorder_customer', 'customer_no', "CUSTOMERXID", 5);
@@ -1687,6 +1688,7 @@ class Update_model extends CI_Model
                } 
            }
         if($result){
+           $this->db->where('id',$id)->update('tbl_cart_address',array('status'=>'COMPLETED'));
             return true;
         }else{
             return false;   
