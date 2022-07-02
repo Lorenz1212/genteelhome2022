@@ -45,7 +45,7 @@ class Gh extends CI_Controller {
             switch ($view1) {
               case ' ':{$this->load->view('website/index.php');break;}
               case 'index':{$this->load->view('website/index.php');break;}
-              case 'blogs':{$this->load->view('website/blogs.php');break;}
+              case 'featured':{$this->load->view('website/blogs.php');break;}
               case 'registration':{$this->load->view('website/registration.php');break;}
               case 'product-list':{$this->load->view('website/product_list.php');break;}
               case 'product-details':{$this->load->view('website/product_details.php');break;}
@@ -71,7 +71,7 @@ class Gh extends CI_Controller {
              switch ($view1) {
               case ' ':{$this->load->view('website/index.php');break;}
               case 'index':{$this->load->view('website/index.php');break;}
-              case 'blogs':{$this->load->view('website/blogs.php');break;}
+              case 'featured':{$this->load->view('website/blogs.php');break;}
               case 'product-list':{$this->load->view('website/product_list.php');break;}
               case 'product-details':{$this->load->view('website/product_details.php');break;}
               case 'cart':{$this->load->view('website/cart.php');break;}

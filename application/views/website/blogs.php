@@ -1,7 +1,7 @@
 <section class="main-header main-header-blog" style="background-image:url(<?php echo base_url() ?>assets/images/static/static2.jpg)">
     <header>
         <div class="container text-center">
-            <h2 class="h2 title">List of Blogs</h2>
+            <h2 class="h2 title">Featured</h2>
         </div>
     </header>
 </section>

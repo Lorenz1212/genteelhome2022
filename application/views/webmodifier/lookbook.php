@@ -44,7 +44,6 @@
 									<thead>
 										<tr>
 											<th>IMAGE</th>
-											<th>TITLE</th>
 											<th>CATEGORY</th>
 											<th>DATE CREATED</th>
 											<th>STATUS</th>
@@ -100,7 +99,7 @@ overflow-y: auto;">
 										 <input type="file" value="" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" id="image" name="image">
 									</div>
 								</div>
-									<div class="form-group">
+									<div class="form-group d-none">
 											<label>Title</label>
 											<input type="text" class="form-control" name="title" required="" autocomplete="off"/>
 									</div>
@@ -138,14 +137,14 @@ overflow-y: auto;">
 						<!--begin::Group-->
 							<div class="form-group row">
 									<div class="col-lg-12 col-xl-12">
-										<label><h3>BANNER</h3> image size(1140 x 660)</label>
+										<label><h3>Upload Image</h3></label>
 										<div class="d-none d-md-flex flex-row-fluid bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-cover">
-											<img class="images mx-auto d-block img-thumbnail z-depth-3 image-update" id="blah" alt="image" src="<?php echo base_url('assets/images/banner/default.png') ?>" style="width: 700px;height: 270px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast"/>
+											<img class="images mx-auto d-block img-thumbnail z-depth-3 image-update" id="blahs" alt="image"  style="width: 700px;height: 270px;image-rendering: auto;image-rendering: crisp-edges;image-rendering: pixelated;image-rendering: -webkit-optimize-contrast"/>
 										</div>
-										 <input type="file" value="" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" id="image" name="image">
+										 <input type="file" value="" onchange="document.getElementById('blahs').src = window.URL.createObjectURL(this.files[0])" id="image" name="image">
 									</div>
 								</div>
-									<div class="form-group">
+									<div class="form-group d-none">
 											<label>Title</label>
 											<input type="text" class="form-control title-update" name="title" required="" autocomplete="off"/>
 									</div>

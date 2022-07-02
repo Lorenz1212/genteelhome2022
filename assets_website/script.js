@@ -119,6 +119,7 @@ let mainpage;
 			case "index":{
 				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_popular_product']));
 				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_blog_list_latest']));
+				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_lookbook_index_list']));
 				break;
 			}
 			case "popular-product":{
@@ -140,7 +141,7 @@ let mainpage;
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['interior', 'fetch_interior_details',val]));
 				break;
 			}
-			case "blogs":{
+			case "featured":{
 				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['blogs', 'fetch_blog_list']));
 				break;
 			}
@@ -307,6 +308,18 @@ let mainpage;
 
 	var _construct = async function(response, type, element, object){
 		switch(type){
+			case "fetch_lookbook_index_list":{
+				let container = $('.lookbook_list').empty();
+				if(response !=false){
+					for(let i=0;i<response.length;i++){
+						let html =$('<a class="item" >\
+                           	   <img  class="" id="myImg" data-image="'+baseURL+'assets/images/lookbook/'+response[i].image+'"  src="'+baseURL+'assets/images/lookbook/'+response[i].image+'" alt="" />\
+                            </a>');
+						container.append(html);
+					}
+				}
+				break;
+			}
 			case "fetch_interior_details":{
 				let btn = $('.categories-list').empty();
 				let cat_name ="";
@@ -446,7 +459,8 @@ let mainpage;
 			}
 			case "fetch_company_profile":{
 				if(response !=false){
-					$('#image').attr('style','background-image: url('+baseURL+'assets/images/avatar/'+response.image+')');
+					$('#image').attr('src',baseURL+'assets/images/avatar/'+response.image);
+					// $('#image').attr('style','background-image: url('+baseURL+'assets/images/avatar/'+response.image+')');
 					$('#owner_name').text(response.owner_name);
 					$('#about').html(response.about_owner);
 					$('#ourstory').html(response.our_story);
@@ -531,6 +545,7 @@ let mainpage;
 				let container = $('.product_index').empty();
 				if(response !=false){
 					for (let i=0;i<response.length;i++) {
+
 						let html = $('<div class="col-md-4 col-xs-6">\
                               <article>\
                               	<div class="info">\

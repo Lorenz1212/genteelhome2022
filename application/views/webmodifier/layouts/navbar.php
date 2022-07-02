@@ -66,15 +66,15 @@
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/webmodifier/interior";?>"class="menu-link"><span class="menu-text">Interior Design</span>
+															<a href="<?php echo base_url()."gh/webmodifier/interior";?>"class="menu-link"><span class="menu-text">Projects</span>
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/webmodifier/events";?>"class="menu-link"><span class="menu-text">Blogs</span>
+															<a href="<?php echo base_url()."gh/webmodifier/events";?>"class="menu-link"><span class="menu-text">Featured</span>
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-															<a href="<?php echo base_url()."gh/webmodifier/testimony";?>"class="menu-link"><span class="menu-text">Testimony</span>
+															<a href="<?php echo base_url()."gh/webmodifier/testimony";?>"class="menu-link"><span class="menu-text">Feedback</span>
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">

@@ -506,13 +506,6 @@ var KTFormControlsWeb= function () {
                     validation = FormValidation.formValidation(
                     form,{
                         fields: {
-                            title: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Title is required'
-                                    },
-                                }
-                            },
                             cat_id: {
                                 validators: {
                                     notEmpty: {
@@ -561,13 +554,6 @@ var KTFormControlsWeb= function () {
                     validation_update = FormValidation.formValidation(
                     form_update,{
                         fields: {
-                            title: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Title is required'
-                                    },
-                                }
-                            },
                             cat_id: {
                                 validators: {
                                     notEmpty: {
@@ -590,7 +576,7 @@ var KTFormControlsWeb= function () {
                                 let formData_update = new FormData(form_update);
                                 formData_update.append("action", "lookbook");
                                 formData_update.append("type", 'update_lookbook');
-                                formData_update.append("id", id);
+                                formData_update.append("id", $('.title-update').attr('data-id'));
                                 _ajaxForm(formData_update,'update_lookbook',false);
                         }   
                     });                

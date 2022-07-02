@@ -4,11 +4,11 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Blogs</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Featured</h2>
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
-				<button type="button" class="btn btn-white font-weight-bold py-3 px-6" data-toggle="modal" data-target="#create-events-modal" data-action="Create">Create New Blogs</button>
+				<button type="button" class="btn btn-white font-weight-bold py-3 px-6" data-toggle="modal" data-target="#create-events-modal" data-action="Create">Create New Featured</button>
 			</div>
 		</div>
 	</div>
@@ -43,7 +43,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create New Blog</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create New Featured</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -84,7 +84,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Update blog</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Update Featured</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>

@@ -840,6 +840,13 @@ class Webmodifier_model extends CI_Model{
 				$sql = "SELECT * FROM tbl_lookbook_category WHERE id='$id'";
 				$row = $this->db->query($sql)->row();
 				if($row){
+					if($image){	
+						if($row->image != 'default.jpg'){
+							if(file_exists('assets/images/lookbook/'.$row->image)){
+								unlink('assets/images/lookbook/'.$row->image);
+							}
+						}
+				    }
 				   $result = $this->db->where('id',$id)->delete('tbl_lookbook_category');
 				   if($result){
 				   		$response = $this->Lookbook('fetch_lookbookcategory_list',false,false);
@@ -920,7 +927,7 @@ class Webmodifier_model extends CI_Model{
 				$newimage = 'default.jpg';
 				if($image){	
 				    $newimage=$this->Get_Image_Code('tbl_lookbook_details', 'image', 'IMAGE', 14, $image);
-				    $this->move_to_folder($newimage,$tmp,'assets/images/lookbook/');
+				    $this->move_to_folder4($newimage,$image,$tmp,'assets/images/lookbook/',1000,1000);
 				}
 				$data = array('look_name'=>$title,'look_cat_id'=>$cat_id,'image'=>$newimage);
 				$result = $this->db->insert('tbl_lookbook_details',$data);
@@ -938,13 +945,13 @@ class Webmodifier_model extends CI_Model{
 				if($row){
 					$newimage = $row->image;
 					if($image){	
-							if($row->image != 'default.jpg'){
-								if(file_exists('assets/images/lookbook/'.$row->image)){
-									unlink('assets/images/lookbook/'.$row->image);
-								}
-					    }
-				    $newimage=$this->Get_Image_Code('tbl_lookbook_details', 'image', 'IMAGE', 14, $image);
-				    $this->move_to_folder($newimage,$tmp,'assets/images/lookbook/');
+						if($row->image != 'default.jpg'){
+							if(file_exists('assets/images/lookbook/'.$row->image)){
+								unlink('assets/images/lookbook/'.$row->image);
+							}
+				    }
+					    $newimage=$this->Get_Image_Code('tbl_lookbook_details', 'image', 'IMAGE', 14, $image);
+					    $this->move_to_folder4($newimage,$image,$tmp,'assets/images/lookbook/',1000,1000);
 					}
 					$data = array('look_name'=>$title,'look_cat_id'=>$cat_id,'image'=>$newimage);
 					$result = $this->db->where('id',$id)->update('tbl_lookbook_details',$data);
@@ -1134,10 +1141,10 @@ class Webmodifier_model extends CI_Model{
 							if($image){	
 									$path_image = "assets/images/finishproduct/product/";
 									$path_image_size = "assets/images/finishproduct/product600x600/";
-									$extension=pathinfo($image, PATHINFO_EXTENSION);
-       						$newfilename=  'IMG'.date('YmdHis').'-PRODUCT'.mt_rand(1000, 999999).'.'.$extension;
+								$extension=pathinfo($image, PATHINFO_EXTENSION);
+       							$newfilename=  'IMG'.date('YmdHis').'-PRODUCT'.mt_rand(1000, 999999).'.'.$extension;
    								$this->move_to_folder4($newfilename,$image,$tmp,$path_image,400,400);
-   								$this->move_to_folder5($newfilename,$image,$tmp,$path_image_size,700,700);
+   								$this->move_to_folder4($newfilename,$image,$tmp,$path_image_size,1000,1000);
 							    $data = array('project_no'=>$project_no,
 							    							'c_code'=>$c_code,
 							    							'images'=>$newfilename);

@@ -51,7 +51,7 @@ var KTDatatablesDataSourceAjaxClient = function() {
 			}
 			case"tbl_banners":{
 				let TableData = [{data:'image'},{data:'date_created',className:"text-nowrap"},{data:'status',className:"text-nowrap"},{data:'action',responsivePriority:-1}];
-				_DataTableLoader('tbl_banners',response,TableData,[[4,'asc']],reload); 
+				_DataTableLoader('tbl_banners',response,TableData,[[1,'asc']],reload); 
 				break;
 			}
 			case"tbl_interiors":{
@@ -70,7 +70,7 @@ var KTDatatablesDataSourceAjaxClient = function() {
 				break;
 			}
 			case "tbl_lookbooks":{
-				let TableData = [{data:'image',responsivePriority:2},{data:'name',className:"text-nowrap",responsivePriority:1},{data:'category'},{data:'date_created',className:"text-nowrap"},{data:'status'},{data:'action',responsivePriority:-1}];
+				let TableData = [{data:'image',responsivePriority:2},{data:'category'},{data:'date_created',className:"text-nowrap"},{data:'status'},{data:'action',responsivePriority:-1}];
 				_DataTableLoader('tbl_lookbooks',response,TableData,[[4,'desc']],reload); 
 				break;
 			}

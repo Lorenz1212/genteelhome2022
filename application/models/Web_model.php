@@ -231,6 +231,20 @@ class Web_model extends CI_Model{
 				 }
 				break;
 			}
+			case "fetch_lookbook_index_list":{
+				$data = array();
+				$sql = "SELECT * FROM tbl_lookbook_details WHERE status=1 ORDER BY date_created DESC";
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$data[]=array('image'=>$row->image);
+					}
+					 	return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
 
 		}
 	}

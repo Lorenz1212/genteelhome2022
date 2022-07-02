@@ -158,6 +158,7 @@ let view;
 					e.preventDefault();
 					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_category_select']));
 					$('#create-lookbook-modal').modal('show');
+					$('#blah').attr('src',''+baseURL+'assets/images/lookbook/default.jpg');
 				});
 				$('body').delegate('.create-new-category','click',function(e){
 					e.preventDefault();
@@ -573,10 +574,10 @@ let view;
 						  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
 						  	   img.src = blob; 
 								   img.onload = function() {
-								  if((img.height >= 300 || img.height <= 600) && (img.width >= 300 || img.width <= 600) ){
+								  if((img.height >= 300 || img.height <= 1200) && (img.width >= 300 || img.width <= 1200) ){
 
 						       }else{
-							       	Swal.fire("Your image upload is ("+width+"x"+height+")","Please upload image (width  is 300 to 600 size and height is 300 to 600 size) (jpg, jpeg, or png)", "info");
+							       	Swal.fire("Your image upload is ("+width+"x"+height+")","Please upload image (width  is 300 to 1200 size and height is 300 to 1200 size) (jpg, jpeg, or png)", "info");
 							       	action.val('');
 							       	$('#customFile').val("");
 						       }
@@ -753,8 +754,7 @@ let view;
 		switch(type){
 			case "fetch_lookbook_details":{
 				if(response != false){
-					KTFormControlsWeb.init('lookbook',response.id);
-					$('.title-update').val(response.look_name);
+					$('.title-update').val(response.look_name).attr('data-id',response.id);
 					$('.category-update').val(response.look_cat_id).trigger('change');
 					$('.image-update').attr('src',baseURL+'assets/images/lookbook/'+response.image);
 					$('#update-lookbook-modal').modal('show');

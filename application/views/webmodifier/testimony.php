@@ -47,7 +47,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Create New Testimony</h5>
                 <button type="button" class="close " data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close text-white"></i>
+                    <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
@@ -91,7 +91,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Update testimony</h5>
                 <button type="button" class="close " data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true" class="ki ki-close text-white"></i>
+                    <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">

@@ -47,7 +47,7 @@
                                 </div> <!--/navbar-dropdown-->
                             </li>
                             <li><a href="<?php echo base_url()."gh/app/interior";?>">PROJECTS</a></li>
-                            <li><a href="<?php echo base_url()."gh/app/blogs";?>">FEATURED</a></li>
+                            <li><a href="<?php echo base_url()."gh/app/featured";?>">FEATURED</a></li>
                             <li><a href="<?php echo base_url()."gh/app/contact";?>">CONTACT</a></li>
 
                             <!-- Multi-content dropdown -->

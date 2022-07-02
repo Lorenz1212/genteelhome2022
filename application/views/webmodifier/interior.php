@@ -4,11 +4,11 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">Interior Design</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Projects</h2>
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
-				<button type="button" class="btn btn-white font-weight-bold py-3 px-6" data-toggle="modal" data-target="#create-interior-modal" data-action="Create">Create New Interior Design</button>
+				<button type="button" class="btn btn-white font-weight-bold py-3 px-6" data-toggle="modal" data-target="#create-interior-modal" data-action="Create">Create New Projects</button>
 			</div>
 		</div>
 	</div>
@@ -46,7 +46,7 @@ overflow-y: auto;">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create New Interior Design</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create New Projects</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -106,7 +106,7 @@ overflow-y: auto;">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Update Interior Details</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Update Projects</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>

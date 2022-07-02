@@ -24,10 +24,12 @@
                  }
             ?>      
             </div> 
-</section>
-        <section class="products ">
+               
+        
+    </section>
+
+  <!--       <section class="products ">
             <div class="container">
-                <!-- === header title === -->
                 <header>
                     <div class="row">
                         <div class="col-md-offset-2 col-md-8 text-center">
@@ -41,51 +43,30 @@
                  <a  href="#productid1" id="btn_modal" class="mfp-open" style="display:none;"></a>
                 <div class="row ">
                     <div class="product_index alignwides wp-block-covers"></div>
-                </div> <!--/row-->
-                <!-- === button more === -->
+                </div> 
                 <div class="wrapper-more">
                      <a href="<?php echo base_url()?>gh/app/popular-product" class="btn btn-clean-dark" id="btn_view">View All</a>
                 </div>
-                <?php $this->load->view('website/product_modal.php');?>
-            </div> <!--/container-->
-        </section>
+                <?php //$this->load->view('website/product_modal.php');?>
+            </div>
+        </section> -->
         <!-- ========================  Stretcher widget ======================== -->
 <!--     <section class="banner " style="background-image:url(<?php echo base_url() ?>assets/images/static/bg2.jpg)">
     </section> -->
-    <section class="instagram">
-          <!--   <header>
+  <section class="instagram">
+            <header>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-offset-2 col-md-8 text-center">
-                            <h2 class="h2 title">Follow us <i class="fa fa-instagram fa-2x"></i></h2>
-                            <div class="text">
-                                <p><a href="https://www.instagram.com/home_genteel/?hl=en" target="_blank">@home_genteel</p>
-                            </div>
+                            <h2 class="h2 title">Gallery</h2>
                         </div>
                     </div>
                 </div>
-            </header> -->
-            <div class="gallery clearfix ">
-                <a class="item" >
-                    <img src="<?php echo base_url() ?>assets_website/images/square-1.jpg" alt="Alternate Text" />
-                </a>
-                <a class="item" >
-                    <img src="<?php echo base_url() ?>assets_website/images/square-2.jpg" alt="Alternate Text" />
-                </a>
-                <a class="item" >
-                    <img src="<?php echo base_url() ?>assets_website/images/square-3.jpg" alt="Alternate Text" />
-                </a>
-                <a class="item" >
-                    <img src="<?php echo base_url() ?>assets_website/images/square-4.jpg" alt="Alternate Text" />
-                </a>
-                <a class="item" >
-                    <img src="<?php echo base_url() ?>assets_website/images/square-5.jpg" alt="Alternate Text" />
-                </a>
-                <a class="item" >
-                    <img src="<?php echo base_url() ?>assets_website/images/square-6.jpg" alt="Alternate Text" />
-                </a>
-            </div>       
-         </section>
+            </header>
+             <div class="gallery clearfix lookbook_list">
+                
+            </div>
+    </section>
         <!-- ========================  Blog Block ======================== -->
       <!--   <section class="blog blog-block" >
             <div class="container">
