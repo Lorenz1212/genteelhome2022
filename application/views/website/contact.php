@@ -49,7 +49,7 @@
                                 </div>
                             </div>
 
-                            <div class="banner">
+                            <div class="banner" style="background-image:url(<?php echo base_url() ?>assets/images/static/static4.jpg)">
                                 <div class="row">
                                     <div class="col-md-offset-1 col-md-10 text-center">
                                         <h2 class="title">Send an email</h2>
@@ -57,7 +57,7 @@
                                             Thanks for your interest in Genteel Home. We believe in creativity as one of the major forces of progress.
                                             Please use this form if you have any questions about our products and we'll get back with you very soon.
                                         </p>
-                                        <div class="contact-form-wrapper">
+                                        <div class="contact-form-wrapper" >
                                             <a class="btn btn-clean open-form" data-text-open="Contact us via form" data-text-close="Close form">Contact us via form</a>
                                             <div class="contact-form clearfix" style="display: none;">
                                                <form class="form" data-link="Create_Email" enctype="multipart/form-data" accept-charset="utf-8">

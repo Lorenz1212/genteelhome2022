@@ -195,6 +195,22 @@ class Web_model extends CI_Model{
 				}
 				break;
 			}
+			case "fetch_popular_product_list":{
+				$data =array();
+				$sql = "SELECT *,(SELECT images FROM tbl_project_image WHERE project_no=tbl_project_design.id LIMIT 1) as image FROM tbl_project_design WHERE d_status='DISPLAYED' AND type=1 AND popular >= 0 ORDER BY popular DESC";
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$data[]=array('title'=>$row->title,
+									  'image'=>$row->image,
+									  'id'=> base64_encode($this->encryption->encrypt($row->id)));
+					}
+					return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
 			case "fetch_blog_list_latest":{
 				$data = array();
 				$sql = "SELECT *,DATE_FORMAT(date_event, '%d') AS day_name,DATE_FORMAT(date_event, '%Y') AS year_name,DATE_FORMAT(date_event, '%b') AS month_name FROM tbl_events WHERE status='ACTIVE' ORDER BY date_event DESC LIMIT 6";

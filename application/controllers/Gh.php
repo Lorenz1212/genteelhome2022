@@ -64,6 +64,7 @@ class Gh extends CI_Controller {
               case 'returns-exchange-policy':{$this->load->view('website/return_policy.php');break;}
               case 'forgot-password':{$this->load->view('website/forgot_password.php');break;}
               case 'new-password':{$this->load->view('website/new_password.php');break;}
+              case 'popular-product':{$this->load->view('website/popular_product.php');break;}
               default: {redirect(base_url().'gh/app/index');break;} 
             }
         }else{
@@ -92,6 +93,7 @@ class Gh extends CI_Controller {
               case 'shipping':{$this->load->view('website/shipping.php');break;}
               case 'terms-conditions':{$this->load->view('website/terms.php');break;}
               case 'returns-exchange-policy':{$this->load->view('website/return_policy.php');break;}
+              case 'popular-product':{$this->load->view('website/popular_product.php');break;}
               default: {redirect(base_url().'gh/app/index');break;}
             }
         }

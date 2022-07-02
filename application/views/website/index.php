@@ -47,9 +47,9 @@
                 </div> <!--/row-->
                 <!-- === button more === -->
 
-               <!--  <div class="wrapper-more">
-                     <a href="<?php echo base_url()?>gh/app/product-list/<?php echo base64_encode('all')?>/<?php echo base64_encode('dasxasdas2342')?> " class="btn btn-clean-dark" id="btn_view">View All</a>
-                </div> -->
+               < <div class="wrapper-more">
+                     <a href="<?php echo base_url()?>gh/app/popular-product" class="btn btn-clean-dark" id="btn_view">View All</a>
+                </div>
                 <?php $this->load->view('website/product_modal.php');?>
             </div> <!--/container-->
         </section>

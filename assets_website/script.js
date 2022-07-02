@@ -121,6 +121,10 @@ let mainpage;
 				 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_blog_list_latest']));
 				break;
 			}
+			case "popular-product":{
+				_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['dashboard', 'fetch_popular_product_list']));
+				break;
+			}
 			case "terms-conditions":
 			case "returns-exchange-policy":
 			case "privacy-policy":
@@ -488,7 +492,41 @@ let mainpage;
 				}
 				break;
 			}
-
+			case "fetch_popular_product_list":{
+				let container = $('.product_list').empty();
+				if(response !=false){
+					for (let i=0;i<response.length;i++) {
+						let html = $('<div class="col-md-4 col-xs-6">\
+                              <article>\
+                              	<div class="info">\
+                                   </div>\
+                                   <div class="btn btn-add view-product-details" data-id="'+response[i].id+'"  style="cursor:pointer;">\
+                                        <i class="icon icon-cart"></i>\
+                                    </div>\
+                                    <div class="figure-grid">\
+                                        <div class="image">\
+                                            <a href="javascript:;" class="mfp-open view-product-details"  data-id="'+response[i].id+'">\
+                                                <img class="wp-block-cover-images" style="width: 100%;" src="'+baseURL+'assets/images/finishproduct/product/'+response[i].image+'" alt=""/>\
+                                            </a>\
+                                        </div>\
+                                        <div class="text">\
+                                            <h2 class="title h4"><a>'+response[i].title+'</a></h2>\
+                                            <span class="description clearfix"></span>\
+                                        </div>\
+                                    </div>\
+                                </article>\
+                              </div>');
+						 container.append(html).promise().done(function(){
+						 	$('body').delegate('.view-product-details','click',function(e){
+						 		e.stopImmediatePropagation();
+						 		let id = $(this).attr('data-id');
+						 		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'fetch_product_details',id]));
+						 	});
+						 });
+					}
+				}
+				break;
+			}
 			case "fetch_popular_product":{
 				let container = $('.product_index').empty();
 				if(response !=false){
