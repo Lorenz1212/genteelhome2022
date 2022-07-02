@@ -938,7 +938,7 @@ class Modal_model extends CI_Model{
         $data = array();
          $rows = $this->db->select('u.*,s.*,r.*,s.id, 
             DATE_FORMAT(s.date_created, "%M %d %Y") as date_created,
-            CONCAT(u.fname, " ",u.lname) AS name, 
+            CONCAT(u.firstname, " ",u.lastname) AS name, 
             CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address,
             CONCAT(s.s_address, " ",s.s_city, " ",s.s_province) AS shipping_address')
          ->from('tbl_cart_address as s')
