@@ -1228,12 +1228,15 @@ var KTFormControls = function () {
                                 }).then(function(result) {
                                     if (result.value) {
                                       let formData = new FormData();
-                                          formData.append('id',$('input[name="fullname"]').attr('data-id'));
-                                          formData.append('downpayment',$('input[name="downpayment"]').val());
-                                          formData.append('date_downpayment',$('input[name="date_downpayment"]').val());
-                                          formData.append('discount',$('input[name="discount"]').val());
-                                          formData.append('vat',$('select[name="vat"]').val());
-                                          formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+                                           formData.append('id',$('input[name="fullname"]').attr('data-id'));
+                                           formData.append('date_created',$('input[name="date_created"]').val());
+                                            formData.append('downpayment',$('input[name="downpayment"]').val());
+	                                       formData.append('date_downpayment',$('#date-text-downpayment').attr('data-date'));
+	                                       formData.append('discount',$('input[name="discount"]').val());
+	                                       formData.append('vat',$('select[name="vat"]').val());
+	                                       formData.append('shipping_fee',$('input[name="shipping_fee"]').val());
+	                                       formData.append('terms_start',$('input[name="terms_start"]').val());
+	                                       formData.append('terms_end',$('input[name="terms_end"]').val());
                                       thisURL = baseURL + 'update_controller/Update_Salesorder_Stocks';
                                    _ajaxForm(thisURL,"POST",formData,"Update_Salesorder_Stocks",false);
                                  }

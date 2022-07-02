@@ -1638,7 +1638,7 @@ class Update_model extends CI_Model
             return false;
         }
     }
-    function Update_Salesorder_Stocks($id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat){
+    function Update_Salesorder_Stocks($id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat,$terms_start,$terms_end){
         $rows = $this->db->select('u.*,s.*,s.id,CONCAT(u.firstname, " ",u.lastname) AS name,CONCAT(s.b_address, " ",s.b_city, " ",s.b_province) AS billing_address')->from('tbl_cart_address as s')
         ->join('tbl_customer_online as u','u.id=s.customer','LEFT')->where('s.id',$this->encryption->decrypt($id))->get()->row();
          $so_no=$this->get_random_code('tbl_salesorder_stocks', 'so_no', "SOFS", 8);
@@ -1666,6 +1666,8 @@ class Update_model extends CI_Model
                       'discount'=>$discount,
                       'shipping_fee'=>$shipping_fee,
                       'vat'=>$vat,
+                      'terms_start'=>$terms_start,
+                      'terms_end'=>$terms_end,
                       'date_order'=>date('Y-m-d',strtotime($rows->date_order)),
                       'date_downpayment'=>date('Y-m-d',strtotime($date_downpayment)),
                       'date_created'=>date('Y-m-d H:i:s'),

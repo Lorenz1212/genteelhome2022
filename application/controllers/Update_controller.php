@@ -696,13 +696,16 @@ class Update_controller extends CI_Controller
         echo json_encode($data);
      }
      public function Update_Salesorder_Stocks(){
-        $id = $this->input->post('id');
-        $downpayment = floatval(str_replace(',', '', $this->input->post('downpayment')));
-        $date_downpayment = $this->input->post('date_downpayment');
-        $discount =  $this->input->post('discount');
-        $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
-        $vat =  $this->input->post('vat');
-        $data = $this->update_model->Update_Salesorder_Stocks($id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat);
+         $id = $this->input->post('id');
+         $downpayment = floatval(str_replace(',', '', $this->input->post('downpayment')));
+         $date_downpayment = $this->input->post('date_downpayment');
+         $discount =  $this->input->post('discount');
+         $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
+         $amount = $this->input->post('amount');
+         $terms_start = $this->input->post('terms_start');
+         $terms_end = $this->input->post('terms_end');
+         $vat =  $this->input->post('vat');
+        $data = $this->update_model->Update_Salesorder_Stocks($id,$downpayment,$date_downpayment,$discount,$shipping_fee,$vat,$terms_start,$terms_end);
         echo json_encode($data);
      }
      public function Update_Supplier_Item(){
