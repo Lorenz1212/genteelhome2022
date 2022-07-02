@@ -576,12 +576,12 @@ let mainpage;
 	                              <article>\
 	                              	<div class="info">\
 	                                   </div>\
-	                                   <div class="btn btn-add view-product-details" data-id="'+response.details[i].id+'"  style="cursor:pointer;">\
+	                                   <div class="btn btn-add view-product-details-set" data-id="'+response.details[i].id+'"  style="cursor:pointer;">\
 	                                        <i class="icon icon-cart"></i>\
 	                                    </div>\
 	                                    <div class="figure-grid">\
 	                                        <div class="image">\
-	                                            <a href="javascript:;" class="mfp-open view-product-details"  data-id="'+response.details[i].id+'">\
+	                                            <a href="javascript:;" class="mfp-open view-product-details-set"  data-id="'+response.details[i].id+'">\
 	                                                <img class="wp-block-cover-images" style="width: 100%;" src="'+baseURL+'assets/images/finishproduct/product/'+response.details[i].image+'" alt=""/>\
 	                                            </a>\
 	                                        </div>\
@@ -593,7 +593,7 @@ let mainpage;
 	                                </article>\
 	                              </div>');
 							 container.append(html).promise().done(function(){
-							 	$('body').delegate('.view-product-details','click',function(e){
+							 	$('body').delegate('.view-product-details-set','click',function(e){
 							 		e.stopImmediatePropagation();
 							 		let id = $(this).attr('data-id');
 							 		 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['product', 'fetch_product_details',id]));

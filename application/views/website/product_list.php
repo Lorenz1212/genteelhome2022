@@ -19,10 +19,10 @@
         <h2>Product categories</h2>
     </header>
 </section>
-        <div id="filters" class="filters filters-top">
+        <div id="filters" class="filters filters-top" style="display: none;">
             <div class="container">
                 <div class="row">
-                   <!--  <div class="col-md-3 col-xs-12">
+                    <div class="col-md-3 col-xs-12">
                         <div class="filter-box">
                             <div class="title">
                                 Availability
@@ -45,8 +45,8 @@
                                 Close
                             </div>
                         </div> 
-                    </div> -->
-                  <!--   <div class="col-md-3 col-xs-12">
+                    </div>
+                    <div class="col-md-3 col-xs-12">
                         <div class="filter-box">
                             <div class="title">
                                 Discount
@@ -69,8 +69,8 @@
                                 Close
                             </div>
                         </div>
-                    </div> -->
-                   <!--  <div class="col-md-3 col-xs-12">
+                    </div>
+                    <div class="col-md-3 col-xs-12">
                         <div class="filter-box">
                             <div class="title">
                                 Type
@@ -93,8 +93,8 @@
                                 Close
                             </div>
                         </div> 
-                    </div> -->
-                    <!-- <div class="col-md-3 col-xs-12">
+                    </div>
+                    <div class="col-md-3 col-xs-12">
                         <div class="filter-box">
                             <div class="title">
                                 Material
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <div class="toggle-filters-close btn btn-main visible-sm visible-xs">
                 Close search
             </div>
@@ -164,7 +164,7 @@
                                 </span>
                             </div>
                         </div> -->
-
+                           <a  href="#productid1" id="btn_modal" class="mfp-open" style="display:none;"></a>
                         <div id="products" class="row" style="position: relative; height: 299.987px;">
                             <div class="product_list alignwides wp-block-covers"></div>
                         </div><!--/row-->

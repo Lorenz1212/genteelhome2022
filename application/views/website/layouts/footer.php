@@ -93,12 +93,10 @@
         <script src="<?php echo base_url(); ?>assets/plugins/global/plugins.bundle.js"  type='text/javascript'></script>
         <script src="<?php echo base_url(); ?>assets/plugins/custom/prismjs/prismjs.bundle.js"  type='text/javascript'></script>
         <script src="<?php echo base_url(); ?>assets_website/js/bundle.js"></script>
-
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <script src="<?php echo base_url(); ?>assets_website/js/nav-script.js"></script>
-           <script src="<?php echo base_url(); ?>assets_website/js/login-script.js"></script>
-<!--         <script src="<?php echo base_url(); ?>assets_website/js/my-script.js"></script> -->
+        <script src="<?php echo base_url(); ?>assets_website/js/login-script.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
         <script src="<?php echo base_url(); ?>assets_website/js/formscript.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" 

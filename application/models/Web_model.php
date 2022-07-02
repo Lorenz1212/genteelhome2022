@@ -318,7 +318,7 @@ class Web_model extends CI_Model{
 					}else{
 						$data['collection']='delete';
 					}
-					$sql = "SELECT * FROM tbl_project_color WHERE project_no='$project_no' AND display_status='displayed' ORDER BY date_created DESC";
+					$sql = "SELECT * FROM tbl_project_color WHERE project_no='$project_no' AND display_status='displayed' ORDER BY date_created ASC";
 					$query = $this->db->query($sql);
 					if($query){
 						foreach($query->result() as $row){
