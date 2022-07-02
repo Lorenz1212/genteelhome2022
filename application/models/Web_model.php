@@ -181,7 +181,7 @@ class Web_model extends CI_Model{
 		switch($type){
 			case"fetch_popular_product":{
 				$data =array();
-				$sql = "SELECT *,(SELECT images FROM tbl_project_image WHERE project_no=tbl_project_design.id LIMIT 1) as image FROM tbl_project_design WHERE d_status='DISPLAYED' AND type=1 AND popular >= 0 ORDER BY popular DESC LIMIT 6";
+				$sql = "SELECT *,(SELECT images FROM tbl_project_image WHERE project_no=tbl_project_design.id LIMIT 1) as image FROM tbl_project_design WHERE d_status='DISPLAYED' AND type=1 AND popular >= 0 ORDER BY popular DESC LIMIT 9";
 				$query = $this->db->query($sql);
 				if($query){
 					foreach($query->result() as $row){

@@ -97,11 +97,11 @@
         <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <script src="<?php echo base_url(); ?>assets_website/js/nav-script.js"></script>
         <script src="<?php echo base_url(); ?>assets_website/js/login-script.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
+ <!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script> -->
         <script src="<?php echo base_url(); ?>assets_website/js/formscript.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" 
+<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" 
             integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" 
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script> -->
         <script src="<?php echo base_url(); ?>assets/js/scripts.bundle.js"  type='text/javascript'></script>
         <script src="<?php echo base_url(); ?>assets_website/script.js"></script>
      

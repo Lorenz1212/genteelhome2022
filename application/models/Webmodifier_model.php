@@ -238,37 +238,41 @@ class Webmodifier_model extends CI_Model{
 				break;
 			}
 			case "update_banner":{
-				$sql = "SELECT * FROM tbl_website_banner WHERE type='$slide'";
+				$sql = "SELECT * FROM tbl_website_banner WHERE type='$slide' LIMIT 1";
 				$row = $this->db->query($sql)->row();
 				if($row){
-					if($slide != 'OFF'){
-						$result = $this->db->where('type',$slide)->update('tbl_website_banner',array('type'=>'OFF'));
+					$this->db->where('type',$slide)->where('id !=',$id)->update('tbl_website_banner',array('type'=>'OFF'));
+					$result = true;
+				}else{
+					 $result = true;
+				}
+				if($result == true){
+					$sql = "SELECT * FROM tbl_website_banner WHERE id='$id'";
+					$row = $this->db->query($sql)->row();
+					if($row){
+						$newimage = $row->image;
+						if($image){	
+								if($row->image != 'default.png'){
+									if(file_exists('assets/images/banner/'.$row->image)){
+										unlink('assets/images/banner/'.$row->image);
+									}
+						    }
+						    $newimage=$this->Get_Image_Code('tbl_website_banner', 'image', 'IMAGE', 14, $image);
+						    $this->move_to_folder($newimage,$tmp,'assets/images/banner/');
+						}
+						$data = array('title'=>$title,'sub_title'=>$sub_title,'type'=>$slide,'image'=>$newimage);
+						$result = $this->db->where('id',$id)->update('tbl_website_banner',$data);
+						if($result){
+							$response = $this->Banner('fetch_banner_list',false);
+							return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+						}else{
+							return array('type'=>'info','message'=>'Nothing Changes');
+						}
+					}else {
+						return false;
 					}
 				}
-				$sql = "SELECT * FROM tbl_website_banner WHERE id='$id'";
-				$row = $this->db->query($sql)->row();
-				if($row){
-					$newimage = $row->image;
-					if($image){	
-							if($row->image != 'default.png'){
-								if(file_exists('assets/images/banner/'.$row->image)){
-									unlink('assets/images/banner/'.$row->image);
-								}
-					    }
-					    $newimage=$this->Get_Image_Code('tbl_website_banner', 'image', 'IMAGE', 14, $image);
-					    $this->move_to_folder($newimage,$tmp,'assets/images/banner/');
-					}
-					$data = array('title'=>$title,'sub_title'=>$sub_title,'type'=>$slide,'image'=>$newimage);
-					$result = $this->db->where('id',$id)->update('tbl_website_banner',$data);
-					if($result){
-						$response = $this->Banner('fetch_banner_list',false);
-						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
-					}else{
-						return array('type'=>'info','message'=>'Nothing Changes');
-					}
-				}else {
-					return false;
-				}
+				
 				break;
 			}
 

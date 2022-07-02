@@ -1,5 +1,5 @@
 html {
-    font-family: sans-serif;
+    font-family: 'Helvetica Neue',sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%}
 body {
@@ -746,7 +746,7 @@ html {
     -webkit-tap-highlight-color: transparent;
 }
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 14px;
     line-height: 1.42857;
     color: #333;
@@ -4562,7 +4562,7 @@ button.close {
     position: absolute;
     z-index: 1070;
     display: block;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-style: normal;
     font-weight: normal;
     letter-spacing: normal;
@@ -4680,7 +4680,7 @@ button.close {
     display: none;
     max-width: 276px;
     padding: 1px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-style: normal;
     font-weight: normal;
     letter-spacing: normal;
@@ -9948,7 +9948,7 @@ button::-moz-focus-inner {
     color: #fff;
     font-style: normal;
     font-size: 28px;
-    font-family: Arial, Baskerville, monospace;
+    font-family: Baskerville, monospace;
 }
 .mfp-close:hover, .mfp-close:focus {
     opacity: 1;
@@ -11382,12 +11382,11 @@ nav .navigation .logo {
     padding-bottom: 4px;
 }
 nav .navigation .logo img {
-    height: 90px;
-    width: 300px;
-    image-rendering: auto;image-rendering: crisp-edges;
-    image-rendering: pixelated;
+    height: 100%;
+    width: 100%;
     image-rendering: -webkit-optimize-contrast;
     max-width: 260px;
+    max-height: 80px;
 }
 @media only screen and (max-width: 400px) {
     nav .navigation .logo img {
@@ -11463,7 +11462,7 @@ nav .navigation-main .open-dropdown {
 }
 nav .navigation-main .floating-menu>ul>li>a {
     position: relative;
-    font-family: "Bebas Neue", sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
@@ -11488,7 +11487,7 @@ nav .navigation-main .navbar-dropdown .navbar-box ul>li.label {
     font-weight: normal;
     color: #151515;
     text-transform: uppercase;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-weight: 600;
 }
 @media(min-width:992px) {
@@ -11523,7 +11522,7 @@ nav .navigation-main .navbar-dropdown .navbar-box ul>li>a span.label {
 nav .navigation .logo {
     position: absolute;
     z-index: 1;
-    top: -43px;
+    top: -40px;
     left: 0;
 }
 
@@ -11539,7 +11538,7 @@ nav .navigation-main .floating-menu>ul {
 nav .navigation-main .floating-menu>ul>li>a {
     color: #000;
     padding: 20px 10px;
-    font-family: "Bebas Neue", sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
 }
 nav .navigation-main .floating-menu>ul>li>a.current:after, nav .navigation-main .floating-menu>ul>li>a:after {
     position: absolute;
@@ -11866,7 +11865,7 @@ nav .navigation-main .floating-menu>ul>li:nth-child(20) {
     transition-delay: 2s;
 }
 nav .navigation-main .floating-menu>ul>li>a {
-    font-family: Bebas Neue;
+    font-family: Helvetica Neue;
     color: #000;
     display: block;
     border-bottom: 1px solid #252525;
@@ -12307,7 +12306,6 @@ nav .search-wrapper.open, nav .login-wrapper.open, nav .cart-wrapper.open {
     text-shadow: 0 2px 5px rgba(0, 0, 0, .5);
     text-transform: none;
     bottom:350px;
-    left:50px;
 }
 .header-content .item .subtitle {
     position:relative;
@@ -12315,7 +12313,6 @@ nav .search-wrapper.open, nav .login-wrapper.open, nav .cart-wrapper.open {
     text-shadow: 0 2px 5px rgba(0, 0, 0, .5);
     text-transform: none;
     bottom:340px;
-    left:50px;
 }
 .header-content .item .btn {
     margin-top: 40px;
@@ -15925,4 +15922,39 @@ body.swal2-height-auto {
   .modal-content-image {
     width: 100%;
   }
+}
+
+#test  {
+    margin-top: 25px;
+    font-size: 21px;
+    text-align: center;
+
+    -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+         -o-animation: fadein 2s; /* Opera < 12.1 */
+            animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

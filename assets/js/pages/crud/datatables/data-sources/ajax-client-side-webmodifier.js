@@ -50,7 +50,7 @@ var KTDatatablesDataSourceAjaxClient = function() {
 				break;
 			}
 			case"tbl_banners":{
-				let TableData = [{data:'image'},{data:'title',responsivePriority: 1},{data:'sub_title',responsivePriority: 2},{data:'date_created',className:"text-nowrap"},{data:'type'},{data:'status',className:"text-nowrap"},{data:'action',responsivePriority:-1}];
+				let TableData = [{data:'image'},{data:'date_created',className:"text-nowrap"},{data:'status',className:"text-nowrap"},{data:'action',responsivePriority:-1}];
 				_DataTableLoader('tbl_banners',response,TableData,[[4,'asc']],reload); 
 				break;
 			}

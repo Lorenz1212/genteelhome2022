@@ -4,7 +4,7 @@
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
-					<h2 class="text-white font-weight-bold my-2 mr-5">List of banners</h2>
+					<h2 class="text-white font-weight-bold my-2 mr-5">Banners</h2>
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
@@ -24,10 +24,10 @@
 							<thead>
 								<tr>
 									<th>IMAGE</th>
-									<th>TITLE</th>
-									<th>SUB TITLE</th>
+								<!-- 	<th>TITLE</th>
+									<th>SUB TITLE</th> -->
 									<th>DATE CREATED</th>
-									<th>SLIDE</th>
+							<!-- 		<th>SLIDE</th> -->
 									<th>STATUS</th>
 									<th>ACTION</th>
 								</tr>
@@ -65,14 +65,14 @@
 							 <span class="form-text text-success">Photo (max 1600x1200)</span>
 						</div>
 							</div>
-								<div class="row">
-									<div class="col-lg-12">
+								<div class="row d-none">
+									<div class="col-lg-12 d-none">
 										<div class="form-group">
 											<label>Title</label>
 											<input type="text" class="form-control" name="title" autocomplete="off"/>
 										    </div>
 								    	</div>
-								    <div class="col-lg-12">
+								    <div class="col-lg-12 ">
 								    	<div class="form-group">
 											<label>Sub title (optional)</label>
 											<input type="text" class="form-control" name="sub_title" autocomplete="off"/>
@@ -127,14 +127,14 @@
 							 <span class="form-text text-success">Photo (max 1600x1200)</span>
 						</div>
 							</div>
-								<div class="row">
-									<div class="col-lg-12">
+								<div class="row d-none">
+									<div class="col-lg-12 d-none">
 										<div class="form-group">
 											<label>Title (optional)</label>
 											<input type="text" class="form-control title" name="title" autocomplete="off"/>
 										    </div>
 								    	</div>
-								    <div class="col-lg-12">
+								    <div class="col-lg-12 d-none">
 								    	<div class="form-group">
 											<label>Sub title (optional)</label>
 											<input type="text" class="form-control sub_title" name="sub_title" autocomplete="off"/>

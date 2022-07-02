@@ -8,13 +8,12 @@
     <!-- Mobile Web-app fullscreen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <!-- Meta tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+
+
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/logo.jpg') ?>" />
-    <!--Title-->
     <title>Official Genteel Home - Furniture + Boutique + Lifestyle</title>
-    <!--CSS bundle -->
     <link rel="stylesheet" media="all" href="<?php echo base_url('assets_website/css/bundle.css'); ?>" />
     <link rel="stylesheet" media="all" href="<?php echo base_url('assets_website/css/style.css'); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_website/custom-slide/css/demo.css'); ?>"/>
@@ -26,8 +25,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet"> -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets_website/css/slick.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets_website/css/slick-theme.css"/>
-
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link href="http://fonts.cdnfonts.com/css/helvetica-neue-9" rel="stylesheet">
+  <!--       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" /> -->
   <!--       <link href="<?php echo base_url(); ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" /> -->
         <link href="<?php echo base_url(); ?>assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
 </head>

@@ -127,19 +127,13 @@
                 Close search
             </div>
         </div> 
-
         <section class="products">
-
             <div class="container">
-
                 <header class="hidden">
                     <h3 class="h3 title">Product category with topbar</h3>
                 </header>
-
                 <div class="row">
-
                     <!-- === product-items === -->
-
                     <!-- <div class="col-md-12 col-xs-12">
                         <div class="sort-bar clearfix">
                             <div class="sort-results pull-left">
@@ -167,11 +161,7 @@
                         <div id="products" class="row" style="position: relative; height: 299.987px;">
                             <div class="product_list alignwides wp-block-covers"></div>
                         </div><!--/row-->
-
-
                     </div> <!--/product items-->
-
-
                 </div><!--/row-->
               <?php $this->load->view('website/product_modal.php'); ?>
 

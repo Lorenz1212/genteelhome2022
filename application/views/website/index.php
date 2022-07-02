@@ -2,20 +2,21 @@
         <section class="header-content ">
         <div class="owl-slider owl-slider-fullscreen owl-carousel owl-theme" style="opacity: 1; display: block; width: 100%;">
             <?php 
-                 $sql = "SELECT * FROM tbl_website_banner WHERE type !='OFF' AND status='ACTIVE' ORDER BY type ASC";
+                 $sql = "SELECT * FROM tbl_website_banner WHERE status='ACTIVE' ORDER BY date_created ASC";
                  $query = $this->db->query($sql);
                   if($query !== FALSE && $query->num_rows() > 0){
                    foreach($query->result() as $row){
-                     $color = "";
-                     if($row->title !="" && $row->sub_title != ""){
-                        $color = "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),";
-                     }
-                      echo '<div class="item wp-block-cover-image" style="background-image: '.$color.'url('.base_url().'assets/images/banner/'.$row->image.'); object-fit: cover;background-color: black;">
-                             <div class="box box-heade">
-                               <div class="container">
-                                <h2 class="title animated h1" data-animation="fadeInDown">'.$row->title.'</h2>
-                                  <p class="subtitle animated" data-animation="fadeInUp">'.$row->sub_title.'</p>
-                              </div>
+                      echo '<div class="item wp-block-cover-image" style="background-image: url('.base_url().'assets/images/banner/'.$row->image.'); object-fit: cover;background-color: black;">
+                             <div class="box">
+                             <div class="container text-center">
+                                    <h2 class="title animated h1 test " data-animation="fadeInDown" style="animation-delay: 100ms;">'.$row->title.'</h2>
+                                    <h2 class="title animated" data-animation="fadeInUp" style="animation-delay: 280ms;">
+                                       '.$row->sub_title.'
+                                    </h2>
+                                    <div class="animated" data-animation="fadeInUp" style="animation-delay: 460ms;">
+                                        <a href="products-grid.html" class="btn btn-main"><i class="icon icon-cart"></i> Shop now</a>
+                                    </div>
+                                </div>
                             </div>
                           </div>
                           ';
@@ -24,12 +25,8 @@
             ?>      
             </div> 
 </section>
-
-
         <section class="products ">
-
             <div class="container">
-
                 <!-- === header title === -->
                 <header>
                     <div class="row">
@@ -46,21 +43,17 @@
                     <div class="product_index alignwides wp-block-covers"></div>
                 </div> <!--/row-->
                 <!-- === button more === -->
-
-               < <div class="wrapper-more">
+                <div class="wrapper-more">
                      <a href="<?php echo base_url()?>gh/app/popular-product" class="btn btn-clean-dark" id="btn_view">View All</a>
                 </div>
                 <?php $this->load->view('website/product_modal.php');?>
             </div> <!--/container-->
         </section>
-
-
         <!-- ========================  Stretcher widget ======================== -->
-    <section class="banner " style="background-image:url(<?php echo base_url() ?>assets/images/static/bg2.jpg)">
-    </section>
-    <section class="instagram ">
-            <!-- === instagram header === -->
-            <header>
+<!--     <section class="banner " style="background-image:url(<?php echo base_url() ?>assets/images/static/bg2.jpg)">
+    </section> -->
+    <section class="instagram">
+          <!--   <header>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-offset-2 col-md-8 text-center">
@@ -71,8 +64,7 @@
                         </div>
                     </div>
                 </div>
-            </header>
-            <!-- === instagram gallery === -->
+            </header> -->
             <div class="gallery clearfix ">
                 <a class="item" >
                     <img src="<?php echo base_url() ?>assets_website/images/square-1.jpg" alt="Alternate Text" />
@@ -92,11 +84,10 @@
                 <a class="item" >
                     <img src="<?php echo base_url() ?>assets_website/images/square-6.jpg" alt="Alternate Text" />
                 </a>
-            </div> <!--/gallery-->
-        </section>
-       
+            </div>       
+         </section>
         <!-- ========================  Blog Block ======================== -->
-        <section class="blog blog-block ">
+      <!--   <section class="blog blog-block" >
             <div class="container">
                  <header>
                     <div class="row">
@@ -144,10 +135,10 @@
                       </div>
                     </div>
             </div> 
-        </section>
+        </section> -->
 
 
-        <section class="instagram">
+<!--  <section class="instagram" style="display: none">
             <header>
                 <div class="container">
                     <div class="row">
@@ -157,9 +148,8 @@
                     </div>
                 </div>
             </header>
-        </section>
-
-    <section class="quotes quotes-slider" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)">
+    </section> -->
+<!--     <section class="quotes quotes-slider" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)" >
             <div class="container">
                 <div class="row">
                     <div class="quote-carousel">
@@ -183,8 +173,8 @@
                     </div> 
                 </div> 
             </div> 
-        </section> 
-            <section class="blog">
+        </section>  -->
+    <!--         <section class="blog">
                         <div class="container">
                             <header>
                                 <div class="row">
@@ -197,11 +187,8 @@
                                 </div>
                             </header>
                             <div class="row list-blog-latest"></div> 
-                   <!--  <div class="wrapper-more">
-                        <a href="<?php echo base_url() ?>gh/app/blogs" class="btn btn-clean-dark">View all</a>
-                    </div> -->
                 </div> 
-            </section>
+            </section> -->
 
                 
        

@@ -13,7 +13,7 @@
          <div class="pre-header">
                     <div>
                         <h2 class="h3 title">
-                            Interior tips & ideas <br />
+                            Tips & ideas <br />
                             <small class="text-capitalize">First things first, find out what you like</small>
                         </h2>
                     </div>
