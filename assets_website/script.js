@@ -325,7 +325,7 @@ let mainpage;
 			case "fetch_interior_list":{
 				let container =$('#interior_list').empty();
 				let btn = $('.categories-list').empty();
-				$('.title').text(response.cat_name);
+				$('.title-interior').text(response.cat_name);
 				btn.append('<li><a href="'+baseURL+'gh/app/index"><span class="icon icon-home"></span></a></li>'
 		                			+'<li><a href="'+baseURL+'gh/app/interior">INTERIOR</a></li>');
 				if(response.data){

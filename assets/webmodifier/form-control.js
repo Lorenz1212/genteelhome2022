@@ -540,6 +540,11 @@ var KTFormControlsWeb= function () {
                         }
                     }
                 );
+                $('#create-lookbook-modal').on('hidden.bs.modal', function () {
+                    validation.resetForm();
+                    document.getElementById("create-lookbook-form").reset();
+                    $('.image').attr('src',''+baseURL+'assets/images/lookbook/default.jpg');
+                });
                  $('.btn-create-lookbook').on('click',function(e){
                     e.preventDefault();
                     validation.validate().then(function(status) {
