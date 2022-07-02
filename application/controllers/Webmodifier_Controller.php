@@ -113,6 +113,19 @@ class Webmodifier_Controller extends CI_Controller{
           echo json_encode($data);
     			break;
     		}
+    		case "lookbook":{
+    			$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
+					$val = $this->input->post('data3')??false;
+					$val1 = $this->input->post('data4')??false;
+					$model_response = $this->Webmodifier_model->Lookbook($type,$val,$val1);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+    			break;
+    		}
 		 }
     }
     public function Action(){
@@ -202,6 +215,22 @@ class Webmodifier_Controller extends CI_Controller{
 			    $docs_image = isset($_FILES["docs"]["name"]) ? $_FILES["docs"]["name"]: false;
 			    $docs_tmp = isset($_FILES["docs"]["tmp_name"]) ? $_FILES["docs"]["tmp_name"]:false;
 					$model_response = $this->Webmodifier_model->Submit_Product($type,$id,$title,$pallet_name,$cat_id,$sub_id,$amount,$image,$tmp,$pallet_image,$pallet_tmp,$docs_image,$docs_tmp);
+				 	$data = array(
+	                 'status' => 'success',
+	                 'message' => 'request accepted',
+	                 'payload' => base64_encode(json_encode($model_response))
+	            );
+          echo json_encode($data);
+					break;
+				}
+				case "lookbook":{
+					$type = $this->input->post('type')??$this->invalidMissing_Input('Missing Type');
+					$id = $this->input->post('id')??false;
+					$title = $this->input->post('title')??false;
+					$cat_id = $this->input->post('cat_id')??false;
+					$image = isset($_FILES["image"]["name"]) ? $_FILES["image"]["name"]: false;
+			    $tmp = isset($_FILES["image"]["tmp_name"]) ? $_FILES["image"]["tmp_name"]:false;
+					$model_response = $this->Webmodifier_model->Submit_Lookbook($type,$id,$title,$cat_id,$image,$tmp);
 				 	$data = array(
 	                 'status' => 'success',
 	                 'message' => 'request accepted',

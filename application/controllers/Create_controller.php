@@ -227,13 +227,13 @@ class Create_controller extends CI_Controller
          $date_downpayment = $this->input->post('date_downpayment');
          $discount =  $this->input->post('discount');
          $shipping_fee = floatval(str_replace(',', '', $this->input->post('shipping_fee')));
+         $amount = $this->input->post('amount');
+         $terms_start = $this->input->post('terms_start');
+         $terms_end = $this->input->post('terms_end');
          $vat =  $this->input->post('vat');
          $description = $this->input->post('description');
          $qty = $this->input->post('qty');
          $unit = $this->input->post('unit');
-         $amount = $this->input->post('amount');
-         $terms_start = $this->input->post('terms_start');
-         $terms_end = $this->input->post('terms_end');
          $data = $this->create_model->Create_Salesorder_Project($project_no,$date_created,$customer,$email,$mobile,$address,$downpayment,$discount,$shipping_fee,$vat,$description,$qty,$unit,$amount,$date_downpayment,$tin,$terms_start,$terms_end);        
          echo json_encode($data); 
     }

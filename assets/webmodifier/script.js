@@ -150,6 +150,133 @@ let view;
 	var _ViewController = async function(view){
 		_month_year();
 		switch(view){
+			case "lookbook":{
+					KTFormControlsWeb.init('lookbook');
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbookcategory_list']));
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_list']));
+				$('.create-lookbook').on('click',function(e){
+					e.preventDefault();
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_category_select']));
+					$('#create-lookbook-modal').modal('show');
+				});
+				$('body').delegate('.create-new-category','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	        Swal.fire({  
+					  input: 'text',
+					  inputLabel: 'Category Name',
+					  showCancelButton: true,
+					  inputValidator: (value) => {
+					    return new Promise((resolve) => {
+                  if (value.length >=1){
+                    resolve();
+                  }else{
+                    resolve('Please complete the form.');
+                  }
+                })
+					  },
+					}).then(function(result){
+                if(result.isConfirmed == true){
+                  	if(result.value){
+                    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_category_add',result.value]));
+                    }else{
+                       swal.fire('Opss', 'Please complete the form', 'info');
+                    }
+                  }
+          	})
+				});
+					$('#image').on('change', function(imageInput) {
+						   let action = $(this);
+			         var img = document.createElement('img');
+						   var blob = URL.createObjectURL(action.get(0).files[0]);
+						   let extension = action.val().replace(/^.*\./, '');
+						  if(extension == 'png' || extension == 'jpg' || extension == 'jpeg'){
+						  	   img.src = blob;
+								   img.onload = function() {
+								      if((img.height >= 500 || img.height <= 800) && (img.width >= 500 || img.width <= 800) ){
+
+								       }else{
+									       	Swal.fire("Your image upload is ("+width+"x"+height+")","Please upload image (width  is 500 to 800 size and height is 500 to 800 size) (jpg, jpeg, or png)", "info");
+									       	action.val('');
+									       	$('.image-create').attr('src',''+baseURL+'assets/images/lookbook/default.jpg');
+								       }
+								    }
+						  }else{
+						  	$('.image-create').attr('src',''+baseURL+'assets/images/lookbook/default.jpg');
+						  	Swal.fire("Ops!","Please upload correct file. (allow: jpg, jpeg, or png)", "info");
+						  	action.val('');
+						  }
+						});
+				$('body').delegate('.update_status_lookcategory','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbookcategory_status',element.attr('data-id')]));
+				});
+				$('body').delegate('.delete-lookcategory','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	          Swal.fire({
+	                 text: "Do you want to remove this item?",
+	                 icon: "question",
+	                 showCancelButton: true,
+	                 buttonsStyling: false,
+	                 confirmButtonText: "Yes, proceed!",
+	                 cancelButtonText: "No, cancel",
+	                 customClass: {
+	                   confirmButton: "btn font-weight-bold btn-primary",
+	                   cancelButton: "btn font-weight-bold btn-default"
+	                 }
+	          }).then(function (result) {
+	            if (result.value) {
+	             _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbookcategory_delete',element.attr('data-id')]));
+	            }
+	          })
+				});
+				$('body').delegate('.view-lookcategory','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbookcategory_details',element.attr('data-id')]));
+				});
+				$('body').delegate('.view-lookbook','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+						_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_category_select']));
+					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_details',element.attr('data-id')]));
+				});
+				$('body').delegate('.update_status_lookbook','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element = $(this);
+					 _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_status',element.attr('data-id')]));
+				});
+				$('body').delegate('.delete-lookbook','click',function(e){
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					let element=$(this);
+	          Swal.fire({
+	                 text: "Do you want to remove this item?",
+	                 icon: "question",
+	                 showCancelButton: true,
+	                 buttonsStyling: false,
+	                 confirmButtonText: "Yes, proceed!",
+	                 cancelButtonText: "No, cancel",
+	                 customClass: {
+	                   confirmButton: "btn font-weight-bold btn-primary",
+	                   cancelButton: "btn font-weight-bold btn-default"
+	                 }
+	          }).then(function (result) {
+	            if (result.value) {
+	             _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_delete',element.attr('data-id')]));
+	            }
+	          })
+				});
+				break;
+			}
 			case "testimony":{
 			 	var avatar5 = new KTImageInput('kt_image_5');
 			 	var avatar6 = new KTImageInput('kt_image_6');
@@ -624,6 +751,80 @@ let view;
 
 	var _construct = async function(response, type, element, object){
 		switch(type){
+			case "fetch_lookbook_details":{
+				if(response != false){
+					KTFormControlsWeb.init('lookbook',response.id);
+					$('.title-update').val(response.look_name);
+					$('.category-update').val(response.look_cat_id).trigger('change');
+					$('.image-update').attr('src',baseURL+'assets/images/lookbook/'+response.image);
+					$('#update-lookbook-modal').modal('show');
+				}
+				break;
+			}
+			case "fetch_lookbookcategory_details":{
+				if(response != false){
+					Swal.fire({  
+					  input: 'text',
+					  inputValue:response.look_cat_name,
+					  inputLabel: 'Category Name',
+					  showCancelButton: true,
+					  inputValidator: (value) => {
+					    return new Promise((resolve) => {
+                  if (value.length >=1){
+                    resolve();
+                  }else{
+                    resolve('Please complete the form.');
+                  }
+                })
+					  },
+					}).then(function(result){
+                if(result.isConfirmed == true){
+                  	if(result.value){
+                    _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbook_category_update',response.id,result.value]));
+                    }else{
+                       swal.fire('Opss', 'Please complete the form', 'info');
+                    }
+                  }
+          	})
+				}
+				break;
+			}
+			case "fetch_lookbook_delete":
+			case "fetch_lookbook_status":{
+				if(response !=false){
+						_showToast(response.type,response.message);
+					 KTDatatablesDataSourceAjaxClient.init('tbl_lookbooks',response.data);
+					}
+				break;
+			}
+			case "fetch_lookbook_category_update":
+			case "fetch_lookbookcategory_status":
+			case "fetch_lookbookcategory_delete":
+			case "fetch_lookbook_category_add":{
+				if(response !=false){
+						_showToast(response.type,response.message);
+					 KTDatatablesDataSourceAjaxClient.init('tbl_lookbook_categories',response.data);
+					}
+			}
+			case "fetch_lookbook_category_select":{
+				let container = $('.category').empty();
+				if(response != false){
+					for(let i=0;i<response.length;i++){
+						container.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+					}
+				}else{
+					container.append('<option value="">No Sub Category Available</option>');
+				}
+				break;
+			}
+			case "fetch_lookbookcategory_list":{
+					KTDatatablesDataSourceAjaxClient.init('tbl_lookbook_categories',response);
+				break;
+			}
+			case "fetch_lookbook_list":{
+					KTDatatablesDataSourceAjaxClient.init('tbl_lookbooks',response);
+				break;
+			}
 			case "fetch_testimony_list":{
 						KTDatatablesDataSourceAjaxClient.init('tbl_testimony',response);
 			   break;

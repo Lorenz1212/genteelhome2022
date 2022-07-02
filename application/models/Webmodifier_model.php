@@ -717,6 +717,246 @@ class Webmodifier_model extends CI_Model{
 
 		}
 	}
+	public function Lookbook($type,$val,$val1){
+		switch($type){
+			case "fetch_lookbookcategory_list":{
+				$data =array();
+				$sql = "SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created  FROM tbl_lookbook_category ORDER BY id DESC";
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$stat ='';
+						if($row->status==1){
+							$stat ='checked';
+						}
+		             	$action =  $this->Action('action1',$row->id,'update_status_lookcategory','view-lookcategory','delete-lookcategory',$stat);
+						$status = array(0=>array('state'=>'Inactive','color'=>'danger'),
+			                 			1=>array('state'=>'Active','color'=>'success'));
+			            $status_data ='<span style="width: 112px;"><span class="label label-'.$status[$row->status]['color'].' label-dot mr-2"></span><span class="font-weight-bold text-'.$status[$row->status]['color'].'">'.$status[$row->status]['state'].'</span></span>';
+						$data[]=array('name'=>$row->look_cat_name,
+									 'date_created'=>$row->date_created,
+									  'status'=>$status_data,
+									  'action'=>$action);
+					}
+					return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbook_list":{
+				$data =array();
+				$sql = "SELECT *,DATE_FORMAT(date_created, '%M %d %Y %r') as date_created ,(SELECT look_cat_name FROM tbl_lookbook_category WHERE id=tbl_lookbook_details.look_cat_id) as category FROM tbl_lookbook_details ORDER BY date_created DESC";
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$stat ='';
+						if($row->status==1){
+							$stat ='checked';
+						}
+		             	$action =  $this->Action('action1',$row->id,'update_status_lookbook','view-lookbook','delete-lookbook',$stat);
+						$status = array(0=>array('state'=>'Inactive','color'=>'danger'),
+			                 			1=>array('state'=>'Active','color'=>'success'));
+			            $status_data ='<span style="width: 112px;"><span class="label label-'.$status[$row->status]['color'].' label-dot mr-2"></span><span class="font-weight-bold text-'.$status[$row->status]['color'].'">'.$status[$row->status]['state'].'</span></span>';
+			             $image = '<span style="width: 250px;"><div class="d-flex align-items-center">
+							                <div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-1"><img class="" id="myImg" src="'.base_url().'assets/images/lookbook/'.$row->image.'" alt="photo"></div></span>'; 
+						$data[]=array('image'=>$image,
+									  'name'=>$row->look_name,
+									  'category'=>$row->category,
+									  'date_created'=>$row->date_created,
+									  'status'=>$status_data,
+									  'action'=>$action);
+					}
+					return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbook_details":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_lookbook_details WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbook_category_select":{
+				$data =array();
+				$sql = "SELECT * FROM tbl_lookbook_category ORDER BY id DESC";
+				$query = $this->db->query($sql);
+				if($query){
+					foreach($query->result() as $row){
+						$data[]=array('name'=>$row->look_cat_name,
+									  'id'=>$row->id);
+					}
+					return $data;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbook_category_add":{
+				$result = $this->db->insert('tbl_lookbook_category',array('look_cat_name'=>$val));
+				if($result){
+					$response = $this->Lookbook('fetch_lookbookcategory_list',false,false);
+					return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbookcategory_status":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_lookbook_category WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$status = 0;
+					if($row->status == 0){
+						$status =1;
+					}
+					$data = array('status'=>$status);
+					$result = $this->db->where('id',$id)->update('tbl_lookbook_category',$data);
+					if($result){
+						$response = $this->Lookbook('fetch_lookbookcategory_list',false,false);
+						return array('type'=>'success','message'=>'Create Successfully','data'=>$response);
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbookcategory_delete":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_lookbook_category WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+				   $result = $this->db->where('id',$id)->delete('tbl_lookbook_category');
+				   if($result){
+				   		$response = $this->Lookbook('fetch_lookbookcategory_list',false,false);
+						 return array('type'=>'success','message'=>'Delete Successfully','data'=>$response);
+				   }else{
+				   	return false;
+				   }
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbookcategory_details":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_lookbook_category WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbook_category_update":{
+				$result = $this->db->where('id',$val)->update('tbl_lookbook_category',array('look_cat_name'=>$val1));
+				$response = $this->Lookbook('fetch_lookbookcategory_list',false,false);
+				if($result){
+					return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+				}else{
+					return array('type'=>'success','message'=>'Nothing Changes','data'=>$response);
+				}
+				break;
+			}
+				case "fetch_lookbook_status":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_lookbook_details WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$status = 0;
+					if($row->status == 0){
+						$status =1;
+					}
+					$data = array('status'=>$status);
+					$result = $this->db->where('id',$id)->update('tbl_lookbook_details',$data);
+					if($result){
+						$response = $this->Lookbook('fetch_lookbook_list',false,false);
+						return array('type'=>'success','message'=>'Create Successfully','data'=>$response);
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_lookbook_delete":{
+				$id = $this->encryption->decrypt($val);
+				$sql = "SELECT * FROM tbl_lookbook_details WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+				   $result = $this->db->where('id',$id)->delete('tbl_lookbook_details');
+				   if($result){
+				   		$response = $this->Lookbook('fetch_lookbook_list',false,false);
+						 return array('type'=>'success','message'=>'Delete Successfully','data'=>$response);
+				   }else{
+				   	return false;
+				   }
+				}else{
+					return false;
+				}
+				break;
+			}
+		}
+	}
+	public function Submit_Lookbook($type,$id,$title,$cat_id,$image,$tmp){
+		switch($type){
+			case "add_lookbook":{
+				$newimage = 'default.jpg';
+				if($image){	
+				    $newimage=$this->Get_Image_Code('tbl_lookbook_details', 'image', 'IMAGE', 14, $image);
+				    $this->move_to_folder($newimage,$tmp,'assets/images/lookbook/');
+				}
+				$data = array('look_name'=>$title,'look_cat_id'=>$cat_id,'image'=>$newimage);
+				$result = $this->db->insert('tbl_lookbook_details',$data);
+				if($result){
+					$response = $this->Lookbook('fetch_lookbook_list',false,false);
+					return array('type'=>'success','message'=>'Create Successfully','data'=>$response);
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "update_lookbook":{
+				$sql = "SELECT * FROM tbl_lookbook_details WHERE id='$id'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$newimage = $row->image;
+					if($image){	
+							if($row->image != 'default.jpg'){
+								if(file_exists('assets/images/lookbook/'.$row->image)){
+									unlink('assets/images/lookbook/'.$row->image);
+								}
+					    }
+				    $newimage=$this->Get_Image_Code('tbl_lookbook_details', 'image', 'IMAGE', 14, $image);
+				    $this->move_to_folder($newimage,$tmp,'assets/images/lookbook/');
+					}
+					$data = array('look_name'=>$title,'look_cat_id'=>$cat_id,'image'=>$newimage);
+					$result = $this->db->where('id',$id)->update('tbl_lookbook_details',$data);
+					if($result){
+						$response = $this->Lookbook('fetch_lookbook_list',false,false);
+						return array('type'=>'success','message'=>'Save Changes','data'=>$response);
+					}else{
+						return array('type'=>'info','message'=>'Nothing Changes');
+					}
+				}else {
+					return false;
+				}
+				break;
+			}
+		}
+	}
 	public function Product_List($type,$val,$val1,$val2,$val3,$image,$tmp){
 		switch ($type) {
 			case 'fetch_product_list':{

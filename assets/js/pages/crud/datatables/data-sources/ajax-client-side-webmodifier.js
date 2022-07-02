@@ -69,6 +69,16 @@ var KTDatatablesDataSourceAjaxClient = function() {
 				_DataTableLoader('tbl_testimony',response,TableData,[[4,'desc']],reload); 
 				break;
 			}
+			case "tbl_lookbooks":{
+				let TableData = [{data:'image',responsivePriority:2},{data:'name',className:"text-nowrap",responsivePriority:1},{data:'category'},{data:'date_created',className:"text-nowrap"},{data:'status'},{data:'action',responsivePriority:-1}];
+				_DataTableLoader('tbl_lookbooks',response,TableData,[[4,'desc']],reload); 
+				break;
+			}
+			case "tbl_lookbook_categories":{
+				let TableData = [{data:'name',className:"text-nowrap",responsivePriority:1},{data:'date_created',className:"text-nowrap"},{data:'status'},{data:'action',responsivePriority:-1}];
+				_DataTableLoader('tbl_lookbook_categories',response,TableData,[[1,'desc']],reload); 
+				break;
+			}
 		}	 
 	}
 

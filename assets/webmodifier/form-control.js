@@ -501,10 +501,121 @@ var KTFormControlsWeb= function () {
                 });      
                 break;
             }
+            case "lookbook":{
+                var form = KTUtil.getById('create-lookbook-form');
+                    validation = FormValidation.formValidation(
+                    form,{
+                        fields: {
+                            title: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Title is required'
+                                    },
+                                }
+                            },
+                            cat_id: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Category is required'
+                                    },
+                                }
+                            },
+                            image: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Image is required'
+                                    },
+                                    file: {
+                                        extension: 'jpg,jpeg,png',
+                                        type: 'image/jpeg,image/png',
+                                        message: 'The selected file is not valid'
+                                    },
+                                }
+                            },
+
+                        },
+                        plugins: {
+                            trigger: new FormValidation.plugins.Trigger(),
+                            bootstrap: new FormValidation.plugins.Bootstrap(),
+                        }
+                    }
+                );
+                 $('.btn-create-lookbook').on('click',function(e){
+                    e.preventDefault();
+                    validation.validate().then(function(status) {
+                        if (status == 'Valid') {
+                                let formData = new FormData(form);
+                                formData.append("action", "lookbook");
+                                formData.append("type", 'add_lookbook');
+                                _ajaxForm(formData,'add_lookbook',false);
+                        }   
+                    });                
+                }); 
+
+                  var form_update = KTUtil.getById('update-lookbook-form');
+                    validation_update = FormValidation.formValidation(
+                    form_update,{
+                        fields: {
+                            title: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Title is required'
+                                    },
+                                }
+                            },
+                            cat_id: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Category is required'
+                                    },
+                                }
+                            },
+
+                        },
+                        plugins: {
+                            trigger: new FormValidation.plugins.Trigger(),
+                            bootstrap: new FormValidation.plugins.Bootstrap(),
+                        }
+                    }
+                );
+                  $('.btn-update-lookbook').on('click',function(e){
+                    e.preventDefault();
+                    validation_update.validate().then(function(status) {
+                        if (status == 'Valid') {
+                                let formData_update = new FormData(form_update);
+                                formData_update.append("action", "lookbook");
+                                formData_update.append("type", 'update_lookbook');
+                                formData_update.append("id", id);
+                                _ajaxForm(formData_update,'update_lookbook',false);
+                        }   
+                    });                
+                }); 
+                break;
+            }
 		}
 	}
 	var _initResponse = function(response,val,val2){
 		switch(val){
+            case "update_lookbook":{
+                if(response != false){
+                    _showToast(response.type,response.message);
+                    if(response.data){
+                     KTDatatablesDataSourceAjaxClient.init('tbl_lookbooks',response.data);
+                    }
+                    $('#update-lookbook-modal').modal('hide');
+                }
+                break;
+            }
+            case "add_lookbook":{
+                if(response != false){
+                    _showToast(response.type,response.message);
+                    if(response.data){
+                     KTDatatablesDataSourceAjaxClient.init('tbl_lookbooks',response.data);
+                    }
+                    $('#create-lookbook-modal').modal('hide');
+                }
+                break;
+            }
             case "add_existing":{
                 if(response != false){
                     _showToast(response.type,response.message);

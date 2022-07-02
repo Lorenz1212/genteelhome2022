@@ -78,6 +78,10 @@
 															</a>
 														</li>
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+															<a href="<?php echo base_url()."gh/webmodifier/lookbook";?>"class="menu-link"><span class="menu-text">Look Book</span>
+															</a>
+														</li>
+														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/webmodifier/company";?>"class="menu-link"><span class="menu-text">Company Information</span>
 															</a>
 														</li>
