@@ -506,13 +506,13 @@ var KTFormControlsWeb= function () {
                     validation = FormValidation.formValidation(
                     form,{
                         fields: {
-                            cat_id: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Category is required'
-                                    },
-                                }
-                            },
+                            // cat_id: {
+                            //     validators: {
+                            //         notEmpty: {
+                            //             message: 'Category is required'
+                            //         },
+                            //     }
+                            // },
                             image: {
                                 validators: {
                                     notEmpty: {
@@ -554,13 +554,13 @@ var KTFormControlsWeb= function () {
                     validation_update = FormValidation.formValidation(
                     form_update,{
                         fields: {
-                            cat_id: {
-                                validators: {
-                                    notEmpty: {
-                                        message: 'Category is required'
-                                    },
-                                }
-                            },
+                            // cat_id: {
+                            //     validators: {
+                            //         notEmpty: {
+                            //             message: 'Category is required'
+                            //         },
+                            //     }
+                            // },
 
                         },
                         plugins: {
