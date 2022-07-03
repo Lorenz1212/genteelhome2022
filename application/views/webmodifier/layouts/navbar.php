@@ -73,10 +73,10 @@
 															<a href="<?php echo base_url()."gh/webmodifier/events";?>"class="menu-link"><span class="menu-text">Featured</span>
 															</a>
 														</li>
-														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+														<!-- <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/webmodifier/testimony";?>"class="menu-link"><span class="menu-text">Feedback</span>
 															</a>
-														</li>
+														</li> -->
 														<li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
 															<a href="<?php echo base_url()."gh/webmodifier/lookbook";?>"class="menu-link"><span class="menu-text">Look Book</span>
 															</a>

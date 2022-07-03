@@ -41,7 +41,7 @@
 				 <div class="card-header">
 				  <div class="card-title">
 				   <h3 class="card-label">
-				     Blogs
+				     Featured
 				   </h3>
 				  </div>
 				 </div>
@@ -62,7 +62,7 @@
 				 <div class="card-header">
 				  <div class="card-title">
 				   <h3 class="card-label">
-				     Interior Design
+				     Projects
 				   </h3>
 				  </div>
 				 </div>
@@ -78,7 +78,7 @@
 				</div>
 		 	</div>
 
-		 	<div class="col-4">
+		 <!-- 	<div class="col-4">
 		 		<div class="card card-custom gutter-b">
 				 <div class="card-header">
 				  <div class="card-title">
@@ -97,7 +97,7 @@
 				 	</div>
 				 </div>
 				</div>
-		 	</div>
+		 	</div> -->
 
 		 	<div class="col-4">
 		 		<div class="card card-custom gutter-b">
