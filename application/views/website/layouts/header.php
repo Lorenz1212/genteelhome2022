@@ -38,17 +38,4 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets_website/css/slick-theme.css"/>
     <link href="http://fonts.cdnfonts.com/css/helvetica-neue-9" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
-    <script async="" src="//matomo.barangayhub.ph/matomo.js"></script><script>
-  var _paq = window._paq = window._paq || [];
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//matomo.barangayhub.ph/";
-    _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '3']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
 </head>
