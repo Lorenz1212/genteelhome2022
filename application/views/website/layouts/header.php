@@ -1,16 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- Mobile Web-app fullscreen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta charset="utf-8">
   
-     <title>Official Genteel Home - Furniture + Boutique + Lifestyle</title>
+    <title>Official Genteel Home - Furniture + Boutique + Lifestyle</title>
     <meta property="og:title" content="Official Genteel Home - Furniture + Boutique + Lifestyle">
     <meta property="og:site_name" content="GenteelHome">
     <meta property="og:url" content="<?php echo base_url()?>">
