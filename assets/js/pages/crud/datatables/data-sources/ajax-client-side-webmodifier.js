@@ -70,8 +70,8 @@ var KTDatatablesDataSourceAjaxClient = function() {
 				break;
 			}
 			case "tbl_lookbooks":{
-				let TableData = [{data:'image',responsivePriority:2},{data:'category'},{data:'date_created',className:"text-nowrap"},{data:'status'},{data:'action',responsivePriority:-1}];
-				_DataTableLoader('tbl_lookbooks',response,TableData,[[4,'desc']],reload); 
+				let TableData = [{data:'image',responsivePriority:2},{data:'date_created',className:"text-nowrap"},{data:'status'},{data:'action',responsivePriority:-1}];
+				_DataTableLoader('tbl_lookbooks',response,TableData,[[1,'desc']],reload); 
 				break;
 			}
 			case "tbl_lookbook_categories":{

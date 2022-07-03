@@ -1,7 +1,20 @@
 (function() {
         // Main navigation & mega menu
         // ----------------------------------------------------------------
-
+       function GFG() {
+            var CustomOp = {
+                center:new google.maps.LatLng(
+                        28.502212, 77.405603),
+                zoom:17,
+                mapTypeId:google.maps.MapTypeId.ROADMAP
+            };
+              
+            // Map object
+            var map = new google.maps.Map(
+                document.getElementById("DivID"),
+                CustomOp
+            );
+        }
         // Global menu variables
 
         var objSearch = $('.search-wrapper'),

@@ -3,6 +3,7 @@ html {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%}
 body {
+    font:  'Helvetica Neue';
     margin: 0;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
@@ -10872,7 +10873,8 @@ b, strong, label, .label {
     .container {
     width: 100% !important;
 }
-}.page-loader {
+}
+.page-loader {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -15490,8 +15492,8 @@ nav .search-wrapper.open, nav .login-wrapper.open, nav .cart-wrapper.open {
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
-    color: #666;
-    background-color: #000;
+    color: #000;
+    background-color: #fff;
 }
 @media(max-width:767px) {
     footer {
@@ -15504,7 +15506,7 @@ footer .form-control {
     background-color: transparent;
     border: 0;
     padding: 0;
-    border-bottom: 1px solid #fb0;
+    border-bottom: 1px solid #2c2b29;
 }
 footer ul {
     margin: 0;
@@ -15575,6 +15577,7 @@ footer .footer-social li {
 }
 footer .footer-social li a {
     padding: 0 5px;
+    font-family: "Helvetica Neue";
 }
 @media(min-width:992px) {
     footer .footer-social {

@@ -34,7 +34,7 @@
                         <ul>
                             <li><a href="<?php echo base_url()."gh/app/index";?>">Home</a></li>
                              <li>
-                                <a href="#">FURNITURE <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
+                                <a href="#">FURNITURES <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
                                 <div class="navbar-dropdown">
                                     <div class="navbar-box">
                                         <div class="box-2">
@@ -48,7 +48,7 @@
                             </li>
                             <li><a href="<?php echo base_url()."gh/app/interior";?>">PROJECTS</a></li>
                             <li><a href="<?php echo base_url()."gh/app/featured";?>">FEATURED</a></li>
-                            <li><a href="<?php echo base_url()."gh/app/contact";?>">CONTACT</a></li>
+                      <!--       <li><a href="<?php echo base_url()."gh/app/contact";?>">CONTACT</a></li> -->
 
                             <!-- Multi-content dropdown -->
                             <!-- <li>
@@ -69,7 +69,7 @@
                                     </div> 
                                 </div> 
                             </li>-->
-                            <li><a href="<?php echo base_url()."gh/app/about";?>">ABOUT</a></li>
+                            <li><a href="<?php echo base_url()."gh/app/about";?>">ABOUT US</a></li>
                         </ul>
                     </div> <!--/floating-menu-->
                 </div> <!--/navigation-main-->

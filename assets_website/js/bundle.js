@@ -7956,6 +7956,48 @@ $(function() {
         r();
         $(i).hasClass("owl-slider-fullscreen") && $(".header-content .item").height($(window).height());
     });
+    $.each($(".owl-slider1"), function(n, i) {
+        function r() {
+            var t = $(i).find(".owl-item.active"), n = 100;
+            $.each(t.find(".animated"), function(t, i) {
+                var r = $(i);
+                r.css("animation-delay", n + "ms");
+                n = n + 180;
+                r.addClass(r.data("animation"));
+                setTimeout(function() {
+                    r.removeClass(r.data("animation"));
+                }, 2e3);
+            });
+        }
+        $(i).owlCarousel({
+                navigation: !0,
+                navigationText: t,
+                loop:true, // loop over the items
+                margin:0,
+                autoPlay: 8e3,
+                items: 3,
+                itemsDesktop: [1400, 3],
+                itemsDesktopSmall: [1100, 3],
+                itemsTablet: [700, 3],
+                itemsMobile: [500, 2],
+                nav:false, // Display the arrow nav of the carousel
+                dots:false, // Display the dot of the carousel
+                responsive:{
+                    0:{ // The width of the screen from 0px to 599px
+                        items:2 // How many items you want to display
+                    },
+                    600:{ // The width of the screen from 600px to 999 px
+                        items:3 // How many items you want to display
+                    },
+                    1000:{ // The width of the screen from 1000 px
+                        items:3 // How many items you want to display
+                    }
+                }
+
+        });
+        r();
+        $(i).hasClass("owl-slider-fullscreen1") && $(".header-content .item").height($(window).height());
+    });
     $.each($(".quote-carousel"), function(n, i) {
         $(i).owlCarousel({
             navigation: !0,

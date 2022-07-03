@@ -1,8 +1,8 @@
 <!-- ========================  Main header ======================== -->
-        <section class="main-header main-header-blog" style="background-image:url(<?php echo base_url() ?>assets/images/static/static1.jpg)">
+        <section class="main-header main-header-blog" style="background-image:url(<?php echo base_url() ?>assets/images/static/static7.jpg)">
             <header>
                 <div class="container text-center">
-                    <h2 class="h2 title">Projects</h2>
+                   <!--  <h2 class="h2 title">Projects</h2> -->
                 </div>
             </header>
         </section>    
@@ -11,7 +11,7 @@
             <header>
                 <div class="row">
                     <div class="col-md-offset-2 col-md-8 text-center">
-                        <h2 class="title">Design of interiors</h2>
+                        <h2 class="title">Projects</h2>
                         <div class="text">
                             <p>Our services team produces interior design solutions</p>
                         </div>
@@ -26,7 +26,7 @@
 
                     <div class="col-md-12">
                         <figure>
-                            <figcaption style="background-image:url(<?php echo base_url() ?>assets_website/images/blog-2.jpg)">
+                            <figcaption style="background-image:url(<?php echo base_url() ?>assets/images/static/static5.jpg)">
                                 <img src="assets/images/blog-1.jpg" alt="" />
                             </figcaption>
                             <a href="<?php echo base_url()."gh/app/interior-list/residential-projects";?>" class="btn btn-clean">Residential Projects</a>
@@ -37,7 +37,7 @@
 
                     <div class="col-md-12">
                         <figure>
-                            <figcaption style="background-image:url(<?php echo base_url() ?>assets_website/images/blog-3.jpg)">
+                            <figcaption style="background-image:url(<?php echo base_url() ?>assets/images/static/static6.jpg)">
                                 <img src="assets/images/blog-2.jpg" alt="" />
                             </figcaption>
                             <a href="<?php echo base_url()."gh/app/interior-list/commerial-projects";?>"  class="btn btn-clean">Commercial Projects</a>

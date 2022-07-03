@@ -1,6 +1,5 @@
-
-            </div> 
-        <div> 
+    </div> 
+<div> 
 <div id="myModal" class="modal-image">
   <span class="close-image">&times;</span>
   <img class="modal-content-image" id="img01">
@@ -10,12 +9,64 @@
             <div class="container">
                 <div class="footer-showroom">
                     <div class="row">
-                        <div class="col-sm-8">
-                            <h2>Visit our showroom</h2>
-                            <p>LOCATION: <span id="address"></span></p>
-                            <p><span id="storeopen"></span></p>
+                        <div class="col-sm-6">
+                            <h2 style="color: #000;font-family: 'Helvetica Neue';">Visit our showroom</h2>
+                            <p style="color: #000;font-family: 'Helvetica Neue';">LOCATION: <span style="color: #000;font-family: 'Helvetica';" id="address"></span></p>
+                            <!-- <p style="color: #000;font-family: 'Helvetica Neue';"><span id="storeopen"></span></p> -->
                         </div>
-                       <!--  <div class="col-sm-4 text-center">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2290.2640867277623!2d120.60011037159116!3d15.117116401403987!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xdc131cb15dffd580!2sGenteel%20Home%20Furniture%20and%20Objects!5e0!3m2!1sen!2sph!4v1656837292016!5m2!1sen!2sph" height="400" style="width: 100%;border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                </div>
+                                 <div class="col-sm-6">
+                                    <div class="contact-form-wrapper">
+                                            <div class="row">
+                                                 <div class="col-sm-12 text-center">
+                                                    <span class="h4" style="color:#000;font-family: 'Helvetica Neue';">Contact us via form</span>
+                                                 </div>
+                                                  <div class="col-sm-12">
+                                                      <div class="contact-form clearfix" style="margin-top: 10px;">
+                                               <form class="form" data-link="Create_Email" enctype="multipart/form-data" accept-charset="utf-8">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <input id="name" name="name" type="text" value="" class="form-control" placeholder="Your name" autocomplete="off">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <input id="email" name="email" type="email" value="" class="form-control" placeholder="Your email" autocomplete="off">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <input id="Subject" name="subject" type="text" value="" class="form-control" placeholder="Subject" autocomplete="off">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <textarea id="comment" name="comment" class="form-control" placeholder="Your message" rows="10"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 text-center">
+                                                            <button type="button" id="Create_Email" class="btn btn-clean-dark" >Send Message</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                     </div>
+                                </div>
+                                </div>
+                            </div> 
+                        </div>
+
+                     <!--    <div class="col-sm-4 text-center">
                             <a href="#" class="btn btn-clean"><span class="icon icon-map-marker"></span> Get directions</a>
                             <div class="call-us h4"><span class="icon icon-phone-handset"></span> <span id="mobile"></span></div>
                         </div> -->
@@ -24,26 +75,26 @@
 
                 <!--footer links-->
                 <div class="footer-links">
-                    <div class="row">
-                        <div class="col-sm-4 col-md-2">
+             <!--        <div class="row">
+                  <div class="col-sm-4 col-md-2">
                             <h5>ABOUT</h5>
                             <ul>
                                 <li><a href="<?php echo base_url()."gh/app/about";?>">About Us</a></li>
                                 <li><a href="<?php echo base_url()."gh/app/interior";?>">Interiors & Architecture</a></li>
-                             <!--    <li><a href="#">Partnership & Collaboration</a></li>
-                                <li><a href="#">Press</a></li> -->
+                                <li><a href="#">Partnership & Collaboration</a></li>
+                                <li><a href="#">Press</a></li>
                             </ul>
-                        </div>
-                        <div class="col-sm-4 col-md-2">
+                        </div> 
+                     <div class="col-sm-4 col-md-2">
                             <h5>CONCIERGE</h5>
                             <ul>
-                                <li><a href="<?php echo base_url()?>gh/app/contact">Contact Us</a></li>
-                                <li><a href="<?php echo base_url()."gh/app/returns-exchange-policy";?>">Returns & Exchanges</a></li>
+                      <li><a href="<?php echo base_url()?>gh/app/contact">Contact Us</a></li>
+                        <li><a href="<?php echo base_url()."gh/app/returns-exchange-policy";?>">Returns & Exchanges</a></li>
                                 <li><a href="<?php echo base_url()."gh/app/shipping";?>">Shipping</a></li>
                                 <li><a href="<?php echo base_url()."gh/app/privacy-policy";?>">Privacy Policy</a></li>
                                 <li><a href="<?php echo base_url()."gh/app/terms-conditions";?>">Terms & Conditions</a></li>
                             </ul>
-                        </div>
+                        </div> 
                         <div class="col-sm-4 col-md-2">
                             <h5>MY ACCOUNT</h5>
                             <ul>
@@ -56,31 +107,29 @@
                                ?>
                                 <a href="<?php echo base_url()."gh/app/service"?>" class="open-popup">Customer Service</a>
                             </ul>
-                        </div>
-                        <!-- <div class="col-sm-12 col-md-6">
+                        </div> 
+                         <div class="col-sm-12 col-md-6">
                             <h5>Sign up for our newsletter</h5>
                             <p><i>Add your email address to sign up for our monthly emails and to receive promotional offers.</i></p>
                             <div class="form-group form-newsletter">
                                 <input class="form-control" type="text" name="email" value="" placeholder="Email address">
                                 <input type="submit" class="btn btn-clean btn-sm" value="Subscribe">
                             </div>
-                        </div> -->
+                        </div> 
                     </div>
-                </div>
+                </div> -->
                 <!--footer social-->
                 <div class="footer-social">
                     <div class="row">
-                       <!--  <div class="col-sm-6">
-                             <a>CREATED BY: LORENZ CABREROS & RICHARD ORENDAIN</a>
-                        </div> -->
-                       <!--  <div class="col-sm-6 links">
+                        <div class="col-sm-6">
+                            <p style="color: #000;font-family: 'Helvetica Neue';">©  GenteelHome (All Rights reserved)</p>
+                        </div>
+                        <div class="col-sm-6 links">
                             <ul>
-                                <li><a href="https://www.facebook.com/GenteelHomePH" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="finance@genteelhome.com"  target="_blank"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a href="#"  target="_blank"><i class="fa fa-youtube"></i></a></li>
-                                <li><a href="https://www.instagram.com/home_genteel/?hl=en"  target="_blank"><i class="fa fa-instagram"></i></a></li>
+                                <li><a href="https://www.facebook.com/GenteelHomePH" target="_blank" style="font-family: 'Helvetica Neue';">Facebook</a></li>
+                                <li><a href="https://www.instagram.com/home_genteel/?hl=en"  target="_blank" style="font-family: 'Helvetica Neue';">Instagram</a></li>
                             </ul>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,6 +153,7 @@
             crossorigin="anonymous"></script> -->
         <script src="<?php echo base_url(); ?>assets/js/scripts.bundle.js"  type='text/javascript'></script>
         <script src="<?php echo base_url(); ?>assets_website/script.js"></script>
+        <script src = "https://maps.googleapis.com/maps/api/js"></script>
      
     </body>
 </html>

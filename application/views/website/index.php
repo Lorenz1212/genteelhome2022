@@ -12,10 +12,30 @@
                                     <h2 class="title animated h1 test " data-animation="fadeInDown" style="animation-delay: 100ms;">'.$row->title.'</h2>
                                     <h2 class="title animated" data-animation="fadeInUp" style="animation-delay: 280ms;">
                                        '.$row->sub_title.'
+                                    </h2>>
+                                </div>
+                            </div>
+                          </div>
+                          ';
+                    }      
+                 }
+            ?>      
+            </div> 
+    </section>
+    <section class="banner " style="background-image:url(<?php echo base_url() ?>assets/images/static/bg2.jpg)"></section>
+    <section class="header-content " style="padding-top:0px">
+        <div class="owl-slider1 owl-carousel1" style="padding-right: 1px;">
+            <?php 
+                 $sql = "SELECT * FROM tbl_lookbook_details WHERE status=1 ORDER BY date_created ASC LIMIT 9";
+                 $query = $this->db->query($sql);
+                  if($query !== FALSE && $query->num_rows() > 0){
+                   foreach($query->result() as $row){
+                      echo '<div class="item wp-block-cover-image" style="background-image: url('.base_url().'assets/images/lookbook/'.$row->image.'); object-fit: cover;background-color: black;margin-right: 5px;">
+                             <div class="box">
+                             <div class="container text-center">
+                                    <h2 class="title animated h1 test " data-animation="fadeInDown" style="animation-delay: 100ms;"></h2>
+                                    <h2 class="title animated" data-animation="fadeInUp" style="animation-delay: 280ms;">
                                     </h2>
-                                    <div class="animated" data-animation="fadeInUp" style="animation-delay: 460ms;">
-                                        <a href="products-grid.html" class="btn btn-main"><i class="icon icon-cart"></i> Shop now</a>
-                                    </div>
                                 </div>
                             </div>
                           </div>
@@ -53,7 +73,7 @@
         <!-- ========================  Stretcher widget ======================== -->
 <!--     <section class="banner " style="background-image:url(<?php echo base_url() ?>assets/images/static/bg2.jpg)">
     </section> -->
-  <section class="instagram">
+<!--   <section class="instagram">
             <header>
                 <div class="container">
                     <div class="row">
@@ -63,10 +83,11 @@
                     </div>
                 </div>
             </header>
-             <div class="gallery clearfix lookbook_list">
+
+            <div class="gallery clearfix lookbook_list">
                 
             </div>
-    </section>
+         </section> -->
         <!-- ========================  Blog Block ======================== -->
       <!--   <section class="blog blog-block" >
             <div class="container">

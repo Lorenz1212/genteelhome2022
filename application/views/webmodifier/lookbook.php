@@ -9,7 +9,7 @@
 			</div>
 			<div class="d-flex align-items-center">
 				<button type="button" class="btn btn-white font-weight-bold py-3 px-6 mr-3 create-lookbook">Create New Lookbook</button>
-				<button type="button" class="btn btn-white font-weight-bold py-3 px-6 create-new-category">Create New Category</button>
+				<!-- <button type="button" class="btn btn-white font-weight-bold py-3 px-6 create-new-category">Create New Category</button> -->
 			</div>
 		</div>
 	</div>
@@ -28,12 +28,12 @@
 			                        <span class="nav-text">Lookbook</span>
 			                    </a>
 			                </li>
-			                 <li class="nav-item">
+			                 <!-- <li class="nav-item">
 			                    <a class="nav-link" data-toggle="tab" data-name="request" href="#category">
 			                        <span class="nav-icon"><i class="flaticon-layers"></i></span>
 			                        <span class="nav-text">Category</span>
 			                    </a>
-			                </li>
+			                </li> -->
 			            </ul>
 			        </div>
 			    </div>
@@ -44,7 +44,7 @@
 									<thead>
 										<tr>
 											<th>IMAGE</th>
-											<th>CATEGORY</th>
+											<!-- <th>CATEGORY</th> -->
 											<th>DATE CREATED</th>
 											<th>STATUS</th>
 											<th>ACTION</th>
@@ -103,7 +103,7 @@ overflow-y: auto;">
 											<label>Title</label>
 											<input type="text" class="form-control" name="title" required="" autocomplete="off"/>
 									</div>
-									<div class="form-group">
+									<div class="form-group d-none">
 										<label>CATEGORY</label>
 										<select class="form-control category" name="cat_id" required="" >
 											<option value="">SELECT CATEGORY</option>
@@ -148,7 +148,7 @@ overflow-y: auto;">
 											<label>Title</label>
 											<input type="text" class="form-control title-update" name="title" required="" autocomplete="off"/>
 									</div>
-									<div class="form-group">
+									<div class="form-group d-none">
 										<label>CATEGORY</label>
 										<select class="form-control category category-update" name="cat_id" required="" >
 											<option value="">SELECT CATEGORY</option>
