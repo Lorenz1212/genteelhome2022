@@ -3,7 +3,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- Mobile Web-app fullscreen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,7 +15,7 @@
     <meta property="og:url" content="<?php echo base_url()?>">
     <meta property="og:description" content="GenteelHome takes its designs to a premier level as its pieces bring style in your homes, your offices, your restaurants and the like. Even more so, Genteel sets itself apart in its designs for mirroring the characters of each of its clientele.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="<?php echo base_url('assets/images/logo/logo2.jpg')?>">
+    <meta property="og:image" content="<?php echo base_url('assets/images/logo/logo2.JPG')?>">
     <meta property="og:image:secure_url" content="<?php echo base_url('assets/images/logo/logo2.jpg')?>">
     <meta property="og:image:width" content="400">
     <meta property="og:image:height" content="300">
@@ -26,7 +25,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Official Genteel Home - Furniture + Boutique + Lifestyle">
     <meta name="twitter:description" content="GenteelHome takes its designs to a premier level as its pieces bring style in your homes, your offices, your restaurants and the like. Even more so, Genteel sets itself apart in its designs for mirroring the characters of each of its clientele.">
-    <meta name="twitter:image" content="<?php echo base_url('assets/images/logo/logo2.jpg')?>">
+    <meta name="twitter:image" content="<?php echo base_url('assets/images/logo/logo2.JPG')?>">
 
 
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo/logo.jpg') ?>" />
