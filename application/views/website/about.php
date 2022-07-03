@@ -1,11 +1,11 @@
-<section class="main-header main-header-blog" style="background-image:url(<?php echo base_url() ?>assets/images/static/static3.jpg)">
-    <header>
+<section class="main-header main-header-blog" style="background-image:url(<?php echo base_url() ?>assets/images/static/static8.jpg)">
+ <!--    <header>
         <div class="container text-center">
             <h2 class="h2 title">About Us</h2>
         </div>
-    </header>
+    </header> -->
 </section>
- <section class="blog">
+<!--  <section class="blog">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
@@ -32,9 +32,9 @@
                     </div>
                 </div> 
             </div>
-        </section>
-<section class="history">
-    <div class="container">
+        </section> -->
+<!-- <section class="history">
+    <div class="container"> -->
  <!--        <header>
             <div class="row">
                 <div class="col-md-offset-2 col-md-8 text-center">
@@ -69,10 +69,10 @@
                         <div class="grid__item"></div>
                     </div>
                 </div> -->
-                </div>
+     <!--            </div>
             </div>
-        </section>
-        <section class="banner" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)"></section>
+        </section> -->
+<!--         <section class="banner" style="background-image:url(<?php echo base_url() ?>assets/images/static/bg1.jpg)"></section> -->
           <section class="history">
             <div class="container">
                 <div class="row row-block">
