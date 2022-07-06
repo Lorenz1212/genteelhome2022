@@ -75,49 +75,40 @@
 
                 <!--footer links-->
                 <div class="footer-links">
-             <!--        <div class="row">
-                  <div class="col-sm-4 col-md-2">
-                            <h5>ABOUT</h5>
-                            <ul>
-                                <li><a href="<?php echo base_url()."gh/app/about";?>">About Us</a></li>
-                                <li><a href="<?php echo base_url()."gh/app/interior";?>">Interiors & Architecture</a></li>
-                                <li><a href="#">Partnership & Collaboration</a></li>
-                                <li><a href="#">Press</a></li>
-                            </ul>
-                        </div> 
-                     <div class="col-sm-4 col-md-2">
+                    <div class="row">
+                    <!--  <div class="col-sm-4 col-md-2">
                             <h5>CONCIERGE</h5>
                             <ul>
-                      <li><a href="<?php echo base_url()?>gh/app/contact">Contact Us</a></li>
-                        <li><a href="<?php echo base_url()."gh/app/returns-exchange-policy";?>">Returns & Exchanges</a></li>
+                                <li><a href="<?php echo base_url()?>gh/app/contact">Contact Us</a></li>
+                                <li><a href="<?php echo base_url()."gh/app/returns-exchange-policy";?>">Returns & Exchanges</a></li>
                                 <li><a href="<?php echo base_url()."gh/app/shipping";?>">Shipping</a></li>
                                 <li><a href="<?php echo base_url()."gh/app/privacy-policy";?>">Privacy Policy</a></li>
                                 <li><a href="<?php echo base_url()."gh/app/terms-conditions";?>">Terms & Conditions</a></li>
                             </ul>
-                        </div> 
+                        </div>  -->
                         <div class="col-sm-4 col-md-2">
-                            <h5>MY ACCOUNT</h5>
+                            <h5 style="color:#000">MY ACCOUNT</h5>
                             <ul>
-                                 <?php if(!$this->session->userdata('userId')){
+<!--                                  <?php if(!$this->session->userdata('userId')){
                                     echo'<li><a href="'.base_url().'gh/app/registration">Create An Account</a></li>';
                                     echo '<li><a href="'.base_url().'gh/app/forgot-password" class="open-popup">Forgot Password</a></li>';
                                    }else{
                                     echo '<li><a href="'.base_url().'gh/app/account" class="open-popup">My Account</a></li>';
                                    }
                                ?>
-                                <a href="<?php echo base_url()."gh/app/service"?>" class="open-popup">Customer Service</a>
+ -->                                <a href="<?php echo base_url()."gh/app/service"?>" class="open-popup">Customer Service</a>
                             </ul>
                         </div> 
-                         <div class="col-sm-12 col-md-6">
+                      <!--    <div class="col-sm-12 col-md-6">
                             <h5>Sign up for our newsletter</h5>
                             <p><i>Add your email address to sign up for our monthly emails and to receive promotional offers.</i></p>
                             <div class="form-group form-newsletter">
                                 <input class="form-control" type="text" name="email" value="" placeholder="Email address">
                                 <input type="submit" class="btn btn-clean btn-sm" value="Subscribe">
                             </div>
-                        </div> 
+                        </div>  -->
                     </div>
-                </div> -->
+                </div>
                 <!--footer social-->
                 <div class="footer-social">
                     <div class="row">

@@ -136,7 +136,7 @@
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
 						<?php 
-						 echo($this->appinfo->supervisor('_SUPERVISOR_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->supervisor('_SUPERVISOR_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(assets/images/profile/'.$this->appinfo->supervisor('_SUPERVISOR_PROFILE').')"></div>';
+						 echo($this->appinfo->supervisor('_SUPERVISOR_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->supervisor('_SUPERVISOR_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url('.base_url().'assets/images/profile/'.$this->appinfo->supervisor('_SUPERVISOR_PROFILE').')"></div>';
 						?>
 						<i class="symbol-badge bg-success"></i>
 					</div>

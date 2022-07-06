@@ -339,6 +339,27 @@ var APPHANDLER = function(){
             handle: ".modal-header"
           });
       switch(view){
+        case "profile":{
+        var avatar5 = new KTImageInput('kt_image_5');
+        _ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile']));
+        $('body').delegate('.save','click',function(e){
+          let name = $(this).attr('data-name');
+          let val = $('input[name='+name+']').val();
+          if(name == 'password'){
+            let con =  $('.con_password').val();
+            if(val != con){
+              Swal.fire("Oopps!", "Password & Confirmation password is not matched", "info"); 
+              return false;
+            }
+          }
+          _ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile_update',val,name]));
+        });
+        $('body').delegate('#kt_image_5 > label > input[type=file]:nth-child(2)','change',function(e){
+          let file = $(this).get(0).files[0]
+          _ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile_update_image',false,false,file]));
+        });
+        break;
+      }
         case "dashboard":{
             $('select[name=search_option1]').on('change',function(e){
               e.preventDefault();

@@ -64,7 +64,7 @@
 										<option value="superuser">Inventory</option>
 										<option value="accounting">Accounting</option>
 										<option value="admin">Admin</option>
-										<option value="webmodifier">Web Modifier</option>
+						<!-- 				<option value="webmodifier">Web Modifier</option> -->
 									</select>
 								</div>
 								<!--end::Form group-->
@@ -76,10 +76,10 @@
 								<!--end::Form group-->
 								<!--begin::Form group-->
 								<div class="form-group">
-									<div class="d-flex justify-content-between mt-n5">
+									<!-- <div class="d-flex justify-content-between mt-n5">
 										<label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
 										<a href="javascript:;" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Forgot Password ?</a>
-									</div>
+									</div> -->
 									<input class="form-control form-control-solid h-auto py-6 px-6 rounded-lg" type="password" name="password" autocomplete="off" />
 								</div>
 								<!--end::Form group-->

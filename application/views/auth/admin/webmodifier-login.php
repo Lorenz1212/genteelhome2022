@@ -43,15 +43,8 @@
 							</div>
 							<form class="form" id="kt_login_signin_form">
 								<div class="form-group">
-									<select class="form-control h-auto rounded-pill border-0 py-4 px-8 mb-5" name="type">
-										<option value="1">Creatives</option>
-										<option value="2">Production</option>
-										<option value="3">Supervisor</option>
-										<option value="4">Sales</option>
-										<option value="5">Inventory</option>
-										<option value="6">Accounting</option>
-									<!-- 	<option value="7">Web Modifier</option> -->
-										<option value="8">Administrator</option>
+									<select class="form-control h-auto rounded-pill border-0 py-4 px-8 mb-5" name="type" readonly>
+										<option value="7">Web Modifier</option>
 									</select>
 								</div>
 								<div class="form-group">

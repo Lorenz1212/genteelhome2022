@@ -598,7 +598,7 @@
 											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->appinfo->supervisor('_SUPERVISOR_FNAME') ?></span>
 											<span class="symbol symbol-35">
 												<?php 
-												 echo($this->appinfo->supervisor('_SUPERVISOR_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->supervisor('_SUPERVISOR_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url(images/profile/'.$this->appinfo->supervisor('_SUPERVISOR_PROFILE').')"></div>';
+												 echo($this->appinfo->supervisor('_SUPERVISOR_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-uppercase">'.$this->appinfo->supervisor('_SUPERVISOR_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url('.base_url().'images/profile/'.$this->appinfo->supervisor('_SUPERVISOR_PROFILE').')"></div>';
 												?>
 											</span>
 										</div>

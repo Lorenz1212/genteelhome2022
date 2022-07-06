@@ -1,5 +1,61 @@
 <?php 
 class Accounting_model extends CI_Model{  
+		public function __construct(){
+	    parent::__construct();
+     		if($this->appinfo->creative('_DESIGNER_ID') != false){
+          $this->user_id = $this->appinfo->creative('_DESIGNER_ID');
+          $this->role_name = $this->appinfo->creative('_DESIGNER_ROLE');
+        }else if($this->appinfo->production('_PRODUCTION_ID') != false){
+          $this->user_id = $this->appinfo->production('_PRODUCTION_ID');
+          $this->role_name = $this->appinfo->creative('_PRODUCTION_ROLE');
+        }else if($this->appinfo->supervisor('_SUPERVISOR_ID') != false){
+          $this->user_id = $this->appinfo->supervisor('_SUPERVISOR_ID');
+          $this->role_name = $this->appinfo->creative('_SUPERVISOR_ROLE');
+        }else if($this->appinfo->sales('_SALES_ID') != false){
+          $this->user_id = $this->appinfo->sales('_SALES_ID');
+          $this->role_name = $this->appinfo->creative('_SALES_ROLE');
+        }else if($this->appinfo->superuser('_SUPERUSER_ID') != false){
+          $this->user_id = $this->appinfo->superuser('_SUPERUSER_ID');
+          $this->role_name = $this->appinfo->creative('_SUPERUSER_ROLE');
+        }else if($this->appinfo->accounting('_ACCOUNTING_ID') != false){
+         $this->user_id = $this->appinfo->accounting('_ACCOUNTING_ID');
+         $this->role_name = $this->appinfo->creative('_ACCOUNTING_ROLE');
+        }else if($this->appinfo->webmodifier('_WEBMODIFIER_ID') != false){
+          $this->user_id = $this->appinfo->webmodifier('_WEBMODIFIER_ID');
+          $this->role_name = $this->appinfo->creative('_WEBMODIFIER_ROLE');
+        }else if($this->appinfo->admin('_ADMIN_ID') != false){
+          $this->user_id = $this->appinfo->admin('_ADMIN_ID');
+          $this->role_name = $this->appinfo->creative('_ADMIN_ROLE');
+        }
+    }
+     private function setCookies($token, $data, $days,$type,$role){
+        $auth = array('name' =>$type.'_'.$role.'_auth','value'=> $token,'expire' => time() + (86400 * $days),'secure' => FALSE);
+        $this->input->set_cookie($auth);
+        $user = array('name' => $type.'_'.$role.'_user','value'=> $this->encryption->encrypt(json_encode($data)),'expire' => time() + (86400 * $days),'secure' => TRUE);
+        $this->input->set_cookie($user);
+    }
+     private function TODAY(){
+       date_default_timezone_set('Asia/Manila');
+       $datestamp = date("Y-m-d");
+       $timestamp = date("H:i:s");
+       return $now = $datestamp.' '.$timestamp;
+    }
+    private function _set_data($type,$role,$result){
+        $data = array(
+          $type.'_'.$role.'_ID'=>$result->id,
+          $type.'_'.$role.'_FNAME'=>$result->fname, 
+          $type.'_'.$role.'_LNAME'=> $result->lname, 
+          $type.'_'.$role.'_UNAME'=>$result->username, 
+          $type.'_'.$role.'_EMAIL'=>$result->email, 
+          $type.'_'.$role.'_PROFILE' =>$result->profile_img, 
+          $type.'_'.$role.'_AdSTATUS'=>md5("active"), 
+          $type.'_'.$role.'_TYPE'=>md5($role),
+          $type.'_'.$role.'_COUNTRY'=>$result->country, 
+          $type.'_'.$role.'_ROLE'=>$role  
+        );
+        $this->session->set_userdata($data);
+        return $data;
+      }
 		private function move_to_folder_docs($image,$tmp,$path){
          $path_folder = $path.$image;
          copy($tmp, $path_folder);
@@ -69,6 +125,103 @@ class Accounting_model extends CI_Model{
 	    }else{
         	return false;
         }
+	}
+	function Profile($type,$val,$val1,$image,$tmp){
+		$userid = $this->user_id;
+		$role = $this->role_name;
+		switch($type){
+			case"fetch_profile":{
+				$sql = "SELECT * FROM tbl_administrator WHERE id='$userid'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					return $row;
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_profile_update":{
+				$sql = "SELECT * FROM tbl_administrator WHERE id='$userid'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+					$sql = "SELECT * FROM tbl_administrator WHERE id!='$userid' AND $val1='$val'";
+					$row = $this->db->query($sql)->row();
+					if($row){
+						if($val1 != 'password'){
+								return array('type'=>'info','message'=> $val.' is already existing');
+								exit();
+						}
+					}
+					if($val1 == 'password'){
+						$result = $this->db->where('id',$userid)->update('tbl_administrator',array($val1=>md5($val)));
+					}else{
+						$result = $this->db->where('id',$userid)->update('tbl_administrator',array($val1=>$val));
+					}
+					if($result){
+						$this->Login_Pass($userid,$role);
+						return array('type'=>'success','message'=>'Save Changes');
+					}else{
+						return array('type'=>'success','message'=>'Nothing Changes');
+					}
+				}else{
+					return false;
+				}
+				break;
+			}
+			case "fetch_profile_update_image":{
+				$sql = "SELECT * FROM tbl_administrator WHERE id='$userid'";
+				$row = $this->db->query($sql)->row();
+				if($row){
+						$newimage = $row->profile_img;
+					if($image){	
+					    if($row->profile_img != 'default.jpg'){
+					    	if(file_exists("assets/images/profile/".$row->profile_img)){
+					    			unlink("assets/images/profile/".$row->profile_img);
+					    	}
+					    }
+					    $newimage=$this->Get_Image_Code('tbl_administrator', 'profile_img', 'IMAGE', 14, $image);
+					    $this->move_to_folder($newimage,$tmp,"assets/images/profile/");
+					}
+					$result = $this->db->where('id',$userid)->update('tbl_administrator',array('profile_img'=>$newimage));
+					if($result){
+						$this->Login_Pass($userid,$role);
+						return array('type'=>'success','message'=>'Save Changes');
+					}else{
+						return array('type'=>'success','message'=>'Nothing Changes');
+					}
+				}else{
+					return false;
+				}
+				break;
+			}
+		}
+	}
+	private function Login_Pass($userid,$role_name){
+            $remember = 30;
+            //GET first 9 digit of NEW IP ADDRESS
+            $ip_address_main=$this->input->ip_address();
+            $arr = explode(".",$ip_address_main);
+            unset($arr[3]);
+            $ip_address = implode(".",$arr);
+
+            $data_response = array();
+            $admin = $this->db->select('*')->from('tbl_administrator')->where('id',$userid)->get()->row();
+            if($admin){
+             	$email=$admin->email;
+              $token="";
+              $data = array();
+              //GET first 9 digit of OLD IP ADDRESS
+              $arr = explode(".",$admin->ipadd_prev);
+              unset($arr[3]);
+              $ip_address_prev = implode(".",$arr);
+              $this->db->where('email',$email);
+              $this->db->update('tbl_administrator',array('ipadd_prev'=>$ip_address_main));
+              $token = md5($admin->username.''.$this->TODAY().''.$ip_address_main);
+              $device = "setupbrowsecap";
+              $admin_id=$admin->id;
+              $data = $this->_set_data($this->appinfo->sess_name(),strtoupper($role_name),$admin);
+              $this->setCookies($token, $data, $remember,$this->appinfo->sess_name(),$role_name);
+           }
 	}
 	function Reports_Projectmonitoring($type,$val,$val1){
 		switch ($type) {

@@ -10,6 +10,21 @@ class Accounting_Controller extends CI_Controller
 	public function Controller(){
 			$action = $this->input->post('data1');
 			switch($action){
+				case "profile":{
+					$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
+					$val = $this->input->post('data3')??false;
+					$val1 = $this->input->post('data4')??false;
+					$image = isset($_FILES["data5"]["name"]) ? $_FILES["data5"]["name"]:false;
+			   		$tmp  =  isset($_FILES["data5"]["tmp_name"]) ? $_FILES["data5"]["tmp_name"]:false;
+					$model_response = $this->Accounting_model->Profile($type,$val,$val1,$image,$tmp);
+		            	$data = array(
+		                 'status' => 'success',
+		                 'message' => 'request accepted',
+		                 'payload' => base64_encode(json_encode($model_response))
+		            	);
+	        			echo json_encode($data);
+					break;
+				}
 					case "project-monitoring":{
 						$type = $this->input->post('data2')??$this->invalidMissing_Input('Missing Type');
 						$val = $this->input->post('data3')??false;

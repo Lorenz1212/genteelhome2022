@@ -280,6 +280,7 @@ class Gh extends CI_Controller {
             case 'report-sales-order':{$this->load->view('accounting/report_salesorder.php');break;}
             case 'report-collection':{$this->load->view('accounting/report_collection.php');break;}
             case "accounting":{$this->load->view('accounting/tutorial.php');break;}
+            case "user_update":{$this->load->view('designer/user_update.php');break;}
             default: {redirect(base_url().'gh/accounting/index');break;}
           }
           $this->load->view('accounting/layouts/footer.php');
@@ -309,7 +310,7 @@ class Gh extends CI_Controller {
           }
           $this->load->view('webmodifier/layouts/footer.php');
         }else{
-           redirect(base_url().'authentication/login');
+           redirect(base_url().'authentication/Webmodifierlogin');
         }
     }
     public function sales($view = null){
