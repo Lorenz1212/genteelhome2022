@@ -641,7 +641,7 @@
 											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $this->appinfo->admin('_ADMIN_FNAME') ?></span>
 											<span class="symbol symbol-35">
 												<?php 
-												 echo($this->appinfo->admin('_ADMIN_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->admin('_ADMIN_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url('.base_url().'images/profile/'.$this->appinfo->admin('_ADMIN_PROFILE').')"></div>';
+												 echo($this->appinfo->admin('_ADMIN_PROFILE')=="default.png") ? '<span class="symbol-label font-size-h5 font-weight-bold text-white bg-white-o-30 text-uppercase">'.$this->appinfo->admin('_ADMIN_FNAME')[0].'</span>' : '<div class="symbol-label" style="background-image:url('.base_url().'assets/images/profile/'.$this->appinfo->admin('_ADMIN_PROFILE').')"></div>';
 												?>
 											</span>
 										</div>
