@@ -50,7 +50,7 @@
 										<option value="4">Sales</option>
 										<option value="5">Inventory</option>
 										<option value="6">Accounting</option>
-									<!-- 	<option value="7">Web Modifier</option> -->
+										<option value="7">Web Modifier</option>
 										<option value="8">Administrator</option>
 									</select>
 								</div>
