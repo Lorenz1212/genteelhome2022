@@ -87,7 +87,7 @@
                             </ul>
                         </div>  -->
                         <div class="col-sm-4 col-md-2">
-                            <h5 style="color:#000">MY ACCOUNT</h5>
+                            <h5 style="color:#000;display: none;">MY ACCOUNT</h5>
                             <ul>
 <!--                                  <?php if(!$this->session->userdata('userId')){
                                     echo'<li><a href="'.base_url().'gh/app/registration">Create An Account</a></li>';
