@@ -150,6 +150,27 @@ let view;
 	var _ViewController = async function(view){
 		_month_year();
 		switch(view){
+			case "profile":{
+				var avatar5 = new KTImageInput('kt_image_5');
+				_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile']));
+				$('body').delegate('.save','click',function(e){
+					let name = $(this).attr('data-name');
+					let val = $('input[name='+name+']').val();
+					if(name == 'password'){
+						let con =  $('.con_password').val();
+						if(val != con){
+							Swal.fire("Oopps!", "Password & Confirmation password is not matched", "info"); 
+							return false;
+						}
+					}
+					_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile_update',val,name]));
+				});
+				$('body').delegate('#kt_image_5 > label > input[type=file]:nth-child(2)','change',function(e){
+					let file = $(this).get(0).files[0]
+					_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile_update_image',false,false,file]));
+				});
+				break;
+			}
 			case "lookbook":{
 					KTFormControlsWeb.init('lookbook');
 					_ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['lookbook','fetch_lookbookcategory_list']));
@@ -752,6 +773,24 @@ let view;
 
 	var _construct = async function(response, type, element, object){
 		switch(type){
+			case "fetch_profile":{
+				if(response !=false){
+					$('.image-update').css('background-image','url('+baseURL+'assets/images/profile/'+response.profile_img+')');
+					$('.username').val(response.username);
+					$('.fname').val(response.fname);
+					$('.lname').val(response.lname);
+					$('.mname').val(response.mname);
+					$('.email').val(response.email);
+				}
+				break;
+			}
+			case "fetch_profile_update_image":
+			case "fetch_profile_update":{
+				if(response !=false){
+					_initToast(response.type,response.message);
+				}
+				break;
+			}
 			case "fetch_lookbook_details":{
 				if(response != false){
 					$('.title-update').val(response.look_name).attr('data-id',response.id);

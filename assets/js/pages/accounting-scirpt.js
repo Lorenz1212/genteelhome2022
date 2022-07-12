@@ -284,6 +284,27 @@ const month = ["January","February","March","April","May","June","July","August"
 	var _ViewController = async function(view){
 		 _month_year();
 		switch(view){
+			   case "profile":{
+		        var avatar5 = new KTImageInput('kt_image_5');
+		        _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile']));
+		        $('body').delegate('.save','click',function(e){
+		          let name = $(this).attr('data-name');
+		          let val = $('input[name='+name+']').val();
+		          if(name == 'password'){
+		            let con =  $('.con_password').val();
+		            if(val != con){
+		              Swal.fire("Oopps!", "Password & Confirmation password is not matched", "info"); 
+		              return false;
+		            }
+		          }
+		          _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile_update',val,name]));
+		        });
+		        $('body').delegate('#kt_image_5 > label > input[type=file]:nth-child(2)','change',function(e){
+		          let file = $(this).get(0).files[0]
+		          _ajaxrequest(_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile_update_image',false,false,file]));
+		        });
+		        break;
+		      }
 			case "data-dashboard-accounting":{
 				let date = new Date();
 				let month = ("0"+(date.getMonth()+1)).slice(-1);
@@ -1364,22 +1385,7 @@ const month = ["January","February","March","April","May","June","July","August"
 	  		} 
 	  		break;
 	  	}
-	  	case "View_Profile":{
-		  		if(!response == false){	
-					$('input[name=previous_avatar]').val(response.image);
-		  			$('input[name=firstname]').val(response.firstname);
-		  			$('input[name=lastname]').val(response.lastname);
-		  			$('input[name=middlename]').val(response.middlename);
-		  			$('input[name=username]').val(response.username);
-		  			$('.images').attr('src',baseURL+'assets/images/avatar/'+response.image);
-		  			$(document).ready(function() {
-						$(".upfile1").click(function () {
-						    $("#imagefile").trigger('click');
-						});
-					 });
-		  		}
-		  		break;
-		  	}
+	 
 	  	case "Modal_Accounting_Purchase_Material_Stocks":{
 	  			if(!response == false){
 	  				_initCurrency_format(".amount");
@@ -3676,6 +3682,24 @@ const month = ["January","February","March","April","May","June","July","August"
 	}
 	var _construct = async function(response, type, element, object){
 		switch(type){
+			case "fetch_profile":{
+				if(response !=false){
+					$('.image-update').css('background-image','url('+baseURL+'assets/images/profile/'+response.profile_img+')');
+					$('.username').val(response.username);
+					$('.fname').val(response.fname);
+					$('.lname').val(response.lname);
+					$('.mname').val(response.mname);
+					$('.email').val(response.email);
+				}
+				break;
+			}
+			case "fetch_profile_update_image":
+			case "fetch_profile_update":{
+				if(response !=false){
+					_initToast(response.type,response.message);
+				}
+				break;
+			}
 		 case "fetch_project_monitoring_joborder":{
 		 	let container = $('#joborder');
 			container.empty();

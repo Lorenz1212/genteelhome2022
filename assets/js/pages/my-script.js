@@ -319,7 +319,6 @@ var arrows;var item_v;var price;var special_option;
 				break;
 			}
 			case "sales":{
-				console.log(response)
 				let total_salesoder_request = $('.total_salesoder_request');
 				(response.total_salesoder_request != 0)?total_salesoder_request.addClass('label label-rounded label-warning').text(response.total_salesoder_request):total_salesoder_request.removeClass("label label-rounded label-warning").text("");
 
@@ -759,6 +758,27 @@ var arrows;var item_v;var price;var special_option;
 	var _ViewController = async function(view){
 		_month_year();
 		switch(view){
+			case "profile":{
+				var avatar5 = new KTImageInput('kt_image_5');
+				_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile']));
+				$('body').delegate('.save','click',function(e){
+					let name = $(this).attr('data-name');
+					let val = $('input[name='+name+']').val();
+					if(name == 'password'){
+						let con =  $('.con_password').val();
+						if(val != con){
+							Swal.fire("Oopps!", "Password & Confirmation password is not matched", "info"); 
+							return false;
+						}
+					}
+					_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile_update',val,name]));
+				});
+				$('body').delegate('#kt_image_5 > label > input[type=file]:nth-child(2)','change',function(e){
+					let file = $(this).get(0).files[0]
+					_ajaxrequest('Creative_Controller/Controller',_constructBlockUi('blockPage', false, 'Loading...'),_constructForm(['profile', 'fetch_profile_update_image',false,false,file]));
+				});
+				break;
+			}
 			case "data-dashboard-admin":{
 				let date = new Date();
 				let month = ("0"+(date.getMonth()+1)).slice(-1);
@@ -2883,12 +2903,6 @@ var arrows;var item_v;var price;var special_option;
 				})
 				break;
 			}
-			case "data-profile-update":{
-				let thisUrl = 'view_controller/View_Profile';
-				_ajaxloader(thisUrl,"POST",false,"View_Profile");
-				break;
-			}
-
 			case "data-voucher-list":{
 				$(document).ready(function() {
 					 $(document).on("click","#form-request",function() {
@@ -3162,11 +3176,6 @@ var arrows;var item_v;var price;var special_option;
 							}
 						});
 				})
-				break;
-			}
-			case "data-profile-update":{
-				let thisUrl = 'view_controller/View_Profile';
-				_ajaxloader(thisUrl,"POST",false,"View_Profile");
 				break;
 			}
 			case "report-collection":{
@@ -6574,6 +6583,24 @@ var arrows;var item_v;var price;var special_option;
 	var _construct = async function(response, type, element, object){
 		_initnotificationupdate();
 		switch(type){
+			case "fetch_profile":{
+				if(response !=false){
+					$('.image-update').css('background-image','url('+baseURL+'assets/images/profile/'+response.profile_img+')');
+					$('.username').val(response.username);
+					$('.fname').val(response.fname);
+					$('.lname').val(response.lname);
+					$('.mname').val(response.mname);
+					$('.email').val(response.email);
+				}
+				break;
+			}
+			case "fetch_profile_update_image":
+			case "fetch_profile_update":{
+				if(response !=false){
+					_initToast(response.type,response.message);
+				}
+				break;
+			}
 			case "fetch_design_stocks_list":{
 				if(!response == false){
 					$('#title').empty();

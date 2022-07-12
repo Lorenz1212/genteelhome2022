@@ -9,6 +9,5 @@
 		<script src="<?php echo base_url(); ?>assets/js/pages/widgets.js"  type='text/javascript'></script>
 		<script src="<?php echo base_url(); ?>assets/js/pages/my-script.js" type='text/javascript'></script>
 		<script src="<?php echo base_url(); ?>assets/js/pages/crud/datatables/data-sources/ajax-client-side.js"  type='text/javascript'></script> 
-		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/validation/form-controls.js"  type='text/javascript'></script> 
-	 	<script src="<?php echo base_url(); ?>assets/js/pages/apexchart.js"></script>
+		<script src="<?php echo base_url(); ?>assets/js/pages/crud/forms/validation/form-controls.js"  type='text/javascript'></script><script src="<?php echo base_url(); ?>assets/js/pages/apexchart.js"></script>
 		<script src="<?php echo base_url(); ?>assets/admin/datatable.js"  type='text/javascript'></script>  
