@@ -809,18 +809,17 @@ class Datatable_controller extends CI_Controller
         $data = $this->datatable_model->Supplier_Item_View($id);
         echo json_encode($data);
      }
-
-
+    public function Users_DataTable(){
+        $data = $this->datatable_model->Users_DataTable();
+        echo json_encode($data);
+    }
 
    // Repair
     public function Approval_UsersRequest_DataTable(){
         $data = $this->datatable_model->Approval_UsersRequest_DataTable();
         echo json_encode($data);
     }
-    public function Users_DataTable(){
-        $data = $this->datatable_model->Users_DataTable();
-        echo json_encode($data);
-    }
+ 
 
 }
 ?>

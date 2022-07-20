@@ -1,6 +1,6 @@
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-users">
-	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="user-list">
+	<div class="subheader py-2 py-lg-12 subheader-transparent form" id="kt_subheader" data-link="Users">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<table class="table table-bordered table-hover table-checkable link" id="tbl_users" data-link="tbl_users" style="margin-top: 13px !important">
+					<table class="table table-bordered table-hover" id="tbl_user_list">
 						<thead>
 							<tr>
 								<th>NO</th>
@@ -41,6 +41,7 @@
 								<th>ACTION</th>
 							</tr>
 						</thead>
+						<tbody></tbody>
 					</table>
 				</div>
 			</div>
@@ -49,7 +50,7 @@
 	</div>
 </div>
 <!-- Modal-->
-<div class="modal fade" id="requestModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+<div class="modal fade" id="view-details-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -58,97 +59,75 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
-            <form class="form" id="Update_Users"  data-link="Update_Users">
+            <form  id="Update_Users">
             <div class="modal-body">
                  <div class="form-group row">
 					   <div class="col-lg-4">
-					   	<input type="hidden" class="form-control" name="id"/>
-					   	<input type="hidden" class="form-control" name="page" value="admin"/>
 					    	<label>FIRST NAME:</label>
-					    	<input type="text" class="form-control" name="firstname" placeholder="Enter full name"/>
+					    	<input type="text" class="form-control fname" name="fname" placeholder="Enter full name"/>
 					   </div>
 					   <div class="col-lg-4">
 					    	<label>LAST NAME:</label>
-					    	<input type="text" class="form-control" name="lastname" placeholder="Enter full name"/>
+					    	<input type="text" class="form-control lname" name="lname" placeholder="Enter full name"/>
 					   </div>
 					   <div class="col-lg-4">
 					    	<label>MIDDLE NAME:</label>
-					    	<input type="text" class="form-control" name="middlename" placeholder="Enter full name"/>
+					    	<input type="text" class="form-control mname" name="mname" placeholder="Enter full name"/>
 					   </div>
 					</div>
-					<div class="form-group row">
-						<div class="col-lg-4">
-						    <label>USER NAME</label>
-						    <input type="text" class="form-control" name="username" placeholder="Enter Username"/>
-					   </div>
-					   <div class="col-lg-3">
-						    <label>STATUS</label>
-						    <select class="form-control" id="status" name="status">
-						    	<option value="ACTIVE">ACTIVE</option>
-						    	<option value="INACTIVE">INACTIVE</option>
-							</select>
-					    </div>
-						<div class="col-lg-3" style="display:none">
-						    <label>COMMISSION</label>
-						    <input type="text" class="form-control" id="commission" name="commission"/>
-						</div>
-						 <div class="col-lg-3" style="display:none">
-						    <label>Voucher Access</label>
-						    <select class="form-control" id="voucher" name="voucher">
-						    	<option value="1">INACTIVE</option>
-						    	<option value="2">ACTIVE</option>
-							</select>
-					    </div>
-					   <div class="col-lg-12">
-						    <label>ROLE:</label>
-						     <div class="checkbox-inline">
-						        <label class="checkbox">
-						            <input type="checkbox" name="designer" id="designer" value="1" />
-						            <span></span>
-						            Designer
-						        </label>
-						        <label class="checkbox">
-						            <input type="checkbox" name="production" id="production" value="1"/>
-						            <span></span>
-						            Production
-						        </label>
-						        <label class="checkbox">
-						            <input type="checkbox" name="supervisor" id="supervisor" value="1"/>
-						            <span></span>
-						            Supervisor
-						        </label>
-						        <label class="checkbox">
-						            <input type="checkbox" name="accounting" id="accounting" value="1"/>
-						            <span></span>
-						            Accounting
-						        </label>
-						         <label class="checkbox">
-						            <input type="checkbox" name="sales" id="sales" value="1"/>
-						            <span></span>
-						            Sales
-						        </label>
-						         <label class="checkbox">
-						            <input type="checkbox" name="webmodifier" id="webmodifier" value="1"/>
-						            <span></span>
-						            Web Modifier
-						        </label>
-						        <label class="checkbox">
-						            <input type="checkbox" name="superuser" id="superuser" value="1"/>
-						            <span></span>
-						            Superuser
-						        </label>
-						        <label class="checkbox">
-						            <input type="checkbox" name="admin" id="admin" value="1"/>
-						            <span></span>
-						            Admin
-						        </label>
-						    </div>
-					   </div>
-					</div>
+					<div class="form-group">
+										<label>ROLE : </label>
+										    <div class="checkbox-inline">
+										        <label class="checkbox">
+										            <input type="checkbox" class="role" name="role[]" value="1" />
+										            <span></span>
+										            Designer
+										        </label>
+										        <label class="checkbox">
+										            <input type="checkbox" class="role"  name="role[]" value="2"/>
+										            <span></span>
+										            Production
+										        </label>
+										        <label class="checkbox">
+										            <input type="checkbox" class="role"  name="role[]" value="3"/>
+										            <span></span>
+										            Supervisor
+										        </label>
+										         <label class="checkbox">
+										            <input type="checkbox" class="role" name="role[]" value="4"/>
+										            <span></span>
+										            Sales
+										        </label>
+										    </div>
+										</div>
+										<div class="form-group">
+										    <div class="checkbox-inline">
+										       	<label class="checkbox">
+										            <input type="checkbox" class="role" name="role[]" value="5"/>
+										            <span></span>
+										            Inventory
+										        </label>
+										       <label class="checkbox">
+										            <input type="checkbox" class="role" name="role[]" value="6"/>
+										            <span></span>
+										            Accounting
+										        </label>
+										       <label class="checkbox">
+										            <input type="checkbox" class="role" name="role[]" value="7"/>
+										            <span></span>
+										            Web Modifier
+										        </label>
+										        <label class="checkbox">
+										            <input type="checkbox" class="role" name="role[]" value="8"/>
+										            <span></span>
+										            Administrator
+										        </label>
+										    </div>
+										</div>
             </div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-	                <button type="submit" class="btn btn-primary font-weight-bold">Save changes</button>
+	                <button type="button" class="btn btn-primary font-weight-bold saves">Save changes</button>
 	            </div>
         </form>
         </div>

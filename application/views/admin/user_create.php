@@ -1,6 +1,6 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" data-table="data-user-create">
-	<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+	<div class="subheader py-2 py-lg-12 subheader-transparent form" id="kt_subheader" data-link="Create_Users">
 		<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 			<div class="d-flex align-items-center flex-wrap mr-1">
 				<div class="d-flex flex-column">
@@ -23,15 +23,15 @@
 								<h3 class="card-label">Create New User</h3>
 							</div>
 							<div class="card-toolbar">
-								<button type="submit" class="btn btn-primary mr-2">Submit</button>
+								<button type="button" class="btn btn-primary mr-2 add_saves">Submit</button>
 							</div>
 						</div>
-							<form class="form" id="Create_Users" data-link="Create_Users" enctype="multipart/form-data" accept-charset="utf-8">
+							<form id="Create_Users"  enctype="multipart/form-data" accept-charset="utf-8">
 								<div class="card-body">
 									<div class="row justify-content-center">
 										<div class="col-xl-6 col-xxl-8">
 											<!--begin::Group-->
-										<div class="form-group row">
+										<!-- <div class="form-group row">
 											<label class="col-xl-3 col-lg-3 col-form-label text-left">Avatar</label>
 											<div class="col-lg-9 col-xl-9">
 												<div class="image-input image-input-outline" id="avatar">
@@ -46,58 +46,58 @@
 													</span>
 												</div>
 											</div>
-										</div>
+										</div> -->
 										<div class=" form-group">
 										    <label class="form-control-label">User Name</label>
-										    <input type="text" class="form-control form-control-solid form-control-lg" name="username" placeholder="Enter Username"/>
+										    <input type="text" class="form-control" name="username" placeholder="Enter Username"/>
 										    <span id="alert"></span>
 										</div>
 											<div class="form-group row"> 
 													<div class="col-lg-6">
 														    <label>Password</label>
-														    <input class="form-control form-control-solid form-control-lg" name="password" type="password" />
+														    <input class="form-control" name="password" type="password" />
 													</div>
 													<div class="col-lg-6">
 														    <label>Confirmation Password</label>
-														   <input class="form-control form-control-solid form-control-lg" placeholder="Verify password" name="conpassword" type="password"  />
+														   <input class="form-control" placeholder="Verify password" name="v_password" type="password"  />
 													</div>
 											</div>
 											<div class="form-group">
 												<label>Email Address</label>
-												<input class="form-control form-control-solid form-control-lg" name="email" type="text" />
+												<input class="form-control" name="email" type="text" />
 											</div>
 											<div class="form-group">
 												<label>First Name</label>
-												<input class="form-control form-control-solid form-control-lg" name="fname" type="text" />
+												<input class="form-control" name="fname" type="text" />
 											</div>
 											<div class="form-group">
 												<label>Last Name</label>
-												<input class="form-control form-control-solid form-control-lg" name="lname" type="text" />
+												<input class="form-control" name="lname" type="text" />
 											</div>
 											<div class="form-group">
 												<label>Middle Name/Initial</label>
-												<input class="form-control form-control-solid form-control-lg" name="mname" type="text"  />
+												<input class="form-control" name="mname" type="text"  />
 											</div>
 											<div class="form-group">
 											    <label>ROLE : </label>
 											    <div class="checkbox-inline">
 											        <label class="checkbox">
-											            <input type="checkbox"  id="role[]" value="1" />
+											            <input type="checkbox"  name="role[]" value="1" />
 											            <span></span>
 											            Designer
 											        </label>
 											        <label class="checkbox">
-											            <input type="checkbox"  id="role[]" value="2"/>
+											            <input type="checkbox"  name="role[]" value="2"/>
 											            <span></span>
 											            Production
 											        </label>
 											        <label class="checkbox">
-											            <input type="checkbox"  id="role[]" value="3"/>
+											            <input type="checkbox"  name="role[]" value="3"/>
 											            <span></span>
 											            Supervisor
 											        </label>
 											         <label class="checkbox">
-											            <input type="checkbox" id="role[]" value="4"/>
+											            <input type="checkbox" name="role[]" value="4"/>
 											            <span></span>
 											            Sales
 											        </label>
@@ -106,22 +106,22 @@
 											<div class="form-group">
 											    <div class="checkbox-inline">
 											       	<label class="checkbox">
-											            <input type="checkbox" id="role[]" value="5"/>
+											            <input type="checkbox" name="role[]" value="5"/>
 											            <span></span>
 											            Inventory
 											        </label>
 											       <label class="checkbox">
-											            <input type="checkbox" id="role[]" value="6"/>
+											            <input type="checkbox" name="role[]" value="6"/>
 											            <span></span>
 											            Accounting
 											        </label>
 											       <label class="checkbox">
-											            <input type="checkbox" id="role[]" value="7"/>
+											            <input type="checkbox" name="role[]" value="7"/>
 											            <span></span>
 											            Web Modifier
 											        </label>
 											        <label class="checkbox">
-											            <input type="checkbox" id="role[]" value="8"/>
+											            <input type="checkbox" name="role[]" value="8"/>
 											            <span></span>
 											            Administrator
 											        </label>

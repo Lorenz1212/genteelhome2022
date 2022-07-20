@@ -99,6 +99,12 @@ var _DataTableLoader = async function(link,TableURL,TableData,order_by){
 				let TableData2 = [{data:'trans_no'},{data:'item'},{data:'quantity'},{data:'amount'},{data:'supplier'},{data:'date_created'},{data:'terms'}]; 
 				_DataTableLoader('tbl_complete',TableURL2,TableData2,false);
 			}
+			case "tbl_user_list":{
+				TableURL = baseURL + 'datatable_controller/Users_DataTable';
+				TableData = [{data:'count',visible:false},{data:'username'},{data:'fullname'},{data:'date_created'},{data:'status'},{data:'action'}]; 
+				_DataTableLoader('tbl_user_list',TableURL,TableData,false);
+				break;
+			}
 
 			//Repair>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			case "tbl_coupon":{

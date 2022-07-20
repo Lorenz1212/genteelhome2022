@@ -2118,20 +2118,52 @@ class Datatable_model extends CI_Model{
 
 
        function Users_DataTable(){
-        $where = "status='ACTIVE' OR status='INACTIVE'";
-        $query = $this->db->select('*,DATE_FORMAT(date_created, "%M %d %Y %r") as date_created')->from('tbl_administrator')->where($where)->order_by('date_created','DESC')->get();
-
+        $query = $this->db->select('*,DATE_FORMAT(date_registration , "%M %d %Y %r") as date_created')->from('tbl_administrator')->order_by('date_registration','DESC')->get();
             if($query !== FALSE && $query->num_rows() > 0){
-              foreach($query->result() as $row)  
-            {
-            $action = '<button type="button" class="btn btn-sm btn-circle btn-primary btn-icon" data-toggle="modal" id="form-request" data-id="'.$row->id.'" data-target="#requestModal"><i class="la la-eye"></i></button>';
-               $fullname = $row->lastname.' '.$row->firstname;
+                $count = 0;
+              foreach($query->result() as $row){
+                $stat ='';
+                if($row->status==1){
+                    $stat ='checked';
+                }
+                 $action = '<div class="d-flex flex-row">
+                                        <div class="dropdown dropdown-inline">
+                                            <a href="javascript:;" id="dropdownMenuButton" class="btn btn-icon btn-light btn-hover-primary btn-sm m-1" data-toggle="dropdown" aria-expanded="true">
+                                                    <i class="la la-cog"></i>
+                                                    </a>
+                                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" style="z-index: 9999;">
+                                                <ul class="nav nav-hoverable flex-column">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="javascript:;">
+                                                            <i class="nav-icon la la-leaf"></i>
+                                                            <span class="nav-text">Status</span>
+                                                            <span class="switch switch-sm switch-icon">
+                                                                <label>
+                                                                    <input type="checkbox" class="update_user_status" '.$stat.' data-id="'.$this->encryption->encrypt($row->id).'"><span></span>
+                                                                </label>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <a href="javascript:;" class="btn btn-icon btn-light btn-hover-primary btn-sm m-1 view-details" data-id="'.$this->encryption->encrypt($row->id).'" title="View Details">
+                                            <i class="la la-eye"></i>
+                                        </a>
+                                    </div>';
+            $status = array(0=>array('state'=>'Inactive','color'=>'danger'),
+                            1=>array('state'=>'Active','color'=>'success'));
+            $status_data ='<span style="width: 112px;"><span class="label label-'.$status[$row->status]['color'].' label-dot mr-2"></span><span class="font-weight-bold text-'.$status[$row->status]['color'].'">'.$status[$row->status]['state'].'</span></span>';
+            $image = '<span style="width: 250px;"><div class="d-flex align-items-center">
+                                    <div class="symbol symbol-40 symbol-sm flex-shrink-0 mr-2"><img class="" id="myImg" src="'.base_url().'assets/images/profile/'.$row->profile_img.'" alt="photo"></div>'. $row->username.'</span>';
+               $fullname = $row->lname.' '.$row->fname;
+               ++$count;
                $data[] = array(
-                      'no'           => $row->id,
-                      'username'     => $row->username,
-                      'name'         => $fullname,
-                      'date_created'  => $row->date_created,
-                      'status'       => $row->status,
+                      'count'        => $count,
+                      'username'     => $image,
+                      'fullname'     => $fullname,
+                      'date_created' => $row->date_created,
+                      'status'       => $status_data,
                       'action'       => $action
                   );
             }  
